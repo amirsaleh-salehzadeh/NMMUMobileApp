@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="mic.crm.common.user.UserRoleENT" table="user_role" lazy="false">
+        <id name="Id" type="java.lang.Integer">
+        	<column name="id" ></column>
+        	<generator class="identity"></generator>
+        </id>
+        <property name="userName" type="java.lang.String" >
+            <column name="username"/>
+        </property>        
+        <property name="role" type="java.lang.String">
+            <column name="role"/>
+        </property>
+    </class>
+    <sql-query name="spGetUserRoles" callable="true">
+		<return class="ams.ggc.common.User.UserRoleENT" lock-mode="read" ></return>
+		{call GetUserRoles(?)}
+	</sql-query>
+</hibernate-mapping>

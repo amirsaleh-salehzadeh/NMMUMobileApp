@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 4, 2017 12:23:01 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="common.user.UserENT" table="USERENT">
+        <id name="user_id" type="int">
+            <column name="USER_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="userName" type="java.lang.String">
+            <column name="USERNAME" />
+        </property>
+        <property name="client_id" type="int">
+            <column name="CLIENT_ID" />
+        </property>
+        <many-to-one name="password" class="common.user.UserPassword" fetch="join">
+            <column name="PASSWORD" />
+        </many-to-one>
+        <property name="registerationDate" type="java.lang.String">
+            <column name="REGISTERATIONDATE" />
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <property name="sureName" type="java.lang.String">
+            <column name="SURENAME" />
+        </property>
+        <property name="dateOfBirth" type="java.lang.String">
+            <column name="DATEOFBIRTH" />
+        </property>
+        <property name="nationalID" type="java.lang.String">
+            <column name="NATIONALID" />
+        </property>
+        <property name="gender" type="boolean">
+            <column name="GENDER" />
+        </property>
+        <property name="active" type="boolean">
+            <column name="ACTIVE" />
+        </property>
+        <property name="race" type="int">
+            <column name="RACE" />
+        </property>
+        <property name="raceDescription" type="java.lang.String">
+            <column name="RACEDESCRIPTION" />
+        </property>
+        <property name="title" type="int">
+            <column name="TITLE" />
+        </property>
+        <property name="titleDescription" type="java.lang.String">
+            <column name="TITLEDESCRIPTION" />
+        </property>
+        <property name="tel" type="java.lang.String">
+            <column name="TEL" />
+        </property>
+        <list name="roleENTs" inverse="false" table="ROLEENT" lazy="true">
+            <key>
+                <column name="USER_ID" />
+            </key>
+            <list-index></list-index>
+            <one-to-many class="common.user.RoleENT" />
+        </list>
+        <list name="groupENTs" inverse="false" table="GROUPENT" lazy="true">
+            <key>
+                <column name="USER_ID" />
+            </key>
+            <list-index></list-index>
+            <one-to-many class="common.user.GroupENT" />
+        </list>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 4, 2017 2:37:04 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="common.security.RoleENT" table="ROLES">
+        <id name="roleID" type="int">
+            <column name="ROLE_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="roleName" type="java.lang.String">
+            <column name="ROLE_NAME" />
+        </property>
+        <property name="clientID" type="int">
+            <column name="CLIENT_ID" />
+        </property>
+        <property name="comment" type="java.lang.String">
+            <column name="COMMENT" />
+        </property>
+    </class>
+</hibernate-mapping>
