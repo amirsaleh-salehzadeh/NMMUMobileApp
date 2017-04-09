@@ -10,7 +10,7 @@
 		<h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
 			<a href="#"
 				class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-d">
-				Checkboxradio widget<span class="ui-collapsible-heading-status">
+				Administrator<span class="ui-collapsible-heading-status">
 					click to expand contents</span>
 			</a>
 		</h3>
@@ -20,10 +20,10 @@
 			<ul>
 				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
-					href="../checkboxradio-checkbox/" data-ajax="false">Checkboxes</a></li>
+					href="t_security.do?reqCode=list" data-ajax="false">Role Management</a></li>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					href="../checkboxradio-radio/" data-ajax="false">Radio buttons</a></li>
+					href="../checkboxradio-radio/" data-ajax="false">Groups</a></li>
 			</ul>
 		</div>
 	</li>

@@ -1,24 +1,29 @@
 package common.security;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "roles")
 public class RoleENT {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
+	@Column(name = "role_id")
 	int roleID;
-	String roleName;
+	@Column(name = "role_name")
+	String roleName = "";
+	@Column(name = "client_id")
 	int clientID;
-	String comment;
+	@Column(name = "comment")
+	String comment ="";
 
-//	public RoleENT(String roleName, int roleID, String comment, int clientID) {
-//		this.roleName = roleName;
-//		this.clientID = clientID;
-//		this.comment = comment;
-//		this.roleID = roleID;
-//	}
+	// public RoleENT(String roleName, int roleID, String comment, int clientID)
+	// {
+	// this.roleName = roleName;
+	// this.clientID = clientID;
+	// this.comment = comment;
+	// this.roleID = roleID;
+	// }
 
 	public String getRoleName() {
 		return roleName;

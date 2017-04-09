@@ -39,12 +39,11 @@ public class UserAction extends Action {
 		String reqCode = request.getParameter("reqCode");
 		String success = "";
 		String error = "";
-		try {
-			ArrayList<RoleENT> roles = getSecurityDAO().getRolesList("", 1);
-			request.setAttribute("roleENTs", roles);
-		} catch (AMSException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			request.setAttribute("roleENTs", roles);
+//		} catch (AMSException e) {
+//			e.printStackTrace();
+//		}
 		
 		af = mapping.findForward("list");
 //		request.setAttribute("error", error);

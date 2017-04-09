@@ -10,6 +10,8 @@
 		<action path="/security" type="struts.actions.SecurityAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="list" path="/pages/security/rolesList.jsp" />
+			<forward name="edit" path="/pages/security/roleEdit.jsp" />
+			<forward name="grid" path="/pages/security/rolesListGrid.jsp" />
 		</action>
 	</action-mappings>
 

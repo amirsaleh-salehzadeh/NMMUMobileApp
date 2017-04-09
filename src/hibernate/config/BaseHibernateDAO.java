@@ -3,16 +3,15 @@ package hibernate.config;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.exception.ConstraintViolationException;
 
 import tools.AMSException;
 
 
 public class BaseHibernateDAO {
-	public static final int AIPEX_UNKNOWN = AMSException.AIPEX_UNKNOWN;
-	public static final int AIPEX_DELETE = AMSException.AIPEX_DELETE;
-	public static final int AIPEX_SAVE = AMSException.AIPEX_SAVE;
-	public static final int AIPEX_SAVE_DUPLICATE = AMSException.AIPEX_SAVE_DUPLICATE;
+	public static final int AMSEX_UNKNOWN = AMSException.AMSEX_UNKNOWN;
+	public static final int AMSEX_DELETE = AMSException.AMSEX_DELETE;
+	public static final int AMSEX_SAVE = AMSException.AMSEX_SAVE;
+	public static final int AMSEX_SAVE_DUPLICATE = AMSException.AMSEX_SAVE_DUPLICATE;
 	public Session getSession(){
 		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 		return sessionFactory.openSession();
@@ -23,14 +22,14 @@ public class BaseHibernateDAO {
 	public AMSException getAMSException(int operationType, Exception ex) {
 		String msg = ex.getMessage();
 		switch (operationType) {
-		case AIPEX_DELETE:
-			msg = "اشکال در حذ�? اطلاعات.";
+		case AMSEX_DELETE:
+			msg = "A problem occured while deleting";
 			break;
-		case AIPEX_SAVE:
-			msg = "اشکال در ثبت اطلاعات.";
+		case AMSEX_SAVE:
+			msg = "A problem occured while saving";
 			break;
-		case AIPEX_SAVE_DUPLICATE:
-			msg = "رکورد مورد نظر قبلا ثبت شده است.";
+		case AMSEX_SAVE_DUPLICATE:
+			msg = "The record has been currently saved";
 			
 		}
 		AMSException e = getAMSException(msg, ex);
@@ -46,22 +45,6 @@ public class BaseHibernateDAO {
 		}
 
 		ex.printStackTrace();
-
-		if (ex.getMessage().indexOf(
-				"Batch update returned unexpected row count from update") > -1) {
-			defaultMessage = "رکوردی مورد نظر یا�?ت نشد.";
-		} else if (ex.getMessage().indexOf("a foreign key constraint fails") > -1) {
-			defaultMessage = defaultMessage + "\n"
-					+ "بدلیل ارتباط با سایر اطلاعات";
-		} else if (ex.getCause().getMessage().indexOf("Duplicate entry") > -1) {
-			defaultMessage = defaultMessage + "\n"
-					+ "اطلاعات تکراری است.";
-		} else if (ex instanceof ConstraintViolationException) {
-			ConstraintViolationException cvex = (ConstraintViolationException) ex;
-			defaultMessage = defaultMessage
-					+ "\n"
-					+ " بدلیل ارتباط با سایر اطلاعات یا محدودیتهای تغییر اطلاعاتی";
-		}
 		// else if(ex.getMessage().startsWith(""){}
 		return new AMSException(defaultMessage, ex);
 	}

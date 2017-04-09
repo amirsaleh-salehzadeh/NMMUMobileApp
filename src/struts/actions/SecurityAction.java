@@ -9,6 +9,8 @@ import hibernate.config.NMMUMobileDAOManager;
 import hibernate.security.SecurityDAOInterface;
 import hibernate.user.UserDAOInterface;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +20,17 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.opensymphony.xwork2.ActionSupport;
 
 import tools.AMSException;
 
 import common.client.ClientENT;
 import common.security.RoleENT;
+import common.security.RoleLST;
 
 /**
  * MyEclipse Struts Creation date: 09-21-2010
@@ -42,23 +50,51 @@ public class SecurityAction extends Action {
 		String error = "";
 		if (reqCode == null || reqCode.equalsIgnoreCase("list")) {
 			try {
-				request.setAttribute("roleENTs", getSecurityDAO().getRolesList("", 1));
-				request.setAttribute("clientENTs", getClientDAO().getAllClients(""));
+				request.setAttribute("clientENTs", getClientDAO()
+						.getAllClients(""));
+				RoleLST roleLST = new RoleLST();
+				roleLST = getSecurityDAO().getRolesList(roleLST);
+
+				request.setAttribute("roleLST", roleLST);
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
 			af = mapping.findForward("list");
-		}else if (reqCode.equals("edit")){
-			
+		} else if (reqCode.equals("search")) {
+			String search = request.getParameter("searchKey");
+			if (search == null)
+				search = "";
+			RoleENT roleENT = new RoleENT();
+			int clientID = 0;
+			if (request.getParameter("clientId") != null)
+				clientID = Integer.parseInt(request.getParameter("clientId"));
+			roleENT.setClientID(clientID);
+			roleENT.setComment(search);
+			roleENT.setRoleName(search);
+			RoleLST roleLST = new RoleLST();
+			roleLST.setSearchRole(roleENT);
+			try {
+				roleLST = getSecurityDAO().getRolesList(roleLST);
+				request.setAttribute("roleLST", roleLST);
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}response.setContentType("text/html");
+			af = mapping.findForward("grid");
+		} else if (reqCode.equals("edit")) {
+			RoleENT role = new RoleENT();
+			role.setRoleID(Integer.parseInt(request.getParameter("roleID")));
+			try {
+				request.setAttribute("roleENT", getSecurityDAO().getRole(role));
+			} catch (AMSException e) {
+				error = e.getMessage();
+				e.printStackTrace();
+			}
+			af = mapping.findForward("edit");
 		}
 		request.setAttribute("error", error);
 		request.setAttribute("success", success);
 		return af;
-	}
-
-	private int getClientID() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	private static SecurityDAOInterface getSecurityDAO() {

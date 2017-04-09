@@ -57,35 +57,35 @@
 		<description>The number of results that must be shown in the current page</description>
 	</attribute>
 </tag>
-<!--<tag>-->
-<!--	<name>ajaxPaginate</name>-->
-<!--	<tag-class>mic.crm.tools.AMSAJAXPagination</tag-class>-->
-<!--	<body-content>JSP</body-content>-->
-<!--	<attribute>-->
-<!--		<name>align</name>-->
-<!--		<rtexprvalue>true</rtexprvalue>-->
-<!--		<type>java.lang.String</type>-->
-<!--		<description>alignment</description>-->
-<!--	</attribute>-->
-<!--	<attribute>-->
-<!--		<name>totalRows</name>-->
-<!--		<rtexprvalue>true</rtexprvalue>-->
-<!--		<type>java.lang.Integer</type>-->
-<!--		<description>Total rows that should be paginated</description>-->
-<!--	</attribute>-->
-<!--	<attribute>-->
-<!--		<name>currentPage</name>-->
-<!--		<rtexprvalue>true</rtexprvalue>-->
-<!--		<type>java.lang.Integer</type>-->
-<!--		<description>The current page</description>-->
-<!--	</attribute>-->
-<!--	<attribute>-->
-<!--		<name>pageSize</name>-->
-<!--		<rtexprvalue>true</rtexprvalue>-->
-<!--		<type>java.lang.Integer</type>-->
-<!--		<description>The number of results that must be shown in the current page</description>-->
-<!--	</attribute>-->
-<!--</tag>-->
+<tag>
+	<name>ajaxPaginate</name>
+	<tag-class>tools.AMSAJAXPagination</tag-class>
+	<body-content>JSP</body-content>
+	<attribute>
+		<name>align</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.String</type>
+		<description>alignment</description>
+	</attribute>
+	<attribute>
+		<name>totalRows</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.Integer</type>
+		<description>Total rows that should be paginated</description>
+	</attribute>
+	<attribute>
+		<name>currentPage</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.Integer</type>
+		<description>The current page</description>
+	</attribute>
+	<attribute>
+		<name>pageSize</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.Integer</type>
+		<description>The number of results that must be shown in the current page</description>
+	</attribute>
+</tag>
 <tag>
 	<name>message</name>
 	<tag-class>mic.crm.tools.AMSMessage</tag-class>

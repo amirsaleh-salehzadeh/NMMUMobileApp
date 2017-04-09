@@ -5,10 +5,10 @@ package tools;
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public static final int AIPEX_UNKNOWN=0;
-		public static final int AIPEX_DELETE=1;
-		public static final int AIPEX_SAVE=2;
-		public static final int AIPEX_SAVE_DUPLICATE=3;
+		public static final int AMSEX_UNKNOWN=0;
+		public static final int AMSEX_DELETE=1;
+		public static final int AMSEX_SAVE=2;
+		public static final int AMSEX_SAVE_DUPLICATE=3;
 		
 		private int type=0;
 		

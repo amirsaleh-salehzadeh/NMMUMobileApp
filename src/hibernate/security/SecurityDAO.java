@@ -1,19 +1,20 @@
 package hibernate.security;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.mapping.List;
 
-import common.client.ClientENT;
-import common.security.GroupENT;
 import common.security.RoleENT;
-import common.user.UserENT;
-import common.user.UserLST;
-import common.user.UserPassword;
+import common.security.RoleLST;
 import hibernate.config.BaseHibernateDAO;
 import hibernate.config.HibernateSessionFactory;
 import tools.AMSException;
@@ -24,42 +25,19 @@ public class SecurityDAO extends BaseHibernateDAO implements
 	public static void main(String[] args) {
 		SecurityDAO udao = new SecurityDAO();
 		try {
-//			RoleENT roles = new RoleENT("Test", 7, "comm", 1);
-			udao.getRolesList("", 1);
+			RoleENT roles = new RoleENT();
+			for (int i = 200; i < 580; i++) {
+				roles.setComment("comment"+i);
+				roles.setRoleName("role"+i);
+				roles.setClientID(1);
+				roles = udao.saveUpdateRole(roles);
+			}
+			
 			System.out.println("done");
 		} catch (AMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public ArrayList<RoleENT> getRolesList(String searchKey, int clientID)
-			throws AMSException {
-		ArrayList<RoleENT> roleENTs = new ArrayList<RoleENT>();
-		Query q = null;
-		try {
-			q = getSession()
-					.createQuery(
-							"from RoleENT where roleName like :searchKey and clientID =:clientID")
-					.setParameter("searchKey", "%" + searchKey + "%")
-					.setParameter("clientID", clientID);
-			roleENTs = (ArrayList<RoleENT>) q.list();
-			HibernateSessionFactory.closeSession();
-		} catch (HibernateException ex) {
-			ex.printStackTrace();
-		}
-		return roleENTs;
-	}
-
-	public boolean checkUsernameValidity(String userName) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public ArrayList<GroupENT> getGroupList(String searchKey, int clientID)
-			throws AMSException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public RoleENT saveUpdateRole(RoleENT role) throws AMSException {
@@ -79,11 +57,6 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			ex.printStackTrace();
 		}
 		return role;
-	}
-
-	public boolean saveUpdateGroup(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public boolean deleteRole(RoleENT role) throws AMSException {
@@ -106,61 +79,57 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		}
 	}
 
-	public boolean getRole(RoleENT role) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
+	public RoleENT getRole(RoleENT role) throws AMSException {
+		Query q = null;
+		try {
+			q = getSession().createQuery(
+					"from RoleENT where roleID =:searchKey ").setParameter(
+					"searchKey", role.getRoleID());
+			role = (RoleENT) q.uniqueResult();
+			HibernateSessionFactory.closeSession();
+		} catch (HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return role;
 	}
 
-	public boolean getGroup(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
+	public RoleLST getRolesList(RoleLST roleLST) throws AMSException {
+		ArrayList<RoleENT> roleENTs = new ArrayList<RoleENT>();
+		Query q = null;
+		int clientid = roleLST.getSearchRole().getClientID();
+		try {
+			String query = "from RoleENT where roleName like :roleName or comment like :comment ";
+			if (clientid > 0)
+				query += "and clientID =: clientId ";
+			query += "order by " + roleLST.getSortedByField();
+			if (roleLST.isAscending())
+				query += " Asc";
+			else
+				query += " Desc";
+
+			q = getSession4Query().createQuery(query);
+			q.setParameter("roleName", "%"
+					+ roleLST.getSearchRole().getRoleName() + "%");
+			q.setParameter("comment", "%"
+					+ roleLST.getSearchRole().getRoleName() + "%");
+			if (clientid > 0)
+				q.setParameter("clientId", clientid);
+			q.setFirstResult(roleLST.getFirst());
+			roleLST.setTotalItems(q.list().size());
+			q.setMaxResults(roleLST.getPageSize());
+//			q = getSession4Query().createSQLQuery("select * from roles");
+			roleENTs = (ArrayList<RoleENT>) q.list();
+			roleLST.setRoleENTs(roleENTs);
+			HibernateSessionFactory.closeSession();
+		} catch (HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return roleLST;
 	}
 
-	public boolean deleteGroup(GroupENT group) throws AMSException {
+	public RoleENT saveUserRole(RoleENT role) throws AMSException {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
-
-	public boolean saveUserRole(RoleENT role) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean saveUserGroup(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean saveGroupRole(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean getUserRoles(RoleENT role) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean getUserGroups(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean getGroupRoles(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean checkAuthority(int user_id, int role_id) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean changePassword(UserPassword ent) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
 
 }
