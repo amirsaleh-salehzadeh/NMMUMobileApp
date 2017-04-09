@@ -26,7 +26,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		SecurityDAO udao = new SecurityDAO();
 		try {
 			RoleENT roles = new RoleENT();
-			for (int i = 200; i < 580; i++) {
+			for (int i = 0; i < 5; i++) {
 				roles.setComment("comment"+i);
 				roles.setRoleName("role"+i);
 				roles.setClientID(1);
@@ -98,10 +98,10 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		Query q = null;
 		int clientid = roleLST.getSearchRole().getClientID();
 		try {
-			String query = "from RoleENT where roleName like :roleName or comment like :comment ";
+			String query = "from RoleENT where roleName like :roleName ";
 			if (clientid > 0)
-				query += "and clientID =: clientId ";
-			query += "order by " + roleLST.getSortedByField();
+				query += "and clientID = " + clientid;
+			query += " order by " + roleLST.getSortedByField();
 			if (roleLST.isAscending())
 				query += " Asc";
 			else
@@ -110,10 +110,6 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			q = getSession4Query().createQuery(query);
 			q.setParameter("roleName", "%"
 					+ roleLST.getSearchRole().getRoleName() + "%");
-			q.setParameter("comment", "%"
-					+ roleLST.getSearchRole().getRoleName() + "%");
-			if (clientid > 0)
-				q.setParameter("clientId", clientid);
 			roleLST.setTotalItems(q.list().size());
 			q.setFirstResult(roleLST.getFirst());
 			q.setMaxResults(roleLST.getPageSize());

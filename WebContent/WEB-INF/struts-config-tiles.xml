@@ -10,9 +10,9 @@
 		<action  path="/t_security"
 			type="struts.actions.tiles.T_SecurityAction">
 			<set-property property="cancellable" value="true" />
-			<forward name="list" path="page.security" />
-			<forward name="edit" path="page.security" />
-			<forward name="search" path="page.security" />
+			<forward name="roleManagement" path="page.security" />
+			<forward name="roleEdit" path="page.security" />
+			<forward name="roleGrid" path="page.security" />
 		</action>
 
 	</action-mappings>

@@ -1,11 +1,12 @@
 package common.security;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 
 @Entity
 @Table(name = "roles")
 public class RoleENT {
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name = "role_id")
@@ -15,7 +16,7 @@ public class RoleENT {
 	@Column(name = "client_id")
 	int clientID;
 	@Column(name = "comment")
-	String comment ="";
+	String comment = "";
 
 	// public RoleENT(String roleName, int roleID, String comment, int clientID)
 	// {

@@ -43,5 +43,8 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-core-5.2.9.Final.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ehcache-core-2.7.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/dom4j-1.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j.api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-3.0.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

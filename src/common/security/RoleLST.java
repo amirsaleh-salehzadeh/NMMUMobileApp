@@ -47,8 +47,6 @@ public class RoleLST {
 		return totalItems;
 	}
 	
-	//public abstract int getTotalItems(AIPPagingParamInterface prm) ;
-	
 	
 	public void setTotalItems(int totalItems) {
 		this.totalItems = totalItems;

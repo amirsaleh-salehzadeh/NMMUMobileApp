@@ -117,18 +117,16 @@ public class AMSAJAXPagination extends BodyTagSupport {
 			}
 			if (count > 1) {
 				if (currentPage != 1) {
-					str += "<input type='button' class='AMSpaginationMainBTN' data-icon='arrow-l' value='&nbsp;' title='First' data-inline='true'/>";
+					str += "<input type='button' class='AMSpaginationMainBTN' data-icon='arrow-l' value='1' title='First' data-inline='true'/>";
 					str += "<input type='button' class='AMSpaginationMainBTN' href='#' id='hrefed"
 							+ (currentPage - 1)
-							+ "' title='"
-							+ (currentPage - 1)
-							+ "' data-icon='carat-l' title='Previous' value='&nbsp;' data-inline='true'>";
+							+ "' title='Previous' data-icon='carat-l' title='Previous' value='&nbsp;' data-inline='true'>";
 				} else {
-					str += "<input type='button' class='AMSpaginationMainBTN' data-icon='arrow-l' value='&nbsp;' title='First' data-inline='true'/>";
+					str += "<input type='button' class='AMSpaginationMainBTN' data-icon='arrow-l' value='1' title='First' data-inline='true'/>";
 					str += "<input type='button' class='AMSpaginationMainBTN' data-icon='carat-l' value='&nbsp;' title='Previous' data-inline='true'/>";
 				}
-				if (currentPage < 5) {
-					for (int i = 1; i < 10 && i <= count; i++) {
+				if (currentPage < 3) {
+					for (int i = 1; i < 5 && i <= count; i++) {
 						if (currentPage != i) {
 							str += "<input type='button' class='AMSpaginationBTN' id='hrefed" + i
 									+ "' value='" + i
@@ -141,12 +139,13 @@ public class AMSAJAXPagination extends BodyTagSupport {
 									+ "' data-inline='true' disabled/>";
 						}
 					}
-				} else if (currentPage > count - 4) {
-					for (int j = count - 8; j <= count; j++) {
+				} else if (currentPage > count - 2) {
+					for (int j = count - 3; j <= count; j++) {
 						if (j > 0) {
 							if (currentPage != j) {
 								str += "<input type=button class='AMSpaginationBTN' id='hrefed" + j
-										+ "' title='" + j
+										+ "' value='" + j
+									+ "' title='" + j
 										+ "' data-inline='true'/> ";
 							} else {
 								str += "<input class='AMSpaginationBTN' type=button id='hrefed" + j
@@ -157,7 +156,7 @@ public class AMSAJAXPagination extends BodyTagSupport {
 						}
 					}
 				} else {
-					for (int i = currentPage - 4; i < currentPage + 5
+					for (int i = currentPage - 2; i < currentPage + 3
 							&& i <= count; i++) {
 						if (currentPage != i) {
 							str += "<input type=button class='AMSpaginationBTN' id='hrefed" + i
@@ -170,10 +169,10 @@ public class AMSAJAXPagination extends BodyTagSupport {
 				}
 				if (count != 1 && currentPage != count) {
 					str += "<input type='button' class='AMSpaginationMainBTN' data-inline='true' data-icon='carat-r' value='&nbsp;' title='Next'/>"
-							+ "<input type='button' class='AMSpaginationMainBTN' title='Last' data-inline='true' data-icon='arrow-r' value='&nbsp;' title='Last' />";
+							+ "<input type='button' class='AMSpaginationMainBTN' title='Last' data-inline='true' data-icon='arrow-r' value='"+count+"' title='Last' />";
 				} else {
 					str += "<input type='button' class='AMSpaginationMainBTN' data-icon='carat-r' title='Next' value='&nbsp;' data-inline='true'/>";
-					str += "<input type='button' class='AMSpaginationMainBTN' data-icon='arrow-r' title='Last' value='&nbsp;' data-inline='true'>";
+					str += "<input type='button' class='AMSpaginationMainBTN' data-icon='arrow-r' title='Last' value='"+count+"' data-inline='true'>";
 				}
 			}
 		}

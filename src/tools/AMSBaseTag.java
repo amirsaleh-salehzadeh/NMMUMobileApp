@@ -64,7 +64,7 @@ public class AMSBaseTag extends BodyTagSupport {
 			bodyContent.writeOut(out);
 			bodyContent.clearBody();
 		} catch (Exception ex) {
-			throw new JspException("error in AIPBaseTag: " + ex);
+			throw new JspException("error in AMSBaseTag: " + ex);
 		}
 		return super.doAfterBody();
 	}
@@ -82,19 +82,14 @@ public class AMSBaseTag extends BodyTagSupport {
 
 	
 	protected void loadContentFile(String contentFile){
-//		System.out.println("AIPBaseTag.loadContentFile():start..........");
 		if((lastCheckTime+delayTime)<System.currentTimeMillis() || !style.equalsIgnoreCase(oldstyle) )
 		{
 			lastCheckTime=System.currentTimeMillis();
 			try {
-				//String contentFile = baseFolder+style+"/aipdialog.html";
 				String realPath = pageContext.getServletContext().getRealPath(contentFile );
 				File f = new File(realPath);
-				//System.out.println("AIPDialog.loadSkinFileContent():file="+f.getPath());
-//				System.out.println("AIPDialog.loadContentFile():file="+f.getPath());
 				if(f.lastModified()>lastFileReaded || !style.equalsIgnoreCase(oldstyle) )
 				{
-//					System.out.println("AIPBaseTag.loadContentFile():loading.....");
 
 					FileInputStream fin = new FileInputStream(f);
 					byte buf[]=new byte[fin.available()];
@@ -110,17 +105,8 @@ public class AMSBaseTag extends BodyTagSupport {
 					contentStartTag = sb.substring(0,pos);
 					contentEndTag = sb.substring(pos+placeHolder.length());
 					
-//					System.out.println("AIPBaseTag.loadContentFile()contentStartTag0000000000000000000=\n"+contentStartTag);
-
-//					if(htContentStartTag.containsKey(styleId))htContentStartTag.remove(styleId);
-//					htContentStartTag.put(styleId, contentStartTag);
-//					if(htContentEndTag.containsKey(styleId))htContentEndTag.remove(styleId);
-//					htContentEndTag.put(styleId, contentEndTag);
-					
 					lastFileReaded=f.lastModified();
 	
-//					System.out.println("AIPPagging.loadSkinFileContent():in................");
-//					System.out.println("AIPBaseTag.loadContentFile():loaded.");
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
