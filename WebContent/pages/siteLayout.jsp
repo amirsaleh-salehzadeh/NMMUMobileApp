@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css">
 <link rel="stylesheet"
 	href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-<script src="js/jquery.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="js/index.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 </head>
@@ -26,7 +27,7 @@
 			<a href="#"
 				class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
 		</div>
-		<div role="main" class="jqm-content" >
+		<div role="main" class="jqm-content">
 			<tiles:insert attribute="body" />
 		</div>
 		<div data-role="panel" class="jqm-navmenu-panel" data-position="left"

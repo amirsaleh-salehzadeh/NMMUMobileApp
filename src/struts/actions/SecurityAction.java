@@ -7,11 +7,7 @@ package struts.actions;
 import hibernate.client.ClientDAOInterface;
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.security.SecurityDAOInterface;
-import hibernate.user.UserDAOInterface;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,15 +16,9 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import com.opensymphony.xwork2.ActionSupport;
 
 import tools.AMSException;
 
-import common.client.ClientENT;
 import common.security.RoleENT;
 import common.security.RoleLST;
 
@@ -65,6 +55,9 @@ public class SecurityAction extends Action {
 			if (search == null)
 				search = "";
 			RoleENT roleENT = new RoleENT();
+			int pageNo = 0;
+			if (request.getParameter("page") != null)
+				pageNo = Integer.parseInt(request.getParameter("page"));
 			int clientID = 0;
 			if (request.getParameter("clientId") != null)
 				clientID = Integer.parseInt(request.getParameter("clientId"));
@@ -73,13 +66,15 @@ public class SecurityAction extends Action {
 			roleENT.setRoleName(search);
 			RoleLST roleLST = new RoleLST();
 			roleLST.setSearchRole(roleENT);
+			roleLST.setCurrentPage(pageNo);
 			try {
 				roleLST = getSecurityDAO().getRolesList(roleLST);
 				request.setAttribute("roleLST", roleLST);
 			} catch (AMSException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}response.setContentType("text/html");
+			}
+			response.setContentType("text/html");
 			af = mapping.findForward("grid");
 		} else if (reqCode.equals("edit")) {
 			RoleENT role = new RoleENT();

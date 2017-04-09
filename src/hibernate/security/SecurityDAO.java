@@ -114,8 +114,8 @@ public class SecurityDAO extends BaseHibernateDAO implements
 					+ roleLST.getSearchRole().getRoleName() + "%");
 			if (clientid > 0)
 				q.setParameter("clientId", clientid);
-			q.setFirstResult(roleLST.getFirst());
 			roleLST.setTotalItems(q.list().size());
+			q.setFirstResult(roleLST.getFirst());
 			q.setMaxResults(roleLST.getPageSize());
 //			q = getSession4Query().createSQLQuery("select * from roles");
 			roleENTs = (ArrayList<RoleENT>) q.list();
