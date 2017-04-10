@@ -1,10 +1,10 @@
-package common.user;
+package common.location;
 
 import java.util.ArrayList;
 
-public class UserLST {
-	ArrayList<UserENT> userENTs = new ArrayList<UserENT>();
-	UserENT searchUser = new UserENT();
+public class LocationLST {
+	ArrayList<LocationENT> groupENTs = new ArrayList<LocationENT>();
+	LocationENT searchLocation = new LocationENT();
 	private int currentPage = 0;
 	private int totalPages;
 	private int pageSize = 10;
@@ -12,15 +12,7 @@ public class UserLST {
 	private int first;
 	private boolean ascending = true;
 	private Boolean isDescending;
-	private String sortedByField = "userID";
-
-	public ArrayList<UserENT> getUserENTs() {
-		return userENTs;
-	}
-
-	public void setUserENTs(ArrayList<UserENT> userENTs) {
-		this.userENTs = userENTs;
-	}
+	private String sortedByField = "groupName";
 
 	public boolean isAscending() {
 		return ascending;
@@ -69,12 +61,10 @@ public class UserLST {
 			if (getTotalItems() % getPageSize() != 0)
 				totalPage++;
 			setTotalPages(totalPage);
-			// check request page is exist
 			if (getCurrentPage() <= 0 || getCurrentPage() > totalPage) {
 				setCurrentPage(1);
 			}
 			setFirst((getCurrentPage() - 1) * getPageSize());
-			// first = ((getCurrentPage()-1)*getPageSize());
 		} catch (Exception ex) {
 
 		}
@@ -112,12 +102,20 @@ public class UserLST {
 		this.first = first;
 	}
 
-	public UserENT getSearchUser() {
-		return searchUser;
+	public ArrayList<LocationENT> getGroupENTs() {
+		return groupENTs;
 	}
 
-	public void setSearchUser(UserENT searchUser) {
-		this.searchUser = searchUser;
+	public void setGroupENTs(ArrayList<LocationENT> groupENTs) {
+		this.groupENTs = groupENTs;
+	}
+
+	public LocationENT getSearchLocation() {
+		return searchLocation;
+	}
+
+	public void setSearchLocation(LocationENT searchLocation) {
+		this.searchLocation = searchLocation;
 	}
 
 }

@@ -38,7 +38,22 @@ public class SecurityAction extends Action {
 		// TODO Auto-generated method stub
 		ActionForward af = null;
 		String reqCode = request.getParameter("reqCode");
-		if (reqCode == null || reqCode.equalsIgnoreCase("roleManagement")
+		if (reqCode == null)
+			reqCode = "roleManagement";
+///////////////ROLE DELETE//////////////////
+		if (reqCode.equalsIgnoreCase("deleteRole")) {
+			int delId = Integer.parseInt(request.getParameter("roleID"));
+			RoleENT role = new RoleENT();
+			role.setRoleID(delId);
+			try {
+				getSecurityDAO().deleteRole(role);
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			reqCode = "roleManagement";
+		} 
+///////////////ROLE MANAGEMENT//////////////////
+		if (reqCode.equalsIgnoreCase("roleManagement")
 				|| reqCode.equals("roleGrid")) {
 			try {
 				if (reqCode.equalsIgnoreCase("roleManagement"))
@@ -53,6 +68,7 @@ public class SecurityAction extends Action {
 				return mapping.findForward("roleGrid");
 			else
 				return mapping.findForward("roleManagement");
+///////////////ROLE EDIT//////////////////
 		} else if (reqCode.equals("roleEdit")) {
 			RoleENT roleENT = new RoleENT();
 			int roleId = 0;
@@ -77,6 +93,7 @@ public class SecurityAction extends Action {
 				e.printStackTrace();
 			}
 			return mapping.findForward("roleEdit");
+///////////////ROLE SAVE AND UPDATE//////////////////
 		} else if (reqCode.equals("saveUpdate")) {
 			try {
 				request.setAttribute("clientENTs", getClientDAO()
@@ -88,8 +105,7 @@ public class SecurityAction extends Action {
 			RoleENT roleENT = getRoleENT(request);
 			try {
 				roleENT = getSecurityDAO().saveUpdateRole(roleENT);
-				request.setAttribute("roleENT",
-						roleENT);
+				request.setAttribute("roleENT", roleENT);
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}

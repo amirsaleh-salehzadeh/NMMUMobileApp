@@ -1,10 +1,10 @@
-package common.user;
+package common.security;
 
 import java.util.ArrayList;
 
-public class UserLST {
-	ArrayList<UserENT> userENTs = new ArrayList<UserENT>();
-	UserENT searchUser = new UserENT();
+public class GroupLST {
+	ArrayList<GroupENT> groupENTs = new ArrayList<GroupENT>();
+	GroupENT searchGroup = new GroupENT();
 	private int currentPage = 0;
 	private int totalPages;
 	private int pageSize = 10;
@@ -12,15 +12,7 @@ public class UserLST {
 	private int first;
 	private boolean ascending = true;
 	private Boolean isDescending;
-	private String sortedByField = "userID";
-
-	public ArrayList<UserENT> getUserENTs() {
-		return userENTs;
-	}
-
-	public void setUserENTs(ArrayList<UserENT> userENTs) {
-		this.userENTs = userENTs;
-	}
+	private String sortedByField = "groupName";
 
 	public boolean isAscending() {
 		return ascending;
@@ -112,12 +104,20 @@ public class UserLST {
 		this.first = first;
 	}
 
-	public UserENT getSearchUser() {
-		return searchUser;
+	public ArrayList<GroupENT> getGroupENTs() {
+		return groupENTs;
 	}
 
-	public void setSearchUser(UserENT searchUser) {
-		this.searchUser = searchUser;
+	public void setGroupENTs(ArrayList<GroupENT> groupENTs) {
+		this.groupENTs = groupENTs;
+	}
+
+	public GroupENT getSearchGroup() {
+		return searchGroup;
+	}
+
+	public void setSearchGroup(GroupENT searchGroup) {
+		this.searchGroup = searchGroup;
 	}
 
 }

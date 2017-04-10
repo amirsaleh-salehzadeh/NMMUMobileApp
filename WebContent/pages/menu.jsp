@@ -13,7 +13,7 @@
 		});
 	}
 	function refreshGrid() {
-		$('form#dataFilterGridMainPage').ajaxSubmit(function(data){
+		$('form#dataFilterGridMainPage').ajaxSubmit(function(data) {
 			$("#gridContainer").html(data);
 			$("#gridContainer").trigger("create");
 			$("input.AMSpaginationBTN").each(function() {
@@ -25,9 +25,20 @@
 		});
 	}
 	function saveTheForm() {
-		$('form#dataFilterGridMainPage').ajaxSubmit(function(data){
+		$('form#dataFilterGridMainPage').ajaxSubmit(function(data) {
 			$("#mainBodyContents").html(data);
 			$("#mainBodyContents").trigger("create");
+		});
+	}
+	function deleteAnItem(id, reqCode) {
+		$("#reqCode").val(reqCode);
+		$("#deleteID").val(id);
+		$('form#dataFilterGridMainPage').ajaxSubmit(function(data) {
+			$("#mainBodyContents").html(data);
+			$("#mainBodyContents").trigger("create");
+			$(".ui-popup-active").css("display", "none");
+		}).done(function() {
+			alert("done");
 		});
 	}
 </script>
@@ -49,7 +60,7 @@
 			class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed"
 			aria-hidden="true">
 			<ul>
-			<li
+				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
 					onclick="callAnAction('#');" href="#" data-ajax="false">User
 						Management</a></li>

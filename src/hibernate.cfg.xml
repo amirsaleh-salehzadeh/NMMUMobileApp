@@ -7,7 +7,12 @@
 		<property name="connection.url">jdbc:mysql://localhost:3306/nmmumobile?characterEncoding=utf8</property>
 		<property name="connection.username">root</property>
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<mapping resource="common/security/RoleENT.hbm.xml" class="common.user.RoleENT"/>
-		<mapping resource="common/client/ClientENT.hbm.xml" class="common.client.ClientENT"/>
+		<mapping resource="common/security/RoleENT.hbm.xml" class="common.security.RoleENT" />
+		<mapping resource="common/security/GroupENT.hbm.xml" class="common.security.GroupENT" />
+		<mapping resource="common/user/EthnicENT.hbm.xml" class="common.user.EthnicENT" />
+		<mapping resource="common/user/TitleENT.hbm.xml" class="common.user.TitleENT" />
+		<mapping resource="common/user/UserENT.hbm.xml" class="common.user.UserENT" />
+		<mapping resource="common/user/UserPassword.hbm.xml" class="common.user.UserPasswordENT" />
+		<mapping resource="common/client/ClientENT.hbm.xml" class="common.client.ClientENT" />
 	</session-factory>
 </hibernate-configuration>

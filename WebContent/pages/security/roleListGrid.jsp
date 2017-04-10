@@ -23,12 +23,12 @@
 		class="ui-responsive table-stroke">
 		<thead>
 			<tr>
-				<th data-priority="5"></th>          
-				<th data-priority="1">Role</th>          
+				<th data-priority="5"></th>
+				<th data-priority="1">Role</th>
 				<th data-priority="3">Comment</th>
 				<th data-priority="2">Action</th>
 				<th data-priority="4"><input type="checkbox" name="checkAll"
-					id="checkAll">&nbsp;&nbsp;&nbsp;</th>   
+					id="checkAll">&nbsp;&nbsp;&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody id="gridRows">
@@ -39,16 +39,17 @@
 					<td><bean:write name="roleList" property="roleName" /></td>
 					<td><bean:write name="roleList" property="comment" /></td>
 					<td><bean:define id="roleID" name="roleList" property="roleID"
-							type="java.lang.Integer"></bean:define> <a href="#popupMenu<%=roleID%>"
-						data-rel="popup"
-						class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-gear 
-						ui-btn-icon-left ui-btn-a"></a>
-						<div data-role="popup" id="popupMenu<%=roleID%>" data-theme="b">
+							type="java.lang.Integer"></bean:define> <a
+						href="#popupMenu<%=roleID%>" data-rel="popup" data-role="button"
+						data-inline="true" data-transition="slideup" data-icon="gear"
+						data-theme="e"></a>
+						<div data-role="popup" id="popupMenu<%=roleID%>" data-theme="d">
 							<ul data-role="listview" data-inset="true"
-								style="min-width: 210px;">
+								style="min-width: 210px;" data-theme="d">
 								<li><a href="#"
 									onclick="callAnAction('security.do?reqCode=roleEdit&roleID=<%=roleID%>');">Edit</a></li>
-								<li><a href="#">Delete</a></li>         
+								<li><a href="#"
+									onclick="callAnAction('security.do?reqCode=deleteRole&roleID=<%=roleID%>');">Remove</a></li>
 							</ul>
 						</div></td>
 					<td><input type="checkbox" name="checkbox"
@@ -58,4 +59,3 @@
 		</tbody>
 	</table>
 </ams:ajaxPaginate>
-

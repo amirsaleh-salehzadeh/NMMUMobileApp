@@ -19,6 +19,10 @@ public class BaseHibernateDAO {
 	public Session getSession4Query(){
 		return HibernateSessionFactory.getSession();
 	}
+	public Session getSession2Save(){
+		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+		return sessionFactory.getCurrentSession();
+	}
 	public AMSException getAMSException(int operationType, Exception ex) {
 		String msg = ex.getMessage();
 		switch (operationType) {

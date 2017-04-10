@@ -1,30 +1,15 @@
 package common.security;
 
-import javax.persistence.*;
-import javax.servlet.http.HttpServletRequest;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-@Entity
-@Table(name = "roles")
 public class RoleENT {
-
 	@Id
-	@GeneratedValue
-	@Column(name = "role_id")
+    @GeneratedValue
 	int roleID;
-	@Column(name = "role_name")
 	String roleName = "";
-	@Column(name = "client_id")
 	int clientID;
-	@Column(name = "comment")
 	String comment = "";
-
-	// public RoleENT(String roleName, int roleID, String comment, int clientID)
-	// {
-	// this.roleName = roleName;
-	// this.clientID = clientID;
-	// this.comment = comment;
-	// this.roleID = roleID;
-	// }
 
 	public String getRoleName() {
 		return roleName;

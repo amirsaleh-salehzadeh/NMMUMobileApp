@@ -8,7 +8,7 @@
 </head>
 <body>
 	<form id="dataFilterGridMainPage" action="security.do">
-		<input type="hidden" name="reqCode" value="roleGrid">
+		<input type="hidden" name="reqCode" id="reqCode" value="roleGrid">
 		<div class="ui-grid-a" id="searchFilters">
 			<fieldset class="ui-grid-a">
 				<div class="ui-block-a">
