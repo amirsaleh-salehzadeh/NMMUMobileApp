@@ -12,6 +12,24 @@
 			<forward name="roleManagement" path="/pages/security/roleManagement.jsp" />
 			<forward name="roleEdit" path="/pages/security/roleEdit.jsp" />
 			<forward name="roleGrid" path="/pages/security/roleListGrid.jsp" />
+			<forward name="groupManagement" path="/pages/security/groupManagement.jsp" />
+			<forward name="groupEdit" path="/pages/security/groupEdit.jsp" />
+			<forward name="groupGrid" path="/pages/security/groupListGrid.jsp" />
+			<forward name="groupRole" path="/pages/security/groupRole.jsp" />
+		</action>
+		<action path="/location" type="struts.actions.LocationAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="locationManagement" path="/pages/location/locationManagement.jsp" />
+			<forward name="locationEdit" path="/pages/location/locationEdit.jsp" />
+			<forward name="locationGrid" path="/pages/location/locationListGrid.jsp" />
+		</action>
+		<action path="/user" type="struts.actions.UserAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="roleManagement" path="/pages/user/userManagement.jsp" />
+			<forward name="roleEdit" path="/pages/user/userEdit.jsp" />
+			<forward name="roleGrid" path="/pages/user/userListGrid.jsp" />
+			<forward name="userGroup" path="/pages/user/userGroup.jsp" />
+			<forward name="userRole" path="/pages/user/userRole.jsp" />
 		</action>
 	</action-mappings>
 

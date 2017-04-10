@@ -39,15 +39,6 @@ public class UserAction extends Action {
 		String reqCode = request.getParameter("reqCode");
 		String success = "";
 		String error = "";
-//		try {
-//			request.setAttribute("roleENTs", roles);
-//		} catch (AMSException e) {
-//			e.printStackTrace();
-//		}
-		
-		af = mapping.findForward("list");
-//		request.setAttribute("error", error);
-//		request.setAttribute("success", success);
 		return af;
 	}
 

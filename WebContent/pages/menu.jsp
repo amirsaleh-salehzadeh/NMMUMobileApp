@@ -49,6 +49,10 @@
 			class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed"
 			aria-hidden="true">
 			<ul>
+			<li
+					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
+					onclick="callAnAction('#');" href="#" data-ajax="false">User
+						Management</a></li>
 				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
 					href="#"
@@ -56,7 +60,7 @@
 					data-ajax="false">Role Management</a></li>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					onclick="callAnAction('index.jsp');" href="#" data-ajax="false">Group
+					onclick="callAnAction('#');" href="#" data-ajax="false">Group
 						Management</a></li>
 			</ul>
 		</div>
