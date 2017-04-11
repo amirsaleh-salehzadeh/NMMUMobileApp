@@ -7,10 +7,22 @@
 <head>
 </head>
 <body>
+<!-- setting menu for the role management -->
+<div data-role="popup" id="roleManagementPopupSettingMenu" data-theme="d">
+	<ul data-role="listview" data-inset="true" style="min-width: 210px;"
+		data-theme="d">
+		<li><a href="#" onclick="displaySearch();">Show/Hide Search</a></li>
+		<li><a href="#"
+			onclick="callAnAction('security.do?reqCode=roleEdit');">New Role</a></li>
+		<li><a href="#"
+			onclick="deleteSelectedItems();">Delete Selected</a></li>
+	</ul>
+</div>
 <!-- form to send information to the security.do action -->
 	<form id="dataFilterGridMainPage" action="security.do">
 <!-- 	indicates the reqCode to show the grid-->
 		<input type="hidden" name="reqCode" id="reqCode" value="roleGrid">
+		<input type="hidden" name="deleteID" id="deleteID" value="">
 <!-- 		creates a div containing our search filters ..... keep the id same searchFilters -->
 		<div class="ui-grid-a" id="searchFilters">
 		<!-- 		one horizontal column containing block a and b 

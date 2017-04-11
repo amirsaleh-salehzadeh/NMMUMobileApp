@@ -4,6 +4,8 @@
  */
 package struts.actions;
 
+import java.util.ArrayList;
+
 import hibernate.client.ClientDAOInterface;
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.security.SecurityDAOInterface;
@@ -43,17 +45,21 @@ public class SecurityAction extends Action {
 ///////////////ROLE DELETE//////////////////
 		if (reqCode.equalsIgnoreCase("deleteRole")) {
 ///////////////Gets roleID//////////////////
-			int delId = Integer.parseInt(request.getParameter("roleID"));
-			RoleENT role = new RoleENT();
-			role.setRoleID(delId);
+			String[] delId = request.getParameter("deleteID").split(",");
+			ArrayList<RoleENT> rolesToDelete = new ArrayList<RoleENT>();
+			for (int i = 0; i < delId.length; i++) {
+				RoleENT role = new RoleENT();
+				role.setRoleID(Integer.parseInt(delId[i]));
+				rolesToDelete.add(role);
+			}
 			try {
 	///////////////ROLE DELETE>> gets a RoleENT and returns a boolean//////////////////
-				getSecurityDAO().deleteRole(role);
+				getSecurityDAO().deleteRoles(rolesToDelete);
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
 ///////////////Forwards to the grid again//////////////////
-			reqCode = "roleManagement";
+			reqCode = "roleGrid";
 		} 
 ///////////////ROLE MANAGEMENT//////////////////
 		if (reqCode.equalsIgnoreCase("roleManagement")

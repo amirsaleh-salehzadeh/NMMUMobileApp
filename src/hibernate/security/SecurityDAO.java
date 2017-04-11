@@ -78,7 +78,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		return role;
 	}
 
-	public boolean deleteRole(RoleENT role) throws AMSException {
+	private boolean deleteRole(RoleENT role) throws AMSException {
 		Session session = getSession();
 		Transaction tx = null;
 		try {
@@ -211,7 +211,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		return group;
 	}
 
-	public boolean deleteGroup(GroupENT group) throws AMSException {
+	private boolean deleteGroup(GroupENT group) throws AMSException {
 		Session session = getSession();
 		Transaction tx = null;
 		try {
@@ -228,6 +228,20 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			ex.printStackTrace();
 			throw getAMSException(ex.toString(), ex);
 		}
+	}
+
+	public boolean deleteRoles(ArrayList<RoleENT> roles) throws AMSException {
+		for (int i = 0; i < roles.size(); i++) {
+			deleteRole(roles.get(i));
+		}
+		return true;
+	}
+
+	public boolean deleteGroups(ArrayList<GroupENT> groups) throws AMSException {
+		for (int i = 0; i < groups.size(); i++) {
+			deleteGroup(groups.get(i));
+		}
+		return true;
 	}
 
 }

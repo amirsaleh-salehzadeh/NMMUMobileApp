@@ -71,13 +71,6 @@ public class AMSMessage extends BodyTagSupport {
 				 "<label id='successDescription' style='color:green;'>"+getSuccessMessage()+"</label>" 
 				 + strEnd;
 			
-//			sb = AIPUtil.replace(sb, "[ERRORMESSAGE]", getErrorMessage());
-//			sb = AIPUtil.replace(sb, "[SUCCESSMESSAGE]", getSuccessMessage());
-			
-//			sb += "<table id='messageTable' border='0' cellspacing='0' cellpadding='0' align='center'></table>"; 			
-//			if ("".equalsIgnoreCase(getErrorMessage()) && "".equalsIgnoreCase(getSuccessMessage())) {
-//				sb = "<table id='messageTable' border='0' cellspacing='0' cellpadding='0' align='center'></table>"; 
-//			}
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

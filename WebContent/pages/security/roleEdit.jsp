@@ -7,6 +7,14 @@
 <head>
 </head>
 <body>
+<!-- the setting popup menu for roleEdit Page -->
+<div data-role="popup" id="roleEditPopupSettingMenu" data-theme="d">
+	<ul data-role="listview" data-inset="true" style="min-width: 210px;"
+		data-theme="d">
+		<li><a href="#"
+			onclick="callAnAction('security.do?reqCode=roleManagement');">Cancel</a></li>
+	</ul>
+</div>
 	<!-- defines the clientID of the role -->
 	<bean:define name="roleENT" id="clientID4Role" property="clientID" />
 	<!-- defines the form to submit the information to the action security.do-->
