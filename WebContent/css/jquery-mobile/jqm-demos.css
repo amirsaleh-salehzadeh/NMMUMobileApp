@@ -731,3 +731,16 @@
 	color: #fff;
 	text-shadow: none;
 }
+
+/**
+
+
+Amir's Edits
+
+
+
+ */
+ .ui-grid-a [class*=ui-block-]>.ui-btn, .ui-grid-a [class*=ui-block-]>.ui-select,  .ui-grid-a [class*=ui-block-]>.ui-checkbox,  .ui-grid-a [class*=ui-block-]>.ui-radio,  .ui-grid-a [class*=ui-block-]>button.ui-btn-inline,  .ui-grid-a [class*=ui-block-]>button.ui-btn-icon-notext
+{
+margin:7px;
+}

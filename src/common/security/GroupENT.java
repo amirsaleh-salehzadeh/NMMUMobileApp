@@ -1,33 +1,42 @@
 package common.security;
 
 public class GroupENT {
+
 	String groupName;
-	int group_ID;
-	int client_id;
+	int groupID;
+	int clientID;
 	String comment;
-	
-	public String getgroupName() {
+
+	public String getGroupName() {
 		return groupName;
 	}
-	public void setgroupName(String groupName) {
+
+	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-	public int getgroup_ID() {
-		return group_ID;
+
+	public int getGroupID() {
+		return groupID;
 	}
-	public void setgroup_ID(int group_ID) {
-		this.group_ID = group_ID;
+
+	public void setGroupID(int groupID) {
+		this.groupID = groupID;
 	}
-	public int getClient_id() {
-		return client_id;
+
+	public int getClientID() {
+		return clientID;
 	}
-	public void setClient_id(int client_id) {
-		this.client_id = client_id;
+
+	public void setClientID(int clientID) {
+		this.clientID = clientID;
 	}
+
 	public String getComment() {
 		return comment;
 	}
+
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
 }

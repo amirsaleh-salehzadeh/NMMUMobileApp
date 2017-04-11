@@ -1,36 +1,39 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Apr 4, 2017 12:23:01 PM by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated Apr 10, 2017 5:11:20 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="common.user.UserENT" table="USERENT">
-        <id name="user_id" type="int">
+    <class name="common.user.UserENT" table="USERS">
+        <id name="userID" type="int">
             <column name="USER_ID" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="userName" type="java.lang.String">
             <column name="USERNAME" />
         </property>
-        <property name="client_id" type="int">
+        <property name="ethnicID" type="int">
+            <column name="ethnic" />
+        </property>
+         <property name="titleID" type="int">
+            <column name="title" />
+        </property>
+        <property name="clientID" type="int">
             <column name="CLIENT_ID" />
         </property>
-        <many-to-one name="password" class="common.user.UserPassword" fetch="join">
-            <column name="PASSWORD" />
-        </many-to-one>
+        <property name="password" type="java.lang.String">
+            <column name="password" />
+        </property>
         <property name="registerationDate" type="java.lang.String">
-            <column name="REGISTERATIONDATE" />
+            <column name="REGISTERATION_DATE" />
         </property>
         <property name="name" type="java.lang.String">
             <column name="NAME" />
         </property>
-        <property name="sureName" type="java.lang.String">
-            <column name="SURENAME" />
+        <property name="surName" type="java.lang.String">
+            <column name="SURNAME" />
         </property>
         <property name="dateOfBirth" type="java.lang.String">
-            <column name="DATEOFBIRTH" />
-        </property>
-        <property name="nationalID" type="java.lang.String">
-            <column name="NATIONALID" />
+            <column name="DATE_OF_BIRTH" />
         </property>
         <property name="gender" type="boolean">
             <column name="GENDER" />
@@ -38,34 +41,32 @@
         <property name="active" type="boolean">
             <column name="ACTIVE" />
         </property>
-        <property name="race" type="int">
-            <column name="RACE" />
-        </property>
-        <property name="raceDescription" type="java.lang.String">
-            <column name="RACEDESCRIPTION" />
-        </property>
-        <property name="title" type="int">
-            <column name="TITLE" />
-        </property>
-        <property name="titleDescription" type="java.lang.String">
-            <column name="TITLEDESCRIPTION" />
-        </property>
-        <property name="tel" type="java.lang.String">
-            <column name="TEL" />
-        </property>
-        <list name="roleENTs" inverse="false" table="ROLEENT" lazy="true">
-            <key>
-                <column name="USER_ID" />
-            </key>
-            <list-index></list-index>
-            <one-to-many class="common.user.RoleENT" />
-        </list>
-        <list name="groupENTs" inverse="false" table="GROUPENT" lazy="true">
-            <key>
-                <column name="USER_ID" />
-            </key>
-            <list-index></list-index>
-            <one-to-many class="common.user.GroupENT" />
-        </list>
+<!--         <many-to-one name="ethnic" class="common.user.EthnicENT" fetch="join"> -->
+<!--             <column name="ETHNIC" /> -->
+<!--         </many-to-one> -->
+<!--         <many-to-one name="title" class="common.user.TitleENT" fetch="join"> -->
+<!--             <column name="TITLE" /> -->
+<!--         </many-to-one> -->
+<!--         <list name="roleENTs" inverse="false" table="ROLES" lazy="true" access="field"> -->
+<!--             <key> -->
+<!--                 <column name="USER_ID" /> -->
+<!--             </key> -->
+<!--             <list-index></list-index> -->
+<!--             <one-to-many class="common.security.RoleENT" /> -->
+<!--         </list> -->
+<!--         <list name="groupENTs" inverse="false" table="GROUPENT" lazy="true" access="field"> -->
+<!--             <key> -->
+<!--                 <column name="USERID" /> -->
+<!--             </key> -->
+<!--             <list-index></list-index> -->
+<!--             <one-to-many class="common.security.GroupENT" /> -->
+<!--         </list> -->
+<!--         <list name="addressENTs" inverse="false" table="LOCATIONS" lazy="true" access="field"> -->
+<!--             <key> -->
+<!--                 <column name="USER_ID" /> -->
+<!--             </key> -->
+<!--             <list-index></list-index> -->
+<!--             <one-to-many class="common.location.LocationENT" /> -->
+<!--         </list> -->
     </class>
 </hibernate-mapping>

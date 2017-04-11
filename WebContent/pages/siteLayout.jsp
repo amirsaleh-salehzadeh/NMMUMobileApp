@@ -11,10 +11,18 @@
 <link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css">
 <link rel="stylesheet"
 	href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-<script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/jquery.form.js"></script>
 <script src="js/index.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript">
+	function displaySearch() {
+		if ($("#searchFilters").css("display") == "block") {
+			$("#searchFilters").fadeOut();
+		} else
+			$("#searchFilters").fadeIn();
+	}
+</script>
 </head>
 <body dir="ltr" bgcolor="white">
 	<div data-role="page" class="jqm-demos jqm-home">
@@ -25,9 +33,10 @@
 			<a href="#"
 				class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
 			<a href="#"
-				class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
+				class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right"
+				onclick="displaySearch();">Search</a>
 		</div>
-		<div role="main" class="jqm-content">
+		<div role="main" id="mainBodyContents" class="jqm-content">
 			<tiles:insert attribute="body" />
 		</div>
 		<div data-role="panel" class="jqm-navmenu-panel" data-position="left"
