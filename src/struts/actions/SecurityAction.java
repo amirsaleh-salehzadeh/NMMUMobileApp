@@ -42,28 +42,34 @@ public class SecurityAction extends Action {
 			reqCode = "roleManagement";
 ///////////////ROLE DELETE//////////////////
 		if (reqCode.equalsIgnoreCase("deleteRole")) {
+///////////////Gets roleID//////////////////
 			int delId = Integer.parseInt(request.getParameter("roleID"));
 			RoleENT role = new RoleENT();
 			role.setRoleID(delId);
 			try {
+	///////////////ROLE DELETE>> gets a RoleENT and returns a boolean//////////////////
 				getSecurityDAO().deleteRole(role);
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
+///////////////Forwards to the grid again//////////////////
 			reqCode = "roleManagement";
 		} 
 ///////////////ROLE MANAGEMENT//////////////////
 		if (reqCode.equalsIgnoreCase("roleManagement")
 				|| reqCode.equals("roleGrid")) {
 			try {
+	///////////////Prepare data for the list of clients in the drop down menu//////////////////
 				if (reqCode.equalsIgnoreCase("roleManagement"))
 					request.setAttribute("clientENTs", getClientDAO()
 							.getAllClients(""));
 				RoleLST roleLST = getRoleLST(request);
+	///////////////Initiate a value for the page//////////////////
 				request.setAttribute("roleLST", roleLST);
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
+///////////////forward the action to pages >>> see struts.config.xml for more info//////////////////
 			if (reqCode.equals("roleGrid"))
 				return mapping.findForward("roleGrid");
 			else
@@ -73,19 +79,24 @@ public class SecurityAction extends Action {
 			RoleENT roleENT = new RoleENT();
 			int roleId = 0;
 			try {
+	///////////////prepare a client dropdown menu for the roleEdit page//////////////////
 				request.setAttribute("clientENTs", getClientDAO()
 						.getAllClients(""));
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
+///////////////if no roleID was forwarded then means its a new role, otherwise its about to edit a role//////////////////
 			if (request.getParameter("roleID") != null)
 				roleId = Integer.parseInt(request.getParameter("roleID"));
 			else {
+	///////////////forwards to the page with an empty object//////////////////
 				request.setAttribute("roleENT", roleENT);
 				return mapping.findForward("roleEdit");
 			}
+///////////////reads the role ID//////////////////
 			roleENT.setRoleID(roleId);
 			try {
+	///////////////Get the role from DAO and set it into the attribute called roleENT//////////////////
 				request.setAttribute("roleENT",
 						getSecurityDAO().getRole(roleENT));
 			} catch (AMSException e) {
@@ -102,6 +113,7 @@ public class SecurityAction extends Action {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+///////////////Calls the method getRoleENT>>> press F3 to go to the method definition at the bottom of the class//////////////////
 			RoleENT roleENT = getRoleENT(request);
 			try {
 				roleENT = getSecurityDAO().saveUpdateRole(roleENT);
@@ -115,7 +127,7 @@ public class SecurityAction extends Action {
 		request.setAttribute("success", success);
 		return af;
 	}
-
+///////////////Reads all elemnts from the request and prepare an object//////////////////
 	private RoleENT getRoleENT(HttpServletRequest request) {
 		RoleENT roleENT = new RoleENT();
 		if (request.getParameter("clientID") != null)
@@ -129,7 +141,8 @@ public class SecurityAction extends Action {
 		roleENT.setComment(request.getParameter("comment"));
 		return roleENT;
 	}
-
+///////////////Reads all elemnts from the request and prepare an object for the list 
+	//////////////////these information are used to paginate the grid 
 	private RoleLST getRoleLST(HttpServletRequest request) {
 		String search = request.getParameter("searchKey");
 		if (search == null)
@@ -155,11 +168,11 @@ public class SecurityAction extends Action {
 		}
 		return roleLST;
 	}
-
+///////calls a DAO containg methods for the security management
 	private static SecurityDAOInterface getSecurityDAO() {
 		return NMMUMobileDAOManager.getSecuirtyDAOInterface();
 	}
-
+///////calls a DAO containg methods for the client management
 	private static ClientDAOInterface getClientDAO() {
 		return NMMUMobileDAOManager.getClientDAOInterface();
 	}
