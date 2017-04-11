@@ -7,8 +7,13 @@
 <head>
 </head>
 <body>
+	<!-- defines the clientID of the role -->
+	<bean:define name="roleENT" id="clientID4Role" property="clientID" />
+	<!-- defines the form to submit the information to the action security.do-->
 	<form id="dataFilterGridMainPage" action="security.do">
+		<!-- The reqCode which action must work with-->
 		<input type="hidden" name="reqCode" value="saveUpdate">
+		<!-- Formatting and putting the text fields in the page-->
 		<div class="ui-block-solo">
 			<input type="text" name="roleName"
 				value="<bean:write name="roleENT" property="roleName" />"
@@ -16,23 +21,30 @@
 				type="hidden" name="roleID"
 				value="<bean:write name="roleENT" property="roleID" />">
 		</div>
+<!-- 		a block underneath containing a text area -->
 		<div class="ui-block-solo">
-			<input type="text" name="comment"
-				value="<bean:write name="roleENT" property="comment" />"
-				placeholder="Comment" value="" data-theme="a" title="Comment">
+			<label for="comment">Comment:</label>
+			<textarea name="comment" id="textarea-a" placeholder="Comment">
+<bean:write name="roleENT" property="comment" />
+</textarea>
 		</div>
 		<div class="ui-block-solo">
 			       <select name="clientID" data-native-menu="false">
 				<option value="0">Client</option>
+<!-- iterates upon all clients in the clientENTs which has came from the action as an attribute-->
 				<logic:iterate id="clientList" type="common.client.ClientENT"
 					name="clientENTs">
-					<option
+<!-- 					during the loop checks if the clientID is as the same as the bean 
+we defined at top including the role's clientID, then adds the selected="selected" means slect this one -->
+					<option <%if (clientID4Role.equals(clientList.getClientID())) {%>
+						selected="selected" <%}%>
 						value="<bean:write name="clientList" property="clientID" />">
 						<bean:write name="clientList" property="clientName" />
 					</option>
 				</logic:iterate>
 			</select>
 		</div>
+<!-- 		buttons -->
 		<div class=ui-grid-a>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" data-inline="true" data-icon="delete"

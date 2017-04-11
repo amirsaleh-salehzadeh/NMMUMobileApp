@@ -19,7 +19,6 @@
 			<fieldset class="ui-grid-a">
 <!-- 			block a containing a text input on keyup it submits the form and refresh the grid-->
 				<div class="ui-block-a">
-				
 					<input type="search" name="searchKey" id="roleSearchFeild"
 						placeholder="Role Name" value="" data-theme="a"
 						onkeyup="refreshGrid();">
