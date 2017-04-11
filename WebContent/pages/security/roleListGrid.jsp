@@ -3,6 +3,7 @@
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
 <%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@ taglib prefix="ams" uri="/WEB-INF/AMSTag.tld"%>
+<!-- these beans are necessary information in the attribute roleLST which faciliate the pagination -->
 <bean:define id="totalRows" name="roleLST" property="totalItems"
 	type="java.lang.Integer"></bean:define>
 <bean:define id="first" name="roleLST" property="first"
@@ -17,8 +18,10 @@
 	value="<%=currentPage%>" />
 <%-- <input name="page" type="text" id="totalRows" value="<%=totalRows%>" /> --%>
 <input name="page" type="hidden" id="totalPages" value="<%=totalPages%>" />
+<!-- this tag does the pagination, drops buttons and calculates the number of pages -->
 <ams:ajaxPaginate currentPage="<%=currentPage%>"
 	pageSize="<%=pageSize%>" totalRows="<%=totalRows%>" align="center">
+<!-- 	create a table with header -->
 	<table data-role="table" id="rolesGrid" data-mode="columntoggle"
 		class="ui-responsive table-stroke">
 		<thead>
@@ -32,10 +35,12 @@
 			</tr>
 		</thead>
 		<tbody id="gridRows">
+<!-- 		iterates upon the roleENTs inside roleLST -->
 			<logic:iterate id="roleList" indexId="rowID"
 				type="common.security.RoleENT" name="roleLST" property="roleENTs">
 				<tr>
 					<th>&nbsp;&nbsp;&nbsp;&nbsp; <%=rowID + first + 1%></th>
+<!-- 					name roleList refers to the id of logic iterate -->
 					<td><bean:write name="roleList" property="roleName" /></td>
 					<td><bean:write name="roleList" property="comment" /></td>
 					<td><bean:define id="roleID" name="roleList" property="roleID"
@@ -46,6 +51,7 @@
 						<div data-role="popup" id="popupMenu<%=roleID%>" data-theme="d">
 							<ul data-role="listview" data-inset="true"
 								style="min-width: 210px;" data-theme="d">
+<!-- 								callAnAction refreshes the page -->
 								<li><a href="#"
 									onclick="callAnAction('security.do?reqCode=roleEdit&roleID=<%=roleID%>');">Edit</a></li>
 								<li><a href="#"
