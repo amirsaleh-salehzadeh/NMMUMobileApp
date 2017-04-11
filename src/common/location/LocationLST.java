@@ -3,16 +3,33 @@ package common.location;
 import java.util.ArrayList;
 
 public class LocationLST {
-	ArrayList<LocationENT> groupENTs = new ArrayList<LocationENT>();
+	ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
 	LocationENT searchLocation = new LocationENT();
 	private int currentPage = 0;
 	private int totalPages;
 	private int pageSize = 10;
 	private int totalItems;
 	private int first;
+	private String searchKey;
 	private boolean ascending = true;
 	private Boolean isDescending;
-	private String sortedByField = "groupName";
+	private String sortedByField = "locationID";
+
+	public ArrayList<LocationENT> getLocationENTs() {
+		return locationENTs;
+	}
+
+	public void setLocationENTs(ArrayList<LocationENT> locationENTs) {
+		this.locationENTs = locationENTs;
+	}
+
+	public String getSearchKey() {
+		return searchKey;
+	}
+
+	public void setSearchKey(String searchKey) {
+		this.searchKey = searchKey;
+	}
 
 	public boolean isAscending() {
 		return ascending;
@@ -100,14 +117,6 @@ public class LocationLST {
 
 	public void setFirst(int first) {
 		this.first = first;
-	}
-
-	public ArrayList<LocationENT> getGroupENTs() {
-		return groupENTs;
-	}
-
-	public void setGroupENTs(ArrayList<LocationENT> groupENTs) {
-		this.groupENTs = groupENTs;
 	}
 
 	public LocationENT getSearchLocation() {

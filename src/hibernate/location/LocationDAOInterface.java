@@ -8,7 +8,7 @@ import tools.AMSException;
 
 
 public interface LocationDAOInterface {
-	public UserENT saveUpdateLocation(LocationENT ent) throws AMSException;
+	public LocationENT saveUpdateLocation(LocationENT ent) throws AMSException;
 	public LocationLST getLocationLST(LocationLST lst) throws AMSException;
 	public LocationENT getLocationENT(LocationENT ent) throws AMSException;
 	public boolean deleteLocation(LocationENT ent) throws AMSException;
