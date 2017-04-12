@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import hibernate.client.ClientDAOInterface;
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.security.SecurityDAOInterface;
+import hibernate.user.UserDAOInterface;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -181,5 +182,8 @@ public class SecurityAction extends Action {
 ///////calls a DAO containg methods for the client management
 	private static ClientDAOInterface getClientDAO() {
 		return NMMUMobileDAOManager.getClientDAOInterface();
+	}
+	private static UserDAOInterface getUserDAO() {
+		return NMMUMobileDAOManager.getUserDAOInterface();
 	}
 }

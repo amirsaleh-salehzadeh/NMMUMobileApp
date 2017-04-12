@@ -8,19 +8,18 @@
 			reqCode = url.substring(s + 8);
 		else
 			reqCode = url.substring(s + 8, e);
-		$.ajax(
-				{
-					url : url,
-					cache : false,
-					success : function(data) {
-						$("#mainBodyContents").html(data);
-						$("#mainBodyContents").trigger("create");
-						$("#mainBodyMenuSettingBTN").attr("href",
-								"#" + reqCode + "PopupSettingMenu");
-						$(".ui-popup-active").css("display", "none");
-						return false;
-					}
-				});
+		$.ajax({
+			url : url,
+			cache : false,
+			success : function(data) {
+				$("#mainBodyContents").html(data);
+				$("#mainBodyContents").trigger("create");
+				$("#mainBodyMenuSettingBTN").attr("href",
+						"#" + reqCode + "PopupSettingMenu");
+				$(".ui-popup-active").css("display", "none");
+				return false;
+			}
+		});
 
 	}
 	function refreshGrid() {
@@ -67,13 +66,12 @@
 			});
 		}
 	}
-	function 
-	deleteSelectedItems() {
+	function deleteSelectedItems() {
 		var ids = $('.gridCheckBoxes:checked').map(function() {
 			return $(this).attr("id");
 		}).get().join(',');
 		deleteAnItem(ids, 'deleteRole');
-		
+
 	}
 </script>
 <div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'
@@ -100,8 +98,8 @@
 			<ul>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					onclick="callAnAction('#');" href="#" data-ajax="false">User
-						Management</a></li>
+					onclick="callAnAction('user.do?reqCode=userManagement');" href="#"
+					data-ajax="false">User Management</a></li>
 				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
 					href="#"
@@ -110,8 +108,7 @@
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
 					onclick="callAnAction('#');" href="#" data-ajax="false">Group
-						Management</a>
-						</li>
+						Management</a></li>
 			</ul>
 		</div>
 	</li>
