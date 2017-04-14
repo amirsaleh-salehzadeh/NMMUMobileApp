@@ -1,14 +1,19 @@
 package common.security;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 public class RoleENT {
-	@Id
-    @GeneratedValue
 	int roleID;
 	String roleName = "";
 	int clientID;
+	String clientName;
+
+	public String getClientName() {
+		return clientName;
+	}
+
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
+
 	String comment = "";
 
 	public String getRoleName() {

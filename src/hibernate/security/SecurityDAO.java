@@ -28,15 +28,15 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		SecurityDAO udao = new SecurityDAO();
 		try {
 //
-//			for (int i = 0; i < 10; i++) {
-				RoleENT roles = new RoleENT();
+//			for (int i = 0; i < 30; i++) {
+//				RoleENT roles = new RoleENT();
 //				roles.setComment("commeneeet" + i);
-//				roles.setGroupName("grouf" + i);
-				roles.setRoleID(409);
-//				roles.setClientID(1);
-				boolean b = udao.deleteRole(roles);
-//				System.out.println("hei");
+//				roles.setRoleName("roleeddde" + i);
+//				roles.setClientID(3);
+//				udao.saveUpdateRole(roles);
+////				System.out.println("hei");
 //			}
+			RoleLST role = udao.getRolesList(new RoleLST());
 //			RoleENT role = new RoleENT();
 //			role.setRoleName("role100");
 //			role.setClientID(2);
@@ -126,14 +126,13 @@ public class SecurityDAO extends BaseHibernateDAO implements
 				query += " Asc";
 			else
 				query += " Desc";
-
 			q = getSession().createQuery(query);
 			q.setParameter("roleName", "%"
 					+ roleLST.getSearchRole().getRoleName() + "%");
 			roleLST.setTotalItems(q.list().size());
 			q.setFirstResult(roleLST.getFirst());
 			q.setMaxResults(roleLST.getPageSize());
-			roleENTs = (ArrayList<RoleENT>) q.list();
+			ArrayList<RoleENT> result = (ArrayList<RoleENT>) q.list();
 			roleLST.setRoleENTs(roleENTs);
 			HibernateSessionFactory.closeSession();
 		} catch (HibernateException ex) {

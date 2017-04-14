@@ -5,17 +5,20 @@
 <hibernate-mapping>
     <class name="common.security.RoleENT" table="ROLES">
         <id name="roleID" type="int">
-            <column name="ROLE_ID" />
+            <column name="role_id" />
             <generator class="identity" />
         </id>
         <property name="roleName" type="java.lang.String">
-            <column name="ROLE_NAME" />
+            <column name="role_name" />
         </property>
         <property name="clientID" type="int">
-            <column name="CLIENT_ID" />
+            <column name="client_id" />
         </property>
         <property name="comment" type="java.lang.String">
-            <column name="COMMENT" />
+            <column name="comment" />
         </property>
+<!--         <property name="clientName" type="java.lang.String"> -->
+<!--             <column name="client_name" /> -->
+<!--         </property> -->
     </class>
 </hibernate-mapping>

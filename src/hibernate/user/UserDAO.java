@@ -1,5 +1,6 @@
 package hibernate.user;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,40 +24,41 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 
 	public static void main(String[] args) {
 		UserDAO udao = new UserDAO();
-		try {
-			// for (int i = 14; i < 20; i++) {
-			// TitleENT roles = new TitleENT();
-			// roles = udao.getTitle(2);
-			// EthnicENT eth = new EthnicENT();
-			// eth = udao.getEthnic(2);
-			// UserENT ent = new UserENT();
-			// // ent.setUserID(i);
-			// ent.setActive(true);
-			// ent.setClientID(1);
-			// ent.setDateOfBirth("dob");
-			// ent.setGender(true);
-			// ent.setEthnic(eth);
-			// ent.setRegisterationDate("today");
-			// ent.setSurName("surnamezzz");
-			// ent.setName("namezzzz"+i);
-			// ent.setTitle(roles);
-			// ent.setUserName("userNamezzzz4");
-			// UserPassword up = new UserPassword();
-			// up.setUserPassword("passsssss"+i);
-			// ent.setPassword("pass"+i);
-			// ent = udao.saveUpdateUser(ent);
+		// try {
+		// for (int i = 14; i < 20; i++) {
+		// TitleENT roles = new TitleENT();
+		// roles = udao.getTitle(2);
+		// EthnicENT eth = new EthnicENT();
+		// eth = udao.getEthnic(2);
+		// UserENT ent = new UserENT();
+		// // ent.setUserID(i);
+		// ent.setActive(true);
+		// ent.setClientID(1);
+		// ent.setDateOfBirth("dob");
+		// ent.setGender(true);
+		// ent.setEthnic(eth);
+		// ent.setRegisterationDate("today");
+		// ent.setSurName("surnamezzz");
+		// ent.setName("namezzzz"+i);
+		// ent.setTitle(roles);
+		// ent.setUserName("userNamezzzz4");
+		// UserPassword up = new UserPassword();
+		// up.setUserPassword("passsssss"+i);
+		// ent.setPassword("pass"+i);
+		// ent = udao.saveUpdateUser(ent);
 
-			UserLST l = new UserLST();
-			UserENT us = new UserENT();
-			us.setUserID(4);
-//			l.setSearchUser(us);
-			udao.deleteUser(us);
-			System.out.println("done");
-			// }
-		} catch (AMSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		UserLST l = new UserLST();
+		UserENT us = new UserENT();
+		System.out.println(us.toString());
+		// l.setSearchUser(us);
+		// udao.deleteUser(us);
+
+		System.out.println("done");
+		// }
+		// } catch (AMSException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	public UserENT saveUpdateUser(UserENT ent) throws AMSException {

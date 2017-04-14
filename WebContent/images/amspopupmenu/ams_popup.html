@@ -1,0 +1,17 @@
+<head>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('[POPUPID]').trigger("create");
+	$('[POPUPID]').popup("refresh");
+});
+</script>
+</head>
+<a href="[POPUPID]" data-rel="popup" id="mainBodyMenuSettingBTN"
+				class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
+<div data-role="popup" id="[POPUPID]" data-theme="d">
+	<ul data-role="listview" data-inset="true" style="min-width: 210px;"
+		data-theme="d">
+		[PLACEHOLDER]
+		[CONTENT]
+	</ul>
+</div>

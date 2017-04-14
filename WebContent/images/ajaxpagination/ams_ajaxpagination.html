@@ -1,17 +1,140 @@
 <head>
 [JQUERY]
-<style type="text/css">
-button.AMSpaginationMainBTN {
-margin: 0px; !important;
+<script type="text/javascript">
+var x, y;
+function checkAllCheckBoxes() {
+		$(".gridCheckBoxes").each(function() {
+		if ($(this).attr("checked") == "checked")
+			$(this).prop('checked', false);
+		else
+			$(this).prop('checked', this.checked);
+
+		});
 }
-</style>
+function displaySearch() {
+	if ($("#searchFilters").css("display") == "block") {
+		$("#searchFilters").fadeOut();
+	} else
+		$("#searchFilters").fadeIn();
+	$(".ui-popup-active").css("display", "none");
+}
+function refreshGrid() {
+	var url = $("#dataFilterGridMainPage").attr("action");
+	url += "?" + $("#dataFilterGridMainPage").serialize();
+	$('#gridList')
+			.dataTable(
+					{
+						serverSide : true,
+						processing : true,
+						destroy : true,
+						bJQueryUI : true,
+						bPaginate : false,
+						bLengthChange : false,
+						bFilter : false,
+						bSort : false,
+						ajax : {
+							url : url
+						},
+						columnDefs : [
+								{
+									'targets' : 0,
+									'searchable' : false,
+									'orderable' : false,
+									'className' : 'dt-body-center',
+									'render' : function(data, type, full, meta) {
+										return '<input type="checkbox" class="gridCheckBoxes" >';
+									}
+								} ],
+						columns : [VARCOLUMNS],
+						oLanguage : {
+							"sLengthMenu" : 'Show <select id="showEntry" onchange="refreshGrid();" data-native-menu="false">'
+									+ '<option value="5">5</option>'
+									+ '<option value="10">10</option>'
+									+ '<option value="25">25</option>'
+									+ '<option value="50">50</option>'
+									+ '<option value="100">100</option>'
+									+ '</select> entries'
+						},
+						initComplete : function(settings, json) {
+							$('#[POPUPID]').trigger("create");
+							$('#paginationContainerDiv').trigger("create");
+						}
+					});
+	(function($){
+	    $.fn.disableSelection = function() {
+	        return this
+	                 .attr('unselectable', 'on')
+	                 .css('user-select', 'none')
+	                 .on('selectstart', false);
+	    };
+	})(jQuery);
+	$(document).on( "mousemove", function( event ) {
+		x = event.pageX;
+		y = event.pageY;
+		});
+	$(".ui-popup-active").css("display", "none");
+	var table = $('#gridList').DataTable();
+	$('#gridList tbody').on("taphold", "tr", function() {
+		$( "#gridMenuSetting" ).on( "popupbeforeposition" , function (e, ui) {
+		    ui.x = x;
+		    ui.y = y;
+		});
+		var html;
+		if($("#replacedID4Popup").val()=="")
+			html = $('#gridMenuSetting').html().replace(new RegExp('REPLACEME', 'g'),$(this).attr("id"));
+		else
+			html = $('#gridMenuSetting').html().replace(new RegExp($("#replacedID4Popup").val(), 'g'),$(this).attr("id"));
+		$("#replacedID4Popup").val($(this).attr("id"));
+		$("#gridMenuSetting").html(html);
+//         $('#gridMenuSetting').html($('#gridMenuSetting').html().replace(new RegExp('[ID]', 'g'),$(this).attr("id")));
+		$('#gridMenuSetting').popup("open");
+	});
+}
+function tapholdHandler( event ){
+    $( event.target ).addClass("taphold");
+  }
+</script>
 </head>
-<div class="paginate" align="[ALIGN]">
-	<div class="dataTables_paginate paging_simple_numbers">[CONTENT]</div>
-</div>
-<div class="skinBaseDiv" align="[ALIGN]">
-	[PLACEHOLDER]
-	<div class="paginate" align="[ALIGN]">
-		<div class="ui-grid-d center">[CONTENT]</div>
+<div id="paginationContainerDiv">
+	<input type="hidden" name="replacedID4Popup" id="replacedID4Popup"
+		value=""> <input type="hidden" name="deleteID" id="deleteID"
+		value="">
+	<!-- <input name="currentPage" type="hidden" id="hiddenPage" -->
+	<!-- 	value="[CURRENTPAGE]" /> -->
+	<div data-type="horizontal">
+		<table width="100%">
+			<tr>
+				<td><div>
+						<a href="#[POPUPID]" data-rel="popup" id="mainBodyMenuSettingBTN"
+							class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear 
+							ui-nodisc-icon ui-alt-icon 
+							ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-a"
+							data-mini="true">&nbsp;</a>
+						<div data-role="popup" id="[POPUPID]" data-theme="d">
+							<ul data-role="listview" data-inset="true"
+								style="min-width: 210px;" data-theme="d">[CONTENTPOPUP]
+							</ul>
+						</div>
+					</div></td>
+				<td><select name='pageSize' data-native-menu='false'
+					onchange='refreshGrid();' data-inline='true' data-mini="true">
+						<option value='10' selected='selected'>10</option>
+						<option value='25'>25</option>
+						<option value='50'>50</option>
+						<option value='100'>100</option>
+				</select></td>
+				<td style="width: 100%">[CONTENT]</td>
+			</tr>
+		</table>
+
+
 	</div>
+	<div align="[ALIGN]">
+		[PLACEHOLDER]
+		<!-- 	<div class="paginate" align="[ALIGN]"> -->
+		<!-- 		<div class="ui-grid-d center">[CONTENT]</div> -->
+		<!-- 	</div> -->
+	</div>
+	<div id="popupGridContainer">[GRIDPOPUP]</div>
+	<div id="popupsGridContainer"></div>
 </div>

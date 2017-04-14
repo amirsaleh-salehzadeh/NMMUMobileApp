@@ -1,37 +1,16 @@
 <html>
 <script type="text/javascript">
 	function callAnAction(url) {
-		var s = url.indexOf("reqCode=");
-		var e = url.lastIndexOf("&");
-		var reqCode;
-		if (e <= 0)
-			reqCode = url.substring(s + 8);
-		else
-			reqCode = url.substring(s + 8, e);
 		$.ajax({
 			url : url,
 			cache : false,
 			success : function(data) {
 				$("#mainBodyContents").html(data);
 				$("#mainBodyContents").trigger("create");
-				$("#mainBodyMenuSettingBTN").attr("href",
-						"#" + reqCode + "PopupSettingMenu");
 				$(".ui-popup-active").css("display", "none");
-				return false;
+				refeshGrid();
+				return true;
 			}
-		});
-
-	}
-	function refreshGrid() {
-		$('form#dataFilterGridMainPage').ajaxSubmit(function(data) {
-			$("#gridContainer").html(data);
-			$("#gridContainer").trigger("create");
-			$("input.AMSpaginationBTN").each(function() {
-				if ($(this).attr('title') == $("#hiddenPage").val()) {
-					$(this).prop('disabled', true).trigger("create");
-					$(this).button("refresh");
-				}
-			});
 		});
 	}
 	function saveTheForm() {
@@ -44,34 +23,21 @@
 		$("#reqCode").val(reqCode);
 		$("#deleteID").val(id);
 		$('form#dataFilterGridMainPage').ajaxSubmit(function(data) {
-			$("#reqCode").val("roleGrid");
-			$("#gridContainer").html(data);
-			$("#gridContainer").trigger("create");
+			$("#reqCode").val("gridJson");
 			$("input.AMSpaginationBTN").each(function() {
 				if ($(this).attr('title') == $("#hiddenPage").val()) {
 					$(this).prop('disabled', true).trigger("create");
 					$(this).button("refresh");
 				}
 			});
+			refreshGrid();
 		});
 	}
-	function checkAllCheckBoxes(checkBox) {
-		if ($(checkBox).attr("checked") == "checked") {
-			$(".gridCheckBoxes").each(function() {
-				$(this).attr("checked", "checked");
-			});
-		} else {
-			$(".gridCheckBoxes").each(function() {
-				$(this).attr("checked", false);
-			});
-		}
-	}
-	function deleteSelectedItems() {
+	function deleteSelectedItems(reqCode) {
 		var ids = $('.gridCheckBoxes:checked').map(function() {
 			return $(this).attr("id");
 		}).get().join(',');
-		deleteAnItem(ids, 'deleteRole');
-
+		deleteAnItem(ids, reqCode);
 	}
 </script>
 <div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'
@@ -98,16 +64,15 @@
 			<ul>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					onclick="callAnAction('user.do?reqCode=userManagement');" href="#"
+					href="t_user.do?reqCode=userManagement"
 					data-ajax="false">User Management</a></li>
 				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
-					href="#"
-					onclick="callAnAction('security.do?reqCode=roleManagement');"
+					href="t_security.do?reqCode=roleManagement"
 					data-ajax="false">Role Management</a></li>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					onclick="callAnAction('#');" href="#" data-ajax="false">Group
+					href="t_security.do?reqCode=groupManagement" data-ajax="false">Group
 						Management</a></li>
 			</ul>
 		</div>

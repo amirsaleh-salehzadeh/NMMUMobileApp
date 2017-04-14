@@ -4,7 +4,9 @@
  */
 package struts.actions;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import hibernate.client.ClientDAOInterface;
 import hibernate.config.NMMUMobileDAOManager;
@@ -18,9 +20,13 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import tools.AMSException;
 
+import common.PopupENT;
 import common.security.RoleENT;
 import common.security.RoleLST;
 
@@ -35,106 +41,164 @@ import common.security.RoleLST;
 public class SecurityAction extends Action {
 	private String success = "";
 	private String error = "";
+	private String reqCode = "";
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		ActionForward af = null;
-		String reqCode = request.getParameter("reqCode");
+		reqCode = request.getParameter("reqCode");
 		if (reqCode == null)
 			reqCode = "roleManagement";
-///////////////ROLE DELETE//////////////////
 		if (reqCode.equalsIgnoreCase("deleteRole")) {
-///////////////Gets roleID//////////////////
-			String[] delId = request.getParameter("deleteID").split(",");
-			ArrayList<RoleENT> rolesToDelete = new ArrayList<RoleENT>();
-			for (int i = 0; i < delId.length; i++) {
-				RoleENT role = new RoleENT();
-				role.setRoleID(Integer.parseInt(delId[i]));
-				rolesToDelete.add(role);
-			}
-			try {
-	///////////////ROLE DELETE>> gets a RoleENT and returns a boolean//////////////////
-				getSecurityDAO().deleteRoles(rolesToDelete);
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-///////////////Forwards to the grid again//////////////////
-			reqCode = "roleGrid";
-		} 
-///////////////ROLE MANAGEMENT//////////////////
+			deleteRole(request);
+			reqCode = "gridJson";
+		}
 		if (reqCode.equalsIgnoreCase("roleManagement")
-				|| reqCode.equals("roleGrid")) {
-			try {
-	///////////////Prepare data for the list of clients in the drop down menu//////////////////
-				if (reqCode.equalsIgnoreCase("roleManagement"))
-					request.setAttribute("clientENTs", getClientDAO()
-							.getAllClients(""));
-				RoleLST roleLST = getRoleLST(request);
-	///////////////Initiate a value for the page//////////////////
-				request.setAttribute("roleLST", roleLST);
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-///////////////forward the action to pages >>> see struts.config.xml for more info//////////////////
-			if (reqCode.equals("roleGrid"))
-				return mapping.findForward("roleGrid");
-			else
-				return mapping.findForward("roleManagement");
-///////////////ROLE EDIT//////////////////
+				|| reqCode.equals("gridJson")) {
+			return roleManagement(request, mapping);
 		} else if (reqCode.equals("roleEdit")) {
-			RoleENT roleENT = new RoleENT();
-			int roleId = 0;
-			try {
-	///////////////prepare a client dropdown menu for the roleEdit page//////////////////
-				request.setAttribute("clientENTs", getClientDAO()
-						.getAllClients(""));
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-///////////////if no roleID was forwarded then means its a new role, otherwise its about to edit a role//////////////////
-			if (request.getParameter("roleID") != null)
-				roleId = Integer.parseInt(request.getParameter("roleID"));
-			else {
-	///////////////forwards to the page with an empty object//////////////////
-				request.setAttribute("roleENT", roleENT);
-				return mapping.findForward("roleEdit");
-			}
-///////////////reads the role ID//////////////////
-			roleENT.setRoleID(roleId);
-			try {
-	///////////////Get the role from DAO and set it into the attribute called roleENT//////////////////
-				request.setAttribute("roleENT",
-						getSecurityDAO().getRole(roleENT));
-			} catch (AMSException e) {
-				error = e.getMessage();
-				e.printStackTrace();
-			}
-			return mapping.findForward("roleEdit");
-///////////////ROLE SAVE AND UPDATE//////////////////
+			return editRole(request, mapping, form);
+			// /////////////ROLE SAVE AND UPDATE//////////////////
 		} else if (reqCode.equals("saveUpdate")) {
-			try {
-				request.setAttribute("clientENTs", getClientDAO()
-						.getAllClients(""));
-			} catch (AMSException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-///////////////Calls the method getRoleENT>>> press F3 to go to the method definition at the bottom of the class//////////////////
-			RoleENT roleENT = getRoleENT(request);
-			try {
-				roleENT = getSecurityDAO().saveUpdateRole(roleENT);
-				request.setAttribute("roleENT", roleENT);
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-			return mapping.findForward("roleEdit");
+			return saveUpdateRole(request, mapping);
 		}
 		request.setAttribute("error", error);
 		request.setAttribute("success", success);
 		return af;
 	}
-///////////////Reads all elemnts from the request and prepare an object//////////////////
+
+	private ActionForward saveUpdateRole(HttpServletRequest request,
+			ActionMapping mapping) {
+		try {
+			request.setAttribute("clientENTs", getClientDAO().getAllClients(""));
+		} catch (AMSException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		// /////////////Calls the method getRoleENT>>> press F3 to go to the
+		// method definition at the bottom of the class//////////////////
+		RoleENT roleENT = getRoleENT(request);
+		try {
+			roleENT = getSecurityDAO().saveUpdateRole(roleENT);
+			request.setAttribute("roleENT", roleENT);
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		return mapping.findForward("roleEdit");
+	}
+
+	private ActionForward editRole(HttpServletRequest request,
+			ActionMapping mapping, ActionForm form) {
+		RoleENT roleENT = new RoleENT();
+		int roleId = 0;
+		try {
+			// /////////////prepare a client dropdown menu for the roleEdit
+			// page//////////////////
+			request.setAttribute("clientENTs", getClientDAO().getAllClients(""));
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		// /////////////if no roleID was forwarded then means its a new
+		// role, otherwise its about to edit a role//////////////////
+		if (request.getParameter("roleID") != null)
+			roleId = Integer.parseInt(request.getParameter("roleID"));
+		else {
+			// /////////////forwards to the page with an empty
+			// object//////////////////
+			request.setAttribute("roleENT", roleENT);
+			return mapping.findForward("roleEdit");
+		}
+		// /////////////reads the role ID//////////////////
+		roleENT.setRoleID(roleId);
+		try {
+			// /////////////Get the role from DAO and set it into the
+			// attribute called roleENT//////////////////
+			request.setAttribute("roleENT", getSecurityDAO().getRole(roleENT));
+		} catch (AMSException e) {
+			error = e.getMessage();
+			e.printStackTrace();
+		}
+		return mapping.findForward("roleEdit");
+	}
+
+	private void deleteRole(HttpServletRequest request) {
+		String[] delId = request.getParameter("deleteID").split(",");
+		ArrayList<RoleENT> rolesToDelete = new ArrayList<RoleENT>();
+		for (int i = 0; i < delId.length; i++) {
+			RoleENT role = new RoleENT();
+			role.setRoleID(Integer.parseInt(delId[i]));
+			rolesToDelete.add(role);
+		}
+		try {
+			getSecurityDAO().deleteRoles(rolesToDelete);
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private ActionForward roleManagement(HttpServletRequest request,
+			ActionMapping mapping) {
+		try {
+			List<PopupENT> popupEnts = new ArrayList<PopupENT>();
+			popupEnts.add(new PopupENT("", "displaySearch();",
+					"Show/Hide Search", "#"));
+			popupEnts.add(new PopupENT("",
+					"callAnAction(\"security.do?reqCode=roleEdit\");",
+					"New Role", "#"));
+			popupEnts.add(new PopupENT("", "deleteSelectedItems();",
+					"Delete Selected", "#"));
+			popupEnts.add(new PopupENT("", "checkAllCheckBoxes();",
+					"Check All", "#"));//
+			List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
+			popupGridEnts
+					.add(new PopupENT(
+							"",
+							"callAnAction(\"security.do?reqCode=roleEdit&roleID=REPLACEME\");",
+							"Edit Role", "#"));
+			popupGridEnts.add(new PopupENT("",
+					"deleteAnItem(REPLACEME, \"deleteRole\");", "Remove", "#")); //
+			request.setAttribute("settingMenuItem", popupEnts);
+			request.setAttribute("gridMenuItem", popupGridEnts);
+			// /////////////Prepare data for the list of clients in the drop
+			// down menu//////////////////
+			request.setAttribute("clientENTs", getClientDAO().getAllClients(""));
+			// /////////////Initiate a value for the page//////////////////
+			RoleLST roleLST = getRoleLST(request);
+			request.setAttribute("roleLST", roleLST);
+			ObjectMapper mapper = new ObjectMapper();
+			String json = "";
+			try {
+				json = mapper.writeValueAsString(roleLST.getRoleENTs());
+			} catch (JsonGenerationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			json = "{ \"draw\": " + roleLST.getCurrentPage()
+					+ ", \"recordsTotal\":" + roleLST.getTotalItems()
+					+ ", \"recordsFiltered\":" + roleLST.getTotalItems()
+					+ ", \"data\": " + json + "}";
+			json = json.replaceAll("roleID", "DT_RowId");
+			request.setAttribute("json", json);
+			if (reqCode.equals("gridJson"))
+				return mapping.findForward("gridJson");
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		// /////////////forward the action to pages >>> see
+		// struts.config.xml for more info//////////////////
+		return mapping.findForward("roleManagement");
+	}
+
+	// gets all feilds from the form in the jsp page and instantiate returns an
+	// oject, instantiated from class RoleENT
 	private RoleENT getRoleENT(HttpServletRequest request) {
 		RoleENT roleENT = new RoleENT();
 		if (request.getParameter("clientID") != null)
@@ -148,16 +212,22 @@ public class SecurityAction extends Action {
 		roleENT.setComment(request.getParameter("comment"));
 		return roleENT;
 	}
-///////////////Reads all elemnts from the request and prepare an object for the list 
-	//////////////////these information are used to paginate the grid 
+
+	// gets all feilds from the form in the jsp page and instantiate returns an
+	// oject,
+	// instantiated from class RoleLST. There are some information with regard
+	// to pagination and filtering the grid
 	private RoleLST getRoleLST(HttpServletRequest request) {
 		String search = request.getParameter("searchKey");
 		if (search == null)
 			search = "";
 		RoleENT roleENT = new RoleENT();
-		int pageNo = 0;
-		if (request.getParameter("page") != null)
-			pageNo = Integer.parseInt(request.getParameter("page"));
+		int pageNo = 1;
+		int pageSize = 10;
+		if (request.getParameter("currentPage") != null)
+			pageNo = Integer.parseInt(request.getParameter("currentPage"));
+		if (request.getParameter("pageSize") != null)
+			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 		int clientID = 0;
 		if (request.getParameter("clientID") != null)
 			clientID = Integer.parseInt(request.getParameter("clientID"));
@@ -165,6 +235,7 @@ public class SecurityAction extends Action {
 		roleENT.setComment(search);
 		roleENT.setRoleName(search);
 		RoleLST roleLST = new RoleLST();
+		roleLST.setPageSize(pageSize);
 		roleLST.setSearchRole(roleENT);
 		roleLST.setCurrentPage(pageNo);
 		try {
@@ -175,14 +246,17 @@ public class SecurityAction extends Action {
 		}
 		return roleLST;
 	}
-///////calls a DAO containg methods for the security management
+
+	// /////calls a DAO containg methods for the security management
 	private static SecurityDAOInterface getSecurityDAO() {
 		return NMMUMobileDAOManager.getSecuirtyDAOInterface();
 	}
-///////calls a DAO containg methods for the client management
+
+	// /////calls a DAO containg methods for the client management
 	private static ClientDAOInterface getClientDAO() {
 		return NMMUMobileDAOManager.getClientDAOInterface();
 	}
+
 	private static UserDAOInterface getUserDAO() {
 		return NMMUMobileDAOManager.getUserDAOInterface();
 	}
