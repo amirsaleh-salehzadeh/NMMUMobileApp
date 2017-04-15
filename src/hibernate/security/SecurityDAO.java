@@ -59,7 +59,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		try {
 			tx = session.beginTransaction();
 			if (role.getRoleID() <= 0) {
-				if (getRole(role) == null)
+				if (validateRole(role) == null)
 					session.save(role);
 				else
 					throw getAMSException("The role already Exist", null);
@@ -77,6 +77,8 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		}
 		return role;
 	}
+	
+	
 
 	private boolean deleteRole(RoleENT role) throws AMSException {
 		Session session = getSession();
@@ -240,6 +242,22 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			deleteGroup(groups.get(i));
 		}
 		return true;
+	}
+
+	public RoleENT validateRole(RoleENT role) throws AMSException {
+		Query q = null;
+		try {
+			q = getSession().createQuery(
+					"from RoleENT where roleName =:name and clientID =:client");
+			q.setString("name", role.getRoleName());
+			q.setInteger("client", role.getClientID());
+			role = (RoleENT) q.uniqueResult();
+			HibernateSessionFactory.closeSession();
+		} catch (HibernateException ex) {
+			ex.printStackTrace();
+			role = null;
+		}
+		return role;
 	}
 
 }

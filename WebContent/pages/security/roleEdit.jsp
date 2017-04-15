@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@taglib prefix="ams" uri="/WEB-INF/AMSTag.tld"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -14,6 +15,7 @@
 </script>
 </head>
 <body>
+	<ams:message messageEntity="${message}"></ams:message>
 	<!-- defines the form to submit the information to the action security.do-->
 	<form id="dataFilterGridMainPage" action="security.do">
 		<!-- The reqCode which action must work with-->
@@ -30,7 +32,10 @@
 				styleClass="formField" styleId="comment" title="Comment" />
 		</div>
 		<div class="ui-block-solo">
-			<ams:dropDown dropDownItems="${clientENTs}" selectedVal="" name="clientID" title="Clients"></ams:dropDown>
+			<bean:define id="selectedValue" name="roleENT" property="clientID"
+				type="java.lang.Integer"></bean:define>
+			<ams:dropDown dropDownItems="${clientENTs}"
+				selectedVal="<%=selectedValue.toString()%>" name="clientID" title=""></ams:dropDown>
 			<div class=ui-grid-a>
 				<div class=ui-block-a>
 					<a href="#" data-role="button" data-inline="true"

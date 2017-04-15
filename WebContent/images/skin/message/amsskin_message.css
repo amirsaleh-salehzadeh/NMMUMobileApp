@@ -1,74 +1,102 @@
-@CHARSET "UTF8";
+#dialog-overlay {
 
-#messageDiv {
-	visibility: hidden;
-	z-index: 1000;
+	/* set it to fill the whil screen */
+	width:100%; 
+	height:100%;
+	
+	/* transparency for different browsers */
+	filter:alpha(opacity=50); 
+	-moz-opacity:0.5; 
+	-khtml-opacity: 0.5; 
+	opacity: 0.5; 
+	background:#000; 
+
+	/* make sure it appear behind the dialog box but above everything else */
+	position:absolute; 
+	top:0; left:0; 
+	z-index:3000; 
+
+	/* hide it by default */
+	display:none;
 }
 
-/* Rounded Tables */
-.rr_YELLOW {
-	margin: 0px;
-	padding: 0px;
-	direction: rtl;
+
+#dialog-box {
+	
+	/* css3 drop shadow */
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	
+	/* css3 border radius */
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+	
+	background:#eee;
+	/* styling of the dialog box, i have a fixed dimension for this demo */ 
+	width:328px; 
+	
+	/* make sure it has the highest z-index */
+	position:absolute; 
+	z-index:5000; 
+
+	/* hide it by default */
+	display:none;
 }
 
-/* \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
-.rr_YELLOW .rr_YELLOW_top_right {
-	background-image: url(rr_YELLOW_top_left.png);
-	background-repeat: no-repeat;
-	height: 20px;
-	width: 20px;
+#dialog-box .dialog-content {
+	/* style the content */
+	text-align:left; 
+	padding:10px; 
+	margin:13px;
+	color:#666; 
+	font-family:arial;
+	font-size:11px; 
 }
 
-.rr_YELLOW .rr_YELLOW_top_top {
-	background-image: url(rr_YELLOW_top_top.png);
-	background-repeat: repeat-x;
-	height: 20px;
-}
-
-.rr_YELLOW .rr_YELLOW_top_left {
-	background-image: url(rr_YELLOW_top_right.png);
-	background-repeat: no-repeat;
-	height: 20px;
-	width: 20px;
-}
-
-.rr_YELLOW .rr_YELLOW_right_right {
-	background-image: url(rr_YELLOW_left_left.png);
-	background-repeat: repeat-y;
-	width: 20px;
-}
-
-.rr_YELLOW .rr_YELLOW_center {
-	background-color: white;
-	background-repeat: repeat;
-}
-
-.rr_YELLOW .rr_YELLOW_left_left {
-	background-image: url(rr_YELLOW_right_right.png);
-	background-repeat: repeat-y;
-	width: 20px;
-}
-#messageContainer{
-	font-size: 18px;
+a.button {
+	/* styles for button */
+	margin:10px auto 0 auto;
+	text-align:center;
+	display: block;
+	width:50px;
+	padding: 5px 10px 6px;
+	color: #fff;
+	text-decoration: none;
 	font-weight: bold;
-}
-.rr_YELLOW .rr_YELLOW_bottom_right {
-	background-image: url(rr_YELLOW_bottom_left.png);
-	background-repeat: no-repeat;
-	height: 20px;
-	width: 20px;
+	line-height: 1;
+	
+	/* button color */
+	background-color: #e33100;
+	
+	/* css3 implementation :) */
+	/* rounded corner */
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	
+	/* drop shadow */
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	
+	/* text shaow */
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	position: relative;
+	cursor: pointer;
+	
 }
 
-.rr_YELLOW .rr_YELLOW_bottom_bottom {
-	background-image: url(rr_YELLOW_bottom_bottom.png);
-	background-repeat: repeat-x;
-	height: 20px;
+a.button:hover {
+	background-color: #c33100;	
 }
 
-.rr_YELLOW .rr_YELLOW_bottom_left {
-	background-image: url(rr_YELLOW_bottom_right.png);
-	background-repeat: no-repeat;
-	height: 20px;
-	width: 20px;
+/* extra styling */
+#dialog-box .dialog-content p {
+	font-weight:700; margin:0;
 }
+
+#dialog-box .dialog-content ul {
+	margin:10px 0 10px 20px; 
+	padding:0; 
+	height:50px;
+}
+

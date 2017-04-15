@@ -16,7 +16,7 @@ body {
 			cache : false,
 			success : function(data) {
 				$("#mainBodyContents").html(data);
-				$("#mainBodyContents").trigger("create");
+				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
 				refreshGrid();
 				return true;
@@ -24,23 +24,41 @@ body {
 		});
 	}
 	function saveTheForm() {
-		$('form#dataFilterGridMainPage').ajaxSubmit(function(data) {
-			$("#mainBodyContents").html(data);
-			$("#mainBodyContents").trigger("create");
+		var url = $("#dataFilterGridMainPage").attr("action");
+		url += "?" + $("#dataFilterGridMainPage").serialize();
+		$.ajax({
+			url : url,
+			cache : false,
+			success : function(data) {
+				$("#mainBodyContents").html(data);
+				$(document).trigger("create");
+				$(".ui-popup-active").css("display", "none");
+				refreshGrid();
+				return true;
+			}
 		});
 	}
-	function deleteAnItem(id, reqCode) {
+	function deleteAnItem(ids, reqCode) {
 		$("#reqCode").val(reqCode);
-		$("#deleteID").val(id);
-		$('form#dataFilterGridMainPage').ajaxSubmit(function(data) {
-			$("#reqCode").val("gridJson");
-			$("input.AMSpaginationBTN").each(function() {
-				if ($(this).attr('title') == $("#hiddenPage").val()) {
-					$(this).prop('disabled', true).trigger("create");
-					$(this).button("refresh");
-				}
-			});
-			refreshGrid();
+		$("#deleteID").val(ids);
+		var url = $("#dataFilterGridMainPage").attr("action");
+		url += "?" + $("#dataFilterGridMainPage").serialize();
+		$.ajax({
+			url : url,
+			cache : false,
+			success : function(data) {
+				$("#mainBodyContents").html(data);
+				$(document).trigger("create");
+				$(".ui-popup-active").css("display", "none");
+				$("input.AMSpaginationBTN").each(function() {
+					if ($(this).attr('title') == $("#hiddenPage").val()) {
+						$(this).prop('disabled', true).trigger("create");
+						$(this).button("refresh");
+					}
+				});
+				refreshGrid();
+				return true;
+			}
 		});
 	}
 	function deleteSelectedItems(reqCode) {

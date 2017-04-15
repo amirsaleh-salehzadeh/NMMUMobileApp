@@ -94,17 +94,13 @@ public class AMSMessage extends BodyTagSupport {
 		this.successMessage = successMessage;
 	}
 
-	public static void main(String[] args) {
-		AMSMessage message = new AMSMessage();
-
-		message.loadHeaderTitle();
-	}
-
 	public MessageENT getMessageEntity() {
 		return messageEntity;
 	}
 
 	public void setMessageEntity(MessageENT message) {
+		if(message == null)
+			message = new MessageENT("", "");
 		setErrorMessage(message.getError());
 		setSuccessMessage(message.getSuccess());
 		this.messageEntity = message;

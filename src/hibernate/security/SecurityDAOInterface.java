@@ -23,6 +23,7 @@ public interface SecurityDAOInterface {
 	public GroupENT getGroup(GroupENT group) throws AMSException;
 	public boolean deleteRoles(ArrayList<RoleENT> roles) throws AMSException;
 	public boolean deleteGroups(ArrayList<GroupENT> groups) throws AMSException;
+	public RoleENT validateRole(RoleENT role) throws AMSException;
 //	public RoleENT saveUserRole(RoleENT role) throws AMSException;
 //	public GroupENT saveUserGroup(GroupENT group) throws AMSException;
 //	public boolean saveGroupRole(GroupENT group) throws AMSException;

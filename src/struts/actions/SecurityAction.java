@@ -12,10 +12,8 @@ import hibernate.client.ClientDAOInterface;
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.security.SecurityDAOInterface;
 import hibernate.user.UserDAOInterface;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -24,9 +22,9 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import tools.AMSErrorHandler;
 import tools.AMSException;
 import tools.AMSUtililies;
-
 import common.MessageENT;
 import common.PopupENT;
 import common.security.RoleENT;
@@ -49,15 +47,14 @@ public class SecurityAction extends Action {
 			HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		ActionForward af = null;
-		MessageENT m = new MessageENT(success,error);
-		request.setAttribute("message", m);
+		success = "";
+		error = "";
 		reqCode = request.getParameter("reqCode");
-		error = "hiiiiiiiiiiii";
 		if (reqCode == null)
 			reqCode = "roleManagement";
 		if (reqCode.equalsIgnoreCase("deleteRole")) {
 			deleteRole(request);
-			reqCode = "gridJson";
+			reqCode = "roleManagement";
 		}
 		if (reqCode.equalsIgnoreCase("roleManagement")
 				|| reqCode.equals("gridJson")) {
@@ -84,10 +81,13 @@ public class SecurityAction extends Action {
 		RoleENT roleENT = getRoleENT(request);
 		try {
 			roleENT = getSecurityDAO().saveUpdateRole(roleENT);
-			request.setAttribute("roleENT", roleENT);
+			success = "The role '"+roleENT.getRoleName()+"' saved successfully";
 		} catch (AMSException e) {
-			e.printStackTrace();
+			error = AMSErrorHandler.handle(request, this, e, "", "");
 		}
+		request.setAttribute("roleENT", roleENT);
+		MessageENT m = new MessageENT(success,error);
+		request.setAttribute("message", m);
 		return mapping.findForward("roleEdit");
 	}
 
@@ -123,6 +123,8 @@ public class SecurityAction extends Action {
 			error = e.getMessage();
 			e.printStackTrace();
 		}
+		MessageENT m = new MessageENT(success,error);
+		request.setAttribute("message", m);
 		return mapping.findForward("roleEdit");
 	}
 
@@ -136,15 +138,19 @@ public class SecurityAction extends Action {
 		}
 		try {
 			getSecurityDAO().deleteRoles(rolesToDelete);
+			success = "The role(s) removed successfully";
 		} catch (AMSException e) {
 			e.printStackTrace();
+			error = AMSErrorHandler.handle(request, this, e, "", "");
 		}
-
+		MessageENT m = new MessageENT(success,error);
+		request.setAttribute("message", m);
 	}
 
 	private ActionForward roleManagement(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
+			
 			createMenusForRole(request);
 			// /////////////Prepare data for the list of clients in the drop
 			// down menu//////////////////
@@ -168,6 +174,8 @@ public class SecurityAction extends Action {
 			}
 			json = AMSUtililies.prepareTheJSONStringForDataTable(roleLST.getCurrentPage(), roleLST.getTotalItems(), json, "roleID");
 			request.setAttribute("json", json);
+			MessageENT m = new MessageENT(success,error);
+			request.setAttribute("message", m);
 			if (reqCode.equals("gridJson"))
 				return mapping.findForward("gridJson");
 		} catch (AMSException e) {
