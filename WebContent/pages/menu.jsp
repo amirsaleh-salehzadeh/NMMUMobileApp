@@ -1,11 +1,11 @@
 <html>
 <style type="text/css">
 body {
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-  -ms-user-select : none
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	-ms-user-select: none
 }
 </style>
 <script type="text/javascript">
@@ -92,12 +92,12 @@ body {
 			<ul>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					href="t_user.do?reqCode=userManagement"
-					data-ajax="false">User Management</a></li>
+					href="t_user.do?reqCode=userManagement" data-ajax="false">User
+						Management</a></li>
 				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
-					href="t_security.do?reqCode=roleManagement"
-					data-ajax="false">Role Management</a></li>
+					href="t_security.do?reqCode=roleManagement" data-ajax="false">Role
+						Management</a></li>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
 					href="t_security.do?reqCode=groupManagement" data-ajax="false">Group

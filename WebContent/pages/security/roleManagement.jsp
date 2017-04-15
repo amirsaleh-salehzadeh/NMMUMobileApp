@@ -35,7 +35,14 @@
 				</div>
 				<!-- 				block b containing the dropdown select option -->
 				<div class="ui-block-b">
-					<ams:dropDown dropDownItems="${clientENTs}" name="clientID" selectedVal="0" onChange="refreshGrid()" title="Client"></ams:dropDown>
+<!-- 				this tag creates a select-option with  -->
+<!-- 				1- name,  -->
+<!-- 				2- id,  -->
+<!-- 				3- selected val,  -->
+<!-- 				4- title = the first option with no value -->
+<!-- 				5- onchange javascript function -->
+<!-- 				6- an array of dropdown objects and create  -->
+					<ams:dropDown  dropDownItems="${clientENTs}" name="clientID" selectedVal="0" onChange="refreshGrid()" title="Client"></ams:dropDown>
 				</div>
 			</fieldset>
 		</div>
@@ -51,6 +58,13 @@
 				type="java.lang.Integer"></bean:define>
 			<bean:define id="totalPages" name="roleLST" property="totalPages"
 				type="java.lang.Integer"></bean:define>
+<!-- 				this tag receives ,  -->
+<!-- 				1- current page (defiend in above beans, coming from security action with the name of roleLST),  -->
+<!-- 				2- pageSize,  -->
+<!-- 				3- totalRoes,  -->
+<!-- 				4- a comma separated string including name of columns from the object -->
+<!-- 				5- an array of popup menus for the page settings -->
+<!-- 				6- an array of popup menus for each row on the grid -->
 			<ams:ajaxPaginate currentPage="<%=currentPage%>"
 				pageSize="<%=pageSize%>" totalRows="<%=totalRows%>" align="center"
 				columns="roleID,roleName,comment,clientID"

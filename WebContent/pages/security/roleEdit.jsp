@@ -26,7 +26,6 @@
 				title="Role Name" />
 			<html:hidden name="roleENT" property="roleID" styleId="roleID" />
 		</div>
-		<!-- 		a block underneath containing a text area -->
 		<div class="ui-block-solo">
 			<html:textarea name="roleENT" property="comment"
 				styleClass="formField" styleId="comment" title="Comment" />
