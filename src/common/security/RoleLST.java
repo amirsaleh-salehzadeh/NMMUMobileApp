@@ -4,15 +4,44 @@ import java.util.ArrayList;
 
 public class RoleLST {
 	ArrayList<RoleENT> roleENTs = new ArrayList<RoleENT>();
-	RoleENT searchRole = new RoleENT();
+	RoleENT searchRole;
 	private int currentPage = 0;
 	private int totalPages;
 	private int pageSize = 10;
 	private int totalItems;
 	private int first;
 	private boolean ascending = true;
-	private Boolean isDescending;
 	private String sortedByField = "roleName";
+
+	public RoleLST() {
+	}
+
+	public RoleLST(ArrayList<RoleENT> roleENTs, RoleENT searchRole,
+			int currentPage, int totalPages, int pageSize, int totalItems,
+			int first, boolean ascending,
+			String sortedByField) {
+		super();
+		this.roleENTs = roleENTs;
+		this.searchRole = searchRole;
+		this.currentPage = currentPage;
+		this.totalPages = totalPages;
+		this.pageSize = pageSize;
+		this.totalItems = totalItems;
+		this.first = first;
+		this.ascending = ascending;
+		this.sortedByField = sortedByField;
+	}
+	public RoleLST(RoleENT searchRole,
+			int currentPage, int pageSize, 
+			boolean ascending,
+			String sortedByField) {
+		super();
+		this.searchRole = searchRole;
+		this.currentPage = currentPage;
+		this.pageSize = pageSize;
+		this.ascending = ascending;
+		this.sortedByField = sortedByField;
+	}
 
 	public boolean isAscending() {
 		return ascending;
@@ -78,14 +107,6 @@ public class RoleLST {
 		} catch (Exception ex) {
 
 		}
-	}
-
-	public Boolean getIsDescending() {
-		return isDescending;
-	}
-
-	public void setIsDescending(Boolean isDescending) {
-		this.isDescending = isDescending;
 	}
 
 	public String getSortedByField() {

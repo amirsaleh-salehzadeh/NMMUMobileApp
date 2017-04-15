@@ -20,44 +20,44 @@ import tools.AMSException;
 public class LocationDAO extends BaseHibernateDAO implements
 		LocationDAOInterface {
 	public static void main(String[] args) {
-//for (int i = 3; i < 14; i++) {
-//	LocationENT location = new LocationENT();
-//	location.setAddress("address"+i);
-//	location.setArea("area"+i);
-//	location.setCell("cell"+i);
-//	location.setCountry(i);
-//	location.setEmail("email"+i);
-//	location.setFax("fax"+i);
-//	location.setGps("gps"+i);
-//	location.setLocationName("NAME"+i);
-//	location.setPostBox("pob"+i);
-//	location.setState("state"+i);
-//	location.setStreet("street"+i);
-//	location.setTel("tel"+i);
-//	location.setUserID(5);
-	LocationDAO lad = new LocationDAO();
-//	try {
-//		lad.saveUpdateLocation(location);
-//	} catch (AMSException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
-//		LocationLST lst = new LocationLST();
-//		LocationENT location = new LocationENT();
-//		location.setLocationID(1);
-//		LocationDAO lad = new LocationDAO();
-//		try {
-//			lst.setSearchKey("state");
-//			location.setCell("");
-//			location.setEmail("");
-//			lst.setSearchLocation(location);
-//			lst = lad.getLocationLST(lst);
-//			System.out.println("sss");
-//		} catch (AMSException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//}
+		// for (int i = 3; i < 14; i++) {
+		// LocationENT location = new LocationENT();
+		// location.setAddress("address"+i);
+		// location.setArea("area"+i);
+		// location.setCell("cell"+i);
+		// location.setCountry(i);
+		// location.setEmail("email"+i);
+		// location.setFax("fax"+i);
+		// location.setGps("gps"+i);
+		// location.setLocationName("NAME"+i);
+		// location.setPostBox("pob"+i);
+		// location.setState("state"+i);
+		// location.setStreet("street"+i);
+		// location.setTel("tel"+i);
+		// location.setUserID(5);
+		LocationDAO lad = new LocationDAO();
+		// try {
+		// lad.saveUpdateLocation(location);
+		// } catch (AMSException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// LocationLST lst = new LocationLST();
+		// LocationENT location = new LocationENT();
+		// location.setLocationID(1);
+		// LocationDAO lad = new LocationDAO();
+		// try {
+		// lst.setSearchKey("state");
+		// location.setCell("");
+		// location.setEmail("");
+		// lst.setSearchLocation(location);
+		// lst = lad.getLocationLST(lst);
+		// System.out.println("sss");
+		// } catch (AMSException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// }
 		ArrayList<DropDownENT> cnt = lad.getAllCountrirs();
 		System.out.println("");
 	}
@@ -92,8 +92,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 		Query q = null;
 		int userid = lst.getSearchLocation().getUserID();
 		try {
-			String query = "from LocationENT where (state like :searchKey or street like :searchKey or area like :searchKey) "
-					+ "and cell like :cell and email like :email  ";
+			String query = "from LocationENT where state like :state or street like :street or area like :area "
+					+ "or cell like :cell or email like :email  ";
 			if (userid > 0)
 				query += "and userID = " + userid;
 			query += " order by " + lst.getSortedByField();
@@ -102,7 +102,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 			else
 				query += " Desc";
 			q = getSession().createQuery(query);
-			q.setParameter("searchKey", "%" + lst.getSearchKey() + "%");
+			q.setParameter("state", "%" + lst.getSearchLocation().getState()
+					+ "%");
+			q.setParameter("street", "%" + lst.getSearchLocation().getStreet()
+					+ "%");
+			q.setParameter("area", "%" + lst.getSearchLocation().getArea()
+					+ "%");
 			q.setParameter("cell", "%" + lst.getSearchLocation().getCell()
 					+ "%");
 			q.setParameter("email", "%" + lst.getSearchLocation().getEmail()
@@ -159,11 +164,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 		try {
 			Session s = getSession4Query();
 			s.beginTransaction();
-			List<CountryENT> dropdowns = getSession4Query()
-					.createQuery(
-							"from CountryENT").list();
-			for(CountryENT dropdown : dropdowns) {
-				res.add(new DropDownENT(dropdown.getCountryID()+"", dropdown.getCountryName() + " (" + dropdown.getCountryCode() + ")", null));
+			List<CountryENT> dropdowns = getSession4Query().createQuery(
+					"from CountryENT").list();
+			for (CountryENT dropdown : dropdowns) {
+				res.add(new DropDownENT(dropdown.getCountryID() + "", dropdown
+						.getCountryName()
+						+ " ("
+						+ dropdown.getCountryCode()
+						+ ")", null));
 			}
 			// List dropDown = q.list();
 		} catch (HibernateException ex) {

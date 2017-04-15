@@ -1,6 +1,5 @@
 package common.user;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import common.location.LocationENT;
@@ -26,33 +25,57 @@ public class UserENT {
 	ArrayList<GroupENT> groupENTs = new ArrayList<GroupENT>();
 	ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
 
-	public String toString() {
-		  StringBuilder result = new StringBuilder();
-		  String newLine = System.getProperty("line.separator");
+	public UserENT(String userName, int userID, int clientID, String password,
+			String registerationDate, String name, String surName,
+			String dateOfBirth, boolean gender, boolean active,
+			EthnicENT ethnic, int ethnicID, TitleENT title, int titleID,
+			ArrayList<RoleENT> roleENTs, ArrayList<GroupENT> groupENTs,
+			ArrayList<LocationENT> locationENTs) {
+		super();
+		this.userName = userName;
+		this.userID = userID;
+		this.clientID = clientID;
+		this.password = password;
+		this.registerationDate = registerationDate;
+		this.name = name;
+		this.surName = surName;
+		this.dateOfBirth = dateOfBirth;
+		this.gender = gender;
+		this.active = active;
+		this.ethnic = ethnic;
+		this.ethnicID = ethnicID;
+		this.title = title;
+		this.titleID = titleID;
+		this.roleENTs = roleENTs;
+		this.groupENTs = groupENTs;
+		this.locationENTs = locationENTs;
+	}
 
-		  result.append( this.getClass().getName() );
-		  result.append( " Object {" );
-		  result.append(newLine);
+	public UserENT(String userName, int userID) {
+		super();
+		this.userName = userName;
+		this.userID = userID;
+	}
 
-		  //determine fields declared in this class only (no fields of superclass)
-		  Field[] fields = this.getClass().getDeclaredFields();
+	public UserENT(int userID, ArrayList<RoleENT> roleENTs,
+			ArrayList<GroupENT> groupENTs, ArrayList<LocationENT> locationENTs) {
+		super();
+		this.userID = userID;
+		this.roleENTs = roleENTs;
+		this.groupENTs = groupENTs;
+		this.locationENTs = locationENTs;
+	}
 
-		  //print field names paired with their values
-		  for ( Field field : fields  ) {
-		    result.append("  ");
-		    try {
-		      result.append( field.getName() );
-		      result.append(": ");
-		      //requires access to private field:
-		      result.append( field.get(this) );
-		    } catch ( IllegalAccessException ex ) {
-		      System.out.println(ex);
-		    }
-		    result.append(newLine);
-		  }
-		  result.append("}");
-		  return result.toString();
-		}
+	public UserENT(String userName, int userID, int clientID, String password) {
+		super();
+		this.userName = userName;
+		this.userID = userID;
+		this.clientID = clientID;
+		this.password = password;
+	}
+
+	public UserENT() {
+	}
 
 	public void setRoleENTs(ArrayList<RoleENT> roleENTs) {
 		this.roleENTs = roleENTs;

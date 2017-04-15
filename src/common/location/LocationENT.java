@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "location", catalog = "nmmumobile")
-public class LocationENT implements java.io.Serializable {
+public class LocationENT {
 
 	private long locationID;
 	private int userID;
@@ -34,10 +34,41 @@ public class LocationENT implements java.io.Serializable {
 	private String gps;
 	private String locationName;
 
+	public LocationENT() {
+	}
+	
+	public LocationENT(long locationID) {
+		super();
+		this.locationID = locationID;
+	}
+	
+	public LocationENT(long locationID, int userID, int country, String state,
+			String address, String postBox, String tel, String fax,
+			String email, String street, String area, String cell, String gps,
+			String locationName) {
+		super();
+		this.locationID = locationID;
+		this.userID = userID;
+		this.country = country;
+		this.state = state;
+		this.address = address;
+		this.postBox = postBox;
+		this.tel = tel;
+		this.fax = fax;
+		this.email = email;
+		this.street = street;
+		this.area = area;
+		this.cell = cell;
+		this.gps = gps;
+		this.locationName = locationName;
+	}
+	
+	public LocationENT(long locationID, int userID) {
+		super();
+		this.locationID = locationID;
+		this.userID = userID;
+	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "location_id", unique = true, nullable = false)
 	public long getLocationID() {
 		return this.locationID;
 	}
@@ -46,7 +77,6 @@ public class LocationENT implements java.io.Serializable {
 		this.locationID = locationID;
 	}
 
-	@Column(name = "user_id", nullable = true)
 	public int getUserID() {
 		return this.userID;
 	}
@@ -64,7 +94,6 @@ public class LocationENT implements java.io.Serializable {
 		this.country = country;
 	}
 
-	@Column(name = "state", nullable = false, length = 2000)
 	public String getState() {
 		return this.state;
 	}
@@ -73,7 +102,6 @@ public class LocationENT implements java.io.Serializable {
 		this.state = state;
 	}
 
-	@Column(name = "address", nullable = false, length = 2000)
 	public String getAddress() {
 		return this.address;
 	}
@@ -82,7 +110,6 @@ public class LocationENT implements java.io.Serializable {
 		this.address = address;
 	}
 
-	@Column(name = "post_box", nullable = false, length = 2000)
 	public String getPostBox() {
 		return this.postBox;
 	}
@@ -91,7 +118,6 @@ public class LocationENT implements java.io.Serializable {
 		this.postBox = postBox;
 	}
 
-	@Column(name = "tel", nullable = false, length = 2000)
 	public String getTel() {
 		return this.tel;
 	}
@@ -100,7 +126,6 @@ public class LocationENT implements java.io.Serializable {
 		this.tel = tel;
 	}
 
-	@Column(name = "fax", nullable = false, length = 2000)
 	public String getFax() {
 		return this.fax;
 	}
@@ -109,7 +134,6 @@ public class LocationENT implements java.io.Serializable {
 		this.fax = fax;
 	}
 
-	@Column(name = "email", nullable = false, length = 2000)
 	public String getEmail() {
 		return this.email;
 	}
@@ -118,7 +142,6 @@ public class LocationENT implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "street", nullable = false, length = 200)
 	public String getStreet() {
 		return this.street;
 	}
@@ -127,7 +150,6 @@ public class LocationENT implements java.io.Serializable {
 		this.street = street;
 	}
 
-	@Column(name = "area", nullable = false, length = 200)
 	public String getArea() {
 		return this.area;
 	}
@@ -136,7 +158,6 @@ public class LocationENT implements java.io.Serializable {
 		this.area = area;
 	}
 
-	@Column(name = "cell", nullable = false, length = 2000)
 	public String getCell() {
 		return this.cell;
 	}
@@ -145,7 +166,6 @@ public class LocationENT implements java.io.Serializable {
 		this.cell = cell;
 	}
 
-	@Column(name = "gps", nullable = false, length = 200)
 	public String getGps() {
 		return this.gps;
 	}
@@ -154,7 +174,6 @@ public class LocationENT implements java.io.Serializable {
 		this.gps = gps;
 	}
 
-	@Column(name = "location_name", nullable = false, length = 2000)
 	public String getLocationName() {
 		return this.locationName;
 	}

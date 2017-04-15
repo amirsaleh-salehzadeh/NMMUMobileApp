@@ -10,10 +10,37 @@ public class LocationLST {
 	private int pageSize = 10;
 	private int totalItems;
 	private int first;
-	private String searchKey;
 	private boolean ascending = true;
-	private Boolean isDescending;
 	private String sortedByField = "locationID";
+
+	public LocationLST(ArrayList<LocationENT> locationENTs,
+			LocationENT searchLocation, int currentPage, int totalPages,
+			int pageSize, int totalItems, int first, String searchKey,
+			boolean ascending, Boolean isDescending, String sortedByField) {
+		super();
+		this.locationENTs = locationENTs;
+		this.searchLocation = searchLocation;
+		this.currentPage = currentPage;
+		this.totalPages = totalPages;
+		this.pageSize = pageSize;
+		this.totalItems = totalItems;
+		this.first = first;
+		this.ascending = ascending;
+		this.sortedByField = sortedByField;
+	}
+
+	public LocationLST() {
+	}
+
+	public LocationLST(LocationENT searchLocation, int currentPage,
+			int pageSize, boolean ascending, String sortedByField) {
+		super();
+		this.searchLocation = searchLocation;
+		this.currentPage = currentPage;
+		this.pageSize = pageSize;
+		this.ascending = ascending;
+		this.sortedByField = sortedByField;
+	}
 
 	public ArrayList<LocationENT> getLocationENTs() {
 		return locationENTs;
@@ -21,14 +48,6 @@ public class LocationLST {
 
 	public void setLocationENTs(ArrayList<LocationENT> locationENTs) {
 		this.locationENTs = locationENTs;
-	}
-
-	public String getSearchKey() {
-		return searchKey;
-	}
-
-	public void setSearchKey(String searchKey) {
-		this.searchKey = searchKey;
 	}
 
 	public boolean isAscending() {
@@ -85,14 +104,6 @@ public class LocationLST {
 		} catch (Exception ex) {
 
 		}
-	}
-
-	public Boolean getIsDescending() {
-		return isDescending;
-	}
-
-	public void setIsDescending(Boolean isDescending) {
-		this.isDescending = isDescending;
 	}
 
 	public String getSortedByField() {

@@ -26,7 +26,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 
 	public static void main(String[] args) {
 		SecurityDAO udao = new SecurityDAO();
-		try {
+//		try {
 //
 //			for (int i = 0; i < 30; i++) {
 //				RoleENT roles = new RoleENT();
@@ -36,7 +36,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 //				udao.saveUpdateRole(roles);
 ////				System.out.println("hei");
 //			}
-			RoleLST role = udao.getRolesList(new RoleLST());
+//			RoleLST role = udao.getRolesList(new RoleLST());
 //			RoleENT role = new RoleENT();
 //			role.setRoleName("role100");
 //			role.setClientID(2);
@@ -47,10 +47,10 @@ public class SecurityDAO extends BaseHibernateDAO implements
 //			g.setSearchGroup(gs);
 //			g = udao.getGroupList(g);
 			System.out.println("done");
-		} catch (AMSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		} catch (AMSException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	public RoleENT saveUpdateRole(RoleENT role) throws AMSException {

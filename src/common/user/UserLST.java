@@ -11,8 +11,35 @@ public class UserLST {
 	private int totalItems;
 	private int first;
 	private boolean ascending = true;
-	private Boolean isDescending;
 	private String sortedByField = "userID";
+
+	public UserLST() {
+	}
+
+	public UserLST(ArrayList<UserENT> userENTs, UserENT searchUser,
+			int currentPage, int totalPages, int pageSize, int totalItems,
+			int first, boolean ascending, String sortedByField) {
+		super();
+		this.userENTs = userENTs;
+		this.searchUser = searchUser;
+		this.currentPage = currentPage;
+		this.totalPages = totalPages;
+		this.pageSize = pageSize;
+		this.totalItems = totalItems;
+		this.first = first;
+		this.ascending = ascending;
+		this.sortedByField = sortedByField;
+	}
+
+	public UserLST(UserENT searchUser, int currentPage, int pageSize,
+			boolean ascending, String sortedByField) {
+		super();
+		this.searchUser = searchUser;
+		this.currentPage = currentPage;
+		this.pageSize = pageSize;
+		this.ascending = ascending;
+		this.sortedByField = sortedByField;
+	}
 
 	public ArrayList<UserENT> getUserENTs() {
 		return userENTs;
@@ -78,14 +105,6 @@ public class UserLST {
 		} catch (Exception ex) {
 
 		}
-	}
-
-	public Boolean getIsDescending() {
-		return isDescending;
-	}
-
-	public void setIsDescending(Boolean isDescending) {
-		this.isDescending = isDescending;
 	}
 
 	public String getSortedByField() {

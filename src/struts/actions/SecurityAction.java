@@ -61,7 +61,6 @@ public class SecurityAction extends Action {
 			return roleManagement(request, mapping);
 		} else if (reqCode.equals("roleEdit")) {
 			return editRole(request, mapping, form);
-			// /////////////ROLE SAVE AND UPDATE//////////////////
 		} else if (reqCode.equals("saveUpdate")) {
 			return saveUpdateRole(request, mapping);
 		}
@@ -71,7 +70,8 @@ public class SecurityAction extends Action {
 	private ActionForward saveUpdateRole(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
-			request.setAttribute("clientENTs", getClientDAO().getClientsDropDown());
+			request.setAttribute("clientENTs", getClientDAO()
+					.getClientsDropDown());
 		} catch (AMSException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -81,12 +81,13 @@ public class SecurityAction extends Action {
 		RoleENT roleENT = getRoleENT(request);
 		try {
 			roleENT = getSecurityDAO().saveUpdateRole(roleENT);
-			success = "The role '"+roleENT.getRoleName()+"' saved successfully";
+			success = "The role '" + roleENT.getRoleName()
+					+ "' saved successfully";
 		} catch (AMSException e) {
 			error = AMSErrorHandler.handle(request, this, e, "", "");
 		}
 		request.setAttribute("roleENT", roleENT);
-		MessageENT m = new MessageENT(success,error);
+		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("roleEdit");
 	}
@@ -123,7 +124,7 @@ public class SecurityAction extends Action {
 			error = e.getMessage();
 			e.printStackTrace();
 		}
-		MessageENT m = new MessageENT(success,error);
+		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("roleEdit");
 	}
@@ -132,8 +133,7 @@ public class SecurityAction extends Action {
 		String[] delId = request.getParameter("deleteID").split(",");
 		ArrayList<RoleENT> rolesToDelete = new ArrayList<RoleENT>();
 		for (int i = 0; i < delId.length; i++) {
-			RoleENT role = new RoleENT();
-			role.setRoleID(Integer.parseInt(delId[i]));
+			RoleENT role = new RoleENT(Integer.parseInt(delId[i]));
 			rolesToDelete.add(role);
 		}
 		try {
@@ -143,18 +143,19 @@ public class SecurityAction extends Action {
 			e.printStackTrace();
 			error = AMSErrorHandler.handle(request, this, e, "", "");
 		}
-		MessageENT m = new MessageENT(success,error);
+		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 	}
 
 	private ActionForward roleManagement(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
-			
+
 			createMenusForRole(request);
 			// /////////////Prepare data for the list of clients in the drop
 			// down menu//////////////////
-			request.setAttribute("clientENTs", getClientDAO().getClientsDropDown());
+			request.setAttribute("clientENTs", getClientDAO()
+					.getClientsDropDown());
 			// /////////////Initiate a value for the page//////////////////
 			RoleLST roleLST = getRoleLST(request);
 			request.setAttribute("roleLST", roleLST);
@@ -172,9 +173,11 @@ public class SecurityAction extends Action {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			json = AMSUtililies.prepareTheJSONStringForDataTable(roleLST.getCurrentPage(), roleLST.getTotalItems(), json, "roleID");
+			json = AMSUtililies.prepareTheJSONStringForDataTable(
+					roleLST.getCurrentPage(), roleLST.getTotalItems(), json,
+					"roleID");
 			request.setAttribute("json", json);
-			MessageENT m = new MessageENT(success,error);
+			MessageENT m = new MessageENT(success, error);
 			request.setAttribute("message", m);
 			if (reqCode.equals("gridJson"))
 				return mapping.findForward("gridJson");
@@ -231,23 +234,19 @@ public class SecurityAction extends Action {
 		String search = request.getParameter("searchKey");
 		if (search == null)
 			search = "";
-		RoleENT roleENT = new RoleENT();
+
 		int pageNo = 1;
 		int pageSize = 10;
+		int clientID = 0;
 		if (request.getParameter("currentPage") != null)
 			pageNo = Integer.parseInt(request.getParameter("currentPage"));
 		if (request.getParameter("pageSize") != null)
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
-		int clientID = 0;
-		if (request.getParameter("clientID") != null && !request.getParameter("clientID").equals(""))
+		if (request.getParameter("clientID") != null
+				&& !request.getParameter("clientID").equals(""))
 			clientID = Integer.parseInt(request.getParameter("clientID"));
-		roleENT.setClientID(clientID);
-		roleENT.setComment(search);
-		roleENT.setRoleName(search);
-		RoleLST roleLST = new RoleLST();
-		roleLST.setPageSize(pageSize);
-		roleLST.setSearchRole(roleENT);
-		roleLST.setCurrentPage(pageNo);
+		RoleENT roleENT = new RoleENT(0,search,clientID,"",search);
+		RoleLST roleLST = new RoleLST(roleENT,pageNo,pageSize,true,"roleName");
 		try {
 			roleLST = getSecurityDAO().getRolesList(roleLST);
 		} catch (AMSException e) {

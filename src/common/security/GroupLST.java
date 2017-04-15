@@ -11,8 +11,36 @@ public class GroupLST {
 	private int totalItems;
 	private int first;
 	private boolean ascending = true;
-	private Boolean isDescending;
 	private String sortedByField = "groupName";
+
+	public GroupLST(ArrayList<GroupENT> groupENTs, GroupENT searchGroup,
+			int currentPage, int totalPages, int pageSize, int totalItems,
+			int first, boolean ascending, String sortedByField) {
+		super();
+		this.groupENTs = groupENTs;
+		this.searchGroup = searchGroup;
+		this.currentPage = currentPage;
+		this.totalPages = totalPages;
+		this.pageSize = pageSize;
+		this.totalItems = totalItems;
+		this.first = first;
+		this.ascending = ascending;
+		this.sortedByField = sortedByField;
+	}
+
+	public GroupLST(GroupENT searchGroup, int currentPage, int totalPages,
+			int pageSize, boolean ascending, String sortedByField) {
+		super();
+		this.searchGroup = searchGroup;
+		this.currentPage = currentPage;
+		this.totalPages = totalPages;
+		this.pageSize = pageSize;
+		this.ascending = ascending;
+		this.sortedByField = sortedByField;
+	}
+
+	public GroupLST() {
+	}
 
 	public boolean isAscending() {
 		return ascending;
@@ -70,14 +98,6 @@ public class GroupLST {
 		} catch (Exception ex) {
 
 		}
-	}
-
-	public Boolean getIsDescending() {
-		return isDescending;
-	}
-
-	public void setIsDescending(Boolean isDescending) {
-		this.isDescending = isDescending;
 	}
 
 	public String getSortedByField() {
