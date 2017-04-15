@@ -6,29 +6,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$(".formField").each(function() {
-			$(this).attr("placeholder", $(this).attr("title"));
-		});
-	});
-</script>
 </head>
 <body>
 	<ams:message messageEntity="${message}"></ams:message>
-	<!-- defines the form to submit the information to the action security.do-->
+	<!-- defines the form to submit the information to the action security.do >>>>>> DONT CHANGE THE ID-->
 	<form id="dataFilterGridMainPage" action="security.do">
 		<!-- The reqCode which action must work with-->
 		<input type="hidden" name="reqCode" value="saveUpdate">
 		<!-- Formatting and putting the text fields in the page-->
 		<div class="ui-block-solo">
-			<html:text name="roleENT" property="roleName" styleClass="formField"
-				title="Role Name" />
+			<html:text name="roleENT" property="roleName" title="Role Name" />
 			<html:hidden name="roleENT" property="roleID" styleId="roleID" />
 		</div>
 		<div class="ui-block-solo">
-			<html:textarea name="roleENT" property="comment"
-				styleClass="formField" styleId="comment" title="Comment" />
+			<html:textarea name="roleENT" property="comment" styleId="comment"
+				title="Comment" />
 		</div>
 		<div class="ui-block-solo">
 			<bean:define id="selectedValue" name="roleENT" property="clientID"

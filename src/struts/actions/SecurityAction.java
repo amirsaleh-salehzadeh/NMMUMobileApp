@@ -231,10 +231,9 @@ public class SecurityAction extends Action {
 	// instantiated from class RoleLST. There are some information with regard
 	// to pagination and filtering the grid
 	private RoleLST getRoleLST(HttpServletRequest request) {
-		String search = request.getParameter("searchKey");
+		String search = request.getParameter("searchRole.roleName");
 		if (search == null)
 			search = "";
-
 		int pageNo = 1;
 		int pageSize = 10;
 		int clientID = 0;

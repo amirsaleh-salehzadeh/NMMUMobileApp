@@ -9,6 +9,14 @@ body {
 }
 </style>
 <script type="text/javascript">
+	function refreshPlaceHolders() {
+		$('input[type=text]').each(function(){
+			$(this).attr("placeholder", $(this).attr("title"));
+		});
+		$('textarea').each(function(){
+			$(this).attr("placeholder", $(this).attr("title"));
+		});
+	}
 	function callAnAction(url) {
 		$('#gridMenuSetting').popup("destroy");
 		$.ajax({
@@ -18,6 +26,7 @@ body {
 				$("#mainBodyContents").html(data);
 				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
+				refreshPlaceHolders();
 				refreshGrid();
 				return true;
 			}
@@ -33,6 +42,7 @@ body {
 				$("#mainBodyContents").html(data);
 				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
+				refreshPlaceHolders();
 				refreshGrid();
 				return true;
 			}
@@ -56,6 +66,7 @@ body {
 						$(this).button("refresh");
 					}
 				});
+				refreshPlaceHolders();
 				refreshGrid();
 				return true;
 			}
