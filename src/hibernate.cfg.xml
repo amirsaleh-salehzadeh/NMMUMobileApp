@@ -29,6 +29,7 @@
 		<mapping resource="common/user/UserENT.hbm.xml" class="common.user.UserENT" />
 		<mapping resource="common/user/UserPassword.hbm.xml" class="common.user.UserPasswordENT" />
 		<mapping resource="common/client/ClientENT.hbm.xml" class="common.client.ClientENT" />
-		<mapping resource="common/location/LocationENT.hbm.xml" class="common.client.ClientENT" />
+		<mapping resource="common/location/LocationENT.hbm.xml" class="common.location.LocationENT" />
+		<mapping resource="common/location/CountryENT.hbm.xml" class="common.location.CountryENT" />
 	</session-factory>
 </hibernate-configuration>

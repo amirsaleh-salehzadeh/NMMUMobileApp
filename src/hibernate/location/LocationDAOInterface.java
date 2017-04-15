@@ -1,5 +1,8 @@
 package hibernate.location;
 
+import java.util.ArrayList;
+
+import common.DropDownENT;
 import common.location.LocationENT;
 import common.location.LocationLST;
 import common.user.UserENT;
@@ -12,5 +15,6 @@ public interface LocationDAOInterface {
 	public LocationLST getLocationLST(LocationLST lst) throws AMSException;
 	public LocationENT getLocationENT(LocationENT ent) throws AMSException;
 	public boolean deleteLocation(LocationENT ent) throws AMSException;
+	public ArrayList<DropDownENT> getAllCountrirs();
 	//activate user
 }
