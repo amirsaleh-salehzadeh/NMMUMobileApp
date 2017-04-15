@@ -3,12 +3,14 @@ package hibernate.user;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import common.DropDownENT;
 import common.client.ClientENT;
 import common.security.RoleENT;
 import common.user.EthnicENT;
@@ -49,6 +51,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 
 		UserLST l = new UserLST();
 		UserENT us = new UserENT();
+		ArrayList<DropDownENT> ad = udao.getTitlesDropDown();
 		System.out.println(us.toString());
 		// l.setSearchUser(us);
 		// udao.deleteUser(us);
@@ -205,5 +208,45 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		}
 		return user;
 	}
+
+	public ArrayList<DropDownENT> getTitlesDropDown() {
+		Query q = null;
+		ArrayList<DropDownENT> res = new ArrayList<DropDownENT>();
+		try {
+			Session s = getSession4Query();
+			s.beginTransaction();
+			List<TitleENT> dropdowns = getSession4Query()
+					.createQuery(
+							"from TitleENT").list();
+			for(TitleENT dropdown : dropdowns) {
+				res.add(new DropDownENT(dropdown.getTitleID()+"", dropdown.getTitle(), null));
+			}
+			// List dropDown = q.list();
+		} catch (HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return res;
+	}
+
+	public ArrayList<DropDownENT> getEthnicsDropDown() {
+		Query q = null;
+		ArrayList<DropDownENT> res = new ArrayList<DropDownENT>();
+		try {
+			Session s = getSession4Query();
+			s.beginTransaction();
+			List<EthnicENT> dropdowns = getSession4Query()
+					.createQuery(
+							"from EthnicENT").list();
+			for(EthnicENT dropdown : dropdowns) {
+				res.add(new DropDownENT(dropdown.getEthnicID()+"", dropdown.getEthnic(), null));
+			}
+			// List dropDown = q.list();
+		} catch (HibernateException ex) {
+			ex.printStackTrace();
+		}
+		return res;
+	}
+	
+	
 
 }

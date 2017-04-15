@@ -2,6 +2,7 @@ package hibernate.user;
 
 import java.util.ArrayList;
 
+import common.DropDownENT;
 import common.user.EthnicENT;
 import common.user.TitleENT;
 import common.user.UserENT;
@@ -18,5 +19,7 @@ public interface UserDAOInterface {
 	public ArrayList<TitleENT> getAllTitles() throws AMSException;
 	public EthnicENT getEthnic(int ethnicID) throws AMSException;
 	public TitleENT getTitle(int titleID) throws AMSException;
+	public ArrayList<DropDownENT> getTitlesDropDown();
+	public ArrayList<DropDownENT> getEthnicsDropDown();
 	//activate user
 }
