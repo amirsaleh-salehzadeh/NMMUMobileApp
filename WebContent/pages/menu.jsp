@@ -10,10 +10,10 @@ body {
 </style>
 <script type="text/javascript">
 	function refreshPlaceHolders() {
-		$('input[type=text]').each(function(){
+		$('input[type=text]').each(function() {
 			$(this).attr("placeholder", $(this).attr("title"));
 		});
-		$('textarea').each(function(){
+		$('textarea').each(function() {
 			$(this).attr("placeholder", $(this).attr("title"));
 		});
 	}
@@ -48,9 +48,12 @@ body {
 			}
 		});
 	}
-	function deleteAnItem(ids, reqCode) {
+	function deleteAnItem(id, reqCode) {
 		$("#reqCode").val(reqCode);
-		$("#deleteID").val(ids);
+		$("#deleteID").val(id);
+		showPopupDialogDeleteConfirmation(reqCode);
+	}
+	function deleteConfirmed() {
 		var url = $("#dataFilterGridMainPage").attr("action");
 		url += "?" + $("#dataFilterGridMainPage").serialize();
 		$.ajax({
@@ -60,23 +63,31 @@ body {
 				$("#mainBodyContents").html(data);
 				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
-				$("input.AMSpaginationBTN").each(function() {
-					if ($(this).attr('title') == $("#hiddenPage").val()) {
-						$(this).prop('disabled', true).trigger("create");
-						$(this).button("refresh");
-					}
-				});
+				// 				$("input.AMSpaginationBTN").each(function() {
+				// 					if ($(this).attr('title') == $("#hiddenPage").val()) {
+				// 						$(this).prop('disabled', true).trigger("create");
+				// 						$(this).button("refresh");
+				// 					}
+				// 				});
 				refreshPlaceHolders();
-				refreshGrid();
+				// 				refreshGrid();
 				return true;
 			}
 		});
 	}
+
 	function deleteSelectedItems(reqCode) {
+		$("#tempReqCode").val(reqCode);
 		var ids = $('.gridCheckBoxes:checked').map(function() {
 			return $(this).attr("id");
 		}).get().join(',');
 		deleteAnItem(ids, reqCode);
+	}
+
+	function showPopupDialogDeleteConfirmation(reqCode) {
+		$.mobile.changePage("#popupDialogDeleteConfirmation");
+		$("#popupDialogDeleteConfirmation").trigger("create");
+		$("#popupDialogDeleteConfirmation").popup("open");
 	}
 </script>
 <div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'
@@ -119,4 +130,20 @@ body {
 	<li data-filtertext="introduction overview getting started"><a
 		href="../intro/" data-ajax="false">Location</a></li>
 </ul>
+<div data-role="popup" id="popupDialogDeleteConfirmation"
+	data-overlay-theme="b" data-theme="a" data-dismissible="false"
+	style="max-width: 400px;" class="ui-corner-all">
+	<div data-role="header" data-theme="b" class="ui-corner-top">
+		<h1>Delete Item ?</h1>
+	</div>
+	<div data-role="content" data-theme="d"
+		class="ui-corner-bottom ui-content">
+		<h3 class="ui-title">Are you sure you want to delete this Item ?</h3>
+		<p>This action cannot be undone.</p>
+		<a href="#" data-role="button" data-inline="true" data-rel="back"
+			data-theme="c">Cancel</a> <a href="#" data-role="button"
+			data-inline="true" data-rel="back" data-transition="flow"
+			data-theme="b" rel="external" onclick="deleteConfirmed();">Delete</a>
+	</div>
+</div>
 </html>

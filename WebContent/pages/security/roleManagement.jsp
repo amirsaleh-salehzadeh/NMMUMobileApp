@@ -22,7 +22,7 @@
 	<form id="dataFilterGridMainPage" action="security.do">
 		<ams:message messageEntity="${message}"></ams:message>
 		<!-- 	indicates the reqCode to show the grid-->
-		<input type="hidden" name="reqCode" id="reqCode" value="gridJson">
+		<input type="hidden" name="reqCode" id="reqCode" value="roleManagement">
 		<!-- 		creates a div containing our search filters ..... keep the id same searchFilters >>>>>>>>>>> keep this id the same-->
 		<div class="ui-grid-a" id="searchFilters">
 			<!-- 		one horizontal column containing block a and b 
@@ -43,8 +43,9 @@
 					<!-- 				4- title = the first option with no value -->
 					<!-- 				5- onchange javascript function -->
 					<!-- 				6- an array of dropdown objects and create  -->
+					<bean:define id="clientIdSelectedVal" name="roleLST" property="searchRole.clientID"></bean:define>
 					<ams:dropDown dropDownItems="${clientENTs}" name="clientID"
-						selectedVal="0" onChange="refreshGrid()" title="Client"></ams:dropDown>
+						selectedVal="<%=clientIdSelectedVal.toString() %>" onChange="refreshGrid()" title="Client"></ams:dropDown>
 				</div>
 			</fieldset>
 		</div>

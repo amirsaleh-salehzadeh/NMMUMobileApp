@@ -28,14 +28,19 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		SecurityDAO udao = new SecurityDAO();
 //		try {
 //
-//			for (int i = 0; i < 30; i++) {
-//				RoleENT roles = new RoleENT();
-//				roles.setComment("commeneeet" + i);
-//				roles.setRoleName("roleeddde" + i);
-//				roles.setClientID(3);
-//				udao.saveUpdateRole(roles);
-////				System.out.println("hei");
-//			}
+			for (int i = 0; i < 30; i++) {
+				RoleENT roles = new RoleENT();
+				roles.setComment("commeneeet" + i);
+				roles.setRoleName("roleeddde" + i);
+				roles.setClientID(1);
+				try {
+					udao.saveUpdateRole(roles);
+				} catch (AMSException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+//				System.out.println("hei");
+			}
 //			RoleLST role = udao.getRolesList(new RoleLST());
 //			RoleENT role = new RoleENT();
 //			role.setRoleName("role100");

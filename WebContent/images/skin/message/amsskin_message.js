@@ -13,7 +13,6 @@ $(document).ready(function() {
 		$("dialog-content").html("");
 		return false;
 	});
-
 	$(window).resize(function() {
 		if (!$('#dialog-box').is(':hidden'))
 			popup();

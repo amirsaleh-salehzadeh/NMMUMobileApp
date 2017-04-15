@@ -143,8 +143,6 @@ public class SecurityAction extends Action {
 			e.printStackTrace();
 			error = AMSErrorHandler.handle(request, this, e, "", "");
 		}
-		MessageENT m = new MessageENT(success, error);
-		request.setAttribute("message", m);
 	}
 
 	private ActionForward roleManagement(HttpServletRequest request,
@@ -177,8 +175,6 @@ public class SecurityAction extends Action {
 					roleLST.getCurrentPage(), roleLST.getTotalItems(), json,
 					"roleID");
 			request.setAttribute("json", json);
-			MessageENT m = new MessageENT(success, error);
-			request.setAttribute("message", m);
 			if (reqCode.equals("gridJson"))
 				return mapping.findForward("gridJson");
 		} catch (AMSException e) {
@@ -186,6 +182,8 @@ public class SecurityAction extends Action {
 		}
 		// /////////////forward the action to pages >>> see
 		// struts.config.xml for more info//////////////////
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
 		return mapping.findForward("roleManagement");
 	}
 
@@ -196,7 +194,7 @@ public class SecurityAction extends Action {
 		popupEnts.add(new PopupENT("",
 				"callAnAction(\"security.do?reqCode=roleEdit\");", "New Role",
 				"#"));
-		popupEnts.add(new PopupENT("", "deleteSelectedItems();",
+		popupEnts.add(new PopupENT("", "deleteSelectedItems(\"deleteRole\");",
 				"Delete Selected", "#"));
 		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
 		popupGridEnts

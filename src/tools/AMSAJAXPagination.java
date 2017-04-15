@@ -174,8 +174,9 @@ public class AMSAJAXPagination extends BodyTagSupport {
 			int count = totalRows / pageSize;
 			if (totalRows % pageSize != 0)
 				count += 1;
-			str = "<input type='range' onchange='refreshGrid();' name='currentPage' id='sliderPagination' value='"
-					+ currentPage + "' min='1' max='" + count + "'>";
+			if (totalRows > pageSize)
+				str = "<input type='range' onchange='refreshGrid();' name='currentPage' id='sliderPagination' value='"
+						+ currentPage + "' min='1' max='" + count + "'>";
 		}
 		return str;
 	}
@@ -272,9 +273,11 @@ public class AMSAJAXPagination extends BodyTagSupport {
 		}
 		return str;
 	}
-//	<a href='#gridMenuSetting' data-rel='popup' id='mainBodyMenuSettingBTN' "
-//			+ "class='ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear ui-nodisc-icon ui-alt-icon"
-//			+ " ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-a'>&nbsp;</a> 
+
+	// <a href='#gridMenuSetting' data-rel='popup' id='mainBodyMenuSettingBTN' "
+	// +
+	// "class='ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear ui-nodisc-icon ui-alt-icon"
+	// + " ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-a'>&nbsp;</a>
 	private String createGridSettingPopup(List<PopupENT> items) {
 		ArrayList<PopupENT> temp = (ArrayList<PopupENT>) items;
 		String str = "";

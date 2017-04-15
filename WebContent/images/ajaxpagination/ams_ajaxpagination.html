@@ -20,6 +20,7 @@ function displaySearch() {
 }
 function refreshGrid() {
 	var url = $("#dataFilterGridMainPage").attr("action");
+	$("#reqCode").val("gridJson");
 	url += "?" + $("#dataFilterGridMainPage").serialize();
 	$('#gridList')
 			.dataTable(
@@ -49,6 +50,9 @@ function refreshGrid() {
 						initComplete : function(settings, json) {
 							$('#[POPUPID]').trigger("create");
 							$('#paginationContainerDiv').trigger("create");
+							$('input.gridCheckBoxes').each(function(){
+								$(this).attr('id',$(this).parent().parent().parent().attr('id'));
+							});
 						}
 					});
 	(function($){
