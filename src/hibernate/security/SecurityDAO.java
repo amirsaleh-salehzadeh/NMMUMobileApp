@@ -108,10 +108,12 @@ public class SecurityDAO extends BaseHibernateDAO implements
 	public RoleENT getRole(RoleENT role) throws AMSException {
 		Query q = null;
 		try {
-			q = getSession().createQuery(
+			Session session = getSession();
+			q = session.createQuery(
 					"from RoleENT where roleID =:Id");
 			q.setInteger("Id", role.getRoleID());
 			role = (RoleENT) q.uniqueResult();
+			session.close();
 			HibernateSessionFactory.closeSession();
 		} catch (HibernateException ex) {
 			ex.printStackTrace();
