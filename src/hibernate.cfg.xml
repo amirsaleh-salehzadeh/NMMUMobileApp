@@ -10,12 +10,12 @@
 		<property name="hibernate.connection.username">root</property>
 				<property name="">root</property>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.c3p0.min_size">5</property>
-		<property name="hibernate.c3p0.max_size">90</property>
-		<property name="hibernate.c3p0.max_statements">500</property>
-		<property name="hibernate.c3p0.timeout">25200</property>
-		<property name="hibernate.c3p0.preferredTestQuery">select 1;</property>
-		<property name="hibernate.c3p0.idle_test_period">14400</property>
+<!-- 		<property name="hibernate.c3p0.min_size">5</property> -->
+<!-- 		<property name="hibernate.c3p0.max_size">90</property> -->
+<!-- 		<property name="hibernate.c3p0.max_statements">500</property> -->
+<!-- 		<property name="hibernate.c3p0.timeout">25200</property> -->
+<!-- 		<property name="hibernate.c3p0.preferredTestQuery">select 1;</property> -->
+<!-- 		<property name="hibernate.c3p0.idle_test_period">14400</property> -->
 		<property name="hibernate.transaction.factory_class">
 			org.hibernate.transaction.JDBCTransactionFactory
 		</property>

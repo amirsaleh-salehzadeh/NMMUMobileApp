@@ -150,8 +150,6 @@ public class AMSAJAXPagination extends BodyTagSupport {
 					createSettingPopup(this.popupMenuSettingItems));
 			sb = AMSUtililies.replace(sb, "[GRIDPOPUP]",
 					createGridSettingPopup(this.popupGridSettingItems));
-			sb = AMSUtililies.replace(sb, "[ALIGN]", getAlign());
-			sb = AMSUtililies.replace(sb, "[CURRENTPAGE]", currentPage + "");
 			sb = AMSUtililies.replace(sb, "[POPUPID]", this.popupID);
 			String columnsVar = "[";
 			for (int i = 0; i < columns.split(",").length; i++) {

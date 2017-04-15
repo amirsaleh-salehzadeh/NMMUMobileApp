@@ -1,6 +1,16 @@
 <html>
+<style type="text/css">
+body {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -ms-user-select : none
+}
+</style>
 <script type="text/javascript">
 	function callAnAction(url) {
+		$('#gridMenuSetting').popup("destroy");
 		$.ajax({
 			url : url,
 			cache : false,
@@ -8,7 +18,7 @@
 				$("#mainBodyContents").html(data);
 				$("#mainBodyContents").trigger("create");
 				$(".ui-popup-active").css("display", "none");
-				refeshGrid();
+				refreshGrid();
 				return true;
 			}
 		});

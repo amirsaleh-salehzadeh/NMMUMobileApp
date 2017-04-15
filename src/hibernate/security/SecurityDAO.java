@@ -114,7 +114,6 @@ public class SecurityDAO extends BaseHibernateDAO implements
 	}
 
 	public RoleLST getRolesList(RoleLST roleLST) throws AMSException {
-		ArrayList<RoleENT> roleENTs = new ArrayList<RoleENT>();
 		Query q = null;
 		int clientid = roleLST.getSearchRole().getClientID();
 		try {

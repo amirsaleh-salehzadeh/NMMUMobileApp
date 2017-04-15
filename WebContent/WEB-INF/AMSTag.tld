@@ -7,11 +7,47 @@
  <short-name>AMSTag</short-name>
  <uri>AMSTag</uri>
  <display-name>AMSTag</display-name>
- <!-- Forte4J_TLDX:  This comment contains code generation information. Do not delete.
-    <tldx>
-        <tagHandlerGenerationRoot>.\classes</tagHandlerGenerationRoot>
-    </tldx>
-    -->
+<tag>
+	<name>dropDown</name>
+	<tag-class>tools.AMSDropDown</tag-class>
+	<body-content>JSP</body-content>
+	<attribute>
+		<name>selectedVal</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.String</type>
+		<description>selected value or ID</description>
+	</attribute>
+	<attribute>
+		<name>name</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.String</type>
+		<description>Name of the select option</description>
+	</attribute>
+	<attribute>
+		<name>title</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.String</type>
+		<description>a title option with empty value</description>
+	</attribute>
+	<attribute>
+		<name>onChange</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.String</type>
+		<description>onChange JavaScript function</description>
+	</attribute>
+	<attribute>
+		<name>id</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.String</type>
+		<description>select option id</description>
+	</attribute>
+	<attribute>
+		<name>dropDownItems</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.util.List</type>
+		<description>Items in the dropDown</description>
+	</attribute>
+</tag>
 <tag>
 	<name>ajaxPaginate</name>
 	<tag-class>tools.AMSAJAXPagination</tag-class>
@@ -67,18 +103,12 @@
 </tag>
 <tag>
 	<name>message</name>
-	<tag-class>mic.crm.tools.AMSMessage</tag-class>
+	<tag-class>tools.AMSMessage</tag-class>
 	<body-content>JSP</body-content>
 	<attribute>
-		<name>errorMessage</name>
+		<name>messageEntity</name>
 		<rtexprvalue>true</rtexprvalue>
-		<type>java.lang.String</type>
-		<description></description>
-	</attribute>
-	<attribute>
-		<name>successMessage</name>
-		<rtexprvalue>true</rtexprvalue>
-		<type>java.lang.String</type>
+		<type>common.MessageENT</type>
 		<description></description>
 	</attribute>
 </tag>
