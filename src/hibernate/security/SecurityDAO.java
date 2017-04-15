@@ -133,7 +133,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			q.setFirstResult(roleLST.getFirst());
 			q.setMaxResults(roleLST.getPageSize());
 			ArrayList<RoleENT> result = (ArrayList<RoleENT>) q.list();
-			roleLST.setRoleENTs(roleENTs);
+			roleLST.setRoleENTs(result);
 			HibernateSessionFactory.closeSession();
 		} catch (HibernateException ex) {
 			ex.printStackTrace();
