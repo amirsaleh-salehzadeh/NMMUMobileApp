@@ -15,4 +15,14 @@
 		<put name="body" value="/security.do" />
 	</definition>
 	
+	<definition name="page.user" extends="baseLayout">
+		<put name="title" value="User Page" />
+		<put name="body" value="/user.do" />
+	</definition>
+	
+	<definition name="page.user" extends="baseLayout">
+		<put name="title" value="Location Page" />
+		<put name="body" value="/location.do" />
+	</definition>
+	
 </tiles-definitions>
