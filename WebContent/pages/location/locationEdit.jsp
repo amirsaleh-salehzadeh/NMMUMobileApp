@@ -33,6 +33,7 @@
 				</logic:iterate>
 			</select>
 		</div>
+<!-- 		http://demos.jquerymobile.com/1.4.5/listview-autocomplete-remote/#&ui-state=dialog -->
 		<div class=ui-grid-a>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" data-inline="true" data-icon="delete"
