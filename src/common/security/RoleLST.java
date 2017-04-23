@@ -31,8 +31,8 @@ public class RoleLST {
 		this.ascending = ascending;
 		this.sortedByField = sortedByField;
 	}
-	public RoleLST(RoleENT searchRole,
-			int currentPage, int pageSize, 
+	
+	public RoleLST(RoleENT searchRole, int currentPage, int pageSize, 
 			boolean ascending,
 			String sortedByField) {
 		super();
