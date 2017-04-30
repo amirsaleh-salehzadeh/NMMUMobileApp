@@ -20,7 +20,7 @@ function displaySearch() {
 }
 function refreshGrid() {
 	var url = $("#dataFilterGridMainPage").attr("action");
-	$("#reqCode").val("gridJson");
+	$("#reqCodeGrid").val("gridJson");
 	url += "?" + $("#dataFilterGridMainPage").serialize();
 	$('#gridList')
 			.dataTable(

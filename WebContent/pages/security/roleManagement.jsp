@@ -23,6 +23,7 @@
 		<ams:message messageEntity="${message}"></ams:message>
 		<!-- 	indicates the reqCode to show the grid-->
 		<input type="hidden" name="reqCode" id="reqCode" value="roleManagement">
+		<input type="hidden" name="reqCodeGrid" id="reqCodeGrid" value="">
 		<!-- 		creates a div containing our search filters ..... keep the id same searchFilters >>>>>>>>>>> keep this id the same-->
 		<div class="ui-grid-a" id="searchFilters">
 			<!-- 		one horizontal column containing block a and b 

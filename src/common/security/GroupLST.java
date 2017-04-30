@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class GroupLST {
 	ArrayList<GroupENT> groupENTs = new ArrayList<GroupENT>();
-	GroupENT searchGroup = new GroupENT();
+	GroupENT searchGroup ;
 	private int currentPage = 0;
 	private int totalPages;
 	private int pageSize = 10;
@@ -13,9 +13,13 @@ public class GroupLST {
 	private boolean ascending = true;
 	private String sortedByField = "groupName";
 
+	public GroupLST() {
+	}
+	
 	public GroupLST(ArrayList<GroupENT> groupENTs, GroupENT searchGroup,
 			int currentPage, int totalPages, int pageSize, int totalItems,
-			int first, boolean ascending, String sortedByField) {
+			int first, boolean ascending, 
+			String sortedByField) {
 		super();
 		this.groupENTs = groupENTs;
 		this.searchGroup = searchGroup;
@@ -28,18 +32,15 @@ public class GroupLST {
 		this.sortedByField = sortedByField;
 	}
 
-	public GroupLST(GroupENT searchGroup, int currentPage, int totalPages,
-			int pageSize, boolean ascending, String sortedByField) {
+	public GroupLST(GroupENT searchGroup, int currentPage, int pageSize, 
+			boolean ascending,
+			String sortedByField) {
 		super();
 		this.searchGroup = searchGroup;
 		this.currentPage = currentPage;
-		this.totalPages = totalPages;
 		this.pageSize = pageSize;
 		this.ascending = ascending;
 		this.sortedByField = sortedByField;
-	}
-
-	public GroupLST() {
 	}
 
 	public boolean isAscending() {
@@ -52,6 +53,14 @@ public class GroupLST {
 
 	public int getCurrentPage() {
 		return currentPage;
+	}
+	
+	public GroupENT getSearchGroup() {
+		return searchGroup;
+	}
+	
+	public void setSearchGroup(GroupENT searchGroup) {
+		this.searchGroup = searchGroup;
 	}
 
 	public void setCurrentPage(int currentPage) {
@@ -130,14 +139,6 @@ public class GroupLST {
 
 	public void setGroupENTs(ArrayList<GroupENT> groupENTs) {
 		this.groupENTs = groupENTs;
-	}
-
-	public GroupENT getSearchGroup() {
-		return searchGroup;
-	}
-
-	public void setSearchGroup(GroupENT searchGroup) {
-		this.searchGroup = searchGroup;
 	}
 
 }
