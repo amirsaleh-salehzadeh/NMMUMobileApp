@@ -247,6 +247,11 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		return res;
 	}
 	
-	
+	public boolean deleteUsers(ArrayList<UserENT> users) throws AMSException {
+		for (int i = 0; i < users.size(); i++) {
+			deleteUser(users.get(i));
+		}
+		return true;
+	}
 
 }
