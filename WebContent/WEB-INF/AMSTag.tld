@@ -7,54 +7,45 @@
  <short-name>AMSTag</short-name>
  <uri>AMSTag</uri>
  <display-name>AMSTag</display-name>
- <!-- Forte4J_TLDX:  This comment contains code generation information. Do not delete.
-    <tldx>
-        <tagHandlerGenerationRoot>.\classes</tagHandlerGenerationRoot>
-    </tldx>
-    -->
- <tag>
-  <name>skin</name>
-  <tag-class>aip.tag.skin.AIPSkin</tag-class>
-  <body-content>JSP</body-content>
-  <attribute>
-   <name>type</name>
-   <rtexprvalue>true</rtexprvalue>
-   <type>java.lang.String</type>
-   <description>BODY|HEAD|DROPDOWN|ITEM|TREE|LIST|DIALOGVIEW|DIALOGSAVE</description>
-  </attribute>
-  <attribute>
-   <name>title</name>
-   <rtexprvalue>true</rtexprvalue>
-   <type>java.lang.String</type>
-  </attribute>
- </tag>
 <tag>
-	<name>paginate</name>
-	<tag-class>mic.crm.tools.AMSPagination</tag-class>
+	<name>dropDown</name>
+	<tag-class>tools.AMSDropDown</tag-class>
 	<body-content>JSP</body-content>
 	<attribute>
-		<name>align</name>
+		<name>selectedVal</name>
 		<rtexprvalue>true</rtexprvalue>
 		<type>java.lang.String</type>
-		<description>alignment</description>
+		<description>selected value or ID</description>
 	</attribute>
 	<attribute>
-		<name>totalRows</name>
+		<name>name</name>
 		<rtexprvalue>true</rtexprvalue>
-		<type>java.lang.Integer</type>
-		<description>Total rows that should be paginated</description>
+		<type>java.lang.String</type>
+		<description>Name of the select option</description>
 	</attribute>
 	<attribute>
-		<name>currentPage</name>
+		<name>title</name>
 		<rtexprvalue>true</rtexprvalue>
-		<type>java.lang.Integer</type>
-		<description>The current page</description>
+		<type>java.lang.String</type>
+		<description>a title option with empty value</description>
 	</attribute>
 	<attribute>
-		<name>pageSize</name>
+		<name>onChange</name>
 		<rtexprvalue>true</rtexprvalue>
-		<type>java.lang.Integer</type>
-		<description>The number of results that must be shown in the current page</description>
+		<type>java.lang.String</type>
+		<description>onChange JavaScript function</description>
+	</attribute>
+	<attribute>
+		<name>id</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.String</type>
+		<description>select option id</description>
+	</attribute>
+	<attribute>
+		<name>dropDownItems</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.util.List</type>
+		<description>Items in the dropDown</description>
 	</attribute>
 </tag>
 <tag>
@@ -85,21 +76,39 @@
 		<type>java.lang.Integer</type>
 		<description>The number of results that must be shown in the current page</description>
 	</attribute>
+	<attribute>
+		<name>columns</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.String</type>
+		<description>Comma separate columns</description>
+	</attribute>
+	<attribute>
+		<name>popupID</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.lang.String</type>
+		<description>ID of the popup menu</description>
+	</attribute>
+	<attribute>
+		<name>popupMenuSettingItems</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.util.List</type>
+		<description>Items in the pop-up menu</description>
+	</attribute>
+	<attribute>
+		<name>popupGridSettingItems</name>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.util.List</type>
+		<description>Items in the pop-up menu</description>
+	</attribute>
 </tag>
 <tag>
 	<name>message</name>
-	<tag-class>mic.crm.tools.AMSMessage</tag-class>
+	<tag-class>tools.AMSMessage</tag-class>
 	<body-content>JSP</body-content>
 	<attribute>
-		<name>errorMessage</name>
+		<name>messageEntity</name>
 		<rtexprvalue>true</rtexprvalue>
-		<type>java.lang.String</type>
-		<description></description>
-	</attribute>
-	<attribute>
-		<name>successMessage</name>
-		<rtexprvalue>true</rtexprvalue>
-		<type>java.lang.String</type>
+		<type>common.MessageENT</type>
 		<description></description>
 	</attribute>
 </tag>

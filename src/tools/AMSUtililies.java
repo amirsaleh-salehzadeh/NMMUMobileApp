@@ -479,6 +479,16 @@ public class AMSUtililies {
 		}
 		return output;
 	}
+
+	public static String prepareTheJSONStringForDataTable(int currentPage,
+			int totalItems, String json, String rowId) {
+		json = "{ \"draw\": " + currentPage
+		+ ", \"recordsTotal\":" + totalItems
+		+ ", \"recordsFiltered\":" + totalItems
+		+ ", \"data\": " + json + "}";
+		json = json.replaceAll(rowId, "DT_RowId");
+		return json;
+	}
 		
 	
 }
