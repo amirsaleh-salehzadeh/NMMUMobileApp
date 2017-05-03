@@ -26,5 +26,6 @@ public interface UserDAOInterface {
 	public void saveUpdateUserRoles(UserENT user) throws AMSException;
 	public ArrayList<DropDownENT> getTitlesDropDown();
 	public ArrayList<DropDownENT> getEthnicsDropDown();
+	public boolean deleteUsers(ArrayList<UserENT> users) throws AMSException;
 	//activate user
 }

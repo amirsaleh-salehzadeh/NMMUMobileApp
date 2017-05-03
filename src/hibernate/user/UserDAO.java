@@ -287,21 +287,22 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		ArrayList<RoleENT> res = new ArrayList<RoleENT>();
 		try {
 			Connection conn = null;
-				try {
-					conn = getConnection();
-				} catch (AMSException e) {
-					e.printStackTrace();
-				}
-			String query = "Select ur.*, r.* from user_roles ur" +
-					" inner join users u on u.user_id = ur.user_id" +
-					" inner join roles r on r.role_id = ur.role_id " +
-					" and ur.user_id = ?";
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "Select ur.*, r.* from user_roles ur"
+					+ " inner join users u on u.user_id = ur.user_id"
+					+ " inner join roles r on r.role_id = ur.role_id "
+					+ " and ur.user_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(1, uid);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				RoleENT r = new RoleENT(rs.getInt("role_id"), rs.getString("role_name"), rs.getInt("client_id")
-						, "",rs.getInt("user_role_id"), 0,"");
+			while (rs.next()) {
+				RoleENT r = new RoleENT(rs.getInt("role_id"),
+						rs.getString("role_name"), rs.getInt("client_id"), "",
+						rs.getInt("user_role_id"), 0, "");
 				res.add(r);
 			}
 			ps.close();
@@ -316,23 +317,24 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		ArrayList<GroupENT> res = new ArrayList<GroupENT>();
 		try {
 			Connection conn = null;
-				try {
-					conn = getConnection();
-				} catch (AMSException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			
-			String query = "Select gr.*, r.* from group_roles gr" +
-					" inner join groups g on g.group_id = gr.group_id" +
-					" inner join roles r on r.role_id = gr.role_id " +
-					" and gr.group_id = ?";
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			String query = "Select gr.*, r.* from group_roles gr"
+					+ " inner join groups g on g.group_id = gr.group_id"
+					+ " inner join roles r on r.role_id = gr.role_id "
+					+ " and gr.group_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(1, uid);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				GroupENT r = new GroupENT(rs.getInt("group_id"), rs.getString("group_name"), rs.getInt("client_id")
-						, "",0, rs.getInt("group_role_id"),"");
+			while (rs.next()) {
+				GroupENT r = new GroupENT(rs.getInt("group_id"),
+						rs.getString("group_name"), rs.getInt("client_id"), "",
+						0, rs.getInt("group_role_id"), "");
 				res.add(r);
 			}
 			ps.close();
@@ -346,14 +348,13 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 	public void saveUpdateUserRoles(UserENT user) throws AMSException {
 		try {
 			Connection conn = null;
-				try {
-					conn = getConnection();
-				} catch (AMSException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			String query = "delete from user_roles " +
-					"where user_id = ?";
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "delete from user_roles " + "where user_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(1, user.getUserID());
 			ps.execute();
@@ -369,7 +370,13 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+	}
+
+	public boolean deleteUsers(ArrayList<UserENT> users) throws AMSException {
+		for (int i = 0; i < users.size(); i++) {
+			deleteUser(users.get(i));
+		}
+		return true;
 	}
 
 }
