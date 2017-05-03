@@ -5,6 +5,36 @@ public class RoleENT {
 	String roleName = "";
 	int clientID;
 	String clientName;
+	int roleUserID;
+	int roleGroupID;
+
+	public RoleENT(int roleID, String roleName, int clientID,
+			String clientName, int roleUserID, int roleGroupID, String comment) {
+		super();
+		this.roleID = roleID;
+		this.roleName = roleName;
+		this.clientID = clientID;
+		this.clientName = clientName;
+		this.roleUserID = roleUserID;
+		this.roleGroupID = roleGroupID;
+		this.comment = comment;
+	}
+
+	public int getRoleUserID() {
+		return roleUserID;
+	}
+
+	public void setRoleUserID(int roleUserID) {
+		this.roleUserID = roleUserID;
+	}
+
+	public int getRoleGroupID() {
+		return roleGroupID;
+	}
+
+	public void setRoleGroupID(int roleGroupID) {
+		this.roleGroupID = roleGroupID;
+	}
 
 	public RoleENT() {
 

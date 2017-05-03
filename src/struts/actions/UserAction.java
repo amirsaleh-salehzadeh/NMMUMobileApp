@@ -22,6 +22,8 @@ import org.apache.struts.action.ActionMapping;
 import tools.AMSException;
 
 import common.security.RoleENT;
+import common.security.RoleLST;
+import common.user.UserENT;
 
 /**
  * MyEclipse Struts Creation date: 09-21-2010
@@ -39,6 +41,30 @@ public class UserAction extends Action {
 		String reqCode = request.getParameter("reqCode");
 		String success = "";
 		String error = "";
+		if (reqCode.equalsIgnoreCase("userRoleView")) {
+			try {
+				UserENT u = getUserDAO().getUserENT(
+						new UserENT("", Integer.parseInt(request
+								.getParameter("userID"))));
+				request.setAttribute("userENT", u);
+				RoleLST roleLST = new RoleLST();
+				String searchKey = "";
+				if(request.getParameter("searchKey")!=null)
+					searchKey = request.getParameter("searchKey");
+				roleLST.setSearchRole(new RoleENT(0, searchKey, 0, "", ""));
+				roleLST.setPageSize(400);
+				RoleLST roles = getSecurityDAO().getRolesList(roleLST);
+				request.setAttribute("userRoles", getUserDAO().getAllRolesUser(u.getUserID()));
+				request.setAttribute("rolesList", roles);
+				return mapping.findForward("userRole");
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return af;
 	}
 

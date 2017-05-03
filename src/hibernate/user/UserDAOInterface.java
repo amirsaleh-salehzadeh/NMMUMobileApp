@@ -3,6 +3,8 @@ package hibernate.user;
 import java.util.ArrayList;
 
 import common.DropDownENT;
+import common.security.GroupENT;
+import common.security.RoleENT;
 import common.user.EthnicENT;
 import common.user.TitleENT;
 import common.user.UserENT;
@@ -19,6 +21,9 @@ public interface UserDAOInterface {
 	public ArrayList<TitleENT> getAllTitles() throws AMSException;
 	public EthnicENT getEthnic(int ethnicID) throws AMSException;
 	public TitleENT getTitle(int titleID) throws AMSException;
+	public ArrayList<RoleENT> getAllRolesUser(int uid);
+	public ArrayList<GroupENT> getAllGroupsUser(int uid);
+	public void saveUpdateUserRoles(UserENT user) throws AMSException;
 	public ArrayList<DropDownENT> getTitlesDropDown();
 	public ArrayList<DropDownENT> getEthnicsDropDown();
 	//activate user

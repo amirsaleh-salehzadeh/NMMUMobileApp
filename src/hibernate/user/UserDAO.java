@@ -1,6 +1,11 @@
 package hibernate.user;
 
 import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +17,7 @@ import org.hibernate.Transaction;
 
 import common.DropDownENT;
 import common.client.ClientENT;
+import common.security.GroupENT;
 import common.security.RoleENT;
 import common.user.EthnicENT;
 import common.user.TitleENT;
@@ -23,6 +29,10 @@ import hibernate.config.HibernateSessionFactory;
 import tools.AMSException;
 
 public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
+	private static final String DBADDRESS = "jdbc:mysql://localhost:3306/nmmumobile";
+	private static final String DBDRIVER = "com.mysql.jdbc.Driver";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "";
 
 	public static void main(String[] args) {
 		UserDAO udao = new UserDAO();
@@ -51,7 +61,18 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 
 		UserLST l = new UserLST();
 		UserENT us = new UserENT();
-		ArrayList<DropDownENT> ad = udao.getTitlesDropDown();
+		ArrayList<RoleENT> ad = new ArrayList<RoleENT>();
+		ad.add(new RoleENT(502));
+		ad.add(new RoleENT(516));
+		UserENT u = new UserENT();
+		u.setRoleENTs(ad);
+		u.setUserID(3);
+		try {
+			udao.saveUpdateUserRoles(u);
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(us.toString());
 		// l.setSearchUser(us);
 		// udao.deleteUser(us);
@@ -62,6 +83,21 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }
+	}
+
+	private Connection getConnection() throws AMSException {
+		try {
+			Class.forName(DBDRIVER);
+		} catch (ClassNotFoundException e) {
+			throw getAMSException(e.getMessage(), e);
+		}
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(DBADDRESS, USERNAME, PASSWORD);
+		} catch (SQLException e) {
+			throw getAMSException(e.getMessage(), e);
+		}
+		return conn;
 	}
 
 	public UserENT saveUpdateUser(UserENT ent) throws AMSException {
@@ -215,11 +251,11 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		try {
 			Session s = getSession4Query();
 			s.beginTransaction();
-			List<TitleENT> dropdowns = getSession4Query()
-					.createQuery(
-							"from TitleENT").list();
-			for(TitleENT dropdown : dropdowns) {
-				res.add(new DropDownENT(dropdown.getTitleID()+"", dropdown.getTitle(), null));
+			List<TitleENT> dropdowns = getSession4Query().createQuery(
+					"from TitleENT").list();
+			for (TitleENT dropdown : dropdowns) {
+				res.add(new DropDownENT(dropdown.getTitleID() + "", dropdown
+						.getTitle(), null));
 			}
 			// List dropDown = q.list();
 		} catch (HibernateException ex) {
@@ -234,11 +270,11 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		try {
 			Session s = getSession4Query();
 			s.beginTransaction();
-			List<EthnicENT> dropdowns = getSession4Query()
-					.createQuery(
-							"from EthnicENT").list();
-			for(EthnicENT dropdown : dropdowns) {
-				res.add(new DropDownENT(dropdown.getEthnicID()+"", dropdown.getEthnic(), null));
+			List<EthnicENT> dropdowns = getSession4Query().createQuery(
+					"from EthnicENT").list();
+			for (EthnicENT dropdown : dropdowns) {
+				res.add(new DropDownENT(dropdown.getEthnicID() + "", dropdown
+						.getEthnic(), null));
 			}
 			// List dropDown = q.list();
 		} catch (HibernateException ex) {
@@ -246,7 +282,94 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		}
 		return res;
 	}
-	
-	
+
+	public ArrayList<RoleENT> getAllRolesUser(int uid) {
+		ArrayList<RoleENT> res = new ArrayList<RoleENT>();
+		try {
+			Connection conn = null;
+				try {
+					conn = getConnection();
+				} catch (AMSException e) {
+					e.printStackTrace();
+				}
+			String query = "Select ur.*, r.* from user_roles ur" +
+					" inner join users u on u.user_id = ur.user_id" +
+					" inner join roles r on r.role_id = ur.role_id " +
+					" and ur.user_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, uid);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				RoleENT r = new RoleENT(rs.getInt("role_id"), rs.getString("role_name"), rs.getInt("client_id")
+						, "",rs.getInt("user_role_id"), 0,"");
+				res.add(r);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public ArrayList<GroupENT> getAllGroupsUser(int uid) {
+		ArrayList<GroupENT> res = new ArrayList<GroupENT>();
+		try {
+			Connection conn = null;
+				try {
+					conn = getConnection();
+				} catch (AMSException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			String query = "Select gr.*, r.* from group_roles gr" +
+					" inner join groups g on g.group_id = gr.group_id" +
+					" inner join roles r on r.role_id = gr.role_id " +
+					" and gr.group_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, uid);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				GroupENT r = new GroupENT(rs.getInt("group_id"), rs.getString("group_name"), rs.getInt("client_id")
+						, "",0, rs.getInt("group_role_id"),"");
+				res.add(r);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public void saveUpdateUserRoles(UserENT user) throws AMSException {
+		try {
+			Connection conn = null;
+				try {
+					conn = getConnection();
+				} catch (AMSException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			String query = "delete from user_roles " +
+					"where user_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, user.getUserID());
+			ps.execute();
+			query = "insert into user_roles (role_id, user_id) values (?,?)";
+			for (int i = 0; i < user.getRoleENTs().size(); i++) {
+				ps = conn.prepareStatement(query);
+				ps.setInt(2, user.getUserID());
+				ps.setInt(1, user.getRoleENTs().get(i).getRoleID());
+				ps.execute();
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 }
