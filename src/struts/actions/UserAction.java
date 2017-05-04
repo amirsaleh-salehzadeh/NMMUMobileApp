@@ -136,7 +136,8 @@ public class UserAction extends Action {
 			request.setAttribute("json", json);
 			MessageENT m = new MessageENT(success, error);
 			request.setAttribute("message", m);
-			if (reqCode.equals("gridJson"))
+			if (request.getParameter("reqCodeGrid") != null
+					&& request.getParameter("reqCodeGrid").equals("gridJson"))
 				return mapping.findForward("gridJson");
 		} catch (AMSException e) {
 			e.printStackTrace();

@@ -28,19 +28,20 @@
 }
 
 .flipswitchGender.ui-flipswitch {
-	background-color: #9932cc;
+	background-color: #FF0080;
+	color: white;
 	width: 6.875em;
 	text-indent: 2em;
 }
 
 .flipswitchGender.ui-flipswitch.ui-flipswitch-active {
-	background-color: blue;
+	background-color: #2E64FE;
+	color: white;
 	padding-left: 5em;
 	width: 1.875em;
 	text-indent: 2em;
 }
-</style>
-<style type="text/css">
+
 .flipswitchActive.ui-flipswitch .ui-btn.ui-flipswitch-on {
 	text-indent: -3.9em;
 }
@@ -50,13 +51,16 @@
 }
 
 .flipswitchActive.ui-flipswitch {
- 	background-color: red;
+	background-color: #8A0808;
+	color: white;
 	width: 6.875em;
+	font-weight: normal;
 	text-indent: 2em;
 }
 
 .flipswitchActive.ui-flipswitch.ui-flipswitch-active {
- 	background-color: #26ff29; 
+	background-color: #2E64FE;
+	color: white;
 	padding-left: 5em;
 	width: 1.875em;
 	text-indent: 2em;
@@ -69,15 +73,17 @@
 	<form id="dataFilterGridMainPage" action="user.do">
 		<input type="hidden" name="reqCode" value="userSaveUpdate">
 		<html:hidden name="userENT" property="userID" styleId="userID" />
-		<bean:define id="genderValue" name="userENT" property="gender" type="java.lang.Boolean"/>
-		<bean:define id="activeValue" name="userENT" property="active" type="java.lang.Boolean"/>
+		<bean:define id="genderValue" name="userENT" property="gender"
+			type="java.lang.Boolean" />
+		<bean:define id="activeValue" name="userENT" property="active"
+			type="java.lang.Boolean" />
 		<bean:define id="selectedValueClient" name="userENT"
 			property="clientID" type="java.lang.Integer"></bean:define>
 		<bean:define id="selectedValueEthnic" name="userENT"
 			property="ethnicID" type="java.lang.Integer"></bean:define>
-		<bean:define id="selectedValueTitle" name="userENT" 
-		    property="titleID" type="java.lang.Integer"></bean:define>
-			
+		<bean:define id="selectedValueTitle" name="userENT" property="titleID"
+			type="java.lang.Integer"></bean:define>
+
 		<fieldset class="ui-grid-a">
 			<div class="ui-block-a">
 				<html:text name="userENT" property="userName" title="Username" />
@@ -91,7 +97,8 @@
 		<fieldset class="ui-grid-b">
 			<div class="ui-block-a">
 				<ams:dropDown dropDownItems="${titleENTs}"
-					selectedVal="<%=selectedValueTitle.toString()%>" name="titleID" title=""></ams:dropDown>
+					selectedVal="<%=selectedValueTitle.toString()%>" name="titleID"
+					title=""></ams:dropDown>
 			</div>
 			<div class="ui-block-b">
 				<html:text name="userENT" property="name" title="Name" />
@@ -101,50 +108,43 @@
 			</div>
 		</fieldset>
 
-		<fieldset class="ui-grid-a">
-			<div class="ui-block-a" style="width: 10%">
-				<label>Date of Birth: </label>
-			</div>
-			<div class="ui-block-b">
+		<div class="ui-grid-a">
+			<div class="ui-block-a ui-field-contain">
+				<label for="dateOfBirth"
+					style="white-space: nowrap !important; width: 100%">Date
+					of Birth: </label>
 				<html:text name="userENT" property="dateOfBirth"
 					title="Date of Birth" styleId="dob" />
 			</div>
-		</fieldset>
+			<div class="ui-block-b">
+					<input type="checkbox" data-role="flipswitch" name="gender"
+						id="flipswitchGender" data-on-text="Male" data-off-text="Female"
+						data-wrapper-class="flipswitchGender" data-inline="true"
+						<%if (genderValue.booleanValue() == true) {%> checked=""
+						<%}
+			;%> /> <input type="checkbox" data-role="flipswitch"
+						data-inline="true" name="active" id="flipswitchActivation"
+						selected="selected" data-on-text="Active" data-off-text="Inactive"
+						data-wrapper-class="flipswitchActive"
+						<%if (activeValue.booleanValue() == true) {%> checked=""
+						<%}
+			;%> />
+
+			</div>
+		</div>
 		<div class="ui-block-solo">
 			<ams:dropDown dropDownItems="${ethnicENTs}"
-				selectedVal="<%=selectedValueClient.toString()%>" name="ethnicID" title=""></ams:dropDown>
+				selectedVal="<%=selectedValueClient.toString()%>" name="ethnicID"
+				title=""></ams:dropDown>
 		</div>
 		<fieldset>
-			<div>
-				<input type="checkbox" data-role="flipswitch" name="gender"
-					id="flipswitchGender" data-on-text="Male" data-off-text="Female"
-					data-wrapper-class="flipswitchGender" 
-					<%if(genderValue.booleanValue() == true){ %>
-					checked="" 
-					<%}; %> 
-					/>	
-			</div>
-		</fieldset>
-
-		<div>
-			<input type="checkbox" data-role="flipswitch" name="active"
-				id="flipswitchActivation" selected="selected" data-on-text="Active"
-				data-off-text="Inactive" data-wrapper-class="flipswitchActive"
-				<%if(activeValue.booleanValue() == true){ %>
-					checked="" 
-					<%}; %> />
-
-		</div>
-
-		<fieldset>
-			<div class="ui-block-c">
-				<html:text name="userENT" property="password" title="Password" />
+			<div class="ui-block-a">
+				<html:password name="userENT" property="password" title="Password" />
 			</div>
 		</fieldset>
 		<fieldset>
 			<div class="ui-block-c">
-				<html:text name="userENT" property="registerationDate"
-					title="Registration Date" />
+				<span style="font-weight: bold">Registration Date&nbsp;</span> <bean:write name="userENT" property="registerationDate"/>
 			</div>
 		</fieldset>
 
