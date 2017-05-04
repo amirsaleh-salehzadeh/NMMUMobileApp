@@ -109,6 +109,7 @@ public class UserAction extends Action {
 		return af;
 
 	}
+	
 
 	private ActionForward userManagement(HttpServletRequest request,
 			ActionMapping mapping) {
