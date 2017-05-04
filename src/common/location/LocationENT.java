@@ -22,6 +22,7 @@ public class LocationENT {
 	private long locationID;
 	private int userID;
 	private int country;
+	private boolean publicAddress;
 	private String state;
 	private String address;
 	private String postBox;
@@ -34,6 +35,14 @@ public class LocationENT {
 	private String gps;
 	private String locationName;
 
+	public boolean isPublicAddress() {
+		return publicAddress;
+	}
+
+	public void setPublicAddress(boolean publicAddress) {
+		this.publicAddress = publicAddress;
+	}
+
 	public LocationENT() {
 	}
 	
@@ -42,14 +51,16 @@ public class LocationENT {
 		this.locationID = locationID;
 	}
 	
-	public LocationENT(long locationID, int userID, int country, String state,
-			String address, String postBox, String tel, String fax,
-			String email, String street, String area, String cell, String gps,
+	public LocationENT(long locationID, int userID, int country,
+			boolean publicAddress, String state, String address,
+			String postBox, String tel, String fax, String email,
+			String street, String area, String cell, String gps,
 			String locationName) {
 		super();
 		this.locationID = locationID;
 		this.userID = userID;
 		this.country = country;
+		this.publicAddress = publicAddress;
 		this.state = state;
 		this.address = address;
 		this.postBox = postBox;
@@ -62,7 +73,7 @@ public class LocationENT {
 		this.gps = gps;
 		this.locationName = locationName;
 	}
-	
+
 	public LocationENT(long locationID, int userID) {
 		super();
 		this.locationID = locationID;

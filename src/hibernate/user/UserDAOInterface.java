@@ -24,6 +24,7 @@ public interface UserDAOInterface {
 	public ArrayList<RoleENT> getAllRolesUser(int uid);
 	public ArrayList<GroupENT> getAllGroupsUser(int uid);
 	public void saveUpdateUserRoles(UserENT user) throws AMSException;
+	public void saveUpdateUserGroups(UserENT user) throws AMSException;
 	public ArrayList<DropDownENT> getTitlesDropDown();
 	public ArrayList<DropDownENT> getEthnicsDropDown();
 	public boolean deleteUsers(ArrayList<UserENT> users) throws AMSException;

@@ -1,5 +1,9 @@
 package hibernate.security;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -265,6 +269,66 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			role = null;
 		}
 		return role;
+	}
+
+	public ArrayList<RoleENT> getAllGroupRoles(int gid) {
+		ArrayList<RoleENT> res = new ArrayList<RoleENT>();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			String query = "Select gr.*, r.* from group_roles gr"
+					+ " inner join groups g on g.group_id = gr.group_id"
+					+ " inner join roles r on r.role_id = gr.role_id "
+					+ " and gr.group_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, gid);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				RoleENT r = new RoleENT(rs.getInt("role_id"),
+						rs.getString("role_name"), rs.getInt("client_id"), "",
+						0, rs.getInt("group_role_id"), "");
+				res.add(r);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public void saveUpdateRolesGroup(ArrayList<RoleENT> roles, GroupENT group)
+			throws AMSException {
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "delete from group_roles " + "where group_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, group.getGroupID());
+			ps.execute();
+			query = "insert into group_roles (group_id, role_id) values (?,?)";
+			for (int i = 0; i < roles.size(); i++) {
+				ps = conn.prepareStatement(query);
+				ps.setInt(1, group.getGroupID());
+				ps.setInt(2, roles.get(i).getRoleID());
+				ps.execute();
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

@@ -47,5 +47,8 @@
         <property name="locationName" type="java.lang.String">
             <column name="LOCATION_NAME" />
         </property>
+         <property name="publicAddress" type="java.lang.Boolean">
+            <column name="PUBLIC" />
+        </property>
     </class>
 </hibernate-mapping>
