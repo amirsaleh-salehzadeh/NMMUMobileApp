@@ -22,6 +22,7 @@
 	<form id="dataFilterGridMainPage" action="user.do">
 		<ams:message messageEntity="${message}"></ams:message>
 		<input type="hidden" name="reqCode" id="reqCode" value="userManagement">
+		<input type="hidden" name="reqCodeGrid" id="reqCodeGrid" value="">
 		<div class="ui-grid-a" id="searchFilters">
 			<fieldset class="ui-grid-a">
 				<div class="ui-block-a">
