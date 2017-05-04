@@ -29,11 +29,6 @@ import hibernate.config.HibernateSessionFactory;
 import tools.AMSException;
 
 public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
-	private static final String DBADDRESS = "jdbc:mysql://localhost:3306/nmmumobile";
-	private static final String DBDRIVER = "com.mysql.jdbc.Driver";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "";
-
 	public static void main(String[] args) {
 		UserDAO udao = new UserDAO();
 		// try {
@@ -83,21 +78,6 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }
-	}
-
-	private Connection getConnection() throws AMSException {
-		try {
-			Class.forName(DBDRIVER);
-		} catch (ClassNotFoundException e) {
-			throw getAMSException(e.getMessage(), e);
-		}
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(DBADDRESS, USERNAME, PASSWORD);
-		} catch (SQLException e) {
-			throw getAMSException(e.getMessage(), e);
-		}
-		return conn;
 	}
 
 	public UserENT saveUpdateUser(UserENT ent) throws AMSException {
@@ -324,10 +304,10 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				e.printStackTrace();
 			}
 
-			String query = "Select gr.*, r.* from group_roles gr"
-					+ " inner join groups g on g.group_id = gr.group_id"
-					+ " inner join roles r on r.role_id = gr.role_id "
-					+ " and gr.group_id = ?";
+			String query = "Select ug.*, g.* from user_groups ug"
+					+ " inner join groups g on g.group_id = ug.group_id"
+					+ " inner join users u on u.user_id = ug.user_id "
+					+ " and u.user_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(1, uid);
 			ResultSet rs = ps.executeQuery();
@@ -377,6 +357,11 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			deleteUser(users.get(i));
 		}
 		return true;
+	}
+
+	public void saveUpdateUserGroups(UserENT user) throws AMSException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

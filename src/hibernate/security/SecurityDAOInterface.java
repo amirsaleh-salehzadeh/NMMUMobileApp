@@ -24,6 +24,8 @@ public interface SecurityDAOInterface {
 	public boolean deleteRoles(ArrayList<RoleENT> roles) throws AMSException;
 	public boolean deleteGroups(ArrayList<GroupENT> groups) throws AMSException;
 	public RoleENT validateRole(RoleENT role) throws AMSException;
+	public ArrayList<RoleENT> getAllGroupRoles(int gid);
+	public void saveUpdateRolesGroup(ArrayList<RoleENT> roles, GroupENT group) throws AMSException;
 //	public RoleENT saveUserRole(RoleENT role) throws AMSException;
 //	public GroupENT saveUserGroup(GroupENT group) throws AMSException;
 //	public boolean saveGroupRole(GroupENT group) throws AMSException;
