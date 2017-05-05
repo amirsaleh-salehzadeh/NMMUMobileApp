@@ -11,55 +11,59 @@
 <body>
 	<form id="dataFilterGridMainPage" action="user.do">
 		<input type="hidden" name="userID"
-			value="<%=request.getParameter("userID")%>"> 
-			<input type="hidden" name="reqCode" value="userRoleView"> Roles for
+			value="<%=request.getParameter("userID")%>"> <input
+			type="hidden" name="reqCode" value="userRoleView"> Roles for
 		user "
 		<bean:write name="userENT" property="userName" />
 		"
-		<div><input type="search" name="search-1" id="search-1" value=""> </div>
+<%-- 		<bean:define id="roleLST" name="roleLST" property="<%=roleLST.%>" --%>
+<%-- 			type="common.security.RoleENT" /> --%>
+		<div>
+		<input type="text" name="name" id="basic" value="">
 		
-		<logic:iterate id="rolesListIteration" indexId="rowId"
-			name="rolesList" property="roleENTs" type="common.security.RoleENT">
-			<%
-				int counter ;
-			        counter = rowId % 3;
-					if (counter == 0) {
-			%>
-			<div class="ui-grid-b">
-				<%
-					}
-				%>
-				<div class=<%if (counter == 0) {%>
-					"ui-block-a"
-				<%} else if (counter == 1) {%>
-				"ui-block-b"
-				<%} else if (counter == 2) {%>
-				"ui-block-c"
-				<%}%>>
-				<div class="ui-grid-a">
-				<div class="ui-block-a">
-					<logic:iterate id="userRoleIds" name="userRoles" type="common.security.RoleENT">
+<%-- 			<html:text name="roleLST" property="searchRole.roleName" --%>
+<%-- 						onkeyup="refreshGrid();" title="Search"></html:text> --%>
+		</div>
+		<table data-role="table" id="table-column-toggle"
+			 class="ui-responsive table-stroke"
+			>
+			<tbody>
+				<tr>
+					<logic:iterate id="rolesListIteration" indexId="rowId"
+						name="rolesList" property="roleENTs"
+						type="common.security.RoleENT">
+
+						<%
+							int counter;
+								int idcount;
+								counter = rowId % 3;
+								{
+						%>
+						<td><label> <logic:iterate id="userRoleIds"
+									name="userRoles" type="common.security.RoleENT">
+									<input type="checkbox"
+										value="<%=rolesListIteration.getRoleID()%>"
+										<%if (rolesListIteration.getRoleID() == userRoleIds
+								.getRoleID()) {%>
+										checked="checked" <%}%> data-inline="true">
+
+								</logic:iterate> <input type="checkbox" name="checkbox-0 "> <%=rolesListIteration.getRoleName()%>
+						</label></td>
+						<%
+							if (counter == 2) {
+						%>
 					
-						<input type="checkbox" value="<%=rolesListIteration.getRoleID()%>"
-							<%if (rolesListIteration.getRoleID() == userRoleIds
-							.getRoleID()) {%>
-							checked="checked" <%}%> data-inline="true">
+				</tr>
+				<tr>
+					<%
+						}
+							}
+					%>
+
 					</logic:iterate>
-					</div>
-					<div class="ui-block-b">
-					<%=rolesListIteration.getRoleName()%>
-					</div>
-					</div>
-					</div>
-					
-				<%
-					if (counter == 2) {
-				%>
-			</div>
-			<%
-				}
-			%>
-		</logic:iterate>
+			</tbody>
+		</table>
+
 
 	</form>
 </body>
