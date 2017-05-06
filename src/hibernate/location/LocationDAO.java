@@ -83,6 +83,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			session.clear();
 			session.close();
 			ex.printStackTrace();
+			throw getAMSException("", ex);
 		}
 		return ent;
 	}
@@ -120,6 +121,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			HibernateSessionFactory.closeSession();
 		} catch (HibernateException ex) {
 			ex.printStackTrace();
+			throw getAMSException("", ex);
 		}
 		return lst;
 	}
@@ -135,6 +137,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		} catch (HibernateException ex) {
 			ex.printStackTrace();
 			ent = null;
+			throw getAMSException("", ex);
 		}
 		return ent;
 	}
@@ -155,7 +158,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			session.clear();
 			session.close();
 			ex.printStackTrace();
-			return false;
+			throw getAMSException("", ex);
 		}
 	}
 

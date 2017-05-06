@@ -277,7 +277,7 @@ public class SecurityAction extends Action {
 			}
 			json = AMSUtililies.prepareTheJSONStringForDataTable(
 					roleLST.getCurrentPage(), roleLST.getTotalItems(), json,
-					"roleID");
+					"roleID", success, error);
 			request.setAttribute("json", json);
 			if (request.getParameter("reqCodeGrid") != null
 					&& request.getParameter("reqCodeGrid").equals("gridJson"))
@@ -314,7 +314,7 @@ public class SecurityAction extends Action {
 			}
 			json = AMSUtililies.prepareTheJSONStringForDataTable(
 					groupLST.getCurrentPage(), groupLST.getTotalItems(), json,
-					"groupID");
+					"groupID", success, error);
 			request.setAttribute("json", json);
 			if (request.getParameter("reqCodeGrid") != null
 					&& request.getParameter("reqCodeGrid").equals("gridJson"))
@@ -322,8 +322,6 @@ public class SecurityAction extends Action {
 		} catch (AMSException e) {
 			e.printStackTrace();
 		}
-		// /////////////forward the action to pages >>> see
-		// struts.config.xml for more info//////////////////
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("groupManagement");
