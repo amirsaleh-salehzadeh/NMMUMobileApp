@@ -20,6 +20,7 @@ $(document).ready(function() {
 	if ($("#successDescription").html() != "" || $("#errorDescription").html() !="")
 		popup();
 });
+
 $(document).ajaxComplete(function() {
 	$('a.btn-ok, #dialog-overlay, #dialog-box').click(function() {
 		$('#dialog-overlay, #dialog-box').hide();

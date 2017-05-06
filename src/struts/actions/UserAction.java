@@ -54,7 +54,6 @@ public class UserAction extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
 		ActionForward af = null;
 		String reqCode = request.getParameter("reqCode");
 		success = "";

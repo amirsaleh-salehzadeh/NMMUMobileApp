@@ -39,43 +39,44 @@ public class AMSErrorHandler {
 		
 		String error = "";
 		error = errorHandler.generalDBErrorHandle(e);
-		if ("OrderAction".equalsIgnoreCase(className)) {
-			error = errorHandler.orderActionErrorHandle(e);
-		} else if  ("AgentLocationAction".equalsIgnoreCase(className)) {
-			error = errorHandler.agentLocationActionErrorHandle(e);
-		} else if  ("BankAccountAction".equalsIgnoreCase(className)) {
-			error = errorHandler.bankAccountActionErrorHandle(e);
-		} else if  ("CosttypeAction".equalsIgnoreCase(className)) {
-			error = errorHandler.costtypeActionErrorHandle(e);
-		} else if  ("CreditAction".equalsIgnoreCase(className)) {
-			error = errorHandler.creditActionErrorHandle(e);
-		} else if  ("OrdercreditAction".equalsIgnoreCase(className)) {
-			error = errorHandler.ordercreditActionErrorHandle(e);
-		} else if  ("OrderficheAction".equalsIgnoreCase(className)) {
-			error = errorHandler.orderficheActionErrorHandle(e);
-		} else if  ("FicheAction".equalsIgnoreCase(className)) {
-			error = errorHandler.ficheActionErrorHandle(e);
-		} else if  ("OrderPursuitAction".equalsIgnoreCase(className)) {
-			error = errorHandler.orderPursuitActionErrorHandle(e);
-		} else if  ("UserAction".equalsIgnoreCase(className)) {
-			error = errorHandler.userActionErrorHandle(e);
-		} else if  ("ChangepasswordAction".equalsIgnoreCase(className)) {
-			error = errorHandler.changePasswordActionErrorHandle(e);
-		} else if  ("CustomerTurnoverAction".equalsIgnoreCase(className)) {
-			error = errorHandler.customerTurnoverActionErrorHandle(e);
-		} else if  ("CustomerQuotaAction".equalsIgnoreCase(className)) {
-			error = errorHandler.customerQuotaActionErrorHandle(e);
-		} else if  ("DailySaleAction".equalsIgnoreCase(className)) {
-			error = errorHandler.dailySaleActionErrorHandle(e);
-		} else if  ("ProductSaleAction".equalsIgnoreCase(className)) {
-			error = errorHandler.productSaleActionErrorHandle(e);
-		} else if  ("SellStatisticsAction".equalsIgnoreCase(className)) {
-			error = errorHandler.sellStatisticsActionErrorHandle(e);
-		} else if  ("RecConfirmAction".equalsIgnoreCase(className)) {
-			error = errorHandler.recConfirmActionErrorHandle(e);
-		} else {
-			error = "unhandled";
-		}
+//		if ("OrderAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.orderActionErrorHandle(e);
+//		} else if  ("AgentLocationAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.agentLocationActionErrorHandle(e);
+//		} else if  ("BankAccountAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.bankAccountActionErrorHandle(e);
+//		} else if  ("CosttypeAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.costtypeActionErrorHandle(e);
+//		} else if  ("CreditAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.creditActionErrorHandle(e);
+//		} else if  ("OrdercreditAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.ordercreditActionErrorHandle(e);
+//		} else if  ("OrderficheAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.orderficheActionErrorHandle(e);
+//		} else if  ("FicheAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.ficheActionErrorHandle(e);
+//		} else if  ("OrderPursuitAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.orderPursuitActionErrorHandle(e);
+//		} else if  ("UserAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.userActionErrorHandle(e);
+//		} else if  ("ChangepasswordAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.changePasswordActionErrorHandle(e);
+//		} else if  ("CustomerTurnoverAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.customerTurnoverActionErrorHandle(e);
+//		} else if  ("CustomerQuotaAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.customerQuotaActionErrorHandle(e);
+//		} else if  ("DailySaleAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.dailySaleActionErrorHandle(e);
+//		} else if  ("ProductSaleAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.productSaleActionErrorHandle(e);
+//		} else if  ("SellStatisticsAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.sellStatisticsActionErrorHandle(e);
+//		} else if  ("RecConfirmAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.recConfirmActionErrorHandle(e);
+//		} 
+//		else {
+//			error = "unhandled";
+//		}
 		return error;
 	}
 
@@ -121,7 +122,7 @@ public class AMSErrorHandler {
 	public String generalDBErrorHandle(Exception e) {
 		String error = "";
 		if (e.getMessage().contains("foreign key") || e.getCause().toString().contains("foreign key")) {
-			error = "The item cannot be removed or updated as it has been allocated to a parent item";
+			error = "The item cannot be removed or updated. It has some dependencies.";
 		} 
 		return error;
 	}
