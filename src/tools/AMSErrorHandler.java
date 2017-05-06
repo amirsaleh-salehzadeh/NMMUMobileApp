@@ -120,7 +120,7 @@ public class AMSErrorHandler {
 	}
 	public String generalDBErrorHandle(Exception e) {
 		String error = "";
-		if (e.getMessage().contains("foreign key")||e.getCause().toString().contains("foreign key")) {
+		if (e.getMessage().contains("foreign key") || e.getCause().toString().contains("foreign key")) {
 			error = "The item cannot be removed or updated as it has been allocated to a parent item";
 		} 
 		return error;

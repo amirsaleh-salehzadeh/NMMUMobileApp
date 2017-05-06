@@ -76,10 +76,8 @@ public class UserAction extends Action {
 				request.setAttribute("rolesList", roles);
 				return mapping.findForward("userRole");
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (AMSException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -92,19 +90,14 @@ public class UserAction extends Action {
 		}
 		if (reqCode.equalsIgnoreCase("userManagement")
 				|| reqCode.equals("gridJson")) {
-			return userManagement(request, mapping); // click on a method like
-														// user management then
-														// press F3
+			return userManagement(request, mapping); 
 		} else if (reqCode.equals("userEdit")) {
 			return editUser(request, mapping, form);
 
 		} else if (reqCode.equals("userSaveUpdate")) {
 			return saveUpdateUser(request, mapping);
-			
 		}
-
 		return af;
-
 	}
 
 	private ActionForward userManagement(HttpServletRequest request,

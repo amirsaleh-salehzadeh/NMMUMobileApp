@@ -2,14 +2,10 @@ package hibernate.security;
 
 import java.util.ArrayList;
 
-import common.client.ClientENT;
 import common.security.GroupENT;
 import common.security.GroupLST;
 import common.security.RoleENT;
 import common.security.RoleLST;
-import common.user.UserENT;
-import common.user.UserLST;
-import common.user.UserPassword;
 import tools.AMSException;
 
 
