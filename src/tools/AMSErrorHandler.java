@@ -14,7 +14,7 @@ public class AMSErrorHandler {
 			} else {
 				error = errorHandler.handle(obj, e);
 				if ("unhandled".equals(error)) {
-					error = e.getCause().toString();
+					error = e.getMessage();
 				}
 			}
 		} else {
@@ -33,13 +33,12 @@ public class AMSErrorHandler {
 	}
 
 	public String handle(Object obj, Exception e) {
-		
 		AMSErrorHandler errorHandler = new AMSErrorHandler();
-
 		String className = obj.getClass().getCanonicalName();
 		className = className.substring(className.lastIndexOf(".") + 1);
 		
 		String error = "";
+		error = errorHandler.generalDBErrorHandle(e);
 		if ("OrderAction".equalsIgnoreCase(className)) {
 			error = errorHandler.orderActionErrorHandle(e);
 		} else if  ("AgentLocationAction".equalsIgnoreCase(className)) {
@@ -119,12 +118,18 @@ public class AMSErrorHandler {
 		}
 		return error;
 	}
-
+	public String generalDBErrorHandle(Exception e) {
+		String error = "";
+		if (e.getMessage().contains("foreign key") || e.getCause().toString().contains("foreign key")) {
+			error = "The item cannot be removed or updated as it has been allocated to a parent item";
+		} 
+		return error;
+	}
 
 	public String orderActionErrorHandle(Exception e) {
 		String error = "";
-		if (e.getMessage().contains("لط�?ا قرارداد �?روش مشتري را  وارد نمائيد")) {
-			error = "لط�?ا قرارداد �?روش مشتري را  وارد نمائيد";
+		if (e.getMessage().contains("foreign key")) {
+			error = "The item cannot be removed or updated as it has been allocated to a parent item";
 		} else if (e.getMessage().contains("اشکال در اطلاعات �?يش ها : �?يش (ها(ي کا�?ي براي حواله انتخاب نشده است . لط�?ا بررسي شود")) {
 			error = "اشکال در اطلاعات �?يش ها : �?يش هاي کا�?ي براي حواله انتخاب نشده است";
 		} else if (e.getMessage().contains("لط�?ا مجوز مالي يا �?يش نقدي مربوط به حواله را وارد نمائيد")) {
