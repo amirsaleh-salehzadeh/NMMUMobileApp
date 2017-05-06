@@ -76,7 +76,20 @@ public class SecurityAction extends Action {
 		} else if (reqCode.equals("saveUpdateGroup")) {
 			return saveUpdateGroup(request, mapping);
 		}
+		if (reqCode.equalsIgnoreCase("groupRoleView")) {
+			return groupRoleView(request, mapping);
+		}
 		return af;
+	}
+
+	private ActionForward groupRoleView(HttpServletRequest request,
+			ActionMapping mapping) {
+		String searchKey = "";
+		if (request.getParameter("searchRole.roleName") != null) {
+			searchKey = request.getParameter("searchRole.roleName");
+		}
+		request.setAttribute("roleLST", getSecurityDAO().getAllRoles(searchKey));
+		return mapping.findForward("groupRole");
 	}
 
 	private ActionForward saveUpdateRole(HttpServletRequest request,

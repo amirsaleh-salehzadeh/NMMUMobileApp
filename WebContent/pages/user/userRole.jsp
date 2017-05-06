@@ -9,10 +9,9 @@
 </head>
 <body>
 	<form id="dataFilterGridMainPage" action="user.do">
-		<input type="hidden" name="userID"
-			value="<%=request.getParameter("userID")%>"> <input
-			type="hidden" name="reqCode" value="userRoleView"> Roles for
-		user "
+		<input type="hidden" name="userID" value="<%=request.getParameter("userID")%>">
+		<input type="hidden" name="reqCode" value="userRoleView"> 
+		Roles for user "
 		<bean:write name="userENT" property="userName" />
 		"
 		<logic:iterate id="rolesListIteration" indexId="rowId"

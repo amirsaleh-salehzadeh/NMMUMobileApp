@@ -338,7 +338,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		
 	}
 
-	public ArrayList<RoleENT> getAllRoles(String searchKey) {
+	public ArrayList<RoleENT> getAllRoles() {
 		ArrayList<RoleENT> res = new ArrayList<RoleENT>();
 		try {
 			Connection conn = null;
@@ -348,9 +348,8 @@ public class SecurityDAO extends BaseHibernateDAO implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String query = "Select * from roles where role_name like ";
+			String query = "Select * from roles";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, "%"+searchKey+"%");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				RoleENT r = new RoleENT(rs.getInt("role_id"),
