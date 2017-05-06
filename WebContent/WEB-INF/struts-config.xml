@@ -20,6 +20,8 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="locationManagement" path="/pages/location/locationManagement.jsp" />
 			<forward name="locationEdit" path="/pages/location/locationEdit.jsp" />
+			<forward name="searchLocations" path="/pages/location/searchLocations.jsp" />
+			<forward name="mapView" path="/pages/location/map.jsp" />
 			<forward name="gridJson" path="/pages/json.jsp" />
 		</action>
 		<action path="/user" type="struts.actions.UserAction">

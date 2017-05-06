@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class LocationLST {
 	ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
+	LocationENT departure = new LocationENT();
+	ArrayList<LocationENT> destinations = new ArrayList<LocationENT>();
 	LocationENT searchLocation = new LocationENT();
 	private int currentPage = 0;
 	private int totalPages;
@@ -12,6 +14,40 @@ public class LocationLST {
 	private int first;
 	private boolean ascending = true;
 	private String sortedByField = "locationID";
+	boolean isPath = false;
+	boolean isMultipleMarker = false;
+
+	public LocationENT getDeparture() {
+		return departure;
+	}
+
+	public void setDeparture(LocationENT departure) {
+		this.departure = departure;
+	}
+
+	public ArrayList<LocationENT> getDestinations() {
+		return destinations;
+	}
+
+	public void setDestinations(ArrayList<LocationENT> destinations) {
+		this.destinations = destinations;
+	}
+
+	public boolean isPath() {
+		return isPath;
+	}
+
+	public void setPath(boolean isPath) {
+		this.isPath = isPath;
+	}
+
+	public boolean isMultipleMarker() {
+		return isMultipleMarker;
+	}
+
+	public void setMultipleMarker(boolean isMultipleMarker) {
+		this.isMultipleMarker = isMultipleMarker;
+	}
 
 	public LocationLST(ArrayList<LocationENT> locationENTs,
 			LocationENT searchLocation, int currentPage, int totalPages,

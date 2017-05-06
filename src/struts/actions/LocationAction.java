@@ -4,7 +4,6 @@
  */
 package struts.actions;
 
-import hibernate.client.ClientDAOInterface;
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.location.LocationDAOInterface;
 
@@ -16,15 +15,31 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import tools.AMSException;
+
+import common.location.LocationLST;
+
 public class LocationAction extends Action {
 	private String success = "";
 	private String error = "";
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
 		ActionForward af = null;
 		String reqCode = request.getParameter("reqCode");
+		if (reqCode.equalsIgnoreCase("searchLocations")) {
+			af = mapping.findForward(reqCode);
+		} else if (reqCode.equalsIgnoreCase("mapView")) {
+			LocationLST lst = new LocationLST();
+			try {
+				lst = getLocationDAO()
+						.getLocationLST(new LocationLST());
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			request.setAttribute("locations", lst);
+			af = mapping.findForward(reqCode);
+		}
 		return af;
 	}
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2017 at 11:22 PM
+-- Generation Time: May 05, 2017 at 06:42 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -375,7 +375,7 @@ INSERT INTO `groups` (`group_id`, `group_name`, `comment`, `client_id`) VALUES
 (22, 'grou1', 'comment1', 1),
 (23, 'grou2', 'comment2', 1),
 (24, 'grou3', 'comment3', 1),
-(25, 'grou4', 'comment4', 1),
+(25, 'grou4amir', 'comment4', 1),
 (26, 'grou5', 'comment5', 1),
 (27, 'grou6', 'comment6', 1),
 (28, 'grou7', 'comment7', 1),
@@ -416,34 +416,35 @@ CREATE TABLE `location` (
   `location_id` bigint(255) NOT NULL,
   `gps` varchar(200) NOT NULL,
   `location_name` varchar(2000) NOT NULL,
-  `user_id` bigint(255) NOT NULL
+  `user_id` bigint(255) NOT NULL,
+  `public` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `location`
 --
 
-INSERT INTO `location` (`country`, `state`, `address`, `post_box`, `tel`, `fax`, `email`, `street`, `area`, `cell`, `location_id`, `gps`, `location_name`, `user_id`) VALUES
-(5, 'state5', 'address5', 'pob5', 'tel5', 'fax5', 'email5', 'street5', 'area5', 'cell5', 3, 'gps5', 'NAME5', 5),
-(6, 'state6', 'address6', 'pob6', 'tel6', 'fax6', 'email6', 'street6', 'area6', 'cell6', 4, 'gps6', 'NAME6', 6),
-(7, 'state7', 'address7', 'pob7', 'tel7', 'fax7', 'email7', 'street7', 'area7', 'cell7', 5, 'gps7', 'NAME7', 7),
-(8, 'state8', 'address8', 'pob8', 'tel8', 'fax8', 'email8', 'street8', 'area8', 'cell8', 6, 'gps8', 'NAME8', 8),
-(9, 'state9', 'address9', 'pob9', 'tel9', 'fax9', 'email9', 'street9', 'area9', 'cell9', 7, 'gps9', 'NAME9', 9),
-(10, 'state10', 'address10', 'pob10', 'tel10', 'fax10', 'email10', 'street10', 'area10', 'cell10', 8, 'gps10', 'NAME10', 10),
-(11, 'state11', 'address11', 'pob11', 'tel11', 'fax11', 'email11', 'street11', 'area11', 'cell11', 9, 'gps11', 'NAME11', 11),
-(12, 'state12', 'address12', 'pob12', 'tel12', 'fax12', 'email12', 'street12', 'area12', 'cell12', 10, 'gps12', 'NAME12', 12),
-(13, 'state13', 'address13', 'pob13', 'tel13', 'fax13', 'email13', 'street13', 'area13', 'cell13', 11, 'gps13', 'NAME13', 13),
-(3, 'state3', 'address3', 'pob3', 'tel3', 'fax3', 'email3', 'street3', 'area3', 'cell3', 34, 'gps3', 'NAME3', 5),
-(4, 'state4', 'address4', 'pob4', 'tel4', 'fax4', 'email4', 'street4', 'area4', 'cell4', 35, 'gps4', 'NAME4', 5),
-(5, 'state5', 'address5', 'pob5', 'tel5', 'fax5', 'email5', 'street5', 'area5', 'cell5', 36, 'gps5', 'NAME5', 5),
-(6, 'state6', 'address6', 'pob6', 'tel6', 'fax6', 'email6', 'street6', 'area6', 'cell6', 37, 'gps6', 'NAME6', 5),
-(7, 'state7', 'address7', 'pob7', 'tel7', 'fax7', 'email7', 'street7', 'area7', 'cell7', 38, 'gps7', 'NAME7', 5),
-(8, 'state8', 'address8', 'pob8', 'tel8', 'fax8', 'email8', 'street8', 'area8', 'cell8', 39, 'gps8', 'NAME8', 5),
-(9, 'state9', 'address9', 'pob9', 'tel9', 'fax9', 'email9', 'street9', 'area9', 'cell9', 40, 'gps9', 'NAME9', 5),
-(10, 'state10', 'address10', 'pob10', 'tel10', 'fax10', 'email10', 'street10', 'area10', 'cell10', 41, 'gps10', 'NAME10', 5),
-(11, 'state11', 'address11', 'pob11', 'tel11', 'fax11', 'email11', 'street11', 'area11', 'cell11', 42, 'gps11', 'NAME11', 5),
-(12, 'state12', 'address12', 'pob12', 'tel12', 'fax12', 'email12', 'street12', 'area12', 'cell12', 43, 'gps12', 'NAME12', 5),
-(13, 'state13', 'address13', 'pob13', 'tel13', 'fax13', 'email13', 'street13', 'area13', 'cell13', 44, 'gps13', 'NAME13', 5);
+INSERT INTO `location` (`country`, `state`, `address`, `post_box`, `tel`, `fax`, `email`, `street`, `area`, `cell`, `location_id`, `gps`, `location_name`, `user_id`, `public`) VALUES
+(5, 'state5', 'address5', 'pob5', 'tel5', 'fax5', 'email5', 'street5', 'area5', 'cell5', 3, '34.34345345;34343', 'NAME5', 5, 0),
+(6, 'state6', 'address6', 'pob6', 'tel6', 'fax6', 'email6', 'street6', 'area6', 'cell6', 4, 'gps6', 'NAME6', 6, 0),
+(7, 'state7', 'address7', 'pob7', 'tel7', 'fax7', 'email7', 'street7', 'area7', 'cell7', 5, 'gps7', 'NAME7', 7, 0),
+(8, 'state8', 'address8', 'pob8', 'tel8', 'fax8', 'email8', 'street8', 'area8', 'cell8', 6, 'gps8', 'NAME8', 8, 0),
+(9, 'state9', 'address9', 'pob9', 'tel9', 'fax9', 'email9', 'street9', 'area9', 'cell9', 7, 'gps9', 'NAME9', 9, 0),
+(10, 'state10', 'address10', 'pob10', 'tel10', 'fax10', 'email10', 'street10', 'area10', 'cell10', 8, 'gps10', 'NAME10', 10, 0),
+(11, 'state11', 'address11', 'pob11', 'tel11', 'fax11', 'email11', 'street11', 'area11', 'cell11', 9, 'gps11', 'NAME11', 11, 0),
+(12, 'state12', 'address12', 'pob12', 'tel12', 'fax12', 'email12', 'street12', 'area12', 'cell12', 10, 'gps12', 'NAME12', 12, 0),
+(13, 'state13', 'address13', 'pob13', 'tel13', 'fax13', 'email13', 'street13', 'area13', 'cell13', 11, 'gps13', 'NAME13', 13, 0),
+(3, 'state3', 'address3', 'pob3', 'tel3', 'fax3', 'email3', 'street3', 'area3', 'cell3', 34, 'gps3', 'NAME3', 5, 0),
+(4, 'state4', 'address4', 'pob4', 'tel4', 'fax4', 'email4', 'street4', 'area4', 'cell4', 35, 'gps4', 'NAME4', 5, 0),
+(5, 'state5', 'address5', 'pob5', 'tel5', 'fax5', 'email5', 'street5', 'area5', 'cell5', 36, 'gps5', 'NAME5', 5, 0),
+(6, 'state6', 'address6', 'pob6', 'tel6', 'fax6', 'email6', 'street6', 'area6', 'cell6', 37, 'gps6', 'NAME6', 5, 0),
+(7, 'state7', 'address7', 'pob7', 'tel7', 'fax7', 'email7', 'street7', 'area7', 'cell7', 38, 'gps7', 'NAME7', 5, 0),
+(8, 'state8', 'address8', 'pob8', 'tel8', 'fax8', 'email8', 'street8', 'area8', 'cell8', 39, 'gps8', 'NAME8', 5, 0),
+(9, 'state9', 'address9', 'pob9', 'tel9', 'fax9', 'email9', 'street9', 'area9', 'cell9', 40, 'gps9', 'NAME9', 5, 0),
+(10, 'state10', 'address10', 'pob10', 'tel10', 'fax10', 'email10', 'street10', 'area10', 'cell10', 41, 'gps10', 'NAME10', 5, 0),
+(11, 'state11', 'address11', 'pob11', 'tel11', 'fax11', 'email11', 'street11', 'area11', 'cell11', 42, 'gps11', 'NAME11', 5, 0),
+(12, 'state12', 'address12', 'pob12', 'tel12', 'fax12', 'email12', 'street12', 'area12', 'cell12', 43, 'gps12', 'NAME12', 5, 0),
+(13, 'state13', 'address13', 'pob13', 'tel13', 'fax13', 'email13', 'street13', 'area13', 'cell13', 44, 'gps13', 'NAME13', 5, 0);
 
 -- --------------------------------------------------------
 
@@ -534,7 +535,8 @@ INSERT INTO `roles` (`role_id`, `role_name`, `comment`, `client_id`) VALUES
 (571, 'roleeddde72', 'commeneeet72', 3),
 (572, 'roleeddde73', 'commeneeet73', 3),
 (573, 'roleeddde74', 'commeneeet74', 3),
-(574, 'roleeddde75', 'commeneeet75', 3);
+(574, 'roleeddde75', 'commeneeet75', 3),
+(575, 'roletest now', '', 1);
 
 -- --------------------------------------------------------
 
@@ -613,7 +615,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`password`, `registeration_date`, `creator_id`, `active`, `user_id`, `username`, `client_id`, `name`, `surname`, `gender`, `ethnic`, `date_of_birth`, `title`) VALUES
-('pass', 'today', NULL, 1, 3, 'userName', 1, 'name', 'surname', 1, 1, 'dob', 1),
+('pass', 'today', NULL, 1, 3, 'amirtest', 1, 'name', 'surname', 1, 1, 'dob', 1),
 ('pass5', 'today', NULL, 1, 5, 'userNamezzzz5', 1, 'namezzzz5', 'surnamezzz', 1, 2, 'dob', 2),
 ('pass6', 'today', NULL, 1, 6, 'userNamezzzz6', 1, 'namezzzz6', 'surnamezzz', 1, 2, 'dob', 2),
 ('pass7', 'today', NULL, 1, 7, 'userNamezzzz7', 1, 'namezzzz7', 'surnamezzz', 1, 2, 'dob', 2),
@@ -622,7 +624,8 @@ INSERT INTO `users` (`password`, `registeration_date`, `creator_id`, `active`, `
 ('pass6', 'today', NULL, 1, 10, 'userName6', 1, 'name6', 'surname', 1, 2, 'dob', 2),
 ('pass7', 'today', NULL, 1, 11, 'userName7', 1, 'name7', 'surname', 1, 2, 'dob', 2),
 ('pass8', 'today', NULL, 1, 12, 'userName8', 1, 'name8', 'surname', 1, 2, 'dob', 2),
-('pass9', 'today', NULL, 1, 13, 'userName9', 1, 'name9', 'surname', 1, 2, 'dob', 2);
+('pass9', 'today', NULL, 1, 13, 'userName9', 1, 'name9', 'surname', 1, 2, 'dob', 2),
+('abcPass', '05/04/2017 13:30:38', NULL, 0, 14, 'amirs', 3, 'amirsaleh', 'salehzadeh', 1, 2, '1985-07-22', 1);
 
 -- --------------------------------------------------------
 
@@ -660,6 +663,16 @@ CREATE TABLE `user_roles` (
   `role_id` int(11) NOT NULL,
   `user_role_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `user_roles`
+--
+
+INSERT INTO `user_roles` (`user_id`, `role_id`, `user_role_id`) VALUES
+(5, 505, 3),
+(5, 521, 5),
+(3, 502, 8),
+(3, 516, 9);
 
 -- --------------------------------------------------------
 
@@ -848,7 +861,7 @@ ALTER TABLE `log_activities`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=575;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=576;
 --
 -- AUTO_INCREMENT for table `sensor_settings`
 --
@@ -863,7 +876,7 @@ ALTER TABLE `titles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `user_id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `user_groups`
 --
@@ -873,7 +886,7 @@ ALTER TABLE `user_groups`
 -- AUTO_INCREMENT for table `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `user_role_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `version`
 --

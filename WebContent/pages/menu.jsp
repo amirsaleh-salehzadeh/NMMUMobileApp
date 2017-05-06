@@ -19,6 +19,7 @@ body {
 	}
 	function callAnAction(url) {
 		$('#gridMenuSetting').popup("destroy");
+		$("#mainBodyContents").html("");
 		$.ajax({
 			url : url,
 			cache : false,
@@ -136,7 +137,7 @@ body {
 		</div>
 	</li>
 	<li data-filtertext="introduction overview getting started"><a
-		href="../intro/" data-ajax="false">Location</a></li>
+		href="#" onclick="callAnAction('location.do?reqCode=mapView')" data-ajax="false">Location</a></li>
 </ul>
 <div data-role="popup" id="popupDialogDeleteConfirmation"
 	data-overlay-theme="b" data-theme="a" data-dismissible="false"
