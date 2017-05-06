@@ -40,6 +40,7 @@ body {
 			url : url,
 			cache : false,
 			success : function(data) {
+				$("#mainBodyContents").html("");
 				$("#mainBodyContents").html(data);
 				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
@@ -61,8 +62,8 @@ body {
 			url : url,
 			cache : false,
 			success : function(data) {
-				$("#mainBodyContents").html(data);
-				$(document).trigger("create");
+// 				$("#mainBodyContents").html(data);
+// 				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
 				// 				$("input.AMSpaginationBTN").each(function() {
 				// 					if ($(this).attr('title') == $("#hiddenPage").val()) {
@@ -71,7 +72,7 @@ body {
 				// 					}
 				// 				});
 				refreshPlaceHolders();
-				// 				refreshGrid();
+				refreshGrid();
 				return true;
 			}
 		});
@@ -118,10 +119,6 @@ body {
 					href="t_user.do?reqCode=userManagement" data-ajax="false">User
 						Management</a></li>
 				<li
-					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					onclick="callAnAction('user.do?reqCode=userRoleView&userID=3')" href="#" data-ajax="false">User
-						Roles</a></li>
-				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
 					href="t_security.do?reqCode=roleManagement" data-ajax="false">Role
 						Management</a></li>
@@ -133,7 +130,8 @@ body {
 		</div>
 	</li>
 	<li data-filtertext="introduction overview getting started"><a
-		href="#" onclick="callAnAction('location.do?reqCode=mapView')" data-ajax="false">Location</a></li>
+		href="#" onclick="callAnAction('location.do?reqCode=mapView')"
+		data-ajax="false">Location</a></li>
 </ul>
 <div data-role="popup" id="popupDialogDeleteConfirmation"
 	data-overlay-theme="b" data-theme="a" data-dismissible="false"
