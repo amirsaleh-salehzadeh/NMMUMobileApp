@@ -3,59 +3,68 @@
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
 <%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@ taglib prefix="ams" uri="/WEB-INF/AMSTag.tld"%>
-<bean:define id="totalRows" name="roleLST" property="totalItems"
-	type="java.lang.Integer"></bean:define>
-<bean:define id="first" name="roleLST" property="first"
-	type="java.lang.Integer"></bean:define>
-<bean:define id="currentPage" name="roleLST" property="currentPage"
-	type="java.lang.Integer"></bean:define>
-<bean:define id="pageSize" name="roleLST" property="pageSize"
-	type="java.lang.Integer"></bean:define>
-<bean:define id="totalPages" name="roleLST" property="totalPages"
-	type="java.lang.Integer"></bean:define>
-<input name="page" type="hidden" id="hiddenPage"
-	value="<%=currentPage%>" />
-<%-- <input name="page" type="text" id="totalRows" value="<%=totalRows%>" /> --%>
-<input name="page" type="hidden" id="totalPages" value="<%=totalPages%>" />
-<ams:ajaxPaginate currentPage="<%=currentPage%>"
-	pageSize="<%=pageSize%>" totalRows="<%=totalRows%>" align="center">
-	<table data-role="table" id="rolesGrid" data-mode="columntoggle"
-		class="ui-responsive table-stroke">
-		<thead>
-			<tr>
-				<th data-priority="5"></th>          
-				<th data-priority="1">Role</th>          
-				<th data-priority="3">Comment</th>
-				<th data-priority="2">Action</th>
-				<th data-priority="4"><input type="checkbox" name="checkAll"
-					id="checkAll">&nbsp;&nbsp;&nbsp;</th>   
-			</tr>
-		</thead>
-		<tbody id="gridRows">
-			<logic:iterate id="roleList" indexId="rowID"
-				type="common.security.RoleENT" name="roleLST" property="roleENTs">
-				<tr>
-					<th>&nbsp;&nbsp;&nbsp;&nbsp; <%=rowID + first + 1%></th>
-					<td><bean:write name="roleList" property="roleName" /></td>
-					<td><bean:write name="roleList" property="comment" /></td>
-					<td><bean:define id="roleID" name="roleList" property="roleID"
-							type="java.lang.Integer"></bean:define> <a href="#popupMenu<%=roleID%>"
-						data-rel="popup"
-						class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-gear 
-						ui-btn-icon-left ui-btn-a"></a>
-						<div data-role="popup" id="popupMenu<%=roleID%>" data-theme="b">
-							<ul data-role="listview" data-inset="true"
-								style="min-width: 210px;">
-								<li><a href="#"
-									onclick="callAnAction('security.do?reqCode=roleEdit&roleID=<%=roleID%>');">Edit</a></li>
-								<li><a href="#">Delete</a></li>         
-							</ul>
-						</div></td>
-					<td><input type="checkbox" name="checkbox"
-						id="<%=roleList.getRoleID()%>"></td>
-				</tr>
-			</logic:iterate>
-		</tbody>
-	</table>
-</ams:ajaxPaginate>
+<%@taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+</head>
+<body>
+	<form id="dataFilterGridMainPage" action="security.do">
+		<input type="hidden" name="groupID" value="<%=request.getParameter("groupID")%>">
+		<input type="hidden" name="reqCode" value="saveUpdateGroupRole">
+			<div class="ui-grid-solo">
+				<div class="ui-block-a">
+					<html:text name="roleLST" property="searchRole.roleName"
+						onkeyup="refreshGrid();" title="Role Name"></html:text>
+				</div>
+			</div>
+		Roles for user "
+		<bean:write name="groupENT" property="groupName" />
+		"
+		<logic:iterate id="groupsListIteration" indexId="rowId"
+			name="groupsList" property="groupENTs" type="common.security.GroupENT">
+			<%
+				int counter = rowId % 3;
+					if (counter == 0) {
+			%>
+			<div class="ui-grid-b">
+				<%
+					}
+				%>
+				<div class=<%if (counter == 0) {%>
+					"ui-block-a"
+				<%} else if (counter == 1) {%>
+				"ui-block-b"
+				<%} else if (counter == 2) {%>
+				"ui-block-c"
+				<%}%>>
+					<logic:iterate id="groupRoleIds" name="groupRoles"
+						type="common.security.GroupENT">
+						<input type="checkbox" value="<%=groupsListIteration.getGroupID()%>"
+							<%if (groupsListIteration.getGroupID() == groupRoleIds
+							.getGroupID()) {%>
+							checked="checked" <%}%> data-inline="true">
+					</logic:iterate>
+					<%=groupsListIteration.getGroupName()%></div>
+				<%
+					if (counter == 2) {
+				%>
+			</div>
+			<%
+				}
+			%>
+		</logic:iterate>
+		<!-- I took out data-inline="true" -->
+			<div class=ui-block-a>
+				<a href="#" data-role="button" data-icon="delete"
+					onclick="callAnAction('security.do?reqCode=groupEdit');">Cancel/Back</a>
+			</div>
+			<div class=ui-block-b>
+				<a href="#" data-role="button" data-icon="check"
+					data-theme="b" onclick="saveTheForm();">Save</a>
+			</div>
+		</div>
+	</form>
+</body>
+</html>
 
