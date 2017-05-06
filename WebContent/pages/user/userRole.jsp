@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="javax.management.relation.RoleList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -7,6 +9,12 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <html>
 <head>
+<script>
+	$(document).ready(function() {
+		refreshPlaceHolders();
+		refreshGrid();
+	});
+</script>
 </head>
 <body>
 	<form id="dataFilterGridMainPage" action="user.do">
@@ -16,8 +24,15 @@
 		user "
 		<bean:write name="userENT" property="userName" />
 		"
+		<div>
 		
-        <input type="search" name="searchKey" id="searchKey" value="" onkeyup="<%refreshGrid();%>">
+		<input type="search" name="search" id="search-basic" value="">
+<%-- 		<html:text name="searchKey" property="searchRole.roleName" --%>
+<%--  						onkeyup="refreshGrid();" title="Role Name"></html:text>   --%>
+<%--  						<bean:define id="searchKey" name="searchKey"></bean:define>  --%>
+		</div>
+        
+						
 		<table data-role="table" id="table-column-toggle"
 			class="ui-responsive table-stroke">
 			<tbody>
@@ -55,7 +70,9 @@
 					</logic:iterate>
 			</tbody>
 		</table>
-
+<a href="#" data-role="button"
+			data-inline="true" data-rel="back" data-transition="flow"
+			data-theme="b" rel="external" onclick="deleteConfirmed();">Delete</a>
 
 	</form>
 </body>
