@@ -10,15 +10,18 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+import common.MessageENT;
+
 public class AMSMessage extends BodyTagSupport {
 
 	String errorMessage = "";
 	String successMessage = "";
+	MessageENT messageEntity;
 
 	public AMSMessage() {
 		super();
 	}
-	
+
 	public int doStartTag() throws JspException {
 		int res = super.doStartTag();
 		try {
@@ -50,44 +53,31 @@ public class AMSMessage extends BodyTagSupport {
 		}
 		return i;
 	}
-	
+
 	String loadHeaderTitle() {
 		String sb = "";
 		try {
-			String realPath = pageContext.getServletContext().getRealPath("images/skin/message/amsskin_message.html");
-//			String realPath = "/home/aip/programs/MyEclipse_6.5_workspace/AIPNIOPDCSell/WebRoot/images/skin/message/aipskin_message.html";
+			String realPath = pageContext.getServletContext().getRealPath(
+					"images/skin/message/amsskin_message.html");
 			File f = new File(realPath);
 			FileInputStream fin = new FileInputStream(f);
 			byte buf[] = new byte[fin.available()];
 			fin.read(buf);
 			fin.close();
 			sb = new String(buf);
-			String strBegin = sb.substring(0,sb.indexOf("<td class='rr_YELLOW_center' id='messageContainer'>")+"<td class='rr_YELLOW_center' id='messageContainer'>".length());
-			String strEnd = sb.substring(sb.indexOf("<td class='rr_YELLOW_center' id='messageContainer'>")+"<td class='rr_YELLOW_center' id='messageContainer'>".length());
-
-			sb = strBegin + 
-				 "<label id='errorDescription' style='color:red;'>"+getErrorMessage()+"</label>" 
-				 + "<br>" + 
-				 "<label id='successDescription' style='color:green;'>"+getSuccessMessage()+"</label>" 
-				 + strEnd;
-			
-//			sb = AIPUtil.replace(sb, "[ERRORMESSAGE]", getErrorMessage());
-//			sb = AIPUtil.replace(sb, "[SUCCESSMESSAGE]", getSuccessMessage());
-			
-//			sb += "<table id='messageTable' border='0' cellspacing='0' cellpadding='0' align='center'></table>"; 			
-//			if ("".equalsIgnoreCase(getErrorMessage()) && "".equalsIgnoreCase(getSuccessMessage())) {
-//				sb = "<table id='messageTable' border='0' cellspacing='0' cellpadding='0' align='center'></table>"; 
-//			}
-			
+			String temp = "<label id='errorDescription' style='color:red;'>"
+					+ getErrorMessage() + "</label>" + "<br>"
+					+ "<label id='successDescription' style='color:green;'>"
+					+ getSuccessMessage() + "</label>";
+			sb = AMSUtililies.replace(sb, "[CONTENT]", temp);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return sb;
-	}	
-	
-	
+	}
+
 	public String getErrorMessage() {
 		return errorMessage;
 	}
@@ -103,11 +93,17 @@ public class AMSMessage extends BodyTagSupport {
 	public void setSuccessMessage(String successMessage) {
 		this.successMessage = successMessage;
 	}
-	
-	public static void main(String[] args) {
-		AMSMessage message = new AMSMessage();
-		
-		message.loadHeaderTitle();
+
+	public MessageENT getMessageEntity() {
+		return messageEntity;
+	}
+
+	public void setMessageEntity(MessageENT message) {
+		if(message == null)
+			message = new MessageENT("", "");
+		setErrorMessage(message.getError());
+		setSuccessMessage(message.getSuccess());
+		this.messageEntity = message;
 	}
 
 }

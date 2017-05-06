@@ -1,29 +1,69 @@
 package common.security;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "roles")
 public class RoleENT {
-	
-	@Id
-	@GeneratedValue
-	@Column(name = "role_id")
 	int roleID;
-	@Column(name = "role_name")
 	String roleName = "";
-	@Column(name = "client_id")
 	int clientID;
-	@Column(name = "comment")
-	String comment ="";
+	String clientName;
+	int roleUserID;
+	int roleGroupID;
 
-	// public RoleENT(String roleName, int roleID, String comment, int clientID)
-	// {
-	// this.roleName = roleName;
-	// this.clientID = clientID;
-	// this.comment = comment;
-	// this.roleID = roleID;
-	// }
+	public RoleENT(int roleID, String roleName, int clientID,
+			String clientName, int roleUserID, int roleGroupID, String comment) {
+		super();
+		this.roleID = roleID;
+		this.roleName = roleName;
+		this.clientID = clientID;
+		this.clientName = clientName;
+		this.roleUserID = roleUserID;
+		this.roleGroupID = roleGroupID;
+		this.comment = comment;
+	}
+
+	public int getRoleUserID() {
+		return roleUserID;
+	}
+
+	public void setRoleUserID(int roleUserID) {
+		this.roleUserID = roleUserID;
+	}
+
+	public int getRoleGroupID() {
+		return roleGroupID;
+	}
+
+	public void setRoleGroupID(int roleGroupID) {
+		this.roleGroupID = roleGroupID;
+	}
+
+	public RoleENT() {
+
+	}
+
+	public RoleENT(int roleID, String roleName, int clientID,
+			String clientName, String comment) {
+		super();
+		this.roleID = roleID;
+		this.roleName = roleName;
+		this.clientID = clientID;
+		this.clientName = clientName;
+		this.comment = comment;
+	}
+	
+	public RoleENT(int roleID) {
+		super();
+		this.roleID = roleID;
+	}
+
+	public String getClientName() {
+		return clientName;
+	}
+
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
+
+	String comment = "";
 
 	public String getRoleName() {
 		return roleName;

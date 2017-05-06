@@ -2,136 +2,217 @@ package common.user;
 
 import java.util.ArrayList;
 
+import common.location.LocationENT;
 import common.security.GroupENT;
 import common.security.RoleENT;
 
 public class UserENT {
 	String userName;
-	int user_id;
-	int client_id;
-	UserPassword password = new UserPassword();
+	int userID;
+	int clientID;
+	String password;
 	String registerationDate;
 	String name;
-	String sureName;
+	String surName;
 	String dateOfBirth;
-	String nationalID;
 	boolean gender;
 	boolean active;
-	int race;
-	String raceDescription;
-	int title;
-	String titleDescription;
-	String tel;
+	EthnicENT ethnic = new EthnicENT();
+	int ethnicID;
+	TitleENT title = new TitleENT();
+	int titleID;
 	ArrayList<RoleENT> roleENTs = new ArrayList<RoleENT>();
 	ArrayList<GroupENT> groupENTs = new ArrayList<GroupENT>();
-	
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
+	ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
+
+	public UserENT(String userName, int userID, int clientID, String password,
+			String registerationDate, String name, String surName,
+			String dateOfBirth, boolean gender, boolean active,
+			EthnicENT ethnic, int ethnicID, TitleENT title, int titleID,
+			ArrayList<RoleENT> roleENTs, ArrayList<GroupENT> groupENTs,
+			ArrayList<LocationENT> locationENTs) {
+		super();
 		this.userName = userName;
+		this.userID = userID;
+		this.clientID = clientID;
+		this.password = password;
+		this.registerationDate = registerationDate;
+		this.name = name;
+		this.surName = surName;
+		this.dateOfBirth = dateOfBirth;
+		this.gender = gender;
+		this.active = active;
+		this.ethnic = ethnic;
+		this.ethnicID = ethnicID;
+		this.title = title;
+		this.titleID = titleID;
+		this.roleENTs = roleENTs;
+		this.groupENTs = groupENTs;
+		this.locationENTs = locationENTs;
 	}
-	public int getUser_id() {
-		return user_id;
+
+	public UserENT(String userName, int userID) {
+		super();
+		this.userName = userName;
+		this.userID = userID;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+
+	public UserENT(int userID, ArrayList<RoleENT> roleENTs,
+			ArrayList<GroupENT> groupENTs, ArrayList<LocationENT> locationENTs) {
+		super();
+		this.userID = userID;
+		this.roleENTs = roleENTs;
+		this.groupENTs = groupENTs;
+		this.locationENTs = locationENTs;
 	}
-	public int getClient_id() {
-		return client_id;
-	}
-	public void setClient_id(int client_id) {
-		this.client_id = client_id;
-	}
-	public UserPassword getPassword() {
-		return password;
-	}
-	public void setPassword(UserPassword password) {
+
+	public UserENT(String userName, int userID, int clientID, String password) {
+		super();
+		this.userName = userName;
+		this.userID = userID;
+		this.clientID = clientID;
 		this.password = password;
 	}
-	public String getRegisterationDate() {
-		return registerationDate;
+
+	public UserENT() {
 	}
-	public void setRegisterationDate(String registerationDate) {
-		this.registerationDate = registerationDate;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getSureName() {
-		return sureName;
-	}
-	public void setSureName(String sureName) {
-		this.sureName = sureName;
-	}
-	public String getDateOfBirth() {
-		return dateOfBirth;
-	}
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-	public String getNationalID() {
-		return nationalID;
-	}
-	public void setNationalID(String nationalID) {
-		this.nationalID = nationalID;
-	}
-	public boolean isGender() {
-		return gender;
-	}
-	public void setGender(boolean gender) {
-		this.gender = gender;
-	}
-	public boolean isActive() {
-		return active;
-	}
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	public int getRace() {
-		return race;
-	}
-	public void setRace(int race) {
-		this.race = race;
-	}
-	public String getRaceDescription() {
-		return raceDescription;
-	}
-	public void setRaceDescription(String raceDescription) {
-		this.raceDescription = raceDescription;
-	}
-	public int getTitle() {
-		return title;
-	}
-	public void setTitle(int title) {
-		this.title = title;
-	}
-	public String getTitleDescription() {
-		return titleDescription;
-	}
-	public void setTitleDescription(String titleDescription) {
-		this.titleDescription = titleDescription;
-	}
-	public String getTel() {
-		return tel;
-	}
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
-	public ArrayList<RoleENT> getRoleENTs() {
-		return roleENTs;
-	}
+
 	public void setRoleENTs(ArrayList<RoleENT> roleENTs) {
 		this.roleENTs = roleENTs;
 	}
+
 	public ArrayList<GroupENT> getGroupENTs() {
 		return groupENTs;
 	}
+
 	public void setGroupENTs(ArrayList<GroupENT> groupENTs) {
 		this.groupENTs = groupENTs;
+	}
+
+	public ArrayList<LocationENT> getLocationENTs() {
+		return locationENTs;
+	}
+
+	public void setLocationENTs(ArrayList<LocationENT> locationENTs) {
+		this.locationENTs = locationENTs;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public int getUserID() {
+		return userID;
+	}
+
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+
+	public int getClientID() {
+		return clientID;
+	}
+
+	public void setClientID(int clientID) {
+		this.clientID = clientID;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRegisterationDate() {
+		return registerationDate;
+	}
+
+	public void setRegisterationDate(String registerationDate) {
+		this.registerationDate = registerationDate;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurName() {
+		return surName;
+	}
+
+	public void setSurName(String sureName) {
+		this.surName = sureName;
+	}
+
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public boolean isGender() {
+		return gender;
+	}
+
+	public void setGender(boolean gender) {
+		this.gender = gender;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public EthnicENT getEthnic() {
+		return ethnic;
+	}
+
+	public void setEthnic(EthnicENT ethnic) {
+		this.ethnic = ethnic;
+		setEthnicID(ethnic.getEthnicID());
+	}
+
+	public int getEthnicID() {
+		return ethnicID;
+	}
+
+	public void setEthnicID(int ethnicID) {
+		this.ethnicID = ethnicID;
+	}
+
+	public int getTitleID() {
+		return titleID;
+	}
+
+	public void setTitleID(int titleID) {
+		this.titleID = titleID;
+	}
+
+	public ArrayList<RoleENT> getRoleENTs() {
+		return roleENTs;
+	}
+
+	public TitleENT getTitle() {
+		return title;
+	}
+
+	public void setTitle(TitleENT title) {
+		this.title = title;
+		setTitleID(title.getTitleID());
 	}
 
 }
