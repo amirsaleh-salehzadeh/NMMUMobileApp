@@ -88,11 +88,7 @@ public class SecurityAction extends Action {
 		if (request.getParameter("searchRole.roleName") != null) {
 			searchKey = request.getParameter("searchRole.roleName");
 		}
-		request.setAttribute("roleLST", getSecurityDAO().getAllRoles());
-		// if there is no groupID dont show the button groupRole in the
-		// groupEdit page
-
-		request.setAttribute("roleLST", getSecurityDAO().getAllRoles());
+		request.setAttribute("roleLST", getSecurityDAO().getAllRoles(searchKey));
 		return mapping.findForward("groupRole");
 	}
 
