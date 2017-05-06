@@ -101,6 +101,7 @@ public class SecurityAction extends Action {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		request.setAttribute("roleLST", getSecurityDAO().getAllRoles());
 		return mapping.findForward("groupRole");
 	}
 
