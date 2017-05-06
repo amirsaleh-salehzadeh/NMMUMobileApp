@@ -34,6 +34,8 @@ import tools.AMSUtililies;
 import common.DropDownENT;
 import common.MessageENT;
 import common.PopupENT;
+import common.security.GroupENT;
+import common.security.GroupLST;
 import common.security.RoleENT;
 import common.security.RoleLST;
 import common.user.UserENT;
@@ -59,37 +61,11 @@ public class UserAction extends Action {
 		String reqCode = request.getParameter("reqCode");
 		String success = "";
 		String error = "";
-		if (reqCode.equalsIgnoreCase("userRoleView")) {
-			try {
-				UserENT u = getUserDAO().getUserENT(
-						new UserENT("", Integer.parseInt(request
-								.getParameter("userID"))));
-				request.setAttribute("userENT", u);
-				RoleLST roleLST = new RoleLST();
-				String searchKey = "";
-				if(request.getParameter("searchKey")!=null)
-					searchKey = request.getParameter("searchKey");
-				roleLST.setSearchRole(new RoleENT(0, searchKey, 0, "", ""));
-				roleLST.setPageSize(400);
-				RoleLST roles = getSecurityDAO().getRolesList(roleLST);
-				request.setAttribute("userRoles", getUserDAO().getAllRolesUser(u.getUserID()));
-				request.setAttribute("rolesList", roles);
-				return mapping.findForward("userRole");
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (AMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		success = "";
-		error = "";
-
-		reqCode = request.getParameter("reqCode");
 		if (reqCode == null)
+		{
 			reqCode = "userManagement";
-		if (reqCode.equalsIgnoreCase("deleteUser")) {
+		}
+			if (reqCode.equalsIgnoreCase("deleteUser")) {
 			deleteUser(request);
 			reqCode = "userManagement";
 		}
@@ -105,11 +81,73 @@ public class UserAction extends Action {
 			return saveUpdateUser(request, mapping);
 			
 		}
-
+		if (reqCode.equalsIgnoreCase("userRoleView")) {
+		    return userRoleView(request,mapping);
+		}
+		if (reqCode.equalsIgnoreCase("userGroupView")) {
+		    return userGroupView(request,mapping);
+		}
 		return af;
 
 	}
-	
+	private ActionForward userGroupView(HttpServletRequest request,
+			ActionMapping mapping) {
+		try {
+			UserENT u = getUserDAO().getUserENT(
+					new UserENT("", Integer.parseInt(request
+							.getParameter("userID"))));
+			request.setAttribute("userENT", u);
+			GroupLST groupLST = new GroupLST();
+			String searchKey = "";
+			
+			if(request.getParameter("searchKey")!=null)
+				searchKey = request.getParameter("searchKey");
+			groupLST.setSearchGroup(new GroupENT(0, searchKey, 0, "", ""));
+			groupLST.setPageSize(400);
+			GroupLST groups = getSecurityDAO().getGroupList(groupLST);
+			request.setAttribute("userGroups", getUserDAO().getAllGroupsUser(u.getUserID()));
+			request.setAttribute("groupsList", groups);
+			return mapping.findForward("userGroup");
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+			}
+
+	private ActionForward userRoleView(HttpServletRequest request,
+			ActionMapping mapping) {
+		try {
+			UserENT u = getUserDAO().getUserENT(
+					new UserENT("", Integer.parseInt(request
+							.getParameter("userID"))));
+			request.setAttribute("userENT", u);
+			RoleLST roleLST = new RoleLST();
+			String searchKey = "";
+			if(request.getParameter("searchKey")!=null)
+				searchKey = request.getParameter("searchKey");
+			roleLST.setSearchRole(new RoleENT(0, searchKey, 0, "", ""));
+			roleLST.setPageSize(400);
+			RoleLST roles = getSecurityDAO().getRolesList(roleLST);
+			request.setAttribute("userRoles", getUserDAO().getAllRolesUser(u.getUserID()));
+			request.setAttribute("rolesList", roles);
+			return mapping.findForward("userRole");
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return  null;
+			}
 
 	private ActionForward userManagement(HttpServletRequest request,
 			ActionMapping mapping) {
