@@ -101,6 +101,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			session.clear();
 			session.close();
 			ex.printStackTrace();
+			throw getAMSException("", ex);
 		}
 		return ent;
 	}
@@ -134,22 +135,25 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		return lst;
 	}
 
-	public boolean deleteUser(UserENT username) throws AMSException {
-		Session session = getSession();
-		Transaction tx = null;
+	public boolean deleteUser(UserENT user) throws AMSException {
 		try {
-			tx = session.beginTransaction();
-			session.delete(username);
-			tx.commit();
-			session.clear();
-			session.close();
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "delete from users where user_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, user.getUserID());
+			ps.execute();
+			ps.close();
+			conn.close();
 			return true;
-		} catch (HibernateException ex) {
-			tx.rollback();
-			session.clear();
-			session.close();
-			ex.printStackTrace();
-			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
 		}
 	}
 
@@ -161,7 +165,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			list = (ArrayList<EthnicENT>) q.list();
 			HibernateSessionFactory.closeSession();
 		} catch (HibernateException ex) {
-			ex.printStackTrace();
+			throw getAMSException("", ex);
 		}
 		return list;
 	}
@@ -175,6 +179,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			HibernateSessionFactory.closeSession();
 		} catch (HibernateException ex) {
 			ex.printStackTrace();
+			throw getAMSException("", ex);
 		}
 		return list;
 	}
@@ -189,7 +194,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			HibernateSessionFactory.closeSession();
 		} catch (HibernateException ex) {
 			ex.printStackTrace();
-			ethnic = null;
+			throw getAMSException("", ex);
 		}
 		return ethnic;
 	}
@@ -204,7 +209,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			HibernateSessionFactory.closeSession();
 		} catch (HibernateException ex) {
 			ex.printStackTrace();
-			title = null;
+			throw getAMSException("", ex);
 		}
 		return title;
 	}
@@ -220,7 +225,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			HibernateSessionFactory.closeSession();
 		} catch (HibernateException ex) {
 			ex.printStackTrace();
-			user = null;
+			throw getAMSException("", ex);
 		}
 		return user;
 	}
@@ -349,6 +354,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw getAMSException("", e);
 		}
 	}
 

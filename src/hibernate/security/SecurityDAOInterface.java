@@ -2,14 +2,10 @@ package hibernate.security;
 
 import java.util.ArrayList;
 
-import common.client.ClientENT;
 import common.security.GroupENT;
 import common.security.GroupLST;
 import common.security.RoleENT;
 import common.security.RoleLST;
-import common.user.UserENT;
-import common.user.UserLST;
-import common.user.UserPassword;
 import tools.AMSException;
 
 
@@ -25,6 +21,7 @@ public interface SecurityDAOInterface {
 	public boolean deleteGroups(ArrayList<GroupENT> groups) throws AMSException;
 	public RoleENT validateRole(RoleENT role) throws AMSException;
 	public ArrayList<RoleENT> getAllGroupRoles(int gid);
+	public ArrayList<RoleENT> getAllRoles(String searchKey);
 	public void saveUpdateRolesGroup(ArrayList<RoleENT> roles, GroupENT group) throws AMSException;
 //	public RoleENT saveUserRole(RoleENT role) throws AMSException;
 //	public GroupENT saveUserGroup(GroupENT group) throws AMSException;
