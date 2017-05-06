@@ -16,17 +16,10 @@
 		user "
 		<bean:write name="userENT" property="userName" />
 		"
-<%-- 		<bean:define id="roleLST" name="roleLST" property="<%=roleLST.%>" --%>
-<%-- 			type="common.security.RoleENT" /> --%>
-		<div>
-		<input type="text" name="name" id="basic" value="">
 		
-<%-- 			<html:text name="roleLST" property="searchRole.roleName" --%>
-<%-- 						onkeyup="refreshGrid();" title="Search"></html:text> --%>
-		</div>
+        <input type="search" name="searchKey" id="searchKey" value="" onkeyup="<%refreshGrid();%>">
 		<table data-role="table" id="table-column-toggle"
-			 class="ui-responsive table-stroke"
-			>
+			class="ui-responsive table-stroke">
 			<tbody>
 				<tr>
 					<logic:iterate id="rolesListIteration" indexId="rowId"
@@ -46,8 +39,7 @@
 										<%if (rolesListIteration.getRoleID() == userRoleIds
 								.getRoleID()) {%>
 										checked="checked" <%}%> data-inline="true">
-
-								</logic:iterate> <input type="checkbox" name="checkbox-0 "> <%=rolesListIteration.getRoleName()%>
+								</logic:iterate> <%=rolesListIteration.getRoleName()%>
 						</label></td>
 						<%
 							if (counter == 2) {
