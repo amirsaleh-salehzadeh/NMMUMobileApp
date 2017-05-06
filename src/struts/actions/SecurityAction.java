@@ -77,7 +77,7 @@ public class SecurityAction extends Action {
 			return saveUpdateGroup(request, mapping);
 		}
 		if (reqCode.equalsIgnoreCase("groupRoleView")) {
-			return groupRoleView(request,mapping);
+			return groupRoleView(request, mapping);
 		}
 		return af;
 	}
@@ -85,22 +85,13 @@ public class SecurityAction extends Action {
 	private ActionForward groupRoleView(HttpServletRequest request,
 			ActionMapping mapping) {
 		String searchKey = "";
-		if(request.getParameter("searchRole.roleName")!=null){
+		if (request.getParameter("searchRole.roleName") != null) {
 			searchKey = request.getParameter("searchRole.roleName");
 		}
-		RoleENT roleSearch = new RoleENT(0,searchKey,0,"","");
-		try {
-			request.setAttribute("roleLST", getSecurityDAO().getRolesList(new RoleLST(roleSearch, 1,500,true,"roleName")));
-			//if there is no groupID dont show the button groupRole in the groupEdit page
-			//GroupENT >>>> roles for group "asdfasdf"
-			//checkbox next to each role
-			//WHAT ILL DO LATER IS:
-			//returns an array of all roles belonging to a group
-			//a method which receives an array of roles and allocate them to a group
-		} catch (AMSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		request.setAttribute("roleLST", getSecurityDAO().getAllRoles());
+		// if there is no groupID dont show the button groupRole in the
+		// groupEdit page
+
 		request.setAttribute("roleLST", getSecurityDAO().getAllRoles());
 		return mapping.findForward("groupRole");
 	}
