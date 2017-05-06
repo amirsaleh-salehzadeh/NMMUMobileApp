@@ -83,6 +83,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			session.clear();
 			session.close();
 			ex.printStackTrace();
+			throw getAMSException("", ex);
 		}
 		return role;
 	}
@@ -90,22 +91,24 @@ public class SecurityDAO extends BaseHibernateDAO implements
 	
 
 	private boolean deleteRole(RoleENT role) throws AMSException {
-		Session session = getSession();
-		Transaction tx = null;
 		try {
-			tx = session.beginTransaction();
-			session.delete(role);
-			tx.commit();
-			session.flush();
-			session.clear();
-			session.close();
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "delete from roles where role_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, role.getRoleID());
+			ps.execute();
+			ps.close();
+			conn.close();
 			return true;
-		} catch (HibernateException ex) {
-			tx.rollback();
-			session.clear();
-			session.close();
-			ex.printStackTrace();
-			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
 		}
 	}
 
@@ -203,6 +206,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			session.clear();
 			session.close();
 			ex.printStackTrace();
+			throw getAMSException("", ex);
 		}
 		return group;
 	}
@@ -223,21 +227,23 @@ public class SecurityDAO extends BaseHibernateDAO implements
 	}
 
 	private boolean deleteGroup(GroupENT group) throws AMSException {
-		Session session = getSession();
-		Transaction tx = null;
 		try {
-			tx = session.beginTransaction();
-			session.delete(group);
-			tx.commit();
-			session.clear();
-			session.close();
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "delete from groups where group_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, group.getGroupID());
+			ps.execute();
+			ps.close();
+			conn.close();
 			return true;
-		} catch (HibernateException ex) {
-			tx.rollback();
-			session.clear();
-			session.close();
-			ex.printStackTrace();
-			throw getAMSException(ex.toString(), ex);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
 		}
 	}
 
@@ -327,8 +333,37 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw getAMSException("", e);
 		}
 		
+	}
+
+	public ArrayList<RoleENT> getAllRoles() {
+		ArrayList<RoleENT> res = new ArrayList<RoleENT>();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			String query = "Select * from roles";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				RoleENT r = new RoleENT(rs.getInt("role_id"),
+						rs.getString("role_name"), rs.getInt("client_id"), "",
+						0, 0, "");
+				res.add(r);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 }

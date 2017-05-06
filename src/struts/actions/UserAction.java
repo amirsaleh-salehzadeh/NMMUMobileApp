@@ -57,8 +57,8 @@ public class UserAction extends Action {
 		// TODO Auto-generated method stub
 		ActionForward af = null;
 		String reqCode = request.getParameter("reqCode");
-		String success = "";
-		String error = "";
+		success = "";
+		error = "";
 		if (reqCode.equalsIgnoreCase("userRoleView")) {
 			try {
 				UserENT u = getUserDAO().getUserENT(
@@ -83,9 +83,6 @@ public class UserAction extends Action {
 				e.printStackTrace();
 			}
 		}
-		success = "";
-		error = "";
-
 		reqCode = request.getParameter("reqCode");
 		if (reqCode == null)
 			reqCode = "userManagement";
@@ -113,7 +110,6 @@ public class UserAction extends Action {
 	private ActionForward userManagement(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
-
 			createMenusForUser(request);
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
@@ -132,7 +128,7 @@ public class UserAction extends Action {
 			}
 			json = AMSUtililies.prepareTheJSONStringForDataTable(
 					userLST.getCurrentPage(), userLST.getTotalItems(), json,
-					"userID");
+					"userID", success, error);
 			request.setAttribute("json", json);
 			MessageENT m = new MessageENT(success, error);
 			request.setAttribute("message", m);
@@ -149,7 +145,6 @@ public class UserAction extends Action {
 			ActionMapping mapping, ActionForm form) {
 		UserENT userENT = new UserENT();
 		int userId ;
-
 		try {
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
@@ -165,7 +160,6 @@ public class UserAction extends Action {
 			request.setAttribute("userENT", userENT);
 			return mapping.findForward("userEdit");
 		}
-
 		userENT.setUserID(userId);
 		try {
 			request.setAttribute("userENT", getUserDAO().getUserENT(userENT));
@@ -173,7 +167,6 @@ public class UserAction extends Action {
 			error = e.getMessage();
 			e.printStackTrace();
 		}
-
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("userEdit");
@@ -243,9 +236,6 @@ public class UserAction extends Action {
 			}
 
 		}
-		success = "The user(s) removed successfully";
-		
-
 	}
 
 	private UserENT getUserENT(HttpServletRequest request) {
