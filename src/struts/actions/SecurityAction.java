@@ -85,9 +85,18 @@ public class SecurityAction extends Action {
 	private ActionForward groupRoleView(HttpServletRequest request,
 			ActionMapping mapping) {
 		String searchKey = "";
+		int gid = Integer.parseInt(request.getParameter("groupID"));
 		if (request.getParameter("searchRole.roleName") != null) {
 			searchKey = request.getParameter("searchRole.roleName");
 		}
+		try {
+			request.setAttribute("groupENT", getSecurityDAO().getGroup(new GroupENT(gid)));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("groupENTRoles", getSecurityDAO().getAllGroupRoles(gid));
 		request.setAttribute("roleLST", getSecurityDAO().getAllRoles(searchKey));
 		return mapping.findForward("groupRole");
 	}

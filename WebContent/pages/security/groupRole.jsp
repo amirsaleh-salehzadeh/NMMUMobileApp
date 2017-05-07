@@ -10,60 +10,64 @@
 </head>
 <body>
 	<form id="dataFilterGridMainPage" action="security.do">
-		<input type="hidden" name="groupID" value="<%=request.getParameter("groupID")%>">
-		<input type="hidden" name="reqCode" value="saveUpdateGroupRole">
-			<div class="ui-grid-solo">
-				<div class="ui-block-a">
-					<html:text name="roleLST" property="searchRole.roleName"
-						onkeyup="refreshGrid();" title="Role Name"></html:text>
-				</div>
-			</div>
-		Roles for user "
-		<bean:write name="groupENT" property="groupName" />
+		<input type="hidden" name="groupID"
+			value="<%=request.getParameter("groupID")%>"> <input
+			type="hidden" name="reqCode" value="saveUpdateGroupRole">
+		Roles for group "
+		<span style="font-weight: bold;"><bean:write name="groupENT" property="groupName" /></span>
 		"
-		<logic:iterate id="groupsListIteration" indexId="rowId"
-			name="groupsList" property="groupENTs" type="common.security.GroupENT">
-			<%
-				int counter = rowId % 3;
-					if (counter == 0) {
-			%>
-			<div class="ui-grid-b">
-				<%
-					}
-				%>
-				<div class=<%if (counter == 0) {%>
-					"ui-block-a"
-				<%} else if (counter == 1) {%>
-				"ui-block-b"
-				<%} else if (counter == 2) {%>
-				"ui-block-c"
-				<%}%>>
-					<logic:iterate id="groupRoleIds" name="groupRoles"
-						type="common.security.GroupENT">
-						<input type="checkbox" value="<%=groupsListIteration.getGroupID()%>"
-							<%if (groupsListIteration.getGroupID() == groupRoleIds
-							.getGroupID()) {%>
-							checked="checked" <%}%> data-inline="true">
-					</logic:iterate>
-					<%=groupsListIteration.getGroupName()%></div>
-				<%
-					if (counter == 2) {
-				%>
-			</div>
-			<%
-				}
-			%>
-		</logic:iterate>
-		<!-- I took out data-inline="true" -->
-			<div class=ui-block-a>
-				<a href="#" data-role="button" data-icon="delete"
-					onclick="callAnAction('security.do?reqCode=groupEdit');">Cancel/Back</a>
-			</div>
-			<div class=ui-block-b>
-				<a href="#" data-role="button" data-icon="check"
-					data-theme="b" onclick="saveTheForm();">Save</a>
+		<div class="ui-grid-solo">
+			<div class="ui-block-a">
+				<input type="text" name="searchKey" placeholder="Search for a role">
 			</div>
 		</div>
+		<div class=ui-block-a>
+			<a href="#" data-role="button" data-icon="delete"
+				onclick="callAnAction('security.do?reqCode=groupEdit&groupID=<%=request.getParameter("groupID")%>');">Cancel/Back</a>
+		</div>
+		<div class=ui-block-b>
+			<a href="#" data-role="button" data-icon="check" data-theme="b"
+				onclick="saveTheForm();">Save</a>
+		</div>
+		<table data-role="table" id="table-column-toggle"
+			class="ui-responsive table-stroke">
+			<tbody>
+				<logic:iterate id="roleListIteration" indexId="rowId" name="roleLST"
+					type="common.security.RoleENT">
+
+					<%
+						int counter;
+							int idcount;
+							counter = rowId % 3;
+							if (counter == 0) {
+					%>
+					<tr>
+						<%
+							}
+						%>
+						<td><label><input type="checkbox"
+								value="<%=roleListIteration.getRoleID()%>"
+								<logic:iterate id="groupRoleIds"
+									name="groupENTRoles" type="common.security.RoleENT">
+									
+										<%if (roleListIteration.getRoleID() == groupRoleIds
+							.getRoleGroupID()) {%>
+										checked="checked" <%}%>
+								</logic:iterate>
+								data-inline="true"> <%=roleListIteration.getRoleName()%>
+						</label></td>
+						<%
+							if (counter == 2) {
+						%>
+
+					</tr>
+					<%
+						}
+					%>
+
+				</logic:iterate>
+			</tbody>
+		</table>
 	</form>
 </body>
 </html>
