@@ -59,10 +59,10 @@ public class UserAction extends Action {
 		// TODO Auto-generated method stub
 		ActionForward af = null;
 		String reqCode = request.getParameter("reqCode");
-<<<<<<< HEAD
+
 		String success = "";
 		String error = "";
-=======
+
 		success = "";
 		error = "";
 		if (reqCode.equalsIgnoreCase("userRoleView")) {
@@ -88,7 +88,7 @@ public class UserAction extends Action {
 			}
 		}
 		reqCode = request.getParameter("reqCode");
->>>>>>> refs/remotes/origin/Dev
+
 		if (reqCode == null)
 		{
 			reqCode = "userManagement";
@@ -106,15 +106,15 @@ public class UserAction extends Action {
 		} else if (reqCode.equals("userSaveUpdate")) {
 			return saveUpdateUser(request, mapping);
 		}
-<<<<<<< HEAD
+
 		if (reqCode.equalsIgnoreCase("userRoleView")) {
 		    return userRoleView(request,mapping);
 		}
 		if (reqCode.equalsIgnoreCase("userGroupView")) {
 		    return userGroupView(request,mapping);
 		}
-=======
->>>>>>> refs/remotes/origin/Dev
+
+
 		return af;
 	}
 	private ActionForward userGroupView(HttpServletRequest request,
