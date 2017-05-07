@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
+<%@taglib prefix="ams" uri="/WEB-INF/AMSTag.tld"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
@@ -25,11 +26,8 @@
 		<bean:write name="userENT" property="userName" />
 		"
 		<div>
-		
-		<input type="search" name="search" id="search-basic" value="">
-<%-- 		<html:text name="searchKey" property="searchRole.roleName" --%>
-<%--  						onkeyup="refreshGrid();" title="Role Name"></html:text>   --%>
-<%--  						<bean:define id="searchKey" name="searchKey"></bean:define>  --%>
+<%-- 		<html:text name="roleENT" property="searchRole.roleName" --%>
+<%--   						onkeyup="refreshGrid();" title="Role Name"></html:text>    --%>
 		</div>
         
 						

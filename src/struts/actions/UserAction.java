@@ -62,33 +62,6 @@ public class UserAction extends Action {
 
 		String success = "";
 		String error = "";
-
-		success = "";
-		error = "";
-		if (reqCode.equalsIgnoreCase("userRoleView")) {
-			try {
-				UserENT u = getUserDAO().getUserENT(
-						new UserENT("", Integer.parseInt(request
-								.getParameter("userID"))));
-				request.setAttribute("userENT", u);
-				RoleLST roleLST = new RoleLST();
-				String searchKey = "";
-				if(request.getParameter("searchKey")!=null)
-					searchKey = request.getParameter("searchKey");
-				roleLST.setSearchRole(new RoleENT(0, searchKey, 0, "", ""));
-				roleLST.setPageSize(400);
-				RoleLST roles = getSecurityDAO().getRolesList(roleLST);
-				request.setAttribute("userRoles", getUserDAO().getAllRolesUser(u.getUserID()));
-				request.setAttribute("rolesList", roles);
-				return mapping.findForward("userRole");
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-		}
-		reqCode = request.getParameter("reqCode");
-
 		if (reqCode == null)
 		{
 			reqCode = "userManagement";
@@ -127,8 +100,8 @@ public class UserAction extends Action {
 			GroupLST groupLST = new GroupLST();
 			String searchKey = "";
 			
-			if(request.getParameter("searchKey")!=null)
-				searchKey = request.getParameter("searchKey");
+			if(request.getParameter("search")!=null)
+				searchKey = request.getParameter("search");
 			groupLST.setSearchGroup(new GroupENT(0, searchKey, 0, "", ""));
 			groupLST.setPageSize(400);
 			GroupLST groups = getSecurityDAO().getGroupList(groupLST);
