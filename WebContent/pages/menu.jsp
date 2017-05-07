@@ -123,15 +123,6 @@ body {
 						Management</a></li>
 				<li
 
-					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					onclick="callAnAction('user.do?reqCode=userRoleView&userID=3')" href="#" data-ajax="false">User
-						Roles</a></li>
-						<li
-					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					onclick="callAnAction('user.do?reqCode=userGroupView&userID=3')" href="#" data-ajax="false">User
-						Groups</a></li>
-				<li
-
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
 					href="t_security.do?reqCode=roleManagement" data-ajax="false">Role
 						Management</a></li>

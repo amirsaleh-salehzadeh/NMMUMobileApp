@@ -96,16 +96,13 @@ public class UserAction extends Action {
 					new UserENT("", Integer.parseInt(request
 							.getParameter("userID"))));
 			request.setAttribute("userENT", u);
-			GroupLST groupLST = new GroupLST();
 			String searchKey = "";
-			
-			if(request.getParameter("search")!=null)
-				searchKey = request.getParameter("search");
-			groupLST.setSearchGroup(new GroupENT(0, searchKey, 0, "", ""));
-			groupLST.setPageSize(400);
-			GroupLST groups = getSecurityDAO().getGroupList(groupLST);
-			request.setAttribute("userGroups", getUserDAO().getAllGroupsUser(u.getUserID()));
-			request.setAttribute("groupsList", groups);
+			if(request.getParameter("groupName")!=null)
+				searchKey = request.getParameter("groupName");
+			GroupENT group = new GroupENT(0, searchKey, 0, "", "");
+			request.setAttribute("groupENT", group);
+			request.setAttribute("userGroup", getUserDAO().getAllGroupsUser(u.getUserID()));
+//			request.setAttribute("groupsList", getSecurityDAO().getAllGroups(searchKey));
 			return mapping.findForward("userGroup");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -116,9 +113,8 @@ public class UserAction extends Action {
 		}
 		
 		
-		return null;
+		return  null;
 			}
-
 	private ActionForward userRoleView(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
@@ -126,15 +122,13 @@ public class UserAction extends Action {
 					new UserENT("", Integer.parseInt(request
 							.getParameter("userID"))));
 			request.setAttribute("userENT", u);
-			RoleLST roleLST = new RoleLST();
 			String searchKey = "";
-			if(request.getParameter("searchKey")!=null)
-				searchKey = request.getParameter("searchKey");
-			roleLST.setSearchRole(new RoleENT(0, searchKey, 0, "", ""));
-			roleLST.setPageSize(400);
-			RoleLST roles = getSecurityDAO().getRolesList(roleLST);
+			if(request.getParameter("roleName")!=null)
+				searchKey = request.getParameter("roleName");
+			RoleENT role = new RoleENT(0, searchKey, 0, "", "");
+			request.setAttribute("roleENT", role);
 			request.setAttribute("userRoles", getUserDAO().getAllRolesUser(u.getUserID()));
-			request.setAttribute("rolesList", roles);
+			request.setAttribute("rolesList", getSecurityDAO().getAllRoles(searchKey));
 			return mapping.findForward("userRole");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block

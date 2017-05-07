@@ -10,68 +10,59 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <html>
 <head>
-<script>
-	$(document).ready(function() {
-		refreshPlaceHolders();
-		refreshGrid();
-	});
-</script>
 </head>
 <body>
 	<form id="dataFilterGridMainPage" action="user.do">
 		<input type="hidden" name="userID"
-			value="<%=request.getParameter("userID")%>"> <input
-			type="hidden" name="reqCode" value="userRoleView"> Roles for
-		user "
-		<bean:write name="userENT" property="userName" />
-		"
+			value="<%=request.getParameter("userID")%>">
+			 <input type="hidden" name="reqCode" value="userRoleView"> 
+			 Roles for user "
+		      <bean:write name="userENT" property="userName" />
+		     "
 		<div>
-<%-- 		<html:text name="roleENT" property="searchRole.roleName" --%>
-<%--   						onkeyup="refreshGrid();" title="Role Name"></html:text>    --%>
+			<html:text property="roleName" name="roleENT" onkeyup="saveTheForm()"
+				title="Search for a role"></html:text>
 		</div>
-        
-						
 		<table data-role="table" id="table-column-toggle"
 			class="ui-responsive table-stroke">
 			<tbody>
-				<tr>
-					<logic:iterate id="rolesListIteration" indexId="rowId"
-						name="rolesList" property="roleENTs"
-						type="common.security.RoleENT">
+				<logic:iterate id="rolesListIteration" indexId="rowId"
+					name="rolesList" type="common.security.RoleENT">
 
+					<%
+						int counter;
+							int idcount;
+							counter = rowId % 3;
+							if (counter == 0) {
+					%>
+					<tr>
 						<%
-							int counter;
-								int idcount;
-								counter = rowId % 3;
-								{
+							}
 						%>
-						<td><label> <logic:iterate id="userRoleIds"
+						<td><label><input type="checkbox"
+								value="<%=rolesListIteration.getRoleID()%>"
+								<logic:iterate id="userRoleIds"
 									name="userRoles" type="common.security.RoleENT">
-									<input type="checkbox"
-										value="<%=rolesListIteration.getRoleID()%>"
 										<%if (rolesListIteration.getRoleID() == userRoleIds
-								.getRoleID()) {%>
-										checked="checked" <%}%> data-inline="true">
-								</logic:iterate> <%=rolesListIteration.getRoleName()%>
+							.getRoleID()) {%>
+										checked="checked" <%}%> 
+								</logic:iterate>
+								data-inline="true"><%=rolesListIteration.getRoleName()%>
 						</label></td>
 						<%
 							if (counter == 2) {
 						%>
-					
-				</tr>
-				<tr>
+					</tr>
 					<%
 						}
-							}
 					%>
 
-					</logic:iterate>
+				</logic:iterate>
 			</tbody>
 		</table>
-<a href="#" data-role="button"
-			data-inline="true" data-rel="back" data-transition="flow"
-			data-theme="b" rel="external" onclick="deleteConfirmed();">Delete</a>
-
+			
+<a href="#" data-role="button" data-inline="true"
+ onclick="callAnAction('user.do?reqCode=userEdit&userID=<%=request.getParameter("userID")%>')">Back to user edit page</a>
 	</form>
 </body>
 
