@@ -21,6 +21,8 @@ function displaySearch() {
 function refreshGrid() {
 	var url = $("#dataFilterGridMainPage").attr("action");
 	$("#reqCodeGrid").val("gridJson");
+	if($("#reqCodeGrid")=="")
+		return;
 	url += "?" + $("#dataFilterGridMainPage").serialize();
 	$('#gridList')
 			.dataTable(
@@ -48,16 +50,16 @@ function refreshGrid() {
 								} ],
 						columns : [VARCOLUMNS],
 						initComplete : function(settings, json) {
-							if(json.success!= undefined){
+							if(json.successm!= undefined){
 								$("#dialog-message").html("<label id='successDescription' style='color:green;'>"
-										+ json.success + "</label>");
+										+ json.successm + "</label>");
 								popup();
-								}
-							if(json.error!= undefined){
-								$("#dialog-message").html("<label id='errorDescription' style='color:error;'>"
-										+ json.error + "</label>");
+							}
+							if(json.errorm != undefined){
+								$("#dialog-message").html("<label id='errorDescription' style='color:red;'>"
+										+ json.errorm + "</label>");
 								popup();
-								}
+							}
 							$('#[POPUPID]').trigger("create");
 							$('#paginationContainerDiv').trigger("create");
 							$('input.gridCheckBoxes').each(function(){

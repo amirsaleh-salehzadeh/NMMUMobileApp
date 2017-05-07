@@ -33,6 +33,7 @@ body {
 			}
 		});
 	}
+	
 	function saveTheForm() {
 		var url = $("#dataFilterGridMainPage").attr("action");
 		url += "?" + $("#dataFilterGridMainPage").serialize();
@@ -50,11 +51,13 @@ body {
 			}
 		});
 	}
+	
 	function deleteAnItem(id, reqCode) {
 		$("#reqCode").val(reqCode);
 		$("#deleteID").val(id);
 		showPopupDialogDeleteConfirmation(reqCode);
 	}
+	
 	function deleteConfirmed() {
 		var url = $("#dataFilterGridMainPage").attr("action");
 		url += "?" + $("#dataFilterGridMainPage").serialize();
