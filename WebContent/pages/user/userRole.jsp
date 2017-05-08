@@ -6,23 +6,29 @@
 <%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@taglib prefix="ams" uri="/WEB-INF/AMSTag.tld"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <html>
 <head>
 </head>
 <body>
+	<ams:message messageEntity="${message}"></ams:message>
 	<form id="dataFilterGridMainPage" action="user.do">
-		<input type="hidden" name="userID"
-			value="<%=request.getParameter("userID")%>">
-			 <input type="hidden" name="reqCode" value="userRoleView"> 
-			 Roles for user "
-		      <bean:write name="userENT" property="userName" />
-		     "
+		<input type="hidden" name="userID" 
+			value="<%=request.getParameter("userID")%>"> <input
+			type="hidden" name="reqCode" value="userRolesSave"> Roles for
+		user "
+		<bean:write name="userENT" property="userName" />
+		"
 		<div>
 			<html:text property="roleName" name="roleENT" onkeyup="saveTheForm()"
 				title="Search for a role"></html:text>
 		</div>
+		<label style="width: 100%">Select All<input type="checkbox"
+			id="checkAllRoles" onclick="selectAllRoles()"></label> <a href="#"
+			data-role="button" data-inline="true"
+			onclick="callAnAction('user.do?reqCode=userEdit&userID=<%=request.getParameter("userID")%>')">Back</a>
+		<a href="#" data-role="button" data-inline="true"
+			onclick="saveTheForm()">Save</a>
 		<table data-role="table" id="table-column-toggle"
 			class="ui-responsive table-stroke">
 			<tbody>
@@ -39,7 +45,8 @@
 						<%
 							}
 						%>
-						<td><label><input type="checkbox"
+						<td><label><input type="checkbox" name="userRoleID"
+								class="roleCheckBoxes"
 								value="<%=rolesListIteration.getRoleID()%>"
 								<logic:iterate id="userRoleIds"
 									name="userRoles" type="common.security.RoleENT">
@@ -60,10 +67,16 @@
 				</logic:iterate>
 			</tbody>
 		</table>
-			
-<a href="#" data-role="button" data-inline="true"
- onclick="callAnAction('user.do?reqCode=userEdit&userID=<%=request.getParameter("userID")%>')">Back to user edit page</a>
 	</form>
 </body>
-
+<script type="text/javascript">
+$(document).ready(function() {
+	refreshPlaceHolders();
+});
+function selectAllRoles(){
+	$(".roleCheckBoxes").each(function(){
+		$(this).attr('checked', $("#checkAllRoles").attr("checked"));
+	});
+}
+</script>
 </html>

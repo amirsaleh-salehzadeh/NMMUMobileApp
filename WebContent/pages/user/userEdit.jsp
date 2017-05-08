@@ -22,18 +22,15 @@
 .flipswitchGender.ui-flipswitch .ui-btn.ui-flipswitch-on {
 	text-indent: -3.9em;
 }
-
 .flipswitchGender.ui-flipswitch .ui-flipswitch-off {
 	text-indent: 0.5em;
 }
-
 .flipswitchGender.ui-flipswitch {
 	background-color: #FF0080;
 	color: white;
 	width: 6.875em;
 	text-indent: 2em;
 }
-
 .flipswitchGender.ui-flipswitch.ui-flipswitch-active {
 	background-color: #2E64FE;
 	color: white;
@@ -41,15 +38,12 @@
 	width: 1.875em;
 	text-indent: 2em;
 }
-
 .flipswitchActive.ui-flipswitch .ui-btn.ui-flipswitch-on {
 	text-indent: -3.9em;
 }
-
 .flipswitchActive.ui-flipswitch .ui-flipswitch-off {
 	text-indent: 0.5em;
 }
-
 .flipswitchActive.ui-flipswitch {
 	background-color: #8A0808;
 	color: white;
@@ -57,7 +51,6 @@
 	font-weight: normal;
 	text-indent: 2em;
 }
-
 .flipswitchActive.ui-flipswitch.ui-flipswitch-active {
 	background-color: #2E64FE;
 	color: white;
@@ -152,7 +145,7 @@
 		<div class=ui-grid-c>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" data-inline="true" data-icon="delete"
-					onclick="callAnAction('user.do?reqCode=userManagement');">Cancel</a>
+					onclick="callAnAction('user.do?reqCode=userManagement');">Back</a>
 			</div>
 			<div class=ui-block-b>
 				<a href="#" data-role="button" data-inline="true" data-icon="delete"

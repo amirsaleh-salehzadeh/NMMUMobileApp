@@ -29,7 +29,6 @@
 			<forward name="userManagement" path="/pages/user/userManagement.jsp" />
 			<forward name="userEdit" path="/pages/user/userEdit.jsp" />
 			<forward name="userRole" path="/pages/user/userRole.jsp" />
-			<forward name="userGroup" path="/pages/user/userGroup.jsp" />
 			<forward name="gridJson" path="/pages/json.jsp" />
 		</action>
 	</action-mappings>
