@@ -49,8 +49,7 @@
 								value="<%=rolesListIteration.getRoleID()%>"
 								<logic:iterate id="userRoleIds"
 									name="userRoles" type="common.security.RoleENT">
-										<%if (rolesListIteration.getRoleID() == userRoleIds
-							.getRoleID()) {%>
+										<%if (rolesListIteration.getRoleID() == userRoleIds.getRoleID()) {%>
 										checked="checked" <%}%> 
 								</logic:iterate>
 								data-inline="true"><%=rolesListIteration.getRoleName()%>
@@ -75,8 +74,11 @@
 	});
 	function selectAllRoles() {
 	
-		$('.roleCheckBoxes').prop('checked', $("#checkAllRoles").is(':checked')).checkboxradio('refresh');   
-            
+		
+	$('.roleCheckBoxes')
+				.prop('checked', $("#checkAllRoles").is(':checked'))
+				.checkboxradio('refresh');
+
 	}
 	function searchForRole() {
 		var str = "user.do?reqCode=userRoleView&userID="
