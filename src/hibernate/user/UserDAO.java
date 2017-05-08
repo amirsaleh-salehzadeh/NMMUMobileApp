@@ -319,7 +319,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			while (rs.next()) {
 				GroupENT r = new GroupENT(rs.getInt("group_id"),
 						rs.getString("group_name"), rs.getInt("client_id"), "",
-						0, rs.getInt("group_role_id"), "");
+						0, rs.getInt("user_group_id"), "");
 				res.add(r);
 			}
 			ps.close();
@@ -379,7 +379,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			ps.setInt(1, user.getUserID());
 			ps.execute();
 			query = "insert into user_groups (group_id, user_id) values (?,?)";
-			for (int i = 0; i < user.getRoleENTs().size(); i++) {
+			for (int i = 0; i < user.getGroupENTs().size(); i++) {
 				ps = conn.prepareStatement(query);
 				ps.setInt(2, user.getUserID());
 				ps.setInt(1, user.getGroupENTs().get(i).getGroupID());
