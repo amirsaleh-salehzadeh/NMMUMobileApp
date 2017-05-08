@@ -7,6 +7,8 @@ public class AMSErrorHandler {
 
 	synchronized public static String handle(Object obj, Exception e , String errorMessageIfExceptionIsNull , String errorMessageIfNullPointerException) {
 		AMSErrorHandler errorHandler = new AMSErrorHandler();
+//		if(e.getCause().toString().equalsIgnoreCase("AMSException"))
+//			return e.getMessage();
 		String error = "";
 		if (e != null) {
 			if (e.getMessage() == null) {
@@ -36,46 +38,47 @@ public class AMSErrorHandler {
 		AMSErrorHandler errorHandler = new AMSErrorHandler();
 		String className = obj.getClass().getCanonicalName();
 		className = className.substring(className.lastIndexOf(".") + 1);
-		
+		System.out.println(e.getCause());
 		String error = "";
-		error = errorHandler.generalDBErrorHandle(e);
-		if ("OrderAction".equalsIgnoreCase(className)) {
-			error = errorHandler.orderActionErrorHandle(e);
-		} else if  ("AgentLocationAction".equalsIgnoreCase(className)) {
-			error = errorHandler.agentLocationActionErrorHandle(e);
-		} else if  ("BankAccountAction".equalsIgnoreCase(className)) {
-			error = errorHandler.bankAccountActionErrorHandle(e);
-		} else if  ("CosttypeAction".equalsIgnoreCase(className)) {
-			error = errorHandler.costtypeActionErrorHandle(e);
-		} else if  ("CreditAction".equalsIgnoreCase(className)) {
-			error = errorHandler.creditActionErrorHandle(e);
-		} else if  ("OrdercreditAction".equalsIgnoreCase(className)) {
-			error = errorHandler.ordercreditActionErrorHandle(e);
-		} else if  ("OrderficheAction".equalsIgnoreCase(className)) {
-			error = errorHandler.orderficheActionErrorHandle(e);
-		} else if  ("FicheAction".equalsIgnoreCase(className)) {
-			error = errorHandler.ficheActionErrorHandle(e);
-		} else if  ("OrderPursuitAction".equalsIgnoreCase(className)) {
-			error = errorHandler.orderPursuitActionErrorHandle(e);
-		} else if  ("UserAction".equalsIgnoreCase(className)) {
+		if ("UserAction".equalsIgnoreCase(className)) {
 			error = errorHandler.userActionErrorHandle(e);
-		} else if  ("ChangepasswordAction".equalsIgnoreCase(className)) {
-			error = errorHandler.changePasswordActionErrorHandle(e);
-		} else if  ("CustomerTurnoverAction".equalsIgnoreCase(className)) {
-			error = errorHandler.customerTurnoverActionErrorHandle(e);
-		} else if  ("CustomerQuotaAction".equalsIgnoreCase(className)) {
-			error = errorHandler.customerQuotaActionErrorHandle(e);
-		} else if  ("DailySaleAction".equalsIgnoreCase(className)) {
-			error = errorHandler.dailySaleActionErrorHandle(e);
-		} else if  ("ProductSaleAction".equalsIgnoreCase(className)) {
-			error = errorHandler.productSaleActionErrorHandle(e);
-		} else if  ("SellStatisticsAction".equalsIgnoreCase(className)) {
-			error = errorHandler.sellStatisticsActionErrorHandle(e);
-		} else if  ("RecConfirmAction".equalsIgnoreCase(className)) {
-			error = errorHandler.recConfirmActionErrorHandle(e);
-		} else {
-			error = "unhandled";
-		}
+		} 
+//		else if  ("AgentLocationAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.agentLocationActionErrorHandle(e);
+//		} else if  ("BankAccountAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.bankAccountActionErrorHandle(e);
+//		} else if  ("CosttypeAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.costtypeActionErrorHandle(e);
+//		} else if  ("CreditAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.creditActionErrorHandle(e);
+//		} else if  ("OrdercreditAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.ordercreditActionErrorHandle(e);
+//		} else if  ("OrderficheAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.orderficheActionErrorHandle(e);
+//		} else if  ("FicheAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.ficheActionErrorHandle(e);
+//		} else if  ("OrderPursuitAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.orderPursuitActionErrorHandle(e);
+//		} else if  ("UserAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.userActionErrorHandle(e);
+//		} else if  ("ChangepasswordAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.changePasswordActionErrorHandle(e);
+//		} else if  ("CustomerTurnoverAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.customerTurnoverActionErrorHandle(e);
+//		} else if  ("CustomerQuotaAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.customerQuotaActionErrorHandle(e);
+//		} else if  ("DailySaleAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.dailySaleActionErrorHandle(e);
+//		} else if  ("ProductSaleAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.productSaleActionErrorHandle(e);
+//		} else if  ("SellStatisticsAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.sellStatisticsActionErrorHandle(e);
+//		} else if  ("RecConfirmAction".equalsIgnoreCase(className)) {
+//			error = errorHandler.recConfirmActionErrorHandle(e);
+//		} 
+//		else {
+//			error = "unhandled";
+//		}
 		return error;
 	}
 
@@ -116,13 +119,6 @@ public class AMSErrorHandler {
 		} else {
 			error = "unhandled";
 		}
-		return error;
-	}
-	public String generalDBErrorHandle(Exception e) {
-		String error = "";
-		if (e.getMessage().contains("foreign key") || e.getCause().toString().contains("foreign key")) {
-			error = "The item cannot be removed or updated as it has been allocated to a parent item";
-		} 
 		return error;
 	}
 
@@ -278,15 +274,13 @@ public class AMSErrorHandler {
 	
 	private String userActionErrorHandle(Exception e) {
 		String error = "";
-		if (e.getMessage().contains("Duplicate entry")) {
-			error = "نام کاربری و یا کد تکراری است";
-		} else if (e.getMessage().contains("handleThis")) {
-			error = "عملیات ثبت با مشکل روبرو شده است";
-		} else if (e.getMessage().contains("Data truncation: Data too long for column")) {
-			error = "تعداد کاراکترهای ورودی بیش از حد مجاز است";
-		} else if (e.getMessage().contains("notFilledFields")) {
-			error = "یکی از مقادیر کد / نام / نام کاربری / کلمه عبور خالی است";
-		} else {
+		if (e.getMessage().contains("foreign key")) {
+			error = "The user cannot be removed or updated. It has some dependencies in the system.";
+		} else if (e.getMessage().contains("Duplicate entry")) {
+			error = "The username has been already used. Please select another username";
+		} else if( e.getCause()!=null && e.getCause().toString().contains("foreign key")){ 
+			error = "The user cannot be removed or updated. It has some dependencies in the system.";
+		}else {
 			error = "unhandled";
 		}
 		return error;

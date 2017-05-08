@@ -348,7 +348,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String query = "Select * from roles where role_name like ";
+			String query = "Select * from roles where role_name like ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, "%"+searchKey+"%");
 			ResultSet rs = ps.executeQuery();
