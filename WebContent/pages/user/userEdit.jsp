@@ -147,6 +147,7 @@
 				<a href="#" data-role="button" data-inline="true" data-icon="delete"
 					onclick="callAnAction('user.do?reqCode=userManagement');">Back</a>
 			</div>
+			<% if(request.getParameter("userID")!=null) {  %>
 			<div class=ui-block-b>
 				<a href="#" data-role="button" data-inline="true" data-icon="delete"
 					onclick="callAnAction('user.do?reqCode=userRoleView&userID=<bean:write name="userENT" property="userID"
@@ -157,6 +158,7 @@
 					onclick="callAnAction('user.do?reqCode=userGroupView&userID=<bean:write name="userENT" property="userID"
 					/>')">Groups</a>
  			</div> 
+ 			<% }; %>
 			<div class=ui-block-d>
 				<a href="#" data-role="button" data-inline="true" data-icon="check"
 					data-theme="b" onclick="saveTheForm();">Save</a>
