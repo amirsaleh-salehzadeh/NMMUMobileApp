@@ -145,7 +145,7 @@
 		<div class=ui-grid-c>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" data-inline="true" data-icon="delete"
-					onclick="callAnAction('user.do?reqCode=userManagement');">Cancel</a>
+					onclick="callAnAction('user.do?reqCode=userManagement');">Back</a>
 			</div>
 			<div class=ui-block-b>
 				<a href="#" data-role="button" data-inline="true" data-icon="delete"

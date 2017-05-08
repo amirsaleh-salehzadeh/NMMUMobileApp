@@ -30,6 +30,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import tools.AMSErrorHandler;
 import tools.AMSException;
 import tools.AMSUtililies;
+import tools.NVL;
 
 import common.DropDownENT;
 import common.MessageENT;
@@ -60,34 +61,55 @@ public class UserAction extends Action {
 		success = "";
 		error = "";
 		reqCode = request.getParameter("reqCode");
-		if (reqCode == null)
-		{
+		if (reqCode == null) {
 			reqCode = "userManagement";
 		}
-			if (reqCode.equalsIgnoreCase("deleteUser")) {
+		if (reqCode.equalsIgnoreCase("deleteUser")) {
 			deleteUser(request);
 			reqCode = "userManagement";
 		}
+		if (reqCode.equalsIgnoreCase("userRolesSave")) {
+			saveUserRoles(request, mapping);
+			reqCode = "userRoleView";
+		}
 		if (reqCode.equalsIgnoreCase("userManagement")
 				|| reqCode.equals("gridJson")) {
-			return userManagement(request, mapping); 
+			return userManagement(request, mapping);
 		} else if (reqCode.equals("userEdit")) {
 			return editUser(request, mapping, form);
-
 		} else if (reqCode.equals("userSaveUpdate")) {
 			return saveUpdateUser(request, mapping);
-		}
-
-		if (reqCode.equalsIgnoreCase("userRoleView")) {
-		    return userRoleView(request,mapping);
-		}
-		if (reqCode.equalsIgnoreCase("userGroupView")) {
-		    return userGroupView(request,mapping);
-		}
-
+		} else if (reqCode.equalsIgnoreCase("userRoleView")) {
+			return userRoleView(request, mapping);
+		} else if (reqCode.equalsIgnoreCase("userGroupView")) {
+			return userGroupView(request, mapping);
+		} 
 
 		return af;
 	}
+
+	private void saveUserRoles(HttpServletRequest request,
+			ActionMapping mapping) {
+		String[] t = request.getParameterValues("userRoleID");
+		UserENT u = new UserENT();
+		u.setUserID(NVL.getInt(request.getParameter("userID")));
+		ArrayList<RoleENT> roles = new ArrayList<RoleENT>();
+		for (int i = 0; i < t.length; i++) {
+			RoleENT r = new RoleENT(NVL.getInt(t[i]));
+			roles.add(r);
+		}
+		u.setRoleENTs(roles);
+		try {
+			getUserDAO().saveUpdateUserRoles(u);
+			success = "Roles saved successfully";
+		} catch (AMSException e) {
+			e.printStackTrace();
+			error = AMSErrorHandler.handle(request, this, e, "", "");
+		}
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
+	}
+
 	private ActionForward userGroupView(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
@@ -96,12 +118,14 @@ public class UserAction extends Action {
 							.getParameter("userID"))));
 			request.setAttribute("userENT", u);
 			String searchKey = "";
-			if(request.getParameter("groupName")!=null)
+			if (request.getParameter("groupName") != null)
 				searchKey = request.getParameter("groupName");
 			GroupENT group = new GroupENT(0, searchKey, 0, "", "");
 			request.setAttribute("groupENT", group);
-			request.setAttribute("userGroup", getUserDAO().getAllGroupsUser(u.getUserID()));
-//			request.setAttribute("groupsList", getSecurityDAO().getAllGroups(searchKey));
+			request.setAttribute("userGroup",
+					getUserDAO().getAllGroupsUser(u.getUserID()));
+			// request.setAttribute("groupsList",
+			// getSecurityDAO().getAllGroups(searchKey));
 			return mapping.findForward("userGroup");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -110,10 +134,10 @@ public class UserAction extends Action {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		return  null;
-			}
+
+		return null;
+	}
+
 	private ActionForward userRoleView(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
@@ -122,24 +146,23 @@ public class UserAction extends Action {
 							.getParameter("userID"))));
 			request.setAttribute("userENT", u);
 			String searchKey = "";
-			if(request.getParameter("roleName")!=null)
+			if (request.getParameter("roleName") != null)
 				searchKey = request.getParameter("roleName");
 			RoleENT role = new RoleENT(0, searchKey, 0, "", "");
 			request.setAttribute("roleENT", role);
-			request.setAttribute("userRoles", getUserDAO().getAllRolesUser(u.getUserID()));
-			request.setAttribute("rolesList", getSecurityDAO().getAllRoles(searchKey));
+			request.setAttribute("userRoles",
+					getUserDAO().getAllRolesUser(u.getUserID()));
+			request.setAttribute("rolesList",
+					getSecurityDAO().getAllRoles(searchKey));
 			return mapping.findForward("userRole");
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (AMSException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		return  null;
-			}
+
+		return null;
+	}
 
 	private ActionForward userManagement(HttpServletRequest request,
 			ActionMapping mapping) {
@@ -172,13 +195,15 @@ public class UserAction extends Action {
 		} catch (AMSException e) {
 			e.printStackTrace();
 		}
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
 		return mapping.findForward("userManagement");
 	}
 
 	private ActionForward editUser(HttpServletRequest request,
 			ActionMapping mapping, ActionForm form) {
 		UserENT userENT = new UserENT();
-		int userId ;
+		int userId;
 		try {
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
@@ -231,8 +256,7 @@ public class UserAction extends Action {
 		try {
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
-			request.setAttribute("titleENTs", getUserDAO()
-					.getTitlesDropDown());
+			request.setAttribute("titleENTs", getUserDAO().getTitlesDropDown());
 			request.setAttribute("ethnicENTs", getUserDAO()
 					.getEthnicsDropDown());
 		} catch (AMSException e1) {
@@ -257,7 +281,7 @@ public class UserAction extends Action {
 		String[] delID = request.getParameter("deleteID").split(",");
 		ArrayList<UserENT> usersToDelete = new ArrayList<UserENT>();
 		for (int i = 0; i < delID.length; i++) {
-			UserENT user = new UserENT( "", Integer.parseInt(delID[i]));
+			UserENT user = new UserENT("", Integer.parseInt(delID[i]));
 			usersToDelete.add(user);
 			try {
 				getUserDAO().deleteUsers(usersToDelete);
@@ -266,8 +290,9 @@ public class UserAction extends Action {
 				e.printStackTrace();
 				error = AMSErrorHandler.handle(request, this, e, "", "");
 			}
-
 		}
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
 	}
 
 	private UserENT getUserENT(HttpServletRequest request) {
@@ -282,10 +307,11 @@ public class UserAction extends Action {
 			userENT.setUserID(Integer.parseInt(request.getParameter("userID")));
 		else {
 			userENT.setUserID(0);
-			
+
 		}
 		if (userENT.getRegisterationDate() == null)
-			userENT.setRegisterationDate(df.format(Calendar.getInstance().getTime()));
+			userENT.setRegisterationDate(df.format(Calendar.getInstance()
+					.getTime()));
 		if (request.getParameter("ethnicID") != null)
 			userENT.setEthnicID(Integer.parseInt(request
 					.getParameter("ethnicID")));
