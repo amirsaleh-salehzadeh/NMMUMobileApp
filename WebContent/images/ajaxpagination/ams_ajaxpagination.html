@@ -21,8 +21,6 @@ function displaySearch() {
 function refreshGrid() {
 	var url = $("#dataFilterGridMainPage").attr("action");
 	$("#reqCodeGrid").val("gridJson");
-	if($("#reqCodeGrid")=="")
-		return;
 	url += "?" + $("#dataFilterGridMainPage").serialize();
 	$('#gridList')
 			.dataTable(
