@@ -34,6 +34,8 @@ import tools.AMSUtililies;
 import common.DropDownENT;
 import common.MessageENT;
 import common.PopupENT;
+import common.security.GroupENT;
+import common.security.GroupLST;
 import common.security.RoleENT;
 import common.security.RoleLST;
 import common.user.UserENT;
@@ -55,35 +57,14 @@ public class UserAction extends Action {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionForward af = null;
-		reqCode = request.getParameter("reqCode");
 		success = "";
 		error = "";
-		if (reqCode.equalsIgnoreCase("userRoleView")) {
-			try {
-				UserENT u = getUserDAO().getUserENT(
-						new UserENT("", Integer.parseInt(request
-								.getParameter("userID"))));
-				request.setAttribute("userENT", u);
-				RoleLST roleLST = new RoleLST();
-				String searchKey = "";
-				if(request.getParameter("searchKey")!=null)
-					searchKey = request.getParameter("searchKey");
-				roleLST.setSearchRole(new RoleENT(0, searchKey, 0, "", ""));
-				roleLST.setPageSize(400);
-				RoleLST roles = getSecurityDAO().getRolesList(roleLST);
-				request.setAttribute("userRoles", getUserDAO().getAllRolesUser(u.getUserID()));
-				request.setAttribute("rolesList", roles);
-				return mapping.findForward("userRole");
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-		}
 		reqCode = request.getParameter("reqCode");
 		if (reqCode == null)
+		{
 			reqCode = "userManagement";
-		if (reqCode.equalsIgnoreCase("deleteUser")) {
+		}
+			if (reqCode.equalsIgnoreCase("deleteUser")) {
 			deleteUser(request);
 			reqCode = "userManagement";
 		}
@@ -96,8 +77,69 @@ public class UserAction extends Action {
 		} else if (reqCode.equals("userSaveUpdate")) {
 			return saveUpdateUser(request, mapping);
 		}
+
+		if (reqCode.equalsIgnoreCase("userRoleView")) {
+		    return userRoleView(request,mapping);
+		}
+		if (reqCode.equalsIgnoreCase("userGroupView")) {
+		    return userGroupView(request,mapping);
+		}
+
+
 		return af;
 	}
+	private ActionForward userGroupView(HttpServletRequest request,
+			ActionMapping mapping) {
+		try {
+			UserENT u = getUserDAO().getUserENT(
+					new UserENT("", Integer.parseInt(request
+							.getParameter("userID"))));
+			request.setAttribute("userENT", u);
+			String searchKey = "";
+			if(request.getParameter("groupName")!=null)
+				searchKey = request.getParameter("groupName");
+			GroupENT group = new GroupENT(0, searchKey, 0, "", "");
+			request.setAttribute("groupENT", group);
+			request.setAttribute("userGroup", getUserDAO().getAllGroupsUser(u.getUserID()));
+//			request.setAttribute("groupsList", getSecurityDAO().getAllGroups(searchKey));
+			return mapping.findForward("userGroup");
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return  null;
+			}
+	private ActionForward userRoleView(HttpServletRequest request,
+			ActionMapping mapping) {
+		try {
+			UserENT u = getUserDAO().getUserENT(
+					new UserENT("", Integer.parseInt(request
+							.getParameter("userID"))));
+			request.setAttribute("userENT", u);
+			String searchKey = "";
+			if(request.getParameter("roleName")!=null)
+				searchKey = request.getParameter("roleName");
+			RoleENT role = new RoleENT(0, searchKey, 0, "", "");
+			request.setAttribute("roleENT", role);
+			request.setAttribute("userRoles", getUserDAO().getAllRolesUser(u.getUserID()));
+			request.setAttribute("rolesList", getSecurityDAO().getAllRoles(searchKey));
+			return mapping.findForward("userRole");
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return  null;
+			}
 
 	private ActionForward userManagement(HttpServletRequest request,
 			ActionMapping mapping) {
