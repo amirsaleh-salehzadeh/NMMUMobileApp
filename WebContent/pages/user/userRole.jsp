@@ -74,11 +74,9 @@
 		refreshPlaceHolders();
 	});
 	function selectAllRoles() {
-		$("#userRoleIds").click(
-				function() {
-					$(".roleCheckBoxes").prop("checked",
-							$("#userRoleIds").prop("checked"));
-				});
+	
+		$('.roleCheckBoxes').prop('checked', $("#checkAllRoles").is(':checked')).checkboxradio('refresh');   
+            
 	}
 	function searchForRole() {
 		var str = "user.do?reqCode=userRoleView&userID="
