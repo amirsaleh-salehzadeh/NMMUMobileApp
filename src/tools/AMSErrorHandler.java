@@ -7,6 +7,8 @@ public class AMSErrorHandler {
 
 	synchronized public static String handle(Object obj, Exception e , String errorMessageIfExceptionIsNull , String errorMessageIfNullPointerException) {
 		AMSErrorHandler errorHandler = new AMSErrorHandler();
+//		if(e.getCause().toString().equalsIgnoreCase("AMSException"))
+//			return e.getMessage();
 		String error = "";
 		if (e != null) {
 			if (e.getMessage() == null) {
@@ -36,12 +38,12 @@ public class AMSErrorHandler {
 		AMSErrorHandler errorHandler = new AMSErrorHandler();
 		String className = obj.getClass().getCanonicalName();
 		className = className.substring(className.lastIndexOf(".") + 1);
-		
+		System.out.println(e.getCause());
 		String error = "";
-		error = errorHandler.generalDBErrorHandle(e);
-//		if ("OrderAction".equalsIgnoreCase(className)) {
-//			error = errorHandler.orderActionErrorHandle(e);
-//		} else if  ("AgentLocationAction".equalsIgnoreCase(className)) {
+		if ("UserAction".equalsIgnoreCase(className)) {
+			error = errorHandler.userActionErrorHandle(e);
+		} 
+//		else if  ("AgentLocationAction".equalsIgnoreCase(className)) {
 //			error = errorHandler.agentLocationActionErrorHandle(e);
 //		} else if  ("BankAccountAction".equalsIgnoreCase(className)) {
 //			error = errorHandler.bankAccountActionErrorHandle(e);
@@ -117,13 +119,6 @@ public class AMSErrorHandler {
 		} else {
 			error = "unhandled";
 		}
-		return error;
-	}
-	public String generalDBErrorHandle(Exception e) {
-		String error = "";
-		if (e.getMessage().contains("foreign key") || e.getCause().toString().contains("foreign key")) {
-			error = "The item cannot be removed or updated. It has some dependencies.";
-		} 
 		return error;
 	}
 
@@ -279,15 +274,13 @@ public class AMSErrorHandler {
 	
 	private String userActionErrorHandle(Exception e) {
 		String error = "";
-		if (e.getMessage().contains("Duplicate entry")) {
-			error = "نام کاربری و یا کد تکراری است";
-		} else if (e.getMessage().contains("handleThis")) {
-			error = "عملیات ثبت با مشکل روبرو شده است";
-		} else if (e.getMessage().contains("Data truncation: Data too long for column")) {
-			error = "تعداد کاراکترهای ورودی بیش از حد مجاز است";
-		} else if (e.getMessage().contains("notFilledFields")) {
-			error = "یکی از مقادیر کد / نام / نام کاربری / کلمه عبور خالی است";
-		} else {
+		if (e.getMessage().contains("foreign key")) {
+			error = "The user cannot be removed or updated. It has some dependencies in the system.";
+		} else if (e.getMessage().contains("Duplicate entry")) {
+			error = "The username has been already used. Please select another username";
+		} else if( e.getCause()!=null && e.getCause().toString().contains("foreign key")){ 
+			error = "The user cannot be removed or updated. It has some dependencies in the system.";
+		}else {
 			error = "unhandled";
 		}
 		return error;

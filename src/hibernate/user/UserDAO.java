@@ -89,7 +89,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				if (getUserENT(ent) == null)
 					session.save(ent);
 				else
-					throw getAMSException("The username already Exist", null);
+					throw getAMSException("Duplicate entry", null);
 			} else
 				session.saveOrUpdate(ent);
 			tx.commit();

@@ -61,7 +61,7 @@
 }
 </style>
 <script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&callback=initMap"
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&sensor=false&callback=initMap"
 	type="text/javascript"></script>
 </head>
 <body>
@@ -102,7 +102,7 @@
 						$(window).css("height") - $("#mainBodyContents").css("height")
 								+ $("#mainBodyContents").css("padding-top"));
 			});
-	var map, directionsService, directionsDisplay, infoWindow, marker, input, markerDestination;
+	var map, directionsService, directionsDisplay, infoWindow, marker, input, markerDestination, myLatLng;
 	var travelM = 'WALKING';
 	function findDeparture(x, y) {
 		var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + x + "," + y
@@ -116,34 +116,59 @@
 			}
 		});
 	}
+	function geoSuccess(position) {
+		myLatLng = {
+			lat : position.coords.latitude,
+			lng : position.coords.longitude
+		};
+		findDeparture(position.coords.latitude, position.coords.longitude);
+		marker = new google.maps.Marker({
+			position : myLatLng,
+			map : map
+		});
+		map.setCenter(myLatLng);
+	};
+	function errorGeo(error) {
+		if(error.message.indexOf("Only secure origins are allowed") == 0) {
+		      alert("Only secure origins are allowed");
+		    }
+		switch (error.code) {
+		case error.PERMISSION_DENIED:
+			alert("User denied the request for Geolocation.");
+			break;
+		case error.POSITION_UNAVAILABLE:
+			alert("Location information is unavailable.");
+			break;
+		case error.TIMEOUT:
+			alert("The request to get user location timed out.");
+			break;
+		case error.UNKNOWN_ERROR:
+			alert("An unknown error occurred.");
+			break;
+		}
+		
+		handleLocationError(true, infoWindow, map.getCenter());
+	};
 
 	function initMap() {
-		var myLatLng = {
-			lat : -31.569743,
-			lng : 27.246471
-		};
+		map = new google.maps.Map(document.getElementById('map_canvas'), {
+			zoom : 18,
+			streetViewControl : true,
+			fullscreenControl : true
+		});
 		infoWindow = new google.maps.InfoWindow();
 		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				myLatLng = {
-					lat : position.coords.latitude,
-					lng : position.coords.longitude
-				};
-				findDeparture(position.coords.latitude, position.coords.longitude);
-				marker = new google.maps.Marker({
-					position : myLatLng,
-					map : map
-				});
-				map.setCenter(myLatLng);
-			}, function() {
-				handleLocationError(true, infoWindow, map.getCenter());
-			});
-			map = new google.maps.Map(document.getElementById('map_canvas'), {
-				zoom : 18,
-				streetViewControl : true,
-				fullscreenControl : true
+			// 			 navigator.geolocation.getCurrentPosition(showPosition);
+			navigator.geolocation.getCurrentPosition(geoSuccess, errorGeo, {
+				enableHighAccuracy : true,
+				timeout : 60000,
+				maximumAge : 65000
 			});
 		} else {
+			myLatLng = {
+				lat : -30.569743,
+				lng : 26.246471
+			};
 			handleLocationError(false, infoWindow, map.getCenter());
 		}
 		input = document.getElementById('to');
@@ -171,14 +196,14 @@
 				map.fitBounds(place.geometry.viewport);
 			} else {
 				map.setCenter(place.geometry.location);
-				map.setZoom(17); // Why 17? Because it looks good.
+				map.setZoom(17);
 			}
 			markerDestination.setPosition(place.geometry.location);
 			var bounds = new google.maps.LatLngBounds();
 			bounds.extend(markerDestination.getPosition());
 			bounds.extend(marker.getPosition());
 			map.fitBounds(bounds);
-// 			markerDestination.setVisible(true);
+			// 			markerDestination.setVisible(true);
 			// 					var address = '';
 			// 					if (place.address_components) {
 			// 						address = [
@@ -202,14 +227,14 @@
 	function calculateAndDisplayRoute() {
 		directionsDisplay.setMap(null);
 		directionsDisplay.setMap(map);
-// 		var wp = new Array();
-// 		wp[0] = new google.maps.LatLng(marker.getPosition().lat(), marker.getPosition().lng());
-// 		wp[1] = new google.maps.LatLng(markerDestination.getPosition().lat(), markerDestination.getPosition()
-// 				.lng());
-// 		directionsService.loadFromWaypoints(wp);
-// 		google.maps.DirectionsService.addListener(directionsService, "load", function() {
-// 			alert(directionsService.getDuration().seconds + " seconds");
-// 		});
+		// 		var wp = new Array();
+		// 		wp[0] = new google.maps.LatLng(marker.getPosition().lat(), marker.getPosition().lng());
+		// 		wp[1] = new google.maps.LatLng(markerDestination.getPosition().lat(), markerDestination.getPosition()
+		// 				.lng());
+		// 		directionsService.loadFromWaypoints(wp);
+		// 		google.maps.DirectionsService.addListener(directionsService, "load", function() {
+		// 			alert(directionsService.getDuration().seconds + " seconds");
+		// 		});
 		directionsService.route(
 				{
 					origin : new google.maps.LatLng(marker.getPosition().lat(), marker
@@ -220,9 +245,9 @@
 				}, function(response, status) {
 					if (status === 'OK') {
 						directionsDisplay.setDirections(response);
-						 alert( response.routes[0].legs[0].distance.value);
-						 alert( response.routes[0].legs[0].duration.value);
-						 alert( response.routes[1].legs[0].duration.value);
+						alert(response.routes[0].legs[0].distance.value);
+						alert(response.routes[0].legs[0].duration.value);
+						alert(response.routes[1].legs[0].duration.value);
 					} else {
 						window.alert('Directions request failed due to ' + status);
 					}
