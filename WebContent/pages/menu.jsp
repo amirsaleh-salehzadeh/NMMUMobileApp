@@ -24,7 +24,7 @@ body {
 			url : url,
 			cache : false,
 			success : function(data) {
-				$("#mainBodyContents").html(data).trigger("create");
+				$("#mainBodyContents").html(data);
 				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
 				refreshPlaceHolders();
@@ -33,6 +33,7 @@ body {
 			}
 		});
 	}
+	
 	function saveTheForm() {
 		var url = $("#dataFilterGridMainPage").attr("action");
 		url += "?" + $("#dataFilterGridMainPage").serialize();
@@ -50,11 +51,13 @@ body {
 			}
 		});
 	}
+	
 	function deleteAnItem(id, reqCode) {
 		$("#reqCode").val(reqCode);
 		$("#deleteID").val(id);
 		showPopupDialogDeleteConfirmation(reqCode);
 	}
+	
 	function deleteConfirmed() {
 		var url = $("#dataFilterGridMainPage").attr("action");
 		url += "?" + $("#dataFilterGridMainPage").serialize();
