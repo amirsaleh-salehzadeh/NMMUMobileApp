@@ -57,10 +57,9 @@ public class UserAction extends Action {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionForward af = null;
-		String reqCode = request.getParameter("reqCode");
-
-		String success = "";
-		String error = "";
+		success = "";
+		error = "";
+		reqCode = request.getParameter("reqCode");
 		if (reqCode == null)
 		{
 			reqCode = "userManagement";
@@ -236,8 +235,6 @@ public class UserAction extends Action {
 					.getTitlesDropDown());
 			request.setAttribute("ethnicENTs", getUserDAO()
 					.getEthnicsDropDown());
-		
-		
 		} catch (AMSException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
