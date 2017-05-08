@@ -8,24 +8,23 @@
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <html>
-<head>
-</head>
 <body>
-	<ams:message messageEntity="${message}"></ams:message>
 	<form id="dataFilterGridMainPage" action="user.do">
-		<input type="hidden" name="userID" 
+		<ams:message messageEntity="${message}"></ams:message>
+		<input type="hidden" name="userID"
 			value="<%=request.getParameter("userID")%>"> <input
 			type="hidden" name="reqCode" value="userRolesSave"> Roles for
 		user "
 		<bean:write name="userENT" property="userName" />
 		"
 		<div>
-			<html:text property="roleName" name="roleENT" onkeyup="saveTheForm()"
+			<html:text property="roleName" name="roleENT"
+				styleId="searchKeyInput" onkeyup="searchForRole()"
 				title="Search for a role"></html:text>
 		</div>
-		<label style="width: 100%">Select All<input type="checkbox"
-			id="checkAllRoles" onclick="selectAllRoles()"></label> <a href="#"
-			data-role="button" data-inline="true"
+		<label style="width: 100%">Select All <input type="checkbox"
+			id="checkAllRoles" onclick="selectAllRoles()">
+		</label> <a href="#" data-role="button" data-inline="true"
 			onclick="callAnAction('user.do?reqCode=userEdit&userID=<%=request.getParameter("userID")%>')">Back</a>
 		<a href="#" data-role="button" data-inline="true"
 			onclick="saveTheForm()">Save</a>
@@ -50,8 +49,7 @@
 								value="<%=rolesListIteration.getRoleID()%>"
 								<logic:iterate id="userRoleIds"
 									name="userRoles" type="common.security.RoleENT">
-										<%if (rolesListIteration.getRoleID() == userRoleIds
-							.getRoleID()) {%>
+										<%if (rolesListIteration.getRoleID() == userRoleIds.getRoleID()) {%>
 										checked="checked" <%}%> 
 								</logic:iterate>
 								data-inline="true"><%=rolesListIteration.getRoleName()%>
@@ -69,14 +67,28 @@
 		</table>
 	</form>
 </body>
+<head>
 <script type="text/javascript">
-$(document).ready(function() {
-	refreshPlaceHolders();
-});
-function selectAllRoles(){
-	$(".roleCheckBoxes").each(function(){
-		$(this).attr('checked', $("#checkAllRoles").attr("checked"));
+	$(document).ready(function() {
+		refreshPlaceHolders();
 	});
-}
+	function selectAllRoles() {
+	
+		
+	$('.roleCheckBoxes')
+				.prop('checked', $("#checkAllRoles").is(':checked'))
+				.checkboxradio('refresh');
+
+	}
+	function searchForRole() {
+		var str = "user.do?reqCode=userRoleView&userID="
+				+
+<%=request.getParameter("userID")%>
+	+ "&roleName="
+				+ $('#searchKeyInput').val();
+		callAnAction(str);
+
+	}
 </script>
+</head>
 </html>
