@@ -72,6 +72,10 @@ public class UserAction extends Action {
 			saveUserRoles(request, mapping);
 			reqCode = "userRoleView";
 		}
+		if (reqCode.equalsIgnoreCase("userGroupsSave")) {
+			saveUserGroups(request, mapping);
+			reqCode = "userGroupView";
+		}
 		if (reqCode.equalsIgnoreCase("userManagement")
 				|| reqCode.equals("gridJson")) {
 			return userManagement(request, mapping);
@@ -83,21 +87,43 @@ public class UserAction extends Action {
 			return userRoleView(request, mapping);
 		} else if (reqCode.equalsIgnoreCase("userGroupView")) {
 			return userGroupView(request, mapping);
-		} 
+		}
 
 		return af;
 	}
 
-	private void saveUserRoles(HttpServletRequest request,
+	private void saveUserGroups(HttpServletRequest request,
 			ActionMapping mapping) {
+		String[] t = request.getParameterValues("userGroupID");
+		UserENT u = new UserENT();
+		u.setUserID(NVL.getInt(request.getParameter("userID")));
+		ArrayList<GroupENT> groups = new ArrayList<GroupENT>();
+		for (int i = 0; i < t.length; i++) {
+			GroupENT g = new GroupENT(NVL.getInt(t[i]));
+			groups.add(g);
+		}
+		u.setGroupENTs(groups);
+		try {
+			getUserDAO().saveUpdateUserGroups(u);
+			success = "Groups saved successfully";
+		} catch (AMSException e) {
+			e.printStackTrace();
+			error = AMSErrorHandler.handle(request, this, e, "", "");
+		}
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
+	}
+
+	private void saveUserRoles(HttpServletRequest request, ActionMapping mapping) {
 		String[] t = request.getParameterValues("userRoleID");
 		UserENT u = new UserENT();
 		u.setUserID(NVL.getInt(request.getParameter("userID")));
 		ArrayList<RoleENT> roles = new ArrayList<RoleENT>();
-		for (int i = 0; i < t.length; i++) {
-			RoleENT r = new RoleENT(NVL.getInt(t[i]));
-			roles.add(r);
-		}
+		if (t != null && t.length > 0)
+			for (int i = 0; i < t.length; i++) {
+				RoleENT r = new RoleENT(NVL.getInt(t[i]));
+				roles.add(r);
+			}
 		u.setRoleENTs(roles);
 		try {
 			getUserDAO().saveUpdateUserRoles(u);
@@ -122,10 +148,10 @@ public class UserAction extends Action {
 				searchKey = request.getParameter("groupName");
 			GroupENT group = new GroupENT(0, searchKey, 0, "", "");
 			request.setAttribute("groupENT", group);
-			request.setAttribute("userGroup",
+			request.setAttribute("userGroups",
 					getUserDAO().getAllGroupsUser(u.getUserID()));
-			// request.setAttribute("groupsList",
-			// getSecurityDAO().getAllGroups(searchKey));
+			request.setAttribute("groupsList",
+					getSecurityDAO().getAllGroups(searchKey));
 			return mapping.findForward("userGroup");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -148,6 +174,7 @@ public class UserAction extends Action {
 			String searchKey = "";
 			if (request.getParameter("roleName") != null)
 				searchKey = request.getParameter("roleName");
+
 			RoleENT role = new RoleENT(0, searchKey, 0, "", "");
 			request.setAttribute("roleENT", role);
 			request.setAttribute("userRoles",

@@ -17,6 +17,9 @@ body {
 			$(this).attr("placeholder", $(this).attr("title"));
 		});
 	}
+	$( document ).ajaxComplete(function() {
+		  $('input:text:first').focus();
+		});
 	function callAnAction(url) {
 		$('#gridMenuSetting').popup("destroy");
 		$("#mainBodyContents").html("");
