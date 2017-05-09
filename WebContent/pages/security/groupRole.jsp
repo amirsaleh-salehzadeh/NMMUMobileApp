@@ -10,8 +10,10 @@
 </head>
 <body>
 	<form id="dataFilterGridMainPage" action="security.do">
+		<ams:message messageEntity="${message}"></ams:message>
 		<input type="hidden" name="groupID"
-			value="<%=request.getParameter("groupID")%>"> <input
+			value="<%=request.getParameter("groupID")%>"> 
+		<input
 			type="hidden" name="reqCode" value="saveUpdateGroupRole">
 		Roles for group "
 		<span style="font-weight: bold;"><bean:write name="groupENT" property="groupName" /></span>

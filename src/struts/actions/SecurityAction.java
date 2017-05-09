@@ -25,6 +25,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import tools.AMSErrorHandler;
 import tools.AMSException;
 import tools.AMSUtililies;
+import tools.NVL;
 import common.MessageENT;
 import common.PopupENT;
 import common.security.RoleENT;
@@ -79,7 +80,34 @@ public class SecurityAction extends Action {
 		if (reqCode.equalsIgnoreCase("groupRoleView")) {
 			return groupRoleView(request, mapping);
 		}
+		if (reqCode.equalsIgnoreCase("saveUpdateGroupRole")) {
+			saveUpdateGroupRole(request, mapping);
+			reqCode = "userRoleView";
+		}
 		return af;
+	}
+
+	private void saveUpdateGroupRole(HttpServletRequest request,
+			ActionMapping mapping) {
+		String[] t = request.getParameterValues("groupRoleID");
+		GroupENT u = new GroupENT();
+		u.setGroupID(NVL.getInt(request.getParameter("groupID")));
+		ArrayList<GroupENT> roles = new ArrayList<GroupENT>();
+		if (t != null && t.length > 0)
+			for (int i = 0; i < t.length; i++) {
+				GroupENT r = new GroupENT(NVL.getInt(t[i]));
+				roles.add(r);
+			}
+		u.setRoleENTs(roles);
+		try {
+			getSecurityDAO().saveUpdateRolesGroup(u);
+			success = "Roles saved successfully";
+		} catch (AMSException e) {
+			e.printStackTrace();
+			error = AMSErrorHandler.handle(request, this, e, "", "");
+		}
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
 	}
 
 	private ActionForward groupRoleView(HttpServletRequest request,
