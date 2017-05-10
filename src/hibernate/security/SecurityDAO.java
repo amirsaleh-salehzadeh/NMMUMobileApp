@@ -323,6 +323,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			ps.setInt(1, group.getGroupID());
 			ps.execute();
 			query = "insert into group_roles (group_id, role_id) values (?,?)";
+			ps.close();
 			for (int i = 0; i < roles.size(); i++) {
 				ps = conn.prepareStatement(query);
 				ps.setInt(1, group.getGroupID());

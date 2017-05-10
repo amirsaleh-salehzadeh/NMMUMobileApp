@@ -47,7 +47,7 @@
 						<%
 							}
 						%>
-						<td><label><input type="checkbox"
+						<td><label><input type="checkbox" name="groupRoleID"
 								value="<%=roleListIteration.getRoleID()%>"
 								<logic:iterate id="groupRoleIds"
 									name="groupENTRoles" type="common.security.RoleENT">

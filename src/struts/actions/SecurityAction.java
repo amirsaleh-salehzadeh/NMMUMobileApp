@@ -77,13 +77,14 @@ public class SecurityAction extends Action {
 		} else if (reqCode.equals("saveUpdateGroup")) {
 			return saveUpdateGroup(request, mapping);
 		}
+		if (reqCode.equalsIgnoreCase("saveUpdateGroupRole")) {
+			saveUpdateGroupRole(request, mapping);
+			reqCode = "groupRoleView";
+		}
 		if (reqCode.equalsIgnoreCase("groupRoleView")) {
 			return groupRoleView(request, mapping);
 		}
-		if (reqCode.equalsIgnoreCase("saveUpdateGroupRole")) {
-			saveUpdateGroupRole(request, mapping);
-			reqCode = "userRoleView";
-		}
+		
 		return af;
 	}
 
@@ -92,15 +93,14 @@ public class SecurityAction extends Action {
 		String[] t = request.getParameterValues("groupRoleID");
 		GroupENT u = new GroupENT();
 		u.setGroupID(NVL.getInt(request.getParameter("groupID")));
-		ArrayList<GroupENT> roles = new ArrayList<GroupENT>();
+		ArrayList<RoleENT> roles = new ArrayList<RoleENT>();
 		if (t != null && t.length > 0)
 			for (int i = 0; i < t.length; i++) {
-				GroupENT r = new GroupENT(NVL.getInt(t[i]));
+				RoleENT r = new RoleENT(NVL.getInt(t[i]));
 				roles.add(r);
 			}
-		u.setRoleENTs(roles);
 		try {
-			getSecurityDAO().saveUpdateRolesGroup(u);
+			getSecurityDAO().saveUpdateRolesGroup(roles, u);
 			success = "Roles saved successfully";
 		} catch (AMSException e) {
 			e.printStackTrace();
@@ -118,13 +118,15 @@ public class SecurityAction extends Action {
 			searchKey = request.getParameter("searchRole.roleName");
 		}
 		try {
-			request.setAttribute("groupENT", getSecurityDAO().getGroup(new GroupENT(gid)));
+			request.setAttribute("groupENT",
+					getSecurityDAO().getGroup(new GroupENT(gid)));
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (AMSException e) {
 			e.printStackTrace();
 		}
-		request.setAttribute("groupENTRoles", getSecurityDAO().getAllGroupRoles(gid));
+		request.setAttribute("groupENTRoles", getSecurityDAO()
+				.getAllGroupRoles(gid));
 		request.setAttribute("roleLST", getSecurityDAO().getAllRoles(searchKey));
 		return mapping.findForward("groupRole");
 	}
