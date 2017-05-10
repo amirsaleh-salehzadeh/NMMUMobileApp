@@ -22,18 +22,15 @@
 .flipswitchGender.ui-flipswitch .ui-btn.ui-flipswitch-on {
 	text-indent: -3.9em;
 }
-
 .flipswitchGender.ui-flipswitch .ui-flipswitch-off {
 	text-indent: 0.5em;
 }
-
 .flipswitchGender.ui-flipswitch {
 	background-color: #FF0080;
 	color: white;
 	width: 6.875em;
 	text-indent: 2em;
 }
-
 .flipswitchGender.ui-flipswitch.ui-flipswitch-active {
 	background-color: #2E64FE;
 	color: white;
@@ -41,15 +38,12 @@
 	width: 1.875em;
 	text-indent: 2em;
 }
-
 .flipswitchActive.ui-flipswitch .ui-btn.ui-flipswitch-on {
 	text-indent: -3.9em;
 }
-
 .flipswitchActive.ui-flipswitch .ui-flipswitch-off {
 	text-indent: 0.5em;
 }
-
 .flipswitchActive.ui-flipswitch {
 	background-color: #8A0808;
 	color: white;
@@ -57,7 +51,6 @@
 	font-weight: normal;
 	text-indent: 2em;
 }
-
 .flipswitchActive.ui-flipswitch.ui-flipswitch-active {
 	background-color: #2E64FE;
 	color: white;
@@ -111,23 +104,23 @@
 		<div class="ui-grid-a">
 			<div class="ui-block-a ui-field-contain">
 				<label for="dateOfBirth"
-					style="white-space: nowrap !important; width: 100%">Date
-					of Birth: </label>
+					style="white-space: nowrap !important; width: 100%">Date of
+					Birth: </label>
 				<html:text name="userENT" property="dateOfBirth"
 					title="Date of Birth" styleId="dob" />
 			</div>
 			<div class="ui-block-b">
-					<input type="checkbox" data-role="flipswitch" name="gender"
-						id="flipswitchGender" data-on-text="Male" data-off-text="Female"
-						data-wrapper-class="flipswitchGender" data-inline="true"
-						<%if (genderValue.booleanValue() == true) {%> checked=""
-						<%}
+				<input type="checkbox" data-role="flipswitch" name="gender"
+					id="flipswitchGender" data-on-text="Male" data-off-text="Female"
+					data-wrapper-class="flipswitchGender" data-inline="true"
+					<%if (genderValue.booleanValue() == true) {%> checked=""
+					<%}
 			;%> /> <input type="checkbox" data-role="flipswitch"
-						data-inline="true" name="active" id="flipswitchActivation"
-						selected="selected" data-on-text="Active" data-off-text="Inactive"
-						data-wrapper-class="flipswitchActive"
-						<%if (activeValue.booleanValue() == true) {%> checked=""
-						<%}
+					data-inline="true" name="active" id="flipswitchActivation"
+					selected="selected" data-on-text="Active" data-off-text="Inactive"
+					data-wrapper-class="flipswitchActive"
+					<%if (activeValue.booleanValue() == true) {%> checked=""
+					<%}
 			;%> />
 
 			</div>
@@ -144,16 +137,29 @@
 		</fieldset>
 		<fieldset>
 			<div class="ui-block-c">
-				<span style="font-weight: bold">Registration Date&nbsp;</span> <bean:write name="userENT" property="registerationDate"/>
+				<span style="font-weight: bold">Registration Date&nbsp;</span>
+				<bean:write name="userENT" property="registerationDate" />
 			</div>
 		</fieldset>
 
-		<div class=ui-grid-a>
+		<div class=ui-grid-c>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" data-inline="true" data-icon="delete"
-					onclick="callAnAction('user.do?reqCode=userManagement');">Cancel</a>
+					onclick="callAnAction('user.do?reqCode=userManagement');">Back</a>
 			</div>
+			<% if(request.getParameter("userID")!=null) {  %>
 			<div class=ui-block-b>
+				<a href="#" data-role="button" data-inline="true" data-icon="delete"
+					onclick="callAnAction('user.do?reqCode=userRoleView&userID=<bean:write name="userENT" property="userID"
+					/>')">Roles</a>
+			</div>
+			<div class=ui-block-c>
+				<a href="#" data-role="button" data-inline="true" data-icon="delete"
+					onclick="callAnAction('user.do?reqCode=userGroupView&userID=<bean:write name="userENT" property="userID"
+					/>')">Groups</a>
+ 			</div> 
+ 			<% }; %>
+			<div class=ui-block-d>
 				<a href="#" data-role="button" data-inline="true" data-icon="check"
 					data-theme="b" onclick="saveTheForm();">Save</a>
 			</div>

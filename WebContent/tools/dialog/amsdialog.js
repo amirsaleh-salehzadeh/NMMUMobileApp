@@ -22,7 +22,6 @@ function closeDialog(dialogId){
 	$("#"+dialogId).hide();
 }
 function showDialog(dialogId,screenPosition,ajaxLoadUrl){
-	alert(2)
 	var dlg = $('#'+dialogId);
 
 	//draggableDialog(dialogId,dialogId+"_handle");

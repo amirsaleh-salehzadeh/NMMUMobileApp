@@ -1,49 +1,93 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="javax.management.relation.RoleList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
+<%@taglib prefix="ams" uri="/WEB-INF/AMSTag.tld"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <html>
-<head>
-</head>
 <body>
-	<form id="dataFilterGridMainPage" action="security.do">
-		<input type="hidden" name="reqCode" value="saveUpdate">
-		<div class="ui-block-solo">
-			<input type="text" name="roleName"
-				value="<bean:write name="roleENT" property="roleName" />"
-				placeholder="Role Name" data-theme="a" title="Role Name"> <input
-				type="hidden" name="roleID"
-				value="<bean:write name="roleENT" property="roleID" />">
+	<form id="dataFilterGridMainPage" action="user.do">
+		<ams:message messageEntity="${message}"></ams:message>
+		<input type="hidden" name="userID"
+			value="<%=request.getParameter("userID")%>"> <input
+			type="hidden" name="reqCode" value="userGroupsSave"> Groups
+		for user "
+		<bean:write name="userENT" property="userName" />
+		"
+		<div>
+			<html:text property="groupName" name="groupENT"
+				styleId="searchKeyInput" onkeyup="searchForGroup()"
+				title="Search for a group"></html:text>
 		</div>
-		<div class="ui-block-solo">
-			<input type="text" name="comment"
-				value="<bean:write name="roleENT" property="comment" />"
-				placeholder="Comment" value="" data-theme="a" title="Comment">
-		</div>
-		<div class="ui-block-solo">
-			       <select name="clientID" data-native-menu="false">
-				<option value="0">Client</option>
-				<logic:iterate id="clientList" type="common.client.ClientENT"
-					name="clientENTs">
-					<option
-						value="<bean:write name="clientList" property="clientID" />">
-						<bean:write name="clientList" property="clientName" />
-					</option>
+		<label style="width: 100%">Select All <input type="checkbox"
+			id="checkAllGroups" onclick="selectAllGroups()">
+		</label> <a href="#" data-role="button" data-inline="true"
+			onclick="callAnAction('user.do?reqCode=userEdit&userID=<%=request.getParameter("userID")%>')">Back</a>
+		<a href="#" data-role="button" data-inline="true"
+			onclick="saveTheForm()">Save</a>
+		<table data-role="table" id="table-column-toggle"
+			class="ui-responsive table-stroke">
+			<tbody>
+				<logic:iterate id="groupsListIteration" indexId="rowId"
+					name="groupsList" type="common.security.GroupENT">
+
+					<%
+						int counter;
+							int idcount;
+							counter = rowId % 3;
+							if (counter == 0) {
+					%>
+					<tr>
+						<%
+							}
+						%>
+						<td><label><input type="checkbox" name="userGroupID"
+								class="groupCheckBoxes"
+								value="<%=groupsListIteration.getGroupID()%>"
+								<logic:iterate id="userGroupIds"
+									name="userGroups" type="common.security.GroupENT">
+										<%if (groupsListIteration.getGroupID() == userGroupIds
+							.getGroupID()) {%>
+										checked="checked" <%}%> 
+								</logic:iterate>
+								data-inline="true"><%=groupsListIteration.getGroupName()%>
+						</label></td>
+						<%
+							if (counter == 2) {
+						%>
+					</tr>
+					<%
+						}
+					%>
+
 				</logic:iterate>
-			</select>
-		</div>
-		<div class=ui-grid-a>
-			<div class=ui-block-a>
-				<a href="#" data-role="button" data-inline="true" data-icon="delete"
-					onclick="callAnAction('security.do?reqCode=roleManagement');">Cancel</a>
-			</div>
-			<div class=ui-block-b>
-				<a href="#" data-role="button" data-inline="true" data-icon="check"
-					data-theme="b" onclick="saveTheForm();">Save</a>
-			</div>
-		</div>
+			</tbody>
+		</table>
 	</form>
 </body>
+<head>
+<script type="text/javascript">
+	$(document).ready(function() {
+		refreshPlaceHolders();
+	});
+	function selectAllGroups() {
 
+		$('.groupCheckBoxes').prop('checked',
+				$("#checkAllGroups").is(':checked')).checkboxradio('refresh');
+
+	}
+	function searchForGroup() {
+		var str = "user.do?reqCode=userGroupView&userID="
+				+
+<%=request.getParameter("userID")%>
+	+ "&groupName="
+				+ $('#searchKeyInput').val();
+		callAnAction(str);
+
+	}
+</script>
+</head>
 </html>

@@ -366,5 +366,31 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		}
 		return res;
 	}
-
+	public ArrayList<GroupENT> getAllGroups(String searchKey) {
+		ArrayList<GroupENT> res = new ArrayList<GroupENT>();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "Select * from groups where group_name like ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, "%"+searchKey+"%");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				GroupENT r = new GroupENT(rs.getInt("group_id"),
+						rs.getString("group_name"), rs.getInt("client_id"), "",
+						0, 0, "");
+				res.add(r);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
 }
