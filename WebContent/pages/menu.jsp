@@ -135,6 +135,9 @@ body {
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
 					href="t_security.do?reqCode=groupManagement" data-ajax="false">Group
 						Management</a></li>
+						<li
+					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
+					href="t_user.do?reqCode=passwordChange&userID=3" data-ajax="false">Change Password</a></li>
 			</ul>
 		</div>
 	</li>

@@ -76,6 +76,10 @@ public class UserAction extends Action {
 			saveUserGroups(request, mapping);
 			reqCode = "userGroupView";
 		}
+		if (reqCode.equalsIgnoreCase("saveNewPassword")) {
+			saveNewPassword(request, mapping);
+			reqCode = "passwordChange";
+		}
 		if (reqCode.equalsIgnoreCase("userManagement")
 				|| reqCode.equals("gridJson")) {
 			return userManagement(request, mapping);
@@ -87,9 +91,71 @@ public class UserAction extends Action {
 			return userRoleView(request, mapping);
 		} else if (reqCode.equalsIgnoreCase("userGroupView")) {
 			return userGroupView(request, mapping);
+		} else if (reqCode.equalsIgnoreCase("passwordChange")) {
+			return passwordChange(request, mapping);
 		}
 
 		return af;
+	}
+
+	private ActionForward saveNewPassword(HttpServletRequest request,
+			ActionMapping mapping) {
+
+		UserENT userENT = new UserENT();
+		String oldPW = request.getParameter("password");
+		String newPW = request.getParameter("newPW");
+		String newPWCheck = request.getParameter("newPWCheck");
+		// add in error checking
+		if((newPW == null) || (newPWCheck== null))
+		{
+			request.setAttribute("newPW",
+					"Please enter a password");
+			request.setAttribute("newPWCheck",
+					"Please enter a password");
+		}
+		else if (newPW != newPWCheck) {
+			request.setAttribute("newPWCheck", "Does not match");
+
+		} else if (newPW == oldPW) {
+			request.setAttribute("newPW",
+					"Has to be different from old password");
+			request.setAttribute("newPWCheck",
+					"Has to be different from old password");
+		}
+		 else{
+			 userENT.setPassword(request.getParameter("newPW"));
+		try {
+			userENT = getUserDAO().saveUpdateUser(userENT);
+			success = "The user '" + userENT.getUserName()
+					+ "''s password was saved successfully";
+		} catch (AMSException e) {
+			error = AMSErrorHandler.handle(request, this, e, "", "");
+		}
+		request.setAttribute("userENT", userENT);
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
+		return mapping.findForward("userManagement");
+		 }
+			return null;
+	}
+
+	private ActionForward passwordChange(HttpServletRequest request,
+			ActionMapping mapping) {
+		try {
+			UserENT u = getUserDAO().getUserENT(
+					new UserENT("", 3));
+//							Integer.parseInt(request.getParameter("userID"))));
+			request.setAttribute("userENT", u);
+
+			return mapping.findForward("passwordChange");
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
 	}
 
 	private void saveUserGroups(HttpServletRequest request,

@@ -19,6 +19,7 @@
 			type="struts.actions.tiles.T_UserAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="userManagement" path="page.user" />
+			<forward name="passwordChange" path="page.user" />
 			<forward name="userEdit" path="page.user" />
 		</action>
 		<action  path="/t_location"
