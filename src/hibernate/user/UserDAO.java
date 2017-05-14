@@ -319,7 +319,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			while (rs.next()) {
 				GroupENT r = new GroupENT(rs.getInt("group_id"),
 						rs.getString("group_name"), rs.getInt("client_id"), "",
-						0, rs.getInt("group_role_id"), "");
+						0, rs.getInt("user_group_id"), "");
 				res.add(r);
 			}
 			ps.close();
@@ -366,8 +366,31 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 	}
 
 	public void saveUpdateUserGroups(UserENT user) throws AMSException {
-		// TODO Auto-generated method stub
-
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "delete from user_groups " + "where user_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, user.getUserID());
+			ps.execute();
+			query = "insert into user_groups (group_id, user_id) values (?,?)";
+			for (int i = 0; i < user.getGroupENTs().size(); i++) {
+				ps = conn.prepareStatement(query);
+				ps.setInt(2, user.getUserID());
+				ps.setInt(1, user.getGroupENTs().get(i).getGroupID());
+				ps.execute();
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
 	}
 
 }

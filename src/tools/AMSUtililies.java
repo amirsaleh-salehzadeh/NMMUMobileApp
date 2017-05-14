@@ -550,9 +550,9 @@ public class AMSUtililies {
 		tmp = "{ \"draw\": " + currentPage + ", \"recordsTotal\":" + totalItems
 				+ ", \"recordsFiltered\":" + totalItems;
 		if (!success.equals(""))
-			tmp += ", \"success\":\"" + success+"\"";
+			tmp += ", \"successm\":\"" + success+"\"";
 		if (!error.equals(""))
-			tmp += ", \"error\":\"" + error +"\"";
+			tmp += ", \"errorm\":\"" + error +"\"";
 		json = tmp + ", \"data\": " + json + "}";
 		json = json.replaceAll(rowId, "DT_RowId");
 		return json;

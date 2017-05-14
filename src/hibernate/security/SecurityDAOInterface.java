@@ -26,7 +26,9 @@ public interface SecurityDAOInterface {
 	public RoleENT validateRole(RoleENT role) throws AMSException;
 	public ArrayList<RoleENT> getAllGroupRoles(int gid);
 	public ArrayList<RoleENT> getAllRoles(String searchKey);
+	public ArrayList<GroupENT> getAllGroups(String searchKey);
 	public void saveUpdateRolesGroup(ArrayList<RoleENT> roles, GroupENT group) throws AMSException;
+	public void changePassword(String pass, int UID) throws AMSException;
 //	public RoleENT saveUserRole(RoleENT role) throws AMSException;
 //	public GroupENT saveUserGroup(GroupENT group) throws AMSException;
 //	public boolean saveGroupRole(GroupENT group) throws AMSException;

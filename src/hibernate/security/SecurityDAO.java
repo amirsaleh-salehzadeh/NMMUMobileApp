@@ -298,7 +298,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			while (rs.next()) {
 				RoleENT r = new RoleENT(rs.getInt("role_id"),
 						rs.getString("role_name"), rs.getInt("client_id"), "",
-						0, rs.getInt("group_role_id"), "");
+						0, rs.getInt("role_group_id"), "");
 				res.add(r);
 			}
 			ps.close();
@@ -323,6 +323,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			ps.setInt(1, group.getGroupID());
 			ps.execute();
 			query = "insert into group_roles (group_id, role_id) values (?,?)";
+			ps.close();
 			for (int i = 0; i < roles.size(); i++) {
 				ps = conn.prepareStatement(query);
 				ps.setInt(1, group.getGroupID());
@@ -338,7 +339,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		
 	}
 
-	public ArrayList<RoleENT> getAllRoles() {
+	public ArrayList<RoleENT> getAllRoles(String searchKey) {
 		ArrayList<RoleENT> res = new ArrayList<RoleENT>();
 		try {
 			Connection conn = null;
@@ -348,8 +349,9 @@ public class SecurityDAO extends BaseHibernateDAO implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String query = "Select * from roles";
+			String query = "Select * from roles where role_name like ?";
 			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, "%"+searchKey+"%");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				RoleENT r = new RoleENT(rs.getInt("role_id"),
@@ -364,5 +366,53 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		}
 		return res;
 	}
+	public ArrayList<GroupENT> getAllGroups(String searchKey) {
+		ArrayList<GroupENT> res = new ArrayList<GroupENT>();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "Select * from groups where group_name like ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, "%"+searchKey+"%");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				GroupENT r = new GroupENT(rs.getInt("group_id"),
+						rs.getString("group_name"), rs.getInt("client_id"), "",
+						0, 0, "");
+				res.add(r);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
 
+	public void changePassword(String pass, int UID) throws AMSException {
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				throw getAMSException("", e);
+			}
+			String query = "update users set password = ? where user_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, pass);
+			ps.setInt(2, UID);
+			ps.execute();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+		
+	}
 }
