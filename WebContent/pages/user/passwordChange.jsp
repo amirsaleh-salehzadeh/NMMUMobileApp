@@ -28,10 +28,14 @@
 			<input type="text"
 			name="newPWCheck" id="newPWCheck" value=""
 			placeholder="Re-enter New Password" data-clear-btn="true"> 
+			<div>
 			<a href="#"
 			data-role="button" data-inline="true" data-icon="check"
 			data-theme="b"
 			onclick="saveTheForm();">Save</a>
+			
+			<a data-role="button" data-inline="true" data-icon="check" href="t_user.do?reqCode=userManagement" data-ajax="false">Back</a>
+					</div>
 	</form>
 </body>
 </html>
