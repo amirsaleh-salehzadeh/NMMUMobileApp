@@ -11,7 +11,11 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		refreshPlaceHolders();
-		</script>
+	});
+	function changeUsernamePasswordValidation() {
+		saveTheForm();
+	}
+</script>
 <body style="padding: .6em .4em .6em .4em">
 	<form id="dataFilterGridMainPage" action="user.do">
 		<input type="hidden" name="reqCode" value="saveNewPassword">
@@ -19,23 +23,21 @@
 		<input type="hidden" name="userID"
 			value="<%=request.getParameter("userID")%>">
 
-
 		<html:text name="userENT" property="userName" title="Username" />
-		<html:text name="userENT" property="password" title="Old Password"
-			readonly="true" />
-		<input type="text" name="newPW" id="newPW" value=""
-			placeholder="New Password" data-clear-btn="true"> 
-			<input type="text"
+		<html:password name="userENT" property="password" title="Old Password" />
+		<input type="password" 
+		    name="newPW" id="newPW" value=""
+			placeholder="New Password"> 
+		<input type="password"
 			name="newPWCheck" id="newPWCheck" value=""
-			placeholder="Re-enter New Password" data-clear-btn="true"> 
-			<div>
-			<a href="#"
-			data-role="button" data-inline="true" data-icon="check"
-			data-theme="b"
-			onclick="saveTheForm();">Save</a>
-			
-			<a data-role="button" data-inline="true" data-icon="check" href="t_user.do?reqCode=userManagement" data-ajax="false">Back</a>
-					</div>
+			placeholder="Re-enter New Password">
+		<div>
+			<a href="#" data-role="button" data-inline="true" data-icon="check"
+				data-theme="b" onclick="changeUsernamePasswordValidation();
+					">Save</a>
+			<a data-role="button" data-inline="true" data-icon="check"
+				href="t_user.do?reqCode=userManagement" data-ajax="false">Back</a>
+		</div>
 	</form>
 </body>
 </html>

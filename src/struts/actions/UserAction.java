@@ -100,51 +100,40 @@ public class UserAction extends Action {
 
 	private ActionForward saveNewPassword(HttpServletRequest request,
 			ActionMapping mapping) {
-
-		UserENT userENT = new UserENT();
-		String oldPW = request.getParameter("password");
-		String newPW = request.getParameter("newPW");
-		String newPWCheck = request.getParameter("newPWCheck");
-		// add in error checking
-		if((newPW == null) || (newPWCheck== null))
-		{
-			request.setAttribute("newPW",
-					"Please enter a password");
-			request.setAttribute("newPWCheck",
-					"Please enter a password");
-		}
-		else if (newPW != newPWCheck) {
-			request.setAttribute("newPWCheck", "Does not match");
-
-		} else if (newPW == oldPW) {
-			request.setAttribute("newPW",
-					"Has to be different from old password");
-			request.setAttribute("newPWCheck",
-					"Has to be different from old password");
-		}
-		 else{
-			 userENT.setPassword(request.getParameter("newPW"));
-		try {
-			userENT = getUserDAO().saveUpdateUser(userENT);
-			success = "The user '" + userENT.getUserName()
-					+ "''s password was saved successfully";
-		} catch (AMSException e) {
-			error = AMSErrorHandler.handle(request, this, e, "", "");
-		}
-		request.setAttribute("userENT", userENT);
+        String oldpw = request.getParameter("password");
+		String nwpw = request.getParameter("newPW");
+		String npwc = request.getParameter("newPWCheck");
+if (nwpw == "" || npwc ==""){
+	error="Please fill in all fields";
+}
+else if (request.getParameter("newPW").equals(request.getParameter("newPWCheck"))== false)
+    {
+	error = "Passwords do not match";
+	}
+else if (request.getParameter("newPW").equals(request.getParameter("password"))){
+	error = "New password can't be the old password.";
+	}
+else {		
+	try {
+		getSecurityDAO().changePassword(request.getParameter("newPW"),
+				Integer.parseInt(request.getParameter("userID")));
+		success = "The user's password was saved successfully";
+	} catch (AMSException e) {
+		error = AMSErrorHandler.handle(request, this, e, "", "");
+	}
+}
+		
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
-		return mapping.findForward("userManagement");
-		 }
-			return null;
+		return mapping.findForward("passwordChange");
+
 	}
 
 	private ActionForward passwordChange(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
-			UserENT u = getUserDAO().getUserENT(
-					new UserENT("", 3));
-//							Integer.parseInt(request.getParameter("userID"))));
+			int id = Integer.parseInt(request.getParameter("userID"));
+			UserENT u = getUserDAO().getUserENT(new UserENT("", id));
 			request.setAttribute("userENT", u);
 
 			return mapping.findForward("passwordChange");
@@ -153,8 +142,8 @@ public class UserAction extends Action {
 		} catch (AMSException e) {
 			e.printStackTrace();
 		}
-
 		return null;
+		
 
 	}
 
@@ -338,6 +327,9 @@ public class UserAction extends Action {
 		popupGridEnts.add(new PopupENT("",
 				"callAnAction(\"user.do?reqCode=userEdit&userID=REPLACEME\");",
 				"Edit User", "#"));
+		popupGridEnts.add(new PopupENT("",
+				"callAnAction(\"user.do?reqCode=passwordChange&userID=REPLACEME\");",
+				"Change Password", "#"));
 		popupGridEnts.add(new PopupENT("",
 				"deleteAnItem(REPLACEME, \"deleteUser\");", "Remove", "#")); //
 		request.setAttribute("settingMenuItem", popupEnts);

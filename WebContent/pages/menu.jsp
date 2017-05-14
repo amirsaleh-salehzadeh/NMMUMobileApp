@@ -48,7 +48,7 @@ body {
 			cache : false,
 			success : function(data) {
 				$("#mainBodyContents").html("");
-				$("#mainBodyContents").html(data);
+				$("#mainBodyContents").html(data).trigger("create");
 				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
 				refreshPlaceHolders();
@@ -135,9 +135,6 @@ body {
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
 					href="t_security.do?reqCode=groupManagement" data-ajax="false">Group
 						Management</a></li>
-						<li
-					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					href="t_user.do?reqCode=passwordChange&userID=3" data-ajax="false">Change Password</a></li>
 			</ul>
 		</div>
 	</li>
