@@ -51,7 +51,7 @@
 									name="userGroups" type="common.security.GroupENT">
 										<%if (groupsListIteration.getGroupID() == userGroupIds
 							.getGroupID()) {%>
-										checked="" <%}%> 
+										checked="checked" <%}%> 
 								</logic:iterate>
 								data-inline="true"><%=groupsListIteration.getGroupName()%>
 						</label></td>
