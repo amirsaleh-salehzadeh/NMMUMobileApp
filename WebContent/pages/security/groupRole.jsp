@@ -18,10 +18,22 @@
 		Roles for group "
 		<span style="font-weight: bold;"><bean:write name="groupENT" property="groupName" /></span>
 		"
+		<!-- 
 		<div class="ui-grid-solo">
 			<div class="ui-block-a">
 				<input type="text" name="searchKey" placeholder="Search for a role">
 			</div>
+		</div>
+		-->
+		<div>
+			<html:text property="groupName" name="groupENT"
+				styleId="searchKeyInput" onkeyup="searchForRole()"
+				title="Search for a role"></html:text>
+		</div>
+		<div class="ui-grid-solo">
+		<label style="width: 100%">Select All <input type="checkbox"
+			id="checkAllRoles" onclick="selectAllRoles()">
+		</label>
 		</div>
 		<div class=ui-block-a>
 			<a href="#" data-role="button" data-icon="delete"
@@ -48,15 +60,16 @@
 							}
 						%>
 						<td><label><input type="checkbox" name="groupRoleID"
+								class="groupCheckBoxes"
 								value="<%=roleListIteration.getRoleID()%>"
 								<logic:iterate id="groupRoleIds"
 									name="groupENTRoles" type="common.security.RoleENT">
 									
 										<%if (roleListIteration.getRoleID() == groupRoleIds
-							.getRoleGroupID()) {%>
+							.getRoleID()) {%>
 										checked="checked" <%}%>
 								</logic:iterate>
-								data-inline="true"> <%=roleListIteration.getRoleName()%>
+								data-inline="true" > <%=roleListIteration.getRoleName()%>
 						</label></td>
 						<%
 							if (counter == 2) {
@@ -72,5 +85,25 @@
 		</table>
 	</form>
 </body>
+<script type="text/javascript">
+	$(document).ready(function() {
+		refreshPlaceHolders();
+	});
+	function selectAllRoles() {
+
+		$('.groupCheckBoxes').prop('checked',
+				$("#checkAllRoles").is(':checked')).checkboxradio('refresh');
+
+	}
+	function searchForRole() {
+		var str = "security.do?reqCode=groupRoleView&groupID="
+				+
+<%=request.getParameter("groupID")%>
+	+ "&roleName="
+				+ $('#searchKeyInput').val();
+		callAnAction(str);
+
+	}
+</script>
 </html>
 
