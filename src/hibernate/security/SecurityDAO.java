@@ -393,4 +393,26 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		}
 		return res;
 	}
+
+	public void changePassword(String pass, int UID) throws AMSException {
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				throw getAMSException("", e);
+			}
+			String query = "update users set password = ? where user_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, pass);
+			ps.setInt(2, UID);
+			ps.execute();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+		
+	}
 }
