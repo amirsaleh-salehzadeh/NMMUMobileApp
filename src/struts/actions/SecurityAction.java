@@ -25,6 +25,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import tools.AMSErrorHandler;
 import tools.AMSException;
 import tools.AMSUtililies;
+import tools.NVL;
 import common.MessageENT;
 import common.PopupENT;
 import common.security.RoleENT;
@@ -76,7 +77,58 @@ public class SecurityAction extends Action {
 		} else if (reqCode.equals("saveUpdateGroup")) {
 			return saveUpdateGroup(request, mapping);
 		}
+		if (reqCode.equalsIgnoreCase("saveUpdateGroupRole")) {
+			saveUpdateGroupRole(request, mapping);
+			reqCode = "groupRoleView";
+		}
+		if (reqCode.equalsIgnoreCase("groupRoleView")) {
+			return groupRoleView(request, mapping);
+		}
+		
 		return af;
+	}
+
+	private void saveUpdateGroupRole(HttpServletRequest request,
+			ActionMapping mapping) {
+		String[] t = request.getParameterValues("groupRoleID");
+		GroupENT u = new GroupENT();
+		u.setGroupID(NVL.getInt(request.getParameter("groupID")));
+		ArrayList<RoleENT> roles = new ArrayList<RoleENT>();
+		if (t != null && t.length > 0)
+			for (int i = 0; i < t.length; i++) {
+				RoleENT r = new RoleENT(NVL.getInt(t[i]));
+				roles.add(r);
+			}
+		try {
+			getSecurityDAO().saveUpdateRolesGroup(roles, u);
+			success = "Roles saved successfully";
+		} catch (AMSException e) {
+			e.printStackTrace();
+			error = AMSErrorHandler.handle(request, this, e, "", "");
+		}
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
+	}
+
+	private ActionForward groupRoleView(HttpServletRequest request,
+			ActionMapping mapping) {
+		String searchKey = "";
+		int gid = Integer.parseInt(request.getParameter("groupID"));
+		if (request.getParameter("searchRole.roleName") != null) {
+			searchKey = request.getParameter("searchRole.roleName");
+		}
+		try {
+			request.setAttribute("groupENT",
+					getSecurityDAO().getGroup(new GroupENT(gid)));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("groupENTRoles", getSecurityDAO()
+				.getAllGroupRoles(gid));
+		request.setAttribute("roleLST", getSecurityDAO().getAllRoles(searchKey));
+		return mapping.findForward("groupRole");
 	}
 
 	private ActionForward saveUpdateRole(HttpServletRequest request,
