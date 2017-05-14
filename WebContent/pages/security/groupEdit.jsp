@@ -13,7 +13,8 @@
 		<div class="ui-block-solo">
 			<input type="text" name="groupName"
 				value="<bean:write name="groupENT" property="groupName" />"
-				placeholder="Group Name" data-theme="a" title="Group Name"> <input
+				placeholder="Group Name" data-theme="a" title="Group Name"> 
+			<input
 				type="hidden" name="groupID"
 				value="<bean:write name="groupENT" property="groupID" />">
 		</div>
@@ -28,13 +29,23 @@
 			       <ams:dropDown dropDownItems="${clientENTs}"
 				selectedVal="<%=selectedValue.toString()%>" name="clientID" title=""></ams:dropDown>
 		</div>
-		<div class=ui-grid-a>
+		
+		<div class=ui-grid-b>
+			<!-- I took out data-inline="true" -->
 			<div class=ui-block-a>
-				<a href="#" data-role="button" data-inline="true" data-icon="delete"
-					onclick="callAnAction('security.do?reqCode=groupManagement');">Cancel</a>
+				<a href="#" data-role="button"  data-icon="delete"
+					onclick="callAnAction('security.do?reqCode=groupManagement');">Cancel/Back</a>
 			</div>
+			<bean:define id="groupIDVal" name="groupENT" property="groupID"
+				type="java.lang.Integer"></bean:define>
 			<div class=ui-block-b>
-				<a href="#" data-role="button" data-inline="true" data-icon="check"
+			<%if(groupIDVal!=0){ %>
+			<a href="#" data-role="button"  data-icon="plus"
+				   onclick="callAnAction('security.do?reqCode=groupRoleView&groupID=<%=groupIDVal%>');">Group Roles</a>
+			<%}//u can use bean:write, but its unnecessary in this case, both are right%>	
+			</div>
+			<div class=ui-block-c>
+				<a href="#" data-role="button"  data-icon="check"
 					data-theme="b" onclick="saveTheForm();">Save</a>
 			</div>
 		</div>
