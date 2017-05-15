@@ -100,29 +100,26 @@ public class UserAction extends Action {
 
 	private ActionForward saveNewPassword(HttpServletRequest request,
 			ActionMapping mapping) {
-        String oldpw = request.getParameter("password");
-		String nwpw = request.getParameter("newPW");
-		String npwc = request.getParameter("newPWCheck");
-if (nwpw == "" || npwc ==""){
-	error="Please fill in all fields";
-}
-else if (request.getParameter("newPW").equals(request.getParameter("newPWCheck"))== false)
-    {
-	error = "Passwords do not match";
-	}
-else if (request.getParameter("newPW").equals(request.getParameter("password"))){
-	error = "New password can't be the old password.";
-	}
-else {		
-	try {
-		getSecurityDAO().changePassword(request.getParameter("newPW"),
-				Integer.parseInt(request.getParameter("userID")));
-		success = "The user's password was saved successfully";
-	} catch (AMSException e) {
-		error = AMSErrorHandler.handle(request, this, e, "", "");
-	}
-}
 		
+		if (request.getParameter("newPW") == ""
+				|| request.getParameter("newPWCheck") == "") {
+			error = "Please fill in all fields";
+		} else if (request.getParameter("newPW").equals(
+				request.getParameter("newPWCheck")) == false) {
+			error = "Passwords do not match";
+		} else if (request.getParameter("newPW").equals(
+				request.getParameter("password"))) {
+			error = "New password can't be the old password.";
+		} else {
+			try {
+				getSecurityDAO().changePassword(request.getParameter("newPW"),
+						Integer.parseInt(request.getParameter("userID")));
+				success = "The user's password was saved successfully";
+			} catch (AMSException e) {
+				error = AMSErrorHandler.handle(request, this, e, "", "");
+			}
+		}
+
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("passwordChange");
@@ -143,7 +140,6 @@ else {
 			e.printStackTrace();
 		}
 		return null;
-		
 
 	}
 
@@ -327,9 +323,11 @@ else {
 		popupGridEnts.add(new PopupENT("",
 				"callAnAction(\"user.do?reqCode=userEdit&userID=REPLACEME\");",
 				"Edit User", "#"));
-		popupGridEnts.add(new PopupENT("",
-				"callAnAction(\"user.do?reqCode=passwordChange&userID=REPLACEME\");",
-				"Change Password", "#"));
+		popupGridEnts
+				.add(new PopupENT(
+						"",
+						"callAnAction(\"user.do?reqCode=passwordChange&userID=REPLACEME\");",
+						"Change Password", "#"));
 		popupGridEnts.add(new PopupENT("",
 				"deleteAnItem(REPLACEME, \"deleteUser\");", "Remove", "#")); //
 		request.setAttribute("settingMenuItem", popupEnts);

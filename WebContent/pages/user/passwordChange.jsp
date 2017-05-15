@@ -24,7 +24,7 @@
 			value="<%=request.getParameter("userID")%>">
 
 		<html:text name="userENT" property="userName" title="Username" />
-		<html:password name="userENT" property="password" title="Old Password" />
+		<html:password name="userENT" property="password" title="Old Password" readonly="true"/>
 		<input type="password" 
 		    name="newPW" id="newPW" value=""
 			placeholder="New Password"> 
