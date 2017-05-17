@@ -76,6 +76,10 @@ public class UserAction extends Action {
 			saveUserGroups(request, mapping);
 			reqCode = "userGroupView";
 		}
+		if (reqCode.equalsIgnoreCase("saveNewPassword")) {
+			saveNewPassword(request, mapping);
+			reqCode = "passwordChange";
+		}
 		if (reqCode.equalsIgnoreCase("userManagement")
 				|| reqCode.equals("gridJson")) {
 			return userManagement(request, mapping);
@@ -87,9 +91,56 @@ public class UserAction extends Action {
 			return userRoleView(request, mapping);
 		} else if (reqCode.equalsIgnoreCase("userGroupView")) {
 			return userGroupView(request, mapping);
+		} else if (reqCode.equalsIgnoreCase("passwordChange")) {
+			return passwordChange(request, mapping);
 		}
 
 		return af;
+	}
+
+	private ActionForward saveNewPassword(HttpServletRequest request,
+			ActionMapping mapping) {
+		
+		if (request.getParameter("newPW") == ""
+				|| request.getParameter("newPWCheck") == "") {
+			error = "Please fill in all fields";
+		} else if (request.getParameter("newPW").equals(
+				request.getParameter("newPWCheck")) == false) {
+			error = "Passwords do not match";
+		} else if (request.getParameter("newPW").equals(
+				request.getParameter("password"))) {
+			error = "New password can't be the old password.";
+		} else {
+			try {
+				getSecurityDAO().changePassword(request.getParameter("newPW"),
+						Integer.parseInt(request.getParameter("userID")));
+				success = "The user's password was saved successfully";
+			} catch (AMSException e) {
+				error = AMSErrorHandler.handle(request, this, e, "", "");
+			}
+		}
+
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
+		return mapping.findForward("passwordChange");
+
+	}
+
+	private ActionForward passwordChange(HttpServletRequest request,
+			ActionMapping mapping) {
+		try {
+			int id = Integer.parseInt(request.getParameter("userID"));
+			UserENT u = getUserDAO().getUserENT(new UserENT("", id));
+			request.setAttribute("userENT", u);
+
+			return mapping.findForward("passwordChange");
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	private void saveUserGroups(HttpServletRequest request,
@@ -272,6 +323,11 @@ public class UserAction extends Action {
 		popupGridEnts.add(new PopupENT("",
 				"callAnAction(\"user.do?reqCode=userEdit&userID=REPLACEME\");",
 				"Edit User", "#"));
+		popupGridEnts
+				.add(new PopupENT(
+						"",
+						"callAnAction(\"user.do?reqCode=passwordChange&userID=REPLACEME\");",
+						"Change Password", "#"));
 		popupGridEnts.add(new PopupENT("",
 				"deleteAnItem(REPLACEME, \"deleteUser\");", "Remove", "#")); //
 		request.setAttribute("settingMenuItem", popupEnts);

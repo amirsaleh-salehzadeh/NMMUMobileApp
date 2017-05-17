@@ -48,7 +48,7 @@ body {
 			cache : false,
 			success : function(data) {
 				$("#mainBodyContents").html("");
-				$("#mainBodyContents").html(data);
+				$("#mainBodyContents").html(data).trigger("create");
 				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
 				refreshPlaceHolders();
