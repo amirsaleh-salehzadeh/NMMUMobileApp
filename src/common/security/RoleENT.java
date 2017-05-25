@@ -5,8 +5,17 @@ public class RoleENT {
 	String roleName = "";
 	int clientID;
 	String clientName;
+	String roleCategory;
 	int roleUserID;
 	int roleGroupID;
+
+	public String getRoleCategory() {
+		return roleCategory;
+	}
+
+	public void setRoleCategory(String roleCategory) {
+		this.roleCategory = roleCategory;
+	}
 
 	public RoleENT(int roleID, String roleName, int clientID,
 			String clientName, int roleUserID, int roleGroupID, String comment) {

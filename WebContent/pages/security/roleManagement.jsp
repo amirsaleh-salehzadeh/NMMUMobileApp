@@ -18,39 +18,23 @@
 </script>
 </head>
 <body>
-	<!-- 	form to send information to the security.do action >>>>>>>>>>>>>> keep the id of form the same -->
 	<form id="dataFilterGridMainPage" action="security.do">
 		<ams:message messageEntity="${message}"></ams:message>
-		<!-- 	indicates the reqCode to show the grid-->
 		<input type="hidden" name="reqCode" id="reqCode" value="roleManagement">
 		<input type="hidden" name="reqCodeGrid" id="reqCodeGrid" value="">
-		<!-- 		creates a div containing our search filters ..... keep the id same searchFilters >>>>>>>>>>> keep this id the same-->
 		<div class="ui-grid-a" id="searchFilters">
-			<!-- 		one horizontal column containing block a and b 
-		you need to create more columns sometimes, depends on the number of fields we decide to have to filter a grid 
-		-->
 			<fieldset class="ui-grid-a">
-				<!-- 			block a containing a text input on keyup it submits the form and refresh the grid-->
 				<div class="ui-block-a">
 					<html:text name="roleLST" property="searchRole.roleName"
-						onkeyup="refreshGrid();" title="Role Name"></html:text>
+						onkeyup="refreshGrid();" title="Role Name" ></html:text>
 				</div>
-				<!-- 				block b containing the dropdown select option -->
 				<div class="ui-block-b">
-					<!-- 				this tag creates a select-option with  -->
-					<!-- 				1- name,  -->
-					<!-- 				2- id,  -->
-					<!-- 				3- selected val,  -->
-					<!-- 				4- title = the first option with no value -->
-					<!-- 				5- onchange javascript function -->
-					<!-- 				6- an array of dropdown objects and create  -->
 					<bean:define id="clientIdSelectedVal" name="roleLST" property="searchRole.clientID"></bean:define>
 					<ams:dropDown dropDownItems="${clientENTs}" name="clientID"
 						selectedVal="<%=clientIdSelectedVal.toString() %>" onChange="refreshGrid()" title="Client"></ams:dropDown>
 				</div>
 			</fieldset>
 		</div>
-		<!-- 		includes grid container which refers to roleListGrid.jsp based on the reqCode when refreshGrid submits the form -->
 		<div class="ui-grid-solo">
 			<bean:define id="totalRows" name="roleLST" property="totalItems"
 				type="java.lang.Integer"></bean:define>
@@ -62,35 +46,30 @@
 				type="java.lang.Integer"></bean:define>
 			<bean:define id="totalPages" name="roleLST" property="totalPages"
 				type="java.lang.Integer"></bean:define>
-			<!-- 				this tag receives ,  -->
-			<!-- 				1- current page (defiend in above beans, coming from security action with the name of roleLST),  -->
-			<!-- 				2- pageSize,  -->
-			<!-- 				3- totalRoes,  -->
-			<!-- 				4- a comma separated string including name of columns from the object -->
-			<!-- 				5- an array of popup menus for the page settings -->
-			<!-- 				6- an array of popup menus for each row on the grid -->
 			<ams:ajaxPaginate currentPage="<%=currentPage%>"
 				pageSize="<%=pageSize%>" totalRows="<%=totalRows%>" align="center"
-				columns="roleID,roleName,comment,clientID"
+				columns="roleID,roleName,roleCategory,clientName,comment"
 				popupID="roleManagementSettingMenu"
 				popupGridSettingItems="${gridMenuItem}"
 				popupMenuSettingItems="${settingMenuItem}">
-				<table id="gridList" class="display cell-border dt-body-center"
-					cellspacing="0" width="100%">
+				<table id="gridList" class="mainGrid display cell-border dt-body-center"
+					cellspacing="0" width="100%" data-mini="true">
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="checkAllHead"></th>
 							<th data-priority="1">Role</th>
-							<th data-priority="3">Comment</th>
+							<th data-priority="3">Category</th>
 							<th data-priority="2">Client</th>
+							<th data-priority="4">Comment</th>
 						</tr>
 					</thead>
 					<tfoot>
 						<tr>
 							<th><input type="checkbox" id="checkAllFoot"></th>
 							<th data-priority="1">Role</th>
-							<th data-priority="3">Comment</th>
+							<th data-priority="3">Category</th>
 							<th data-priority="2">Client</th>
+							<th data-priority="4">Comment</th>
 						</tr>
 					</tfoot>
 				</table>

@@ -27,8 +27,8 @@ body {
 			url : url,
 			cache : false,
 			success : function(data) {
-				$("#mainBodyContents").html(data);
-				$(document).trigger("create");
+				$("#mainBodyContents").html(data).trigger("create");
+// 				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
 				refreshPlaceHolders();
 				if ($("#reqCodeGrid").val() != undefined) {

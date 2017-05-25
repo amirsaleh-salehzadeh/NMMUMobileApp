@@ -17,6 +17,9 @@
         <property name="comment" type="java.lang.String">
             <column name="comment" />
         </property>
+         <property name="roleCategory" type="java.lang.String">
+            <column name="category_role" />
+        </property>
 <!--         <property name="clientName" type="java.lang.String"> -->
 <!--             <column name="client_name" /> -->
 <!--         </property> -->

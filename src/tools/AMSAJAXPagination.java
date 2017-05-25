@@ -175,7 +175,7 @@ public class AMSAJAXPagination extends BodyTagSupport {
 			if (totalRows % pageSize != 0)
 				count += 1;
 			if (totalRows > pageSize)
-				str = "<input type='range' onchange='refreshGrid();' name='currentPage' id='sliderPagination' value='"
+				str = "<input type='range' onchange='refreshGrid();' name='currentPage' data-show-value='true' id='sliderPagination' value='"
 						+ currentPage + "' min='1' max='" + count + "'>";
 		}
 		return str;

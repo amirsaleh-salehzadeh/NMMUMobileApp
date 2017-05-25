@@ -406,6 +406,7 @@ public class SecurityAction extends Action {
 			roleENT.setRoleID(Integer.parseInt(request.getParameter("roleID")));
 		else
 			roleENT.setRoleID(0);
+		roleENT.setRoleCategory(request.getParameter("roleCategory"));
 		roleENT.setRoleName(request.getParameter("roleName"));
 		roleENT.setComment(request.getParameter("comment"));
 		return roleENT;
@@ -446,7 +447,7 @@ public class SecurityAction extends Action {
 			clientID = Integer.parseInt(request.getParameter("clientID"));
 		RoleENT roleENT = new RoleENT(0, search, clientID, "", search);
 		RoleLST roleLST = new RoleLST(roleENT, pageNo, pageSize, true,
-				"roleName");
+				"role_name");
 		try {
 			roleLST = getSecurityDAO().getRolesList(roleLST);
 		} catch (AMSException e) {

@@ -9,14 +9,17 @@
 </head>
 <body>
 	<ams:message messageEntity="${message}"></ams:message>
-	<!-- defines the form to submit the information to the action security.do >>>>>> DONT CHANGE THE ID-->
 	<form id="dataFilterGridMainPage" action="security.do">
-		<!-- The reqCode which action must work with-->
 		<input type="hidden" name="reqCode" value="saveUpdateRole">
-		<!-- Formatting and putting the text fields in the page-->
 		<div class="ui-block-solo">
 			<html:text name="roleENT" property="roleName" title="Role Name" />
 			<html:hidden name="roleENT" property="roleID" styleId="roleID" />
+		</div>
+		<div class="ui-block-solo">
+			<html:text name="roleENT" property="roleCategory"
+				styleId="roleCategory" title="Category" />
+			<ul id="autocomplete" data-role="listview" data-inset="true"
+				data-filter="true" data-input="#autocomplete-input"></ul>
 		</div>
 		<div class="ui-block-solo">
 			<html:textarea name="roleENT" property="comment" styleId="comment"
