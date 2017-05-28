@@ -67,7 +67,7 @@
 					</thead>
 					<tfoot>
 						<tr>
-						    <th></th>
+						    <th><input type="checkbox" id="checkAllFoot"></th>
 							<th data-priority="1">name</th>
 							<th data-priority="2">surname</th>
 							<th data-priority="3">Username</th>

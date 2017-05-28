@@ -140,8 +140,6 @@ public class SecurityAction extends Action {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		// /////////////Calls the method getRoleENT>>> press F3 to go to the
-		// method definition at the bottom of the class//////////////////
 		RoleENT roleENT = getRoleENT(request);
 		try {
 			roleENT = getSecurityDAO().saveUpdateRole(roleENT);
@@ -184,28 +182,19 @@ public class SecurityAction extends Action {
 		RoleENT roleENT = new RoleENT();
 		int roleId = 0;
 		try {
-			// /////////////prepare a client dropdown menu for the roleEdit
-			// page//////////////////
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
 		} catch (AMSException e) {
 			e.printStackTrace();
 		}
-		// /////////////if no roleID was forwarded then means its a new
-		// role, otherwise its about to edit a role//////////////////
 		if (request.getParameter("roleID") != null)
 			roleId = Integer.parseInt(request.getParameter("roleID"));
 		else {
-			// /////////////forwards to the page with an empty
-			// object//////////////////
 			request.setAttribute("roleENT", roleENT);
 			return mapping.findForward("roleEdit");
 		}
-		// /////////////reads the role ID//////////////////
 		roleENT.setRoleID(roleId);
 		try {
-			// /////////////Get the role from DAO and set it into the
-			// attribute called roleENT//////////////////
 			request.setAttribute("roleENT", getSecurityDAO().getRole(roleENT));
 		} catch (AMSException e) {
 			error = e.getMessage();
@@ -284,7 +273,6 @@ public class SecurityAction extends Action {
 			createMenusForRole(request);
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
-			// /////////////Initiate a value for the page//////////////////
 			RoleLST roleLST = getRoleLST(request);
 			request.setAttribute("roleLST", roleLST);
 			ObjectMapper mapper = new ObjectMapper();
@@ -292,13 +280,10 @@ public class SecurityAction extends Action {
 			try {
 				json = mapper.writeValueAsString(roleLST.getRoleENTs());
 			} catch (JsonGenerationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			json = AMSUtililies.prepareTheJSONStringForDataTable(
@@ -311,8 +296,6 @@ public class SecurityAction extends Action {
 		} catch (AMSException e) {
 			e.printStackTrace();
 		}
-		// /////////////forward the action to pages >>> see
-		// struts.config.xml for more info//////////////////
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("roleManagement");
@@ -321,7 +304,6 @@ public class SecurityAction extends Action {
 	private ActionForward groupManagement(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
-
 			createMenusForGroup(request);
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
@@ -355,20 +337,20 @@ public class SecurityAction extends Action {
 
 	private void createMenusForRole(HttpServletRequest request) {
 		List<PopupENT> popupEnts = new ArrayList<PopupENT>();
-		popupEnts.add(new PopupENT("", "displaySearch();", "Show/Hide Search",
+		popupEnts.add(new PopupENT("hide-filters", "displaySearch();", "Show/Hide Search",
 				"#"));
-		popupEnts.add(new PopupENT("",
+		popupEnts.add(new PopupENT("new-item",
 				"callAnAction(\"security.do?reqCode=roleEdit\");", "New Role",
 				"#"));
-		popupEnts.add(new PopupENT("", "deleteSelectedItems(\"deleteRole\");",
+		popupEnts.add(new PopupENT("delete-item", "deleteSelectedItems(\"deleteRole\");",
 				"Delete Selected", "#"));
 		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
 		popupGridEnts
 				.add(new PopupENT(
-						"",
+						"edit-item",
 						"callAnAction(\"security.do?reqCode=roleEdit&roleID=REPLACEME\");",
 						"Edit Role", "#"));
-		popupGridEnts.add(new PopupENT("",
+		popupGridEnts.add(new PopupENT("delete-item",
 				"deleteAnItem(REPLACEME, \"deleteRole\");", "Remove", "#")); //
 		request.setAttribute("settingMenuItem", popupEnts);
 		request.setAttribute("gridMenuItem", popupGridEnts);
@@ -376,20 +358,20 @@ public class SecurityAction extends Action {
 
 	private void createMenusForGroup(HttpServletRequest request) {
 		List<PopupENT> popupEnts = new ArrayList<PopupENT>();
-		popupEnts.add(new PopupENT("", "displaySearch();", "Show/Hide Search",
+		popupEnts.add(new PopupENT("hide-filters", "displaySearch();", "Show/Hide Search",
 				"#"));
-		popupEnts.add(new PopupENT("",
+		popupEnts.add(new PopupENT("new-item",
 				"callAnAction(\"security.do?reqCode=groupEdit\");",
 				"New Group", "#"));
-		popupEnts.add(new PopupENT("", "deleteSelectedItems(\"deleteGroup\");",
+		popupEnts.add(new PopupENT("delete-item", "deleteSelectedItems(\"deleteGroup\");",
 				"Delete Selected", "#"));
 		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
 		popupGridEnts
 				.add(new PopupENT(
-						"",
+						"edit-item",
 						"callAnAction(\"security.do?reqCode=groupEdit&groupID=REPLACEME\");",
 						"Edit Group", "#"));
-		popupGridEnts.add(new PopupENT("",
+		popupGridEnts.add(new PopupENT("delete-item",
 				"deleteAnItem(REPLACEME, \"deleteGroup\");", "Remove", "#")); //
 		request.setAttribute("settingMenuItem", popupEnts);
 		request.setAttribute("gridMenuItem", popupGridEnts);

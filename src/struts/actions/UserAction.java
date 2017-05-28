@@ -100,7 +100,7 @@ public class UserAction extends Action {
 
 	private ActionForward saveNewPassword(HttpServletRequest request,
 			ActionMapping mapping) {
-		
+
 		if (request.getParameter("newPW") == ""
 				|| request.getParameter("newPWCheck") == "") {
 			error = "Please fill in all fields";
@@ -311,25 +311,36 @@ public class UserAction extends Action {
 
 	private void createMenusForUser(HttpServletRequest request) {
 		List<PopupENT> popupEnts = new ArrayList<PopupENT>();
-		popupEnts.add(new PopupENT("", "displaySearch();", "Show/Hide Search",
+		popupEnts.add(new PopupENT("hide-filters", "displaySearch();", "Show/Hide Search",
 				"#"));
 		popupEnts
-				.add(new PopupENT("",
+				.add(new PopupENT("new-item",
 						"callAnAction(\"user.do?reqCode=userEdit\");",
 						"New User", "#"));
-		popupEnts.add(new PopupENT("", "deleteSelectedItems(\"deleteUser\");",
+		popupEnts.add(new PopupENT("delete-item", "deleteSelectedItems(\"deleteUser\");",
 				"Delete Selected", "#"));
+
 		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
-		popupGridEnts.add(new PopupENT("",
+		popupGridEnts.add(new PopupENT("edit-item",
 				"callAnAction(\"user.do?reqCode=userEdit&userID=REPLACEME\");",
 				"Edit User", "#"));
 		popupGridEnts
 				.add(new PopupENT(
-						"",
+						"password-item",
 						"callAnAction(\"user.do?reqCode=passwordChange&userID=REPLACEME\");",
 						"Change Password", "#"));
-		popupGridEnts.add(new PopupENT("",
-				"deleteAnItem(REPLACEME, \"deleteUser\");", "Remove", "#")); //
+		popupGridEnts.add(new PopupENT("delete-item",
+				"deleteAnItem(REPLACEME, \"deleteUser\");", "Remove", "#"));
+		popupGridEnts
+				.add(new PopupENT(
+						"secure-item",
+						"callAnAction(\"user.do?reqCode=userRoleView&parentPage=userList&userID=REPLACEME\");",
+						"View Roles", "#"));
+		popupGridEnts
+				.add(new PopupENT(
+						"group-item",
+						"callAnAction(\"user.do?reqCode=userGroupView&parentPage=userList&userID=REPLACEME\");",
+						"View Groups", "#"));
 		request.setAttribute("settingMenuItem", popupEnts);
 		request.setAttribute("gridMenuItem", popupGridEnts);
 	}

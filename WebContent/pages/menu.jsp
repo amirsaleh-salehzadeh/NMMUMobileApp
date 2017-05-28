@@ -17,9 +17,6 @@ body {
 			$(this).attr("placeholder", $(this).attr("title"));
 		});
 	}
-	$( document ).ajaxComplete(function() {
-		  $('input:text:first').focus();
-		});
 	function callAnAction(url) {
 		$('#gridMenuSetting').popup("destroy");
 		$("#mainBodyContents").html("");
@@ -28,7 +25,7 @@ body {
 			cache : false,
 			success : function(data) {
 				$("#mainBodyContents").html(data).trigger("create");
-// 				$(document).trigger("create");
+				// 				$(document).trigger("create");
 				$(".ui-popup-active").css("display", "none");
 				refreshPlaceHolders();
 				if ($("#reqCodeGrid").val() != undefined) {
@@ -107,7 +104,7 @@ body {
 </div>
 <ul class="jqm-list ui-alt-icon ui-nodisc-icon">
 	<li data-filtertext="demos homepage" data-icon="home"><a
-		href=".././">Home</a></li>
+		href="t_newsfeed.do?reqCode=newsFeedList">Home</a></li>
 	<li data-role="collapsible" data-enhanced="true"
 		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
 		data-iconpos="right" data-inset="false"
@@ -139,7 +136,7 @@ body {
 		</div>
 	</li>
 	<li data-filtertext="introduction overview getting started"><a
-		href="#" onclick="callAnAction('location.do?reqCode=mapView')"
+		href="t_location.do?reqCode=mapView"
 		data-ajax="false">Location</a></li>
 </ul>
 <div data-role="popup" id="popupDialogDeleteConfirmation"

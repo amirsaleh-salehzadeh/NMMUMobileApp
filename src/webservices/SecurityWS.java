@@ -21,11 +21,11 @@ public class SecurityWS {
 	@GET
 	@Path("/GetAllRoleCategories")
 	@Produces("application/json")
-	public String getAllRoleCategories() {
+	public String getAllRoleCategories(@QueryParam("filter") String filter) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			json = mapper.writeValueAsString(getSecurityDAO().getAllRoleCategories());
+			json = mapper.writeValueAsString(getSecurityDAO().getAllRoleCategories(filter));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

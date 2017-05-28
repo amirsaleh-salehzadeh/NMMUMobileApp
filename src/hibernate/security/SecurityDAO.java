@@ -30,36 +30,36 @@ public class SecurityDAO extends BaseHibernateDAO implements
 
 	public static void main(String[] args) {
 		SecurityDAO udao = new SecurityDAO();
-//		try {
-//
-			for (int i = 0; i < 30; i++) {
-				RoleENT roles = new RoleENT();
-				roles.setComment("commeneeet" + i);
-				roles.setRoleName("roleeddde" + i);
-				roles.setClientID(1);
-				try {
-					udao.saveUpdateRole(roles);
-				} catch (AMSException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-//				System.out.println("hei");
+		// try {
+		//
+		for (int i = 0; i < 30; i++) {
+			RoleENT roles = new RoleENT();
+			roles.setComment("commeneeet" + i);
+			roles.setRoleName("roleeddde" + i);
+			roles.setClientID(1);
+			try {
+				udao.saveUpdateRole(roles);
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-//			RoleLST role = udao.getRolesList(new RoleLST());
-//			RoleENT role = new RoleENT();
-//			role.setRoleName("role100");
-//			role.setClientID(2);
-//			RoleENT r = udao.getRole(role);
-//			GroupLST g = new GroupLST();
-//			GroupENT gs = new GroupENT();
-//			gs.setGroupName("");
-//			g.setSearchGroup(gs);
-//			g = udao.getGroupList(g);
-			System.out.println("done");
-//		} catch (AMSException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+			// System.out.println("hei");
+		}
+		// RoleLST role = udao.getRolesList(new RoleLST());
+		// RoleENT role = new RoleENT();
+		// role.setRoleName("role100");
+		// role.setClientID(2);
+		// RoleENT r = udao.getRole(role);
+		// GroupLST g = new GroupLST();
+		// GroupENT gs = new GroupENT();
+		// gs.setGroupName("");
+		// g.setSearchGroup(gs);
+		// g = udao.getGroupList(g);
+		System.out.println("done");
+		// } catch (AMSException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	public RoleENT saveUpdateRole(RoleENT role) throws AMSException {
@@ -87,8 +87,6 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		}
 		return role;
 	}
-	
-	
 
 	private boolean deleteRole(RoleENT role) throws AMSException {
 		try {
@@ -116,8 +114,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		Query q = null;
 		try {
 			Session session = getSession();
-			q = session.createQuery(
-					"from RoleENT where roleID =:Id");
+			q = session.createQuery("from RoleENT where roleID =:Id");
 			q.setInteger("Id", role.getRoleID());
 			role = (RoleENT) q.uniqueResult();
 			session.close();
@@ -141,8 +138,8 @@ public class SecurityDAO extends BaseHibernateDAO implements
 				e.printStackTrace();
 			}
 			String searchKey = roleLST.getSearchRole().getRoleName();
-			String query = "Select r.*, c.client_name from roles r " +
-					"left join clients c on r.client_id = c.client_id where ";
+			String query = "Select r.*, c.client_name from roles r "
+					+ "left join clients c on r.client_id = c.client_id where ";
 			if (clientid > 0)
 				query += " clientID = " + clientid + " and ";
 			query += "r.role_name like ? or r.category_role like ? ";
@@ -153,15 +150,15 @@ public class SecurityDAO extends BaseHibernateDAO implements
 				query += " Desc";
 			query += " LIMIT ?, ? ";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, "%"+searchKey+"%");
-			ps.setString(2, "%"+searchKey+"%");
+			ps.setString(1, "%" + searchKey + "%");
+			ps.setString(2, "%" + searchKey + "%");
 			ps.setInt(3, roleLST.getFirst());
 			ps.setInt(4, roleLST.getPageSize());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				RoleENT r = new RoleENT(rs.getInt("role_id"),
-						rs.getString("role_name"), rs.getInt("client_id"), rs.getString("client_name"), rs.getString("comment")
-						);
+						rs.getString("role_name"), rs.getInt("client_id"),
+						rs.getString("client_name"), rs.getString("comment"));
 				r.setRoleCategory(rs.getString("category_role"));
 				res.add(r);
 			}
@@ -235,8 +232,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 	public GroupENT getGroup(GroupENT group) throws AMSException {
 		Query q = null;
 		try {
-			q = getSession().createQuery(
-					"from GroupENT where groupID =:Id ");
+			q = getSession().createQuery("from GroupENT where groupID =:Id ");
 			q.setInteger("Id", group.getGroupID());
 			group = (GroupENT) q.uniqueResult();
 			HibernateSessionFactory.closeSession();
@@ -357,7 +353,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 			throw getAMSException("", e);
 		}
-		
+
 	}
 
 	public ArrayList<RoleENT> getAllRoles(String searchKey) {
@@ -372,7 +368,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			}
 			String query = "Select * from roles where role_name like ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, "%"+searchKey+"%");
+			ps.setString(1, "%" + searchKey + "%");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				RoleENT r = new RoleENT(rs.getInt("role_id"),
@@ -387,6 +383,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		}
 		return res;
 	}
+
 	public ArrayList<GroupENT> getAllGroups(String searchKey) {
 		ArrayList<GroupENT> res = new ArrayList<GroupENT>();
 		try {
@@ -399,7 +396,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			}
 			String query = "Select * from groups where group_name like ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, "%"+searchKey+"%");
+			ps.setString(1, "%" + searchKey + "%");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				GroupENT r = new GroupENT(rs.getInt("group_id"),
@@ -434,10 +431,10 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 			throw getAMSException("", e);
 		}
-		
+
 	}
 
-	public ArrayList<String> getAllRoleCategories() {
+	public ArrayList<String> getAllRoleCategories(String filter) {
 		ArrayList<String> res = new ArrayList<String>();
 		try {
 			Connection conn = null;
@@ -447,7 +444,8 @@ public class SecurityDAO extends BaseHibernateDAO implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String query = "Select category_role from roles";
+			String query = "Select distinct category_role from roles where category_role like '%"
+					+ filter + "%'";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -461,5 +459,5 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		}
 		return res;
 	}
-	
+
 }

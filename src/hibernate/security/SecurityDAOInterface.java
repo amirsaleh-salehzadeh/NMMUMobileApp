@@ -17,7 +17,7 @@ public interface SecurityDAOInterface {
 //	public boolean checkUsernameValidity(String userName) throws AMSException;
 	public RoleLST getRolesList(RoleLST roleLST) throws AMSException;
 	public GroupLST getGroupList(GroupLST groupLST) throws AMSException;
-	public ArrayList<String> getAllRoleCategories();
+	public ArrayList<String> getAllRoleCategories(String filter);
 	public RoleENT saveUpdateRole(RoleENT role) throws AMSException;
 	public GroupENT saveUpdateGroup(GroupENT group) throws AMSException;
 	public RoleENT getRole(RoleENT role) throws AMSException;

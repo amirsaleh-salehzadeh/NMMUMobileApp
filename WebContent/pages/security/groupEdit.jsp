@@ -8,48 +8,56 @@
 <head>
 </head>
 <body>
-	<form id="dataFilterGridMainPage" action="security.do">
-		<input type="hidden" name="reqCode" value="saveUpdateGroup">
-		<div class="ui-block-solo">
-			<input type="text" name="groupName"
-				value="<bean:write name="groupENT" property="groupName" />"
-				placeholder="Group Name" data-theme="a" title="Group Name"> 
-			<input
-				type="hidden" name="groupID"
-				value="<bean:write name="groupENT" property="groupID" />">
-		</div>
-		<div class="ui-block-solo">
-			<input type="text" name="comment"
-				value="<bean:write name="groupENT" property="comment" />"
-				placeholder="Comment" value="" data-theme="a" title="Comment">
-		</div>
-		<div class="ui-block-solo">
-		<bean:define id="selectedValue" name="groupENT" property="clientID"
-				type="java.lang.Integer"></bean:define>
-			       <ams:dropDown dropDownItems="${clientENTs}"
-				selectedVal="<%=selectedValue.toString()%>" name="clientID" title=""></ams:dropDown>
-		</div>
-		
-		<div class=ui-grid-b>
-			<!-- I took out data-inline="true" -->
-			<div class=ui-block-a>
-				<a href="#" data-role="button"  data-icon="delete"
-					onclick="callAnAction('security.do?reqCode=groupManagement');">Cancel/Back</a>
+	<div id='formContainer'>
+		<form id="dataFilterGridMainPage" action="security.do">
+			<input type="hidden" name="reqCode" value="saveUpdateGroup">
+			<div class="ui-block-solo">
+				<input type="text" name="groupName"
+					value="<bean:write name="groupENT" property="groupName" />"
+					placeholder="Group Name" data-theme="a" title="Group Name">
+				<input type="hidden" name="groupID"
+					value="<bean:write name="groupENT" property="groupID" />">
 			</div>
-			<bean:define id="groupIDVal" name="groupENT" property="groupID"
-				type="java.lang.Integer"></bean:define>
-			<div class=ui-block-b>
-			<%if(groupIDVal!=0){ %>
-			<a href="#" data-role="button"  data-icon="plus"
-				   onclick="callAnAction('security.do?reqCode=groupRoleView&groupID=<%=groupIDVal%>');">Group Roles</a>
-			<%}//u can use bean:write, but its unnecessary in this case, both are right%>	
+			<div class="ui-block-solo">
+				<input type="text" name="comment"
+					value="<bean:write name="groupENT" property="comment" />"
+					placeholder="Comment" value="" data-theme="a" title="Comment">
 			</div>
-			<div class=ui-block-c>
-				<a href="#" data-role="button"  data-icon="check"
-					data-theme="b" onclick="saveTheForm();">Save</a>
+			<div class="ui-block-solo">
+				<bean:define id="selectedValue" name="groupENT" property="clientID"
+					type="java.lang.Integer"></bean:define>
+				<ams:dropDown dropDownItems="${clientENTs}"
+					selectedVal="<%=selectedValue.toString()%>" name="clientID"
+					title=""></ams:dropDown>
 			</div>
-		</div>
-	</form>
+
+			<div class=ui-grid-b>
+				<!-- I took out data-inline="true" -->
+				<div class=ui-block-a>
+					<a href="#" data-role="button" class="cancel-icon"
+						onclick="callAnAction('security.do?reqCode=groupManagement');"
+						data-mini="true">Cancel/Back</a>
+				</div>
+				<bean:define id="groupIDVal" name="groupENT" property="groupID"
+					type="java.lang.Integer"></bean:define>
+				<div class=ui-block-b>
+					<%
+						if (groupIDVal != 0) {
+					%>
+					<a href="#" data-role="button" id="group-item"
+						onclick="callAnAction('security.do?reqCode=groupRoleView&groupID=<%=groupIDVal%>');"
+						data-mini="true">Group Roles</a>
+					<%
+						}
+					%>
+				</div>
+				<div class=ui-block-c>
+					<a href="#" data-role="button" class="save-icon"
+						onclick="saveTheForm();" data-mini="true">Save</a>
+				</div>
+			</div>
+		</form>
+	</div>
 </body>
 
 </html>
