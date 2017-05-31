@@ -20,14 +20,17 @@ input {
 #paginationContainerDiv {
 	background-color: #383c40;
 	padding: 11px 11px 11px 11px;
+	margin-left: 7px;
+	margin-right: 7px;
 	border: solid 1px black;
 	border-radius: 11px;
+	overflow: auto;
 }
 
 #formContainer {
 	background-color: #383c40;
 	padding: 11px 11px 11px 11px;
-	margin-top: 7px;
+	margin: 7px 7px 7px 7px;
 	border: solid 1px black;
 	border-radius: 11px;
 	min-height: 100%;
@@ -58,40 +61,57 @@ input {
 	padding-bottom: .33em;
 	margin: 0px;
 }
+
 /*
  * BUTTON ICONS
  */
 .save-icon {
 	background-image: url("../images/icons/save.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
+	background-position: left 2px center;
+	padding-left: 5px;
+	text-align: right;
 }
 
 .cancel-icon {
 	background-image: url("../images/icons/cancel.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
+	background-position: left 2px center;
+	padding-left: 11px;
+	text-align: right;
 }
 
 .group-icon {
 	background-image: url("../images/icons/group.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
-	padding-left: 44px;
+	background-position: left 2px center;
+	padding-left: 7px;
+	text-align: right;
 }
 
 .role-icon {
 	background-image: url("../images/icons/security.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
-	padding-left: 44px;
+	background-position: left 2px center;
+	padding-left: 5px;
+	text-align: right;
+}
+
+.menu-icon {
+	background: url("../images/icons/menu.png") 3px 3px no-repeat !important;
+	background-size: 24px 24px !important;
+	background-color: rgba(0, 0, 0, 1) !important;
+}
+
+.jqm-demos .jqm-header .ui-btn {
+	opacity: 1 !important;
 }
 
 #mainBodyMenuSettingBTN {
 	background-image: url("../images/icons/setting.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
-	padding-left: 44px;
+	background-position: left 2px center;
+	padding-left: 30px;
 	min-height: 11px;
 }
 
@@ -102,50 +122,50 @@ input {
 #hide-filters {
 	background-image: url("../images/icons/show.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
-	padding-left: 44px;
+	background-position: left 2px center;
+	padding-left: 30px;
 }
 
 #new-item {
 	background-image: url("../images/icons/new.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
-	padding-left: 44px;
+	background-position: left 2px center;
+	padding-left: 30px;
 }
 
 #delete-item {
 	background-image: url("../images/icons/delete.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
-	padding-left: 44px;
+	background-position: left 2px center;
+	padding-left: 30px;
 }
 
 #edit-item {
 	background-image: url("../images/icons/edit.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
-	padding-left: 44px;
+	background-position: left 2px center;
+	padding-left: 30px;
 }
 
 #secure-item {
 	background-image: url("../images/icons/security.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
-	padding-left: 44px;
+	background-position: left 2px center;
+	padding-left: 30px;
 }
 
 #password-item {
 	background-image: url("../images/icons/password.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
-	padding-left: 44px;
+	background-position: left 2px center;
+	padding-left: 30px;
 }
 
 #group-item {
 	background-image: url("../images/icons/group.png");
 	background-repeat: no-repeat;
-	background-position: left 13px center;
-	padding-left: 44px;
+	background-position: left 2px center;
+	padding-left: 30px;
 }
 
 /*
@@ -226,7 +246,8 @@ input {
 
 table.dataTable {
 	width: 100%;
-	margin: 0 auto;
+	padding-right: 11px;
+	padding-top: 7px;
 	clear: both;
 	border-collapse: separate;
 	border-spacing: 0;

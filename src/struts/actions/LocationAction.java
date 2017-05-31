@@ -39,6 +39,8 @@ public class LocationAction extends Action {
 			}
 			request.setAttribute("locations", lst);
 			af = mapping.findForward(reqCode);
+		}else if(reqCode.equalsIgnoreCase("pathCreation")){
+			af = mapping.findForward(reqCode);
 		}
 		return af;
 	}

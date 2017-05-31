@@ -17,6 +17,7 @@ body {
 			$(this).attr("placeholder", $(this).attr("title"));
 		});
 	}
+
 	function callAnAction(url) {
 		$('#gridMenuSetting').popup("destroy");
 		$("#mainBodyContents").html("");
@@ -30,7 +31,6 @@ body {
 				refreshPlaceHolders();
 				if ($("#reqCodeGrid").val() != undefined) {
 					refreshGrid();
-					return true;
 				}
 				return true;
 			}
@@ -112,7 +112,7 @@ body {
 		<h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
 			<a href="#"
 				class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-d">
-				Administrator<span class="ui-collapsible-heading-status">
+				System Administration<span class="ui-collapsible-heading-status">
 					click to expand contents</span>
 			</a>
 		</h3>
@@ -122,22 +122,101 @@ body {
 			<ul>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					href="t_user.do?reqCode=userManagement" data-ajax="false">User
-						Management</a></li>
+					href="t_user.do?reqCode=userManagement" data-ajax="false">User</a></li>
 				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
-					href="t_security.do?reqCode=roleManagement" data-ajax="false">Role
-						Management</a></li>
+					href="t_security.do?reqCode=roleManagement" data-ajax="false">Roles</a></li>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					href="t_security.do?reqCode=groupManagement" data-ajax="false">Group
-						Management</a></li>
+					href="t_security.do?reqCode=groupManagement" data-ajax="false">Groups</a></li>
 			</ul>
 		</div>
 	</li>
-	<li data-filtertext="introduction overview getting started"><a
-		href="t_location.do?reqCode=mapView"
-		data-ajax="false">Location</a></li>
+	<li data-role="collapsible" data-enhanced="true"
+		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
+		data-iconpos="right" data-inset="false"
+		class="ui-collapsible ui-collapsible-themed-content ui-collapsible-collapsed">
+		<h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
+			<a href="#"
+				class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-d">
+				Amir<span class="ui-collapsible-heading-status"> click to
+					expand contents</span>
+			</a>
+		</h3>
+		<div
+			class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed"
+			aria-hidden="true">
+			<ul>
+				<li
+					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
+					href="t_user.do?reqCode=userManagement" data-ajax="false">Profile</a></li>
+				<li
+					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
+					href="t_security.do?reqCode=roleManagement" data-ajax="false">Privacy</a></li>
+				<li
+					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
+					href="t_security.do?reqCode=groupManagement" data-ajax="false">Notification</a></li>
+			</ul>
+		</div>
+	</li>
+	<li data-role="collapsible" data-enhanced="true"
+		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
+		data-iconpos="right" data-inset="false"
+		class="ui-collapsible ui-collapsible-themed-content ui-collapsible-collapsed">
+		<h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
+			<a href="#"
+				class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-d">
+				NMMU<span class="ui-collapsible-heading-status"> click to
+					expand contents</span>
+			</a>
+		</h3>
+		<div
+			class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed"
+			aria-hidden="true">
+			<ul>
+				<li
+					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
+					href="t_user.do?reqCode=userManagement" data-ajax="false">Time
+						Table</a></li>
+				<li
+					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
+					href="t_security.do?reqCode=roleManagement" data-ajax="false">Events</a></li>
+				<li
+					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
+					href="t_security.do?reqCode=groupManagement" data-ajax="false">NEWS Feed</a></li>
+				<li
+					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
+					href="t_security.do?reqCode=groupManagement" data-ajax="false">Notification</a></li>
+
+			</ul>
+		</div>
+	</li>
+	<li data-role="collapsible" data-enhanced="true"
+		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
+		data-iconpos="right" data-inset="false"
+		class="ui-collapsible ui-collapsible-themed-content ui-collapsible-collapsed">
+		<h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
+			<a href="#"
+				class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-d">
+				Lift Club<span class="ui-collapsible-heading-status"> click to
+					expand contents</span>
+			</a>
+		</h3>
+		<div
+			class="ui-collapsible-content ui-body-inherit ui-collapsible-content-collapsed"
+			aria-hidden="true">
+			<ul>
+				<li data-filtertext="introduction overview getting started"><a
+					href="t_location.do?reqCode=mapView" data-ajax="false">Find a Place</a></li>
+				<li
+					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
+					href="t_security.do?reqCode=roleManagement" data-ajax="false">Lift</a></li>
+					<li
+					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
+					href="t_location.do?reqCode=pathCreation" data-ajax="false">Path Identification</a></li>
+			</ul>
+		</div>
+	</li>
 </ul>
 <div data-role="popup" id="popupDialogDeleteConfirmation"
 	data-overlay-theme="b" data-theme="a" data-dismissible="false"

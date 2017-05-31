@@ -29,13 +29,12 @@ public interface SecurityDAOInterface {
 	public ArrayList<RoleENT> getAllRoles(String searchKey);
 	public ArrayList<GroupENT> getAllGroups(String searchKey);
 	public void saveUpdateRolesGroup(ArrayList<RoleENT> roles, GroupENT group) throws AMSException;
-	public void changePassword(String pass, int UID) throws AMSException;
+	public void changePassword(String oldPass, String newPass, String username) throws AMSException;
 //	public RoleENT saveUserRole(RoleENT role) throws AMSException;
 //	public GroupENT saveUserGroup(GroupENT group) throws AMSException;
 //	public boolean saveGroupRole(GroupENT group) throws AMSException;
 //	public ArrayList<UserRoleENT> getUserRoles(RoleENT role) throws AMSException;
 //	public boolean getUserGroups(GroupENT group) throws AMSException;
 //	public boolean getGroupRoles(GroupENT group) throws AMSException;
-//	public boolean checkAuthority(int user_id,int role_id) throws AMSException;
 //	public boolean changePassword(UserPassword ent) throws AMSException;
 }

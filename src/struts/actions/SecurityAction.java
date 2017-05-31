@@ -90,13 +90,13 @@ public class SecurityAction extends Action {
 
 	private void saveUpdateGroupRole(HttpServletRequest request,
 			ActionMapping mapping) {
-		String[] t = request.getParameterValues("groupRoleID");
+		String[] t = request.getParameterValues("groupRoleName");
 		GroupENT u = new GroupENT();
 		u.setGroupID(NVL.getInt(request.getParameter("groupID")));
 		ArrayList<RoleENT> roles = new ArrayList<RoleENT>();
 		if (t != null && t.length > 0)
 			for (int i = 0; i < t.length; i++) {
-				RoleENT r = new RoleENT(NVL.getInt(t[i]));
+				RoleENT r = new RoleENT(t[i]);
 				roles.add(r);
 			}
 		try {
@@ -180,20 +180,20 @@ public class SecurityAction extends Action {
 	private ActionForward editRole(HttpServletRequest request,
 			ActionMapping mapping, ActionForm form) {
 		RoleENT roleENT = new RoleENT();
-		int roleId = 0;
+		String roleName = "";
 		try {
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
 		} catch (AMSException e) {
 			e.printStackTrace();
 		}
-		if (request.getParameter("roleID") != null)
-			roleId = Integer.parseInt(request.getParameter("roleID"));
+		if (request.getParameter("roleName") != null)
+			roleName = request.getParameter("roleName");
 		else {
 			request.setAttribute("roleENT", roleENT);
 			return mapping.findForward("roleEdit");
 		}
-		roleENT.setRoleID(roleId);
+		roleENT.setRoleName(roleName);
 		try {
 			request.setAttribute("roleENT", getSecurityDAO().getRole(roleENT));
 		} catch (AMSException e) {
@@ -238,7 +238,7 @@ public class SecurityAction extends Action {
 		String[] delId = request.getParameter("deleteID").split(",");
 		ArrayList<RoleENT> rolesToDelete = new ArrayList<RoleENT>();
 		for (int i = 0; i < delId.length; i++) {
-			RoleENT role = new RoleENT(Integer.parseInt(delId[i]));
+			RoleENT role = new RoleENT(delId[i]);
 			rolesToDelete.add(role);
 		}
 		try {
@@ -269,7 +269,6 @@ public class SecurityAction extends Action {
 	private ActionForward roleManagement(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
-
 			createMenusForRole(request);
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
@@ -288,7 +287,7 @@ public class SecurityAction extends Action {
 			}
 			json = AMSUtililies.prepareTheJSONStringForDataTable(
 					roleLST.getCurrentPage(), roleLST.getTotalItems(), json,
-					"roleID", success, error);
+					"roleName", success, error);
 			request.setAttribute("json", json);
 			if (request.getParameter("reqCodeGrid") != null
 					&& request.getParameter("reqCodeGrid").equals("gridJson"))
@@ -345,13 +344,13 @@ public class SecurityAction extends Action {
 		popupEnts.add(new PopupENT("delete-item", "deleteSelectedItems(\"deleteRole\");",
 				"Delete Selected", "#"));
 		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
-		popupGridEnts
-				.add(new PopupENT(
-						"edit-item",
-						"callAnAction(\"security.do?reqCode=roleEdit&roleID=REPLACEME\");",
-						"Edit Role", "#"));
+//		popupGridEnts
+//				.add(new PopupENT(
+//						"edit-item",
+//						"callAnAction(\"security.do?reqCode=roleEdit&roleName=REPLACEME\");",
+//						"Edit Role", "#"));
 		popupGridEnts.add(new PopupENT("delete-item",
-				"deleteAnItem(REPLACEME, \"deleteRole\");", "Remove", "#")); //
+				"deleteAnItem(\"REPLACEME\", \"deleteRole\");", "Remove", "#")); //
 		request.setAttribute("settingMenuItem", popupEnts);
 		request.setAttribute("gridMenuItem", popupGridEnts);
 	}
@@ -377,17 +376,15 @@ public class SecurityAction extends Action {
 		request.setAttribute("gridMenuItem", popupGridEnts);
 	}
 
-	// gets all fields from the form in the jsp page and instantiate returns an
-	// object, instantiated from class RoleENT
 	private RoleENT getRoleENT(HttpServletRequest request) {
 		RoleENT roleENT = new RoleENT();
 		if (request.getParameter("clientID") != null)
 			roleENT.setClientID(Integer.parseInt(request
 					.getParameter("clientID")));
-		if (request.getParameter("roleID") != null)
-			roleENT.setRoleID(Integer.parseInt(request.getParameter("roleID")));
+		if (request.getParameter("roleName") != null)
+			roleENT.setRoleName(request.getParameter("roleName"));
 		else
-			roleENT.setRoleID(0);
+			roleENT.setRoleName("");
 		roleENT.setRoleCategory(request.getParameter("roleCategory"));
 		roleENT.setRoleName(request.getParameter("roleName"));
 		roleENT.setComment(request.getParameter("comment"));
@@ -409,10 +406,6 @@ public class SecurityAction extends Action {
 		return groupENT;
 	}
 
-	// gets all fields from the form in the jsp page and instantiate returns an
-	// object,
-	// instantiated from class RoleLST. There are some information with regard
-	// to pagination and filtering the grid
 	private RoleLST getRoleLST(HttpServletRequest request) {
 		String search = request.getParameter("searchRole.roleName");
 		if (search == null)
@@ -427,9 +420,9 @@ public class SecurityAction extends Action {
 		if (request.getParameter("clientID") != null
 				&& !request.getParameter("clientID").equals(""))
 			clientID = Integer.parseInt(request.getParameter("clientID"));
-		RoleENT roleENT = new RoleENT(0, search, clientID, "", search);
+		RoleENT roleENT = new RoleENT(search, clientID, "", search);
 		RoleLST roleLST = new RoleLST(roleENT, pageNo, pageSize, true,
-				"role_name");
+				"category_role");
 		try {
 			roleLST = getSecurityDAO().getRolesList(roleLST);
 		} catch (AMSException e) {
@@ -455,7 +448,7 @@ public class SecurityAction extends Action {
 			clientID = Integer.parseInt(request.getParameter("clientID"));
 		GroupENT groupENT = new GroupENT(0, search, clientID, "", search);
 		GroupLST groupLST = new GroupLST(groupENT, pageNo, pageSize, true,
-				"groupName");
+				"group_name");
 		try {
 			groupLST = getSecurityDAO().getGroupList(groupLST);
 		} catch (AMSException e) {

@@ -49,7 +49,7 @@
 				type="java.lang.Integer"></bean:define>
 			<ams:ajaxPaginate currentPage="<%=currentPage%>"
 				pageSize="<%=pageSize%>" totalRows="<%=totalRows%>" align="center"
-				columns="userID,userName,name,surName,dateOfBirth,registerationDate"
+				columns="userName,userName,name,surName,dateOfBirth,registerationDate"
 				popupID="userManagementSettingMenu"
 				popupGridSettingItems="${gridMenuItem}"
 				popupMenuSettingItems="${settingMenuItem}">

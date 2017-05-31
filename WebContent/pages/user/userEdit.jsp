@@ -72,7 +72,7 @@
 	<div id='formContainer'>
 		<form id="dataFilterGridMainPage" action="user.do">
 			<input type="hidden" name="reqCode" value="userSaveUpdate">
-			<html:hidden name="userENT" property="userID" styleId="userID" />
+			<html:hidden name="userENT" property="userName" styleId="userName" />
 			<bean:define id="genderValue" name="userENT" property="gender"
 				type="java.lang.Boolean" />
 			<bean:define id="activeValue" name="userENT" property="active"
@@ -152,20 +152,20 @@
 			<div class=ui-grid-c>
 				<div class=ui-block-a>
 					<a href="#" data-role="button" data-mini="true" class="cancel-icon"
-						onclick="callAnAction('user.do?reqCode=userManagement');">Cancel/Back</a>
+						onclick="callAnAction('user.do?reqCode=userManagement');">Cancel</a>
 				</div>
 				<%
-					if (request.getParameter("userID") != null) {
+					if (request.getParameter("userName") != null) {
 				%>
 				<div class=ui-block-b>
 					<a href="#" data-role="button" data-mini="true" class="role-icon"
-						onclick="callAnAction('user.do?reqCode=userRoleView&userID=<bean:write name="userENT" property="userID"
+						onclick="callAnAction('user.do?reqCode=userRoleView&userName=<bean:write name="userENT" property="userName"
 					/>')">Roles</a>
 				</div>
 				<div class=ui-block-c>
 					<a href="#" data-role="button" data-mini="true"
 						class="group-icon"
-						onclick="callAnAction('user.do?reqCode=userGroupView&userID=<bean:write name="userENT" property="userID"
+						onclick="callAnAction('user.do?reqCode=userGroupView&userName=<bean:write name="userENT" property="userName"
 					/>')">Groups</a>
 				</div>
 				<%

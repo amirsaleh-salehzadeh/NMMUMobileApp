@@ -44,7 +44,7 @@
 		<input type="hidden" name="reqCode" value="saveUpdateRole">
 		<div class="ui-block-solo">
 			<html:text name="roleENT" property="roleName" title="Role Name" />
-			<html:hidden name="roleENT" property="roleID" styleId="roleID" />
+			<html:hidden name="roleENT" property="roleName" styleId="roleName" />
 		</div>
 		<div class="ui-block-solo">
 			<html:text name="roleENT" property="roleCategory"
@@ -67,7 +67,7 @@
 			<div class=ui-block-a>
 				<a href="#" data-role="button" data-mini="true"
 					class="cancel-icon"
-					onclick="callAnAction('security.do?reqCode=roleManagement');">Cancel/Back</a>
+					onclick="callAnAction('security.do?reqCode=roleManagement');">Cancel</a>
 			</div>
 			<div class=ui-block-b>
 				<a href="#" data-role="button" class="save-icon"

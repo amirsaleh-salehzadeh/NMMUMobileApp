@@ -32,7 +32,7 @@
 		<div class=ui-grid-a>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" class="cancel-icon" data-mini="true"
-					onclick="callAnAction('security.do?reqCode=groupEdit&groupID=<%=request.getParameter("groupID")%>');">Cancel/Back</a>
+					onclick="callAnAction('security.do?reqCode=groupEdit&groupID=<%=request.getParameter("groupID")%>');">Cancel</a>
 			</div>
 			<div class=ui-block-b>
 				<a href="#" data-role="button" class="save-icon" data-mini="true"
@@ -66,14 +66,14 @@
 							}
 						%>
 						<td><label><input type="checkbox"
-								value="<%=roleListIteration.getRoleID()%>"
-								<logic:iterate id="groupRoleIds"
+								value="<%=roleListIteration.getRoleName()%>"
+								<logic:iterate id="groupRoleNames"
 									name="groupENTRoles" type="common.security.RoleENT">
-										<%if (roleListIteration.getRoleID() == groupRoleIds
-							.getRoleID()) {%>
+										<%if (roleListIteration.getRoleName().equalsIgnoreCase(
+												groupRoleNames.getRoleName())) {%>
 										checked="checked" <%}%>
 								</logic:iterate>
-								name="groupRoleID" data-mini="true" class="groupCheckBoxes"><%=roleListIteration.getRoleName()%></label></td>
+								name="groupRoleName" data-mini="true" class="groupCheckBoxes"><%=roleListIteration.getRoleName()%></label></td>
 						<%
 							if (counter == 2) {
 						%>

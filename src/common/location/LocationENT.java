@@ -20,9 +20,9 @@ import javax.persistence.Table;
 public class LocationENT {
 
 	private long locationID;
-	private int userID;
+	private String userName;
 	private int country;
-	private boolean publicAddress;
+	private int locationType;
 	private String state;
 	private String address;
 	private String postBox;
@@ -35,12 +35,13 @@ public class LocationENT {
 	private String gps;
 	private String locationName;
 
-	public boolean isPublicAddress() {
-		return publicAddress;
+
+	public int getLocationType() {
+		return locationType;
 	}
 
-	public void setPublicAddress(boolean publicAddress) {
-		this.publicAddress = publicAddress;
+	public void setLocationType(int locationType) {
+		this.locationType = locationType;
 	}
 
 	public LocationENT() {
@@ -51,33 +52,10 @@ public class LocationENT {
 		this.locationID = locationID;
 	}
 	
-	public LocationENT(long locationID, int userID, int country,
-			boolean publicAddress, String state, String address,
-			String postBox, String tel, String fax, String email,
-			String street, String area, String cell, String gps,
-			String locationName) {
+	public LocationENT(long locationID, String userName) {
 		super();
 		this.locationID = locationID;
-		this.userID = userID;
-		this.country = country;
-		this.publicAddress = publicAddress;
-		this.state = state;
-		this.address = address;
-		this.postBox = postBox;
-		this.tel = tel;
-		this.fax = fax;
-		this.email = email;
-		this.street = street;
-		this.area = area;
-		this.cell = cell;
-		this.gps = gps;
-		this.locationName = locationName;
-	}
-
-	public LocationENT(long locationID, int userID) {
-		super();
-		this.locationID = locationID;
-		this.userID = userID;
+		this.userName = userName;
 	}
 
 	public long getLocationID() {
@@ -88,12 +66,12 @@ public class LocationENT {
 		this.locationID = locationID;
 	}
 
-	public int getUserID() {
-		return this.userID;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	@Column(name = "country", nullable = false)

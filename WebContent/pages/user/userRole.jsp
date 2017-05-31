@@ -12,7 +12,7 @@
 <body>
 	<form id="dataFilterGridMainPage" action="user.do">
 	<ams:message messageEntity="${message}"></ams:message>
-		<input type="hidden" name="userID" value="<%=request.getParameter("userID")%>">
+		<input type="hidden" name="userName" value="<%=request.getParameter("userName")%>">
 		<input type="hidden" name="reqCode" value="userRolesSave"> 
 		Roles for user "
 		<bean:write name="userENT" property="userName" />
@@ -29,7 +29,7 @@
 		</div>
 		<div class=ui-block-a>
 			<a href="#" data-role="button" data-icon="delete"
-				onclick="callAnAction('user.do?reqCode=userEdit&userID=<%=request.getParameter("userID")%>');">Cancel/Back</a>
+				onclick="callAnAction('user.do?reqCode=userEdit&userName=<%=request.getParameter("userName")%>');">Cancel/Back</a>
 		</div>
 		<div class=ui-block-b>
 			<a href="#" data-role="button" data-icon="check" data-theme="b"
@@ -51,14 +51,14 @@
 						<%
 							}
 						%>
-						<td><label><input type="checkbox" name="userRoleID"
+						<td><label><input type="checkbox" name="userRoleName"
 								class="groupCheckBoxes"
-								value="<%=roleListIteration.getRoleID()%>"
-								<logic:iterate id="userRoleIds"
+								value="<%=roleListIteration.getRoleName()%>"
+								<logic:iterate id="userRoleNames"
 									name="userRoles" type="common.security.RoleENT">
 									
-										<%if (roleListIteration.getRoleID() == userRoleIds
-							.getRoleID()) {%>
+										<%if (roleListIteration.getRoleName() == userRoleNames
+							.getRoleName()) {%>
 										checked="checked" <%}%>
 								</logic:iterate>
 								data-inline="true" > <%=roleListIteration.getRoleName()%>
@@ -87,9 +87,9 @@
 
 	}
 	function searchForRole() {
-		var str = "security.do?reqCode=userRoleView&userID="
+		var str = "security.do?reqCode=userRoleView&userName="
 				+
-<%=request.getParameter("userID")%>
+<%=request.getParameter("userName")%>
 	+ "&roleName="
 				+ $('#searchKeyInput').val();
 		callAnAction(str);

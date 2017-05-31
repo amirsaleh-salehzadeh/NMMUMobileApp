@@ -8,8 +8,8 @@
             <column name="location_id" />
             <generator class="identity" />
         </id>
-        <property name="userID" type="int">
-            <column name="user_id" />
+        <property name="userName" type="java.lang.String">
+            <column name="USERNAME" />
         </property>
         <property name="country" type="int">
             <column name="COUNTRY" />
@@ -47,8 +47,8 @@
         <property name="locationName" type="java.lang.String">
             <column name="LOCATION_NAME" />
         </property>
-         <property name="publicAddress" type="java.lang.Boolean">
-            <column name="PUBLIC" />
+         <property name="locationType" type="int">
+            <column name="LOCATION_TYPE" />
         </property>
     </class>
 </hibernate-mapping>

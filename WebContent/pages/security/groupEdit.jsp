@@ -3,6 +3,9 @@
 <%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
 <%@taglib prefix="ams" uri="/WEB-INF/AMSTag.tld"%>
+<%@taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
+<%@taglib prefix="ams" uri="/WEB-INF/AMSTag.tld"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,16 +15,12 @@
 		<form id="dataFilterGridMainPage" action="security.do">
 			<input type="hidden" name="reqCode" value="saveUpdateGroup">
 			<div class="ui-block-solo">
-				<input type="text" name="groupName"
-					value="<bean:write name="groupENT" property="groupName" />"
-					placeholder="Group Name" data-theme="a" title="Group Name">
-				<input type="hidden" name="groupID"
-					value="<bean:write name="groupENT" property="groupID" />">
+				<html:text name="groupENT" property="groupName" title="Group Name" />
+				<html:hidden name="groupENT" property="groupID"/>
 			</div>
 			<div class="ui-block-solo">
-				<input type="text" name="comment"
-					value="<bean:write name="groupENT" property="comment" />"
-					placeholder="Comment" value="" data-theme="a" title="Comment">
+				<html:textarea name="groupENT" property="comment" styleId="comment"
+					title="Comment"></html:textarea>
 			</div>
 			<div class="ui-block-solo">
 				<bean:define id="selectedValue" name="groupENT" property="clientID"
@@ -36,7 +35,7 @@
 				<div class=ui-block-a>
 					<a href="#" data-role="button" class="cancel-icon"
 						onclick="callAnAction('security.do?reqCode=groupManagement');"
-						data-mini="true">Cancel/Back</a>
+						data-mini="true">Cancel</a>
 				</div>
 				<bean:define id="groupIDVal" name="groupENT" property="groupID"
 					type="java.lang.Integer"></bean:define>

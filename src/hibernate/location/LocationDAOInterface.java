@@ -16,5 +16,6 @@ public interface LocationDAOInterface {
 	public LocationENT getLocationENT(LocationENT ent) throws AMSException;
 	public boolean deleteLocation(LocationENT ent) throws AMSException;
 	public ArrayList<DropDownENT> getAllCountrirs();
+	
 	//activate user
 }

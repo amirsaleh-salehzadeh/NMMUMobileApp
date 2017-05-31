@@ -96,11 +96,11 @@
 			function() {
 				$("#map_canvas").css("width", $("#mainBodyContents").css("width"));
 				$("#map_canvas").css("max-height",
-						$(window).css("height") - $(".jqm-header").css("height"));
-				$("#map_canvas").css(
-						"min-height",
-						$(window).css("height") - $("#mainBodyContents").css("height")
-								+ $("#mainBodyContents").css("padding-top"));
+						$(window).height() - $(".jqm-header").css("height"));
+								$("#map_canvas").css(
+										"min-height",
+										$(window).height() - $("#mainBodyContents").css("height")
+												+ $("#mainBodyContents").css("padding-top"));
 			});
 	var map, directionsService, directionsDisplay, infoWindow, marker, input, markerDestination;
 	var travelM = 'WALKING';
@@ -178,7 +178,7 @@
 			bounds.extend(markerDestination.getPosition());
 			bounds.extend(marker.getPosition());
 			map.fitBounds(bounds);
-// 			markerDestination.setVisible(true);
+			// 			markerDestination.setVisible(true);
 			// 					var address = '';
 			// 					if (place.address_components) {
 			// 						address = [
@@ -202,14 +202,14 @@
 	function calculateAndDisplayRoute() {
 		directionsDisplay.setMap(null);
 		directionsDisplay.setMap(map);
-// 		var wp = new Array();
-// 		wp[0] = new google.maps.LatLng(marker.getPosition().lat(), marker.getPosition().lng());
-// 		wp[1] = new google.maps.LatLng(markerDestination.getPosition().lat(), markerDestination.getPosition()
-// 				.lng());
-// 		directionsService.loadFromWaypoints(wp);
-// 		google.maps.DirectionsService.addListener(directionsService, "load", function() {
-// 			alert(directionsService.getDuration().seconds + " seconds");
-// 		});
+		// 		var wp = new Array();
+		// 		wp[0] = new google.maps.LatLng(marker.getPosition().lat(), marker.getPosition().lng());
+		// 		wp[1] = new google.maps.LatLng(markerDestination.getPosition().lat(), markerDestination.getPosition()
+		// 				.lng());
+		// 		directionsService.loadFromWaypoints(wp);
+		// 		google.maps.DirectionsService.addListener(directionsService, "load", function() {
+		// 			alert(directionsService.getDuration().seconds + " seconds");
+		// 		});
 		directionsService.route(
 				{
 					origin : new google.maps.LatLng(marker.getPosition().lat(), marker
@@ -220,9 +220,9 @@
 				}, function(response, status) {
 					if (status === 'OK') {
 						directionsDisplay.setDirections(response);
-						 alert( response.routes[0].legs[0].distance.value);
-						 alert( response.routes[0].legs[0].duration.value);
-						 alert( response.routes[1].legs[0].duration.value);
+						alert(response.routes[0].legs[0].distance.value);
+						alert(response.routes[0].legs[0].duration.value);
+						alert(response.routes[1].legs[0].duration.value);
 					} else {
 						window.alert('Directions request failed due to ' + status);
 					}

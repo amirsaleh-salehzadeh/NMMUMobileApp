@@ -33,7 +33,7 @@
 				<img src="images/NMMU_logo.png" alt="NMMU Web Application">
 			</h2>
 			<a href="#"
-				class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+				class="menu-icon jqm-navmenu-link ui-btn ui-corner-all ui-btn-left" ></a>
 			<!-- 						<a href="#popupSettingMenu" data-rel="popup" id="mainBodyMenuSettingBTN" -->
 			<!-- 							class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a> -->
 		</div>

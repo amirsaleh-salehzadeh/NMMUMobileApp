@@ -34,7 +34,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 		// location.setState("state"+i);
 		// location.setStreet("street"+i);
 		// location.setTel("tel"+i);
-		// location.setUserID(5);
 		LocationDAO lad = new LocationDAO();
 		// try {
 		// lad.saveUpdateLocation(location);
@@ -91,12 +90,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 	public LocationLST getLocationLST(LocationLST lst) throws AMSException {
 		ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
 		Query q = null;
-		int userid = lst.getSearchLocation().getUserID();
+		String username = lst.getSearchLocation().getUserName();
 		try {
 			String query = "from LocationENT where state like :state or street like :street or area like :area "
 					+ "or cell like :cell or email like :email  ";
-			if (userid > 0)
-				query += "and userID = " + userid;
+			if (username != null && !username.equalsIgnoreCase(""))
+				query += "and userName = " + username;
 			query += " order by " + lst.getSortedByField();
 			if (lst.isAscending())
 				query += " Asc";

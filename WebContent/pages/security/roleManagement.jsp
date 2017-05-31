@@ -48,7 +48,7 @@
 				type="java.lang.Integer"></bean:define>
 			<ams:ajaxPaginate currentPage="<%=currentPage%>"
 				pageSize="<%=pageSize%>" totalRows="<%=totalRows%>" align="center"
-				columns="roleID,roleName,roleCategory,clientName,comment"
+				columns="roleName,DT_RowId,roleCategory,clientName,comment"
 				popupID="roleManagementSettingMenu"
 				popupGridSettingItems="${gridMenuItem}"
 				popupMenuSettingItems="${settingMenuItem}">

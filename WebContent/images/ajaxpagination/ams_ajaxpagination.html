@@ -49,14 +49,10 @@ function refreshGrid() {
 						columns : [VARCOLUMNS],
 						initComplete : function(settings, json) {
 							if(json.successm!= undefined){
-								$("#dialog-message").html("<label id='successDescription' style='color:green;'>"
-										+ json.successm + "</label>");
-								popup();
+								popSuccessMessage(json.successm);
 							}
 							if(json.errorm != undefined){
-								$("#dialog-message").html("<label id='errorDescription' style='color:red;'>"
-										+ json.errorm + "</label>");
-								popup();
+								popSuccessMessage(json.errorm);
 							}
 							$('#[POPUPID]').trigger("create");
 							$('#paginationContainerDiv').trigger("create");
