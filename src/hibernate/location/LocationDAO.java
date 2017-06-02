@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -25,6 +27,7 @@ import hibernate.config.BaseHibernateDAO;
 import hibernate.config.HibernateSessionFactory;
 import tools.AMSException;
 import tools.algorithms.Dijkstra;
+import tools.algorithms.pathFinding.Edge;
 import tools.algorithms.pathFinding.Vertex;
 
 public class LocationDAO extends BaseHibernateDAO implements
@@ -99,15 +102,17 @@ public class LocationDAO extends BaseHibernateDAO implements
 				e.printStackTrace();
 			}
 			String query = "";
-			query = "select * from location where location_id = " + ent.getLocationID();
+			query = "select * from location where location_id = "
+					+ ent.getLocationID();
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				ent = new LocationENT(rs.getInt("location_id"), rs
-						.getString("username"), new LocationTypeENT(rs
-						.getInt("location_id"), rs.getString("location_type")),
-						rs.getString("address"), rs.getString("gps"), rs
-								.getString("location_name"));
+				ent = new LocationENT(rs.getInt("location_id"),
+						rs.getString("username"), new LocationTypeENT(
+								rs.getInt("location_id"),
+								rs.getString("location_type")),
+						rs.getString("address"), rs.getString("gps"),
+						rs.getString("location_name"));
 			}
 			ps.close();
 			conn.close();
@@ -158,8 +163,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public ArrayList<LocationENT> getAllLocationsForUser(String username)
-			throws AMSException {
+	public ArrayList<LocationENT> getAllLocationsForUser(String username) {
 		ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
 		try {
 			Connection conn = null;
@@ -274,6 +278,38 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
+	private ArrayList<PathENT> getAllPathsForOnePoint(long locationId) {
+		ArrayList<PathENT> res = new ArrayList<PathENT>();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "Select * from paths "
+					+ "where destination_location_id = '" + locationId
+					+ "' or departure_location_id = '" + locationId + "'";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				PathENT p = new PathENT(getLocationENT(new LocationENT(
+						rs.getLong("departure_location_id"))),
+						getLocationENT(new LocationENT(rs
+								.getLong("destination_location_id"))),
+						rs.getDouble("distance"), new PathTypeENT(
+								rs.getInt("path_type")),
+						rs.getLong("path_id"));
+				res.add(p);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 	public void savePath(PathENT path) {
 		try {
 			Connection conn = null;
@@ -321,14 +357,77 @@ public class LocationDAO extends BaseHibernateDAO implements
 				* Math.cos(Math.toRadians(Double.parseDouble(gps2.split(",")[0])))
 				* Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		return R * c * 1000;
+		double outp = (double) Double.parseDouble(new DecimalFormat(".##")
+				.format(R * c * 1000));
+		return outp;
 	}
 
-	public ArrayList<PathENT> getShortestPath(LocationENT dep, LocationENT dest) {
-		ArrayList<PathENT> res = new ArrayList<PathENT>();
-//		List<Vertex> getShortestPathTo(Vertex target);
-		
-		return null;
+	public HashMap<Long, Vertex> getShortestPath(long dep, long dest) {
+		ArrayList<LocationENT> points = getAllLocationsForUser("admin");
+		HashMap<Long, Vertex> map = new HashMap<Long, Vertex>();
+		for (int i = 0; i < points.size(); i++) {
+			map.put(points.get(i).getLocationID(), new Vertex(points.get(i)
+					.getLocationID()));
+		}
+		for (HashMap.Entry<Long, Vertex> entry : map.entrySet()) {
+			Vertex v = entry.getValue();
+			ArrayList<PathENT> ptz = getAllPathsForOnePoint(entry.getKey());
+			Edge[] edgz = new Edge[ptz.size()];
+			for (int i = 0; i < ptz.size(); i++) {
+				PathENT tmpPath = ptz.get(i);
+				edgz[i] = new Edge(map.get(tmpPath.getDestination()
+						.getLocationID()), tmpPath.getDistance());
+			}
+			v.adjacencies = edgz;
+			System.out.println(entry.getKey());
+			map.put(entry.getKey(), v);
+		}
+		return map;
 	}
 
+	// public HashMap<String, Vertex> getShortestPathTMP(LocationENT dep,
+	// LocationENT dest) {
+	// ArrayList<PathENT> res = getAllPaths("admin");
+	// HashMap<String, Vertex> map = new HashMap<String, Vertex>();
+	// for (int i = 0; i < res.size(); i++) {
+	// PathENT p = res.get(i);
+	// Vertex v1 = new Vertex(p.getDeparture().getLocationID() + "");
+	// Vertex v2 = new Vertex(p.getDestination().getLocationID() + "");
+	// Edge[] e1 = v1.adjacencies;
+	// Edge[] e2 = v2.adjacencies;
+	// if (e1 != null) {
+	// Edge[] tmp = new Edge[e1.length + 1];
+	// System.arraycopy(e1, 0, tmp, 0, e1.length);
+	// tmp[tmp.length - 1] = new Edge(v2, p.getDistance());
+	// v1.adjacencies = tmp;
+	// } else {
+	// v1.adjacencies = new Edge[] { new Edge(v2, p.getDistance()) };
+	// }
+	// if (e2 != null) {
+	// Edge[] tmp = new Edge[e2.length + 1];
+	// System.arraycopy(e2, 0, tmp, 0, e2.length);
+	// tmp[tmp.length - 1] = new Edge(v1, p.getDistance());
+	// v2.adjacencies = tmp;
+	// } else {
+	// v2.adjacencies = new Edge[] { new Edge(v1, p.getDistance()) };
+	// }
+	// if (!map.containsKey(v1.toString())) {
+	// map.put(v1.toString(), v1);
+	// } else
+	// v1 = map.get(v1.toString());
+	// if (!map.containsKey(v2.toString())) {
+	// map.put(v2.toString(), v2);
+	// } else
+	// v2 = map.get(v2.toString());
+	// map.put(v1.toString(), v1);
+	// map.put(v2.toString(), v2);
+	// }
+	// return map;
+	// }
+	public static void main(String[] args) {
+		LocationDAO dao = new LocationDAO();
+		HashMap<Long, Vertex> tmp = dao.getShortestPath(0, 0);
+		Dijkstra.computePaths(tmp.get(39));
+		System.out.println(Dijkstra.getShortestPathTo(tmp.get(52)));
+	}
 }

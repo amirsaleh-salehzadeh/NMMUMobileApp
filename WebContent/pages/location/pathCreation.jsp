@@ -154,6 +154,7 @@
 					});
 					marker.addListener('click', function() {
 						addToPath(l.locationName, l.locationID);
+						alert(l.locationID);
 					});
 				});
 			}

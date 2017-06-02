@@ -35,8 +35,6 @@ public class LocationServicesWS {
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
 					.getAllLocationsForUser(userName));
-		} catch (AMSException e) {
-			e.printStackTrace();
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
