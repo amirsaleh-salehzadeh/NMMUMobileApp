@@ -1,33 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
+<%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <style type="text/css">
-#map_canvas {
-	height: 333px;;
-	width: 100%;
-	top: 0;
-	bottom: 0;
-}
-
-#searchFields {
-	margin: 0 0 0 0;
-	padding-bottom: 12px;
-}
-
-#infowindow-content .title {
-	font-weight: bold;
-}
-
-#infowindow-content {
-	display: none;
-}
-
-#map_canvas #infowindow-content {
-	display: inline;
-}
-
 .inlineIcon {
 	display: inline-block;
 	position: relative;
@@ -35,177 +13,258 @@
 	width: auto !important;
 }
 
-.NoDisk:after {
-	background-color: transparent;
-}
-
 .ui-icon-map-marker:after {
-	background-image:
-		url("../images/icons/marker.png");
+	background-image: url("images/icons/marker.png");
 	background-size: 23px 23px;
 	border-radius: 0;
 }
 
 .ui-icon-map-path:after {
-	background-image:
-		url("../images/icons/journey.png");
+	background-image: url("images/icons/journey.png");
 	background-size: 23px 23px;
 	border-radius: 0;
 }
 
+#searchFields {
+	margin: 0 0 0 0;
+	padding-bottom: 12px;
+}
 </style>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&callback=initMap"
-	type="text/javascript"></script>
 </head>
 <body>
 	<div id="map_canvas"></div>
-	<!-- 	<div id="infowindow-content"> -->
-	<!-- 		<img src="" width="16" height="16" id="place-icon"> <span -->
-	<!-- 			id="place-name" class="title"></span><br> <span -->
-	<!-- 			id="place-address"></span> -->
-	<!-- 	</div> -->
 	<div id="searchFields" style="width: 85%;">
-		<fieldset data-role="controlgroup" data-type="horizontal">
-			<label for="walking"><span
+		<fieldset data-role="controlgroup" data-type="horizontal"
+			name="optionType">
+			<label for="marker"><span
 				class="ui-alt-icon ui-icon-map-marker ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="walking" value="on"
-				checked="checked"> <label for="bicycle"><span
+			<input type="radio" name="radio-choice" id="marker" value="marker">
+			<label for="path"><span
 				class="ui-alt-icon ui-icon-map-path ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="bicycle" value="on">
-			<label for="driving"><span
-				class="ui-alt-icon ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="driving" value="on">
+			<input type="radio" name="radio-choice" id="path" checked="checked"
+				value="path">
 		</fieldset>
+	</div>
+	<div data-role="popup" id="insertAMarker" data-position-to="window"
+		data-transition="turn"
+		style="background-color: #000000; width: 333px; padding: 7px 7px 7px 7px;">
+		<a href="#" data-role="button" data-theme="a" data-icon="delete"
+			data-iconpos="notext" class="ui-btn-right"
+			onclick="$('#insertAMarker').popup('close');">Close</a>
+		<div class="ui-block-solo">
+			<input type="text" placeholder="Location Name" name="markerName"
+				id="markerName" value="NMMU-Path-Definition-Enterance-"> <input
+				type="hidden" name="markerCoordinate" id="markerCoordinate">
+		</div>
+		<div class="ui-field-contain">
+			    <label for="locationType">Location Type</label>     <select
+				name="locationType" id="locationType">
+				<logic:iterate id="locationTIteration" name="locationTypes"
+					type="common.location.LocationTypeENT">
+					<option value="<%=locationTIteration.getLocationTypeId()%>"><%=locationTIteration.getLocationType()%></option>
+				</logic:iterate>
+			</select>
+		</div>
+		<div class="ui-block-solo">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="ui-btn ui-shadow save-icon ui-corner-all" id="submitRider"
+				onclick="saveMarker()">Save</a>
+		</div>
+	</div>
+
+	<div data-role="popup" id="insertAPath" data-position-to="window"
+		data-transition="turn"
+		style="background-color: #000000; width: 333px; padding: 7px 7px 7px 7px;">
+		<a href="#" data-role="button" data-theme="a" data-icon="delete"
+			data-iconpos="notext" class="ui-btn-right"
+			onclick="$('#insertAPath').popup('close');">Close</a>
+		<div class="ui-block-solo">
+			<input type="text" placeholder="From" name="departure" id="departure"
+				value=""> <input type="hidden" name="departureId"
+				id="departureId">
+		</div>
+		<div class="ui-block-solo">
+			<input type="text" placeholder="To" name="destination"
+				id="destination" value=""> <input type="hidden"
+				name="destinationId" id="destinationId">
+		</div>
+		<div class="ui-field-contain">
+			    <label for="pathType">Path Type</label> <select name="pathType"
+				id="pathType">
+				<logic:iterate id="pathTIteration" name="pathTypes"
+					type="common.location.PathTypeENT">
+					<option value="<%=pathTIteration.getPathTypeId()%>"><%=pathTIteration.getPathType()%></option>
+				</logic:iterate>
+			</select>
+		</div>
+		<div class="ui-block-solo">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="ui-btn ui-shadow save-icon ui-corner-all" id="submitRider"
+				onclick="savePath()">Save</a>
+		</div>
 	</div>
 </body>
 <script type="text/javascript">
-	$(document).ready(
-			function() {
-				$("#map_canvas").css("width", $("#mainBodyContents").css("width"));
-				$("#map_canvas").css("max-height",
-						$(window).height() - $(".jqm-header").css("height"));
-								$("#map_canvas").css(
-										"min-height",
-										$(window).height() - $("#mainBodyContents").css("height")
-												+ $("#mainBodyContents").css("padding-top"));
-			});
-	var map, directionsService, directionsDisplay, infoWindow, marker, input, markerDestination;
+	function saveMarker() {
+		var url = "REST/GetLocationWS/SaveUpdateLocation?locationName=" + $("#markerName").val()
+				+ "&coordinate=" + $("#markerCoordinate").val() + "&locationType="
+				+ $("#locationType").val() + "&userName=admin";
+		$.ajax({
+			url : url,
+			cache : false,
+			success : function(data) {
+				window.location.replace("t_location.do?reqCode=pathCreation");
+			}
+		});
+	}
+
+	function savePath() {
+		var url = "REST/GetLocationWS/SavePath?fLocationId=" + $("#departureId").val()
+				+ "&tLocationId=" + $("#destinationId").val() + "&pathType=" + $("#pathType").val();
+		$.ajax({
+			url : url,
+			cache : false,
+			success : function(data) {
+// 				window.location.replace("t_location.do?reqCode=pathCreation");
+				$("#departure").val("");
+				$("#departureId").val("");
+				$("#destination").val("");
+				$("#destinationId").val("");
+			}
+		});
+		
+	}
+
+	var map, marker;
+
+	function getAllMarkers() {
+		var url = "REST/GetLocationWS/GetAllLocationsForUser?userName=admin";
+		$.ajax({
+			url : url,
+			cache : false,
+			success : function(data) {
+				$.each(data, function(k, l) {
+					marker = new google.maps.Marker({
+						position : {
+							lat : parseFloat(l.gps.split(",")[0]),
+							lng : parseFloat(l.gps.split(",")[1].replace(" ", ""))
+						},
+						map : map,
+						title : l.locationName
+					});
+					marker.addListener('click', function() {
+						addToPath(l.locationName, l.locationID);
+					});
+				});
+			}
+		});
+	}
+
+	function getAllPaths() {
+		var url = "REST/GetLocationWS/GetAllPathsForUser?userName=admin";
+		$.ajax({
+			url : url,
+			cache : false,
+			success : function(data) {
+				$.each(data, function(k, l) {
+					var pathCoor = [];
+					pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps.split(',')[0]),
+							parseFloat(l.departure.gps.split(',')[1].replace(" ", ""))));
+					pathCoor.push(new google.maps.LatLng(
+							parseFloat(l.destination.gps.split(',')[0]),
+							parseFloat(l.destination.gps.split(',')[1].replace(" ", ""))));
+					var color = '#FF0000';
+					if (l.pathType.pathTypeId == "1")
+						color = '#ffb400';
+					if (l.pathType.pathTypeId == "2")
+						color = '#0ec605';
+					if (l.pathType.pathTypeId == "3")
+						color = '#3359fc';
+					if (l.pathType.pathTypeId == "4")
+						color = '#000000';
+					if (l.pathType.pathTypeId == "5")
+						color = '#ffffff';
+					if (l.pathType.pathTypeId == "6")
+						color = '#fc33f0';
+					var pathPolyline = new google.maps.Polyline({
+						path : pathCoor,
+						geodesic : true,
+						strokeColor : color,
+						strokeOpacity : 1.0,
+						strokeWeight : 2
+					});
+					pathPolyline.setMap(map);
+				});
+			}
+		});
+	}
+
+	function addToPath(name, id) {
+		if ($("#departure").val() == "") {
+			$("#departure").val(name);
+			$("#departureId").val(id);
+			return;
+		} else if ($("#destination").val() == "") {
+			$("#destination").val(name);
+			$("#destinationId").val(id);
+			openPathCreationPopup();
+		}
+	}
 
 	function initMap() {
+		getAllMarkers();
+		getAllPaths();
 		var myLatLng = {
-			lat : -31.569743,
-			lng : 27.246471
+			lat : -34.009083,
+			lng : 25.669059
 		};
-		infoWindow = new google.maps.InfoWindow();
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				myLatLng = {
-					lat : position.coords.latitude,
-					lng : position.coords.longitude
-				};
-				findDeparture(position.coords.latitude, position.coords.longitude);
-				marker = new google.maps.Marker({
-					position : myLatLng,
-					map : map
-				});
-				map.setCenter(myLatLng);
-			}, function() {
-				handleLocationError(true, infoWindow, map.getCenter());
-			});
-			map = new google.maps.Map(document.getElementById('map_canvas'), {
-				zoom : 18,
-				streetViewControl : true,
-				fullscreenControl : true
-			});
-		} else {
-			handleLocationError(false, infoWindow, map.getCenter());
-		}
-		input = document.getElementById('to');
+		marker = new google.maps.Marker({
+			position : myLatLng,
+			map : map
+		});
+		map = new google.maps.Map(document.getElementById('map_canvas'), {
+			zoom : 18,
+			streetViewControl : true,
+			fullscreenControl : true,
+			mapTypeId : 'satellite'
+		});
+		map.setCenter(myLatLng);
 		map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 				.getElementById('searchFields'));
-		var autocomplete = new google.maps.places.Autocomplete(input);
-		autocomplete.bindTo('bounds', map);
-		// 		var infowindowContent = document.getElementById('infowindow-content');
-		markerDestination = new google.maps.Marker({
-			map : map,
-			anchorPoint : new google.maps.Point(0, -29)
+		google.maps.event.addListener(map, "click", function(event) {
+			$("#departure").val("");
+			$("#departureId").val("");
+			$("#destination").val("");
+			$("#destinationId").val("");
+			openPathCreationPopup();
+			var lat = event.latLng.lat();
+			var lng = event.latLng.lng();
+			$("#markerCoordinate").val(lat + ", " + lng);
 		});
-		directionsService = new google.maps.DirectionsService;
-		directionsDisplay = new google.maps.DirectionsRenderer;
-		autocomplete.addListener('place_changed', function() {
-			// 					infoWindow = new google.maps.InfoWindow();
-			markerDestination.setVisible(false);
-			marker.setVisible(false);
-			var place = autocomplete.getPlace();
-			if (!place.geometry) {
-				window.alert("No details available for input: '" + place.name + "'");
-				return;
-			}
-			if (place.geometry.viewport) {
-				map.fitBounds(place.geometry.viewport);
-			} else {
-				map.setCenter(place.geometry.location);
-				map.setZoom(17); // Why 17? Because it looks good.
-			}
-			markerDestination.setPosition(place.geometry.location);
-			var bounds = new google.maps.LatLngBounds();
-			bounds.extend(markerDestination.getPosition());
-			bounds.extend(marker.getPosition());
-			map.fitBounds(bounds);
-			// 			markerDestination.setVisible(true);
-			// 					var address = '';
-			// 					if (place.address_components) {
-			// 						address = [
-			// 								(place.address_components[0]
-			// 										&& place.address_components[0].short_name || ''),
-			// 								(place.address_components[1]
-			// 										&& place.address_components[1].short_name || ''),
-			// 								(place.address_components[2]
-			// 										&& place.address_components[2].short_name || '') ]
-			// 								.join(' ');
-			// 					}
-			// 					infowindowContent.children['place-icon'].src = place.icon;
-			// 					infowindowContent.children['place-name'].textContent = place.name;
-			// 					infowindowContent.children['place-address'].textContent = address;
-			// 					infowindow.open(map, markerDestination);
-			calculateAndDisplayRoute();
-		});
-		autocomplete.setTypes([]);
+		// 		google.maps.event.addDomListener(window, "load", initMap);
 	}
 
-	function calculateAndDisplayRoute() {
-		directionsDisplay.setMap(null);
-		directionsDisplay.setMap(map);
-		// 		var wp = new Array();
-		// 		wp[0] = new google.maps.LatLng(marker.getPosition().lat(), marker.getPosition().lng());
-		// 		wp[1] = new google.maps.LatLng(markerDestination.getPosition().lat(), markerDestination.getPosition()
-		// 				.lng());
-		// 		directionsService.loadFromWaypoints(wp);
-		// 		google.maps.DirectionsService.addListener(directionsService, "load", function() {
-		// 			alert(directionsService.getDuration().seconds + " seconds");
-		// 		});
-		directionsService.route(
-				{
-					origin : new google.maps.LatLng(marker.getPosition().lat(), marker
-							.getPosition().lng()),
-					destination : new google.maps.LatLng(markerDestination.getPosition().lat(),
-							markerDestination.getPosition().lng()),
-					travelMode : travelM
-				}, function(response, status) {
-					if (status === 'OK') {
-						directionsDisplay.setDirections(response);
-					} else {
-						window.alert('Directions request failed due to ' + status);
-					}
-				});
+	function openPathCreationPopup() {
+		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+			$('#insertAMarker').popup().trigger('create');
+			$('#insertAMarker').popup('open').trigger('create');
+		} else {
+			$('#insertAPath').popup().trigger('create');
+			$('#insertAPath').popup('open').trigger('create');
+		}
 	}
 
-	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-		infoWindow.setPosition(pos);
-		infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
-				: 'Error: Your browser doesn\'t support geolocation.');
-		infoWindow.open(map);
-	}
+	$(document).ready(
+			function() {
+				$("#map_canvas").css("min-width", parseInt($("#mainBodyContents").css("width")));
+				$("#map_canvas")
+						.css(
+								"min-height",
+								parseInt($(window).height())
+										- parseInt($(".jqm-header").css("height")) - 7);
+			});
 </script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&callback=initMap"
+	type="text/javascript"></script>
 </html>

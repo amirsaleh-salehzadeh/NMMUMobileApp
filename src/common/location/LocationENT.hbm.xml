@@ -14,32 +14,11 @@
         <property name="country" type="int">
             <column name="COUNTRY" />
         </property>
-        <property name="state" type="java.lang.String">
-            <column name="STATE" />
-        </property>
         <property name="address" type="java.lang.String">
             <column name="ADDRESS" />
         </property>
         <property name="postBox" type="java.lang.String">
             <column name="POST_BOX" />
-        </property>
-        <property name="tel" type="java.lang.String">
-            <column name="TEL" />
-        </property>
-        <property name="fax" type="java.lang.String">
-            <column name="FAX" />
-        </property>
-        <property name="email" type="java.lang.String">
-            <column name="EMAIL" />
-        </property>
-        <property name="street" type="java.lang.String">
-            <column name="STREET" />
-        </property>
-        <property name="area" type="java.lang.String">
-            <column name="AREA" />
-        </property>
-        <property name="cell" type="java.lang.String">
-            <column name="CELL" />
         </property>
         <property name="gps" type="java.lang.String">
             <column name="GPS" />
@@ -47,8 +26,8 @@
         <property name="locationName" type="java.lang.String">
             <column name="LOCATION_NAME" />
         </property>
-         <property name="locationType" type="int">
-            <column name="LOCATION_TYPE" />
-        </property>
+<!--          <property name="locationType.locationId" type="int"> -->
+<!--             <column name="LOCATION_TYPE" /> -->
+<!--         </property> -->
     </class>
 </hibernate-mapping>

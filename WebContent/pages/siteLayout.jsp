@@ -15,8 +15,7 @@
 <link rel="stylesheet"
 	href="css/jquery-mobile/jquery.dataTables.min.css">
 <link rel="stylesheet" href="css/nmmu-web-app-style.css">
-<!-- <link rel="stylesheet" href="css/themes/ams.nmmu.web.app/themes/nmmu.web.app.min.css" /> -->
-<!-- <link rel="stylesheet" href="css/themes/ams.nmmu.web.app/themes/jquery.mobile.icons.min.css" /> -->
+<script src="js/nmmu.main.scripts.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.form.js"></script>
 <script src="js/index.js"></script>
@@ -24,7 +23,7 @@
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/dataTables.bootstrap.min.js"></script>
 <script
-	src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
+	src="js/dataTables.select.min.js"></script>
 </head>
 <body dir="ltr" bgcolor="#00457c" style="background-color: #00457c;">
 	<div data-role="page" class="jqm-demos jqm-home">

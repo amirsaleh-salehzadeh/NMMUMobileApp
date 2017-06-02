@@ -32,17 +32,28 @@ public class LocationAction extends Action {
 		} else if (reqCode.equalsIgnoreCase("mapView")) {
 			LocationLST lst = new LocationLST();
 			try {
-				lst = getLocationDAO()
-						.getLocationLST(new LocationLST());
+				lst = getLocationDAO().getLocationLST(new LocationLST());
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
 			request.setAttribute("locations", lst);
 			af = mapping.findForward(reqCode);
-		}else if(reqCode.equalsIgnoreCase("pathCreation")){
+		} else if (reqCode.equalsIgnoreCase("pathCreation")) {
+			setAllLocationTypes(request);
+			setAllPathTypes(request);
 			af = mapping.findForward(reqCode);
 		}
 		return af;
+	}
+
+	private void setAllPathTypes(HttpServletRequest request) {
+		request.setAttribute("pathTypes", getLocationDAO().getAllPathTypes());
+
+	}
+
+	private void setAllLocationTypes(HttpServletRequest request) {
+		request.setAttribute("locationTypes", getLocationDAO()
+				.getAllLocationTypes());
 	}
 
 	private static LocationDAOInterface getLocationDAO() {
