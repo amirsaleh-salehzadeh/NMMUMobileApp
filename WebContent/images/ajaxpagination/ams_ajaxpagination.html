@@ -43,25 +43,21 @@ function refreshGrid() {
 									'orderable' : false,
 									'render' : function(data, type, full, meta) {
 										return '<input type="checkbox" class="gridCheckBoxes" id="'+ $('<div/>').text(data).html()
-										+ '">';
+										+ '" data-inline="true" data-mini="true">';
 									}
 								} ],
 						columns : [VARCOLUMNS],
 						initComplete : function(settings, json) {
 							if(json.successm!= undefined){
-								$("#dialog-message").html("<label id='successDescription' style='color:green;'>"
-										+ json.successm + "</label>");
-								popup();
+								popSuccessMessage(json.successm);
 							}
 							if(json.errorm != undefined){
-								$("#dialog-message").html("<label id='errorDescription' style='color:red;'>"
-										+ json.errorm + "</label>");
-								popup();
+								popSuccessMessage(json.errorm);
 							}
 							$('#[POPUPID]').trigger("create");
 							$('#paginationContainerDiv').trigger("create");
-							$('input.gridCheckBoxes').each(function(){
-								$(this).attr('id',$(this).parent().parent().parent().attr('id'));
+							$('.gridCheckBoxes').each(function(){
+								$(this).attr('id', $(this).parent().parent().parent().attr('id'));
 							});
 						}
 					});
@@ -105,6 +101,7 @@ function refreshGrid() {
 		$('#gridMenuSetting').popup("open");
 	});
 }
+
 function tapholdHandler( event ){
     $( event.target ).addClass("taphold");
   }
@@ -115,21 +112,22 @@ function tapholdHandler( event ){
 		type="hidden" name="deleteID" id="deleteID" value="">
 	<div data-type="horizontal">
 		<table width="100%">
-			<tr>
+			<tr id="controllerRow">
 				<td><div>
 						<a href="#[POPUPID]" data-rel="popup" id="mainBodyMenuSettingBTN"
-							class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear 
-							ui-nodisc-icon ui-alt-icon 
-							ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-a"
-							data-mini="true">&nbsp;</a>
-						<div data-role="popup" id="[POPUPID]" data-theme="d">
+							class="ui-btn ui-corner-all 
+							ui-nodisc-icon ui-shadow"
+							data-mini="true"></a>
+						<div data-role="popup" id="[POPUPID]" class="main-setting-menu"
+							data-theme="d">
 							<ul data-role="listview" data-inset="true"
 								style="min-width: 210px;" data-theme="d">[CONTENTPOPUP]
 							</ul>
 						</div>
 					</div></td>
 				<td><select name='pageSize' data-native-menu='false'
-					onchange='refreshGrid();' data-inline='true' data-mini="true">
+					onchange='refreshGrid();' data-inline='true'
+					style='min-height: 11px;' data-mini='true'>
 						<option value='10' selected='selected'>10</option>
 						<option value='25'>25</option>
 						<option value='50'>50</option>

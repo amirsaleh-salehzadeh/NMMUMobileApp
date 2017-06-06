@@ -8,7 +8,6 @@
 	</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nmmumobile?characterEncoding=utf8</property>
 		<property name="hibernate.connection.username">root</property>
-				<property name="">root</property>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 <!-- 		<property name="hibernate.c3p0.min_size">5</property> -->
 <!-- 		<property name="hibernate.c3p0.max_size">90</property> -->
@@ -27,7 +26,6 @@
 		<mapping resource="common/user/EthnicENT.hbm.xml" class="common.user.EthnicENT" />
 		<mapping resource="common/user/TitleENT.hbm.xml" class="common.user.TitleENT" />
 		<mapping resource="common/user/UserENT.hbm.xml" class="common.user.UserENT" />
-		<mapping resource="common/user/UserPassword.hbm.xml" class="common.user.UserPasswordENT" />
 		<mapping resource="common/client/ClientENT.hbm.xml" class="common.client.ClientENT" />
 		<mapping resource="common/location/LocationENT.hbm.xml" class="common.location.LocationENT" />
 		<mapping resource="common/location/CountryENT.hbm.xml" class="common.location.CountryENT" />

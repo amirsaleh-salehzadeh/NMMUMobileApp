@@ -27,6 +27,7 @@ import common.user.UserPassword;
 import hibernate.config.BaseHibernateDAO;
 import hibernate.config.HibernateSessionFactory;
 import tools.AMSException;
+import tools.AMSUtililies;
 
 public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 	public static void main(String[] args) {
@@ -38,7 +39,6 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// EthnicENT eth = new EthnicENT();
 		// eth = udao.getEthnic(2);
 		// UserENT ent = new UserENT();
-		// // ent.setUserID(i);
 		// ent.setActive(true);
 		// ent.setClientID(1);
 		// ent.setDateOfBirth("dob");
@@ -57,11 +57,8 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		UserLST l = new UserLST();
 		UserENT us = new UserENT();
 		ArrayList<RoleENT> ad = new ArrayList<RoleENT>();
-		ad.add(new RoleENT(502));
-		ad.add(new RoleENT(516));
 		UserENT u = new UserENT();
 		u.setRoleENTs(ad);
-		u.setUserID(3);
 		try {
 			udao.saveUpdateUserRoles(u);
 		} catch (AMSException e) {
@@ -85,7 +82,8 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			if (ent.getUserID() <= 0) {
+			ent.setPassword(AMSUtililies.encodeMD5(ent.getPassword()));
+			if (ent.getUserName() != null && !ent.getUserName().equalsIgnoreCase("")) {
 				if (getUserENT(ent) == null)
 					session.save(ent);
 				else
@@ -144,9 +142,9 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String query = "delete from users where user_id = ?";
+			String query = "delete from users where username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, user.getUserID());
+			ps.setString(1, user.getUserName());
 			ps.execute();
 			ps.close();
 			conn.close();
@@ -218,8 +216,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		Query q = null;
 		try {
 			q = getSession().createQuery(
-					"from UserENT where userID =:Id or username =:uname");
-			q.setInteger("Id", user.getUserID());
+					"from UserENT where username =:uname");
 			q.setString("uname", user.getUserName());
 			user = (UserENT) q.uniqueResult();
 			HibernateSessionFactory.closeSession();
@@ -268,7 +265,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		return res;
 	}
 
-	public ArrayList<RoleENT> getAllRolesUser(int uid) {
+	public ArrayList<RoleENT> getAllRolesUser(String username) {
 		ArrayList<RoleENT> res = new ArrayList<RoleENT>();
 		try {
 			Connection conn = null;
@@ -278,14 +275,14 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				e.printStackTrace();
 			}
 			String query = "Select ur.*, r.* from user_roles ur"
-					+ " inner join users u on u.user_id = ur.user_id"
-					+ " inner join roles r on r.role_id = ur.role_id "
-					+ " and ur.user_id = ?";
+					+ " inner join users u on u.username = ur.username"
+					+ " inner join roles r on r.role_name = ur.role_name "
+					+ " and ur.username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, uid);
+			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				RoleENT r = new RoleENT(rs.getInt("role_id"),
+				RoleENT r = new RoleENT(
 						rs.getString("role_name"), rs.getInt("client_id"), "",
 						rs.getInt("user_role_id"), 0, "");
 				res.add(r);
@@ -298,7 +295,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		return res;
 	}
 
-	public ArrayList<GroupENT> getAllGroupsUser(int uid) {
+	public ArrayList<GroupENT> getAllGroupsUser(String username) {
 		ArrayList<GroupENT> res = new ArrayList<GroupENT>();
 		try {
 			Connection conn = null;
@@ -311,10 +308,10 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 
 			String query = "Select ug.*, g.* from user_groups ug"
 					+ " inner join groups g on g.group_id = ug.group_id"
-					+ " inner join users u on u.user_id = ug.user_id "
-					+ " and u.user_id = ?";
+					+ " inner join users u on u.username = ug.username "
+					+ " and u.username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, uid);
+			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				GroupENT r = new GroupENT(rs.getInt("group_id"),
@@ -339,15 +336,15 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String query = "delete from user_roles " + "where user_id = ?";
+			String query = "delete from user_roles where username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, user.getUserID());
+			ps.setString(1, user.getUserName());
 			ps.execute();
-			query = "insert into user_roles (role_id, user_id) values (?,?)";
+			query = "insert into user_roles (role_name, username) values (?,?)";
 			for (int i = 0; i < user.getRoleENTs().size(); i++) {
 				ps = conn.prepareStatement(query);
-				ps.setInt(2, user.getUserID());
-				ps.setInt(1, user.getRoleENTs().get(i).getRoleID());
+				ps.setString(2, user.getUserName());
+				ps.setString(1, user.getRoleENTs().get(i).getRoleName());
 				ps.execute();
 			}
 			ps.close();
@@ -374,14 +371,14 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String query = "delete from user_groups " + "where user_id = ?";
+			String query = "delete from user_groups where username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, user.getUserID());
+			ps.setString(1, user.getUserName());
 			ps.execute();
-			query = "insert into user_groups (group_id, user_id) values (?,?)";
+			query = "insert into user_groups (group_id, username) values (?,?)";
 			for (int i = 0; i < user.getGroupENTs().size(); i++) {
 				ps = conn.prepareStatement(query);
-				ps.setInt(2, user.getUserID());
+				ps.setString(2, user.getUserName());
 				ps.setInt(1, user.getGroupENTs().get(i).getGroupID());
 				ps.execute();
 			}

@@ -1,8 +1,9 @@
 /* JQM Demos custom CSS */
 
-/* Header */
+/* Header 00457c*/
+
 .jqm-demos .jqm-header {
-	background: #fff;
+	background: #000;
 	border-top: 4px solid #011d49;
 	border-bottom-color: #eee;
 }

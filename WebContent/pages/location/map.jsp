@@ -42,27 +42,38 @@
 .ui-icon-walking:after {
 	background-image:
 		url("http://icons.iconarchive.com/icons/anatom5/people-disability/32/walking-icon.png");
-	background-size: 23px 23px;
+	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-bike:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/aha-soft/transport/32/bike-icon.png");
-	background-size: 23px 23px;
+		url("http://icons.iconarchive.com/icons/aha-soft/transport/24/bike-icon.png");
+	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-driving:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/cemagraphics/classic-cars/32/yellow-pickup-icon.png");
-	background-size: 23px 23px;
+		url("http://icons.iconarchive.com/icons/cemagraphics/classic-cars/24/yellow-pickup-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-wheelchair:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/icons-land/transport/24/Wheelchair-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-dirtroad:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/chrisl21/minecraft/24/Grass-icon.png");
+	background-size: 24px 24px;
 	border-radius: 0;
 }
 </style>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&callback=initMap"
-	type="text/javascript"></script>
 </head>
 <body>
 	<div id="map_canvas"></div>
@@ -72,16 +83,20 @@
 	<!-- 			id="place-address"></span> -->
 	<!-- 	</div> -->
 	<div id="searchFields" style="width: 85%;">
-		<fieldset data-role="controlgroup" data-type="horizontal">
+		<fieldset data-role="controlgroup" data-mini="true"
+			data-type="horizontal">
 			<label for="walking"><span
-				class="ui-alt-icon ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="walking" value="on"
-				checked="checked"> <label for="bicycle"><span
-				class="ui-alt-icon ui-icon-bike ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="bicycle" value="on">
-			<label for="driving"><span
-				class="ui-alt-icon ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="driving" value="on">
+				class="ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+			<input type="radio" name="radio-choice-v-2" id="walking" value="1"
+				checked="checked"> <label for="dirtroad"> <span
+				class="ui-icon-dirtroad ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+			<input type="radio" name="radio-choice-v-2" id="dirtroad" value="0"
+				checked="checked"> <label for="wheelchair"><span
+				class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+			<input type="radio" name="radio-choice-v-2" id="wheelchair" value="3">
+			<label for="driving"> <span
+				class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+			<input type="radio" name="radio-choice-v-2" id="driving" value="4">
 		</fieldset>
 		<div class="ui-block-solo">
 			<input type="text" data-theme="c" id="from" placeholder="Departure">
@@ -94,146 +109,81 @@
 <script type="text/javascript">
 	$(document).ready(
 			function() {
-				$("#map_canvas").css("width", $("#mainBodyContents").css("width"));
-				$("#map_canvas").css("max-height",
-						$(window).css("height") - $(".jqm-header").css("height"));
-				$("#map_canvas").css(
-						"min-height",
-						$(window).css("height") - $("#mainBodyContents").css("height")
-								+ $("#mainBodyContents").css("padding-top"));
+				$("#map_canvas").css("min-width", parseInt($("#mainBodyContents").css("width")));
+				$("#map_canvas")
+						.css(
+								"min-height",
+								parseInt($(window).height())
+										- parseInt($(".jqm-header").css("height")) - 7);
 			});
-	var map, directionsService, directionsDisplay, infoWindow, marker, input, markerDestination;
-	var travelM = 'WALKING';
-	function findDeparture(x, y) {
-		var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + x + "," + y
-				+ "&sensor=true";
+	var map, marker;
+
+	function initMap() {
+		var myLatLng = {
+			lat : -34.009211,
+			lng : 25.669051
+		};
+		marker = new google.maps.Marker({
+			position : myLatLng,
+			map : map
+		});
+		map = new google.maps.Map(document.getElementById('map_canvas'), {
+			zoom : 17,
+			streetViewControl : true,
+			fullscreenControl : true
+		});
+		map.setCenter(myLatLng);
+		input = document.getElementById('to');
+		map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
+				.getElementById('searchFields'));
+		google.maps.event.addListener(map, "click", function(event) {
+			var lat = event.latLng.lat();
+			var lng = event.latLng.lng();
+			if ($("#from").val() == "") {
+				$("#from").val(lat + ", " + lng);
+				return;
+			} else if ($("#to").val() == "") {
+				$("#to").val(lat + ", " + lng);
+				return;
+			} else {
+				drawPoly();
+			}
+		});
+	}
+	var pathPolyline;
+	function drawPoly() {
+// 		if (pathPolyline != null) {
+// 			pathPolyline.setMap(null);
+// 		}
+		var url = "REST/GetLocationWS/GetADirectionFromTo?from=" + $("#from").val() + "&to="
+				+ $("#to").val() + "&pathType=" + $("[name='radio-choice-v-2']:checked").val();
 		$.ajax({
 			url : url,
 			cache : false,
 			success : function(data) {
-				var tmp = data.results[0].formatted_address;
-				$("#from").val(tmp);
-			}
-		});
-	}
-
-	function initMap() {
-		var myLatLng = {
-			lat : -31.569743,
-			lng : 27.246471
-		};
-		infoWindow = new google.maps.InfoWindow();
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				myLatLng = {
-					lat : position.coords.latitude,
-					lng : position.coords.longitude
-				};
-				findDeparture(position.coords.latitude, position.coords.longitude);
-				marker = new google.maps.Marker({
-					position : myLatLng,
-					map : map
+				$.each(data, function(k, l) {
+					var pathCoor = [];
+					pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps.split(',')[0]),
+							parseFloat(l.departure.gps.split(',')[1].replace(" ", ""))));
+					pathCoor.push(new google.maps.LatLng(
+							parseFloat(l.destination.gps.split(',')[0]),
+							parseFloat(l.destination.gps.split(',')[1].replace(" ", ""))));
+					pathPolyline = new google.maps.Polyline({
+						path : pathCoor,
+						geodesic : true,
+						strokeColor : color,
+						strokeOpacity : 1.0,
+						strokeWeight : 2
+					});
+					pathPolyline.setMap(map);
 				});
-				map.setCenter(myLatLng);
-			}, function() {
-				handleLocationError(true, infoWindow, map.getCenter());
-			});
-			map = new google.maps.Map(document.getElementById('map_canvas'), {
-				zoom : 18,
-				streetViewControl : true,
-				fullscreenControl : true
-			});
-		} else {
-			handleLocationError(false, infoWindow, map.getCenter());
-		}
-		input = document.getElementById('to');
-		map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
-				.getElementById('searchFields'));
-		var autocomplete = new google.maps.places.Autocomplete(input);
-		autocomplete.bindTo('bounds', map);
-		// 		var infowindowContent = document.getElementById('infowindow-content');
-		markerDestination = new google.maps.Marker({
-			map : map,
-			anchorPoint : new google.maps.Point(0, -29)
-		});
-		directionsService = new google.maps.DirectionsService;
-		directionsDisplay = new google.maps.DirectionsRenderer;
-		autocomplete.addListener('place_changed', function() {
-			// 					infoWindow = new google.maps.InfoWindow();
-			markerDestination.setVisible(false);
-			marker.setVisible(false);
-			var place = autocomplete.getPlace();
-			if (!place.geometry) {
-				window.alert("No details available for input: '" + place.name + "'");
-				return;
+				var color = '#FF0000';
+				
 			}
-			if (place.geometry.viewport) {
-				map.fitBounds(place.geometry.viewport);
-			} else {
-				map.setCenter(place.geometry.location);
-				map.setZoom(17); // Why 17? Because it looks good.
-			}
-			markerDestination.setPosition(place.geometry.location);
-			var bounds = new google.maps.LatLngBounds();
-			bounds.extend(markerDestination.getPosition());
-			bounds.extend(marker.getPosition());
-			map.fitBounds(bounds);
-// 			markerDestination.setVisible(true);
-			// 					var address = '';
-			// 					if (place.address_components) {
-			// 						address = [
-			// 								(place.address_components[0]
-			// 										&& place.address_components[0].short_name || ''),
-			// 								(place.address_components[1]
-			// 										&& place.address_components[1].short_name || ''),
-			// 								(place.address_components[2]
-			// 										&& place.address_components[2].short_name || '') ]
-			// 								.join(' ');
-			// 					}
-			// 					infowindowContent.children['place-icon'].src = place.icon;
-			// 					infowindowContent.children['place-name'].textContent = place.name;
-			// 					infowindowContent.children['place-address'].textContent = address;
-			// 					infowindow.open(map, markerDestination);
-			calculateAndDisplayRoute();
 		});
-		autocomplete.setTypes([]);
-	}
-
-	function calculateAndDisplayRoute() {
-		directionsDisplay.setMap(null);
-		directionsDisplay.setMap(map);
-// 		var wp = new Array();
-// 		wp[0] = new google.maps.LatLng(marker.getPosition().lat(), marker.getPosition().lng());
-// 		wp[1] = new google.maps.LatLng(markerDestination.getPosition().lat(), markerDestination.getPosition()
-// 				.lng());
-// 		directionsService.loadFromWaypoints(wp);
-// 		google.maps.DirectionsService.addListener(directionsService, "load", function() {
-// 			alert(directionsService.getDuration().seconds + " seconds");
-// 		});
-		directionsService.route(
-				{
-					origin : new google.maps.LatLng(marker.getPosition().lat(), marker
-							.getPosition().lng()),
-					destination : new google.maps.LatLng(markerDestination.getPosition().lat(),
-							markerDestination.getPosition().lng()),
-					travelMode : travelM
-				}, function(response, status) {
-					if (status === 'OK') {
-						directionsDisplay.setDirections(response);
-						 alert( response.routes[0].legs[0].distance.value);
-						 alert( response.routes[0].legs[0].duration.value);
-						 alert( response.routes[1].legs[0].duration.value);
-					} else {
-						window.alert('Directions request failed due to ' + status);
-					}
-				});
-	}
-
-	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-		infoWindow.setPosition(pos);
-		infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
-				: 'Error: Your browser doesn\'t support geolocation.');
-		infoWindow.open(map);
 	}
 </script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&callback=initMap"
+	type="text/javascript"></script>
 </html>

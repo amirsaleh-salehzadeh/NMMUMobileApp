@@ -11,7 +11,7 @@ public class GroupLST {
 	private int totalItems;
 	private int first;
 	private boolean ascending = true;
-	private String sortedByField = "groupName";
+	private String sortedByField = "group_Name";
 
 	public GroupLST() {
 	}

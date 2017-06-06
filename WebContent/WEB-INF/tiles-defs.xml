@@ -25,4 +25,9 @@
 		<put name="body" value="/location.do" />
 	</definition>
 	
+	<definition name="page.newsfeed" extends="baseLayout">
+		<put name="title" value="NEWS Feed Page" />
+		<put name="body" value="/newsfeed.do" />
+	</definition>
+	
 </tiles-definitions>

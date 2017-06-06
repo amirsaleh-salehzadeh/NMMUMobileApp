@@ -9,33 +9,41 @@ var WindowBottomEdge = 0;
 
 $(document).ready(function() {
 	$('a.btn-ok, #dialog-overlay, #dialog-box').click(function() {
-		$('#dialog-overlay, #dialog-box').hide();
-		$("dialog-content").html("");
-		return false;
+		 closePopupMessage();
 	});
 	$(window).resize(function() {
 		if (!$('#dialog-box').is(':hidden'))
-			popup();
+			popupMessage();
 	});
 	if ($("#successDescription").html() != "" || $("#errorDescription").html() !="")
-		popup();
+		popupMessage();
 });
 
 $(document).ajaxComplete(function() {
 	$('a.btn-ok, #dialog-overlay, #dialog-box').click(function() {
-		$('#dialog-overlay, #dialog-box').hide();
-		$("dialog-content").html("");
-		return false;
+		closePopupMessage();
 	});
 	$(window).resize(function() {
 		if (!$('#dialog-box').is(':hidden'))
-			popup();
+			popupMessage();
 	});
 	if ($("#successDescription").html() != "" || $("#errorDescription").html() !="")
-		popup();
+		popupMessage();
 });
 
-function popup() {
+function popSuccessMessage(message){
+	$("#dialog-message").html("<label id='successDescription' style='color:green;'>"
+			+ message + "</label>");
+	popupMessage();
+}
+
+function popErrorMessage(message){
+	$("#dialog-message").html("<label id='errorDescription' style='color:red;'>"
+			+ message + "</label>");
+	popupMessage();
+}
+
+function popupMessage() {
 	var maskHeight = $(window).height();
 	var maskWidth = $(window).width();
 	var dialogTop = (maskHeight / 3) - ($('#dialog-box').height());
@@ -48,4 +56,10 @@ function popup() {
 		top : dialogTop,
 		left : dialogLeft
 	}).show();
+}
+
+function closePopupMessage(){
+	$("#dialog-message").html("");
+	$('#dialog-overlay, #dialog-box').hide();
+	return false;
 }

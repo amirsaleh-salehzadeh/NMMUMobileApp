@@ -76,6 +76,10 @@ public class UserAction extends Action {
 			saveUserGroups(request, mapping);
 			reqCode = "userGroupView";
 		}
+		if (reqCode.equalsIgnoreCase("saveNewPassword")) {
+			saveNewPassword(request, mapping);
+			reqCode = "passwordChange";
+		}
 		if (reqCode.equalsIgnoreCase("userManagement")
 				|| reqCode.equals("gridJson")) {
 			return userManagement(request, mapping);
@@ -87,16 +91,65 @@ public class UserAction extends Action {
 			return userRoleView(request, mapping);
 		} else if (reqCode.equalsIgnoreCase("userGroupView")) {
 			return userGroupView(request, mapping);
+		} else if (reqCode.equalsIgnoreCase("passwordChange")) {
+			return passwordChange(request, mapping);
 		}
 
 		return af;
+	}
+
+	private ActionForward saveNewPassword(HttpServletRequest request,
+			ActionMapping mapping) {
+
+		if (request.getParameter("newPW") == ""
+				|| request.getParameter("newPWCheck") == ""
+				|| request.getParameter("oldPass") == "") {
+			error = "Please fill in all fields";
+		} else if (request.getParameter("newPW").equals(
+				request.getParameter("newPWCheck")) == false) {
+			error = "Passwords do not match";
+		} else if (request.getParameter("newPW").equals(
+				request.getParameter("password"))) {
+			error = "New password can't be the old password.";
+		} else {
+			try {
+				getSecurityDAO().changePassword(
+						request.getParameter("oldPass"),
+						request.getParameter("newPW"),
+						request.getParameter("userName"));
+				success = "The password changed successfully";
+			} catch (AMSException e) {
+				error = AMSErrorHandler.handle(request, this, e, e.getMessage(), e.getMessage());
+			}
+		}
+
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
+		return mapping.findForward("passwordChange");
+
+	}
+
+	private ActionForward passwordChange(HttpServletRequest request,
+			ActionMapping mapping) {
+		try {
+			UserENT u = getUserDAO().getUserENT(new UserENT(request.getParameter("userName")));
+			request.setAttribute("userENT", u);
+
+			return mapping.findForward("passwordChange");
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	private void saveUserGroups(HttpServletRequest request,
 			ActionMapping mapping) {
 		String[] t = request.getParameterValues("userGroupID");
 		UserENT u = new UserENT();
-		u.setUserID(NVL.getInt(request.getParameter("userID")));
+		u.setUserName(request.getParameter("userName"));
 		ArrayList<GroupENT> groups = new ArrayList<GroupENT>();
 		for (int i = 0; i < t.length; i++) {
 			GroupENT g = new GroupENT(NVL.getInt(t[i]));
@@ -115,13 +168,13 @@ public class UserAction extends Action {
 	}
 
 	private void saveUserRoles(HttpServletRequest request, ActionMapping mapping) {
-		String[] t = request.getParameterValues("userRoleID");
+		String[] t = request.getParameterValues("userRoleName");
 		UserENT u = new UserENT();
-		u.setUserID(NVL.getInt(request.getParameter("userID")));
+		u.setUserName(request.getParameter("userName"));
 		ArrayList<RoleENT> roles = new ArrayList<RoleENT>();
 		if (t != null && t.length > 0)
 			for (int i = 0; i < t.length; i++) {
-				RoleENT r = new RoleENT(NVL.getInt(t[i]));
+				RoleENT r = new RoleENT(t[i]);
 				roles.add(r);
 			}
 		u.setRoleENTs(roles);
@@ -140,8 +193,7 @@ public class UserAction extends Action {
 			ActionMapping mapping) {
 		try {
 			UserENT u = getUserDAO().getUserENT(
-					new UserENT("", Integer.parseInt(request
-							.getParameter("userID"))));
+					new UserENT(request.getParameter("userName")));
 			request.setAttribute("userENT", u);
 			String searchKey = "";
 			if (request.getParameter("groupName") != null)
@@ -149,7 +201,7 @@ public class UserAction extends Action {
 			GroupENT group = new GroupENT(0, searchKey, 0, "", "");
 			request.setAttribute("groupENT", group);
 			request.setAttribute("userGroups",
-					getUserDAO().getAllGroupsUser(u.getUserID()));
+					getUserDAO().getAllGroupsUser(u.getUserName()));
 			request.setAttribute("groupsList",
 					getSecurityDAO().getAllGroups(searchKey));
 			return mapping.findForward("userGroup");
@@ -168,17 +220,16 @@ public class UserAction extends Action {
 			ActionMapping mapping) {
 		try {
 			UserENT u = getUserDAO().getUserENT(
-					new UserENT("", Integer.parseInt(request
-							.getParameter("userID"))));
+					new UserENT(request.getParameter("userName")));
 			request.setAttribute("userENT", u);
 			String searchKey = "";
 			if (request.getParameter("roleName") != null)
 				searchKey = request.getParameter("roleName");
 
-			RoleENT role = new RoleENT(0, searchKey, 0, "", "");
+			RoleENT role = new RoleENT(searchKey, 0, "", "");
 			request.setAttribute("roleENT", role);
 			request.setAttribute("userRoles",
-					getUserDAO().getAllRolesUser(u.getUserID()));
+					getUserDAO().getAllRolesUser(u.getUserName()));
 			request.setAttribute("rolesList",
 					getSecurityDAO().getAllRoles(searchKey));
 			return mapping.findForward("userRole");
@@ -212,7 +263,7 @@ public class UserAction extends Action {
 			}
 			json = AMSUtililies.prepareTheJSONStringForDataTable(
 					userLST.getCurrentPage(), userLST.getTotalItems(), json,
-					"userID", success, error);
+					"userName", success, error);
 			request.setAttribute("json", json);
 			MessageENT m = new MessageENT(success, error);
 			request.setAttribute("message", m);
@@ -230,7 +281,7 @@ public class UserAction extends Action {
 	private ActionForward editUser(HttpServletRequest request,
 			ActionMapping mapping, ActionForm form) {
 		UserENT userENT = new UserENT();
-		int userId;
+		String userName;
 		try {
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
@@ -240,13 +291,13 @@ public class UserAction extends Action {
 		} catch (AMSException e) {
 			e.printStackTrace();
 		}
-		if (request.getParameter("userID") != null) {
-			userId = Integer.parseInt(request.getParameter("userID"));
+		if (request.getParameter("userName") != null) {
+			userName = request.getParameter("userName");
 		} else {
 			request.setAttribute("userENT", userENT);
 			return mapping.findForward("userEdit");
 		}
-		userENT.setUserID(userId);
+		userENT.setUserName(userName);
 		try {
 			request.setAttribute("userENT", getUserDAO().getUserENT(userENT));
 		} catch (AMSException e) {
@@ -260,20 +311,38 @@ public class UserAction extends Action {
 
 	private void createMenusForUser(HttpServletRequest request) {
 		List<PopupENT> popupEnts = new ArrayList<PopupENT>();
-		popupEnts.add(new PopupENT("", "displaySearch();", "Show/Hide Search",
-				"#"));
+		popupEnts.add(new PopupENT("hide-filters", "displaySearch();",
+				"Show/Hide Search", "#"));
 		popupEnts
-				.add(new PopupENT("",
+				.add(new PopupENT("new-item",
 						"callAnAction(\"user.do?reqCode=userEdit\");",
 						"New User", "#"));
-		popupEnts.add(new PopupENT("", "deleteSelectedItems(\"deleteUser\");",
-				"Delete Selected", "#"));
+		popupEnts
+				.add(new PopupENT("delete-item",
+						"deleteSelectedItems(\"deleteUser\");",
+						"Delete Selected", "#"));
+
 		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
-		popupGridEnts.add(new PopupENT("",
-				"callAnAction(\"user.do?reqCode=userEdit&userID=REPLACEME\");",
+		popupGridEnts.add(new PopupENT("edit-item",
+				"callAnAction(\"user.do?reqCode=userEdit&userName=REPLACEME\");",
 				"Edit User", "#"));
-		popupGridEnts.add(new PopupENT("",
-				"deleteAnItem(REPLACEME, \"deleteUser\");", "Remove", "#")); //
+		popupGridEnts
+				.add(new PopupENT(
+						"password-item",
+						"callAnAction(\"user.do?reqCode=passwordChange&userName=REPLACEME\");",
+						"Change Password", "#"));
+		popupGridEnts.add(new PopupENT("delete-item",
+				"deleteAnItem(REPLACEME, \"deleteUser\");", "Remove", "#"));
+		popupGridEnts
+				.add(new PopupENT(
+						"secure-item",
+						"callAnAction(\"user.do?reqCode=userRoleView&parentPage=userList&userName=REPLACEME\");",
+						"View Roles", "#"));
+		popupGridEnts
+				.add(new PopupENT(
+						"group-item",
+						"callAnAction(\"user.do?reqCode=userGroupView&parentPage=userList&userName=REPLACEME\");",
+						"View Groups", "#"));
 		request.setAttribute("settingMenuItem", popupEnts);
 		request.setAttribute("gridMenuItem", popupGridEnts);
 	}
@@ -308,7 +377,7 @@ public class UserAction extends Action {
 		String[] delID = request.getParameter("deleteID").split(",");
 		ArrayList<UserENT> usersToDelete = new ArrayList<UserENT>();
 		for (int i = 0; i < delID.length; i++) {
-			UserENT user = new UserENT("", Integer.parseInt(delID[i]));
+			UserENT user = new UserENT(delID[i]);
 			usersToDelete.add(user);
 			try {
 				getUserDAO().deleteUsers(usersToDelete);
@@ -330,10 +399,10 @@ public class UserAction extends Action {
 		if (request.getParameter("clientID") != null)
 			userENT.setClientID(Integer.parseInt(request
 					.getParameter("clientID")));
-		if (request.getParameter("userID") != null)
-			userENT.setUserID(Integer.parseInt(request.getParameter("userID")));
+		if (request.getParameter("userName") != null)
+			userENT.setUserName(request.getParameter("userName"));
 		else {
-			userENT.setUserID(0);
+			userENT.setUserName(null);
 
 		}
 		if (userENT.getRegisterationDate() == null)
