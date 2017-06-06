@@ -11,7 +11,7 @@ public class UserLST {
 	private int totalItems;
 	private int first;
 	private boolean ascending = true;
-	private String sortedByField = "userID";
+	private String sortedByField = "userName";
 
 	public UserLST() {
 	}

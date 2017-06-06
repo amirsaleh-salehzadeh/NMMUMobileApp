@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class LocationLST {
 	ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
-	LocationENT departure = new LocationENT();
+	LocationENT departure;
 	ArrayList<LocationENT> destinations = new ArrayList<LocationENT>();
-	LocationENT searchLocation = new LocationENT();
+	LocationENT searchLocation;
 	private int currentPage = 0;
 	private int totalPages;
 	private int pageSize = 10;

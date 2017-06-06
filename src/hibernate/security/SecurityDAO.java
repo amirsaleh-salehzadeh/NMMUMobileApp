@@ -24,42 +24,43 @@ import common.security.RoleLST;
 import hibernate.config.BaseHibernateDAO;
 import hibernate.config.HibernateSessionFactory;
 import tools.AMSException;
+import tools.AMSUtililies;
 
 public class SecurityDAO extends BaseHibernateDAO implements
 		SecurityDAOInterface {
 
 	public static void main(String[] args) {
 		SecurityDAO udao = new SecurityDAO();
-//		try {
-//
-			for (int i = 0; i < 30; i++) {
-				RoleENT roles = new RoleENT();
-				roles.setComment("commeneeet" + i);
-				roles.setRoleName("roleeddde" + i);
-				roles.setClientID(1);
-				try {
-					udao.saveUpdateRole(roles);
-				} catch (AMSException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-//				System.out.println("hei");
+		// try {
+		//
+		for (int i = 0; i < 30; i++) {
+			RoleENT roles = new RoleENT();
+			roles.setComment("commeneeet" + i);
+			roles.setRoleName("roleeddde" + i);
+			roles.setClientID(1);
+			try {
+				udao.saveUpdateRole(roles);
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-//			RoleLST role = udao.getRolesList(new RoleLST());
-//			RoleENT role = new RoleENT();
-//			role.setRoleName("role100");
-//			role.setClientID(2);
-//			RoleENT r = udao.getRole(role);
-//			GroupLST g = new GroupLST();
-//			GroupENT gs = new GroupENT();
-//			gs.setGroupName("");
-//			g.setSearchGroup(gs);
-//			g = udao.getGroupList(g);
-			System.out.println("done");
-//		} catch (AMSException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+			// System.out.println("hei");
+		}
+		// RoleLST role = udao.getRolesList(new RoleLST());
+		// RoleENT role = new RoleENT();
+		// role.setRoleName("role100");
+		// role.setClientID(2);
+		// RoleENT r = udao.getRole(role);
+		// GroupLST g = new GroupLST();
+		// GroupENT gs = new GroupENT();
+		// gs.setGroupName("");
+		// g.setSearchGroup(gs);
+		// g = udao.getGroupList(g);
+		System.out.println("done");
+		// } catch (AMSException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	public RoleENT saveUpdateRole(RoleENT role) throws AMSException {
@@ -67,7 +68,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			if (role.getRoleID() <= 0) {
+			if (role.getRoleName() != null && !role.getRoleName().equals("")) {
 				if (validateRole(role) == null)
 					session.save(role);
 				else
@@ -87,8 +88,6 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		}
 		return role;
 	}
-	
-	
 
 	private boolean deleteRole(RoleENT role) throws AMSException {
 		try {
@@ -99,9 +98,9 @@ public class SecurityDAO extends BaseHibernateDAO implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String query = "delete from roles where role_id = ?";
+			String query = "delete from roles where role_name = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, role.getRoleID());
+			ps.setString(1, role.getRoleName());
 			ps.execute();
 			ps.close();
 			conn.close();
@@ -116,9 +115,8 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		Query q = null;
 		try {
 			Session session = getSession();
-			q = session.createQuery(
-					"from RoleENT where roleID =:Id");
-			q.setInteger("Id", role.getRoleID());
+			q = session.createQuery("from RoleENT where roleName =:Id");
+			q.setString("Id", role.getRoleName());
 			role = (RoleENT) q.uniqueResult();
 			session.close();
 			HibernateSessionFactory.closeSession();
@@ -130,57 +128,94 @@ public class SecurityDAO extends BaseHibernateDAO implements
 	}
 
 	public RoleLST getRolesList(RoleLST roleLST) throws AMSException {
-		Query q = null;
+		ArrayList<RoleENT> res = new ArrayList<RoleENT>();
 		int clientid = roleLST.getSearchRole().getClientID();
 		try {
-			String query = "from RoleENT where roleName like :roleName ";
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String searchKey = roleLST.getSearchRole().getRoleName();
+			String query = "Select r.*, c.client_name from roles r "
+					+ "left join clients c on r.client_id = c.client_id where ";
 			if (clientid > 0)
-				query += "and clientID = " + clientid;
+				query += " clientID = " + clientid + " and ";
+			query += "r.role_name like ? or r.category_role like ? ";
 			query += " order by " + roleLST.getSortedByField();
 			if (roleLST.isAscending())
-				query += " Asc";
+				query += ", role_name Asc";
 			else
 				query += " Desc";
-			q = getSession().createQuery(query);
-			q.setParameter("roleName", "%"
-					+ roleLST.getSearchRole().getRoleName() + "%");
-			roleLST.setTotalItems(q.list().size());
-			q.setFirstResult(roleLST.getFirst());
-			q.setMaxResults(roleLST.getPageSize());
-			ArrayList<RoleENT> result = (ArrayList<RoleENT>) q.list();
-			roleLST.setRoleENTs(result);
-			HibernateSessionFactory.closeSession();
-		} catch (HibernateException ex) {
-			ex.printStackTrace();
+			query += " LIMIT ?, ? ";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, "%" + searchKey + "%");
+			ps.setString(2, "%" + searchKey + "%");
+			ps.setInt(3, roleLST.getFirst());
+			ps.setInt(4, roleLST.getPageSize());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				RoleENT r = new RoleENT(rs.getString("role_name"),
+						rs.getInt("client_id"), rs.getString("client_name"),
+						rs.getString("comment"));
+				r.setRoleCategory(rs.getString("category_role"));
+				res.add(r);
+			}
+			rs.last();
+			roleLST.setTotalItems(rs.getRow());
+			rs.close();
+			roleLST.setRoleENTs(res);
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return roleLST;
 	}
 
 	public GroupLST getGroupList(GroupLST groupLST) throws AMSException {
-		ArrayList<GroupENT> groupENTs = new ArrayList<GroupENT>();
-		Query q = null;
+		ArrayList<GroupENT> res = new ArrayList<GroupENT>();
 		int clientid = groupLST.getSearchGroup().getClientID();
 		try {
-			String query = "from GroupENT where groupName like :groupName ";
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String searchKey = groupLST.getSearchGroup().getGroupName();
+			String query = "Select g.*, c.client_name from groups g "
+					+ "left join clients c on c.client_id = g.client_id where ";
 			if (clientid > 0)
-				query += "and clientID = " + clientid;
+				query += " clientID = " + clientid + " and ";
+			query += "g.group_name like ? ";
 			query += " order by " + groupLST.getSortedByField();
 			if (groupLST.isAscending())
 				query += " Asc";
 			else
 				query += " Desc";
-
-			q = getSession().createQuery(query);
-			q.setParameter("groupName", "%"
-					+ groupLST.getSearchGroup().getGroupName() + "%");
-			groupLST.setTotalItems(q.list().size());
-			q.setFirstResult(groupLST.getFirst());
-			q.setMaxResults(groupLST.getPageSize());
-			groupENTs = (ArrayList<GroupENT>) q.list();
-			groupLST.setGroupENTs(groupENTs);
-			HibernateSessionFactory.closeSession();
-		} catch (HibernateException ex) {
-			ex.printStackTrace();
+			query += " LIMIT ?, ? ";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, "%" + searchKey + "%");
+			ps.setInt(2, groupLST.getFirst());
+			ps.setInt(3, groupLST.getPageSize());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				GroupENT g = new GroupENT(rs.getInt("group_id"),
+						rs.getString("group_name"), rs.getInt("client_id"),
+						rs.getString("client_name"), rs.getString("comment"));
+				res.add(g);
+			}
+			rs.last();
+			groupLST.setTotalItems(rs.getRow());
+			rs.close();
+			groupLST.setGroupENTs(res);
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return groupLST;
 	}
@@ -214,8 +249,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 	public GroupENT getGroup(GroupENT group) throws AMSException {
 		Query q = null;
 		try {
-			q = getSession().createQuery(
-					"from GroupENT where groupID =:Id ");
+			q = getSession().createQuery("from GroupENT where groupID =:Id ");
 			q.setInteger("Id", group.getGroupID());
 			group = (GroupENT) q.uniqueResult();
 			HibernateSessionFactory.closeSession();
@@ -290,15 +324,15 @@ public class SecurityDAO extends BaseHibernateDAO implements
 
 			String query = "Select gr.*, r.* from group_roles gr"
 					+ " inner join groups g on g.group_id = gr.group_id"
-					+ " inner join roles r on r.role_id = gr.role_id "
+					+ " inner join roles r on r.role_name = gr.role_name "
 					+ " and gr.group_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(1, gid);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				RoleENT r = new RoleENT(rs.getInt("role_id"),
-						rs.getString("role_name"), rs.getInt("client_id"), "",
-						0, rs.getInt("role_group_id"), "");
+				RoleENT r = new RoleENT(rs.getString("role_name"),
+						rs.getInt("client_id"), "", 0,
+						rs.getInt("role_group_id"), "");
 				res.add(r);
 			}
 			ps.close();
@@ -318,16 +352,16 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
-			String query = "delete from group_roles " + "where group_id = ?";
+			String query = "delete from group_roles where group_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(1, group.getGroupID());
 			ps.execute();
-			query = "insert into group_roles (group_id, role_id) values (?,?)";
+			query = "insert into group_roles (group_id, role_name) values (?,?)";
 			ps.close();
 			for (int i = 0; i < roles.size(); i++) {
 				ps = conn.prepareStatement(query);
 				ps.setInt(1, group.getGroupID());
-				ps.setInt(2, roles.get(i).getRoleID());
+				ps.setString(2, roles.get(i).getRoleName());
 				ps.execute();
 			}
 			ps.close();
@@ -336,7 +370,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 			throw getAMSException("", e);
 		}
-		
+
 	}
 
 	public ArrayList<RoleENT> getAllRoles(String searchKey) {
@@ -351,12 +385,11 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			}
 			String query = "Select * from roles where role_name like ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, "%"+searchKey+"%");
+			ps.setString(1, "%" + searchKey + "%");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				RoleENT r = new RoleENT(rs.getInt("role_id"),
-						rs.getString("role_name"), rs.getInt("client_id"), "",
-						0, 0, "");
+				RoleENT r = new RoleENT(rs.getString("role_name"),
+						rs.getInt("client_id"), "", 0, 0, "");
 				res.add(r);
 			}
 			ps.close();
@@ -366,6 +399,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		}
 		return res;
 	}
+
 	public ArrayList<GroupENT> getAllGroups(String searchKey) {
 		ArrayList<GroupENT> res = new ArrayList<GroupENT>();
 		try {
@@ -378,7 +412,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			}
 			String query = "Select * from groups where group_name like ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, "%"+searchKey+"%");
+			ps.setString(1, "%" + searchKey + "%");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				GroupENT r = new GroupENT(rs.getInt("group_id"),
@@ -394,7 +428,8 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public void changePassword(String pass, int UID) throws AMSException {
+	public void changePassword(String oldPass, String newPass, String username)
+			throws AMSException {
 		try {
 			Connection conn = null;
 			try {
@@ -402,10 +437,18 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			} catch (AMSException e) {
 				throw getAMSException("", e);
 			}
-			String query = "update users set password = ? where user_id = ?";
+			String query = "select * from users where username = ? and password = ? ";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, pass);
-			ps.setInt(2, UID);
+			ps.setString(1, username);
+			ps.setString(2, AMSUtililies.encodeMD5(oldPass));
+			ResultSet rs = ps.executeQuery();
+			if (!rs.next()) {
+				throw getAMSException("The old password does not match", null);
+			}
+			query = "update users set password = ? where username = ?";
+			ps = conn.prepareStatement(query);
+			ps.setString(1, AMSUtililies.encodeMD5(newPass));
+			ps.setString(2, username);
 			ps.execute();
 			ps.close();
 			conn.close();
@@ -413,6 +456,33 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 			throw getAMSException("", e);
 		}
-		
+
 	}
+
+	public ArrayList<String> getAllRoleCategories(String filter) {
+		ArrayList<String> res = new ArrayList<String>();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "Select distinct category_role from roles where category_role like '%"
+					+ filter + "%'";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				res.add(rs.getString("category_role"));
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 }

@@ -49,7 +49,7 @@
 				type="java.lang.Integer"></bean:define>
 			<ams:ajaxPaginate currentPage="<%=currentPage%>"
 				pageSize="<%=pageSize%>" totalRows="<%=totalRows%>" align="center"
-				columns="userID,userName,name,surName,dateOfBirth,registerationDate"
+				columns="userName,DT_RowId,name,surName,dateOfBirth,registerationDate"
 				popupID="userManagementSettingMenu"
 				popupGridSettingItems="${gridMenuItem}"
 				popupMenuSettingItems="${settingMenuItem}">
@@ -67,7 +67,7 @@
 					</thead>
 					<tfoot>
 						<tr>
-						    <th></th>
+						    <th><input type="checkbox" id="checkAllFoot"></th>
 							<th data-priority="1">name</th>
 							<th data-priority="2">surname</th>
 							<th data-priority="3">Username</th>

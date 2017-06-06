@@ -5,7 +5,6 @@
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@taglib prefix="ams" uri="/WEB-INF/AMSTag.tld"%>
-<%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <html>
 <script type="text/javascript">
@@ -16,28 +15,32 @@
 		saveTheForm();
 	}
 </script>
-<body style="padding: .6em .4em .6em .4em">
-	<form id="dataFilterGridMainPage" action="user.do">
-		<input type="hidden" name="reqCode" value="saveNewPassword">
-		<ams:message messageEntity="${message}"></ams:message>
-		<input type="hidden" name="userID"
-			value="<%=request.getParameter("userID")%>">
+<body>
+	<div id='formContainer'>
+		<form id="dataFilterGridMainPage" action="user.do">
+			<input type="hidden" name="reqCode" value="saveNewPassword">
+			<ams:message messageEntity="${message}"></ams:message>
+			<input type="hidden" name="userName"
+				value="<%=request.getParameter("userName")%>">
 
-		<html:text name="userENT" property="userName" title="Username" />
-		<html:password name="userENT" property="password" title="Old Password" readonly="true"/>
-		<input type="password" 
-		    name="newPW" id="newPW" value=""
-			placeholder="New Password"> 
-		<input type="password"
-			name="newPWCheck" id="newPWCheck" value=""
-			placeholder="Re-enter New Password">
-		<div>
-			<a href="#" data-role="button" data-inline="true" data-icon="check"
-				data-theme="b" onclick="changeUsernamePasswordValidation();
+			<bean:write name="userENT" property="userName"/>
+			<input type="password" name="oldPass" placeholder="Old Password" />
+			<input type="password" name="newPW" id="newPW" value=""
+				placeholder="New Password"> <input type="password"
+				name="newPWCheck" id="newPWCheck" value=""
+				placeholder="Re-enter New Password">
+			<div class=ui-grid-a>
+				<div class=ui-block-a>
+					<a data-role="button" class="cancel-icon" data-mini="true"
+						href="t_user.do?reqCode=userManagement" data-ajax="false">Cancel</a>
+				</div>
+				<div class=ui-block-b>
+					<a href="#" data-role="button" class="save-icon" data-mini="true"
+						onclick="changeUsernamePasswordValidation();
 					">Save</a>
-			<a data-role="button" data-inline="true" data-icon="check"
-				href="t_user.do?reqCode=userManagement" data-ajax="false">Back</a>
-		</div>
-	</form>
+				</div>
+			</div>
+		</form>
+	</div>
 </body>
 </html>

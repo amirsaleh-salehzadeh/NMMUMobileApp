@@ -21,8 +21,8 @@ public interface UserDAOInterface {
 	public ArrayList<TitleENT> getAllTitles() throws AMSException;
 	public EthnicENT getEthnic(int ethnicID) throws AMSException;
 	public TitleENT getTitle(int titleID) throws AMSException;
-	public ArrayList<RoleENT> getAllRolesUser(int uid);
-	public ArrayList<GroupENT> getAllGroupsUser(int uid);
+	public ArrayList<RoleENT> getAllRolesUser(String username);
+	public ArrayList<GroupENT> getAllGroupsUser(String username);
 	public void saveUpdateUserRoles(UserENT user) throws AMSException;
 	public void saveUpdateUserGroups(UserENT user) throws AMSException;
 	public ArrayList<DropDownENT> getTitlesDropDown();

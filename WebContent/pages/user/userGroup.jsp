@@ -11,8 +11,8 @@
 <body>
 	<form id="dataFilterGridMainPage" action="user.do">
 		<ams:message messageEntity="${message}"></ams:message>
-		<input type="hidden" name="userID"
-			value="<%=request.getParameter("userID")%>"> <input
+		<input type="hidden" name="userName"
+			value="<%=request.getParameter("userName")%>"> <input
 			type="hidden" name="reqCode" value="userGroupsSave"> Groups
 		for user "
 		<bean:write name="userENT" property="userName" />
@@ -25,7 +25,7 @@
 		<label style="width: 100%">Select All <input type="checkbox"
 			id="checkAllGroups" onclick="selectAllGroups()">
 		</label> <a href="#" data-role="button" data-inline="true"
-			onclick="callAnAction('user.do?reqCode=userEdit&userID=<%=request.getParameter("userID")%>')">Back</a>
+			onclick="callAnAction('user.do?reqCode=userEdit&userName=<%=request.getParameter("userName")%>')">Back</a>
 		<a href="#" data-role="button" data-inline="true"
 			onclick="saveTheForm()">Save</a>
 		<table data-role="table" id="table-column-toggle"
@@ -80,9 +80,9 @@
 
 	}
 	function searchForGroup() {
-		var str = "user.do?reqCode=userGroupView&userID="
+		var str = "user.do?reqCode=userGroupView&userName="
 				+
-<%=request.getParameter("userID")%>
+<%=request.getParameter("userName")%>
 	+ "&groupName="
 				+ $('#searchKeyInput').val();
 		callAnAction(str);

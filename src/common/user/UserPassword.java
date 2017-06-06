@@ -1,18 +1,9 @@
 package common.user;
 
 public class UserPassword {
-	private int userID;
 	private String userName;
 	private String userPassword;
 	private String oldPassword;
-
-	public int getUserID() {
-		return userID;
-	}
-
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
 
 	public String getOldPassword() {
 		return oldPassword;

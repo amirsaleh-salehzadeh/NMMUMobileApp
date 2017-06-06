@@ -1,31 +1,38 @@
 package common.security;
 
 public class RoleENT {
-	int roleID;
 	String roleName = "";
 	int clientID;
 	String clientName;
-	int roleUserID;
+	String roleCategory;
+	int roleUserName;
 	int roleGroupID;
 
-	public RoleENT(int roleID, String roleName, int clientID,
-			String clientName, int roleUserID, int roleGroupID, String comment) {
+	public String getRoleCategory() {
+		return roleCategory;
+	}
+
+	public void setRoleCategory(String roleCategory) {
+		this.roleCategory = roleCategory;
+	}
+
+	public RoleENT(String roleName, int clientID,
+			String clientName, int roleUserName, int roleGroupID, String comment) {
 		super();
-		this.roleID = roleID;
 		this.roleName = roleName;
 		this.clientID = clientID;
 		this.clientName = clientName;
-		this.roleUserID = roleUserID;
+		this.roleUserName = roleUserName;
 		this.roleGroupID = roleGroupID;
 		this.comment = comment;
 	}
 
-	public int getRoleUserID() {
-		return roleUserID;
+	public int getRoleUserName() {
+		return roleUserName;
 	}
 
-	public void setRoleUserID(int roleUserID) {
-		this.roleUserID = roleUserID;
+	public void setRoleUserName(int roleUserName) {
+		this.roleUserName = roleUserName;
 	}
 
 	public int getRoleGroupID() {
@@ -40,19 +47,18 @@ public class RoleENT {
 
 	}
 
-	public RoleENT(int roleID, String roleName, int clientID,
+	public RoleENT(String roleName, int clientID,
 			String clientName, String comment) {
 		super();
-		this.roleID = roleID;
 		this.roleName = roleName;
 		this.clientID = clientID;
 		this.clientName = clientName;
 		this.comment = comment;
 	}
 	
-	public RoleENT(int roleID) {
+	public RoleENT(String roleName) {
 		super();
-		this.roleID = roleID;
+		this.roleName = roleName;
 	}
 
 	public String getClientName() {
@@ -79,14 +85,6 @@ public class RoleENT {
 
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-
-	public int getRoleID() {
-		return roleID;
-	}
-
-	public void setRoleID(int roleID) {
-		this.roleID = roleID;
 	}
 
 	public int getClientID() {

@@ -8,7 +8,6 @@ import common.security.RoleENT;
 
 public class UserENT {
 	String userName;
-	int userID;
 	int clientID;
 	String password;
 	String registerationDate;
@@ -25,7 +24,7 @@ public class UserENT {
 	ArrayList<GroupENT> groupENTs = new ArrayList<GroupENT>();
 	ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
 
-	public UserENT(String userName, int userID, int clientID, String password,
+	public UserENT(String userName, int clientID, String password,
 			String registerationDate, String name, String surName,
 			String dateOfBirth, boolean gender, boolean active,
 			EthnicENT ethnic, int ethnicID, TitleENT title, int titleID,
@@ -33,7 +32,6 @@ public class UserENT {
 			ArrayList<LocationENT> locationENTs) {
 		super();
 		this.userName = userName;
-		this.userID = userID;
 		this.clientID = clientID;
 		this.password = password;
 		this.registerationDate = registerationDate;
@@ -51,25 +49,23 @@ public class UserENT {
 		this.locationENTs = locationENTs;
 	}
 
-	public UserENT(String userName, int userID) {
+	public UserENT(String userName) {
 		super();
 		this.userName = userName;
-		this.userID = userID;
 	}
 
-	public UserENT(int userID, ArrayList<RoleENT> roleENTs,
+	public UserENT(String userName, ArrayList<RoleENT> roleENTs,
 			ArrayList<GroupENT> groupENTs, ArrayList<LocationENT> locationENTs) {
 		super();
-		this.userID = userID;
+		this.userName = userName;
 		this.roleENTs = roleENTs;
 		this.groupENTs = groupENTs;
 		this.locationENTs = locationENTs;
 	}
 
-	public UserENT(String userName, int userID, int clientID, String password) {
+	public UserENT(String userName, int clientID, String password) {
 		super();
 		this.userName = userName;
-		this.userID = userID;
 		this.clientID = clientID;
 		this.password = password;
 	}
@@ -103,14 +99,6 @@ public class UserENT {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public int getUserID() {
-		return userID;
-	}
-
-	public void setUserID(int userID) {
-		this.userID = userID;
 	}
 
 	public int getClientID() {
