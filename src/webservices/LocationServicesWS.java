@@ -44,7 +44,7 @@ public class LocationServicesWS {
 		}
 		return json;
 	}
-	
+
 	@GET
 	@Path("/GetAllPathsForUser")
 	@Produces("application/json")
@@ -52,8 +52,29 @@ public class LocationServicesWS {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			json = mapper.writeValueAsString(getLocationDAO()
-					.getAllPaths(userName));
+			json = mapper.writeValueAsString(getLocationDAO().getAllPaths(
+					userName));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(json);
+		return json;
+	}
+
+	@GET
+	@Path("/GetADirectionFromTo")
+	@Produces("application/json")
+	public String getADirectionFromTo(@QueryParam("from") String from,
+			@QueryParam("to") String to, @QueryParam("pathType") int pathType) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(getLocationDAO().getAPathFromTo(
+					from, to, pathType));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -103,8 +124,7 @@ public class LocationServicesWS {
 		PathENT ent = new PathENT(new LocationENT(fLocationId),
 				new LocationENT(tLocationId), new PathTypeENT(pathType));
 		String json = "[]";
-			getLocationDAO()
-					.savePath(ent);
+		getLocationDAO().savePath(ent);
 		return json;
 	}
 

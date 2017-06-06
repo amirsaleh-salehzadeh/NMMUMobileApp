@@ -39,6 +39,9 @@ body {
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
 					href="t_security.do?reqCode=groupManagement" data-ajax="false">Groups</a></li>
+					<li
+					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
+					href="t_location.do?reqCode=pathCreation" data-ajax="false">Path Management</a></li>
 			</ul>
 		</div>
 	</li>
@@ -121,9 +124,6 @@ body {
 				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
 					href="t_security.do?reqCode=roleManagement" data-ajax="false">Lift</a></li>
-					<li
-					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
-					href="t_location.do?reqCode=pathCreation" data-ajax="false">Path Identification</a></li>
 			</ul>
 		</div>
 	</li>

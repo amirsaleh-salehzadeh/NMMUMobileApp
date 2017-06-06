@@ -6,29 +6,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.alg.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.SimpleWeightedGraph;
 
 import common.DropDownENT;
-import common.client.ClientENT;
 import common.location.CountryENT;
 import common.location.LocationENT;
 import common.location.LocationLST;
 import common.location.LocationTypeENT;
 import common.location.PathENT;
 import common.location.PathTypeENT;
-import common.security.RoleENT;
 import hibernate.config.BaseHibernateDAO;
 import hibernate.config.HibernateSessionFactory;
 import tools.AMSException;
-import tools.algorithms.Dijkstra;
-import tools.algorithms.pathFinding.Edge;
-import tools.algorithms.pathFinding.Vertex;
 
 public class LocationDAO extends BaseHibernateDAO implements
 		LocationDAOInterface {
@@ -278,18 +276,24 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	private ArrayList<PathENT> getAllPathsForOnePoint(long locationId) {
+	private ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type) {
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
+		Connection conn = null;
 		try {
-			Connection conn = null;
 			try {
 				conn = getConnection();
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
-			String query = "Select * from paths "
-					+ "where destination_location_id = '" + locationId
-					+ "' or departure_location_id = '" + locationId + "'";
+			String query = "";
+			if (type == 0)
+				query = "Select * from paths "
+						+ "where destination_location_id = '" + locationId
+						+ "' or departure_location_id = '" + locationId + "'";
+			else
+				query = "Select * from paths " + "where path_type != " + type
+						+ " and (destination_location_id = '" + locationId
+						+ "' or departure_location_id = '" + locationId + "')";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -298,13 +302,18 @@ public class LocationDAO extends BaseHibernateDAO implements
 						getLocationENT(new LocationENT(rs
 								.getLong("destination_location_id"))),
 						rs.getDouble("distance"), new PathTypeENT(
-								rs.getInt("path_type")),
-						rs.getLong("path_id"));
+								rs.getInt("path_type")), rs.getLong("path_id"));
 				res.add(p);
 			}
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
+			try {
+				conn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 		return res;
@@ -328,12 +337,19 @@ public class LocationDAO extends BaseHibernateDAO implements
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setLong(1, path.getDestination().getLocationID());
 			ps.setLong(2, path.getDeparture().getLocationID());
-			ps.setDouble(
-					3,
-					calculateDistance(path.getDestination().getGps(), path
-							.getDeparture().getGps()));
+			double distance = calculateDistance(path.getDestination().getGps(),
+					path.getDeparture().getGps());
+			distance = reEvaluateDistance(distance, path.getPathType()
+					.getPathTypeId());
+			ps.setDouble(3, distance);
 			ps.setInt(4, path.getPathType().getPathTypeId());
 			ps.execute();
+			ps.close();
+			query = "select path_id from paths order by path_id desc limit 1";
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+				path.setPathId(rs.getLong("path_id"));
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -341,7 +357,13 @@ public class LocationDAO extends BaseHibernateDAO implements
 		}
 	}
 
-	private double calculateDistance(String gps, String gps2) {
+	private double reEvaluateDistance(double distance, int pathTypeId) {
+		if (pathTypeId == 6)// stairways
+			distance += 2.00;
+		return distance;
+	}
+
+	private static double calculateDistance(String gps, String gps2) {
 		final int R = 6371;
 		double latDistance = Math
 				.toRadians(Double.parseDouble(gps2.split(",")[0])
@@ -362,72 +384,86 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return outp;
 	}
 
-	public HashMap<Long, Vertex> getShortestPath(long dep, long dest) {
-		ArrayList<LocationENT> points = getAllLocationsForUser("admin");
-		HashMap<Long, Vertex> map = new HashMap<Long, Vertex>();
+	public LocationENT findClosestLocation(String GPSCoordinates) {
+		LocationDAO dao = new LocationDAO();
+		ArrayList<LocationENT> points = dao.getAllLocationsForUser("admin");
+		int closest = -1;
+		double[] distances = new double[points.size()];
 		for (int i = 0; i < points.size(); i++) {
-			map.put(points.get(i).getLocationID(), new Vertex(points.get(i)
-					.getLocationID()));
-		}
-		for (HashMap.Entry<Long, Vertex> entry : map.entrySet()) {
-			Vertex v = entry.getValue();
-			ArrayList<PathENT> ptz = getAllPathsForOnePoint(entry.getKey());
-			Edge[] edgz = new Edge[ptz.size()];
-			for (int i = 0; i < ptz.size(); i++) {
-				PathENT tmpPath = ptz.get(i);
-				edgz[i] = new Edge(map.get(tmpPath.getDestination()
-						.getLocationID()), tmpPath.getDistance());
+			distances[i] = calculateDistance(points.get(i).getGps(),
+					GPSCoordinates);
+			if (closest == -1 || distances[i] < distances[closest]) {
+				closest = i;
 			}
-			v.adjacencies = edgz;
-			System.out.println(entry.getKey());
-			map.put(entry.getKey(), v);
 		}
-		return map;
+		return points.get(closest);
 	}
 
-	// public HashMap<String, Vertex> getShortestPathTMP(LocationENT dep,
-	// LocationENT dest) {
-	// ArrayList<PathENT> res = getAllPaths("admin");
-	// HashMap<String, Vertex> map = new HashMap<String, Vertex>();
-	// for (int i = 0; i < res.size(); i++) {
-	// PathENT p = res.get(i);
-	// Vertex v1 = new Vertex(p.getDeparture().getLocationID() + "");
-	// Vertex v2 = new Vertex(p.getDestination().getLocationID() + "");
-	// Edge[] e1 = v1.adjacencies;
-	// Edge[] e2 = v2.adjacencies;
-	// if (e1 != null) {
-	// Edge[] tmp = new Edge[e1.length + 1];
-	// System.arraycopy(e1, 0, tmp, 0, e1.length);
-	// tmp[tmp.length - 1] = new Edge(v2, p.getDistance());
-	// v1.adjacencies = tmp;
-	// } else {
-	// v1.adjacencies = new Edge[] { new Edge(v2, p.getDistance()) };
-	// }
-	// if (e2 != null) {
-	// Edge[] tmp = new Edge[e2.length + 1];
-	// System.arraycopy(e2, 0, tmp, 0, e2.length);
-	// tmp[tmp.length - 1] = new Edge(v1, p.getDistance());
-	// v2.adjacencies = tmp;
-	// } else {
-	// v2.adjacencies = new Edge[] { new Edge(v1, p.getDistance()) };
-	// }
-	// if (!map.containsKey(v1.toString())) {
-	// map.put(v1.toString(), v1);
-	// } else
-	// v1 = map.get(v1.toString());
-	// if (!map.containsKey(v2.toString())) {
-	// map.put(v2.toString(), v2);
-	// } else
-	// v2 = map.get(v2.toString());
-	// map.put(v1.toString(), v1);
-	// map.put(v2.toString(), v2);
-	// }
-	// return map;
-	// }
+	private ArrayList<PathENT> getShortestPath(long dep, long dest,
+			int pathTypeId) {
+		System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
+		UndirectedGraph<Long, DefaultWeightedEdge> graphOfPaths = createGraph(pathTypeId);
+		System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
+		System.out.println(">>>> shortest path object >>>> " + System.currentTimeMillis());
+		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
+				graphOfPaths, dep, dest);
+		System.out.println(">>>> spath object >>>> " + System.currentTimeMillis());
+		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(
+				graphOfPaths, dep, dest);
+		System.out.println(">>>> create paths >>>> " + System.currentTimeMillis());
+		ArrayList<PathENT> res = new ArrayList<PathENT>();
+		for (int i = 0; i < shortest_path.size(); i++) {
+			long source = graphOfPaths.getEdgeSource(shortest_path.get(i));
+			long target = graphOfPaths.getEdgeTarget(shortest_path.get(i));
+			res.add(new PathENT(getLocationENT(new LocationENT(source)),
+					getLocationENT(new LocationENT(target))));
+		}
+		System.out.println(">>>> create paths >>>> " + System.currentTimeMillis());
+		return res;
+	}
+
+	private static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
+			int pathTypeId) {
+		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
+				DefaultWeightedEdge.class);
+		LocationDAO dao = new LocationDAO();
+		ArrayList<LocationENT> points = dao.getAllLocationsForUser("admin");
+		for (int i = 0; i < points.size(); i++) {
+			long depTMP = points.get(i).getLocationID();
+			if (!g.containsVertex(depTMP))
+				g.addVertex(depTMP);
+			ArrayList<PathENT> ptz = dao.getAllPathsForOnePoint(depTMP,
+					pathTypeId);
+			for (int j = 0; j < ptz.size(); j++) {
+				long destTMP = ptz.get(j).getDestination().getLocationID();
+				depTMP = ptz.get(j).getDeparture().getLocationID();
+				if (!g.containsVertex(destTMP)) {
+					g.addVertex(destTMP);
+				}
+				if (!g.containsVertex(depTMP)) {
+					g.addVertex(depTMP);
+				}
+				DefaultWeightedEdge edg = g.addEdge(depTMP, destTMP);
+				if (edg != null)
+					g.setEdgeWeight(edg, ptz.get(j).getDistance());
+			}
+		}
+		return g;
+	}
+
+	public ArrayList<PathENT> getAPathFromTo(String fromCoordinate,
+			String toCoordinate, int pathTypeId) {
+		System.out.println(">>>> getAPathFromTo >>>> " + System.currentTimeMillis());
+		LocationENT from = findClosestLocation(fromCoordinate);
+		LocationENT to = findClosestLocation(toCoordinate);
+		System.out.println(">>>> getAPathFromTo >>>> " + System.currentTimeMillis());
+		return getShortestPath(from.getLocationID(), to.getLocationID(),
+				pathTypeId);
+	}
+
 	public static void main(String[] args) {
 		LocationDAO dao = new LocationDAO();
-		HashMap<Long, Vertex> tmp = dao.getShortestPath(0, 0);
-		Dijkstra.computePaths(tmp.get(39));
-		System.out.println(Dijkstra.getShortestPathTo(tmp.get(52)));
+		// getShortestPath(61, 64);
+
 	}
 }

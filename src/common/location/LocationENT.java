@@ -66,6 +66,11 @@ public class LocationENT {
 		this.gps = gps;
 		this.locationName = locationName;
 	}
+	
+	public LocationENT(String userName) {
+		super();
+		this.userName = userName;
+	}
 
 	public LocationENT(long locationID) {
 		super();

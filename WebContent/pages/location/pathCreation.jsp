@@ -38,11 +38,10 @@
 			name="optionType">
 			<label for="marker"><span
 				class="ui-alt-icon ui-icon-map-marker ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice" id="marker" value="marker">
-			<label for="path"><span
+			<input type="radio" name="radio-choice" id="marker" value="marker"
+				checked="checked"> <label for="path"><span
 				class="ui-alt-icon ui-icon-map-path ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice" id="path" checked="checked"
-				value="path">
+			<input type="radio" name="radio-choice" id="path" value="path">
 		</fieldset>
 	</div>
 	<div data-role="popup" id="insertAMarker" data-position-to="window"
@@ -105,6 +104,8 @@
 	</div>
 </body>
 <script type="text/javascript">
+	var map, marker, infoWindow;
+
 	function saveMarker() {
 		var url = "REST/GetLocationWS/SaveUpdateLocation?locationName=" + $("#markerName").val()
 				+ "&coordinate=" + $("#markerCoordinate").val() + "&locationType="
@@ -113,9 +114,26 @@
 			url : url,
 			cache : false,
 			success : function(data) {
-				window.location.replace("t_location.do?reqCode=pathCreation");
+				// 				window.location.replace("t_location.do?reqCode=pathCreation");
+				marker = new google.maps.Marker({
+					position : {
+						lat : parseFloat(data.gps.split(",")[0]),
+						lng : parseFloat(data.gps.split(",")[1].replace(" ", ""))
+					},
+					map : map,
+					title : data.locationName
+				});
+				var bounds = new google.maps.LatLngBounds();
+				bounds.extend(marker.getPosition());
+				map.fitBounds(bounds);
+				marker.addListener('click', function() {
+					addToPath(data.locationName, data.locationID);
+				});
+				markers.push(marker);
 			}
 		});
+		getAllMarkers();
+		$('#insertAMarker').popup('close');
 	}
 
 	function savePath() {
@@ -125,20 +143,24 @@
 			url : url,
 			cache : false,
 			success : function(data) {
-// 				window.location.replace("t_location.do?reqCode=pathCreation");
+				// 				window.location.replace("t_location.do?reqCode=pathCreation");
 				$("#departure").val("");
 				$("#departureId").val("");
 				$("#destination").val("");
 				$("#destinationId").val("");
+				getAllPaths();
+				$('#insertAPath').popup('close');
 			}
 		});
-		
+
 	}
 
-	var map, marker;
-
+	var markers = [];
 	function getAllMarkers() {
 		var url = "REST/GetLocationWS/GetAllLocationsForUser?userName=admin";
+		for ( var i = 0; i < markers.length; i++) {
+			markers[i].setMap(null);
+		}
 		$.ajax({
 			url : url,
 			cache : false,
@@ -154,8 +176,8 @@
 					});
 					marker.addListener('click', function() {
 						addToPath(l.locationName, l.locationID);
-						alert(l.locationID);
 					});
+					markers.push(marker);
 				});
 			}
 		});
@@ -219,6 +241,26 @@
 			lat : -34.009083,
 			lng : 25.669059
 		};
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				myLatLng = {
+					lat : position.coords.latitude,
+					lng : position.coords.longitude
+				};
+				infoWindow = new google.maps.InfoWindow();
+				infoWindow.setPosition(myLatLng);
+				infoWindow.open(map);
+				map.setCenter(myLatLng);
+			}, function() {
+				handleLocationError(true, infoWindow, map.getCenter());
+			}, {
+				enableHighAccuracy : true,
+				timeout : 5000,
+				maximumAge : 0
+			});
+		} else {
+			handleLocationError(false, infoWindow, map.getCenter());
+		}
 		marker = new google.maps.Marker({
 			position : myLatLng,
 			map : map
@@ -241,8 +283,15 @@
 			var lat = event.latLng.lat();
 			var lng = event.latLng.lng();
 			$("#markerCoordinate").val(lat + ", " + lng);
+			// 			find_closest_marker(event);
 		});
-		// 		google.maps.event.addDomListener(window, "load", initMap);
+	}
+
+	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+		infoWindow.setPosition(pos);
+		infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
+				: 'Error: Your browser doesn\'t support geolocation.');
+		infoWindow.open(map);
 	}
 
 	function openPathCreationPopup() {
@@ -254,7 +303,31 @@
 			$('#insertAPath').popup('open').trigger('create');
 		}
 	}
-
+	function rad(x) {
+		return x * Math.PI / 180;
+	}
+	function find_closest_marker(event) {
+		var lat = event.latLng.lat();
+		var lng = event.latLng.lng();
+		var R = 6371; // radius of earth in km
+		var distances = [];
+		var closest = -1;
+		for ( var i = 0; i < markers.length; i++) {
+			var mlat = markers[i].position.lat();
+			var mlng = markers[i].position.lng();
+			var dLat = rad(mlat - lat);
+			var dLong = rad(mlng - lng);
+			var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(rad(lat))
+					* Math.cos(rad(lat)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			var d = R * c;
+			distances[i] = d;
+			if (closest == -1 || d < distances[closest]) {
+				closest = i;
+			}
+		}
+		alert(markers[closest].title);
+	}
 	$(document).ready(
 			function() {
 				$("#map_canvas").css("min-width", parseInt($("#mainBodyContents").css("width")));
@@ -266,6 +339,7 @@
 			});
 </script>
 <script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&callback=initMap"
+	src="https
+	://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&callback=initMap"
 	type="text/javascript"></script>
 </html>
