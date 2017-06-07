@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2017 at 11:11 AM
+-- Generation Time: Jun 07, 2017 at 06:32 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -785,7 +785,11 @@ INSERT INTO `location` (`country`, `address`, `post_box`, `location_id`, `gps`, 
 (200, 'N/A', '', 300, '-34.011051777770135, 25.66681981086731', 'NMMU-Path-Definition-Enterance-', 'admin', 1),
 (200, 'N/A', '', 301, '-34.01101090173437, 25.667238235473633', 'NMMU-Path-Definition-Enterance-', 'admin', 1),
 (200, 'N/A', '', 302, '-34.01102033466745, 25.667868554592133', 'NMMU-Path-Definition-Enterance-', 'admin', 2),
-(200, 'N/A', '', 303, '-34.01102853935317, 25.668762736022472', 'NMMU-Path-Definition-Enterance-', 'admin', 2);
+(200, 'N/A', '', 303, '-34.01102853935317, 25.668762736022472', 'NMMU-Path-Definition-Enterance-', 'admin', 2),
+(200, 'N/A', '', 304, '-34.001852945487464, 25.671772174537182', 'NMMU-Path-Definition-Enterance-', 'admin', 1),
+(200, 'N/A', '', 305, '-34.00147932090329, 25.671755578368902', 'NMMU-Path-Definition-Enterance-', 'admin', 1),
+(200, 'N/A', '', 306, '-34.00107994762099, 25.671747531741858', 'NMMU-Path-Definition-Enterance-', 'admin', 1),
+(200, 'N/A', '', 307, '-34.00073717692852, 25.671731438487768', 'NMMU-Path-Definition-Enterance-', 'admin', 1);
 
 -- --------------------------------------------------------
 
@@ -1238,7 +1242,12 @@ INSERT INTO `paths` (`path_id`, `destination_location_id`, `departure_location_i
 (390, 275, 276, 18.89, 2),
 (391, 274, 275, 18.2, 2),
 (392, 273, 274, 19.29, 2),
-(393, 269, 267, 88.66, 1);
+(393, 269, 267, 88.66, 1),
+(394, 302, 303, 82.42, 2),
+(395, 120, 303, 107.77, 2),
+(396, 305, 304, 41.57, 3),
+(397, 306, 305, 44.41, 3),
+(398, 307, 306, 38.14, 3);
 
 -- --------------------------------------------------------
 
@@ -1708,7 +1717,7 @@ ALTER TABLE `group_roles`
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `location_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=304;
+  MODIFY `location_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=308;
 --
 -- AUTO_INCREMENT for table `location_type`
 --
@@ -1723,7 +1732,7 @@ ALTER TABLE `log_activities`
 -- AUTO_INCREMENT for table `paths`
 --
 ALTER TABLE `paths`
-  MODIFY `path_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=394;
+  MODIFY `path_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=399;
 --
 -- AUTO_INCREMENT for table `path_type`
 --
