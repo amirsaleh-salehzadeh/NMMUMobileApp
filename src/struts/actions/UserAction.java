@@ -407,7 +407,8 @@ public class UserAction extends Action {
 
 		UserENT userENT = new UserENT();
 		
-		userENT.setPassword(request.getParameter("password"));
+		
+
 		if (request.getParameter("clientID") != null)
 			userENT.setClientID(Integer.parseInt(request
 					.getParameter("clientID")));
@@ -425,11 +426,11 @@ public class UserAction extends Action {
 		if (request.getParameter("titleID") != null)
 			userENT.setTitleID(Integer.parseInt(request.getParameter("titleID")));
 
-		userENT.setUserName(request.getParameter("uName"));
+		userENT.setUserName(request.getParameter("userName"));
 		userENT.setName(request.getParameter("name"));
 		userENT.setSurName(request.getParameter("surName"));
 		userENT.setDateOfBirth(request.getParameter("dateOfBirth"));
-
+		userENT.setPassword(request.getParameter("password"));
 
 		if (request.getParameter("gender") != null) {
 			userENT.setGender(true);
