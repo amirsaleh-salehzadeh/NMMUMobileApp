@@ -57,7 +57,7 @@ public class UserAction extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
-		ActionForward af = null;
+ 		ActionForward af = null;
 		success = "";
 		error = "";
 		reqCode = request.getParameter("reqCode");
@@ -83,7 +83,7 @@ public class UserAction extends Action {
 		if (reqCode.equalsIgnoreCase("userManagement")
 				|| reqCode.equals("gridJson")) {
 			return userManagement(request, mapping);
-		} else if (reqCode.equals("userEdit")) {
+		} else if (reqCode.equals("userEdit")||reqCode.equals("userView")||reqCode.equals("userNew")) {
 			return editUser(request, mapping, form);
 		} else if (reqCode.equals("userSaveUpdate")) {
 			return saveUpdateUser(request, mapping);
@@ -282,6 +282,7 @@ public class UserAction extends Action {
 			ActionMapping mapping, ActionForm form) {
 		UserENT userENT = new UserENT();
 		String userName;
+		
 		try {
 			request.setAttribute("clientENTs", getClientDAO()
 					.getClientsDropDown());
@@ -298,6 +299,7 @@ public class UserAction extends Action {
 			return mapping.findForward("userEdit");
 		}
 		userENT.setUserName(userName);
+		
 		try {
 			request.setAttribute("userENT", getUserDAO().getUserENT(userENT));
 		} catch (AMSException e) {
@@ -306,7 +308,11 @@ public class UserAction extends Action {
 		}
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
-		return mapping.findForward("userEdit");
+		if(reqCode.equals("userView")){
+			return mapping.findForward("userEdit");
+		}else {
+		return mapping.findForward("userEdit");}
+		
 	}
 
 	private void createMenusForUser(HttpServletRequest request) {
@@ -315,7 +321,7 @@ public class UserAction extends Action {
 				"Show/Hide Search", "#"));
 		popupEnts
 				.add(new PopupENT("new-item",
-						"callAnAction(\"user.do?reqCode=userEdit\");",
+						"callAnAction(\"user.do?reqCode=userNew\");",
 						"New User", "#"));
 		popupEnts
 				.add(new PopupENT("delete-item",
@@ -323,9 +329,13 @@ public class UserAction extends Action {
 						"Delete Selected", "#"));
 
 		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
+		popupGridEnts.add(new PopupENT("hide-filters",
+				"callAnAction(\"user.do?reqCode=userView&userName=REPLACEME\");",
+				"View User", "#"));
 		popupGridEnts.add(new PopupENT("edit-item",
 				"callAnAction(\"user.do?reqCode=userEdit&userName=REPLACEME\");",
 				"Edit User", "#"));
+		
 		popupGridEnts
 				.add(new PopupENT(
 						"password-item",
@@ -396,6 +406,8 @@ public class UserAction extends Action {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
 		UserENT userENT = new UserENT();
+		
+		userENT.setPassword(request.getParameter("password"));
 		if (request.getParameter("clientID") != null)
 			userENT.setClientID(Integer.parseInt(request
 					.getParameter("clientID")));
@@ -403,7 +415,6 @@ public class UserAction extends Action {
 			userENT.setUserName(request.getParameter("userName"));
 		else {
 			userENT.setUserName(null);
-
 		}
 		if (userENT.getRegisterationDate() == null)
 			userENT.setRegisterationDate(df.format(Calendar.getInstance()
@@ -414,12 +425,11 @@ public class UserAction extends Action {
 		if (request.getParameter("titleID") != null)
 			userENT.setTitleID(Integer.parseInt(request.getParameter("titleID")));
 
-		userENT.setUserName(request.getParameter("userName"));
+		userENT.setUserName(request.getParameter("uName"));
 		userENT.setName(request.getParameter("name"));
 		userENT.setSurName(request.getParameter("surName"));
 		userENT.setDateOfBirth(request.getParameter("dateOfBirth"));
 
-		userENT.setPassword(request.getParameter("password"));
 
 		if (request.getParameter("gender") != null) {
 			userENT.setGender(true);
