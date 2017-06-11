@@ -73,7 +73,7 @@
 	<div id='formContainer'>
 		<form id="dataFilterGridMainPage" action="user.do">
 			<input type="hidden" name="reqCode" value="userSaveUpdate">
-			<html:text name="userENT" property="userName" title="Username" />
+			<html:hidden name="userENT" property="userName" styleId="userName" />
 			<bean:define id="genderValue" name="userENT" property="gender"
 				type="java.lang.Boolean" />
 			<bean:define id="activeValue" name="userENT" property="active"
@@ -221,7 +221,7 @@
 				<tbody>
 					<tr>
 						<td><div>
-								<label>Username: <html:text name="userENT" property="userName" title="Username" id="uName"/>
+								<label>Username: <html:text name="userENT" property="userName" title="Username" />
 								</label>
 					</tr>
 					</td>
@@ -298,7 +298,7 @@
 					</div>
 					<tr>
 						<td><div>
-								<label>Password: <bean:write name="userENT"  property="password" />
+								<label>Password: <html:text name="userENT" property="password" title="Password" />
 								</label>
 					</tr>
 					</td>
@@ -340,13 +340,15 @@
 				} else {
 			%>
 			
+			<html:text name="userENT" property="userName" title="Username"  />
 			<ams:dropDown dropDownItems="${clientENTs}"
 				selectedVal="<%=selectedValueClient.toString()%>" name="clientID"
 				title=""></ams:dropDown>
 			<ams:dropDown dropDownItems="${titleENTs}"
 				selectedVal="<%=selectedValueTitle.toString()%>" name="titleID"
 				title=""></ams:dropDown>
-			<html:text name="userENT" property="name" title="Name" id="uName" />
+			
+			<html:text name="userENT" property="name" title="Name"  />
 			<html:text name="userENT" property="surName" title="Surname" />
 			<label for="dateOfBirth"
 				style="white-space: nowrap !important; width: 100%">Date of
