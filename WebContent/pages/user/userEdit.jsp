@@ -1,3 +1,4 @@
+<%@page import="hibernate.user.UserDAO"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="common.user.UserENT"%>
 <%@page import="java.util.List"%>
@@ -15,7 +16,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		refreshPlaceHolders();
-		$("#dob").attr("type", "date").trigger("create");//i changed the id dob's type to date, date has a meaning for jquery mobile framework
+		$("#dob").attr("type", "date").trigger("create");
 	});
 </script>
 <style type="text/css">
@@ -84,99 +85,310 @@
 			<bean:define id="selectedValueTitle" name="userENT"
 				property="titleID" type="java.lang.Integer"></bean:define>
 
+			<%
+				if ((request.getParameter("reqCode")).equals("userView")) {
+			%>
+			
+			<table data-role="table" id="table-column-toggle"
+				class="ui-responsive table-stroke">
+				<tbody>
+					<tr>
+						<td><div>
+								<label>Username: <bean:write name="userENT"
+										property="userName" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Client: <bean:write name="userENT"
+										property="clientID" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Title: <bean:write name="userENT"
+										property="title" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Name: <bean:write name="userENT" property="name" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Surname: <bean:write name="userENT"
+										property="surName" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td>
+							<div>
+								<label>Date of Birth: <bean:write name="userENT"
+										property="dateOfBirth" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td>
+							<div>
+								<label>Gender: <%
+									if (genderValue) {
+								%> Male <%
+									} else {
+								%>
+									Female <%
+									}
+										;
+								%>
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Ethnicity: <bean:write name="userENT"
+										property="ethnic" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Registration Date: <bean:write name="userENT"
+										property="registerationDate" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Password: <bean:write name="userENT"
+										property="password" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td>
+							<div>
+								<label>Status: <%
+									if (activeValue) {
+								%> Active <%
+									} else {
+								%>
+									Inactive <%
+									}
+										;
+								%>
+								</label>
+					</tr>
+					</td>
+					</div>
+				</tbody>
+			</table>
 			<fieldset class="ui-grid-a">
 				<div class="ui-block-a">
-					<html:text name="userENT" property="userName" title="Username" />
-				</div>
-				<div class="ui-grid-b">
-					<ams:dropDown dropDownItems="${clientENTs}"
-						selectedVal="<%=selectedValueClient.toString()%>" name="clientID"
-						title=""></ams:dropDown>
-				</div>
-			</fieldset>
-			<fieldset class="ui-grid-b">
-				<div class="ui-block-a">
-					<ams:dropDown dropDownItems="${titleENTs}"
-						selectedVal="<%=selectedValueTitle.toString()%>" name="titleID"
-						title=""></ams:dropDown>
+					<a href="#" data-role="button" data-mini="true" class="cancel-icon"
+						onclick="callAnAction('user.do?reqCode=userManagement');">Cancel</a>
 				</div>
 				<div class="ui-block-b">
-					<html:text name="userENT" property="name" title="Name" />
-				</div>
-				<div class="ui-block-c">
-					<html:text name="userENT" property="surName" title="Surname" />
+					<a href="#" data-role="button" data-mini="true" class="edit-icon"
+						onclick="callAnAction('user.do?reqCode=userEdit&userName=<bean:write name="userENT" property="userName" />');">Edit User</a>
 				</div>
 			</fieldset>
 
-			<div class="ui-grid-a">
-				<div class="ui-block-a ui-field-contain">
-					<label for="dateOfBirth"
-						style="white-space: nowrap !important; width: 100%">Date
-						of Birth: </label>
-					<html:text name="userENT" property="dateOfBirth"
-						title="Date of Birth" styleId="dob" />
-				</div>
-				<div class="ui-block-b">
-					<input type="checkbox" data-role="flipswitch" name="gender"
-						id="flipswitchGender" data-on-text="Male" data-off-text="Female"
-						data-wrapper-class="flipswitchGender" data-inline="true"
-						<%if (genderValue.booleanValue() == true) {%> checked=""
-						<%}
-			;%> /> <input type="checkbox" data-role="flipswitch"
-						data-inline="true" name="active" id="flipswitchActivation"
-						selected="selected" data-on-text="Active" data-off-text="Inactive"
-						data-wrapper-class="flipswitchActive"
-						<%if (activeValue.booleanValue() == true) {%> checked=""
-						<%}
-			;%> />
 
-				</div>
-			</div>
-			<div class="ui-block-solo">
-				<ams:dropDown dropDownItems="${ethnicENTs}"
-					selectedVal="<%=selectedValueClient.toString()%>" name="ethnicID"
-					title=""></ams:dropDown>
-			</div>
-			<fieldset>
-				<div class="ui-block-a">
-					<html:password name="userENT" property="password" title="Password" />
-				</div>
-			</fieldset>
-			<fieldset>
-				<div class="ui-block-c">
-					<span style="font-weight: bold; ">Registration Date&nbsp;</span>
-					<bean:write name="userENT" property="registerationDate" />
-				</div>
-			</fieldset>
 
+
+			<%
+				} else if ((request.getParameter("reqCode")).equals("userEdit")) {
+			%>
+			
+			<table data-role="table" id="table-column-toggle"
+				class="ui-responsive table-stroke">
+				<tbody>
+					<tr>
+						<td><div>
+								<label>Username: <html:text name="userENT" property="userName" title="Username" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Client: <ams:dropDown dropDownItems="${clientENTs}"
+										selectedVal="<%=selectedValueClient.toString()%>"
+										name="clientID" title=""></ams:dropDown>
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Title: <ams:dropDown dropDownItems="${titleENTs}"
+										selectedVal="<%=selectedValueTitle.toString()%>"
+										name="titleID" title=""></ams:dropDown>
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Name: <html:text name="userENT" property="name"
+										title="Name" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Surname: <html:text name="userENT"
+										property="surName" title="Surname" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td>
+							<div>
+								<label>Date of Birth: <html:text name="userENT" property="dateOfBirth" title="Date of Birth" styleId="dob" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td>
+							<div>
+								<label>Gender: <input type="checkbox"
+									data-role="flipswitch" name="gender" id="flipswitchGender"
+									data-on-text="Male" data-off-text="Female"
+									data-wrapper-class="flipswitchGender" data-inline="true"
+									<%if (genderValue) {%> checked="" <%}
+				;%> />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Ethnicity: <ams:dropDown dropDownItems="${ethnicENTs}"
+										selectedVal="<%=selectedValueClient.toString()%>"
+										name="ethnicID" title=""></ams:dropDown>
+								</label>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Registration Date: <bean:write name="userENT"
+										property="registerationDate" /></label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td><div>
+								<label>Password: <html:text name="userENT" property="password" title="Password" />
+								</label>
+					</tr>
+					</td>
+					</div>
+					<tr>
+						<td>
+							<div>
+								<label>Status: <input type="checkbox"
+									data-role="flipswitch" data-inline="true" name="active"
+									id="flipswitchActivation" selected="selected"
+									data-on-text="Active" data-off-text="Inactive"
+									data-wrapper-class="flipswitchActive" <%if (activeValue) {%>
+									checked="" <%}
+				;%> />
+								</label>
+				</tbody>
+			</table>
 			<div class=ui-grid-c>
 				<div class=ui-block-a>
 					<a href="#" data-role="button" data-mini="true" class="cancel-icon"
 						onclick="callAnAction('user.do?reqCode=userManagement');">Cancel</a>
 				</div>
-				<%
-					if (request.getParameter("userName") != null) {
-				%>
 				<div class=ui-block-b>
 					<a href="#" data-role="button" data-mini="true" class="role-icon"
 						onclick="callAnAction('user.do?reqCode=userRoleView&userName=<bean:write name="userENT" property="userName"
 					/>')">Roles</a>
 				</div>
 				<div class=ui-block-c>
-					<a href="#" data-role="button" data-mini="true"
-						class="group-icon"
+					<a href="#" data-role="button" data-mini="true" class="group-icon"
 						onclick="callAnAction('user.do?reqCode=userGroupView&userName=<bean:write name="userENT" property="userName"
 					/>')">Groups</a>
 				</div>
-				<%
-					}
-					;
-				%>
 				<div class=ui-block-d>
-					<a href="#" data-role="button" data-mini="true"
-						class="save-icon" onclick="saveTheForm();">Save</a>
+					<a href="#" data-role="button" data-mini="true" class="save-icon"
+						onclick="saveTheForm();">Save</a>
 				</div>
 			</div>
+			<%
+				} else {
+			%>
+			
+			<html:text name="userENT" property="userName" title="Username"  />
+			<ams:dropDown dropDownItems="${clientENTs}"
+				selectedVal="<%=selectedValueClient.toString()%>" name="clientID"
+				title=""></ams:dropDown>
+			<ams:dropDown dropDownItems="${titleENTs}"
+				selectedVal="<%=selectedValueTitle.toString()%>" name="titleID"
+				title=""></ams:dropDown>
+			
+			<html:text name="userENT" property="name" title="Name"  />
+			<html:text name="userENT" property="surName" title="Surname" />
+			<label for="dateOfBirth"
+				style="white-space: nowrap !important; width: 100%">Date of
+				Birth: </label>
+			<html:text name="userENT" property="dateOfBirth" title="Date of Birth" styleId="dob" />
+			<div>
+				<input type="checkbox" data-role="flipswitch" name="gender"
+					id="flipswitchGender" data-on-text="Male" data-off-text="Female"
+					data-wrapper-class="flipswitchGender" data-inline="true"
+					<%if (genderValue.booleanValue() == true) {%> checked=""
+					<%}
+				;%> />
+			</div>
+			<div>
+				<input type="checkbox" data-role="flipswitch" data-inline="true"
+					name="active" id="flipswitchActivation" selected="selected"
+					data-on-text="Active" data-off-text="Inactive"
+					data-wrapper-class="flipswitchActive"
+					<%if (activeValue.booleanValue() == true) {%> checked=""
+					<%}
+				;%> />
+			</div>
+			<ams:dropDown dropDownItems="${ethnicENTs}"
+				selectedVal="<%=selectedValueClient.toString()%>" name="ethnicID"
+				title=""></ams:dropDown>
+			<html:text name="userENT" property="password" title="Password" />
+			<div class=ui-grid-a>
+				<div class=ui-block-a>
+					<a href="#" data-role="button" data-mini="true" class="cancel-icon"
+						onclick="callAnAction('user.do?reqCode=userManagement');">Cancel</a>
+				</div>
+				<div class=ui-block-b>
+					<a href="#" data-role="button" data-mini="true" class="save-icon"
+						onclick="saveTheForm();">Save</a>
+				</div>
+			</div>
+			<%
+				}
+				;
+			%>
 		</form>
 	</div>
 </body>

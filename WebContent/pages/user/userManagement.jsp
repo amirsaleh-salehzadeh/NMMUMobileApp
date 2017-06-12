@@ -58,9 +58,9 @@
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="checkAllHead"></th>   
-							<th data-priority="1">name</th>
+							<th data-priority="1">Username</th>
 							<th data-priority="2">surname</th>
-							<th data-priority="3">Username</th>
+							<th data-priority="3">name</th>
 							<th data-priority="4">DOB</th>
 							<th data-priority="5">Registeration Date</th>
 						</tr>
@@ -68,9 +68,9 @@
 					<tfoot>
 						<tr>
 						    <th><input type="checkbox" id="checkAllFoot"></th>
-							<th data-priority="1">name</th>
+							<th data-priority="1">Username</th>
 							<th data-priority="2">surname</th>
-							<th data-priority="3">Username</th>
+							<th data-priority="3">name</th>
 							<th data-priority="4">DOB</th>
 							<th data-priority="5">Registeration Date</th>
 						</tr>
