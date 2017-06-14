@@ -16,18 +16,6 @@
 	padding-bottom: 12px;
 }
 
-#infowindow-content .title {
-	font-weight: bold;
-}
-
-#infowindow-content {
-	display: none;
-}
-
-#map_canvas #infowindow-content {
-	display: inline;
-}
-
 .inlineIcon {
 	display: inline-block;
 	position: relative;
@@ -67,37 +55,97 @@
 	border-radius: 0;
 }
 
-.ui-icon-dirtroad:after {
+.ui-icon-dirt-road:after {
 	background-image:
 		url("http://icons.iconarchive.com/icons/chrisl21/minecraft/24/Grass-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-start-trip:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/custom-icon-design/pretty-office-5/24/start-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-current-location:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/ahmadhania/spherical/24/target-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-clear-trip:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 </style>
 </head>
 <body>
-	<div id="map_canvas"></div>
-	<div id="searchFields" style="width: 85%;">
-		<fieldset data-role="controlgroup" data-mini="true"
-			data-type="horizontal">
-			<label for="walking"><span
-				class="ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="walking" value="1"
-				checked="checked"> <label for="dirtroad"> <span
-				class="ui-icon-dirtroad ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="dirtroad" value="0"
-				checked="checked"> <label for="wheelchair"><span
-				class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="wheelchair" value="3">
-			<label for="driving"> <span
-				class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="driving" value="4">
-		</fieldset>
-		<div class="ui-block-solo">
-			<input type="text" data-theme="c" id="from" placeholder="Departure">
+	<input type="hidden" id="tripId">
+	<div data-role="tabs" id="tabs">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#mapView" data-ajax="false">Map View</a></li>
+				<li><a href="location.do?reqCode=cameraNavigation" data-ajax="false">AR View</a></li>
+			</ul>
 		</div>
-		<div class="ui-block-solo">
-			<input type="text" data-theme="c" id="to" placeholder="Destination">
+		<div id="one" class="ui-body-d ui-content">
+			<input type="hidden" id="tripString">
+			<div id="map_canvas"></div>
+			<div id="searchFields" style="width: 85%;">
+				<div id="navBar" class="ui-grid-a" style="width: 100%;">
+					<div class="ui-block-a">
+						<fieldset data-role="controlgroup" data-mini="true"
+							data-type="horizontal"
+							style="float: left; display: inline-block;">
+							<label for="walking"><span
+								class="ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-v-2" id="walking"
+								value="1"> <label for="dirtroad"> <span
+								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-v-2" id="dirtroad"
+								value="0" checked="checked"> <label for="wheelchair"><span
+								class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-v-2" id="wheelchair"
+								value="3"> <label for="driving"> <span
+								class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-v-2" id="driving"
+								value="4">
+						</fieldset>
+					</div>
+					<div class="ui-block-B">
+						<fieldset data-role="controlgroup" data-mini="true"
+							data-type="horizontal"
+							style="float: right; display: inline-block;">
+							<label for="clearTrip"><span
+								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk"
+								onclick="removeTrip()"></span></label> <input type="radio"
+								name="radio-choice-v-2" id="clearTrip" value="1"> <label
+								for="currentLocation"><span
+								class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-v-2" id="currentLocation"
+								value="1"> <label for="startTrip"><span
+								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"
+								onclick="startTrip()"></span></label> <input type="radio"
+								name="radio-choice-v-2" id="startTrip" value="1">
+						</fieldset>
+					</div>
+				</div>
+				<div class="ui-block-solo">
+					<input type="hidden" id="from" placeholder="Departure"> <input
+						type="hidden" id="departureId" placeholder="DepartureId">
+					<input type="text" id="departureName" placeholder="Departure">
+				</div>
+				<div class="ui-block-solo">
+					<input type="hidden" id="to" placeholder="Destination"> <input
+						type="hidden" id="destinationId" placeholder="DestinationId">
+					<input type="text" id="destinationName" placeholder="Destination">
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
@@ -114,20 +162,20 @@
 												"height")) - 7);
 					});
 	function initiMap() {
-		var map, marker;
 		var myLatLng = {
 			lat : -34.009211,
 			lng : 25.669051
 		};
-		marker = new google.maps.Marker({
-			position : myLatLng,
-			map : map
-		});
+		map = null;
 		map = new google.maps.Map(document.getElementById('map_canvas'), {
 			zoom : 17,
 			streetViewControl : true,
 			fullscreenControl : true
 		});
+		// 		marker = new google.maps.Marker({
+		// 			position : myLatLng,
+		// 			map : map
+		// 		});
 		map.setCenter(myLatLng);
 		input = document.getElementById('to');
 		map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document

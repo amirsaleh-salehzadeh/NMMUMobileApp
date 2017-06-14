@@ -44,7 +44,7 @@ public class LocationServicesWS {
 		}
 		return json;
 	}
-	
+
 	@GET
 	@Path("/GetAllLocationTypes")
 	@Produces("application/json")
@@ -63,7 +63,7 @@ public class LocationServicesWS {
 		}
 		return json;
 	}
-	
+
 	@GET
 	@Path("/GetAllPathTypes")
 	@Produces("application/json")
@@ -71,8 +71,8 @@ public class LocationServicesWS {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			json = mapper.writeValueAsString(getLocationDAO()
-					.getAllPathTypes());
+			json = mapper
+					.writeValueAsString(getLocationDAO().getAllPathTypes());
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -190,18 +190,9 @@ public class LocationServicesWS {
 	@Produces("application/json")
 	public String removeAPath(@QueryParam("pathId") long pathId) {
 		String json = "[]";
-		ObjectMapper mapper = new ObjectMapper();
 		try {
-			json = mapper.writeValueAsString(getLocationDAO().deletePath(
-					new PathENT(pathId)));
+			getLocationDAO().deletePath(new PathENT(pathId));
 		} catch (AMSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return json;
@@ -245,6 +236,25 @@ public class LocationServicesWS {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return json;
+	}
+
+	@GET
+	@Path("/StartTrip")
+	@Produces("application/json")
+	public String startTrip(@QueryParam("from") long from,
+			@QueryParam("to") long to) {
+		String json = "[]";
+		json = "[{\"tripId\" : \"" + getLocationDAO().saveTrip(from, to) + "\"}]";
+		return json;
+	}
+	
+	@GET
+	@Path("/RemoveTrip")
+	@Produces("application/json")
+	public String removeTrip(@QueryParam("tripId") long tripId) {
+		String json = "[]";
+		getLocationDAO().deleteTrip(tripId);
 		return json;
 	}
 

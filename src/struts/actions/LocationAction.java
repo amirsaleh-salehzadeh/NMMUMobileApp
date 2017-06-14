@@ -42,6 +42,8 @@ public class LocationAction extends Action {
 			setAllLocationTypes(request);
 			setAllPathTypes(request);
 			af = mapping.findForward(reqCode);
+		}else if (reqCode.equalsIgnoreCase("cameraNavigation")) {
+			af = mapping.findForward(reqCode);
 		}
 		return af;
 	}

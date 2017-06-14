@@ -25,4 +25,7 @@ public interface LocationDAOInterface {
 	public LocationENT findClosestLocation(String GPSCoordinates);
 	public PathENT getAPath(PathENT ent);
 	public ArrayList<PathENT> getAPathFromTo(String fromCoordinate, String toCoordinate, int pathTypeId);
+	public long saveTrip(long deptLocationId, long destLocationId);
+	public void deleteTrip(long tripId);
+	public PathENT getTrip(long tripId);
 }

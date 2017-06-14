@@ -102,7 +102,7 @@
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all" id="submitRider"
-			onclick="printBarcode()">Print Barcode</a>
+			onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print Barcode</a>
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"

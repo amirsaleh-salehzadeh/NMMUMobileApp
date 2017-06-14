@@ -17,6 +17,17 @@ function removeMarker() {
 		});
 }
 
+function printBarcode(id, name) {
+	if (id == "") {
+		alert("The location does not exist yet. Please save the location first");
+		return;
+	}
+	var query = '{"locationID":"' + id + '", "locationName":"' + name + '"}';
+	window
+			.open("https://api.qrserver.com/v1/create-qr-code/?size=666x666&data="
+					+ query);
+}
+
 function saveMarker() {
 	if ($("#markerName").val() == "") {
 		alert("Please select a name for the location");
@@ -60,12 +71,10 @@ function removePath(id) {
 			url : url,
 			cache : false,
 			success : function(data) {
-				$('#insertAMarker').popup('close');
 				if (data.errorMSG != null) {
 					alert(data.errorMSG);
 					return;
 				}
-				getAllMarkers();
 				getAllPaths();
 			}
 		});
@@ -94,6 +103,7 @@ function savePath() {
 }
 
 var markers = [];
+var paths = [];
 function getAllMarkers() {
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?userName=admin";
 	for ( var i = 0; i < markers.length; i++) {
@@ -124,6 +134,9 @@ function getAllMarkers() {
 
 function getAllPaths() {
 	var url = "REST/GetLocationWS/GetAllPathsForUser?userName=admin";
+	for ( var i = 0; i < paths.length; i++) {
+		paths[i].setMap(null);
+	}
 	$.ajax({
 		url : url,
 		cache : false,
@@ -160,6 +173,7 @@ function getAllPaths() {
 					removePath(l.pathId);
 				});
 				pathPolyline.setMap(map);
+				paths.push(pathPolyline);
 			});
 		}
 
@@ -236,8 +250,13 @@ function initMap() {
 	});
 }
 
-var pathPolyline;
 function drawPoly() {
+	for ( var i = 0; i < paths.length; i++) {
+		paths[i].setMap(null);
+	}
+	for ( var i = 0; i < markers.length; i++) {
+		marker[i].setMap(null);
+	}
 	var url = "REST/GetLocationWS/GetADirectionFromTo?from=" + $("#from").val()
 			+ "&to=" + $("#to").val() + "&pathType="
 			+ $("[name='radio-choice-v-2']:checked").val();
@@ -245,7 +264,17 @@ function drawPoly() {
 		url : url,
 		cache : false,
 		success : function(data) {
+			var pathString = "";
 			$.each(data, function(k, l) {
+				if (k == 0){
+					pathString = l.departure.locationID + ","
+							+ l.destination.locationID;
+					$("#departureName").val(l.departure.locationName);
+					$("#destinationName").val(l.destination.locationName);
+				}
+				else
+					pathString += ","
+						+ l.destination.locationID;
 				var pathCoor = [];
 				pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps
 						.split(',')[0]),
@@ -256,40 +285,40 @@ function drawPoly() {
 				var lineSymbol = {
 					path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 					scale : 5,
-					strokeColor : color
+					strokeColor : 'black'
 				};
-				pathPolyline = new google.maps.Polyline({
+				var pathPolyline = new google.maps.Polyline({
 					path : pathCoor,
 					geodesic : true,
 					icons : [ {
 						icon : lineSymbol,
 						offset : '100%'
 					} ],
-					strokeColor : color,
+					strokeColor : 'black',
 					strokeOpacity : 1.0,
 					strokeWeight : 7
 				});
 				pathPolyline.setMap(map);
-
 				pathPolyline.addListener('click', function() {
 					removePath(l.pathId);
 				});
-
+				paths.push(pathPolyline);
 				animateCircle(pathPolyline);
 			});
-			var color = '#FF0000';
-
+			$("#tripString").val(pathString);
+			$("#departureId").val(pathString.split(",")[0]);
+			$("#destinationId").val(pathString.split(",")[pathString.split(",").length-1]);
 		}
 	});
 }
 
 function selectRightPanelVal() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		$("#locationTypeListViewDiv").css("display","block");
-		$("#pathTypeListViewDiv").css("display","none");
+		$("#locationTypeListViewDiv").css("display", "block");
+		$("#pathTypeListViewDiv").css("display", "none");
 	} else {
-		$("#locationTypeListViewDiv").css("display","none");
-		$("#pathTypeListViewDiv").css("display","block");
+		$("#locationTypeListViewDiv").css("display", "none");
+		$("#pathTypeListViewDiv").css("display", "block");
 	}
 }
 
@@ -301,15 +330,50 @@ function getLocationTypePanel() {
 		success : function(data) {
 			var tmp = "";
 			$.each(data, function(k, l) {
-				tmp += "<li value='" + l.locationTypeId + "' class='liLocationLV'><a href='#'>"
+				tmp += "<li value='" + l.locationTypeId
+						+ "' class='liLocationLV'><a href='#'>"
 						+ l.locationType + "</a></li>";
 			});
 			$("ul#locationTypeListView").html(tmp);
 			$("ul#locationTypeListView").listview("refresh");
-			$( "#rightpanel" ).trigger( "updatelayout" );
+			$("#rightpanel").trigger("updatelayout");
 		}
 	});
 }
+
+function startTrip(){
+	var url = "REST/GetLocationWS/StartTrip?from="+$("#departureId").val()+"&to="+$("#destinationId").val();
+	$.ajax({
+		url : url,
+		cache : false,
+		success : function(data) {
+			$("#tripId").val(data[0].tripId);
+		}
+	});
+}
+
+function removeTrip(){
+	var url = "REST/GetLocationWS/RemoveTrip?tripId="+$("#tripId").val();
+	$.ajax({
+		url : url,
+		cache : false,
+		success : function(data) {
+			$("#from").val("");
+			$("#departureId").val("");
+			$("#to").val("");
+			$("#destinationId").val("");
+			$("#to").val("");
+			$("#tripString").val("");
+			$("#tripId").val("");
+			for ( var i = 0; i < paths.length; i++) {
+				paths[i].setMap(null);
+			}
+		}
+	});
+	
+}
+
+
 function getPathTypePanel() {
 	var url = "REST/GetLocationWS/GetAllPathTypes";
 	$.ajax({
@@ -318,12 +382,13 @@ function getPathTypePanel() {
 		success : function(data) {
 			var tmp = "";
 			$.each(data, function(k, l) {
-				tmp += "<li value='" + l.pathTypeId + "' class='liPathLV'><a href='#'>"
-						+ l.pathType + "</a></li>";
+				tmp += "<li value='" + l.pathTypeId
+						+ "' class='liPathLV'><a href='#'>" + l.pathType
+						+ "</a></li>";
 			});
 			$("ul#pathTypeListView").html(tmp).trigger("create");
 			$("ul#pathTypeListView").listview("refresh");
-			$( "#rightpanel" ).trigger( "updatelayout" );
+			$("#rightpanel").trigger("updatelayout");
 		}
 	});
 }

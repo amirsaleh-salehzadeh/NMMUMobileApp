@@ -410,28 +410,39 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	private ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId) {
-		System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
+		// System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
 		UndirectedGraph<Long, DefaultWeightedEdge> graphOfPaths = createGraph(pathTypeId);
-		System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
-		System.out.println(">>>> shortest path object >>>> "
-				+ System.currentTimeMillis());
+		// System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
+		// System.out.println(">>>> shortest path object >>>> "
+		// + System.currentTimeMillis());
 		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
 				graphOfPaths, dep, dest);
-		System.out.println(">>>> spath object >>>> "
-				+ System.currentTimeMillis());
+		// System.out.println(">>>> spath object >>>> "
+		// + System.currentTimeMillis());
 		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(
 				graphOfPaths, dep, dest);
-		System.out.println(">>>> create paths >>>> "
-				+ System.currentTimeMillis());
+		// System.out.println(">>>> create paths >>>> "
+		// + System.currentTimeMillis());
+		System.out.println(shortest_path.toString());
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
 		for (int i = 0; i < shortest_path.size(); i++) {
 			long source = graphOfPaths.getEdgeSource(shortest_path.get(i));
 			long target = graphOfPaths.getEdgeTarget(shortest_path.get(i));
+			if (i == 0 && source != dep) {
+				long tmp = source;
+				source = target;
+				target = tmp;
+			}else if (i > 0)
+				if (source != res.get(i - 1).getDestination().getLocationID()) {
+					long tmp = source;
+					source = target;
+					target = tmp;
+				}
 			res.add(new PathENT(getLocationENT(new LocationENT(source)),
 					getLocationENT(new LocationENT(target))));
 		}
-		System.out.println(">>>> create paths >>>> "
-				+ System.currentTimeMillis());
+		// System.out.println(">>>> create paths >>>> "
+		// + System.currentTimeMillis());
 		return res;
 	}
 
@@ -466,12 +477,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	public ArrayList<PathENT> getAPathFromTo(String fromCoordinate,
 			String toCoordinate, int pathTypeId) {
-		System.out.println(">>>> getAPathFromTo >>>> "
-				+ System.currentTimeMillis());
 		LocationENT from = findClosestLocation(fromCoordinate);
 		LocationENT to = findClosestLocation(toCoordinate);
-		System.out.println(">>>> getAPathFromTo >>>> "
-				+ System.currentTimeMillis());
 		return getShortestPath(from.getLocationID(), to.getLocationID(),
 				pathTypeId);
 	}
@@ -531,4 +538,80 @@ public class LocationDAO extends BaseHibernateDAO implements
 			throw getAMSException("", e);
 		}
 	}
+
+	public long saveTrip(long deptLocationId, long destLocationId) {
+		long res = 0;
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			query = "insert into trips (departure_location_id, destination_location_id)"
+					+ " values (?, ?)";
+			PreparedStatement ps = conn.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
+			ps.setLong(1, deptLocationId);
+			ps.setLong(2, destLocationId);
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				res = rs.getLong(1);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public void deleteTrip(long tripId) {
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "delete from trips where trip_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setLong(1, tripId);
+			ps.execute();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public PathENT getTrip(long tripId) {
+		PathENT res = new PathENT();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "Select * from trips where trip_id = " + tripId;
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				res = new PathENT(getLocationENT(new LocationENT(
+						rs.getLong("departure_location_id"))),
+						getLocationENT(new LocationENT(rs
+								.getLong("destination_location_id"))));
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 }
