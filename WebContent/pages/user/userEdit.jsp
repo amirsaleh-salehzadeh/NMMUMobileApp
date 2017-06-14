@@ -66,7 +66,7 @@
 	width: 1.875em;
 	text-indent: 2em;
 }
-</style>
+ 
 </head>
 <body>
 	<ams:message messageEntity="${message}"></ams:message>
@@ -245,14 +245,14 @@
 			</div>
 			<%
 				} else {
-<<<<<<< HEAD
+
 			%>			
 			<html:text name="userENT" property="userName" title="Username"  />
-=======
-			%>
+
+			
 
 			<html:text name="userENT" property="userName" title="Username" />
->>>>>>> refs/remotes/origin/Amir
+
 			<ams:dropDown dropDownItems="${clientENTs}"
 				selectedVal="<%=selectedValueClient.toString()%>" name="clientID"
 				title=""></ams:dropDown>

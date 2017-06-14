@@ -154,13 +154,20 @@
 		});
 
 	}
+	function infoWindowMarkers(map, infowindow, contentString, marker) {
+		  google.maps.event.addListener(marker, 'click', function() {
+		    infowindow.setContent(contentString);
+		    infowindow.open(map, marker);
+		  });
+		}	
 
 	var markers = [];
-	function getAllMarkers() {
+	function getAllMarkers() {			
 		var url = "REST/GetLocationWS/GetAllLocationsForUser?userName=admin";
 		for ( var i = 0; i < markers.length; i++) {
 			markers[i].setMap(null);
-		}
+							}
+		var infowindow = new google.maps.InfoWindow();
 		$.ajax({
 			url : url,
 			cache : false,
@@ -173,13 +180,17 @@
 						},
 						map : map,
 						title : l.locationName
-					});
+					});			
+					var content = '<html:hidden name="markerID" value="' + k + '" />'; // CODE FOR WHAT YOU WANT INSIDE THE POPUP 
+					infoWindowMarkers(map, infowindow, content, marker);		
 					marker.addListener('click', function() {
 						addToPath(l.locationName, l.locationID);
-					});
+					});					
 					markers.push(marker);
+					
 				});
 			}
+			
 		});
 	}
 
@@ -191,6 +202,7 @@
 			success : function(data) {
 				$.each(data, function(k, l) {
 					var pathCoor = [];
+					});					
 					pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps.split(',')[0]),
 							parseFloat(l.departure.gps.split(',')[1].replace(" ", ""))));
 					pathCoor.push(new google.maps.LatLng(
@@ -216,6 +228,8 @@
 						strokeOpacity : 1.0,
 						strokeWeight : 2
 					});
+					
+					
 					pathPolyline.setMap(map);
 				});
 			}
@@ -284,8 +298,9 @@
 			var lng = event.latLng.lng();
 			$("#markerCoordinate").val(lat + ", " + lng);
 			// 			find_closest_marker(event);
+		
 		});
-	}
+	
 
 	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 		infoWindow.setPosition(pos);
@@ -336,7 +351,7 @@
 								"min-height",
 								parseInt($(window).height())
 										- parseInt($(".jqm-header").css("height")) - 7);
-			});
+			})};
 </script>
 <script async defer
 	src="https
