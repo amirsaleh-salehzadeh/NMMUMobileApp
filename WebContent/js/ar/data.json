@@ -1,0 +1,6 @@
+[
+{"latitude":90,"longitude":0, "label":"North Pole"},
+{"latitude":-90,"longitude":0, "label":"South Pole"},
+{"latitude":-34.0021,"longitude":25.65574, "label":"Tour Eiffel"},
+{"latitude":37.17687,"longitude":-3.58988,"label":"Alhambra"}
+]

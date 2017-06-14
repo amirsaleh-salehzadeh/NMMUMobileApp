@@ -77,11 +77,6 @@
 </head>
 <body>
 	<div id="map_canvas"></div>
-	<!-- 	<div id="infowindow-content"> -->
-	<!-- 		<img src="" width="16" height="16" id="place-icon"> <span -->
-	<!-- 			id="place-name" class="title"></span><br> <span -->
-	<!-- 			id="place-address"></span> -->
-	<!-- 	</div> -->
 	<div id="searchFields" style="width: 85%;">
 		<fieldset data-role="controlgroup" data-mini="true"
 			data-type="horizontal">
@@ -107,18 +102,19 @@
 	</div>
 </body>
 <script type="text/javascript">
-	$(document).ready(
-			function() {
-				$("#map_canvas").css("min-width", parseInt($("#mainBodyContents").css("width")));
-				$("#map_canvas")
-						.css(
+	$(document)
+			.ready(
+					function() {
+						$("#map_canvas").css("min-width",
+								parseInt($("#mainBodyContents").css("width")));
+						$("#map_canvas").css(
 								"min-height",
 								parseInt($(window).height())
-										- parseInt($(".jqm-header").css("height")) - 7);
-			});
-	var map, marker;
-
-	function initMap() {
+										- parseInt($(".jqm-header").css(
+												"height")) - 7);
+					});
+	function initiMap() {
+		var map, marker;
 		var myLatLng = {
 			lat : -34.009211,
 			lng : 25.669051
@@ -150,40 +146,9 @@
 			}
 		});
 	}
-	var pathPolyline;
-	function drawPoly() {
-// 		if (pathPolyline != null) {
-// 			pathPolyline.setMap(null);
-// 		}
-		var url = "REST/GetLocationWS/GetADirectionFromTo?from=" + $("#from").val() + "&to="
-				+ $("#to").val() + "&pathType=" + $("[name='radio-choice-v-2']:checked").val();
-		$.ajax({
-			url : url,
-			cache : false,
-			success : function(data) {
-				$.each(data, function(k, l) {
-					var pathCoor = [];
-					pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps.split(',')[0]),
-							parseFloat(l.departure.gps.split(',')[1].replace(" ", ""))));
-					pathCoor.push(new google.maps.LatLng(
-							parseFloat(l.destination.gps.split(',')[0]),
-							parseFloat(l.destination.gps.split(',')[1].replace(" ", ""))));
-					pathPolyline = new google.maps.Polyline({
-						path : pathCoor,
-						geodesic : true,
-						strokeColor : color,
-						strokeOpacity : 1.0,
-						strokeWeight : 2
-					});
-					pathPolyline.setMap(map);
-				});
-				var color = '#FF0000';
-				
-			}
-		});
-	}
 </script>
+<script type="text/javascript" src="js/location/path.management.js"></script>
 <script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&callback=initMap"
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&callback=initiMap"
 	type="text/javascript"></script>
 </html>

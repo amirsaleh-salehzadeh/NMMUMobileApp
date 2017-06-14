@@ -17,6 +17,8 @@ import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
+import com.mysql.jdbc.Statement;
+
 import common.DropDownENT;
 import common.location.CountryENT;
 import common.location.LocationENT;
@@ -44,7 +46,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 					+ " values (?, ?, ?, ?, ?, ?, ?)";
 			if (ent.getLocationID() > 0)
 				query = "update location set country = ?, address = ?, post_box = ?, location_name = ?, username = ?, location_type = ? where location_id = ?";
-			PreparedStatement ps = conn.prepareStatement(query);
+			PreparedStatement ps = conn.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, ent.getCountry());
 			ps.setString(2, ent.getAddress());
 			ps.setString(3, ent.getPostBox());
@@ -54,9 +57,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps.setInt(7, ent.getLocationType().getLocationTypeId());
 			if (ent.getLocationID() > 0)
 				ps.setLong(8, ent.getLocationID());
-			ps.execute();
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				ent.setLocationID(rs.getLong(1));
+			}
 			ps.close();
 			conn.close();
+			ent = getLocationENT(ent);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -100,15 +108,16 @@ public class LocationDAO extends BaseHibernateDAO implements
 				e.printStackTrace();
 			}
 			String query = "";
-			query = "select * from location where location_id = "
-					+ ent.getLocationID();
+			query = "select l.*, lt.location_type as locaTypeName from location l "
+					+ " left join location_type lt on lt.location_type_id = l.location_type"
+					+ " where l.location_id = " + ent.getLocationID();
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				ent = new LocationENT(rs.getInt("location_id"),
 						rs.getString("username"), new LocationTypeENT(
-								rs.getInt("location_id"),
-								rs.getString("location_type")),
+								rs.getInt("location_type"),
+								rs.getString("locaTypeName")),
 						rs.getString("address"), rs.getString("gps"),
 						rs.getString("location_name"));
 			}
@@ -121,22 +130,24 @@ public class LocationDAO extends BaseHibernateDAO implements
 	}
 
 	public boolean deleteLocation(LocationENT ent) throws AMSException {
-		Session session = getSession();
-		Transaction tx = null;
 		try {
-			tx = session.beginTransaction();
-			session.delete(ent);
-			tx.commit();
-			session.flush();
-			session.clear();
-			session.close();
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "delete from location where location_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setLong(1, ent.getLocationID());
+			ps.execute();
+			ps.close();
+			conn.close();
 			return true;
-		} catch (HibernateException ex) {
-			tx.rollback();
-			session.clear();
-			session.close();
-			ex.printStackTrace();
-			throw getAMSException("", ex);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
 		}
 	}
 
@@ -171,17 +182,17 @@ public class LocationDAO extends BaseHibernateDAO implements
 				e.printStackTrace();
 			}
 			String query = "";
-			query = "select l.* from location l "
+			query = "select l.*, lt.location_type as locaName from location l "
 					+ " left join location_type lt on lt.location_type_id = l.location_type"
-					+ " where username = '" + username + "'";
+					+ " where l.username = '" + username + "'";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				locationENTs.add(new LocationENT(rs.getInt("location_id"), rs
 						.getString("username"), new LocationTypeENT(rs
-						.getInt("location_id"), rs.getString("location_type")),
-						rs.getString("address"), rs.getString("gps"), rs
-								.getString("location_name")));
+						.getInt("location_type"), rs.getString("locaName")), rs
+						.getString("address"), rs.getString("gps"), rs
+						.getString("location_name")));
 			}
 			ps.close();
 			conn.close();
@@ -348,7 +359,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			query = "select path_id from paths order by path_id desc limit 1";
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next())
+			while (rs.next())
 				path.setPathId(rs.getLong("path_id"));
 			ps.close();
 			conn.close();
@@ -369,10 +380,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 				.toRadians(Double.parseDouble(gps2.split(",")[0])
 						- Double.parseDouble(gps.split(",")[0]));
 		double lonDistance = Math
-				.toRadians(Double.parseDouble(gps2.split(",")[1].replaceAll(
-						" ", ""))
-						- Double.parseDouble(gps.split(",")[1].replaceAll(" ",
-								"")));
+				.toRadians(Double.parseDouble(gps2.split(",")[1])
+						- Double.parseDouble(gps.split(",")[1]));
 		double a = Math.sin(latDistance / 2)
 				* Math.sin(latDistance / 2)
 				+ Math.cos(Math.toRadians(Double.parseDouble(gps.split(",")[0])))
@@ -404,13 +413,16 @@ public class LocationDAO extends BaseHibernateDAO implements
 		System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
 		UndirectedGraph<Long, DefaultWeightedEdge> graphOfPaths = createGraph(pathTypeId);
 		System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
-		System.out.println(">>>> shortest path object >>>> " + System.currentTimeMillis());
+		System.out.println(">>>> shortest path object >>>> "
+				+ System.currentTimeMillis());
 		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
 				graphOfPaths, dep, dest);
-		System.out.println(">>>> spath object >>>> " + System.currentTimeMillis());
+		System.out.println(">>>> spath object >>>> "
+				+ System.currentTimeMillis());
 		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(
 				graphOfPaths, dep, dest);
-		System.out.println(">>>> create paths >>>> " + System.currentTimeMillis());
+		System.out.println(">>>> create paths >>>> "
+				+ System.currentTimeMillis());
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
 		for (int i = 0; i < shortest_path.size(); i++) {
 			long source = graphOfPaths.getEdgeSource(shortest_path.get(i));
@@ -418,7 +430,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			res.add(new PathENT(getLocationENT(new LocationENT(source)),
 					getLocationENT(new LocationENT(target))));
 		}
-		System.out.println(">>>> create paths >>>> " + System.currentTimeMillis());
+		System.out.println(">>>> create paths >>>> "
+				+ System.currentTimeMillis());
 		return res;
 	}
 
@@ -453,10 +466,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	public ArrayList<PathENT> getAPathFromTo(String fromCoordinate,
 			String toCoordinate, int pathTypeId) {
-		System.out.println(">>>> getAPathFromTo >>>> " + System.currentTimeMillis());
+		System.out.println(">>>> getAPathFromTo >>>> "
+				+ System.currentTimeMillis());
 		LocationENT from = findClosestLocation(fromCoordinate);
 		LocationENT to = findClosestLocation(toCoordinate);
-		System.out.println(">>>> getAPathFromTo >>>> " + System.currentTimeMillis());
+		System.out.println(">>>> getAPathFromTo >>>> "
+				+ System.currentTimeMillis());
 		return getShortestPath(from.getLocationID(), to.getLocationID(),
 				pathTypeId);
 	}
@@ -465,5 +480,55 @@ public class LocationDAO extends BaseHibernateDAO implements
 		LocationDAO dao = new LocationDAO();
 		// getShortestPath(61, 64);
 
+	}
+
+	public PathENT getAPath(PathENT ent) {
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			query = "select * from paths where path_id = " + ent.getPathId();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ent = new PathENT(getLocationENT(new LocationENT(
+						rs.getLong("departure_location_id"))),
+						getLocationENT(new LocationENT(rs
+								.getLong("destination_location_id"))),
+						rs.getDouble("distance"), new PathTypeENT(
+								rs.getInt("path_type")), rs.getLong("path_id"));
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ent;
+	}
+
+	public boolean deletePath(PathENT ent) throws AMSException {
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "delete from paths where path_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setLong(1, ent.getPathId());
+			ps.execute();
+			ps.close();
+			conn.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
 	}
 }

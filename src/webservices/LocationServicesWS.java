@@ -44,6 +44,44 @@ public class LocationServicesWS {
 		}
 		return json;
 	}
+	
+	@GET
+	@Path("/GetAllLocationTypes")
+	@Produces("application/json")
+	public String getAllLocationTypes() {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(getLocationDAO()
+					.getAllLocationTypes());
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+	
+	@GET
+	@Path("/GetAllPathTypes")
+	@Produces("application/json")
+	public String getAllPathTypes() {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(getLocationDAO()
+					.getAllPathTypes());
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
 
 	@GET
 	@Path("/GetAllPathsForUser")
@@ -125,6 +163,88 @@ public class LocationServicesWS {
 				new LocationENT(tLocationId), new PathTypeENT(pathType));
 		String json = "[]";
 		getLocationDAO().savePath(ent);
+		return json;
+	}
+
+	@GET
+	@Path("/GetAPath")
+	@Produces("application/json")
+	public String getAPath(@QueryParam("pathId") long pathId) {
+		String json = "[]";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			json = mapper.writeValueAsString(getLocationDAO().getAPath(
+					new PathENT(pathId)));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@GET
+	@Path("/RemoveAPath")
+	@Produces("application/json")
+	public String removeAPath(@QueryParam("pathId") long pathId) {
+		String json = "[]";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			json = mapper.writeValueAsString(getLocationDAO().deletePath(
+					new PathENT(pathId)));
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@GET
+	@Path("/GetALocation")
+	@Produces("application/json")
+	public String getALocation(@QueryParam("locationId") long locationId) {
+		String json = "[]";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			json = mapper.writeValueAsString(getLocationDAO().getLocationENT(
+					new LocationENT(locationId)));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@GET
+	@Path("/RemoveALocation")
+	@Produces("application/json")
+	public String removeALocation(@QueryParam("locationId") long locationId) {
+		String json = "[]";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			json = mapper.writeValueAsString(getLocationDAO().deleteLocation(
+					new LocationENT(locationId)));
+		} catch (AMSException e) {
+			e.printStackTrace();
+			return "{\"errorMSG\": \"Please remove the path first\"}";
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return json;
 	}
 

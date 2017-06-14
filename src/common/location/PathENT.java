@@ -17,6 +17,11 @@ public class PathENT {
 		this.pathId = pathId;
 	}
 	
+	public PathENT(long pathId) {
+		super();
+		this.pathId = pathId;
+	}
+	
 	public PathENT(LocationENT departure, LocationENT destination) {
 		super();
 		this.departure = departure;

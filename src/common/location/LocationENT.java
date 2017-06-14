@@ -3,6 +3,7 @@ package common.location;
 // Generated Apr 11, 2017 5:12:45 PM by Hibernate Tools 3.4.0.CR1
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,20 +21,30 @@ public class LocationENT {
 	private long locationID;
 	private String userName;
 	private int country = 0;
-	LocationTypeENT locationType;
+	public LocationTypeENT locationType;
 	private String address = "";
 	private String postBox = "";
 	private String gps = "";
 	private String locationName = "";
+	public ArrayList<LocationENT> childrenENT = new ArrayList<LocationENT>();
+
+	
+	public ArrayList<LocationENT> getChildrenENT() {
+		return childrenENT;
+	}
+
+	public void setChildrenENT(ArrayList<LocationENT> childrenENT) {
+		this.childrenENT = childrenENT;
+	}
 
 	public LocationENT(long locationID, String userName, int country,
 			LocationTypeENT locationType, String address, String postBox,
 			String gps, String locationName) {
 		super();
-		if (address == null)
-			address = "N/A";
-		if (gps == null)
-			gps = "N/A";
+//		if (address == null)
+//			address = "N/A";
+//		if (gps == null)
+//			gps = "N/A";
 		if (country == 0)
 			country = 200;
 		this.locationID = locationID;

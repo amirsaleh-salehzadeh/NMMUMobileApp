@@ -15,6 +15,8 @@ body {
 <ul class="jqm-list ui-alt-icon ui-nodisc-icon">
 	<li data-filtertext="demos homepage" data-icon="home"><a
 		href="t_newsfeed.do?reqCode=newsFeedList">Home</a></li>
+	<li data-filtertext="demos homepage" data-icon="menu"><a
+		href="#rightpanel">rm</a></li>
 	<li data-role="collapsible" data-enhanced="true"
 		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
 		data-iconpos="right" data-inset="false"
@@ -39,9 +41,10 @@ body {
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
 					href="t_security.do?reqCode=groupManagement" data-ajax="false">Groups</a></li>
-					<li
+				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
-					href="t_location.do?reqCode=pathCreation" data-ajax="false">Path Management</a></li>
+					href="t_location.do?reqCode=pathManagement" data-ajax="false">Path
+						Management</a></li>
 			</ul>
 		</div>
 	</li>
@@ -96,7 +99,8 @@ body {
 					href="t_security.do?reqCode=roleManagement" data-ajax="false">Events</a></li>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
-					href="t_security.do?reqCode=groupManagement" data-ajax="false">NEWS Feed</a></li>
+					href="t_security.do?reqCode=groupManagement" data-ajax="false">NEWS
+						Feed</a></li>
 				<li
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a
 					href="t_security.do?reqCode=groupManagement" data-ajax="false">Notification</a></li>
@@ -111,8 +115,8 @@ body {
 		<h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
 			<a href="#"
 				class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-d">
-				Lift Club<span class="ui-collapsible-heading-status"> click to
-					expand contents</span>
+				Lift Club<span class="ui-collapsible-heading-status"> click
+					to expand contents</span>
 			</a>
 		</h3>
 		<div
@@ -120,7 +124,8 @@ body {
 			aria-hidden="true">
 			<ul>
 				<li data-filtertext="introduction overview getting started"><a
-					href="t_location.do?reqCode=mapView" data-ajax="false">Find a Place</a></li>
+					href="t_location.do?reqCode=mapView" data-ajax="false">Find a
+						Place</a></li>
 				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
 					href="t_security.do?reqCode=roleManagement" data-ajax="false">Lift</a></li>

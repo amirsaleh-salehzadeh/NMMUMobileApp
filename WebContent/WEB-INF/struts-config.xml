@@ -22,7 +22,7 @@
 			<forward name="locationEdit" path="/pages/location/locationEdit.jsp" />
 			<forward name="searchLocations" path="/pages/location/searchLocations.jsp" />
 			<forward name="mapView" path="/pages/location/map.jsp" />
-			<forward name="pathCreation" path="/pages/location/pathCreation.jsp" />
+			<forward name="pathManagement" path="/pages/location/pathManagement.jsp" />
 			<forward name="gridJson" path="/pages/json.jsp" />
 		</action>
 		<action path="/user" type="struts.actions.UserAction">
