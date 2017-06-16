@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2017 at 10:57 PM
+-- Generation Time: Jun 16, 2017 at 03:27 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -1126,7 +1126,7 @@ ALTER TABLE `titles`
 -- AUTO_INCREMENT for table `trips`
 --
 ALTER TABLE `trips`
-  MODIFY `trip_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `trip_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `user_groups`
 --

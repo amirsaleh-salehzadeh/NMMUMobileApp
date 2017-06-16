@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
 	// for webcam support
-	$('#example').photobooth().on("image", function(event, dataUrl) {
+	$('#cameraDiv').photobooth().on("image", function(event, dataUrl) {
 		//$("#hiddenImg").html('<img src="' + dataUrl + '" >');
 		qrCodeDecoder(dataUrl);
 		//console.log(event);

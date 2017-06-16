@@ -35,7 +35,7 @@ function go() {
 	if (scanner) {
 		scanner.stop();
 	}
-	scanner = new SayCheese('#example', {
+	scanner = new SayCheese('#cameraDiv', {
 		snapshots : true,
 		videoSource : videoSelect.value
 	});
@@ -43,7 +43,7 @@ function go() {
 			.on(
 					'error',
 					function(error) {
-						$('#example')
+						$('#cameraDiv')
 								.html(
 										'<p>This plugin cannot run. Check if your browser blocks it.</p>');
 					});
