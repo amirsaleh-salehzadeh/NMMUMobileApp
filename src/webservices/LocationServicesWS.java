@@ -5,6 +5,7 @@ import hibernate.location.LocationDAOInterface;
 import hibernate.security.SecurityDAOInterface;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -240,15 +241,40 @@ public class LocationServicesWS {
 	}
 
 	@GET
+	@Path("/GetBarcodeInTripInfo")
+	@Produces("application/json")
+	public String getBarcodeinTripInfo(@QueryParam("barcodeId") long barcodeId,
+			@QueryParam("destinationId") long destinationId,
+			@QueryParam("pathType") int pathType) {
+		String json = "[]";
+		ObjectMapper mapper = new ObjectMapper();
+//		try {
+			ArrayList<PathENT> shortestPathToDest = getLocationDAO()
+					.getShortestPath(barcodeId, destinationId, pathType);
+			ArrayList<PathENT> allPathsforADest = getLocationDAO()
+					.getAllPathsForOnePoint(barcodeId, pathType);
+
+//		} catch (JsonGenerationException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		return json;
+	}
+
+	@GET
 	@Path("/StartTrip")
 	@Produces("application/json")
 	public String startTrip(@QueryParam("from") long from,
 			@QueryParam("to") long to) {
 		String json = "[]";
-		json = "[{\"tripId\" : \"" + getLocationDAO().saveTrip(from, to) + "\"}]";
+		json = "[{\"tripId\" : \"" + getLocationDAO().saveTrip(from, to)
+				+ "\"}]";
 		return json;
 	}
-	
+
 	@GET
 	@Path("/RemoveTrip")
 	@Produces("application/json")

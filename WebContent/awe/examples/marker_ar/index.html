@@ -92,6 +92,15 @@
 			        }, { poi_id: 'jsartoolkit_marker_64' });
 			        
 			        awe.pois.add({ id:'fixed_poi', position: { x:100, y:0, z:-250 }, visible: true });
+			        awe.projections.add({ 
+			          id:'fixed_projection', 
+								geometry: { shape: 'cube', x:50, y:50, z:50 },
+                position: { x:0, y:0, z:0 },
+                rotation: { x:0, y:0, z:0 },
+			          material:{ type: 'phong', color: 0xFFFFFF }, 
+                texture: { path: 'awe_orange_square.png' },
+			        }, { poi_id: 'fixed_poi' });
+			        
 			        // animate the fixed POI
               awe.projections.update({
                 data:{

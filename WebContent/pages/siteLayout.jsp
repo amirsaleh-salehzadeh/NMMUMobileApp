@@ -11,8 +11,6 @@
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
 <link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css">
 <link rel="stylesheet"
-	href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-<link rel="stylesheet"
 	href="css/jquery-mobile/jquery.dataTables.min.css">
 <link rel="stylesheet" href="css/nmmu-web-app-style.css">
 <script src="js/nmmu.main.scripts.js"></script>

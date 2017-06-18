@@ -26,24 +26,29 @@ if (typeof MediaStreamTrack === 'undefined'
 	// console.log('This browser does not support MediaStreamTrack.');
 } else {
 	// console.log('MediaStreamTrack supported.');
-	MediaStreamTrack.getSources(gotSources);
+	MediaStreamTrack.getSources(videoSource);
+	
 }
 
 var scanner;
 
 function go() {
+	// console.log('go!');
+
 	if (scanner) {
 		scanner.stop();
 	}
-	scanner = new SayCheese('#cameraDiv', {
+
+	scanner = new SayCheese('#example', {
 		snapshots : true,
 		videoSource : videoSelect.value
 	});
+
 	scanner
 			.on(
 					'error',
 					function(error) {
-						$('#cameraDiv')
+						$('#example')
 								.html(
 										'<p>This plugin cannot run. Check if your browser blocks it.</p>');
 					});
@@ -57,6 +62,8 @@ function go() {
 	scanner.on('success', function() {
 		scanCode(scanner);
 	});
+
+	// console.log('starting scanner...');
 	scanner.start();
 }
 
@@ -66,7 +73,7 @@ function scanCode(scanner) {
 	scanner.takeSnapshot();
 	setTimeout(function() {
 		scanCode(scanner);
-	}, 1000);
+	}, 5);
 }
 
 // decode the img
@@ -79,7 +86,6 @@ function showInfo(data) {
 	if (data !== 'error decoding QR Code') {
 		var htmldata = linkify(data);
 		$("#qrContent").addClass('hasContent');
-		alert(htmldata);
 		$("#qrContent p").html(htmldata);
 	} else {
 		if ($("#qrContent").hasClass('hasContent')) {

@@ -22,10 +22,10 @@ function printBarcode(id, name) {
 		alert("The location does not exist yet. Please save the location first");
 		return;
 	}
-	var query = '{"locationID":"' + id + '", "locationName":"' + name + '"}';
+//	var query = '{"id":"' + id + '"}';
 	window
-			.open("https://api.qrserver.com/v1/create-qr-code/?size=666x666&data="
-					+ query);
+			.open("pages/location/barcodePrint.jsp?locationId="
+					+ id);
 }
 
 function saveMarker() {
@@ -259,7 +259,7 @@ function drawPoly() {
 	}
 	var url = "REST/GetLocationWS/GetADirectionFromTo?from=" + $("#from").val()
 			+ "&to=" + $("#to").val() + "&pathType="
-			+ $("[name='radio-choice-v-2']:checked").val();
+			+ $("[name='radio-choice-path-type']:checked").val();
 	$.ajax({
 		url : url,
 		cache : false,

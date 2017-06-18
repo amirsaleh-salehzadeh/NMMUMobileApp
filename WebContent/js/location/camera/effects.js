@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
 	// for webcam support
-	$('#cameraDiv').photobooth().on("image", function(event, dataUrl) {
+	$('#example').photobooth().on("image", function(event, dataUrl) {
 		//$("#hiddenImg").html('<img src="' + dataUrl + '" >');
 		qrCodeDecoder(dataUrl);
 		//console.log(event);
@@ -13,7 +13,6 @@ $(document).ready(function() {
 	$('#button').click(function() {
 		$('.trigger').trigger('click');
 	});
-	
 	qrcode.callback = showInfo;
 
 });

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<html>
 <head>
 <title>Basic QR-code reader example - Version 1.0.1</title>
 
@@ -12,43 +11,32 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
-				<h1>Cheese QR</h1>
-				<p class="lead">Minimal QR Code Scanner using saycheese.js and
-					jsqrcode</p>
-				<p>
-					You might need to run this demo on a webserver, e.g.
-					<code>http://localhost/html5qrcodereader/index_saycheese.html</code>
-				</p>
-			</div>
-		</div>
-		<div class="row">
 			<div class="col-md-6">
-				<div id="cameraDiv"
-					class="thumbnail embed-responsive embed-responsive-4by3"></div>
+				<div id="example"
+					class="thumbnail embed-responsive embed-responsive-4by3">
+				</div>
 				<div class="boxWrapper auto">
 					<div id="hiddenImg"></div>
 					<div id="qrContent" class="alert alert-info" role="alert">
 						<p>No QR Code in sight.</p>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-6">
-				<form>
-					<div class="form-group">
+				<div class="col-md-6">
+					<form>
 						<label for="videoSource">Select Camera</label> <select
 							id="videoSource"><option selected>Default
 								Camera</option></select>
-					</div>
-					<div class="form-group">
-						<a class="btn btn-primary" onclick="go()">Go</a>
-					</div>
-				</form>
+					</form>
+				</div>
+
 			</div>
 		</div>
 	</div>
+
 	<script src="js/location/camera/jquery.min.js"></script>
-	<script src="js/location/camera/say-cheese.min.js"></script>
+
+	<script src="js/location/camera/say-cheese.js"></script>
+
 	<script src="js/location/camera/qr/grid.js"></script>
 	<script src="js/location/camera/qr/version.js"></script>
 	<script src="js/location/camera/qr/detector.js"></script>
@@ -68,6 +56,10 @@
 	<script src="js/location/camera/qr/databr.js"></script>
 
 	<script src="js/location/camera/effects_saycheese.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			go();
+		});
+	</script>
 </body>
 </html>
-

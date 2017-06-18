@@ -28,56 +28,56 @@
 
 .ui-icon-walking:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/anatom5/people-disability/32/walking-icon.png");
+		url("https://icons.iconarchive.com/icons/anatom5/people-disability/32/walking-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-bike:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/aha-soft/transport/24/bike-icon.png");
+		url("https://icons.iconarchive.com/icons/aha-soft/transport/24/bike-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-driving:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/cemagraphics/classic-cars/24/yellow-pickup-icon.png");
+		url("https://icons.iconarchive.com/icons/cemagraphics/classic-cars/24/yellow-pickup-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-wheelchair:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/icons-land/transport/24/Wheelchair-icon.png");
+		url("https://icons.iconarchive.com/icons/icons-land/transport/24/Wheelchair-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-dirt-road:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/chrisl21/minecraft/24/Grass-icon.png");
+		url("https://icons.iconarchive.com/icons/chrisl21/minecraft/24/Grass-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-start-trip:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/custom-icon-design/pretty-office-5/24/start-icon.png");
+		url("https://icons.iconarchive.com/icons/custom-icon-design/pretty-office-5/24/start-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-current-location:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/ahmadhania/spherical/24/target-icon.png");
+		url("https://icons.iconarchive.com/icons/ahmadhania/spherical/24/target-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-clear-trip:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
+		url("https://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
@@ -88,11 +88,13 @@
 	<div data-role="tabs" id="tabs">
 		<div data-role="navbar">
 			<ul>
-				<li><a href="#mapView" data-ajax="false">Map View</a></li>
-				<li><a href="location.do?reqCode=cameraNavigation" data-ajax="false">AR View</a></li>
+				<li><a href="#mapView" data-ajax="false" class="ui-btn-active">Map
+						View</a></li>
+				<li><a href="#" data-ajax="false" onclick="openAR();">AR
+						View</a></li>
 			</ul>
 		</div>
-		<div id="one" class="ui-body-d ui-content">
+		<div id="mapView" class="ui-body-d ui-content">
 			<input type="hidden" id="tripString">
 			<div id="map_canvas"></div>
 			<div id="searchFields" style="width: 85%;">
@@ -103,16 +105,16 @@
 							style="float: left; display: inline-block;">
 							<label for="walking"><span
 								class="ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="walking"
+							<input type="radio" name="radio-choice-path-type" id="walking"
 								value="1"> <label for="dirtroad"> <span
 								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="dirtroad"
+							<input type="radio" name="radio-choice-path-type" id="dirtroad"
 								value="0" checked="checked"> <label for="wheelchair"><span
 								class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="wheelchair"
+							<input type="radio" name="radio-choice-path-type" id="wheelchair"
 								value="3"> <label for="driving"> <span
 								class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="driving"
+							<input type="radio" name="radio-choice-path-type" id="driving"
 								value="4">
 						</fieldset>
 					</div>
@@ -149,6 +151,13 @@
 	</div>
 </body>
 <script type="text/javascript">
+	function openAR() {
+		var tmp = $('#destinationId').val();
+		if (tmp == null || tmp == "null" || tmp == "")
+			tmp = 0;
+		window.open("insta/docs/index.jsp?destinationId=" + tmp + "&pathType="
+				+ $("[name='radio-choice-path-type']:checked").val());
+	}
 	$(document)
 			.ready(
 					function() {

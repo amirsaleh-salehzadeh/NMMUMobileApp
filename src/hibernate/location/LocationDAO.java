@@ -287,7 +287,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	private ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type) {
+	public ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type) {
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
 		Connection conn = null;
 		try {
@@ -302,7 +302,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 						+ "where destination_location_id = '" + locationId
 						+ "' or departure_location_id = '" + locationId + "'";
 			else
-				query = "Select * from paths " + "where path_type != " + type
+				query = "Select * from paths where path_type != " + type
 						+ " and (destination_location_id = '" + locationId
 						+ "' or departure_location_id = '" + locationId + "')";
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -408,7 +408,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return points.get(closest);
 	}
 
-	private ArrayList<PathENT> getShortestPath(long dep, long dest,
+	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId) {
 		// System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
 		UndirectedGraph<Long, DefaultWeightedEdge> graphOfPaths = createGraph(pathTypeId);
