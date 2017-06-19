@@ -231,7 +231,7 @@
 					
 					
 					pathPolyline.setMap(map);
-				});
+				
 			}
 		});
 	}
