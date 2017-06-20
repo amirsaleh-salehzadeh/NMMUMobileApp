@@ -237,6 +237,9 @@ input {
 	}
 	.ui-page-theme-a .ui-body-inherit{
 	background-color: transparent;
+	-webkit-box-shadow: none; 
+ -moz-box-shadow: none; 
+ box-shadow: none; 
 	}
 }
 /*
