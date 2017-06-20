@@ -11,8 +11,6 @@
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
 <link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css">
 <link rel="stylesheet"
-	href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
-<link rel="stylesheet"
 	href="css/jquery-mobile/jquery.dataTables.min.css">
 <link rel="stylesheet" href="css/nmmu-web-app-style.css">
 <script src="js/nmmu.main.scripts.js"></script>
@@ -22,8 +20,7 @@
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/dataTables.bootstrap.min.js"></script>
-<script
-	src="js/dataTables.select.min.js"></script>
+<script src="js/dataTables.select.min.js"></script>
 </head>
 <body dir="ltr" bgcolor="#00457c" style="background-color: #00457c;">
 	<div data-role="page" class="jqm-demos jqm-home">
@@ -32,9 +29,9 @@
 				<img src="images/NMMU_logo.png" alt="NMMU Web Application">
 			</h2>
 			<a href="#"
-				class="menu-icon jqm-navmenu-link ui-btn ui-corner-all ui-btn-left" ></a>
-			<!-- 						<a href="#popupSettingMenu" data-rel="popup" id="mainBodyMenuSettingBTN" -->
-			<!-- 							class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a> -->
+				class="menu-icon jqm-navmenu-link ui-btn ui-corner-all ui-btn-left"></a>
+				<a href="#rightpanel"
+				class="menu-icon ui-btn ui-corner-all ui-btn-right"></a>
 		</div>
 		<div role="main" id="mainBodyContents" class="jqm-content">
 			<tiles:insert attribute="body" />

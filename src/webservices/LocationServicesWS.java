@@ -5,6 +5,7 @@ import hibernate.location.LocationDAOInterface;
 import hibernate.security.SecurityDAOInterface;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -35,6 +36,44 @@ public class LocationServicesWS {
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
 					.getAllLocationsForUser(userName));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@GET
+	@Path("/GetAllLocationTypes")
+	@Produces("application/json")
+	public String getAllLocationTypes() {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(getLocationDAO()
+					.getAllLocationTypes());
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@GET
+	@Path("/GetAllPathTypes")
+	@Produces("application/json")
+	public String getAllPathTypes() {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper
+					.writeValueAsString(getLocationDAO().getAllPathTypes());
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -125,6 +164,123 @@ public class LocationServicesWS {
 				new LocationENT(tLocationId), new PathTypeENT(pathType));
 		String json = "[]";
 		getLocationDAO().savePath(ent);
+		return json;
+	}
+
+	@GET
+	@Path("/GetAPath")
+	@Produces("application/json")
+	public String getAPath(@QueryParam("pathId") long pathId) {
+		String json = "[]";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			json = mapper.writeValueAsString(getLocationDAO().getAPath(
+					new PathENT(pathId)));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@GET
+	@Path("/RemoveAPath")
+	@Produces("application/json")
+	public String removeAPath(@QueryParam("pathId") long pathId) {
+		String json = "[]";
+		try {
+			getLocationDAO().deletePath(new PathENT(pathId));
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@GET
+	@Path("/GetALocation")
+	@Produces("application/json")
+	public String getALocation(@QueryParam("locationId") long locationId) {
+		String json = "[]";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			json = mapper.writeValueAsString(getLocationDAO().getLocationENT(
+					new LocationENT(locationId)));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@GET
+	@Path("/RemoveALocation")
+	@Produces("application/json")
+	public String removeALocation(@QueryParam("locationId") long locationId) {
+		String json = "[]";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			json = mapper.writeValueAsString(getLocationDAO().deleteLocation(
+					new LocationENT(locationId)));
+		} catch (AMSException e) {
+			e.printStackTrace();
+			return "{\"errorMSG\": \"Please remove the path first\"}";
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@GET
+	@Path("/GetBarcodeInTripInfo")
+	@Produces("application/json")
+	public String getBarcodeinTripInfo(@QueryParam("barcodeId") long barcodeId,
+			@QueryParam("destinationId") long destinationId,
+			@QueryParam("pathType") int pathType) {
+		String json = "[]";
+		ObjectMapper mapper = new ObjectMapper();
+//		try {
+			ArrayList<PathENT> shortestPathToDest = getLocationDAO()
+					.getShortestPath(barcodeId, destinationId, pathType);
+			ArrayList<PathENT> allPathsforADest = getLocationDAO()
+					.getAllPathsForOnePoint(barcodeId, pathType);
+
+//		} catch (JsonGenerationException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		return json;
+	}
+
+	@GET
+	@Path("/StartTrip")
+	@Produces("application/json")
+	public String startTrip(@QueryParam("from") long from,
+			@QueryParam("to") long to) {
+		String json = "[]";
+		json = "[{\"tripId\" : \"" + getLocationDAO().saveTrip(from, to)
+				+ "\"}]";
+		return json;
+	}
+
+	@GET
+	@Path("/RemoveTrip")
+	@Produces("application/json")
+	public String removeTrip(@QueryParam("tripId") long tripId) {
+		String json = "[]";
+		getLocationDAO().deleteTrip(tripId);
 		return json;
 	}
 

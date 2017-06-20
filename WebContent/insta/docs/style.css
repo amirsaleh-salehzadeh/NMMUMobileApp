@@ -1,0 +1,47 @@
+.compass {
+	width: 130px;
+	height: 127px;
+	bottom: 0px;
+	float: left;
+	display: block;
+	position: absolute;
+	overflow: hidden;
+}
+
+.compass .disc {
+	position: absolute;
+	top: 7px;
+	left: 7px;
+	z-index: 665;
+	background: url('http://dev.rvltn.eu/compass/compass.svg');
+	transform: rotateZ(90deg);
+	width: 111px;
+	height: 111px;
+	background-size: 100%;
+}
+
+.compass .arrow {
+	position: absolute;
+	top: 7px;
+	left: 7px;
+	z-index: 666;
+	background: url('http://dev.rvltn.eu/compass/arrow.svg');
+	width: 111px;
+	height: 111px;
+	background-size: 100%;
+}
+
+#app {
+	height: 100%;
+}
+
+
+.preview-container,#preview {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	transform: rotateY(180deg);
+	-webkit-transform: rotateY(180deg); /* Safari and Chrome */
+	-moz-transform: rotateY(180deg);
+}
