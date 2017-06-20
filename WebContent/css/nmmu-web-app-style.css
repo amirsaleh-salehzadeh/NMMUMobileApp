@@ -217,6 +217,29 @@ input {
 	}
 }
 
+@media ( max-width : 60em) {
+	
+	.jqm-list,.jqm-navmenu-panel {
+		background-color: black;
+		bottom: 0px;
+	}
+	.jqm-demos .jqm-navmenu-panel .ui-panel-inner {
+		margin-top: 0px;
+		min-height: 100%;
+		bottom: 0px;
+	}
+	.jqm-navmenu-panel .ui-listview .ui-btn {
+		color: white;
+		background-color: black;
+	}
+	.jqm-demos .jqm-list .ui-btn:hover,.jqm-demos .jqm-list .ui-btn:active {
+		color: #9addff;
+	}
+	.ui-page-theme-a .ui-body-inherit{
+	background-color: transparent;
+	}
+}
+/*
 @media ( min-width : 60em) {
 	.jqm-list,.jqm-navmenu-panel {
 		background-color: black;
@@ -235,7 +258,7 @@ input {
 	}
 }
 
-/*
+
  * Table Grid
  */
 #controllerRow>td:first-child {
