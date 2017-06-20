@@ -15,8 +15,6 @@ body {
 <ul class="jqm-list ui-alt-icon ui-nodisc-icon">
 	<li data-filtertext="demos homepage" data-icon="home"><a
 		href="t_newsfeed.do?reqCode=newsFeedList">Home</a></li>
-	<li data-filtertext="demos homepage" data-icon="menu"><a
-		href="#rightpanel">rm</a></li>
 	<li data-role="collapsible" data-enhanced="true"
 		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
 		data-iconpos="right" data-inset="false"
