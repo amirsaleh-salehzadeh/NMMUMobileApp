@@ -154,12 +154,6 @@
 		});
 
 	}
-	function infoWindowMarkers(map, infowindow, contentString, marker) {
-		  google.maps.event.addListener(marker, 'click', function() {
-		    infowindow.setContent(contentString);
-		    infowindow.open(map, marker);
-		  });
-		}	
 
 	var markers = [];
 	function getAllMarkers() {			
@@ -181,8 +175,7 @@
 						map : map,
 						title : l.locationName
 					});			
-					var content = '<html:hidden name="markerID" value="' + k + '" />'; // CODE FOR WHAT YOU WANT INSIDE THE POPUP 
-					infoWindowMarkers(map, infowindow, content, marker);		
+					
 					marker.addListener('click', function() {
 						addToPath(l.locationName, l.locationID);
 					});					
