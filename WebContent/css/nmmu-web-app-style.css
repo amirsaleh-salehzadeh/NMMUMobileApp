@@ -199,13 +199,11 @@ input {
 /*
  * MENU CONTENTS
  */
- 
 @media ( min-width : 60em) {
 	.jqm-list,.jqm-navmenu-panel {
 		background-color: black;
 		bottom: 0px;
 	}
-	
 	.jqm-demos .jqm-navmenu-panel .ui-panel-inner {
 		margin-top: 0px;
 		min-height: 100%;
@@ -216,14 +214,6 @@ input {
 	}
 	.jqm-demos .jqm-list .ui-btn:hover,.jqm-demos .jqm-list .ui-btn:active {
 		color: #9addff;
-	}
-	
-}
-@media ( max-width : 60em) {
-	.jqm-navmenu-panel {
-	color: black;
-	}
-	
 	}
 }
 
