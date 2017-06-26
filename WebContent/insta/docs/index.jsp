@@ -52,7 +52,7 @@
 	color: white;
 	text-align: left;
 	position: absolute;
-	z-index: 1000;
+	z-index: 100000;
 	text-align: left;
 	margin: 0 auto;
 }

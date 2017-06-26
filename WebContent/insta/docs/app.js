@@ -149,25 +149,31 @@ var destin = document.getElementById("destId");
 function getTheBarcodeAR(content){
 	if(destin.value == "null"|| destin.value == "" || destin.value == null)
 		destin.value= 0;
+	$("#barcodeDescription").css("display","block");
+				$("#barcodeDescription").fadeIn(3000);
 	getBCodeInfo(content);
-//	$.ajax({
-//		url : "../../REST/GetLocationWS/GetALocation?locationId=" + content + "&pathType=" + $("#pathTypeId").val(),
-//		cache : false,
-//		success : function(data) {
-//			$("#barcodeDescription").html("");
+// $.ajax({
+// url : "../../REST/GetLocationWS/GetALocation?locationId=" + content +
+// "&pathType=" + $("#pathTypeId").val(),
+// cache : false,
+// success : function(data) {
+// $("#barcodeDescription").html("");
 			$("#barcodeDescription").css("display","block");
 // hideInfoDiv();
 			
 			$("#barcodeDescription").fadeIn(3000);
-//			$("#barcodeDescription").append('<span class="heading">'+data.locationType.locationType + 
-//					' </span><span class="locationText" id="destination">' + data.locationName + '</span><br>');
-//			return true;
-//		}
-//	});
+			hideInfoDiv();
+// $("#barcodeDescription").append('<span
+// class="heading">'+data.locationType.locationType +
+// ' </span><span class="locationText" id="destination">' + data.locationName +
+// '</span><br>');
+// return true;
+// }
+// });
 }
 
 function hideInfoDiv(){
-	$("#barcodeDescription").fadeOut(2000);
+	$("#barcodeDescription").fadeOut(11000);
 }
 
 var app = new Vue({
@@ -180,7 +186,7 @@ var app = new Vue({
   },
   mounted: function () {
     var self = this;
-    self.scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 5});
+    self.scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 1});
     self.scanner.addListener('scan', function (content, image) {
     	if(destin.value!="null"&& destin.value != "" && destin.value != null && destin.value != '0'){
     		getTheTripAR(content);
