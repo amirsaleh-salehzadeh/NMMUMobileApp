@@ -8,13 +8,49 @@
 	$(document)
 			.ready(
 					function() {
-						$("#barcodeContainer")
-								.html(
-										'<object style="width: 333px; height: 333px; overflow: hidden;" data="https://api.qrserver.com/v1/create-qr-code/?size=333x333&data='
-												+
+						$
+								.ajax({
+									url : "../../REST/GetLocationWS/GetBarcodeForLocation?locationId="
+											+
 <%=request.getParameter("locationId")%>
-	+ '">');
+	,
+									cache : false,
+									success : function(data) {
+										// 										alert($("#headerContainer").css("height"));
+										$
+												.each(
+														data,
+														function(k, l) {
+															if (k == 'g')
+																$(
+																		"#barcodeContainer")
+																		.html(
+																				'<img style="overflow: hidden;" src="'+l + '">');
+															$("#Description")
+																	.html("");
+															$("#Description")
+																	.append(
+																			'<span class="heading">'
+																					+ data['t']
+																					+ ': </span><span class="locationText">'
+																					+ data['n']
+																					+ '</span><br>');
+														});
+										return presentLocation(data['p']);
+										// 										$("#barcodeContainer").css("top", $("#headerContainer").css("height"));
+									}
+								});
 					});
+	function presentLocation(x) {
+// 		$.each(x, function(k, l) {
+			$("#Description").append(
+					'<span class="heading">' + x['t']
+							+ ': </span><span class="locationText">' + x['n']
+							+ '</span><br>');
+// 		});
+		if (x.p != null)
+			presentLocation(x['p']);
+	}
 </script>
 <style type="text/css">
 #printPage {
@@ -28,8 +64,12 @@
 	padding-top: 13px;
 }
 
-.heading{
-font-weight: bold;
+.heading {
+	font-weight: bold;
+}
+
+#barcodeContainer {
+	
 }
 </style>
 </head>
@@ -37,7 +77,7 @@ font-weight: bold;
 	<div id="printPage">
 		<div id="headerContainer">
 			<div style="display: inline-block;" id="ARMarker">
-				<img src="../../images/64.png" alt="marker"
+				<img src="../../images/mini_logo.png" alt="marker"
 					style="width: 111px; height: 111px;" />
 			</div>
 			<div style="display: inline-block; vertical-align: top;"
@@ -51,7 +91,7 @@ font-weight: bold;
 			</div>
 		</div>
 		<div
-			style="display: inline; overflow: hidden; width: 100%; height: 100%;"
+			style="display: inline; overflow: hidden; left: -100px; top: 33px; z-index: -1; position: absolute;"
 			id="barcodeContainer"></div>
 	</div>
 </body>

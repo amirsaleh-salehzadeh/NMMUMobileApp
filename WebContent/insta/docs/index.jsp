@@ -130,7 +130,7 @@
 			</transition-group> </section>
 		</div>
 		<div class="preview-container">
-			<video id="preview" style="display: none;"></video>
+			<video id="preview" ></video>
 		</div>
 	</div>
 	<script type="text/javascript" src="app.js"></script>

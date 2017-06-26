@@ -50,4 +50,6 @@ public interface LocationDAOInterface {
 	public void deleteTrip(long tripId);
 
 	public PathENT getTrip(long tripId);
+
+	public String getQRCodeForLocationENT(long locationId);
 }

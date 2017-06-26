@@ -1,13 +1,18 @@
 package hibernate.location;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -22,6 +27,7 @@ import com.mysql.jdbc.Statement;
 import common.DropDownENT;
 import common.location.CountryENT;
 import common.location.LocationENT;
+import common.location.LocationENTQRBarcode;
 import common.location.LocationLST;
 import common.location.LocationTypeENT;
 import common.location.PathENT;
@@ -29,6 +35,7 @@ import common.location.PathTypeENT;
 import hibernate.config.BaseHibernateDAO;
 import hibernate.config.HibernateSessionFactory;
 import tools.AMSException;
+import tools.QRBarcodeGen;
 
 public class LocationDAO extends BaseHibernateDAO implements
 		LocationDAOInterface {
@@ -410,20 +417,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId) {
-		// System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
 		UndirectedGraph<Long, DefaultWeightedEdge> graphOfPaths = createGraph(pathTypeId);
-		// System.out.println(">>>> graph >>>> " + System.currentTimeMillis());
-		// System.out.println(">>>> shortest path object >>>> "
 		// + System.currentTimeMillis());
 		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
 				graphOfPaths, dep, dest);
-		// System.out.println(">>>> spath object >>>> "
-		// + System.currentTimeMillis());
 		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(
 				graphOfPaths, dep, dest);
-		// System.out.println(">>>> create paths >>>> "
-		// + System.currentTimeMillis());
-		System.out.println(shortest_path.toString());
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
 		for (int i = 0; i < shortest_path.size(); i++) {
 			long source = graphOfPaths.getEdgeSource(shortest_path.get(i));
@@ -432,7 +431,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				long tmp = source;
 				source = target;
 				target = tmp;
-			}else if (i > 0)
+			} else if (i > 0)
 				if (source != res.get(i - 1).getDestination().getLocationID()) {
 					long tmp = source;
 					source = target;
@@ -441,8 +440,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 			res.add(new PathENT(getLocationENT(new LocationENT(source)),
 					getLocationENT(new LocationENT(target))));
 		}
-		// System.out.println(">>>> create paths >>>> "
-		// + System.currentTimeMillis());
 		return res;
 	}
 
@@ -485,7 +482,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	public static void main(String[] args) {
 		LocationDAO dao = new LocationDAO();
-		// getShortestPath(61, 64);
+		System.out.println(dao.getQRCodeForLocationENT(6));
 
 	}
 
@@ -612,6 +609,98 @@ public class LocationDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	public String getQRCodeForLocationENT(long locationId) {
+		LocationENTQRBarcode qrent = null;
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			query = "SELECT GetLocationTree(" + locationId + ") as res";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			String[] concatParents = null;
+			while (rs.next()) {
+				concatParents = rs.getString("res").split(",");
+			}
+			query = "select l.location_name, l.location_id, l.parent_id, lt.location_type as locaTypeName, l.gps from location l "
+					+ " left join location_type lt on lt.location_type_id = l.location_type"
+					+ " where l.location_id = " + locationId;
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				qrent = new LocationENTQRBarcode(rs.getLong("location_id"),
+						rs.getString("locaTypeName"),
+						rs.getString("location_name"), rs.getString("gps"),
+						null);
+				LocationENTQRBarcode tmp = getQRLocationENTTree(qrent,
+						rs.getLong("parent_id"), concatParents);
+				qrent.setP(tmp);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			qrent.setG(QRBarcodeGen.createQrCode(locationId+"", 666, "png"));
+			json = mapper.writeValueAsString(qrent);
+			// QRBarcodeGen barcodeGen = new QRBarcodeGen();
+//			json = "{\"image\":\""
+//					+ QRBarcodeGen.createQrCode(locationId+"", 666, "png") + "\"}";
+			System.out.println(json);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	private LocationENTQRBarcode getQRLocationENTTree(LocationENTQRBarcode ent,
+			long parentId, String[] concatParents) {
+		if (parentId <= 0) {
+			ent.setP(null);
+			return ent;
+		}
+		try {
+			Connection conn = null;
+			conn = getConnection();
+			String query = "";
+			query = "select l.location_name, l.location_id, l.parent_id, lt.location_type as locaTypeName from location l "
+					+ " left join location_type lt on lt.location_type_id = l.location_type"
+					+ " where l.location_id = " + parentId;
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				long tmpPID = rs.getLong("parent_id");
+				ent = new LocationENTQRBarcode(rs.getLong("location_id"),
+						rs.getString("locaTypeName"),
+						rs.getString("location_name"), "", null);
+				if (tmpPID > 0)
+					ent.setP(getQRLocationENTTree(ent, tmpPID, Arrays
+							.copyOfRange(concatParents, 0,
+									concatParents.length - 1)));
+				else
+					return ent;
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		return ent;
 	}
 
 }

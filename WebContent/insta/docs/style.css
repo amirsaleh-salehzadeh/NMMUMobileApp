@@ -14,7 +14,7 @@
 	left: 7px;
 	z-index: 665;
 	background: url('http://dev.rvltn.eu/compass/compass.svg');
-	transform: rotateZ(90deg);
+/* 	transform: rotateZ(90deg); */
 	width: 111px;
 	height: 111px;
 	background-size: 100%;
