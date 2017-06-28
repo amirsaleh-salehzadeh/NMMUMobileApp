@@ -251,6 +251,7 @@ input {
 	.jqm-navmenu-panel .ui-listview .ui-btn {
 		color: white;
 		background-color: black;
+		height: 15;
 	}
 	.jqm-demos .jqm-list .ui-btn:hover,.jqm-demos .jqm-list .ui-btn:active {
 		color: #9addff;
@@ -265,6 +266,7 @@ input {
 }
 
 .ui-panel-position-right .ui-listview .ui-btn {
+	height: 15;
 	color: white;
 	background-color: black;
 	font-family: 'Open Sans', sans-serif;
