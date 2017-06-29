@@ -103,19 +103,19 @@
 						<fieldset data-role="controlgroup" data-mini="true"
 							data-type="horizontal"
 							style="float: left; display: inline-block;">
+							<input type="radio" name="radio-choice-path-type" id="dirtroad"
+								value="0" checked="checked"> <label for="wheelchair"><span
+								class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<label for="walking"><span
 								class="ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-path-type" id="walking"
 								value="1"> <label for="dirtroad"> <span
 								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-path-type" id="dirtroad"
-								value="0" checked="checked"> <label for="wheelchair"><span
-								class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-path-type" id="wheelchair"
-								value="3"> <label for="driving"> <span
-								class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-path-type" id="driving"
-								value="4">
+<!-- 							<input type="radio" name="radio-choice-path-type" id="wheelchair" -->
+<!-- 								value="3"> <label for="driving"> <span -->
+<!-- 								class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
+<!-- 							<input type="radio" name="radio-choice-path-type" id="driving" -->
+<!-- 								value="4"> -->
 						</fieldset>
 					</div>
 					<div class="ui-block-B">
