@@ -246,8 +246,7 @@
 			</div>
 			<%
 				} else {
-			%>
-
+			%>			
 			<html:text name="userENT" property="userName" title="Username" />
 			<ams:dropDown dropDownItems="${clientENTs}"
 				selectedVal="<%=selectedValueClient.toString()%>" name="clientID"

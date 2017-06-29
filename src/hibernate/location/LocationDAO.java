@@ -419,13 +419,13 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId) {
-//		if (graph == null)
-			graph = createGraph(pathTypeId);
+		// if (graph == null)
+		graph = createGraph(pathTypeId);
 		// + System.currentTimeMillis());
 		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
 				graph, dep, dest);
-		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(
-				graph, dep, dest);
+		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(graph,
+				dep, dest);
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
 		for (int i = 0; i < shortest_path.size(); i++) {
 			long source = graph.getEdgeSource(shortest_path.get(i));
@@ -704,6 +704,34 @@ public class LocationDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 		}
 		return ent;
+	}
+
+	public LocationLST getParentLocationLST(int locationTypeId) {
+		LocationLST res = new LocationLST();
+//		locationTypeId 
+		try {
+			Connection conn = null;
+			conn = getConnection();
+			String query = "";
+			query = "select l.location_name, l.location_id from location l "
+					+ " inner join location_type lt on lt.location_type_id = l.location_type"
+					+ " where lt.location_type_id = " + locationTypeId;
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				long tmpPID = rs.getLong("parent_id");
+//				loca
+//				ent = new LocationENTQRBarcode(rs.getLong("location_id"), "",
+//						rs.getString("location_name"), "", null);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 }

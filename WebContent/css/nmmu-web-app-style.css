@@ -215,18 +215,38 @@ input {
 	.jqm-demos .jqm-list .ui-btn:hover,.jqm-demos .jqm-list .ui-btn:active {
 		color: #9addff;
 	}
+	.ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay {
+		background-color: transparent;
+		bottom: 0px;
+		top: 100;
+		box-shadow: none;
+	}
+	.ui-panel-position-right .ui-listview .ui-btn {
+		color: white;
+		background-color: black;
+		font-family: 'Open Sans', sans-serif;
+		font-weight: 300;
+	}
 }
 
+/*	right panel */
 @media ( max-width : 60em) {
-	
+	.ui-page-theme-a .ui-body-inherit {
+		background-color: transparent;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+	}
 	.jqm-list,.jqm-navmenu-panel {
 		background-color: black;
 		bottom: 0px;
+		top: 73;
 	}
 	.jqm-demos .jqm-navmenu-panel .ui-panel-inner {
 		margin-top: 0px;
 		min-height: 100%;
 		bottom: 0px;
+		background-color: transparent;
 	}
 	.jqm-navmenu-panel .ui-listview .ui-btn {
 		color: white;
@@ -235,31 +255,29 @@ input {
 	.jqm-demos .jqm-list .ui-btn:hover,.jqm-demos .jqm-list .ui-btn:active {
 		color: #9addff;
 	}
-	.ui-page-theme-a .ui-body-inherit{
-	background-color: transparent;
+	/* right panel */
+	.ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay {
+		background-color: transparent;
+		bottom: 0px;
+		top: 72;
+		box-shadow: none;
 	}
+}
+
+.ui-panel-position-right .ui-listview .ui-btn {
+	color: white;
+	background-color: black;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+}
+
+.ui-input-text input,.ui-input-search input {
+	background-color: white;
+}
+
 }
 /*
-@media ( min-width : 60em) {
-	.jqm-list,.jqm-navmenu-panel {
-		background-color: black;
-		bottom: 0px;
-	}
-	.jqm-demos .jqm-navmenu-panel .ui-panel-inner {
-		margin-top: 0px;
-		min-height: 100%;
-		bottom: 0px;
-	}
-	.jqm-navmenu-panel .ui-listview .ui-btn {
-		color: white;
-	}
-	.jqm-demos .jqm-list .ui-btn:hover,.jqm-demos .jqm-list .ui-btn:active {
-		color: #9addff;
-	}
-}
-
-
- * Table Grid
+ Table Grid
  */
 #controllerRow>td:first-child {
 	background-color: #4f5458;
