@@ -65,6 +65,25 @@ public class LocationServicesWS {
 		}
 		return json;
 	}
+	
+	@GET
+	@Path("/GetChildrenOfaLocation")
+	@Produces("application/json")
+	public String getChildrenOfaLocation() {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(getLocationDAO()
+					.getAllLocationTypes());
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
 
 	@GET
 	@Path("/GetAllPathTypes")

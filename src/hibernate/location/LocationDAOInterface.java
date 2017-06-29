@@ -52,4 +52,8 @@ public interface LocationDAOInterface {
 	public PathENT getTrip(long tripId);
 
 	public String getQRCodeForLocationENT(long locationId);
+	
+	public LocationLST getParentLocationLST(long locationId);
+	
+	
 }
