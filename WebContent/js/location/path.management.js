@@ -330,9 +330,9 @@ function getLocationTypePanel() {
 		success : function(data) {
 			var tmp = "";
 			$.each(data, function(k, l) {
-				tmp += "<li value='" + l.locationTypeId
+			tmp += "<li value='" + l.locationTypeId 
 						+ "' class='liLocationLV'><a href='#'>"
-						+ l.locationType + "</a></li>";
+						+ l.locationType + '</a></li>';
 			});
 			$("ul#locationTypeListView").html(tmp);
 			$("ul#locationTypeListView").listview("refresh");

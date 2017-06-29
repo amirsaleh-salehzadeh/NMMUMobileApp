@@ -30,6 +30,8 @@ public class LocationAction extends Action {
 		if (reqCode.equalsIgnoreCase("searchLocations")) {
 			af = mapping.findForward(reqCode);
 		} else if (reqCode.equalsIgnoreCase("mapView")) {
+			setAllLocationTypes(request);
+			setAllPathTypes(request);
 //			LocationLST lst = new LocationLST();
 //			try {
 //				lst = getLocationDAO().getLocationLST(new LocationLST());

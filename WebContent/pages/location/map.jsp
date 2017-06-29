@@ -82,8 +82,28 @@
 	border-radius: 0;
 }
 </style>
+<script type="text/javascript">
+	$(document).ready(function() {
+		getLocationTypePanel();		
+		$( "#rightpanel" ).trigger( "updatelayout" );
+		$(".liLocationLV").each(function(){
+			$(this).bind('onclick', function(e) {
+			    alert('Selected Name=' + $(this).attr('value'));
+			});
+		});
+	});
+</script>
 </head>
 <body>
+<div data-role="panel" id="rightpanel" data-position="right"
+	data-display="overlay">
+	<div class="ui-block-solo" id="locationTypeListViewDiv">
+		<ul data-role="listview" data-inset="true" data-filter="true"
+			data-filter-placeholder="Location Type..." id="locationTypeListView"
+			>
+		</ul>
+	</div>
+</div>
 	<input type="hidden" id="tripId">
 	<div data-role="tabs" id="tabs">
 		<div data-role="navbar">
