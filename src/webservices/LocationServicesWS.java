@@ -23,6 +23,7 @@ import common.location.PathENT;
 import common.location.PathTypeENT;
 
 import tools.AMSException;
+import tools.QRBarcodeGen;
 
 @Path("GetLocationWS")
 public class LocationServicesWS {
@@ -50,6 +51,25 @@ public class LocationServicesWS {
 	@Path("/GetAllLocationTypes")
 	@Produces("application/json")
 	public String getAllLocationTypes() {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(getLocationDAO()
+					.getAllLocationTypes());
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+	
+	@GET
+	@Path("/GetChildrenOfaLocation")
+	@Produces("application/json")
+	public String getChildrenOfaLocation() {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
@@ -241,6 +261,14 @@ public class LocationServicesWS {
 	}
 
 	@GET
+	@Path("/GetBarcodeForLocation")
+	@Produces("application/json")
+	public String getBarcodeForLocation(
+			@QueryParam("locationId") long locationId) {
+		return getLocationDAO().getQRCodeForLocationENT(locationId);
+	}
+
+	@GET
 	@Path("/GetBarcodeInTripInfo")
 	@Produces("application/json")
 	public String getBarcodeinTripInfo(@QueryParam("barcodeId") long barcodeId,
@@ -248,19 +276,19 @@ public class LocationServicesWS {
 			@QueryParam("pathType") int pathType) {
 		String json = "[]";
 		ObjectMapper mapper = new ObjectMapper();
-//		try {
-			ArrayList<PathENT> shortestPathToDest = getLocationDAO()
-					.getShortestPath(barcodeId, destinationId, pathType);
-			ArrayList<PathENT> allPathsforADest = getLocationDAO()
-					.getAllPathsForOnePoint(barcodeId, pathType);
+		// try {
+		ArrayList<PathENT> shortestPathToDest = getLocationDAO()
+				.getShortestPath(barcodeId, destinationId, pathType);
+		ArrayList<PathENT> allPathsforADest = getLocationDAO()
+				.getAllPathsForOnePoint(barcodeId, pathType);
 
-//		} catch (JsonGenerationException e) {
-//			e.printStackTrace();
-//		} catch (JsonMappingException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		// } catch (JsonGenerationException e) {
+		// e.printStackTrace();
+		// } catch (JsonMappingException e) {
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 		return json;
 	}
 

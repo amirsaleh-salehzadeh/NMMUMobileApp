@@ -52,7 +52,7 @@
 	color: white;
 	text-align: left;
 	position: absolute;
-	z-index: 1000;
+	z-index: 100000;
 	text-align: left;
 	margin: 0 auto;
 }
@@ -77,13 +77,13 @@
 </head>
 <body>
 	<div id="barcodeDescription">
-		<span class="heading">Room: </span><span class="locationText"
-			id="destination">209</span><br> <span class="heading">Level:
-		</span><span class="locationText">2</span><br> <span class="heading">Building:
-		</span><span class="locationText">Embizweni</span><br> <span
-			class="heading">Campus: </span><span class="locationText">South
-			Campus</span> <br> <span class="heading">Location: </span><span
-			class="locationText">Nelson Mandela University</span>
+<!-- 		<span class="heading">Room: </span><span class="locationText" -->
+<!-- 			id="destination">209</span><br> <span class="heading">Level: -->
+<!-- 		</span><span class="locationText">2</span><br> <span class="heading">Building: -->
+<!-- 		</span><span class="locationText">Embizweni</span><br> <span -->
+<!-- 			class="heading">Campus: </span><span class="locationText">South -->
+<!-- 			Campus</span> <br> <span class="heading">Location: </span><span -->
+<!-- 			class="locationText">Nelson Mandela University</span> -->
 	</div>
 	<div id="app">
 		<div class="compass">
@@ -130,7 +130,7 @@
 			</transition-group> </section>
 		</div>
 		<div class="preview-container">
-			<video id="preview" style="display: none;"></video>
+			<video id="preview" ></video>
 		</div>
 	</div>
 	<script type="text/javascript" src="app.js"></script>

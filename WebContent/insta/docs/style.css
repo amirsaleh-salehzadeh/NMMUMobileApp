@@ -6,6 +6,13 @@
 	display: block;
 	position: absolute;
 	overflow: hidden;
+	-webkit-transform: rotateX(77deg);
+	-ms-transform: rotateX(77deg);
+	transform: rotateX(77deg);
+	-webkit-transform: rotateZ(90deg);
+	-ms-transform: rotateZ(90deg);
+	transform: rotateZ(90deg);
+	z-index: 10000;
 }
 
 .compass .disc {
@@ -14,10 +21,10 @@
 	left: 7px;
 	z-index: 665;
 	background: url('http://dev.rvltn.eu/compass/compass.svg');
-	transform: rotateZ(90deg);
-	width: 111px;
+	display: block; width : 111px;
 	height: 111px;
 	background-size: 100%;
+	width: 111px;
 }
 
 .compass .arrow {
@@ -34,7 +41,6 @@
 #app {
 	height: 100%;
 }
-
 
 .preview-container,#preview {
 	width: 100%;

@@ -1,3 +1,4 @@
+
 <%@page import="hibernate.user.UserDAO"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="common.user.UserENT"%>
@@ -245,14 +246,8 @@
 			</div>
 			<%
 				} else {
-<<<<<<< HEAD
 			%>			
-			<html:text name="userENT" property="userName" title="Username"  />
-=======
-			%>
-
 			<html:text name="userENT" property="userName" title="Username" />
->>>>>>> refs/remotes/origin/Amir
 			<ams:dropDown dropDownItems="${clientENTs}"
 				selectedVal="<%=selectedValueClient.toString()%>" name="clientID"
 				title=""></ams:dropDown>

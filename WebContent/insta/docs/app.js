@@ -80,9 +80,9 @@ window
 																							id : 'marker_projection',
 																							geometry : {
 																								shape : 'cube',
-																								x : 111,
-																								y : 111,
-																								z : 111
+																								x : 333,
+																								y : 333,
+																								z : 333
 																							},
 																							position : {
 																								x : 11,
@@ -104,16 +104,6 @@ window
 																							poi_id : 'jsartoolkit_marker_64'
 																						});
 
-																		awe.pois
-																				.add({
-																					id : 'fixed_poi',
-																					position : {
-																						x : 100,
-																						y : 0,
-																						z : -250
-																					},
-																					visible : true
-																				});
 																		awe.projections.update({
 															                data:{
 															                  animation: { duration: 5, persist: 0, repeat: Infinity },
@@ -159,23 +149,31 @@ var destin = document.getElementById("destId");
 function getTheBarcodeAR(content){
 	if(destin.value == "null"|| destin.value == "" || destin.value == null)
 		destin.value= 0;
-	$.ajax({
-		url : "../../REST/GetLocationWS/GetALocation?locationId=" + content + "&pathType=" + $("#pathTypeId").val(),
-		cache : false,
-		success : function(data) {
-			$("#barcodeDescription").html("");
+	$("#barcodeDescription").css("display","block");
+				$("#barcodeDescription").fadeIn(3000);
+	getBCodeInfo(content);
+// $.ajax({
+// url : "../../REST/GetLocationWS/GetALocation?locationId=" + content +
+// "&pathType=" + $("#pathTypeId").val(),
+// cache : false,
+// success : function(data) {
+// $("#barcodeDescription").html("");
 			$("#barcodeDescription").css("display","block");
+// hideInfoDiv();
+			
 			$("#barcodeDescription").fadeIn(3000);
 			hideInfoDiv();
-			$("#barcodeDescription").append('<span class="heading">'+data.locationType.locationType + 
-					' </span><span class="locationText" id="destination">' + data.locationName + '</span><br>');
-			return true;
-		}
-	});
+// $("#barcodeDescription").append('<span
+// class="heading">'+data.locationType.locationType +
+// ' </span><span class="locationText" id="destination">' + data.locationName +
+// '</span><br>');
+// return true;
+// }
+// });
 }
 
 function hideInfoDiv(){
-	$("#barcodeDescription").fadeOut(2000);
+	$("#barcodeDescription").fadeOut(11000);
 }
 
 var app = new Vue({
@@ -188,7 +186,7 @@ var app = new Vue({
   },
   mounted: function () {
     var self = this;
-    self.scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 5,  refractoryPeriod: 2000});
+    self.scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 1});
     self.scanner.addListener('scan', function (content, image) {
     	if(destin.value!="null"&& destin.value != "" && destin.value != null && destin.value != '0'){
     		getTheTripAR(content);
@@ -261,3 +259,41 @@ document
 			}
 
 		});
+		function getBCodeInfo(x) {
+			$
+			.ajax({
+				url : "../../REST/GetLocationWS/GetBarcodeForLocation?locationId="+x
+,
+				cache : false,
+				success : function(data) {
+					$("#barcodeDescription").css("display","block");
+								$("#barcodeDescription").fadeIn(3000);
+					$
+							.each(
+									data,
+									function(k, l) {
+										$("#barcodeDescription")
+												.html("");
+										$("#barcodeDescription")
+												.append(
+														'<span class="heading">'
+																+ data['t']
+																+ ': </span><span class="locationText">'
+																+ data['n']
+																+ '</span><br>');
+									});
+					return presentLocation(data['p']);
+					// $("#barcodeContainer").css("top",
+					// $("#headerContainer").css("height"));
+				}
+			});
+			
+		}
+function presentLocation(x) {
+$("#barcodeDescription").append(
+		'<span class="heading">' + x['t']
+				+ ': </span><span class="locationText">' + x['n']
+				+ '</span><br>');
+if (x.p != null)
+presentLocation(x['p']);
+}
