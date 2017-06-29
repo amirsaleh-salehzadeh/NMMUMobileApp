@@ -105,28 +105,31 @@ function savePath() {
 var markers = [];
 var paths = [];
 function getAllMarkers() {
+	//the url for the ajax call. There is a JSON webservice which provides all locations for the user admin at the moment
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?userName=admin";
+	//removes all markers from the map
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
 	}
+	//ajax call function  >>> google it
 	$.ajax({
-		url : url,
-		cache : false,
-		success : function(data) {
-			$.each(data, function(k, l) {
+		url : url,//set url
+		cache : false,//cache > disable
+		success : function(data) {//in success the object 'data' would be returned
+			$.each(data, function(k, l) {// for each item in the json string, index k and object l > in this case locations
 				marker = new google.maps.Marker({
 					position : {
-						lat : parseFloat(l.gps.split(",")[0]),
+						lat : parseFloat(l.gps.split(",")[0]),//takes the gps of a locationENT
 						lng : parseFloat(l.gps.split(",")[1])
 					},
 					map : map,
-					title : l.locationName
+					title : l.locationName//takes the name of a locationENT
 				});
-				marker.addListener('click', function(point) {
+				marker.addListener('click', function(point) {//adds a click listener
 					addToPath(l.locationName, l.locationID, l.gps,
-							l.locationType.locationTypeId);
+							l.locationType.locationTypeId);// calls addToPath
 				});
-				markers.push(marker);
+				markers.push(marker);//push the marker into the map
 			});
 		}
 	});
