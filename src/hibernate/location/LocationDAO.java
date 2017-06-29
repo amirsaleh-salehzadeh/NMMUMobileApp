@@ -415,18 +415,21 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return points.get(closest);
 	}
 
+	public static UndirectedGraph<Long, DefaultWeightedEdge> graph;
+
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId) {
-		UndirectedGraph<Long, DefaultWeightedEdge> graphOfPaths = createGraph(pathTypeId);
+//		if (graph == null)
+			graph = createGraph(pathTypeId);
 		// + System.currentTimeMillis());
 		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
-				graphOfPaths, dep, dest);
+				graph, dep, dest);
 		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(
-				graphOfPaths, dep, dest);
+				graph, dep, dest);
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
 		for (int i = 0; i < shortest_path.size(); i++) {
-			long source = graphOfPaths.getEdgeSource(shortest_path.get(i));
-			long target = graphOfPaths.getEdgeTarget(shortest_path.get(i));
+			long source = graph.getEdgeSource(shortest_path.get(i));
+			long target = graph.getEdgeTarget(shortest_path.get(i));
 			if (i == 0 && source != dep) {
 				long tmp = source;
 				source = target;
@@ -650,11 +653,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			qrent.setG(QRBarcodeGen.createQrCode(locationId+"", 666, "png"));
+			qrent.setG(QRBarcodeGen.createQrCode(locationId + "", 666, "png"));
 			json = mapper.writeValueAsString(qrent);
 			// QRBarcodeGen barcodeGen = new QRBarcodeGen();
-//			json = "{\"image\":\""
-//					+ QRBarcodeGen.createQrCode(locationId+"", 666, "png") + "\"}";
+			// json = "{\"image\":\""
+			// + QRBarcodeGen.createQrCode(locationId+"", 666, "png") + "\"}";
 			System.out.println(json);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();

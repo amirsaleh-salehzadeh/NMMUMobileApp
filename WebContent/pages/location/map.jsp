@@ -28,56 +28,56 @@
 
 .ui-icon-walking:after {
 	background-image:
-		url("https://icons.iconarchive.com/icons/anatom5/people-disability/32/walking-icon.png");
+		url("http://icons.iconarchive.com/icons/anatom5/people-disability/32/walking-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-bike:after {
 	background-image:
-		url("https://icons.iconarchive.com/icons/aha-soft/transport/24/bike-icon.png");
+		url("http://icons.iconarchive.com/icons/aha-soft/transport/24/bike-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-driving:after {
 	background-image:
-		url("https://icons.iconarchive.com/icons/cemagraphics/classic-cars/24/yellow-pickup-icon.png");
+		url("http://icons.iconarchive.com/icons/cemagraphics/classic-cars/24/yellow-pickup-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-wheelchair:after {
 	background-image:
-		url("https://icons.iconarchive.com/icons/icons-land/transport/24/Wheelchair-icon.png");
+		url("http://icons.iconarchive.com/icons/icons-land/transport/24/Wheelchair-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-dirt-road:after {
 	background-image:
-		url("https://icons.iconarchive.com/icons/chrisl21/minecraft/24/Grass-icon.png");
+		url("http://icons.iconarchive.com/icons/chrisl21/minecraft/24/Grass-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-start-trip:after {
 	background-image:
-		url("https://icons.iconarchive.com/icons/custom-icon-design/pretty-office-5/24/start-icon.png");
+		url("http://icons.iconarchive.com/icons/custom-icon-design/pretty-office-5/24/start-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-current-location:after {
 	background-image:
-		url("https://icons.iconarchive.com/icons/ahmadhania/spherical/24/target-icon.png");
+		url("http://icons.iconarchive.com/icons/ahmadhania/spherical/24/target-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-clear-trip:after {
 	background-image:
-		url("https://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
+		url("http://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
@@ -169,22 +169,58 @@
 										- parseInt($(".jqm-header").css(
 												"height")) - 7);
 					});
-	function initiMap() {
-		var myLatLng = {
-			lat : -34.009211,
-			lng : 25.669051
+	var myLatLng = {
+		lat : -34.009211,
+		lng : 25.669051
+	};
+	var infoWindow;
+	var successHandler = function(position) {
+		var pos = {
+			lat : position.coords.latitude,
+			lng : position.coords.longitude
 		};
-		map = null;
-		map = new google.maps.Map(document.getElementById('map_canvas'), {
-			zoom : 17,
-			streetViewControl : true,
-			fullscreenControl : true
+// 		infoWindow.setPosition(pos);
+// 		infoWindow.setContent('Location found.');
+// 		infoWindow.open(map);
+		map.setCenter(pos);
+		marker = new google.maps.Marker({
+			position : pos,
+			map : map
 		});
-		// 		marker = new google.maps.Marker({
-		// 			position : myLatLng,
-		// 			map : map
+	};
+
+	var errorHandler = function(errorObj) {
+		alert(errorObj.code + ": " + errorObj.message);
+
+	};
+
+	function initiMap() {
+		map = new google.maps.Map(document.getElementById('map_canvas'), {
+			center : {
+				lat : -34.009211,
+				lng : 25.669051
+			},
+			zoom : 17
+		});
+		infoWindow = new google.maps.InfoWindow;
+
+		// Try HTML5 geolocation.
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(successHandler,
+					errorHandler, {
+						enableHighAccuracy : true,
+						maximumAge : 10000
+					});
+		} else {
+			// Browser doesn't support Geolocation
+			handleLocationError(false, infoWindow, map.getCenter());
+		}
+		// 		map = null;
+		// 		map = new google.maps.Map(document.getElementById('map_canvas'), {
+		// 			zoom : 17,
+		// 			streetViewControl : true,
+		// 			fullscreenControl : true
 		// 		});
-		map.setCenter(myLatLng);
 		input = document.getElementById('to');
 		map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 				.getElementById('searchFields'));
@@ -201,6 +237,13 @@
 				drawPoly();
 			}
 		});
+	}
+	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+		infoWindow.setPosition(pos);
+		infoWindow
+				.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
+						: 'Error: Your browser doesn\'t support geolocation.');
+		infoWindow.open(map);
 	}
 </script>
 <script type="text/javascript" src="js/location/path.management.js"></script>
