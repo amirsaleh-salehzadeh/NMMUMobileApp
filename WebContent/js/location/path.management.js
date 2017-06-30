@@ -117,20 +117,17 @@ function getAllMarkers() {
 		cache : false,//cache > disable
 		success : function(data) {//in success the object 'data' would be returned
 			$.each(data, function(k, l) {// for each item in the json string, index k and object l > in this case locations
-				
 				marker = new google.maps.Marker({
 					position : {
 						lat : parseFloat(l.gps.split(",")[0]),//takes the gps of a locationENT
 						lng : parseFloat(l.gps.split(",")[1])
 					},
-				
 					map : map,
-					title : l.locationName 				
+					title : l.locationName//takes the name of a locationENT					
 				});
 				marker.addListener('click', function(point) {//adds a click listener
 					addToPath(l.locationName, l.locationID, l.gps,
 							l.locationType.locationTypeId);// calls addToPath
-					
 				});
 				markers.push(marker);//push the marker into the map
 			});
