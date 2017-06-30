@@ -49,6 +49,19 @@
 	});
 </script>
 </head>
+<div data-role="panel" id="rightpanel" data-position="right"
+	data-display="overlay">
+	<div class="ui-block-solo" id="locationTypeListViewDiv">
+		<ul data-role="listview" data-inset="true" data-filter="true"
+			data-filter-placeholder="Location Type..." id="locationTypeListView">
+		</ul>
+	</div>
+	<div class="ui-block-solo" id="pathTypeListViewDiv">
+		<ul data-role="listview" data-inset="true" id="pathTypeListView"
+			data-filter="true" data-filter-placeholder="Path Type...">
+		</ul>
+	</div>
+</div>
 <div id="map_canvas"></div>
 <div id="locationTypeFields" style="width: 50%;">
 	<form>
