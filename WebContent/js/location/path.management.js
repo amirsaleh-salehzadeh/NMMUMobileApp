@@ -125,7 +125,7 @@ function getAllMarkers() {
 					},
 				
 					map : map,
-					title : l.locationName 				
+					title : l.locationName//takes the name of a locationENT					 				
 				});
 				marker.addListener('click', function(point) {//adds a click listener
 					addToPath(l.locationName, l.locationID, l.gps,
