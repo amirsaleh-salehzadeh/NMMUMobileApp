@@ -123,7 +123,7 @@ function getAllMarkers() {
 						lng : parseFloat(l.gps.split(",")[1])
 					},
 					map : map,
-					title : l.locationName//takes the name of a locationENT
+					title : l.locationName//takes the name of a locationENT					
 				});
 				marker.addListener('click', function(point) {//adds a click listener
 					addToPath(l.locationName, l.locationID, l.gps,
