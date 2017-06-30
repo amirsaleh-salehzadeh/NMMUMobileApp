@@ -67,14 +67,14 @@ public class LocationServicesWS {
 	}
 	
 	@GET
-	@Path("/GetChildrenOfaLocation")
+	@Path("/GetLocationsOfaType")
 	@Produces("application/json")
-	public String getChildrenOfaLocation() {
+	public String getLocationsOfaType(@QueryParam("typeId") int typeId) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
-					.getAllLocationTypes());
+					.getLocationsOfaType(typeId).getLocationLightENTs());
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

@@ -27,7 +27,7 @@ import com.mysql.jdbc.Statement;
 import common.DropDownENT;
 import common.location.CountryENT;
 import common.location.LocationENT;
-import common.location.LocationENTQRBarcode;
+import common.location.LocationLightENT;
 import common.location.LocationLST;
 import common.location.LocationTypeENT;
 import common.location.PathENT;
@@ -615,7 +615,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 	}
 
 	public String getQRCodeForLocationENT(long locationId) {
-		LocationENTQRBarcode qrent = null;
+		LocationLightENT qrent = null;
 		try {
 			Connection conn = null;
 			try {
@@ -637,11 +637,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				qrent = new LocationENTQRBarcode(rs.getLong("location_id"),
+				qrent = new LocationLightENT(rs.getLong("location_id"),
 						rs.getString("locaTypeName"),
 						rs.getString("location_name"), rs.getString("gps"),
 						null);
-				LocationENTQRBarcode tmp = getQRLocationENTTree(qrent,
+				LocationLightENT tmp = getQRLocationENTTree(qrent,
 						rs.getLong("parent_id"), concatParents);
 				qrent.setP(tmp);
 			}
@@ -669,7 +669,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return json;
 	}
 
-	private LocationENTQRBarcode getQRLocationENTTree(LocationENTQRBarcode ent,
+	private LocationLightENT getQRLocationENTTree(LocationLightENT ent,
 			long parentId, String[] concatParents) {
 		if (parentId <= 0) {
 			ent.setP(null);
@@ -686,7 +686,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				long tmpPID = rs.getLong("parent_id");
-				ent = new LocationENTQRBarcode(rs.getLong("location_id"),
+				ent = new LocationLightENT(rs.getLong("location_id"),
 						rs.getString("locaTypeName"),
 						rs.getString("location_name"), "", null);
 				if (tmpPID > 0)
@@ -706,26 +706,26 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return ent;
 	}
 
-	public LocationLST getParentLocationLST(int locationTypeId) {
+	public LocationLST getLocationsOfaType(int locationTypeId) {
 		LocationLST res = new LocationLST();
-//		locationTypeId 
 		try {
 			Connection conn = null;
 			conn = getConnection();
 			String query = "";
 			query = "select l.location_name, l.location_id from location l "
 					+ " inner join location_type lt on lt.location_type_id = l.location_type"
-					+ " where lt.location_type_id = " + locationTypeId;
+					+ " where lt.location_type_id = " + locationTypeId + " order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
+			ArrayList<LocationLightENT> ents = new ArrayList<LocationLightENT>();
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				long tmpPID = rs.getLong("parent_id");
-//				loca
-//				ent = new LocationENTQRBarcode(rs.getLong("location_id"), "",
-//						rs.getString("location_name"), "", null);
+				LocationLightENT ent = new LocationLightENT(rs.getLong("location_id"), "",
+						rs.getString("location_name"), "", null);
+				ents.add(ent);
 			}
 			ps.close();
 			conn.close();
+			res.setLocationLightENTs(ents);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (AMSException e) {

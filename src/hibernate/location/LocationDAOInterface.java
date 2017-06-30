@@ -53,7 +53,7 @@ public interface LocationDAOInterface {
 
 	public String getQRCodeForLocationENT(long locationId);
 	
-	public LocationLST getParentLocationLST(int locationTypeId);
+	public LocationLST getLocationsOfaType(int locationTypeId);
 	
 	
 }

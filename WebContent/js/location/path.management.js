@@ -201,9 +201,7 @@ function addToPath(name, id, gps, typeId) {
 		$("#markerCoordinate").val(gps);
 		$("#locationType option[value=" + typeId + "]").attr('selected',
 				'selected').trigger('create');
-		$('#locationType').selectmenu('refresh');
-		$('#insertAMarker').popup().trigger('create');
-		$('#insertAMarker').popup('open').trigger('create');
+		openMarkerPopup();
 	} else {
 		if ($("#departure").val() == "") {
 			$("#departure").val(name);
@@ -215,6 +213,23 @@ function addToPath(name, id, gps, typeId) {
 			openPathCreationPopup();
 		}
 	}
+}
+
+function openMarkerPopup(){
+	var url = "REST/GetLocationWS/GetLocationsOfaType?typeId=2";
+	$.ajax({
+		url : url,
+		cache : false,
+		success : function(data) {
+			$.each(data, function(k, l) {
+					$('#parentLocationListView').append('<a href="#" class="ui-btn ui-shadow ui-corner-all">'+l.n+'</a>');
+				});
+		}
+	});
+	$('#locationType').selectmenu('refresh');
+	$('#insertAMarker').popup().trigger('create');
+	$('#insertAMarker').popup('open').trigger('create');
+	
 }
 
 function openPathCreationPopup() {
@@ -242,6 +257,8 @@ function initMap() {
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 			.getElementById('searchFields'));
+	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+			.getElementById('locationTypeFields'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class LocationLST {
 	ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
+	ArrayList<LocationLightENT> locationLightENTs = new ArrayList<LocationLightENT>();
 	LocationENT departure;
 	ArrayList<LocationENT> destinations = new ArrayList<LocationENT>();
 	LocationENT searchLocation;
@@ -16,6 +17,14 @@ public class LocationLST {
 	private String sortedByField = "locationID";
 	boolean isPath = false;
 	boolean isMultipleMarker = false;
+
+	public ArrayList<LocationLightENT> getLocationLightENTs() {
+		return locationLightENTs;
+	}
+
+	public void setLocationLightENTs(ArrayList<LocationLightENT> locationLightENTs) {
+		this.locationLightENTs = locationLightENTs;
+	}
 
 	public LocationENT getDeparture() {
 		return departure;
