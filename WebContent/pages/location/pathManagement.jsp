@@ -29,16 +29,20 @@
 	margin: 0 0 0 0;
 	padding-bottom: 12px;
 }
+
+#locationTypeFields {
+	padding-left: 22em;
+}
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
 		getLocationTypePanel();
 		getPathTypePanel();
 		selectRightPanelVal();
-		$( "#rightpanel" ).trigger( "updatelayout" );
-		$(".liLocationLV").each(function(){
+		$("#rightpanel").trigger("updatelayout");
+		$(".liLocationLV").each(function() {
 			$(this).bind('onclick', function(e) {
-			    alert('Selected Name=' + $(this).attr('value'));
+				alert('Selected Name=' + $(this).attr('value'));
 			});
 		});
 	});
@@ -48,18 +52,36 @@
 	data-display="overlay">
 	<div class="ui-block-solo" id="locationTypeListViewDiv">
 		<ul data-role="listview" data-inset="true" data-filter="true"
-			data-filter-placeholder="Location Type..." id="locationTypeListView"
-			>
+			data-filter-placeholder="Location Type..." id="locationTypeListView">
 		</ul>
 	</div>
-	<div class="ui-block-solo" id="pathTypeListViewDiv" >
+	<div class="ui-block-solo" id="pathTypeListViewDiv">
 		<ul data-role="listview" data-inset="true" id="pathTypeListView"
-			data-filter="true" data-filter-placeholder="Path Type..."
-			>
+			data-filter="true" data-filter-placeholder="Path Type...">
 		</ul>
 	</div>
 </div>
 <div id="map_canvas"></div>
+<div id="locationTypeFields" style="width: 100%;">
+	<form>
+		<fieldset data-role="controlgroup" data-type="horizontal"
+			data-mini="true">
+			    <label for="select-native-14">Select A</label>     <select
+				name="select-native-14" id="select-native-14">
+			</select>     <label for="select-native-15">Select B</label>     <select
+				name="select-native-15" id="select-native-15">
+				<option value="#">One</option>
+				<option value="#">Two</option>
+				<option value="#">Three</option>
+			</select>     <label for="select-native-16">Select C</label>     <select
+				name="select-native-16" id="select-native-16">
+				<option value="#">One</option>
+				<option value="#">Two</option>
+				<option value="#">Three</option>
+			</select>
+		</fieldset>
+	</form>
+</div>
 <div id="searchFields" style="width: 85%;">
 	<fieldset data-role="controlgroup" data-type="horizontal"
 		name="optionType">
@@ -86,13 +108,17 @@
 			type="hidden" name="markerId" id="markerId">
 	</div>
 	<div class="ui-field-contain">
-		    <label for="locationType">Location Type</label>     <select
-			name="locationType" id="locationType">
-			<logic:iterate id="locationTIteration" name="locationTypes"
-				type="common.location.LocationTypeENT">
-				<option value="<%=locationTIteration.getLocationTypeId()%>"><%=locationTIteration.getLocationType()%></option>
-			</logic:iterate>
-		</select>
+		<!-- 		    <label for="locationType">Location Type</label>     <select -->
+		<!-- 			name="locationType" id="locationType"> -->
+		<%-- 			<logic:iterate id="locationTIteration" name="locationTypes" --%>
+		<%-- 				type="common.location.LocationTypeENT"> --%>
+		<%-- 				<option value="<%=locationTIteration.getLocationTypeId()%>"><%=locationTIteration.getLocationType()%></option> --%>
+		<%-- 			</logic:iterate> --%>
+		<form>
+			    <input data-type="search" id="parentLocation">
+		</form>
+		<div data-role="controlgroup" data-filter="true"
+			data-input="#parentLocation" id="parentLocationListView"></div>
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
@@ -102,7 +128,8 @@
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all" id="submitRider"
-			onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print Barcode</a>
+			onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
+			Barcode</a>
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
