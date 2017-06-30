@@ -82,8 +82,27 @@
 	border-radius: 0;
 }
 </style>
+<script type="text/javascript">
+	$(document).ready(function() {
+		getLocationTypePanel();
+		$("#rightpanel").trigger("updatelayout");
+		$(".liLocationLV").each(function() {
+			$(this).bind('onclick', function(e) {
+				alert('Selected Name=' + $(this).attr('value'));
+			});
+		});
+	});
+</script>
 </head>
 <body>
+	<div data-role="panel" id="rightpanel" data-position="right"
+		data-display="overlay">
+		<div class="ui-block-solo" id="locationTypeListViewDiv">
+			<ul data-role="listview" data-inset="true" data-filter="true"
+				data-filter-placeholder="Location Type..." id="locationTypeListView">
+			</ul>
+		</div>
+	</div>
 	<input type="hidden" id="tripId">
 	<div data-role="tabs" id="tabs">
 		<div data-role="navbar">
@@ -111,11 +130,11 @@
 							<input type="radio" name="radio-choice-path-type" id="walking"
 								value="1"> <label for="dirtroad"> <span
 								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-<!-- 							<input type="radio" name="radio-choice-path-type" id="wheelchair" -->
-<!-- 								value="3"> <label for="driving"> <span -->
-<!-- 								class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
-<!-- 							<input type="radio" name="radio-choice-path-type" id="driving" -->
-<!-- 								value="4"> -->
+							<!-- 							<input type="radio" name="radio-choice-path-type" id="wheelchair" -->
+							<!-- 								value="3"> <label for="driving"> <span -->
+							<!-- 								class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
+							<!-- 							<input type="radio" name="radio-choice-path-type" id="driving" -->
+							<!-- 								value="4"> -->
 						</fieldset>
 					</div>
 					<div class="ui-block-B">
@@ -179,9 +198,9 @@
 			lat : position.coords.latitude,
 			lng : position.coords.longitude
 		};
-// 		infoWindow.setPosition(pos);
-// 		infoWindow.setContent('Location found.');
-// 		infoWindow.open(map);
+		// 		infoWindow.setPosition(pos);
+		// 		infoWindow.setContent('Location found.');
+		// 		infoWindow.open(map);
 		map.setCenter(pos);
 		marker = new google.maps.Marker({
 			position : pos,
