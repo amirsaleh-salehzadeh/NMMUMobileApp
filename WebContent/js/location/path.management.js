@@ -129,6 +129,11 @@ function getAllMarkers() {
 					map : map,
 					title : l.locationName
 				// takes the name of a locationENT
+					//
+					//icon: 'http\\blahblah server stuff' + l.locationType + '.png'  
+					//this coded should work as we use the location type to name the icon png the same so as 
+					//the location type is determined, the icon gets loaded with it 
+					//
 				});
 				marker.addListener('click', function(point) {// adds a click
 					// listener
