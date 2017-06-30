@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -234,8 +235,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public ArrayList<LocationTypeENT> getAllLocationTypes() {
-		ArrayList<LocationTypeENT> res = new ArrayList<LocationTypeENT>();
+	public LocationTypeENT getAllLocationTypeChildren(LocationTypeENT parent) {
+		LocationTypeENT ent = null;
 		try {
 			Connection conn = null;
 			try {
@@ -243,23 +244,60 @@ public class LocationDAO extends BaseHibernateDAO implements
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
-			String query = "Select * from location_type";
+			String query = "";
+			if (parent == null)
+				parent = new LocationTypeENT(1);
+			query = "select lt.* from location_type lt"
+					+ " where lt.location_type_id = "
+					+ parent.getLocationTypeId();
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				LocationTypeENT l = new LocationTypeENT(
-						rs.getInt("location_type_id"),
-						rs.getString("location_type"));
-				res.add(l);
+				ent = new LocationTypeENT(rs.getInt("location_type_id"),
+						rs.getString("location_type"), new LocationTypeENT(
+								rs.getInt("parent_id")));
+				ArrayList<LocationTypeENT> tmp = getLocationTypeTree(ent);
+				ent.setChildren(tmp);
 			}
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return res;
+		return ent;
 	}
 
+	private ArrayList<LocationTypeENT> getLocationTypeTree(LocationTypeENT ent) {
+		ArrayList<LocationTypeENT> res = new ArrayList<LocationTypeENT>();
+		try {
+			Connection conn = null;
+			conn = getConnection();
+			String query = "";
+			query = "select lt.* from location_type lt"
+					+ " where lt.parent_id = " + ent.getLocationTypeId();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			boolean end = false;
+			while (rs.next()) {
+				end = true;
+				long tmpPID = rs.getLong("parent_id");
+				ent = new LocationTypeENT(rs.getInt("location_type_id"),
+						rs.getString("location_type"), null, null);
+				ent.setChildren(getLocationTypeTree(ent));
+				res.add(ent);
+			}
+			ps.close();
+			conn.close();
+			if(!end)
+				return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
 	public ArrayList<PathENT> getAllPaths(String username) {
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
 		try {
@@ -485,7 +523,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	public static void main(String[] args) {
 		LocationDAO dao = new LocationDAO();
-		System.out.println(dao.getQRCodeForLocationENT(6));
+		LocationTypeENT ent = dao.getAllLocationTypeChildren(null);
+		System.out.println(ent.getLocationType());
 
 	}
 
@@ -624,7 +663,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				e.printStackTrace();
 			}
 			String query = "";
-			query = "SELECT GetLocationTree(" + locationId + ") as res";
+			query = "SELECT GetFnLocationChildren(" + locationId + ") as res";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			String[] concatParents = null;
@@ -714,12 +753,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 			String query = "";
 			query = "select l.location_name, l.location_id from location l "
 					+ " inner join location_type lt on lt.location_type_id = l.location_type"
-					+ " where lt.location_type_id = " + locationTypeId + " order by l.location_name asc";
+					+ " where lt.location_type_id = " + locationTypeId
+					+ " order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ArrayList<LocationLightENT> ents = new ArrayList<LocationLightENT>();
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				LocationLightENT ent = new LocationLightENT(rs.getLong("location_id"), "",
+				LocationLightENT ent = new LocationLightENT(
+						rs.getLong("location_id"), "",
 						rs.getString("location_name"), "", null);
 				ents.add(ent);
 			}

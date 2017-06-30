@@ -6,8 +6,25 @@ public class LocationTypeENT {
 	int locationTypeId;
 	String locationType;
 	LocationTypeENT parent;
-	ArrayList<LocationENT> children;
+	ArrayList<LocationTypeENT> children;
 	
+	public LocationTypeENT(int locationTypeId, String locationType,
+			LocationTypeENT parent, ArrayList<LocationTypeENT> children) {
+		super();
+		this.locationTypeId = locationTypeId;
+		this.locationType = locationType;
+		this.parent = parent;
+		this.children = children;
+	}
+	
+	public LocationTypeENT(int locationTypeId, String locationType,
+			LocationTypeENT parent) {
+		super();
+		this.locationTypeId = locationTypeId;
+		this.locationType = locationType;
+		this.parent = parent;
+	}
+
 	public LocationTypeENT getParent() {
 		return parent;
 	}
@@ -16,11 +33,11 @@ public class LocationTypeENT {
 		this.parent = parent;
 	}
 
-	public ArrayList<LocationENT> getChildren() {
+	public ArrayList<LocationTypeENT> getChildren() {
 		return children;
 	}
 
-	public void setChildren(ArrayList<LocationENT> children) {
+	public void setChildren(ArrayList<LocationTypeENT> children) {
 		this.children = children;
 	}
 
@@ -28,6 +45,10 @@ public class LocationTypeENT {
 		super();
 		this.locationTypeId = locationTypeId;
 		this.locationType = locationType;
+	}
+	
+	public LocationTypeENT() {
+		super();
 	}
 	
 	public LocationTypeENT(int locationTypeId) {
@@ -50,5 +71,5 @@ public class LocationTypeENT {
 	public void setLocationType(String locationType) {
 		this.locationType = locationType;
 	}
-
+	
 }

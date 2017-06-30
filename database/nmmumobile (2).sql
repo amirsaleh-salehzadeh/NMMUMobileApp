@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2017 at 11:01 PM
+-- Generation Time: Jun 30, 2017 at 11:55 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -22,9 +22,58 @@ SET time_zone = "+00:00";
 
 DELIMITER $$
 --
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetSPLocationTypeChildren` (IN `p_cat_id` INT UNSIGNED)  begin
+
+declare v_done tinyint unsigned default 0;
+declare v_depth int unsigned default 0;
+
+create temporary table hier(
+ parent_id int unsigned, 
+ id int unsigned, 
+ depth int unsigned default 0
+)engine = memory;
+
+insert into hier select parent_id, location_type_id, v_depth from location_type where location_type_id = p_cat_id;
+
+
+
+create temporary table tmp engine = memory select * from hier;
+while not v_done do
+    if exists( select 1 from location_type p inner join hier on p.parent_id = hier.id and hier.depth = v_depth) then
+        insert into hier 
+            select p.parent_id, p.location_type_id, v_depth + 1 from location_type p 
+            inner join tmp on p.parent_id = tmp.id and tmp.depth = v_depth;
+			set v_depth = v_depth + 1;          
+		truncate table tmp;
+        insert into tmp select * from hier where depth = v_depth;
+else
+set v_done = 1;
+    end if;
+    end while;
+select 
+ p.location_type_id,
+ p.location_type as location_type,
+ b.location_type_id as parent_id,
+ b.location_type as parent_location_name,
+ hier.depth
+from 
+ hier
+inner join location_type p on hier.id = p.location_type_id
+left outer join location_type b on hier.parent_id = b.location_type_id group by hier.depth, p.location_type
+order by
+ hier.depth, hier.id;
+
+drop temporary table if exists hier;
+drop temporary table if exists tmp;
+
+end$$
+
+--
 -- Functions
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `GetLocationTree` (`l_id` BIGINT) RETURNS VARCHAR(1024) CHARSET utf8 BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `GetFnLocationAncestors` (`l_id` BIGINT) RETURNS VARCHAR(1024) CHARSET utf8 BEGIN
     DECLARE rv VARCHAR(1024);
     DECLARE cm CHAR(1);
     DECLARE ch BIGINT;
@@ -35,26 +84,6 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `GetLocationTree` (`l_id` BIGINT) RET
     WHILE ch > 0 DO
         SELECT IFNULL(`parent_id`,0) INTO ch FROM
         (SELECT `parent_id` FROM location WHERE location_id = ch) A;
-        IF ch > 0 THEN
-            SET rv = CONCAT(rv,cm,ch);
-            SET cm = ',';
-        END IF;
-    END WHILE;
-    RETURN rv;
-
-END$$
-
-CREATE DEFINER=`root`@`localhost` FUNCTION `GetLocationTypeTree` (`l_id` INT) RETURNS VARCHAR(1024) CHARSET utf8 BEGIN
-    DECLARE rv VARCHAR(1024);
-    DECLARE cm CHAR(1);
-    DECLARE ch INT;
-
-    SET rv = '';
-    SET cm = '';
-    SET ch = l_id;
-    WHILE ch > 0 DO
-        SELECT IFNULL(`parent_id`,0) INTO ch FROM
-        (SELECT `parent_id` FROM location_type WHERE location_type_id = ch) A;
         IF ch > 0 THEN
             SET rv = CONCAT(rv,cm,ch);
             SET cm = ',';

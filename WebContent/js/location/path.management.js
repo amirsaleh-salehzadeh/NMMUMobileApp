@@ -22,10 +22,8 @@ function printBarcode(id, name) {
 		alert("The location does not exist yet. Please save the location first");
 		return;
 	}
-//	var query = '{"id":"' + id + '"}';
-	window
-			.open("pages/location/barcodePrint.jsp?locationId="
-					+ id);
+	// var query = '{"id":"' + id + '"}';
+	window.open("pages/location/barcodePrint.jsp?locationId=" + id);
 }
 
 function saveMarker() {
@@ -105,31 +103,39 @@ function savePath() {
 var markers = [];
 var paths = [];
 function getAllMarkers() {
-	//the url for the ajax call. There is a JSON webservice which provides all locations for the user admin at the moment
+	// the url for the ajax call. There is a JSON webservice which provides all
+	// locations for the user admin at the moment
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?userName=admin";
-	//removes all markers from the map
+	// removes all markers from the map
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
 	}
-	//ajax call function  >>> google it
+	// ajax call function >>> google it
 	$.ajax({
-		url : url,//set url
-		cache : false,//cache > disable
-		success : function(data) {//in success the object 'data' would be returned
-			$.each(data, function(k, l) {// for each item in the json string, index k and object l > in this case locations
+		url : url,// set url
+		cache : false,// cache > disable
+		success : function(data) {// in success the object 'data' would be
+			// returned
+			$.each(data, function(k, l) {// for each item in the json string,
+				// index k and object l > in this
+				// case locations
 				marker = new google.maps.Marker({
 					position : {
-						lat : parseFloat(l.gps.split(",")[0]),//takes the gps of a locationENT
+						lat : parseFloat(l.gps.split(",")[0]),// takes the gps
+						// of a
+						// locationENT
 						lng : parseFloat(l.gps.split(",")[1])
 					},
 					map : map,
-					title : l.locationName//takes the name of a locationENT
+					title : l.locationName
+				// takes the name of a locationENT
 				});
-				marker.addListener('click', function(point) {//adds a click listener
+				marker.addListener('click', function(point) {// adds a click
+					// listener
 					addToPath(l.locationName, l.locationID, l.gps,
 							l.locationType.locationTypeId);// calls addToPath
 				});
-				markers.push(marker);//push the marker into the map
+				markers.push(marker);// push the marker into the map
 			});
 		}
 	});
@@ -215,21 +221,23 @@ function addToPath(name, id, gps, typeId) {
 	}
 }
 
-function openMarkerPopup(){
+function openMarkerPopup() {
 	var url = "REST/GetLocationWS/GetLocationsOfaType?typeId=2";
 	$.ajax({
 		url : url,
 		cache : false,
 		success : function(data) {
 			$.each(data, function(k, l) {
-					$('#parentLocationListView').append('<a href="#" class="ui-btn ui-shadow ui-corner-all">'+l.n+'</a>');
-				});
+				$('#parentLocationListView').append(
+						'<a href="#" class="ui-btn ui-shadow ui-corner-all">'
+								+ l.n + '</a>');
+			});
 		}
 	});
 	$('#locationType').selectmenu('refresh');
 	$('#insertAMarker').popup().trigger('create');
 	$('#insertAMarker').popup('open').trigger('create');
-	
+
 }
 
 function openPathCreationPopup() {
@@ -286,15 +294,13 @@ function drawPoly() {
 		success : function(data) {
 			var pathString = "";
 			$.each(data, function(k, l) {
-				if (k == 0){
+				if (k == 0) {
 					pathString = l.departure.locationID + ","
 							+ l.destination.locationID;
 					$("#departureName").val(l.departure.locationName);
 					$("#destinationName").val(l.destination.locationName);
-				}
-				else
-					pathString += ","
-						+ l.destination.locationID;
+				} else
+					pathString += "," + l.destination.locationID;
 				var pathCoor = [];
 				pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps
 						.split(',')[0]),
@@ -327,7 +333,8 @@ function drawPoly() {
 			});
 			$("#tripString").val(pathString);
 			$("#departureId").val(pathString.split(",")[0]);
-			$("#destinationId").val(pathString.split(",")[pathString.split(",").length-1]);
+			$("#destinationId").val(
+					pathString.split(",")[pathString.split(",").length - 1]);
 		}
 	});
 }
@@ -341,28 +348,99 @@ function selectRightPanelVal() {
 		$("#pathTypeListViewDiv").css("display", "block");
 	}
 }
-
+var locationTypeJSONData;
 function getLocationTypePanel() {
 	var url = "REST/GetLocationWS/GetAllLocationTypes";
-	$.ajax({
-		url : url,
-		cache : false,
-		success : function(data) {
-			var tmp = "";
-			$.each(data, function(k, l) {
-				tmp += "<li value='" + l.locationTypeId
-						+ "' class='liLocationLV'><a href='#'>"
-						+ l.locationType + "</a></li>";
+	$
+			.ajax({
+				url : url,
+				cache : false,
+				success : function(data) {
+					locationTypeJSONData = data;
+//					$("#locationTypesContainer").html("");
+					var str = "<select name='selectLocationType' class='locationTypeNavBar' id='NavBar"
+							+ data.locationType
+							+ "' onclick='getMyChild($(this).val())'>";
+					str += "<option value='" + data.locationTypeId + "'>"
+							+ data.locationType + "</option>";
+					if (data.children.length > 1)
+						$.each(data.children, function(k, l) {
+							str += "<option value='" + l.locationTypeId + "'>"
+									+ l.locationType + "</option>";
+						});
+
+					str += "</select>";
+//					$("#locationTypesContainer").html(str);
+//					$("#locationTypesContainer").trigger("create");
+					$("#locationTypesContainer").controlgroup("container")
+							.empty();
+					$("#locationTypesContainer").controlgroup("refresh");
+					$("#locationTypesContainer").controlgroup("container")
+							.append(str);
+					$("#NavBar" + data.locationType).selectmenu();
+					$("#locationTypesContainer").controlgroup(
+							"refresh");
+
+				}
 			});
-			$("ul#locationTypeListView").html(tmp);
-			$("ul#locationTypeListView").listview("refresh");
-			$("#rightpanel").trigger("updatelayout");
-		}
-	});
 }
 
-function startTrip(){
-	var url = "REST/GetLocationWS/StartTrip?from="+$("#departureId").val()+"&to="+$("#destinationId").val();
+var childData;
+function getMyChild(select) {
+	if (childData == null)
+		childData = locationTypeJSONData;
+	else if (childData.children == null)
+		return;
+	var navbarId = "";
+	if (childData.locationTypeId == select) {
+		var str = "";
+		$
+				.each(
+						childData.children,
+						function(k, l) {
+							if (str == "") {
+								navbarId = l.locationType;
+								str = "<select name='selectLocationType' class='locationTypeNavBar' id='NavBar"
+										+ l.locationType
+										+ "' onclick='getMyChild($(this).val())'>";
+							}
+
+							str += "<option value='" + l.locationTypeId + "'>"
+									+ l.locationType + "</option>";
+
+							if (l.children != null && l.children.length > 3) {
+								$
+										.each(
+												l.children,
+												function(p, t) {
+													if (str == "")
+														str = "<select name='selectLocationType' onclick='getMyChild($(this).val())'>";
+													str += "<option value='"
+															+ t.locationTypeId
+															+ "'>"
+															+ t.locationType
+															+ "</option>";
+												});
+							}
+						});
+		str += "</select>";
+		if ($("select#NavBar" + navbarId).length == 0) {
+			$("#locationTypesContainer").controlgroup("container")
+			.append(str);
+	$("#NavBar" + navbarId).selectmenu();
+	$("#locationTypesContainer").controlgroup(
+			"refresh");
+		}
+	} else
+		$.each(childData.children, function(k, l) {
+			childData = l;
+			getMyChild(l.locationTypeId);
+		});
+}
+
+function startTrip() {
+	var url = "REST/GetLocationWS/StartTrip?from=" + $("#departureId").val()
+			+ "&to=" + $("#destinationId").val();
 	$.ajax({
 		url : url,
 		cache : false,
@@ -372,8 +450,8 @@ function startTrip(){
 	});
 }
 
-function removeTrip(){
-	var url = "REST/GetLocationWS/RemoveTrip?tripId="+$("#tripId").val();
+function removeTrip() {
+	var url = "REST/GetLocationWS/RemoveTrip?tripId=" + $("#tripId").val();
 	$.ajax({
 		url : url,
 		cache : false,
@@ -390,9 +468,8 @@ function removeTrip(){
 			}
 		}
 	});
-	
-}
 
+}
 
 function getPathTypePanel() {
 	var url = "REST/GetLocationWS/GetAllPathTypes";

@@ -29,7 +29,7 @@ public interface LocationDAOInterface {
 
 	public ArrayList<PathTypeENT> getAllPathTypes();
 
-	public ArrayList<LocationTypeENT> getAllLocationTypes();
+	public LocationTypeENT getAllLocationTypeChildren(LocationTypeENT parent);
 
 	public ArrayList<PathENT> getAllPaths(String username);
 

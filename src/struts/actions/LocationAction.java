@@ -4,6 +4,8 @@
  */
 package struts.actions;
 
+import java.util.ArrayList;
+
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.location.LocationDAOInterface;
 
@@ -18,6 +20,7 @@ import org.apache.struts.action.ActionMapping;
 import tools.AMSException;
 
 import common.location.LocationLST;
+import common.location.LocationTypeENT;
 
 public class LocationAction extends Action {
 	private String success = "";
@@ -30,19 +33,12 @@ public class LocationAction extends Action {
 		if (reqCode.equalsIgnoreCase("searchLocations")) {
 			af = mapping.findForward(reqCode);
 		} else if (reqCode.equalsIgnoreCase("mapView")) {
-//			LocationLST lst = new LocationLST();
-//			try {
-//				lst = getLocationDAO().getLocationLST(new LocationLST());
-//			} catch (AMSException e) {
-//				e.printStackTrace();
-//			}
-//			request.setAttribute("locations", lst);
 			af = mapping.findForward(reqCode);
 		} else if (reqCode.equalsIgnoreCase("pathManagement")) {
 			setAllLocationTypes(request);
 			setAllPathTypes(request);
 			af = mapping.findForward(reqCode);
-		}else if (reqCode.equalsIgnoreCase("cameraNavigation")) {
+		} else if (reqCode.equalsIgnoreCase("cameraNavigation")) {
 			af = mapping.findForward(reqCode);
 		}
 		return af;
@@ -54,8 +50,27 @@ public class LocationAction extends Action {
 	}
 
 	private void setAllLocationTypes(HttpServletRequest request) {
-		request.setAttribute("locationTypes", getLocationDAO()
-				.getAllLocationTypes());
+		LocationTypeENT ent = getLocationDAO().getAllLocationTypeChildren(null);
+		String dropDownToolBar = "";
+		dropDownToolBar += createLocationTypeNavBar(ent, ent.getChildren());
+		request.setAttribute("locationTypes", dropDownToolBar);
+	}
+
+	private String createLocationTypeNavBar(LocationTypeENT ent,
+			ArrayList<LocationTypeENT> children) {
+		String res = "";
+		if (children == null)
+			return "";
+		else {
+			res = "<select name='selectLocationType'></select>";
+			for (int i = 0; i < children.size(); i++) {
+				res += "<option value='" + children.get(i).getLocationTypeId()
+						+ "'>" + children.get(i).getLocationType()
+						+ "</option>";
+			}
+		}
+		res = "<select name='selectLocationType'><option value=''></option></select>";
+		return res;
 	}
 
 	private static LocationDAOInterface getLocationDAO() {
