@@ -120,7 +120,6 @@ public class LocationServicesWS {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(json);
 		return json;
 	}
 
@@ -141,7 +140,6 @@ public class LocationServicesWS {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(json);
 		return json;
 	}
 

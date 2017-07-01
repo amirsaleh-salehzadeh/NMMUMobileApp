@@ -663,7 +663,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				e.printStackTrace();
 			}
 			String query = "";
-			query = "SELECT GetFnLocationChildren(" + locationId + ") as res";
+			query = "SELECT GetFnLocationAncestors(" + locationId + ") as res";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			String[] concatParents = null;

@@ -210,6 +210,7 @@ input {
 		bottom: 0px;
 	}
 	.jqm-navmenu-panel .ui-listview .ui-btn {
+		
 		color: white;
 	}
 	.jqm-demos .jqm-list .ui-btn:hover,.jqm-demos .jqm-list .ui-btn:active {
@@ -251,6 +252,7 @@ input {
 	.jqm-navmenu-panel .ui-listview .ui-btn {
 		color: white;
 		background-color: black;
+		height: 15;
 	}
 	.jqm-demos .jqm-list .ui-btn:hover,.jqm-demos .jqm-list .ui-btn:active {
 		color: #9addff;
@@ -265,10 +267,11 @@ input {
 }
 
 .ui-panel-position-right .ui-listview .ui-btn {
+	height: 15;
 	color: white;
 	background-color: black;
 	font-family: 'Open Sans', sans-serif;
-	font-weight: 300;
+	font-weight: 300;	
 }
 
 .ui-input-text input,.ui-input-search input {
