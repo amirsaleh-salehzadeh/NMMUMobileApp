@@ -103,39 +103,28 @@ function savePath() {
 var markers = [];
 var paths = [];
 function getAllMarkers() {
-	// the url for the ajax call. There is a JSON webservice which provides all
-	// locations for the user admin at the moment
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?userName=admin";
-	// removes all markers from the map
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
 	}
-	// ajax call function >>> google it
 	$.ajax({
-		url : url,// set url
-		cache : false,// cache > disable
-		success : function(data) {// in success the object 'data' would be
-			// returned
-			$.each(data, function(k, l) {// for each item in the json string,
-				// index k and object l > in this
-				// case locations
+		url : url,
+		cache : false,
+		success : function(data) {
+			$.each(data, function(k, l) {
 				marker = new google.maps.Marker({
 					position : {
-						lat : parseFloat(l.gps.split(",")[0]),// takes the gps
-						// of a
-						// locationENT
+						lat : parseFloat(l.gps.split(",")[0]),
 						lng : parseFloat(l.gps.split(",")[1])
 					},
 					map : map,
-					title : l.locationName 				
+					title : l.locationName
 				});
-				marker.addListener('click', function(point) {// adds a click
-					// listener
+				marker.addListener('click', function(point) {
 					addToPath(l.locationName, l.locationID, l.gps,
-							l.locationType.locationTypeId);// calls addToPath
-					
+							l.locationType.locationTypeId);
 				});
-				markers.push(marker);// push the marker into the map
+				markers.push(marker);
 			});
 		}
 	});
@@ -222,16 +211,18 @@ function addToPath(name, id, gps, typeId) {
 }
 
 function openMarkerPopup() {
-	var url = "REST/GetLocationWS/GetLocationsOfaType?typeId=2";
+	var url = "REST/GetLocationWS/GetLocationsOfaType?typeId="
+			+ $("#locationTypeId").val();
 	$.ajax({
 		url : url,
 		cache : false,
 		success : function(data) {
+			var str = "";
 			$.each(data, function(k, l) {
-				$('#parentLocationListView').append(
-						'<a href="#" class="ui-btn ui-shadow ui-corner-all">'
-								+ l.n + '</a>');
+				str += '<a href="#" data-mini="true" class="ui-btn ui-shadow ui-corner-all">'
+						+ l.n + '</a>';
 			});
+			$('#parentLocationListView').html(str);
 		}
 	});
 	$('#locationType').selectmenu('refresh');
@@ -265,8 +256,10 @@ function initMap() {
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 			.getElementById('searchFields'));
-	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
 			.getElementById('locationTypeFields'));
+	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
+			.getElementById('infoDiv'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");
@@ -351,16 +344,17 @@ function selectRightPanelVal() {
 var locationTypeJSONData;
 function getLocationTypePanel() {
 	var url = "REST/GetLocationWS/GetAllLocationTypes";
+	$("#locationTypesContainer").controlgroup();
 	$
 			.ajax({
 				url : url,
 				cache : false,
 				success : function(data) {
 					locationTypeJSONData = data;
-//					$("#locationTypesContainer").html("");
+					// $("#locationTypesContainer").html("");
 					var str = "<select name='selectLocationType' class='locationTypeNavBar' id='NavBar"
 							+ data.locationType
-							+ "' onclick='getMyChild($(this).val())'>";
+							+ "' onclick='getMyChild(this)'>";
 					str += "<option value='" + data.locationTypeId + "'>"
 							+ data.locationType + "</option>";
 					if (data.children.length > 1)
@@ -368,25 +362,40 @@ function getLocationTypePanel() {
 							str += "<option value='" + l.locationTypeId + "'>"
 									+ l.locationType + "</option>";
 						});
-
+					$("div#infoDiv").append(
+							"<input type='hidden' id='locationTypeId' value='"
+							+ data.locationTypeId + "'><span class='infoDivTitle'>" + data.locationType
+									+ ":</span>"
+									+ "<span class='infoDivTitle'> LOCATION"
+									+ data.locationType + "</span>");
 					str += "</select>";
-//					$("#locationTypesContainer").html(str);
-//					$("#locationTypesContainer").trigger("create");
+					// $("#locationTypesContainer").html(str);
+					// $("#locationTypesContainer").trigger("create");
 					$("#locationTypesContainer").controlgroup("container")
 							.empty();
 					$("#locationTypesContainer").controlgroup("refresh");
 					$("#locationTypesContainer").controlgroup("container")
 							.append(str);
 					$("#NavBar" + data.locationType).selectmenu();
-					$("#locationTypesContainer").controlgroup(
-							"refresh");
+					$("#locationTypesContainer").controlgroup("refresh");
 
 				}
 			});
 }
 
 var childData;
-function getMyChild(select) {
+function getMyChild(field) {
+	var select = 0;
+	if ($(field).length > 0) {
+		select = $(field).val();
+		$("div#infoDiv").html(
+				"<input type='hidden' id='locationTypeId' value='"
+						+ $(field).val() + "'><span class='infoDivTitle'>"
+						+ $(field).html() + ":</span>"
+						+ "<span class='infoDivTitle'> LOCATION"
+						+ $(field).val() + "</span>");
+	} else
+		select = field;
 	if (childData == null)
 		childData = locationTypeJSONData;
 	else if (childData.children == null)
@@ -402,10 +411,9 @@ function getMyChild(select) {
 								navbarId = l.locationType;
 								str = "<select name='selectLocationType' class='locationTypeNavBar' id='NavBar"
 										+ l.locationType
-										+ "' onclick='getMyChild($(this).val())'>";
+										+ "' onclick='getMyChild(this)' >";
 							}
-
-							str += "<option value='" + l.locationTypeId + "'>"
+							str += "<option value='" + l.locationTypeId + "'> "
 									+ l.locationType + "</option>";
 
 							if (l.children != null && l.children.length > 3) {
@@ -425,11 +433,9 @@ function getMyChild(select) {
 						});
 		str += "</select>";
 		if ($("select#NavBar" + navbarId).length == 0) {
-			$("#locationTypesContainer").controlgroup("container")
-			.append(str);
-	$("#NavBar" + navbarId).selectmenu();
-	$("#locationTypesContainer").controlgroup(
-			"refresh");
+			$("#locationTypesContainer").controlgroup("container").append(str);
+			$("#NavBar" + navbarId).selectmenu();
+			$("#locationTypesContainer").controlgroup("refresh");
 		}
 	} else
 		$.each(childData.children, function(k, l) {
@@ -484,6 +490,7 @@ function getPathTypePanel() {
 						+ "</a></li>";
 			});
 			$("ul#pathTypeListView").html(tmp).trigger("create");
+			$("ul#pathTypeListView").listview();
 			$("ul#pathTypeListView").listview("refresh");
 			$("#rightpanel").trigger("updatelayout");
 		}

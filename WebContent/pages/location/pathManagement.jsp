@@ -32,14 +32,39 @@
 }
 
 #locationTypeFields {
-	padding-left: 22em;
+	/* 	padding-left: 22em; */
+}
+
+#infoDiv {
+	position: absolute;
+	display: inline;
+	padding-right: 3em;
+	border: thick 4pt;
+	border-color: black; 
+	font-size : 16pt;
+	font-weight: bold;
+	margin: 1em;
+	background-color: #9b221f;
+	opacity: .4;
+	font-size: 16pt;
+}
+
+#infoDivTitle{
+	display: inline-block;
+	opacity: 1 !important;
+}
+#parentLocationListView{
+	position: absolute;
+	z-index: 100;
+	background-color: white;
+	width: 100%;
 }
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
 		getLocationTypePanel();
 		getPathTypePanel();
-		selectRightPanelVal();
+		// 		selectRightPanelVal();
 		$("#rightpanel").trigger("updatelayout");
 		$(".liLocationLV").each(function() {
 			$(this).bind('onclick', function(e) {
@@ -63,13 +88,13 @@
 	</div>
 </div>
 <div id="map_canvas"></div>
-<div id="locationTypeFields" style="width: 50%;">
+<div id="locationTypeFields">
 	<form>
-		<div data-role="controlgroup" id="locationTypesContainer" data-type="horizontal"
-			data-mini="true">
-		</div>
+		<div data-role="controlgroup" id="locationTypesContainer"
+			data-type="horizontal" data-mini="true"></div>
 	</form>
 </div>
+<div id="infoDiv"></div>
 <div id="searchFields" style="width: 85%;">
 	<fieldset data-role="controlgroup" data-type="horizontal"
 		name="optionType">
