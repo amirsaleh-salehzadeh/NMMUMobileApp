@@ -60,6 +60,8 @@ input {
 	padding-top: .33em;
 	padding-bottom: .33em;
 	margin: 0px;
+	color:white;
+	background-color:black;
 }
 
 /*
@@ -279,6 +281,16 @@ input {
 }
 
 }
+/*
+path management 
+drop down menu
+*/
+input#select{
+	background-color: black;
+	color:white;
+	
+}
+
 /*
  Table Grid
  */
