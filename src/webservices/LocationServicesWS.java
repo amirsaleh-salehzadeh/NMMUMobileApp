@@ -31,12 +31,15 @@ public class LocationServicesWS {
 	@GET
 	@Path("/GetAllLocationsForUser")
 	@Produces("application/json")
-	public String getAllLocationsForUser(@QueryParam("userName") String userName) {
+	public String getAllLocationsForUser(
+			@QueryParam("userName") String userName,
+			@QueryParam("locationTypeId") int locationTypeId,
+			@QueryParam("parentLocationId") long parentLocationId) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
-					.getAllLocationsForUser(userName));
+					.getAllLocationsForUser(userName, locationTypeId, parentLocationId));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -65,16 +68,16 @@ public class LocationServicesWS {
 		}
 		return json;
 	}
-	
+
 	@GET
-	@Path("/GetLocationsOfaType")
+	@Path("/GetParentLocationsOfaType")
 	@Produces("application/json")
 	public String getLocationsOfaType(@QueryParam("typeId") int typeId) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
-					.getLocationsOfaType(typeId).getLocationLightENTs());
+					.getParentLocationsOfaType(typeId).getLocationLightENTs());
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -151,10 +154,12 @@ public class LocationServicesWS {
 			@QueryParam("locationName") String locationName,
 			@QueryParam("userName") String userName,
 			@QueryParam("address") String address,
-			@QueryParam("coordinate") String coordinate) {
+			@QueryParam("coordinate") String coordinate,
+			@QueryParam("parentId") long parentId ) {
 		LocationENT ent = new LocationENT(locationId, userName,
 				new LocationTypeENT(locationType), address, coordinate,
 				locationName);
+		ent.setParentId(parentId);
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {

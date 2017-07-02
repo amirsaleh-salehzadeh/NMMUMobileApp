@@ -31,10 +31,10 @@ function saveMarker() {
 		alert("Please select a name for the location");
 		return;
 	}
-	var url = "REST/GetLocationWS/SaveUpdateLocation?locationName="
-			+ $("#markerName").val() + "&coordinate="
-			+ $("#markerCoordinate").val() + "&locationType="
-			+ $("#locationType").val() + "&userName=admin";
+	var url = "REST/GetLocationWS/SaveUpdateLocation?parentId="
+			+ $("#parentLocationId").val() + "&locationName=" + $("#markerName").val()
+			+ "&coordinate=" + $("#markerCoordinate").val() + "&locationType="
+			+ $("#locationTypeId").val() + "&userName=admin";
 
 	$.ajax({
 		url : url,
@@ -46,6 +46,7 @@ function saveMarker() {
 					lng : parseFloat(data.gps.split(",")[1])
 				},
 				map : map,
+				icon: getIcon(data.locationType.locationTypeId),
 				title : data.locationName
 			});
 			var bounds = new google.maps.LatLngBounds();
@@ -103,42 +104,51 @@ function savePath() {
 var markers = [];
 var paths = [];
 function getAllMarkers() {
-	// the url for the ajax call. There is a JSON webservice which provides all
-	// locations for the user admin at the moment
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?userName=admin";
-	// removes all markers from the map
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="+
+	$("#parentLocationId").val()+"&locationTypeId="
+			+ $("#locationTypeId").val() + "&userName=admin";
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
 	}
-	// ajax call function >>> google it
+
 	$.ajax({
-		url : url,// set url
-		cache : false,// cache > disable
-		success : function(data) {// in success the object 'data' would be
-			// returned
-			$.each(data, function(k, l) {// for each item in the json string,
-				// index k and object l > in this
-				// case locations
+		url : url,
+		cache : false,
+		success : function(data) {
+			$.each(data, function(k, l) {
 				marker = new google.maps.Marker({
 					position : {
-						lat : parseFloat(l.gps.split(",")[0]),// takes the gps
-						// of a
-						// locationENT
+						lat : parseFloat(l.gps.split(",")[0]),
 						lng : parseFloat(l.gps.split(",")[1])
 					},
 					map : map,
-					title : l.locationName 				
+					icon : getIcon(l.locationType.locationTypeId),
+					title : l.locationName
 				});
-				marker.addListener('click', function(point) {// adds a click
-					// listener
+
+				marker.addListener('click', function(point) {
 					addToPath(l.locationName, l.locationID, l.gps,
-							l.locationType.locationTypeId);// calls addToPath
-					
+							l.locationType.locationType);
 				});
-				markers.push(marker);// push the marker into the map
+				markers.push(marker);
 			});
 		}
 	});
+}
+
+function getIcon(locationTypeId) {
+	var icon = 'images/map-markers/';
+	if (locationTypeId == "1")
+		icon += 'marker-blue.png';
+	else if (locationTypeId == "2")
+		icon += 'marker-green.png';
+	else if (locationTypeId == "3")
+		icon += 'marker-orange.png';
+	else if (locationTypeId == "4")
+		icon += 'marker-pink.png';
+	else 
+		icon += 'marker-yellow.png';
+	return icon;
 }
 
 function getAllPaths() {
@@ -200,13 +210,14 @@ function animateCircle(line) {
 	}, 20);
 }
 
-function addToPath(name, id, gps, typeId) {
+function addToPath(name, id, gps, typeName) {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
 		$("#markerId").val(id);
 		$("#markerName").val(name);
 		$("#markerCoordinate").val(gps);
-		$("#locationType option[value=" + typeId + "]").attr('selected',
-				'selected').trigger('create');
+		$("#markerLabel").html(typeName);
+		// $("#locationType option[value=" + typeId + "]").attr('selected',
+		// 'selected').trigger('create');
 		openMarkerPopup();
 	} else {
 		if ($("#departure").val() == "") {
@@ -222,19 +233,11 @@ function addToPath(name, id, gps, typeId) {
 }
 
 function openMarkerPopup() {
-	var url = "REST/GetLocationWS/GetLocationsOfaType?typeId=2";
-	$.ajax({
-		url : url,
-		cache : false,
-		success : function(data) {
-			$.each(data, function(k, l) {
-				$('#parentLocationListView').append(
-						'<a href="#" class="ui-btn ui-shadow ui-corner-all">'
-								+ l.n + '</a>');
-			});
-		}
-	});
-	$('#locationType').selectmenu('refresh');
+	if ($("#locationTypeId").val() == "0"
+			|| $("#parentLocationId").val() == "0") {
+		alert("Please select the marker type (at the top menu) and parent location (at the right side menu) first.");
+		return;
+	}
 	$('#insertAMarker').popup().trigger('create');
 	$('#insertAMarker').popup('open').trigger('create');
 
@@ -246,6 +249,8 @@ function openPathCreationPopup() {
 }
 
 function initMap() {
+	getLocationTypePanel();
+	getPathTypePanel();
 	getAllMarkers();
 	getAllPaths();
 	var myLatLng = {
@@ -265,8 +270,12 @@ function initMap() {
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 			.getElementById('searchFields'));
-	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
 			.getElementById('locationTypeFields'));
+	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+			.getElementById('infoDiv'));
+	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
+			.getElementById('locationsUnderAType'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");
@@ -351,16 +360,17 @@ function selectRightPanelVal() {
 var locationTypeJSONData;
 function getLocationTypePanel() {
 	var url = "REST/GetLocationWS/GetAllLocationTypes";
+	$("#locationTypesContainer").controlgroup();
 	$
 			.ajax({
 				url : url,
 				cache : false,
 				success : function(data) {
 					locationTypeJSONData = data;
-//					$("#locationTypesContainer").html("");
-					var str = "<select name='selectLocationType' class='locationTypeNavBar' id='NavBar"
+					// $("#locationTypesContainer").html("");
+					var str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' id='NavBar"
 							+ data.locationType
-							+ "' onclick='getMyChild($(this).val())'>";
+							+ "' onclick='getMyChild(this)'>";
 					str += "<option value='" + data.locationTypeId + "'>"
 							+ data.locationType + "</option>";
 					if (data.children.length > 1)
@@ -368,25 +378,70 @@ function getLocationTypePanel() {
 							str += "<option value='" + l.locationTypeId + "'>"
 									+ l.locationType + "</option>";
 						});
-
+					$("div#infoDiv")
+							.append(
+									"<span class='infoDivTitle' id='locationTypeParent'>Create "
+											+ data.locationType
+											+ "</span>"
+											+ "<span class='infoDivTitle' id='locationParent'></span>");
 					str += "</select>";
-//					$("#locationTypesContainer").html(str);
-//					$("#locationTypesContainer").trigger("create");
+					$("#locationTypeId").val(data.locationTypeId);
+					// $("#locationTypesContainer").html(str);
+					// $("#locationTypesContainer").trigger("create");
 					$("#locationTypesContainer").controlgroup("container")
 							.empty();
 					$("#locationTypesContainer").controlgroup("refresh");
 					$("#locationTypesContainer").controlgroup("container")
 							.append(str);
 					$("#NavBar" + data.locationType).selectmenu();
-					$("#locationTypesContainer").controlgroup(
-							"refresh");
-
+					$("#locationTypesContainer").controlgroup("refresh");
 				}
 			});
 }
+function selectParent(field) {
+	$("#locationParent").html(
+			" in " + $(field).html() + " " + $("#parentDefinition").val() + " "
+					+ $("#" + $(field).attr("id") + " option:selected").text());
+	$("#parentLocationId").val($(field).attr("id"));
+	getAllMarkers();
+}
 
 var childData;
-function getMyChild(select) {
+function getMyChild(field) {
+	var select = 0;
+	if (typeof field != 'number') {
+		select = $(field).val();
+		$("#locationTypeId").val($(field).val());
+		$("#locationTypeParent").html(
+				"Create "
+						+ $("#" + $(field).attr("id") + " option:selected")
+								.text());
+		$("#parentLocationId").val("0");
+		$("#locationParent").html("");
+		getAllMarkers();
+		var url = "REST/GetLocationWS/GetParentLocationsOfaType?typeId="
+				+ $("#locationTypeId").val();
+		$
+				.ajax({
+					url : url,
+					cache : false,
+					success : function(data) {
+						var str = "";
+						$
+								.each(
+										data,
+										function(k, l) {
+											str += '<a href="#" id="'
+													+ l.id
+													+ '" data-mini="true" onclick="selectParent(this)" class="ui-btn ui-shadow ui-corner-all">'
+													+ l.n + '</a>';
+											$("#parentDefinition").val(l.t);
+										});
+						$('#parentLocationListView').html(str);
+					}
+				});
+	} else
+		select = field;
 	if (childData == null)
 		childData = locationTypeJSONData;
 	else if (childData.children == null)
@@ -400,12 +455,11 @@ function getMyChild(select) {
 						function(k, l) {
 							if (str == "") {
 								navbarId = l.locationType;
-								str = "<select name='selectLocationType' class='locationTypeNavBar' id='NavBar"
+								str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' id='NavBar"
 										+ l.locationType
-										+ "' onclick='getMyChild($(this).val())'>";
+										+ "' onclick='getMyChild(this)' >";
 							}
-
-							str += "<option value='" + l.locationTypeId + "'>"
+							str += "<option value='" + l.locationTypeId + "'> "
 									+ l.locationType + "</option>";
 
 							if (l.children != null && l.children.length > 3) {
@@ -425,11 +479,12 @@ function getMyChild(select) {
 						});
 		str += "</select>";
 		if ($("select#NavBar" + navbarId).length == 0) {
-			$("#locationTypesContainer").controlgroup("container")
-			.append(str);
-	$("#NavBar" + navbarId).selectmenu();
-	$("#locationTypesContainer").controlgroup(
-			"refresh");
+			$("#locationTypesContainer").controlgroup("container").append(str);
+			$("#NavBar" + navbarId).selectmenu();
+			$("#NavBar" + navbarId + " > option").each(function() {
+				$("#NavBar" + navbarId).css("min-width",$(this).css("width"));
+			});
+			$("#locationTypesContainer").controlgroup("refresh");
 		}
 	} else
 		$.each(childData.children, function(k, l) {
@@ -484,6 +539,7 @@ function getPathTypePanel() {
 						+ "</a></li>";
 			});
 			$("ul#pathTypeListView").html(tmp).trigger("create");
+			$("ul#pathTypeListView").listview();
 			$("ul#pathTypeListView").listview("refresh");
 			$("#rightpanel").trigger("updatelayout");
 		}

@@ -26,6 +26,22 @@ public class LocationENT {
 	private String postBox = "";
 	private String gps = "";
 	private String locationName = "";
+	private long parentId;
+	
+	/**
+	 * @return the parentId
+	 */
+	public long getParentId() {
+		return parentId;
+	}
+
+	/**
+	 * @param parentId the parentId to set
+	 */
+	public void setParentId(long parentId) {
+		this.parentId = parentId;
+	}
+
 	public ArrayList<LocationENT> childrenENT = new ArrayList<LocationENT>();
 
 	
