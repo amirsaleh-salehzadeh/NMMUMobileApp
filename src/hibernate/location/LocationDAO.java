@@ -180,7 +180,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public ArrayList<LocationENT> getAllLocationsForUser(String username, int locationTypeId) {
+	public ArrayList<LocationENT> getAllLocationsForUser(String username,
+			int locationTypeId, long parentLocationId) {
 		ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
 		try {
 			Connection conn = null;
@@ -191,10 +192,15 @@ public class LocationDAO extends BaseHibernateDAO implements
 			}
 			String query = "";
 			query = "select l.*, lt.location_type as locaName from location l "
-					+ " left join location_type lt on lt.location_type_id = l.location_type"
-					+ " where l.username = '" + username + "'";
-			if(locationTypeId>0)
+					+ " left join location_type lt on lt.location_type_id = l.location_type";
+//			if (parentLocationId > 0)
+//				query += " inner join locations pl on l.parent_id = pl.location_id";
+			query += " where l.username = '" + username + "'";
+			if (parentLocationId > 0)
+				query += " and l.parent_id = " + parentLocationId;
+			else if (locationTypeId > 0)
 				query += " and l.location_type = " + locationTypeId;
+			
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -442,7 +448,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	public LocationENT findClosestLocation(String GPSCoordinates) {
 		LocationDAO dao = new LocationDAO();
-		ArrayList<LocationENT> points = dao.getAllLocationsForUser("admin", 0);
+		ArrayList<LocationENT> points = dao.getAllLocationsForUser("admin", 0, 0);
 		int closest = -1;
 		double[] distances = new double[points.size()];
 		for (int i = 0; i < points.size(); i++) {
@@ -491,7 +497,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
 				DefaultWeightedEdge.class);
 		LocationDAO dao = new LocationDAO();
-		ArrayList<LocationENT> points = dao.getAllLocationsForUser("admin", 0);
+		ArrayList<LocationENT> points = dao.getAllLocationsForUser("admin", 0, 0);
 		for (int i = 0; i < points.size(); i++) {
 			long depTMP = points.get(i).getLocationID();
 			if (!g.containsVertex(depTMP))
@@ -753,17 +759,19 @@ public class LocationDAO extends BaseHibernateDAO implements
 			Connection conn = null;
 			conn = getConnection();
 			String query = "";
-			query = "select l.location_name, l.location_id, ltt.location_type from location_type lt" +
-					" inner join location l on lt.parent_id = l.location_type" +
-					" left join location_type ltt on ltt.location_type_id = lt.parent_id" +
-					" where lt.location_type_id =" + locationTypeId
+			query = "select l.location_name, l.location_id, ltt.location_type from location_type lt"
+					+ " inner join location l on lt.parent_id = l.location_type"
+					+ " left join location_type ltt on ltt.location_type_id = lt.parent_id"
+					+ " where lt.location_type_id ="
+					+ locationTypeId
 					+ " order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ArrayList<LocationLightENT> ents = new ArrayList<LocationLightENT>();
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				LocationLightENT ent = new LocationLightENT(
-						rs.getLong("location_id"), rs.getString("location_type"),
+						rs.getLong("location_id"),
+						rs.getString("location_type"),
 						rs.getString("location_name"), "", null);
 				ents.add(ent);
 			}

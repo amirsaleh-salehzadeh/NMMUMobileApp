@@ -32,7 +32,7 @@ function saveMarker() {
 		return;
 	}
 	var url = "REST/GetLocationWS/SaveUpdateLocation?locationParent="
-			+ $("parentLocationId") + "&locationName=" + $("#markerName").val()
+			+ $("parentLocationId").val() + "&locationName=" + $("#markerName").val()
 			+ "&coordinate=" + $("#markerCoordinate").val() + "&locationType="
 			+ $("#locationTypeId").val() + "&userName=admin";
 
@@ -46,6 +46,7 @@ function saveMarker() {
 					lng : parseFloat(data.gps.split(",")[1])
 				},
 				map : map,
+				icon: getIcon(data.locationType.locationTypeId),
 				title : data.locationName
 			});
 			var bounds = new google.maps.LatLngBounds();
@@ -103,7 +104,8 @@ function savePath() {
 var markers = [];
 var paths = [];
 function getAllMarkers() {
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?locationTypeId="
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="+
+	$("#parentLocationId").val()+"&locationTypeId="
 			+ $("#locationTypeId").val() + "&userName=admin";
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
@@ -138,16 +140,14 @@ function getIcon(locationTypeId) {
 	var icon = 'images/map-markers/';
 	if (locationTypeId == "1")
 		icon += 'marker-blue.png';
-	if (locationTypeId == "2")
+	else if (locationTypeId == "2")
 		icon += 'marker-green.png';
-	if (locationTypeId == "3")
+	else if (locationTypeId == "3")
 		icon += 'marker-orange.png';
-	if (locationTypeId == "4")
+	else if (locationTypeId == "4")
 		icon += 'marker-pink.png';
-	if (locationTypeId == "5")
+	else 
 		icon += 'marker-yellow.png';
-	if (locationTypeId == "6")
-		icon += 'marker-blue.png';
 	return icon;
 }
 

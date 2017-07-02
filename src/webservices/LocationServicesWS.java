@@ -31,12 +31,15 @@ public class LocationServicesWS {
 	@GET
 	@Path("/GetAllLocationsForUser")
 	@Produces("application/json")
-	public String getAllLocationsForUser(@QueryParam("userName") String userName, @QueryParam("locationTypeId") int locationTypeId) {
+	public String getAllLocationsForUser(
+			@QueryParam("userName") String userName,
+			@QueryParam("locationTypeId") int locationTypeId,
+			@QueryParam("parentLocationId") long parentLocationId) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
-					.getAllLocationsForUser(userName, locationTypeId));
+					.getAllLocationsForUser(userName, locationTypeId, parentLocationId));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -65,7 +68,7 @@ public class LocationServicesWS {
 		}
 		return json;
 	}
-	
+
 	@GET
 	@Path("/GetParentLocationsOfaType")
 	@Produces("application/json")
