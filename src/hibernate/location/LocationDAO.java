@@ -50,10 +50,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 				e.printStackTrace();
 			}
 			String query = "";
-			query = "insert into location (country, address, post_box, gps, location_name, username, location_type)"
-					+ " values (?, ?, ?, ?, ?, ?, ?)";
+			query = "insert into location (country, address, post_box, gps, location_name, username, location_type, parent_id)"
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
 			if (ent.getLocationID() > 0)
-				query = "update location set country = ?, address = ?, post_box = ?, location_name = ?, username = ?, location_type = ? where location_id = ?";
+				query = "update location set country = ?, address = ?, post_box = ?, location_name = ?, username = ?, location_type = ? , parent_id = ? where location_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, ent.getCountry());
@@ -63,8 +63,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps.setString(5, ent.getLocationName());
 			ps.setString(6, ent.getUserName());
 			ps.setInt(7, ent.getLocationType().getLocationTypeId());
+			ps.setLong(8, ent.getParentId());
 			if (ent.getLocationID() > 0)
-				ps.setLong(8, ent.getLocationID());
+				ps.setLong(9, ent.getLocationID());
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 			if (rs.next()) {

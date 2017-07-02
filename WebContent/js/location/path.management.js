@@ -31,8 +31,8 @@ function saveMarker() {
 		alert("Please select a name for the location");
 		return;
 	}
-	var url = "REST/GetLocationWS/SaveUpdateLocation?locationParent="
-			+ $("parentLocationId").val() + "&locationName=" + $("#markerName").val()
+	var url = "REST/GetLocationWS/SaveUpdateLocation?parentId="
+			+ $("#parentLocationId").val() + "&locationName=" + $("#markerName").val()
 			+ "&coordinate=" + $("#markerCoordinate").val() + "&locationType="
 			+ $("#locationTypeId").val() + "&userName=admin";
 

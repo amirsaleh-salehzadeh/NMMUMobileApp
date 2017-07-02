@@ -154,10 +154,12 @@ public class LocationServicesWS {
 			@QueryParam("locationName") String locationName,
 			@QueryParam("userName") String userName,
 			@QueryParam("address") String address,
-			@QueryParam("coordinate") String coordinate) {
+			@QueryParam("coordinate") String coordinate,
+			@QueryParam("parentId") long parentId ) {
 		LocationENT ent = new LocationENT(locationId, userName,
 				new LocationTypeENT(locationType), address, coordinate,
 				locationName);
+		ent.setParentId(parentId);
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
