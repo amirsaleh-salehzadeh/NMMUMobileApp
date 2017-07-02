@@ -19,7 +19,7 @@ public interface LocationDAOInterface {
 
 	public LocationENT getLocationENT(LocationENT ent);
 
-	public ArrayList<LocationENT> getAllLocationsForUser(String username);
+	public ArrayList<LocationENT> getAllLocationsForUser(String username, int locationTypeId);
 
 	public boolean deleteLocation(LocationENT ent) throws AMSException;
 
@@ -53,7 +53,7 @@ public interface LocationDAOInterface {
 
 	public String getQRCodeForLocationENT(long locationId);
 	
-	public LocationLST getLocationsOfaType(int locationTypeId);
+	public LocationLST getParentLocationsOfaType(int locationTypeId);
 	
 	
 }

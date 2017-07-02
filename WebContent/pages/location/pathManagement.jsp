@@ -33,6 +33,7 @@
 
 #locationTypeFields {
 	/* 	padding-left: 22em; */
+	
 }
 
 #infoDiv {
@@ -40,30 +41,51 @@
 	display: inline;
 	padding-right: 3em;
 	border: thick 4pt;
-	border-color: black; 
-	font-size : 16pt;
+	border-color: black;
+	font-size: 16pt;
 	font-weight: bold;
 	margin: 1em;
 	background-color: #9b221f;
-	opacity: .4;
 	font-size: 16pt;
 }
 
-#infoDivTitle{
+#infoDivTitle {
 	display: inline-block;
 	opacity: 1 !important;
 }
-#parentLocationListView{
+
+#parentLocationListView {
 	position: absolute;
 	z-index: 100;
 	background-color: white;
 	width: 100%;
 }
+
+.locationTypeNavBar {
+display: block;
+	min-height: 3em;
+	font-size: 16pt;
+}
+
+.locationTypeNavBar select {
+display: block;
+background: url('images/map-markers/marker-blue.png') no-repeat left 100% 100% #FEFEFE;
+background-size: 66px 66px;
+
+}
+.locationTypeNavBar option {
+display: block;
+background-color: black !important;
+color: white;
+border-width:6px;
+border:2px #fff;
+border-bottom: thin;
+min-height: .7em;
+border-color: white;
+}
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
-		getLocationTypePanel();
-		getPathTypePanel();
 		// 		selectRightPanelVal();
 		$("#rightpanel").trigger("updatelayout");
 		$(".liLocationLV").each(function() {
@@ -89,10 +111,23 @@
 </div>
 <div id="map_canvas"></div>
 <div id="locationTypeFields">
+	<input type='hidden' id='locationTypeId' value='0'>
 	<form>
 		<div data-role="controlgroup" id="locationTypesContainer"
 			data-type="horizontal" data-mini="true"></div>
 	</form>
+</div>
+<div>
+	<input type="hidden" id="parentDefinition" value="0"> <input
+		type="hidden" id="parentLocationId" value="0">
+	<div class="ui-field-contain" id="locationsUnderAType">
+		<form>
+			    <input data-type="search" id="parentLocation">
+			<div data-role="controlgroup" data-filter="true"
+				data-input="#parentLocation" id="parentLocationListView"></div>
+		</form>
+
+	</div>
 </div>
 <div id="infoDiv"></div>
 <div id="searchFields" style="width: 85%;">
@@ -115,17 +150,11 @@
 		data-iconpos="notext" class="ui-btn-right"
 		onclick="$('#insertAMarker').popup('close'); ">Close</a>
 	<div class="ui-block-solo">
-		<input type="text" placeholder="Location Name" name="markerName"
-			id="markerName" value=""> <input type="hidden"
-			name="markerCoordinate" id="markerCoordinate"> <input
-			type="hidden" name="markerId" id="markerId">
-	</div>
-	<div class="ui-field-contain">
-		<form>
-			    <input data-type="search" id="parentLocation">
-		</form>
-		<div data-role="controlgroup" data-filter="true"
-			data-input="#parentLocation" id="parentLocationListView"></div>
+		<label for="markerName" id="markerLabel"></label> <input type="text"
+			placeholder="Location Name" name="markerName" id="markerName"
+			value=""> <input type="hidden" name="markerCoordinate"
+			id="markerCoordinate"> <input type="hidden" name="markerId"
+			id="markerId">
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
