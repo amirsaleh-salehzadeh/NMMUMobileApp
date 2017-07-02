@@ -32,9 +32,10 @@ function saveMarker() {
 		return;
 	}
 	var url = "REST/GetLocationWS/SaveUpdateLocation?parentId="
-			+ $("#parentLocationId").val() + "&locationName=" + $("#markerName").val()
-			+ "&coordinate=" + $("#markerCoordinate").val() + "&locationType="
-			+ $("#locationTypeId").val() + "&userName=admin";
+			+ $("#parentLocationId").val() + "&locationName="
+			+ $("#markerName").val() + "&coordinate="
+			+ $("#markerCoordinate").val() + "&locationType="
+			+ $("#locationTypeId").val() + "&userName=NMMU";
 
 	$.ajax({
 		url : url,
@@ -46,15 +47,15 @@ function saveMarker() {
 					lng : parseFloat(data.gps.split(",")[1])
 				},
 				map : map,
-				icon: getIcon(data.locationType.locationTypeId),
+				icon : refreshMap(data),
 				title : data.locationName
 			});
 			var bounds = new google.maps.LatLngBounds();
 			bounds.extend(marker.getPosition());
 			map.fitBounds(bounds);
+			map.setZoom(19);
 			marker.addListener('click', function() {
-				addToPath(data.locationName, data.locationID, data.gps,
-						data.locationType.locationTypeId);
+				addToPath(data, data.gps);
 			});
 			markers.push(marker);
 		}
@@ -104,31 +105,31 @@ function savePath() {
 var markers = [];
 var paths = [];
 function getAllMarkers() {
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="+
-	$("#parentLocationId").val()+"&locationTypeId="
-			+ $("#locationTypeId").val() + "&userName=admin";
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
+			+ $("#parentLocationId").val() + "&locationTypeId="
+			+ $("#locationTypeId").val() + "&userName=NMMU";
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
 	}
-
 	$.ajax({
 		url : url,
 		cache : false,
 		success : function(data) {
 			$.each(data, function(k, l) {
-				marker = new google.maps.Marker({
-					position : {
+				var pos= {
 						lat : parseFloat(l.gps.split(",")[0]),
 						lng : parseFloat(l.gps.split(",")[1])
-					},
+					};
+				marker = new google.maps.Marker({
+					position : pos,
 					map : map,
-					icon : getIcon(l.locationType.locationTypeId),
+					icon : refreshMap(l),
 					title : l.locationName
 				});
-
 				marker.addListener('click', function(point) {
-					addToPath(l.locationName, l.locationID, l.gps,
-							l.locationType.locationType);
+					addToPath(l, l.gps);
+					map.setCenter(pos);
+					map.setZoom(17);
 				});
 				markers.push(marker);
 			});
@@ -136,23 +137,28 @@ function getAllMarkers() {
 	});
 }
 
-function getIcon(locationTypeId) {
+function refreshMap(location) {
+//	var gps = {
+//		lat : parseFloat(location.gps.split(",")[0]),
+//		lng : parseFloat(location.gps.split(",")[1])
+//	};
+//	map.setCenter(gps);
 	var icon = 'images/map-markers/';
-	if (locationTypeId == "1")
+	if (location.locationType.locationTypeId == "1") {
 		icon += 'marker-blue.png';
-	else if (locationTypeId == "2")
+	} else if (location.locationType.locationTypeId == "2") {
 		icon += 'marker-green.png';
-	else if (locationTypeId == "3")
+	} else if (location.locationType.locationTypeId == "3") {
 		icon += 'marker-orange.png';
-	else if (locationTypeId == "4")
+	} else if (location.locationType.locationTypeId == "4") {
 		icon += 'marker-pink.png';
-	else 
+	} else
 		icon += 'marker-yellow.png';
 	return icon;
 }
 
 function getAllPaths() {
-	var url = "REST/GetLocationWS/GetAllPathsForUser?userName=admin";
+	var url = "REST/GetLocationWS/GetAllPathsForUser?userName=NMMU";
 	for ( var i = 0; i < paths.length; i++) {
 		paths[i].setMap(null);
 	}
@@ -186,7 +192,7 @@ function getAllPaths() {
 					geodesic : true,
 					strokeColor : color,
 					strokeOpacity : 1.0,
-					strokeWeight : 7
+					strokeWeight : 6
 				});
 				pathPolyline.addListener('click', function() {
 					removePath(l.pathId);
@@ -203,22 +209,32 @@ function animateCircle(line) {
 	var count = 0;
 	window.setInterval(function() {
 		count = (count + 1) % 200;
-
 		var icons = line.get('icons');
 		icons[0].offset = (count / 2) + '%';
 		line.set('icons', icons);
 	}, 20);
 }
 
-function addToPath(name, id, gps, typeName) {
+function addToPath(location, gps) {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		$("#markerId").val(id);
-		$("#markerName").val(name);
-		$("#markerCoordinate").val(gps);
-		$("#markerLabel").html(typeName);
+		var edit = true;
+		if (location == null) {
+			edit = false;
+			$("#markerId").val("");
+			$("#markerName").val("");
+			$("#markerCoordinate").val(gps);
+			$("#markerLabel").html();
+		} else {
+			$("#markerId").val(location.locationID);
+			$("#markerName").val(location.locationName);
+			$("#markerCoordinate").val(gps);
+			$("#markerLabel").html(location.locationType.locationType);
+//			alert(location.parentId);
+		}
 		// $("#locationType option[value=" + typeId + "]").attr('selected',
 		// 'selected').trigger('create');
-		openMarkerPopup();
+
+		openMarkerPopup(edit);
 	} else {
 		if ($("#departure").val() == "") {
 			$("#departure").val(name);
@@ -232,9 +248,10 @@ function addToPath(name, id, gps, typeName) {
 	}
 }
 
-function openMarkerPopup() {
-	if ($("#locationTypeId").val() == "0"
-			|| $("#parentLocationId").val() == "0") {
+function openMarkerPopup(edit) {
+	if (!edit
+			&& ($("#locationTypeId").val() == "0" || $("#parentLocationId")
+					.val() == "0")) {
 		alert("Please select the marker type (at the top menu) and parent location (at the right side menu) first.");
 		return;
 	}
@@ -254,15 +271,15 @@ function initMap() {
 	getAllMarkers();
 	getAllPaths();
 	var myLatLng = {
-		lat : -34.009083,
-		lng : 25.669059
+		lat : -33.5343803,
+		lng : 24.2683424
 	};
 	marker = new google.maps.Marker({
 		position : myLatLng,
 		map : map
 	});
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
-		zoom : 18,
+		zoom : 7,
 		streetViewControl : true,
 		fullscreenControl : true,
 		mapTypeId : 'satellite'
@@ -283,7 +300,7 @@ function initMap() {
 		$("#destinationId").val("");
 		var lat = event.latLng.lat();
 		var lng = event.latLng.lng();
-		addToPath(null, null, lat + "," + lng, null);
+		addToPath(null, lat + "," + lng);
 	});
 }
 
@@ -386,8 +403,6 @@ function getLocationTypePanel() {
 											+ "<span class='infoDivTitle' id='locationParent'></span>");
 					str += "</select>";
 					$("#locationTypeId").val(data.locationTypeId);
-					// $("#locationTypesContainer").html(str);
-					// $("#locationTypesContainer").trigger("create");
 					$("#locationTypesContainer").controlgroup("container")
 							.empty();
 					$("#locationTypesContainer").controlgroup("refresh");
@@ -482,7 +497,7 @@ function getMyChild(field) {
 			$("#locationTypesContainer").controlgroup("container").append(str);
 			$("#NavBar" + navbarId).selectmenu();
 			$("#NavBar" + navbarId + " > option").each(function() {
-				$("#NavBar" + navbarId).css("min-width",$(this).css("width"));
+				$("#NavBar" + navbarId).css("min-width", $(this).css("width"));
 			});
 			$("#locationTypesContainer").controlgroup("refresh");
 		}
