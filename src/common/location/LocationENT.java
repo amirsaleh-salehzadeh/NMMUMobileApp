@@ -23,11 +23,28 @@ public class LocationENT {
 	private int country = 0;
 	public LocationTypeENT locationType;
 	private String address = "";
-	private String postBox = "";
+	private String postBox = null;
 	private String gps = "";
 	private String locationName = "";
 	private long parentId;
 	
+	public LocationENT(long locationID, String userName, int country,
+			LocationTypeENT locationType, String address, String postBox,
+			String gps, String locationName, long parentId,
+			ArrayList<LocationENT> childrenENT) {
+		super();
+		this.locationID = locationID;
+		this.userName = userName;
+		this.country = country;
+		this.locationType = locationType;
+		this.address = address;
+		this.postBox = postBox;
+		this.gps = gps;
+		this.locationName = locationName;
+		this.parentId = parentId;
+		this.childrenENT = childrenENT;
+	}
+
 	/**
 	 * @return the parentId
 	 */
@@ -80,10 +97,10 @@ public class LocationENT {
 			LocationTypeENT locationType, String address, String gps,
 			String locationName) {
 		super();
-		if (address == null)
-			address = "N/A";
-		if (gps == null)
-			gps = "N/A";
+//		if (address == null)
+//			address = "N/A";
+//		if (gps == null)
+//			gps = "N/A";
 		if (country == 0)
 			country = 200;
 		this.locationID = locationID;
