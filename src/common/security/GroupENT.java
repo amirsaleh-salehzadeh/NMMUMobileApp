@@ -5,27 +5,27 @@ public class GroupENT {
 	String groupName = "";
 	int clientID;
 	String clientName;
-	int groupUserID;
+	int groupUserName;
 	int roleGroupID;
 	
 	public GroupENT(int groupID, String groupName, int clientID,
-			String clientName, int groupUserID, int roleGroupID, String comment) {
+			String clientName, int groupUserName, int roleGroupID, String comment) {
 		super();
 		this.groupID = groupID;
 		this.groupName = groupName;
 		this.clientID = clientID;
 		this.clientName = clientName;
-		this.groupUserID = groupUserID;
+		this.groupUserName = groupUserName;
 		this.roleGroupID = roleGroupID;
 		this.comment = comment;
 	}
 
-	public int getGroupUserID() {
-		return groupUserID;
+	public int getGroupUserName() {
+		return groupUserName;
 	}
 
-	public void setGroupUserID(int groupUserID) {
-		this.groupUserID = groupUserID;
+	public void setGroupUserName(int groupUserName) {
+		this.groupUserName = groupUserName;
 	}
 
 	public int getRoleGroupID() {

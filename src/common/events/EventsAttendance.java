@@ -13,8 +13,8 @@ import javax.persistence.*;
 public class EventsAttendance implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="user_id")
-	private java.math.BigInteger userId;
+	@Column(name="username")
+	private String userName;
 
 	//bi-directional many-to-one association to Event
 	@ManyToOne
@@ -22,14 +22,6 @@ public class EventsAttendance implements Serializable {
 	private EventENT event;
 
 	public EventsAttendance() {
-	}
-
-	public java.math.BigInteger getUserId() {
-		return this.userId;
-	}
-
-	public void setUserId(java.math.BigInteger userId) {
-		this.userId = userId;
 	}
 
 	public EventENT getEventENT() {

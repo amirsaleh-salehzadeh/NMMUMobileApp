@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <style type="text/css">
@@ -14,18 +13,6 @@
 #searchFields {
 	margin: 0 0 0 0;
 	padding-bottom: 12px;
-}
-
-#infowindow-content .title {
-	font-weight: bold;
-}
-
-#infowindow-content {
-	display: none;
-}
-
-#map_canvas #infowindow-content {
-	display: inline;
 }
 
 .inlineIcon {
@@ -42,198 +29,244 @@
 .ui-icon-walking:after {
 	background-image:
 		url("http://icons.iconarchive.com/icons/anatom5/people-disability/32/walking-icon.png");
-	background-size: 23px 23px;
+	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-bike:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/aha-soft/transport/32/bike-icon.png");
-	background-size: 23px 23px;
+		url("http://icons.iconarchive.com/icons/aha-soft/transport/24/bike-icon.png");
+	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-driving:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/cemagraphics/classic-cars/32/yellow-pickup-icon.png");
-	background-size: 23px 23px;
+		url("http://icons.iconarchive.com/icons/cemagraphics/classic-cars/24/yellow-pickup-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-wheelchair:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/icons-land/transport/24/Wheelchair-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-dirt-road:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/chrisl21/minecraft/24/Grass-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-start-trip:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/custom-icon-design/pretty-office-5/24/start-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-current-location:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/ahmadhania/spherical/24/target-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-clear-trip:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
+	background-size: 24px 24px;
 	border-radius: 0;
 }
 </style>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&callback=initMap"
-	type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		getLocationTypePanel();
+		$("#rightpanel").trigger("updatelayout");
+		$(".liLocationLV").each(function() {
+			$(this).bind('onclick', function(e) {
+				alert('Selected Name=' + $(this).attr('value'));
+			});
+		});
+	});
+</script>
 </head>
 <body>
-	<div id="map_canvas"></div>
-	<!-- 	<div id="infowindow-content"> -->
-	<!-- 		<img src="" width="16" height="16" id="place-icon"> <span -->
-	<!-- 			id="place-name" class="title"></span><br> <span -->
-	<!-- 			id="place-address"></span> -->
-	<!-- 	</div> -->
-	<div id="searchFields" style="width: 85%;">
-		<fieldset data-role="controlgroup" data-type="horizontal">
-			<label for="walking"><span
-				class="ui-alt-icon ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="walking" value="on"
-				checked="checked"> <label for="bicycle"><span
-				class="ui-alt-icon ui-icon-bike ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="bicycle" value="on">
-			<label for="driving"><span
-				class="ui-alt-icon ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-			<input type="radio" name="radio-choice-v-2" id="driving" value="on">
-		</fieldset>
-		<div class="ui-block-solo">
-			<input type="text" data-theme="c" id="from" placeholder="Departure">
+	<div data-role="panel" id="rightpanel" data-position="right"
+		data-display="overlay">
+		<div class="ui-block-solo" id="locationTypeListViewDiv">
+			<ul data-role="listview" data-inset="true" data-filter="true"
+				data-filter-placeholder="Location Type..." id="locationTypeListView">
+			</ul>
 		</div>
-		<div class="ui-block-solo">
-			<input type="text" data-theme="c" id="to" placeholder="Destination">
+	</div>
+	<input type="hidden" id="tripId">
+	<div data-role="tabs" id="tabs">
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#mapView" data-ajax="false" class="ui-btn-active">Map
+						View</a></li>
+				<li><a href="#" data-ajax="false" onclick="openAR();">AR
+						View</a></li>
+			</ul>
+		</div>
+		<div id="mapView" class="ui-body-d ui-content">
+			<input type="hidden" id="tripString">
+			<div id="map_canvas"></div>
+			<div id="searchFields" style="width: 85%;">
+				<div id="navBar" class="ui-grid-a" style="width: 100%;">
+					<div class="ui-block-a">
+						<fieldset data-role="controlgroup" data-mini="true"
+							data-type="horizontal"
+							style="float: left; display: inline-block;">
+							<input type="radio" name="radio-choice-path-type" id="dirtroad"
+								value="0" checked="checked"> <label for="wheelchair"><span
+								class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<label for="walking"><span
+								class="ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-path-type" id="walking"
+								value="1"> <label for="dirtroad"> <span
+								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<!-- 							<input type="radio" name="radio-choice-path-type" id="wheelchair" -->
+							<!-- 								value="3"> <label for="driving"> <span -->
+							<!-- 								class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
+							<!-- 							<input type="radio" name="radio-choice-path-type" id="driving" -->
+							<!-- 								value="4"> -->
+						</fieldset>
+					</div>
+					<div class="ui-block-B">
+						<fieldset data-role="controlgroup" data-mini="true"
+							data-type="horizontal"
+							style="float: right; display: inline-block;">
+							<label for="clearTrip"><span
+								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk"
+								onclick="removeTrip()"></span></label> <input type="radio"
+								name="radio-choice-v-2" id="clearTrip" value="1"> <label
+								for="currentLocation"><span
+								class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-v-2" id="currentLocation"
+								value="1"> <label for="startTrip"><span
+								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"
+								onclick="startTrip()"></span></label> <input type="radio"
+								name="radio-choice-v-2" id="startTrip" value="1">
+						</fieldset>
+					</div>
+				</div>
+				<div class="ui-block-solo">
+					<input type="hidden" id="from" placeholder="Departure"> <input
+						type="hidden" id="departureId" placeholder="DepartureId">
+					<input type="text" id="departureName" placeholder="Departure">
+				</div>
+				<div class="ui-block-solo">
+					<input type="hidden" id="to" placeholder="Destination"> <input
+						type="hidden" id="destinationId" placeholder="DestinationId">
+					<input type="text" id="destinationName" placeholder="Destination">
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
-	$(document).ready(
-			function() {
-				$("#map_canvas").css("width", $("#mainBodyContents").css("width"));
-				$("#map_canvas").css("max-height",
-						$(window).css("height") - $(".jqm-header").css("height"));
-				$("#map_canvas").css(
-						"min-height",
-						$(window).css("height") - $("#mainBodyContents").css("height")
-								+ $("#mainBodyContents").css("padding-top"));
-			});
-	var map, directionsService, directionsDisplay, infoWindow, marker, input, markerDestination;
-	var travelM = 'WALKING';
-	function findDeparture(x, y) {
-		var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + x + "," + y
-				+ "&sensor=true";
-		$.ajax({
-			url : url,
-			cache : false,
-			success : function(data) {
-				var tmp = data.results[0].formatted_address;
-				$("#from").val(tmp);
-			}
-		});
+	function openAR() {
+		var tmp = $('#destinationId').val();
+		if (tmp == null || tmp == "null" || tmp == "")
+			tmp = 0;
+		window.open("insta/docs/index.jsp?destinationId=" + tmp + "&pathType="
+				+ $("[name='radio-choice-path-type']:checked").val());
 	}
-
-	function initMap() {
-		var myLatLng = {
-			lat : -31.569743,
-			lng : 27.246471
+	$(document)
+			.ready(
+					function() {
+						$("#map_canvas").css("min-width",
+								parseInt($("#mainBodyContents").css("width")));
+						$("#map_canvas").css(
+								"min-height",
+								parseInt($(window).height())
+										- parseInt($(".jqm-header").css(
+												"height")) - 7);
+					});
+	var myLatLng = {
+		lat : -34.009211,
+		lng : 25.669051
+	};
+	var infoWindow;
+	var successHandler = function(position) {
+		var pos = {
+			lat : position.coords.latitude,
+			lng : position.coords.longitude
 		};
-		infoWindow = new google.maps.InfoWindow();
+		// 		infoWindow.setPosition(pos);
+		// 		infoWindow.setContent('Location found.');
+		// 		infoWindow.open(map);
+		map.setCenter(pos);
+		marker = new google.maps.Marker({
+			position : pos,
+			map : map
+		});
+	};
+
+	var errorHandler = function(errorObj) {
+		alert(errorObj.code + ": " + errorObj.message);
+
+	};
+
+	function initiMap() {
+		map = new google.maps.Map(document.getElementById('map_canvas'), {
+			center : {
+				lat : -34.009211,
+				lng : 25.669051
+			},
+			zoom : 17
+		});
+		infoWindow = new google.maps.InfoWindow;
+
+		// Try HTML5 geolocation.
 		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				myLatLng = {
-					lat : position.coords.latitude,
-					lng : position.coords.longitude
-				};
-				findDeparture(position.coords.latitude, position.coords.longitude);
-				marker = new google.maps.Marker({
-					position : myLatLng,
-					map : map
-				});
-				map.setCenter(myLatLng);
-			}, function() {
-				handleLocationError(true, infoWindow, map.getCenter());
-			});
-			map = new google.maps.Map(document.getElementById('map_canvas'), {
-				zoom : 18,
-				streetViewControl : true,
-				fullscreenControl : true
-			});
+			navigator.geolocation.getCurrentPosition(successHandler,
+					errorHandler, {
+						enableHighAccuracy : true,
+						maximumAge : 10000
+					});
 		} else {
+			// Browser doesn't support Geolocation
 			handleLocationError(false, infoWindow, map.getCenter());
 		}
+		// 		map = null;
+		// 		map = new google.maps.Map(document.getElementById('map_canvas'), {
+		// 			zoom : 17,
+		// 			streetViewControl : true,
+		// 			fullscreenControl : true
+		// 		});
 		input = document.getElementById('to');
 		map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 				.getElementById('searchFields'));
-		var autocomplete = new google.maps.places.Autocomplete(input);
-		autocomplete.bindTo('bounds', map);
-		// 		var infowindowContent = document.getElementById('infowindow-content');
-		markerDestination = new google.maps.Marker({
-			map : map,
-			anchorPoint : new google.maps.Point(0, -29)
-		});
-		directionsService = new google.maps.DirectionsService;
-		directionsDisplay = new google.maps.DirectionsRenderer;
-		autocomplete.addListener('place_changed', function() {
-			// 					infoWindow = new google.maps.InfoWindow();
-			markerDestination.setVisible(false);
-			marker.setVisible(false);
-			var place = autocomplete.getPlace();
-			if (!place.geometry) {
-				window.alert("No details available for input: '" + place.name + "'");
+		google.maps.event.addListener(map, "click", function(event) {
+			var lat = event.latLng.lat();
+			var lng = event.latLng.lng();
+			if ($("#from").val() == "") {
+				$("#from").val(lat + ", " + lng);
 				return;
-			}
-			if (place.geometry.viewport) {
-				map.fitBounds(place.geometry.viewport);
+			} else if ($("#to").val() == "") {
+				$("#to").val(lat + ", " + lng);
+				return;
 			} else {
-				map.setCenter(place.geometry.location);
-				map.setZoom(17); // Why 17? Because it looks good.
+				drawPoly();
 			}
-			markerDestination.setPosition(place.geometry.location);
-			var bounds = new google.maps.LatLngBounds();
-			bounds.extend(markerDestination.getPosition());
-			bounds.extend(marker.getPosition());
-			map.fitBounds(bounds);
-// 			markerDestination.setVisible(true);
-			// 					var address = '';
-			// 					if (place.address_components) {
-			// 						address = [
-			// 								(place.address_components[0]
-			// 										&& place.address_components[0].short_name || ''),
-			// 								(place.address_components[1]
-			// 										&& place.address_components[1].short_name || ''),
-			// 								(place.address_components[2]
-			// 										&& place.address_components[2].short_name || '') ]
-			// 								.join(' ');
-			// 					}
-			// 					infowindowContent.children['place-icon'].src = place.icon;
-			// 					infowindowContent.children['place-name'].textContent = place.name;
-			// 					infowindowContent.children['place-address'].textContent = address;
-			// 					infowindow.open(map, markerDestination);
-			calculateAndDisplayRoute();
 		});
-		autocomplete.setTypes([]);
 	}
-
-	function calculateAndDisplayRoute() {
-		directionsDisplay.setMap(null);
-		directionsDisplay.setMap(map);
-// 		var wp = new Array();
-// 		wp[0] = new google.maps.LatLng(marker.getPosition().lat(), marker.getPosition().lng());
-// 		wp[1] = new google.maps.LatLng(markerDestination.getPosition().lat(), markerDestination.getPosition()
-// 				.lng());
-// 		directionsService.loadFromWaypoints(wp);
-// 		google.maps.DirectionsService.addListener(directionsService, "load", function() {
-// 			alert(directionsService.getDuration().seconds + " seconds");
-// 		});
-		directionsService.route(
-				{
-					origin : new google.maps.LatLng(marker.getPosition().lat(), marker
-							.getPosition().lng()),
-					destination : new google.maps.LatLng(markerDestination.getPosition().lat(),
-							markerDestination.getPosition().lng()),
-					travelMode : travelM
-				}, function(response, status) {
-					if (status === 'OK') {
-						directionsDisplay.setDirections(response);
-						 alert( response.routes[0].legs[0].distance.value);
-						 alert( response.routes[0].legs[0].duration.value);
-						 alert( response.routes[1].legs[0].duration.value);
-					} else {
-						window.alert('Directions request failed due to ' + status);
-					}
-				});
-	}
-
 	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 		infoWindow.setPosition(pos);
-		infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
-				: 'Error: Your browser doesn\'t support geolocation.');
+		infoWindow
+				.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
+						: 'Error: Your browser doesn\'t support geolocation.');
 		infoWindow.open(map);
 	}
 </script>
+<script type="text/javascript" src="js/location/path.management.js"></script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&callback=initiMap"
+	type="text/javascript"></script>
 </html>

@@ -11,7 +11,7 @@ public class RoleLST {
 	private int totalItems;
 	private int first;
 	private boolean ascending = true;
-	private String sortedByField = "roleName";
+	private String sortedByField = "role_name";
 
 	public RoleLST() {
 	}

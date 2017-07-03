@@ -3395,7 +3395,7 @@ fieldset.ui-controlgroup {
 /* Native input positioning */
 .ui-checkbox input,
 .ui-radio input {
-	position: absolute;
+	/*position: absolute;*/
 	left: .466em;
 	top: 50%;
 	width: 22px;
@@ -3411,7 +3411,7 @@ fieldset.ui-controlgroup {
 }
 .ui-checkbox input:disabled,
 .ui-radio input:disabled {
-	position: absolute !important;
+	/*position: absolute !important;*/
 	height: 1px;
 	width: 1px;
 	overflow: hidden;

@@ -94,7 +94,7 @@ public class AMSUtililies {
 		printObject(obj, true, true, true);
 	}
 
-	synchronized public static String encode(String inputStr) {
+	synchronized public static String encodeMD5(String inputStr) {
 		byte[] defaultBytes = inputStr.getBytes();
 		try {
 			MessageDigest algorithm = MessageDigest.getInstance("MD5");

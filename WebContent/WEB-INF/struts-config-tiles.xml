@@ -15,6 +15,11 @@
 			<forward name="groupManagement" path="page.security" />
 			<forward name="groupEdit" path="page.security" />
 		</action>
+		<action  path="/t_newsfeed"
+			type="struts.actions.tiles.T_NEWSFeedAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="newsFeedList" path="page.newsfeed" />
+		</action>
 		<action  path="/t_user"
 			type="struts.actions.tiles.T_UserAction">
 			<set-property property="cancellable" value="true" />
@@ -26,6 +31,8 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="locationManagement" path="page.location" />
 			<forward name="locationEdit" path="page.location" />
+			<forward name="mapView" path="page.location" />
+			<forward name="pathManagement" path="page.location" />
 		</action>
 
 	</action-mappings>

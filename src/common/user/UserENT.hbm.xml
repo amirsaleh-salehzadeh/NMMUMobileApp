@@ -4,13 +4,10 @@
 <!-- Generated Apr 10, 2017 5:11:20 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="common.user.UserENT" table="USERS">
-        <id name="userID" type="int">
-            <column name="USER_ID" />
-            <generator class="identity" />
-        </id>
-        <property name="userName" type="java.lang.String">
+        <id name="userName" type="java.lang.String">
             <column name="USERNAME" />
-        </property>
+            <generator class="assigned" />
+        </id>
         <property name="ethnicID" type="int">
             <column name="ethnic" />
         </property>
@@ -41,32 +38,5 @@
         <property name="active" type="boolean">
             <column name="ACTIVE" />
         </property>
-<!--         <many-to-one name="ethnic" class="common.user.EthnicENT" fetch="join"> -->
-<!--             <column name="ETHNIC" /> -->
-<!--         </many-to-one> -->
-<!--         <many-to-one name="title" class="common.user.TitleENT" fetch="join"> -->
-<!--             <column name="TITLE" /> -->
-<!--         </many-to-one> -->
-<!--         <list name="roleENTs" inverse="false" table="ROLES" lazy="true" access="field"> -->
-<!--             <key> -->
-<!--                 <column name="USER_ID" /> -->
-<!--             </key> -->
-<!--             <list-index></list-index> -->
-<!--             <one-to-many class="common.security.RoleENT" /> -->
-<!--         </list> -->
-<!--         <list name="groupENTs" inverse="false" table="GROUPENT" lazy="true" access="field"> -->
-<!--             <key> -->
-<!--                 <column name="USERID" /> -->
-<!--             </key> -->
-<!--             <list-index></list-index> -->
-<!--             <one-to-many class="common.security.GroupENT" /> -->
-<!--         </list> -->
-<!--         <list name="addressENTs" inverse="false" table="LOCATIONS" lazy="true" access="field"> -->
-<!--             <key> -->
-<!--                 <column name="USER_ID" /> -->
-<!--             </key> -->
-<!--             <list-index></list-index> -->
-<!--             <one-to-many class="common.location.LocationENT" /> -->
-<!--         </list> -->
     </class>
 </hibernate-mapping>

@@ -175,7 +175,7 @@ public class AMSAJAXPagination extends BodyTagSupport {
 			if (totalRows % pageSize != 0)
 				count += 1;
 			if (totalRows > pageSize)
-				str = "<input type='range' onchange='refreshGrid();' name='currentPage' id='sliderPagination' value='"
+				str = "<input type='range' onchange='refreshGrid();' name='currentPage' data-show-value='true' id='sliderPagination' value='"
 						+ currentPage + "' min='1' max='" + count + "'>";
 		}
 		return str;
@@ -281,8 +281,8 @@ public class AMSAJAXPagination extends BodyTagSupport {
 	private String createGridSettingPopup(List<PopupENT> items) {
 		ArrayList<PopupENT> temp = (ArrayList<PopupENT>) items;
 		String str = "";
-		str = "<div data-role='popup' id='gridMenuSetting' data-theme='d' data-mini='true'> "
-				+ "<ul data-role='listview' data-inset='true' style='min-width: 210px;'data-theme='d'>";
+		str = "<div data-role='popup' id='gridMenuSetting' data-mini='true'> "
+				+ "<ul data-role='listview' data-inset='true' style='min-width: 210px;'>";
 		for (int i = 0; i < temp.size(); i++) {
 			PopupENT menuItem = temp.get(i);
 			str += "<li><a href='" + menuItem.getHref() + "' onclick='"
