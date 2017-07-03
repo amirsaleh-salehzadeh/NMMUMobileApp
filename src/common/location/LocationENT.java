@@ -28,14 +28,12 @@ public class LocationENT {
 	private String locationName = "";
 	private long parentId;
 	
-	public LocationENT(long locationID, String userName, int country,
-			LocationTypeENT locationType, String address, String postBox,
+	public LocationENT(long locationID, String userName, LocationTypeENT locationType, String address, String postBox,
 			String gps, String locationName, long parentId,
 			ArrayList<LocationENT> childrenENT) {
 		super();
 		this.locationID = locationID;
 		this.userName = userName;
-		this.country = country;
 		this.locationType = locationType;
 		this.address = address;
 		this.postBox = postBox;
