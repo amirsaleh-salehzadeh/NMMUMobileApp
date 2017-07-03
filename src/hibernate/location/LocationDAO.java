@@ -221,7 +221,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				query += " and l.parent_id = " + parentLocationId;
 			else if (locationTypeId > 0)
 				query += " and l.location_type = " + locationTypeId;
-			query +=" order by l.location_name asc";
+			query += " order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -280,7 +280,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 				parent = new LocationTypeENT(1);
 			query = "select lt.* from location_type lt"
 					+ " where lt.location_type_id = "
-					+ parent.getLocationTypeId() + " order by lt.location_type asc";
+					+ parent.getLocationTypeId()
+					+ " order by lt.location_type asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -305,7 +306,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			conn = getConnection();
 			String query = "";
 			query = "select lt.* from location_type lt"
-					+ " where lt.parent_id = " + ent.getLocationTypeId() + " order by lt.location_type asc";
+					+ " where lt.parent_id = " + ent.getLocationTypeId()
+					+ " order by lt.location_type asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			boolean end = false;
