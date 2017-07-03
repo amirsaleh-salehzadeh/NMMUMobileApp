@@ -147,6 +147,7 @@ function getAllMarkers() {
 						$("#parentLocationId").val(l.parentId);
 						$("#markerName").val(l.locationName);
 						$("#locationTypeId").val(l.locationType.locationTypeId);
+						setLocationTypeCreate();
 						saveMarker();
 					}
 					else{
@@ -172,7 +173,7 @@ function refreshMap(location) {
 	} else if (location.locationType.locationTypeId == "2") {
 		icon += 'marker-green.png';
 		map.setCenter(gps);
-		map.setZoom(8);
+		map.setZoom(7);
 	} else if (location.locationType.locationTypeId == "3") {
 		icon += 'marker-orange.png';
 		map.setCenter(gps);
@@ -416,7 +417,7 @@ function getLocationTypePanel() {
 				cache : false,
 				success : function(data) {
 					locationTypeJSONData = data;
-					var str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' id='NavBar"
+					var str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' onclick='createMyType(this);' id='NavBar"
 						+data.locationType+"' >";
 					str += "<option value='" + data.locationTypeId + "'>"
 							+ data.locationType + "</option>";
@@ -437,12 +438,14 @@ function getLocationTypePanel() {
 					$("#NavBar"+data.locationType).selectmenu();
 					$("#locationTypesContainer").controlgroup("refresh");
 					getMyChild(data.locationTypeId);
+					setLocationTypeCreate();
 					getAllMarkers();
 				}
 			});
 }
 function changeTheLocation(li) {
 	$("#locationTypeId").val($(li).attr("id").split("_")[0]);
+	setLocationTypeCreate();
 	$("#parentLocationId").val($(li).attr("id").split("_")[1]);
 	var remove = false;
 	$("#infoListView li").each(function(){
@@ -453,6 +456,16 @@ function changeTheLocation(li) {
 	});
 	getAllMarkers();
 }
+
+function setLocationTypeCreate(){
+	$(".locationTypeNavBar option").each(function(){
+		if($(this).val() == $("#locationTypeId").val()){
+			$("#locationTypeDefinition").val($(this).html().replace(" ",""));
+$("#createType").html($(this).html().replace(" ",""));
+		}
+	});
+}
+
 function selectParent(field) {
 	var exist = false;
 	$("#infoListView li").each(function(){
@@ -478,6 +491,7 @@ function selectParent(field) {
 		$("#infoListView").listview();
 		$("#infoListView").listview("refresh");
 		getAllMarkers();
+		setLocationTypeCreate();
 	}
 }
 
@@ -499,7 +513,7 @@ function getMyChild(select) {
 								navbarId = l.locationType;
 								str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' id='NavBar"
 										+ l.locationType
-										+ "' >";
+										+ "' onclick='createMyType(this);'>";
 							}
 							str += "<option value='" + l.locationTypeId + "'> "
 									+ l.locationType + "</option>";
@@ -518,6 +532,11 @@ function getMyChild(select) {
 			childData = l;
 			getMyChild(l.locationTypeId);
 		});
+}
+
+function createMyType(selectOpt){
+	$("#locationTypeId").val($(selectOpt).val());
+	setLocationTypeCreate();
 }
 
 function startTrip() {
