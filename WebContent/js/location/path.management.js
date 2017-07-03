@@ -35,7 +35,8 @@ function saveMarker() {
 			+ $("#parentLocationId").val() + "&locationName="
 			+ $("#markerName").val() + "&coordinate="
 			+ $("#markerCoordinate").val() + "&locationType="
-			+ $("#locationTypeId").val() + "&userName=NMMU";
+			+ $("#locationTypeId").val() + "&locationId="
+				+ $("#markerId").val() + "&userName=NMMU";
 
 	$.ajax({
 		url : url,
@@ -111,47 +112,79 @@ function getAllMarkers() {
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
 	}
+
 	$.ajax({
 		url : url,
 		cache : false,
 		success : function(data) {
+			var str = "";
 			$.each(data, function(k, l) {
-				var pos= {
-						lat : parseFloat(l.gps.split(",")[0]),
-						lng : parseFloat(l.gps.split(",")[1])
-					};
+				str += '<a href="#" id="'
+						+ l.locationID
+						+ "_"+l.gps+"_"+l.locationType.locationTypeId+'" data-mini="true" onclick="selectParent(this)" class="ui-btn ui-shadow ui-corner-all">'
+						+ l.locationName + '</a>';
+				var pos = {
+					lat : parseFloat(l.gps.split(",")[0]),
+					lng : parseFloat(l.gps.split(",")[1])
+				};
 				marker = new google.maps.Marker({
-					position : pos,
 					map : map,
 					icon : refreshMap(l),
+				    animation: google.maps.Animation.DROP,
+					draggable : true,
 					title : l.locationName
+
 				});
 				marker.addListener('click', function(point) {
 					addToPath(l, l.gps);
 					map.setCenter(pos);
 					map.setZoom(17);
 				});
+				marker.addListener('dragend', function(point) {
+					if(confirm("Are you sure you want to move the marker?")){
+						$("#markerCoordinate").val(point.latLng.lat()+","+point.latLng.lng());
+						$("#markerId").val(l.locationID);
+						$("#parentLocationId").val(l.parentId);
+						$("#markerName").val(l.locationName);
+						$("#locationTypeId").val(l.locationType.locationTypeId);
+						saveMarker();
+					}
+					else{
+						this.setPosition(pos);
+					}
+				});
+				marker.setPosition(pos);
 				markers.push(marker);
 			});
+			$('#parentLocationListView').html(str);
 		}
 	});
 }
 
 function refreshMap(location) {
-//	var gps = {
-//		lat : parseFloat(location.gps.split(",")[0]),
-//		lng : parseFloat(location.gps.split(",")[1])
-//	};
-//	map.setCenter(gps);
+	 var gps = {
+	 lat : parseFloat(location.gps.split(",")[0]),
+	 lng : parseFloat(location.gps.split(",")[1])
+	 };
 	var icon = 'images/map-markers/';
 	if (location.locationType.locationTypeId == "1") {
 		icon += 'marker-blue.png';
 	} else if (location.locationType.locationTypeId == "2") {
 		icon += 'marker-green.png';
+		map.setCenter(gps);
+		map.setZoom(8);
 	} else if (location.locationType.locationTypeId == "3") {
 		icon += 'marker-orange.png';
+		map.setCenter(gps);
+		map.setZoom(15);
 	} else if (location.locationType.locationTypeId == "4") {
 		icon += 'marker-pink.png';
+		map.setCenter(gps);
+		map.setZoom(19);
+	} else if (location.locationType.locationTypeId == "5") {
+		icon += 'marker-pink.png';
+		map.setCenter(gps);
+		map.setZoom(20);
 	} else
 		icon += 'marker-yellow.png';
 	return icon;
@@ -229,7 +262,7 @@ function addToPath(location, gps) {
 			$("#markerName").val(location.locationName);
 			$("#markerCoordinate").val(gps);
 			$("#markerLabel").html(location.locationType.locationType);
-//			alert(location.parentId);
+			// alert(location.parentId);
 		}
 		// $("#locationType option[value=" + typeId + "]").attr('selected',
 		// 'selected').trigger('create');
@@ -237,12 +270,12 @@ function addToPath(location, gps) {
 		openMarkerPopup(edit);
 	} else {
 		if ($("#departure").val() == "") {
-			$("#departure").val(name);
-			$("#departureId").val(id);
+			$("#departure").val(location.locationName);
+			$("#departureId").val(location.locationID);
 			return;
 		} else if ($("#destination").val() == "") {
-			$("#destination").val(name);
-			$("#destinationId").val(id);
+			$("#destination").val(location.locationName);
+			$("#destinationId").val(location.locationID);
 			openPathCreationPopup();
 		}
 	}
@@ -268,21 +301,20 @@ function openPathCreationPopup() {
 function initMap() {
 	getLocationTypePanel();
 	getPathTypePanel();
-	getAllMarkers();
 	getAllPaths();
 	var myLatLng = {
 		lat : -33.5343803,
 		lng : 24.2683424
 	};
-	marker = new google.maps.Marker({
-		position : myLatLng,
-		map : map
-	});
+//	marker = new google.maps.Marker({
+//		position : myLatLng,
+//		map : map
+//	});
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		zoom : 7,
 		streetViewControl : true,
-		fullscreenControl : true,
-		mapTypeId : 'satellite'
+		fullscreenControl : true//,
+	//	mapTypeId : 'satellite'
 	});
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
@@ -384,10 +416,8 @@ function getLocationTypePanel() {
 				cache : false,
 				success : function(data) {
 					locationTypeJSONData = data;
-					// $("#locationTypesContainer").html("");
 					var str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' id='NavBar"
-							+ data.locationType
-							+ "' onclick='getMyChild(this)'>";
+						+data.locationType+"' >";
 					str += "<option value='" + data.locationTypeId + "'>"
 							+ data.locationType + "</option>";
 					if (data.children.length > 1)
@@ -395,75 +425,72 @@ function getLocationTypePanel() {
 							str += "<option value='" + l.locationTypeId + "'>"
 									+ l.locationType + "</option>";
 						});
-					$("div#infoDiv")
-							.append(
-									"<span class='infoDivTitle' id='locationTypeParent'>Create "
-											+ data.locationType
-											+ "</span>"
-											+ "<span class='infoDivTitle' id='locationParent'></span>");
+					
 					str += "</select>";
 					$("#locationTypeId").val(data.locationTypeId);
+					$("#locationTypeDefinition").val(data.locationType);
 					$("#locationTypesContainer").controlgroup("container")
 							.empty();
 					$("#locationTypesContainer").controlgroup("refresh");
 					$("#locationTypesContainer").controlgroup("container")
 							.append(str);
-					$("#NavBar" + data.locationType).selectmenu();
+					$("#NavBar"+data.locationType).selectmenu();
 					$("#locationTypesContainer").controlgroup("refresh");
+					getMyChild(data.locationTypeId);
+					getAllMarkers();
 				}
 			});
 }
-function selectParent(field) {
-	$("#locationParent").html(
-			" in " + $(field).html() + " " + $("#parentDefinition").val() + " "
-					+ $("#" + $(field).attr("id") + " option:selected").text());
-	$("#parentLocationId").val($(field).attr("id"));
+function changeTheLocation(li) {
+	$("#locationTypeId").val($(li).attr("id").split("_")[0]);
+	$("#parentLocationId").val($(li).attr("id").split("_")[1]);
+	var remove = false;
+	$("#infoListView li").each(function(){
+		if(remove)
+			$(this).remove();
+		if($(this).attr("id") == $(li).attr("id"))
+			remove = true;
+	});
 	getAllMarkers();
+}
+function selectParent(field) {
+	var exist = false;
+	$("#infoListView li").each(function(){
+		if($(this).html().indexOf($(field).html())!== -1)
+			exist = true;
+	});
+	if(!exist){
+		$(".locationTypeNavBar option").each(function(){
+			if($(this).val() == $(field).attr("id").split("_")[2]){
+				$("#locationTypeId").val($(this).val());
+				$("#locationTypeDefinition").val($(this).html().replace(" ",""));
+			}
+		});
+		$("#parentLocationId").val($(field).attr("id").split("_")[0]);
+		$("#locationTypeId").val($(field).attr("id").split("_")[2]);
+		$("#infoListView").append(
+				"<li id='" + $("#locationTypeId").val() + "_" +  $(field).attr("id").split("_")[0] + "' onclick='changeTheLocation(this);'>["
+						+ $("#locationTypeDefinition").val() + "] "
+						+ $(field).html() + "</li>");
+		$("#infoListView").listview();
+		getMyChild($(field).attr("id").split("_")[2]);
+//		getMyChild($(field).attr("id").split("_")[2]);
+		$("#infoListView").listview();
+		$("#infoListView").listview("refresh");
+		getAllMarkers();
+	}
 }
 
 var childData;
-function getMyChild(field) {
-	var select = 0;
-	if (typeof field != 'number') {
-		select = $(field).val();
-		$("#locationTypeId").val($(field).val());
-		$("#locationTypeParent").html(
-				"Create "
-						+ $("#" + $(field).attr("id") + " option:selected")
-								.text());
-		$("#parentLocationId").val("0");
-		$("#locationParent").html("");
-		getAllMarkers();
-		var url = "REST/GetLocationWS/GetParentLocationsOfaType?typeId="
-				+ $("#locationTypeId").val();
-		$
-				.ajax({
-					url : url,
-					cache : false,
-					success : function(data) {
-						var str = "";
-						$
-								.each(
-										data,
-										function(k, l) {
-											str += '<a href="#" id="'
-													+ l.id
-													+ '" data-mini="true" onclick="selectParent(this)" class="ui-btn ui-shadow ui-corner-all">'
-													+ l.n + '</a>';
-											$("#parentDefinition").val(l.t);
-										});
-						$('#parentLocationListView').html(str);
-					}
-				});
-	} else
-		select = field;
+function getMyChild(select) {
 	if (childData == null)
 		childData = locationTypeJSONData;
 	else if (childData.children == null)
 		return;
 	var navbarId = "";
-	if (childData.locationTypeId == select) {
-		var str = "";
+//	if (childData.locationTypeId == select) {
+		 $("#locationTypeDefinition").val("");
+		 var str = "";
 		$
 				.each(
 						childData.children,
@@ -472,25 +499,10 @@ function getMyChild(field) {
 								navbarId = l.locationType;
 								str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' id='NavBar"
 										+ l.locationType
-										+ "' onclick='getMyChild(this)' >";
+										+ "' >";
 							}
 							str += "<option value='" + l.locationTypeId + "'> "
 									+ l.locationType + "</option>";
-
-							if (l.children != null && l.children.length > 3) {
-								$
-										.each(
-												l.children,
-												function(p, t) {
-													if (str == "")
-														str = "<select name='selectLocationType' onclick='getMyChild($(this).val())'>";
-													str += "<option value='"
-															+ t.locationTypeId
-															+ "'>"
-															+ t.locationType
-															+ "</option>";
-												});
-							}
 						});
 		str += "</select>";
 		if ($("select#NavBar" + navbarId).length == 0) {
@@ -501,7 +513,7 @@ function getMyChild(field) {
 			});
 			$("#locationTypesContainer").controlgroup("refresh");
 		}
-	} else
+//	} else
 		$.each(childData.children, function(k, l) {
 			childData = l;
 			getMyChild(l.locationTypeId);

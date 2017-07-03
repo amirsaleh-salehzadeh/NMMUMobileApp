@@ -53,7 +53,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			query = "insert into location (country, address, post_box, gps, location_name, username, location_type, parent_id)"
 					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
 			if (ent.getLocationID() > 0)
-				query = "update location set country = ?, address = ?, post_box = ?, location_name = ?, username = ?, location_type = ? , parent_id = ? where location_id = ?";
+				query = "update location set country = ?, address = ?, post_box = ?, gps= ?, location_name = ?, username = ?, location_type = ? , parent_id = ? where location_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, ent.getCountry());
@@ -74,7 +74,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps.close();
 			conn.close();
 			ent = getLocationENT(ent);
-			if(ent.getLocationType().getLocationTypeId()==3){
+			if (ent.getLocationType().getLocationTypeId() == 3) {
 				ent.setParentId(ent.getLocationID());
 				ent.setLocationID(0);
 				ent.setLocationName("Ground");
@@ -216,23 +216,22 @@ public class LocationDAO extends BaseHibernateDAO implements
 			String query = "";
 			query = "select l.*, lt.location_type as locaName from location l "
 					+ " left join location_type lt on lt.location_type_id = l.location_type";
-			// if (parentLocationId > 0)
-			// query +=
-			// " inner join locations pl on l.parent_id = pl.location_id";
-			query += " where l.username = '" + username + "'";
+			query += " where l.username = '" + username + "' ";
 			if (parentLocationId > 0)
 				query += " and l.parent_id = " + parentLocationId;
 			else if (locationTypeId > 0)
 				query += " and l.location_type = " + locationTypeId;
-
+			query +=" order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				locationENTs.add(new LocationENT(rs.getInt("location_id"), rs
 						.getString("username"), new LocationTypeENT(rs
 						.getInt("location_type"), rs.getString("locaName")), rs
-						.getString("address"), rs.getString("gps"), rs
-						.getString("location_name")));
+						.getString("address"), rs.getString("post_box"), rs
+						.getString("gps"), rs.getString("location_name"), rs
+						.getLong("parent_id"), null));
+
 			}
 			ps.close();
 			conn.close();
@@ -281,7 +280,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				parent = new LocationTypeENT(1);
 			query = "select lt.* from location_type lt"
 					+ " where lt.location_type_id = "
-					+ parent.getLocationTypeId();
+					+ parent.getLocationTypeId() + " order by lt.location_type asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -306,13 +305,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 			conn = getConnection();
 			String query = "";
 			query = "select lt.* from location_type lt"
-					+ " where lt.parent_id = " + ent.getLocationTypeId();
+					+ " where lt.parent_id = " + ent.getLocationTypeId() + " order by lt.location_type asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			boolean end = false;
 			while (rs.next()) {
 				end = true;
-				long tmpPID = rs.getLong("parent_id");
 				ent = new LocationTypeENT(rs.getInt("location_type_id"),
 						rs.getString("location_type"), null, null);
 				ent.setChildren(getLocationTypeTree(ent));
@@ -472,8 +470,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	public LocationENT findClosestLocation(String GPSCoordinates) {
 		LocationDAO dao = new LocationDAO();
-		ArrayList<LocationENT> points = dao.getAllLocationsForUser("admin", 0,
-				0);
+		ArrayList<LocationENT> points = dao
+				.getAllLocationsForUser("NMMU", 0, 0);
 		int closest = -1;
 		double[] distances = new double[points.size()];
 		for (int i = 0; i < points.size(); i++) {
@@ -522,8 +520,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
 				DefaultWeightedEdge.class);
 		LocationDAO dao = new LocationDAO();
-		ArrayList<LocationENT> points = dao.getAllLocationsForUser("admin", 0,
-				0);
+		ArrayList<LocationENT> points = dao
+				.getAllLocationsForUser("NMMU", 0, 0);
 		for (int i = 0; i < points.size(); i++) {
 			long depTMP = points.get(i).getLocationID();
 			if (!g.containsVertex(depTMP))

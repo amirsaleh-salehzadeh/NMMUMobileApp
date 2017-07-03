@@ -39,14 +39,14 @@
 #infoDiv {
 	position: absolute;
 	display: inline;
-	padding-right: 3em;
 	border: thick 4pt;
 	border-color: black;
 	font-size: 16pt;
 	font-weight: bold;
 	margin: 1em;
 	background-color: #9b221f;
-	font-size: 16pt;
+	font-size: 12pt;
+	cursor: pointer;
 }
 
 #infoDivTitle {
@@ -62,26 +62,27 @@
 }
 
 .locationTypeNavBar {
-display: block;
+	display: block;
 	min-height: 3em;
 	font-size: 16pt;
 }
 
 .locationTypeNavBar select {
-display: block;
-background: url('images/map-markers/marker-blue.png') no-repeat left 100% 100% #FEFEFE;
-background-size: 66px 66px;
-
+	display: block;
+	background: url('images/map-markers/marker-blue.png') no-repeat left
+		100% 100% #FEFEFE;
+	background-size: 66px 66px;
 }
+
 .locationTypeNavBar option {
-display: block;
-background-color: black !important;
-color: white;
-border-width:6px;
-border:2px #fff;
-border-bottom: thin;
-min-height: .7em;
-border-color: white;
+	display: block;
+	background-color: black !important;
+	color: white;
+	border-width: 6px;
+	border: 2px #fff;
+	border-bottom: thin;
+	min-height: .7em;
+	border-color: white;
 }
 </style>
 <script type="text/javascript">
@@ -109,17 +110,10 @@ border-color: white;
 		</ul>
 	</div>
 </div>
-<div id="map_canvas"></div>
-<div id="locationTypeFields">
-	<input type='hidden' id='locationTypeId' value='0'>
-	<form>
-		<div data-role="controlgroup" id="locationTypesContainer"
-			data-type="horizontal" data-mini="true"></div>
-	</form>
-</div>
 <div>
-	<input type="hidden" id="parentDefinition" value="0"> <input
-		type="hidden" id="parentLocationId" value="0">
+	<input type="hidden" id="parentLocationId" value="0"> <input
+		type='hidden' id='locationTypeId' value='0'> <input
+		type='hidden' id='locationTypeDefinition' value='def'>
 	<div class="ui-field-contain" id="locationsUnderAType">
 		<form>
 			    <input data-type="search" id="parentLocation">
@@ -129,7 +123,17 @@ border-color: white;
 
 	</div>
 </div>
-<div id="infoDiv"></div>
+<div id="map_canvas"></div>
+<div id="locationTypeFields">
+	<form>
+		<div data-role="controlgroup" id="locationTypesContainer"
+			data-type="horizontal" data-mini="true"></div>
+	</form>
+</div>
+<div id="infoDiv">
+	<ul data-role="listview" id="infoListView">
+	</ul>
+</div>
 <div id="searchFields" style="width: 85%;">
 	<fieldset data-role="controlgroup" data-type="horizontal"
 		name="optionType">
