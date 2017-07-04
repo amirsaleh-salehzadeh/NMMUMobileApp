@@ -136,7 +136,6 @@ public class LocationServicesWS {
 		try {
 			json = mapper.writeValueAsString(getLocationDAO().getAPathFromTo(
 					from, to, pathType));
-			String tmp = "";
 			System.out.println(json);
 //			tmp = "{ \"distance\": " + currentPage + ", \"recordsTotal\":" + totalItems
 //					+ ", \"recordsFiltered\":" + totalItems;

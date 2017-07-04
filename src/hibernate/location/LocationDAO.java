@@ -35,6 +35,7 @@ import common.location.PathENT;
 import common.location.PathTypeENT;
 import hibernate.config.BaseHibernateDAO;
 import hibernate.config.HibernateSessionFactory;
+import threads.GraphMapThread;
 import tools.AMSException;
 import tools.QRBarcodeGen;
 
@@ -486,11 +487,21 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return points.get(closest);
 	}
 
-
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId) {
 		// if (graph == null)
-		UndirectedGraph<Long, DefaultWeightedEdge> graph = createGraph(pathTypeId);
+		UndirectedGraph<Long, DefaultWeightedEdge> graph = null;
+		if (GraphMapThread.graphDirt == null
+				|| GraphMapThread.graphWalkaway == null) {
+			GraphMapThread gmt = new GraphMapThread();
+			Thread ta = new Thread(gmt);
+			ta.setName("GraphMapThread");
+			ta.setDaemon(true);
+			ta.start();
+		} else if (pathTypeId == 2)
+			graph = GraphMapThread.graphWalkaway;
+		else
+			graph = GraphMapThread.graphDirt;
 		// + System.currentTimeMillis());
 		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
 				graph, dep, dest);
@@ -516,7 +527,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	private static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
+	public static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
 			int pathTypeId) {
 		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
 				DefaultWeightedEdge.class);
