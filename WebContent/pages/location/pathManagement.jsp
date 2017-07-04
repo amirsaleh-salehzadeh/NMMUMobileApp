@@ -45,7 +45,7 @@
 	font-size: 12pt;
 	cursor: pointer;
 	color: white;
-	border-radius: 25px;
+/* 	border-radius: 25px; */
 	-webkit-text-stroke-width: 0.3px;
 	-webkit-text-stroke-color: black;
 }
@@ -101,7 +101,7 @@
 }
 
 #locationTypesContainer .ui-btn {
-	border-color: black;
+	border-color: white;
 	font-size: 20pt;
 	background-color: #00457c;
 	font-size: 12pt;
@@ -117,7 +117,10 @@
 		100% 100% #FEFEFE;
 	background-size: 66px 66px;
 }
+#NavBarArea-button .ui-btn{
+color:red ;
 
+}
 .locationTypeNavBar option {
 	display: block;
 	background-color: black !important;
