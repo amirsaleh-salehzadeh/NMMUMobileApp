@@ -181,7 +181,7 @@ border-bottom-color: white;
 }
 /* right side div*/
 #parentLocationListView{
-overflow: auto;
+
     
 }
 #parentLocationListView .ui-btn {
