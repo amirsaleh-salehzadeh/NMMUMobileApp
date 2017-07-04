@@ -227,13 +227,24 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 					: 'Error: Your browser doesn\'t support geolocation.');
 	infoWindow.open(map);
 }
-$(document).ready(
+//$(document).ready(
+//		function() {
+//			$("#map_canvas").css("min-width",
+//					parseInt($("#mainBodyContents").css("width")));
+//			$("#map_canvas").css(
+//					"min-height",
+//					parseInt($(window).height())
+//							- parseInt($(".jqm-header").css("height")) - 7);
+//
+//		});
+$(document)
+.ready(
 		function() {
 			$("#map_canvas").css("min-width",
 					parseInt($("#mainBodyContents").css("width")));
 			$("#map_canvas").css(
 					"min-height",
 					parseInt($(window).height())
-							- parseInt($(".jqm-header").css("height")) - 7);
-
+							- parseInt($(".jqm-header").css(
+									"height")) - 7);
 		});
