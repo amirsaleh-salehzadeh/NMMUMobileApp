@@ -36,17 +36,16 @@
 	
 }
 /*  left panel of parent locations info */
-#infoDiv {
-	left: 20px; background : url("images/overlay.png") repeat-x;
-	background-color: #00457c;
-	border-color: white;
-	border-radius: 25px;
-	border: thick 4pt;
-	background: url("images/overlay.png") repeat-x;
+#infoDiv{
+left:20px;
+background: url("images/overlay.png") repeat-x;
+background-color: #00457c;
+border-color: white;
+border-radius: 25px;
+border: thick 4pt;
 }
-
 #infoDiv .ui-listview>.ui-li-static {
-	/*  	background: url("images/overlay.png") repeat-x;  */
+/*  	background: url("images/overlay.png") repeat-x;  */
 	text-shadow: none;
 	border: 0;
 	margin: 1;
@@ -56,6 +55,7 @@
 	font-size: 12pt;
 	cursor: pointer;
 	color: white;
+	
 	-webkit-text-stroke-width: 0.3px;
 	-webkit-text-stroke-color: black;
 }
@@ -76,8 +76,7 @@
 	cursor: pointer;
 	color: #00457c;
 	background-color: transparent;
-	background-repeat: no-repeat !important;
-	background-position: center !important;
+	
 }
 
 #infoDivTitle {
@@ -93,7 +92,7 @@
 }
 
 #parentLocationListView .ui-btn {
-	margin: 10 0 0 10;
+    margin: 10 0 0 10;
 	background: url("images/overlay.png") repeat-x;
 	text-shadow: none;
 	padding: 5px 10px 15px;
@@ -119,23 +118,21 @@
 }
 
 #locationTypesContainer .ui-btn {
-	border-top-color: white;
-	border-right-color: transparent;
-	border-left-color: transparent;
-	border-bottom-color: white; 
-	background : url("images/overlay.png")repeat-x;
+border-top-color: white;
+border-right-color: transparent;
+border-left-color:transparent;
+border-bottom-color: white;
+	background: url("images/overlay.png") repeat-x;
 	text-shadow: none;
 	height: 15;
 	padding: 5px 10px 15px;
 	font-size: 20pt;
 	background-color: #00457c;
-	font-size: 12pt;
 	cursor: pointer;
 	color: white;
 	-webkit-text-stroke-width: 0.3px;
 	-webkit-text-stroke-color: black;
 	margin: 20 0 0 20;
-	background: url("images/overlay.png") repeat-x;
 }
 
 .locationTypeNavBar select {
@@ -146,7 +143,6 @@
 }
 
 #NavBarArea-button .ui-btn {
-	
 }
 
 .locationTypeNavBar option {
@@ -158,6 +154,83 @@
 	border-bottom: thin;
 	min-height: .7em;
 	border-color: white;
+	
+}
+@media ( max-width : 60em) {
+/* top center */
+.locationTypeNavBar{
+font-size: 12pt !important;
+
+}
+#locationTypesContainer .ui-btn {
+border-top-color: white;
+border-right-color: transparent;
+border-left-color:transparent;
+border-bottom-color: white;
+	background: url("images/overlay.png") repeat-x;
+	text-shadow: none;
+	height: 10;
+	padding: 1px 10px 15px;
+	
+	background-color: #00457c;
+	cursor: pointer;
+	color: white;
+	-webkit-text-stroke-width: 0.2px;
+	-webkit-text-stroke-color: black;
+	margin: 5 0 0 5;
+}
+/* right side div*/
+#parentLocationListView{
+overflow: auto;
+    
+}
+#parentLocationListView .ui-btn {
+    margin: 10 0 0 10;
+	background: url("images/overlay.png") repeat-x;
+	text-shadow: none;
+	padding: 5px 10px 15px;
+	height: 10;
+	border: thick 4pt;
+	border-color: white;
+	font-size: 20pt;
+	margin: 1em;
+	background-color: #00457c;
+	font-size: 12pt;
+	cursor: pointer;
+	color: white;
+	border-radius: 25px;
+	-webkit-text-stroke-width: 0.3px;
+	-webkit-text-stroke-color: black;
+}
+
+/* left side list */
+#infoDiv{
+left:20px;
+background: url("images/overlay.png") repeat-x;
+background-color: #00457c;
+border-color: white;
+border-radius: 25px;
+border: thick 4pt;
+}
+#infoDiv .ui-listview>.ui-li-static {
+/*  	background: url("images/overlay.png") repeat-x;  */
+	text-shadow: none;
+	border: 0;
+	margin: 1;
+	font-size: 20pt;
+	border-radius: 25px;
+	background-color: transparent;
+	font-size: 12pt;
+	cursor: pointer;
+	color: white;
+	
+	-webkit-text-stroke-width: 0.3px;
+	-webkit-text-stroke-color: black;
+}
+
+
+
+
 }
 </style>
 </head>
