@@ -326,11 +326,13 @@ function initMap() {
 		lat : -33.5343803,
 		lng : 24.2683424
 	};
+	
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		zoom : 7,
 		fullscreenControl : true
 	// mapTypeId : 'satellite'
 	});
+	
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 			.getElementById('searchFields'));

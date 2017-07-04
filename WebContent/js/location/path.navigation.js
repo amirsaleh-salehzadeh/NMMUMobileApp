@@ -28,7 +28,7 @@ function openPathCreationPopup() {
 	$('#insertAPath').popup('open').trigger('create');
 }
 
-function drawPoly() {
+function drawPath() {
 	for ( var i = 0; i < paths.length; i++) {
 		paths[i].setMap(null);
 	}
@@ -77,8 +77,9 @@ function drawPoly() {
 					strokeOpacity : 1.0,
 					strokeWeight : 7
 				});
-				polylineLength += google.maps.geometry.spherical.computeDistanceBetween(pointPath1, pointPath2);
-//				alert(polylineLength);
+				polylineLength += google.maps.geometry.spherical
+						.computeDistanceBetween(pointPath1, pointPath2);
+				// alert(polylineLength);
 				pathPolyline.setMap(map);
 				pathPolyline.addListener('click', function() {
 					removePath(l.pathId);
@@ -95,53 +96,6 @@ function drawPoly() {
 	});
 }
 
-function selectRightPanelVal() {
-	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		$("#locationTypeListViewDiv").css("display", "block");
-		$("#pathTypeListViewDiv").css("display", "none");
-	} else {
-		$("#locationTypeListViewDiv").css("display", "none");
-		$("#pathTypeListViewDiv").css("display", "block");
-	}
-}
-var locationTypeJSONData;
-function getLocationTypePanel() {
-	var url = "REST/GetLocationWS/GetAllLocationTypes";
-	$("#locationTypesContainer").controlgroup();
-	$
-			.ajax({
-				url : url,
-				cache : false,
-				success : function(data) {
-					locationTypeJSONData = data;
-					var str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' onclick='createMyType(this);' id='NavBar"
-							+ data.locationType + "' >";
-					str += "<option value='" + data.locationTypeId + "'>"
-							+ data.locationType + "</option>";
-					if (data.children.length > 1)
-						$.each(data.children, function(k, l) {
-							str += "<option value='" + l.locationTypeId + "'>"
-									+ l.locationType + "</option>";
-						});
-
-					str += "</select>";
-					$("#locationTypeId").val(data.locationTypeId);
-					$("#locationTypeDefinition").val(data.locationType);
-					$("#locationTypesContainer").controlgroup("container")
-							.empty();
-					$("#locationTypesContainer").controlgroup("refresh");
-					$("#locationTypesContainer").controlgroup("container")
-							.append(str);
-					$("#NavBar" + data.locationType).selectmenu();
-					$("#locationTypesContainer").controlgroup("refresh");
-					getMyChild(data.locationTypeId);
-					setLocationTypeCreate();
-					getAllMarkers();
-				}
-			});
-}
-
-
 function startTrip() {
 	var url = "REST/GetLocationWS/StartTrip?from=" + $("#departureId").val()
 			+ "&to=" + $("#destinationId").val();
@@ -150,10 +104,33 @@ function startTrip() {
 		cache : false,
 		success : function(data) {
 			$("#tripId").val(data[0].tripId);
+			setCookie('TripIdCookie', data[0].tripId, 1);
+			setCookie('TripPathCookie', $("#tripString").val(), 1);
 		}
 	});
 }
 
+function setCookie(cname, cvalue, exdays) {
+	var d = new Date();
+	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	var expires = "expires=" + d.toUTCString();
+	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function getCookie(cname) {
+	var name = cname + "=";
+	var decodedCookie = decodeURIComponent(document.cookie);
+	var ca = decodedCookie.split(';');
+	for ( var i = 0; i < ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+		}
+	}
+	return "";
+}
 function removeTrip() {
 	var url = "REST/GetLocationWS/RemoveTrip?tripId=" + $("#tripId").val();
 	$.ajax({
@@ -190,9 +167,10 @@ var successHandler = function(position) {
 		lat : position.coords.latitude,
 		lng : position.coords.longitude
 	};
-	// 		infoWindow.setPosition(pos);
-	// 		infoWindow.setContent('Location found.');
-	// 		infoWindow.open(map);
+	if ($("#from").val() == "") {
+		$("#from").val(position.coords.latitude + ", " + position.coords.longitude);
+		return;
+	}
 	map.setCenter(pos);
 	marker = new google.maps.Marker({
 		position : pos,
@@ -216,8 +194,8 @@ function initiMap() {
 	});
 	infoWindow = new google.maps.InfoWindow;
 	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(successHandler,
-				errorHandler, {
+		navigator.geolocation.getCurrentPosition(successHandler, errorHandler,
+				{
 					enableHighAccuracy : true,
 					maximumAge : 10000
 				});
@@ -230,14 +208,15 @@ function initiMap() {
 	google.maps.event.addListener(map, "click", function(event) {
 		var lat = event.latLng.lat();
 		var lng = event.latLng.lng();
-		if ($("#from").val() == "") {
-			$("#from").val(lat + ", " + lng);
-			return;
-		} else if ($("#to").val() == "") {
+		// if ($("#from").val() == "") {
+		// $("#from").val(lat + ", " + lng);
+		// return;
+		// } else
+		if ($("#to").val() == "") {
 			$("#to").val(lat + ", " + lng);
 			return;
 		} else {
-			drawPoly();
+			drawPath();
 		}
 	});
 }
