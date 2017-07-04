@@ -22,6 +22,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import tools.AMSErrorHandler;
 import tools.AMSException;
 import tools.AMSUtililies;
 
@@ -55,11 +56,11 @@ public class LocationAction extends Action {
 		} else if (reqCode.equalsIgnoreCase("cameraNavigation")) {
 			af = mapping.findForward(reqCode);
 		}
-		if (reqCode.equalsIgnoreCase("roleManagement")) {
+		if (reqCode.equalsIgnoreCase("locationManagement")) {
 			return locationManagement(request, mapping);
-		} else if (reqCode.equals("roleEdit")) {
+		} else if (reqCode.equals("locationEdit")) {
 			return editLocation(request, mapping, form);
-		} else if (reqCode.equals("saveUpdateRole")) {
+		} else if (reqCode.equals("saveUpdateLocation")) {
 			return saveUpdateLocation(request, mapping);
 		}
 		return af;
@@ -67,28 +68,53 @@ public class LocationAction extends Action {
 
 	private ActionForward saveUpdateLocation(HttpServletRequest request,
 			ActionMapping mapping) {
-		// TODO Auto-generated method stub
-		return null;
+		LocationENT locationENT = getLocationENT(request);
+		try {
+			locationENT = getLocationDAO().saveUpdateLocation(locationENT);
+			success = "The location '" + locationENT.getLocationName()
+					+ "' saved successfully";
+		} catch (AMSException e) {
+			error = AMSErrorHandler.handle(request, this, e, "", "");
+		}
+		request.setAttribute("locationENT", locationENT);
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
+		return mapping.findForward("locationEdit");
 	}
 
 	private ActionForward editLocation(HttpServletRequest request,
 			ActionMapping mapping, ActionForm form) {
-		// TODO Auto-generated method stub
-		return null;
+		LocationENT locationENT = new LocationENT();
+		int locationId = 0;
+		if (request.getParameter("locationID") != null)
+			locationId = Integer.parseInt(request.getParameter("locationID"));
+		else {
+			request.setAttribute("locationENT", locationENT);
+			return mapping.findForward("locationEdit");
+		}
+		locationENT.setLocationID(locationId);
+		try {
+			request.setAttribute("locationENT", getLocationDAO()
+					.getLocation(locationENT));
+		} catch (AMSException e) {
+			error = e.getMessage();
+			e.printStackTrace();
+		}
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
+		return mapping.findForward("locationEdit");
 	}
 
 	private ActionForward locationManagement(HttpServletRequest request,
 			ActionMapping mapping) {
 		try {
 			createMenusForLocation(request);
-			//request.setAttribute("locationENTs", getLocationDAO()
-			//		.getLocationsDropDown());
-			LocationLST groupLST = getLocationLST(request);
+			LocationLST locationLST = getLocationLST(request);
 			request.setAttribute("locationLST", locationLST);
 			ObjectMapper mapper = new ObjectMapper();
 			String json = "";
 			try {
-				json = mapper.writeValueAsString(groupLST.getLocationENTs());
+				json = mapper.writeValueAsString(locationLST.getLocationENTs());
 			} catch (JsonGenerationException e) {
 				e.printStackTrace();
 			} catch (JsonMappingException e) {
@@ -135,7 +161,7 @@ public class LocationAction extends Action {
 		LocationLST locationLST = new LocationLST(locationENT, pageNo, pageSize, true,
 				"location_name");
 		try {
-			locationLST = getLocationDAO().getLocationList(locationLST);
+			locationLST = getLocationDAO().getLocationLST(locationLST);
 		} catch (AMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -177,7 +203,7 @@ public class LocationAction extends Action {
 				"deleteAnItem(REPLACEME, \"deleteLocation\");", "Remove", "#")); //
 		request.setAttribute("settingMenuItem", popupEnts);
 		request.setAttribute("gridMenuItem", popupGridEnts);
-	}
+	} 
 
 	private void setAllPathTypes(HttpServletRequest request) {
 		request.setAttribute("pathTypes", getLocationDAO().getAllPathTypes());

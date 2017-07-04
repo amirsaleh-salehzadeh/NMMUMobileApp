@@ -33,6 +33,7 @@ import common.location.LocationLST;
 import common.location.LocationTypeENT;
 import common.location.PathENT;
 import common.location.PathTypeENT;
+import common.security.RoleENT;
 import hibernate.config.BaseHibernateDAO;
 import hibernate.config.HibernateSessionFactory;
 import tools.AMSException;
@@ -828,6 +829,22 @@ public class LocationDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	public LocationENT getLocation(LocationENT location) throws AMSException {
+		Query q = null;
+		try {
+			Session session = getSession();
+			q = session.createQuery("from LocationENT where locationName =:Id");
+			q.setString("Id", location.getLocationName());
+			location = (LocationENT) q.uniqueResult();
+			session.close();
+			HibernateSessionFactory.closeSession();
+		} catch (HibernateException ex) {
+			ex.printStackTrace();
+			location = null;
+		}
+		return location;
 	}
 
 }

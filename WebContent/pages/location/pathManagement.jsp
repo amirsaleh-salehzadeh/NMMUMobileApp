@@ -95,6 +95,20 @@
 			});
 		});
 	});
+	// DST 
+	//Distance in Metres
+	//Speed in KMH
+	//Time in Hours minutes seconds
+	function getTime(distance, speed) {
+		var TotalTime = (distance/1000) / speed;
+	    var Hours = floor(TotalTime);
+	    var Minutes = floor((TotalTime-Hours)*60);
+	    var Seconds = round((TotalTime-Hours-Minutes)*60);
+	    var Kilometres = floor(distance/1000);
+	    var Metres = round(distance-(Kilometres*1000));
+		var String = "You are " + Kilometres + " kilometer/s and " + Metres + " meter/s away from the destination. You will be there in about " + Hours + " hour/s " + Minutes + " minute/s and " + Seconds + " second/s.";
+	    return String;
+	}
 </script>
 </head>
 <div data-role="panel" id="rightpanel" data-position="right"
