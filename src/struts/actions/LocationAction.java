@@ -4,7 +4,9 @@
  */
 package struts.actions;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.location.LocationDAOInterface;
@@ -16,11 +18,21 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import tools.AMSException;
+import tools.AMSUtililies;
 
+import common.MessageENT;
+import common.PopupENT;
+import common.location.LocationENT;
 import common.location.LocationLST;
 import common.location.LocationTypeENT;
+import common.security.GroupENT;
+import common.security.GroupLST;
+import common.security.RoleENT;
 
 public class LocationAction extends Action {
 	private String success = "";
@@ -43,7 +55,128 @@ public class LocationAction extends Action {
 		} else if (reqCode.equalsIgnoreCase("cameraNavigation")) {
 			af = mapping.findForward(reqCode);
 		}
+		if (reqCode.equalsIgnoreCase("roleManagement")) {
+			return locationManagement(request, mapping);
+		} else if (reqCode.equals("roleEdit")) {
+			return editLocation(request, mapping, form);
+		} else if (reqCode.equals("saveUpdateRole")) {
+			return saveUpdateLocation(request, mapping);
+		}
 		return af;
+	}
+
+	private ActionForward saveUpdateLocation(HttpServletRequest request,
+			ActionMapping mapping) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private ActionForward editLocation(HttpServletRequest request,
+			ActionMapping mapping, ActionForm form) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private ActionForward locationManagement(HttpServletRequest request,
+			ActionMapping mapping) {
+		try {
+			createMenusForLocation(request);
+			//request.setAttribute("locationENTs", getLocationDAO()
+			//		.getLocationsDropDown());
+			LocationLST groupLST = getLocationLST(request);
+			request.setAttribute("locationLST", locationLST);
+			ObjectMapper mapper = new ObjectMapper();
+			String json = "";
+			try {
+				json = mapper.writeValueAsString(groupLST.getLocationENTs());
+			} catch (JsonGenerationException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			json = AMSUtililies.prepareTheJSONStringForDataTable(
+					locationLST.getCurrentPage(), locationLST.getTotalItems(), json,
+					"locationID", success, error);
+			request.setAttribute("json", json);
+			if (request.getParameter("reqCodeGrid") != null
+					&& request.getParameter("reqCodeGrid").equals("gridJson"))
+				return mapping.findForward("gridJson");
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
+		return mapping.findForward("locationManagement");
+	}
+
+	private LocationLST getLocationLST(HttpServletRequest request) {
+		String search = request.getParameter("searchLocation.locationName");
+		if (search == null)
+			search = "";
+		int pageNo = 1;
+		int pageSize = 10;
+		int parentID = 0;
+		String Gps = "";
+		String Address = "";
+		if (request.getParameter("currentPage") != null)
+			pageNo = Integer.parseInt(request.getParameter("currentPage"));
+		if (request.getParameter("pageSize") != null)
+			pageSize = Integer.parseInt(request.getParameter("pageSize"));
+		if (request.getParameter("parentID") != null
+				&& !request.getParameter("parentID").equals(""))
+			parentID = Integer.parseInt(request.getParameter("parentID"));
+		if (request.getParameter("Gps") != null)
+			Gps = request.getParameter("Gps");
+		if (request.getParameter("Address") != null)
+			Address = request.getParameter("Address");
+		LocationENT locationENT = new LocationENT(0, search, LocationTypeENT, Address, Gps, search);
+		LocationLST locationLST = new LocationLST(locationENT, pageNo, pageSize, true,
+				"location_name");
+		try {
+			locationLST = getLocationDAO().getLocationList(locationLST);
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return locationLST;
+	}
+
+	private LocationENT getLocationENT(HttpServletRequest request) {
+		LocationENT locationENT = new LocationENT();
+		if (request.getParameter("locationID") != null)
+			locationENT.setLocationID(Integer.parseInt(request
+					.getParameter("locationID")));
+		if (request.getParameter("loctionName") != null)
+			locationENT.setLocationName(request.getParameter("locationName"));
+		else
+			locationENT.setLocationName("");
+		locationENT.setGps(request.getParameter("Gps"));
+		locationENT.setUserName(request.getParameter("userName"));
+		//locationENT.setLocationType(request.getParameter("locationType"));
+		locationENT.setParentId(Integer.parseInt(request.getParameter("parentId")));
+		return locationENT;
+	}
+	private void createMenusForLocation(HttpServletRequest request) {
+		List<PopupENT> popupEnts = new ArrayList<PopupENT>();
+		popupEnts.add(new PopupENT("hide-filters", "displaySearch();", "Show/Hide Search",
+				"#"));
+		popupEnts.add(new PopupENT("new-item",
+				"callAnAction(\"location.do?reqCode=locationEdit\");",
+				"New Group", "#"));
+		popupEnts.add(new PopupENT("delete-item", "deleteSelectedItems(\"deleteLocation\");",
+				"Delete Selected", "#"));
+		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
+		popupGridEnts
+				.add(new PopupENT(
+						"edit-item",
+						"callAnAction(\"location.do?reqCode=locationEdit&locationID=REPLACEME\");",
+						"Location Group", "#"));
+		popupGridEnts.add(new PopupENT("delete-item",
+				"deleteAnItem(REPLACEME, \"deleteLocation\");", "Remove", "#")); //
+		request.setAttribute("settingMenuItem", popupEnts);
+		request.setAttribute("gridMenuItem", popupGridEnts);
 	}
 
 	private void setAllPathTypes(HttpServletRequest request) {

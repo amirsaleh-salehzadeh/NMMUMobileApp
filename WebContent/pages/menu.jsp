@@ -43,6 +43,10 @@ body {
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
 					href="t_location.do?reqCode=pathManagement" data-ajax="false">Path
 						Management</a></li>
+				<li
+					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
+					href="t_location.do?reqCode=locationManagement" data-ajax="false">Location
+						Management</a></li>
 			</ul>
 		</div>
 	</li>
