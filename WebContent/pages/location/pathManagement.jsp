@@ -35,36 +35,80 @@
 	/* 	padding-left: 22em; */
 	
 }
-
-#infoDiv {
+/*  left panel of parent locations info */
+#infoDiv .ui-listview>.ui-li-static,.ui-btn {
+	border: thick 4pt;
+	border-color: black;
+	font-size: 20pt;
+	margin: 1em;
+	background-color: #00457c;
+	font-size: 12pt;
+	cursor: pointer;
+	color: white;
+	border-radius: 25px;
+	-webkit-text-stroke-width: 0.3px;
+	-webkit-text-stroke-color: black;
+}
+/* small html text div */
+#createType {
 	position: absolute;
 	display: inline;
 	border: thick 4pt;
-	border-color: black;
-	font-size: 16pt;
+	border-color: #00457c;
+	border-radius: 25px;
+	font-size: 30pt;
 	font-weight: bold;
 	margin: 1em;
-	background-color: #9b221f;
+	background-color: transparent;
 	font-size: 12pt;
 	cursor: pointer;
+	color: #00457c;
+	background-color: transparent;
+	background-repeat: no-repeat !important;
+	background-position: center !important;
 }
 
 #infoDivTitle {
 	display: inline-block;
 	opacity: 1 !important;
 }
-
+/* right side panel */
 #parentLocationListView {
 	position: absolute;
 	z-index: 100;
-	background-color: white;
+	background-color: transparent;
 	width: 100%;
 }
 
+#parentLocationListView .ui-btn {
+	border: thick 4pt;
+	border-color: black;
+	font-size: 20pt;
+	margin: 1em;
+	background-color: #00457c;
+	font-size: 12pt;
+	cursor: pointer;
+	color: white;
+	border-radius: 25px;
+	-webkit-text-stroke-width: 0.3px;
+	-webkit-text-stroke-color: black;
+}
+/* top panel */
 .locationTypeNavBar {
 	display: block;
 	min-height: 3em;
 	font-size: 16pt;
+}
+
+#locationTypesContainer .ui-btn {
+	border-color: black;
+	font-size: 20pt;
+	background-color: #00457c;
+	font-size: 12pt;
+	cursor: pointer;
+	color: white;
+	-webkit-text-stroke-width: 0.3px;
+	-webkit-text-stroke-color: black;
 }
 
 .locationTypeNavBar select {
@@ -116,7 +160,7 @@
 		<div data-role="controlgroup" id="locationTypesContainer"
 			data-type="horizontal" data-mini="true"></div>
 	</form>
-	<br/>
+	<br />
 	<div id="createType"></div>
 </div>
 <div id="infoDiv">
