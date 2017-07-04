@@ -81,6 +81,21 @@
 	background-size: 24px 24px;
 	border-radius: 0;
 }
+
+#navigationDashboard {
+	font-size: 14pt;
+	color: black;
+	background-color: white;
+	margin-right: 2em;
+	padding: 7px;
+	background-color: rgba(255, 255, 255, 0.66);
+	border: 3px solid black;
+	display: none;
+}
+
+.dashboardHeader {
+	font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -93,6 +108,16 @@
 				<li><a href="#" data-ajax="false" onclick="openAR();">AR
 						View</a></li>
 			</ul>
+		</div>
+		<div id="navigationDashboard">
+<!-- 			<span class="dashboardHeader">Destination </span><span -->
+<!-- 				class="dashboardRes" id="destinationDef">NMU main building in -->
+<!-- 				south campus</span>  -->
+				 <span class="dashboardHeader">Distance</span> <span
+				class="dashboardRes" id="distanceDef">4 Km and 430 Meters</span><br />
+			<span class="dashboardHeader">Speed</span> <span class="dashboardRes"
+				id="speedDef">5.4 km/h</span>
+
 		</div>
 		<div id="mapView" class="ui-body-d ui-content">
 			<input type="hidden" id="tripString">
@@ -111,11 +136,6 @@
 							<input type="radio" name="radio-choice-path-type" id="walking"
 								value="1"> <label for="dirtroad"> <span
 								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<!-- 							<input type="radio" name="radio-choice-path-type" id="wheelchair" -->
-							<!-- 								value="3"> <label for="driving"> <span -->
-							<!-- 								class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
-							<!-- 							<input type="radio" name="radio-choice-path-type" id="driving" -->
-							<!-- 								value="4"> -->
 						</fieldset>
 					</div>
 					<div class="ui-block-B">
@@ -123,16 +143,16 @@
 							data-type="horizontal"
 							style="float: right; display: inline-block;">
 							<label for="clearTrip"><span
-								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk"
-								onclick="removeTrip()"></span></label> <input type="radio"
-								name="radio-choice-v-2" id="clearTrip" value="1"> <label
+								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-v-2" id="clearTrip"
+								value="1" onclick="removeTrip()"> <label
 								for="currentLocation"><span
 								class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-v-2" id="currentLocation"
-								value="1"> <label for="startTrip"><span
-								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"
-								onclick="startTrip()"></span></label> <input type="radio"
-								name="radio-choice-v-2" id="startTrip" value="1">
+								value="1" onclick="myLocation()"> <label for="startTrip"><span
+								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-v-2" id="startTrip"
+								value="1" onclick="startTrip()">
 						</fieldset>
 					</div>
 				</div>

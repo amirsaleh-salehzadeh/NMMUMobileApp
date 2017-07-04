@@ -87,13 +87,47 @@ function drawPath() {
 				paths.push(pathPolyline);
 				animateCircle(pathPolyline);
 			});
-			alert(polylineLength);
 			$("#tripString").val(pathString);
+			getTripInfo(polylineLength, 0);
 			$("#departureId").val(pathString.split(",")[0]);
 			$("#destinationId").val(
 					pathString.split(",")[pathString.split(",").length - 1]);
 		}
 	});
+}
+
+function getTripInfo(distance, speed) {
+	if (speed > 0) {
+		var TotalTime = (distance / 1000) / speed;
+		var Hours = Math.floor(TotalTime);
+		var Minutes = Math.floor((TotalTime - Hours) * 60);
+		var Seconds = Math.round((TotalTime - Hours - Minutes) * 60);
+	}
+	var Kilometres = Math.floor(distance / 1000);
+	var Metres = Math.round(distance - (Kilometres * 1000));
+	// var String = "You are " + Kilometres + " kilometer/s and " + Metres + "
+	// meter/s away from the destination. You will be there in about "
+	// + Hours + " hour/s " + Minutes + " minute/s and " + Seconds + "
+	// second/s.";
+	$("#navigationDashboard").css("display", "block");
+	if(Kilometres != 0)
+	$("#distanceDef").html(
+			Kilometres + " kilometer/s and " + Metres + " meter/s");
+	else
+		$("#distanceDef").html(Metres + " meter/s");
+	return String;
+}
+
+function myLocation() {
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(successHandler, errorHandler,
+				{
+					enableHighAccuracy : true,
+					maximumAge : 5000
+				});
+	} else {
+		handleLocationError(false, infoWindow, map.getCenter());
+	}
 }
 
 function startTrip() {
@@ -106,8 +140,34 @@ function startTrip() {
 			$("#tripId").val(data[0].tripId);
 			setCookie('TripIdCookie', data[0].tripId, 1);
 			setCookie('TripPathCookie', $("#tripString").val(), 1);
+			console.log("success");
+			walkToDestination();
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+			console.log("error");
 		}
 	});
+	console.log("started");
+
+}
+
+var walking;
+function walkToDestination() {
+	walking = setInterval(walkToDestination, 1000);
+	var nextDest = getCookie("TripPathCookie").split(",")[0];
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(successHandler, errorHandler,
+				{
+					enableHighAccuracy : true,
+					maximumAge : 5000
+				});
+	} else {
+		handleLocationError(false, infoWindow, map.getCenter());
+	}
+	console.log(nextDest);
+	// $("#speedDef").html(speed);
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -116,6 +176,7 @@ function setCookie(cname, cvalue, exdays) {
 	var expires = "expires=" + d.toUTCString();
 	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
+
 function getCookie(cname) {
 	var name = cname + "=";
 	var decodedCookie = decodeURIComponent(document.cookie);
@@ -131,12 +192,14 @@ function getCookie(cname) {
 	}
 	return "";
 }
+
 function removeTrip() {
 	var url = "REST/GetLocationWS/RemoveTrip?tripId=" + $("#tripId").val();
 	$.ajax({
 		url : url,
 		cache : false,
 		success : function(data) {
+			clearInterval(walking);
 			$("#from").val("");
 			$("#departureId").val("");
 			$("#to").val("");
@@ -149,7 +212,10 @@ function removeTrip() {
 			}
 		}
 	});
+	$("#navigationDashboard").css("display", "none");
+
 }
+
 function openAR() {
 	var tmp = $('#destinationId').val();
 	if (tmp == null || tmp == "null" || tmp == "")
@@ -157,10 +223,12 @@ function openAR() {
 	window.open("insta/docs/index.jsp?destinationId=" + tmp + "&pathType="
 			+ $("[name='radio-choice-path-type']:checked").val());
 }
+
 var myLatLng = {
 	lat : -34.009211,
 	lng : 25.669051
 };
+
 var infoWindow;
 var successHandler = function(position) {
 	var pos = {
@@ -168,9 +236,14 @@ var successHandler = function(position) {
 		lng : position.coords.longitude
 	};
 	if ($("#from").val() == "") {
-		$("#from").val(position.coords.latitude + ", " + position.coords.longitude);
-		return;
+		$("#from").val(
+				position.coords.latitude + ", " + position.coords.longitude);
 	}
+	var heading = position.coords.heading;
+	var speed = position.coords.speed;
+	console.log("heading>> " + heading);
+	console.log("speed>> " + speed);
+	$("#speedDef").html(speed);
 	map.setCenter(pos);
 	marker = new google.maps.Marker({
 		position : pos,
@@ -205,13 +278,11 @@ function initiMap() {
 	input = document.getElementById('to');
 	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 			.getElementById('searchFields'));
+	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+			.getElementById('navigationDashboard'));
 	google.maps.event.addListener(map, "click", function(event) {
 		var lat = event.latLng.lat();
 		var lng = event.latLng.lng();
-		// if ($("#from").val() == "") {
-		// $("#from").val(lat + ", " + lng);
-		// return;
-		// } else
 		if ($("#to").val() == "") {
 			$("#to").val(lat + ", " + lng);
 			return;
@@ -227,24 +298,26 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 					: 'Error: Your browser doesn\'t support geolocation.');
 	infoWindow.open(map);
 }
-//$(document).ready(
-//		function() {
-//			$("#map_canvas").css("min-width",
-//					parseInt($("#mainBodyContents").css("width")));
-//			$("#map_canvas").css(
-//					"min-height",
-//					parseInt($(window).height())
-//							- parseInt($(".jqm-header").css("height")) - 7);
+// $(document).ready(
+// function() {
+// $("#map_canvas").css("min-width",
+// parseInt($("#mainBodyContents").css("width")));
+// $("#map_canvas").css(
+// "min-height",
+// parseInt($(window).height())
+// - parseInt($(".jqm-header").css("height")) - 7);
 //
-//		});
+// });
 $(document)
-.ready(
-		function() {
-			$("#map_canvas").css("min-width",
-					parseInt($("#mainBodyContents").css("width")));
-			$("#map_canvas").css(
-					"min-height",
-					parseInt($(window).height())
-							- parseInt($(".jqm-header").css(
-									"height")) - 7);
-		});
+		.ready(
+				function() {
+					$("#map_canvas").css("min-width",
+							parseInt($("#mainBodyContents").css("width")));
+					$("#map_canvas")
+							.css(
+									"min-height",
+									parseInt($(window).height())
+											- (parseInt($(".jqm-header").css(
+													"height")) - 21 + parseInt($(
+													".ui-navbar").css("height"))));
+				});
