@@ -132,17 +132,6 @@ color:red ;
 	border-color: white;
 }
 </style>
-<script type="text/javascript">
-	$(document).ready(function() {
-		// 		selectRightPanelVal();
-		$("#rightpanel").trigger("updatelayout");
-		$(".liLocationLV").each(function() {
-			$(this).bind('onclick', function(e) {
-				alert('Selected Name=' + $(this).attr('value'));
-			});
-		});
-	});
-</script>
 </head>
 <div>
 	<input type="hidden" id="parentLocationId" value="0"> <input

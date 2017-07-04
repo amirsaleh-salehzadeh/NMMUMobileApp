@@ -486,12 +486,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return points.get(closest);
 	}
 
-	public static UndirectedGraph<Long, DefaultWeightedEdge> graph;
 
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId) {
 		// if (graph == null)
-		graph = createGraph(pathTypeId);
+		UndirectedGraph<Long, DefaultWeightedEdge> graph = createGraph(pathTypeId);
 		// + System.currentTimeMillis());
 		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
 				graph, dep, dest);

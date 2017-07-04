@@ -136,6 +136,11 @@ public class LocationServicesWS {
 		try {
 			json = mapper.writeValueAsString(getLocationDAO().getAPathFromTo(
 					from, to, pathType));
+			String tmp = "";
+			System.out.println(json);
+//			tmp = "{ \"distance\": " + currentPage + ", \"recordsTotal\":" + totalItems
+//					+ ", \"recordsFiltered\":" + totalItems;
+//				tmp += ", \"successm\":\"" + success+"\"";
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -278,12 +283,12 @@ public class LocationServicesWS {
 			@QueryParam("destinationId") long destinationId,
 			@QueryParam("pathType") int pathType) {
 		String json = "[]";
-		ObjectMapper mapper = new ObjectMapper();
-		// try {
-		ArrayList<PathENT> shortestPathToDest = getLocationDAO()
-				.getShortestPath(barcodeId, destinationId, pathType);
-		ArrayList<PathENT> allPathsforADest = getLocationDAO()
-				.getAllPathsForOnePoint(barcodeId, pathType);
+//		ObjectMapper mapper = new ObjectMapper();
+//		// try {
+//		ArrayList<PathENT> shortestPathToDest = getLocationDAO()
+//				.getShortestPath(barcodeId, destinationId, pathType);
+//		ArrayList<PathENT> allPathsforADest = getLocationDAO()
+//				.getAllPathsForOnePoint(barcodeId, pathType);
 
 		// } catch (JsonGenerationException e) {
 		// e.printStackTrace();

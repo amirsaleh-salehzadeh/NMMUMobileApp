@@ -82,27 +82,8 @@
 	border-radius: 0;
 }
 </style>
-<script type="text/javascript">
-	$(document).ready(function() {
-		getLocationTypePanel();
-		$("#rightpanel").trigger("updatelayout");
-		$(".liLocationLV").each(function() {
-			$(this).bind('onclick', function(e) {
-				alert('Selected Name=' + $(this).attr('value'));
-			});
-		});
-	});
-</script>
 </head>
 <body>
-	<div data-role="panel" id="rightpanel" data-position="right"
-		data-display="overlay">
-		<div class="ui-block-solo" id="locationTypeListViewDiv">
-			<ul data-role="listview" data-inset="true" data-filter="true"
-				data-filter-placeholder="Location Type..." id="locationTypeListView">
-			</ul>
-		</div>
-	</div>
 	<input type="hidden" id="tripId">
 	<div data-role="tabs" id="tabs">
 		<div data-role="navbar">
@@ -169,104 +150,8 @@
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
-	function openAR() {
-		var tmp = $('#destinationId').val();
-		if (tmp == null || tmp == "null" || tmp == "")
-			tmp = 0;
-		window.open("insta/docs/index.jsp?destinationId=" + tmp + "&pathType="
-				+ $("[name='radio-choice-path-type']:checked").val());
-	}
-	$(document)
-			.ready(
-					function() {
-						$("#map_canvas").css("min-width",
-								parseInt($("#mainBodyContents").css("width")));
-						$("#map_canvas").css(
-								"min-height",
-								parseInt($(window).height())
-										- parseInt($(".jqm-header").css(
-												"height")) - 7);
-					});
-	var myLatLng = {
-		lat : -34.009211,
-		lng : 25.669051
-	};
-	var infoWindow;
-	var successHandler = function(position) {
-		var pos = {
-			lat : position.coords.latitude,
-			lng : position.coords.longitude
-		};
-		// 		infoWindow.setPosition(pos);
-		// 		infoWindow.setContent('Location found.');
-		// 		infoWindow.open(map);
-		map.setCenter(pos);
-		marker = new google.maps.Marker({
-			position : pos,
-			map : map
-		});
-	};
-
-	var errorHandler = function(errorObj) {
-		alert(errorObj.code + ": " + errorObj.message);
-
-	};
-
-	function initiMap() {
-		map = new google.maps.Map(document.getElementById('map_canvas'), {
-			center : {
-				lat : -34.009211,
-				lng : 25.669051
-			},
-			zoom : 17
-		});
-		infoWindow = new google.maps.InfoWindow;
-
-		// Try HTML5 geolocation.
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(successHandler,
-					errorHandler, {
-						enableHighAccuracy : true,
-						maximumAge : 10000
-					});
-		} else {
-			// Browser doesn't support Geolocation
-			handleLocationError(false, infoWindow, map.getCenter());
-		}
-		// 		map = null;
-		// 		map = new google.maps.Map(document.getElementById('map_canvas'), {
-		// 			zoom : 17,
-		// 			streetViewControl : true,
-		// 			fullscreenControl : true
-		// 		});
-		input = document.getElementById('to');
-		map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
-				.getElementById('searchFields'));
-		google.maps.event.addListener(map, "click", function(event) {
-			var lat = event.latLng.lat();
-			var lng = event.latLng.lng();
-			if ($("#from").val() == "") {
-				$("#from").val(lat + ", " + lng);
-				return;
-			} else if ($("#to").val() == "") {
-				$("#to").val(lat + ", " + lng);
-				return;
-			} else {
-				drawPoly();
-			}
-		});
-	}
-	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-		infoWindow.setPosition(pos);
-		infoWindow
-				.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
-						: 'Error: Your browser doesn\'t support geolocation.');
-		infoWindow.open(map);
-	}
-</script>
-<script type="text/javascript" src="js/location/path.management.js"></script>
+<script type="text/javascript" src="js/location/path.navigation.js"></script>
 <script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&callback=initiMap"
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>
 </html>
