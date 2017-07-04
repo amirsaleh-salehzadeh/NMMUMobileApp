@@ -36,25 +36,37 @@
 	
 }
 /*  left panel of parent locations info */
-#infoDiv .ui-listview>.ui-li-static,.ui-btn {
-	border: thick 4pt;
-	border-color: black;
-	font-size: 20pt;
-	margin: 1em;
+#infoDiv {
+	left: 20px; background : url("images/overlay.png") repeat-x;
 	background-color: #00457c;
+	border-color: white;
+	border-radius: 25px;
+	border: thick 4pt;
+	background: url("images/overlay.png") repeat-x;
+}
+
+#infoDiv .ui-listview>.ui-li-static {
+	/*  	background: url("images/overlay.png") repeat-x;  */
+	text-shadow: none;
+	border: 0;
+	margin: 1;
+	font-size: 20pt;
+	border-radius: 25px;
+	background-color: transparent;
 	font-size: 12pt;
 	cursor: pointer;
 	color: white;
-/* 	border-radius: 25px; */
 	-webkit-text-stroke-width: 0.3px;
 	-webkit-text-stroke-color: black;
 }
 /* small html text div */
 #createType {
+	background: url("images/overlay.png") repeat-x;
+	text-shadow: none;
 	position: absolute;
 	display: inline;
 	border: thick 4pt;
-	border-color: #00457c;
+	border-color: white;
 	border-radius: 25px;
 	font-size: 30pt;
 	font-weight: bold;
@@ -81,8 +93,13 @@
 }
 
 #parentLocationListView .ui-btn {
+	margin: 10 0 0 10;
+	background: url("images/overlay.png") repeat-x;
+	text-shadow: none;
+	padding: 5px 10px 15px;
+	height: 10;
 	border: thick 4pt;
-	border-color: black;
+	border-color: white;
 	font-size: 20pt;
 	margin: 1em;
 	background-color: #00457c;
@@ -93,6 +110,7 @@
 	-webkit-text-stroke-width: 0.3px;
 	-webkit-text-stroke-color: black;
 }
+
 /* top panel */
 .locationTypeNavBar {
 	display: block;
@@ -101,7 +119,14 @@
 }
 
 #locationTypesContainer .ui-btn {
-	border-color: white;
+	border-top-color: white;
+	border-right-color: transparent;
+	border-left-color: transparent;
+	border-bottom-color: white; 
+	background : url("images/overlay.png")repeat-x;
+	text-shadow: none;
+	height: 15;
+	padding: 5px 10px 15px;
 	font-size: 20pt;
 	background-color: #00457c;
 	font-size: 12pt;
@@ -109,6 +134,8 @@
 	color: white;
 	-webkit-text-stroke-width: 0.3px;
 	-webkit-text-stroke-color: black;
+	margin: 20 0 0 20;
+	background: url("images/overlay.png") repeat-x;
 }
 
 .locationTypeNavBar select {
@@ -117,10 +144,11 @@
 		100% 100% #FEFEFE;
 	background-size: 66px 66px;
 }
-#NavBarArea-button .ui-btn{
-color:red ;
 
+#NavBarArea-button .ui-btn {
+	
 }
+
 .locationTypeNavBar option {
 	display: block;
 	background-color: black !important;
