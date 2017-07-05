@@ -25,6 +25,15 @@
 					<html:text name="locationLST" property="searchLocation.locationName"
 						onkeyup="refreshGrid();" title="Location Name"></html:text>
 				</div>
+				<div class="ui-block-b">
+					<html:text name="locationENT" property="searchLocation.locationType"
+						onkeyup="refreshGrid();" title="Location Type"></html:text>
+				</div>
+				<div class="ui-block-c">
+					<bean:define id="locationTypeIdSelectedVal" name="locationENT" property="searchLocation.locationTypeId"></bean:define>
+					<ams:dropDown dropDownItems="${clientENTs}" name="locationTypeId"
+						selectedVal="<%=locationTypeIdSelectedVal.toString() %>" onChange="refreshGrid()" title="Location Type"></ams:dropDown>
+				</div>
 			</fieldset>
 		</div>
 		<div class="ui-grid-solo">

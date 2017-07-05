@@ -15,6 +15,10 @@
 		<form id="dataFilterGridMainPage" action="location.do">
 			<input type="hidden" name="reqCode" value="saveUpdateLocation">
 			<div class="ui-block-solo">
+					<html:text name="locationENT" property="searchLocation.locationType"
+						onkeyup="refreshGrid();" title="Location Type"></html:text>
+				</div>
+			<div class="ui-block-solo">
 				<html:text name="locationENT" property="locationName" title="Location Name" />
 				<html:hidden name="locationENT" property="locationID"/>
 			</div>
@@ -27,7 +31,13 @@
 			<div class="ui-block-solo">
 				<html:text name="locationENT" property="username" title="Username" />
 			</div>
-
+			<div class="ui-block-solo">
+				<bean:define id="selectedValue" name="locationENT" property="locationTypeId"
+					type="java.lang.Integer"></bean:define>
+				<ams:dropDown dropDownItems="${locationENTs}"
+					selectedVal="<%=selectedValue.toString()%>" name="locationTypeId"
+					title=""></ams:dropDown>
+			</div>
 			<div class=ui-grid-b>
 				<div class=ui-block-a>
 					<a href="#" data-role="button" class="cancel-icon"

@@ -31,9 +31,6 @@ import common.PopupENT;
 import common.location.LocationENT;
 import common.location.LocationLST;
 import common.location.LocationTypeENT;
-import common.security.GroupENT;
-import common.security.GroupLST;
-import common.security.RoleENT;
 
 public class LocationAction extends Action {
 	private String success = "";
@@ -129,9 +126,9 @@ public class LocationAction extends Action {
 			if (request.getParameter("reqCodeGrid") != null
 					&& request.getParameter("reqCodeGrid").equals("gridJson"))
 				return mapping.findForward("gridJson");
-		} catch (AMSException e) {
+		/*} catch (AMSException e) {
 			e.printStackTrace();
-		}
+		}*/
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("locationManagement");
@@ -144,6 +141,7 @@ public class LocationAction extends Action {
 		int pageNo = 1;
 		int pageSize = 10;
 		int parentID = 0;
+		int locationTypeId = 0;
 		String Gps = "";
 		String Address = "";
 		if (request.getParameter("currentPage") != null)
@@ -157,7 +155,10 @@ public class LocationAction extends Action {
 			Gps = request.getParameter("Gps");
 		if (request.getParameter("Address") != null)
 			Address = request.getParameter("Address");
-		LocationENT locationENT = new LocationENT(0, search, LocationTypeENT, Address, Gps, search);
+		if (request.getParameter("locationTypeId") != null)
+			locationTypeId = Integer.parseInt(request.getParameter("locationTypeId"));
+		LocationTypeENT locationTypeENT = new LocationTypeENT(locationTypeId);
+		LocationENT locationENT = new LocationENT(0, search,locationTypeENT  , Address, Gps, search);
 		LocationLST locationLST = new LocationLST(locationENT, pageNo, pageSize, true,
 				"location_name");
 		try {
