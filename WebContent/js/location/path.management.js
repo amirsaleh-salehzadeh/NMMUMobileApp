@@ -128,7 +128,7 @@ function getAllMarkers() {
 												+ l.gps
 												+ "_"
 												+ l.locationType.locationTypeId
-												+ '" data-mini="true" onclick="selectParent(this)" class="ui-btn ui-shadow ui-corner-all">'
+												+ '" data-mini="true" onclick="selectParent(this)" class="ui-btn parentLocationList">'
 												+ l.locationName + '</a>';
 										var pos = {
 											lat : parseFloat(l.gps.split(",")[0]),
@@ -329,19 +329,22 @@ function initMap() {
 	
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		zoom : 7,
-		fullscreenControl : true
+		fullscreenControl : true,
+		streetViewControl: false
 	// mapTypeId : 'satellite'
 	});
 	
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 			.getElementById('searchFields'));
-	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
-			.getElementById('locationTypeFields'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
-			.getElementById('infoDiv'));
+			.getElementById('createType'));
+	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+			.getElementById('locationTypeFields'));
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
+	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+			.getElementById('infoDiv'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");
@@ -372,8 +375,8 @@ function getLocationTypePanel() {
 				cache : false,
 				success : function(data) {
 					locationTypeJSONData = data;
-					var str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' onclick='createMyType(this);' id='NavBar"
-							+ data.locationType + "' >";
+					var str = "<select name='selectLocationType'  data-iconpos='noicon' data-role='nojs' class='locationTypeNavBar' onclick='createMyType(this);' id='NavBar"
+							+ data.locationType + "' data-enhance='false'>";
 					str += "<option value='" + data.locationTypeId + "'>"
 							+ data.locationType + "</option>";
 					if (data.children.length > 1)
@@ -391,6 +394,7 @@ function getLocationTypePanel() {
 					$("#locationTypesContainer").controlgroup("container")
 							.append(str);
 					$("#NavBar" + data.locationType).selectmenu();
+					$("#NavBar" + data.locationType).selectmenu("refresh");
 					$("#locationTypesContainer").controlgroup("refresh");
 					getMyChild(data.locationTypeId);
 					setLocationTypeCreate();
@@ -419,6 +423,8 @@ function setLocationTypeCreate() {
 			$("#createType").html($(this).html().replace(" ", ""));
 		}
 	});
+	google.maps.event.trigger(map, 'resize');
+
 }
 
 function selectParent(field) {
@@ -470,7 +476,7 @@ function getMyChild(select) {
 					function(k, l) {
 						if (str == "") {
 							navbarId = l.locationType;
-							str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' id='NavBar"
+							str = "<select name='selectLocationType' data-iconpos='noicon' data-role='none' class='locationTypeNavBar' id='NavBar"
 									+ l.locationType
 									+ "' onclick='createMyType(this);'>";
 						}
