@@ -200,20 +200,19 @@ function removeTrip() {
 		cache : false,
 		success : function(data) {
 			clearInterval(walking);
-			$("#from").val("");
-			$("#departureId").val("");
-			$("#to").val("");
-			$("#destinationId").val("");
-			$("#to").val("");
-			$("#tripString").val("");
-			$("#tripId").val("");
 			for ( var i = 0; i < paths.length; i++) {
 				paths[i].setMap(null);
 			}
 		}
 	});
+	$("#from").val("");
+	$("#departureId").val("");
+	$("#to").val("");
+	$("#destinationId").val("");
+	$("#to").val("");
+	$("#tripString").val("");
+	$("#tripId").val("");
 	$("#navigationDashboard").css("display", "none");
-
 }
 
 function openAR() {
