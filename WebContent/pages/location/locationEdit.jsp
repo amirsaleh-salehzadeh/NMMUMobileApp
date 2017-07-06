@@ -44,7 +44,14 @@
 						onclick="callAnAction('location.do?reqCode=locationManagement');"
 						data-mini="true">Cancel</a>
 				</div>
+				<bean:define id="locationIDVal" name="locationENT" property="locationID"
+					type="java.lang.Integer"></bean:define>
 				<div class=ui-block-b>
+					<a href="#" data-role="button" id="location-item"
+						onclick="callAnAction('location.do?reqCode=pathManagement&locationID=<%=locationIDVal%>');"
+						data-mini="true">Edit In Path Management</a>
+				</div>
+				<div class=ui-block-c>
 					<a href="#" data-role="button" class="save-icon"
 						onclick="saveTheForm();" data-mini="true">Save</a>
 				</div>
