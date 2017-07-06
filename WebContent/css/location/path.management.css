@@ -1,0 +1,141 @@
+@CHARSET "ISO-8859-1";
+
+.inlineIcon {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	width: auto !important;
+}
+
+.ui-icon-map-marker:after {
+	background-image: url("../../images/icons/marker.png");
+	background-size: 23px 23px;
+}
+
+.ui-icon-map-path:after {
+	background-image: url("../../images/icons/journey.png");
+	background-size: 23px 23px;
+}
+
+#searchFields {
+	margin: 0 0 0 0;
+	padding-bottom: 12px;
+}
+
+/*  left panel of parent locations info */
+#infoDiv {
+	left: 20px;
+	background-color: #00457c;
+	border-color: white;
+	border: thick 4pt;
+}
+
+#infoDiv .ui-listview>.ui-li-static {
+	text-shadow: none;
+	border: 0;
+	margin: 1;
+	font-size: 20pt;
+	border-radius: 11px;
+	background-color: transparent;
+	font-size: 12pt;
+	cursor: pointer;
+	color: white;
+}
+
+/* right side panel */
+#parentLocationListView {
+	background-color: #00457c;
+	border-radius: 11px;
+	width: 100%;
+	position: absolute;
+	display: block;
+	max-height: 333px;
+	overflow: auto;
+	box-sizing: border-box;
+}
+
+#parentLocationListView .parentLocationList {
+	text-shadow: none;
+	text-decoration: none !important;
+	background: transparent;
+	min-height: .66em;
+	border-color: white;
+	border-top: 0em;
+	border-left: 0em;
+	border-right: 0em;
+	margin: 0;
+	padding: .33em 0;
+	padding-left: .33em;
+	font-size: 14pt;
+	cursor: pointer;
+	color: white !important;
+}
+
+/* top panel */
+#locationTypeFields {
+	/* 	padding-left: 22em; */
+	
+}
+
+.NavBarSelectIcon {
+	display: none;
+	position: absolute;
+}
+
+.locationTypeNavBar {
+	display: block;
+	font-size: 16pt;
+	background-color: #00457c;
+}
+
+#locationTypesContainer .ui-btn {
+	background: transparent;
+	color: white !important;
+	text-shadow: none !important;
+}
+
+.ui-controlgroup {
+	margin: 0 !important;
+}
+
+#locationTypesContainer { /* .ui-btn */
+	text-shadow: none;
+	background-color: #00457c;
+	cursor: pointer;
+	color: white !important;
+}
+
+select.locationTypeNavBar  {
+	display: block;
+	background-image: url(../../images/map-markers/marker-blue.png);
+	background-size: 66px 66px;
+}
+
+.locationTypeNavBar option {
+	display: block;
+	background-color: black !important;
+	color: white;
+	border-width: 6px !important;
+	border: 2px #fff !important;
+	border-bottom: thin !important;
+	min-height: .7em;
+	border-color: white !important;
+}
+
+#createType {
+	text-shadow: none;
+	position: absolute;
+	display: block;
+	float: right;
+	border: 2px;
+	border-style: solid;
+	background-color: rgba(0, 69, 124, 0.66);
+	border-color: #9b221f;
+	border-radius: 11px;
+	font-size: 22pt;
+	font-weight: bold;
+	padding: .33em;
+	margin-bottom: .11em;
+	cursor: pointer;
+	color: white;
+}

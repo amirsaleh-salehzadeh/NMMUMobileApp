@@ -36,6 +36,7 @@ import common.location.PathTypeENT;
 import common.security.RoleENT;
 import hibernate.config.BaseHibernateDAO;
 import hibernate.config.HibernateSessionFactory;
+import threads.GraphMapThread;
 import tools.AMSException;
 import tools.QRBarcodeGen;
 
@@ -222,7 +223,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				query += " and l.parent_id = " + parentLocationId;
 			else if (locationTypeId > 0)
 				query += " and l.location_type = " + locationTypeId;
-			query +=" order by l.location_name asc";
+			query += " order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -281,7 +282,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 				parent = new LocationTypeENT(1);
 			query = "select lt.* from location_type lt"
 					+ " where lt.location_type_id = "
-					+ parent.getLocationTypeId() + " order by lt.location_type asc";
+					+ parent.getLocationTypeId()
+					+ " order by lt.location_type asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -306,7 +308,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			conn = getConnection();
 			String query = "";
 			query = "select lt.* from location_type lt"
-					+ " where lt.parent_id = " + ent.getLocationTypeId() + " order by lt.location_type asc";
+					+ " where lt.parent_id = " + ent.getLocationTypeId()
+					+ " order by lt.location_type asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			boolean end = false;
@@ -485,12 +488,21 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return points.get(closest);
 	}
 
-	public static UndirectedGraph<Long, DefaultWeightedEdge> graph;
-
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId) {
 		// if (graph == null)
-		graph = createGraph(pathTypeId);
+		UndirectedGraph<Long, DefaultWeightedEdge> graph = null;
+		if (GraphMapThread.graphDirt == null
+				|| GraphMapThread.graphWalkaway == null) {
+			GraphMapThread gmt = new GraphMapThread();
+			Thread ta = new Thread(gmt);
+			ta.setName("GraphMapThread");
+			ta.setDaemon(true);
+			ta.start();
+		} else if (pathTypeId == 2)
+			graph = GraphMapThread.graphWalkaway;
+		else
+			graph = GraphMapThread.graphDirt;
 		// + System.currentTimeMillis());
 		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
 				graph, dep, dest);
@@ -516,7 +528,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	private static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
+	public static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
 			int pathTypeId) {
 		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
 				DefaultWeightedEdge.class);

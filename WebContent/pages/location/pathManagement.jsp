@@ -6,6 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<<<<<<< HEAD
 <style type="text/css">
 .inlineIcon {
 	display: inline-block;
@@ -110,20 +111,10 @@
 	    return String;
 	}
 </script>
+=======
+<link href="css/location/path.management.css" rel="stylesheet">
+>>>>>>> Amir
 </head>
-<div data-role="panel" id="rightpanel" data-position="right"
-	data-display="overlay">
-	<div class="ui-block-solo" id="locationTypeListViewDiv">
-		<ul data-role="listview" data-inset="true" data-filter="true"
-			data-filter-placeholder="Location Type..." id="locationTypeListView">
-		</ul>
-	</div>
-	<div class="ui-block-solo" id="pathTypeListViewDiv">
-		<ul data-role="listview" data-inset="true" id="pathTypeListView"
-			data-filter="true" data-filter-placeholder="Path Type...">
-		</ul>
-	</div>
-</div>
 <div>
 	<input type="hidden" id="parentLocationId" value="0"> <input
 		type='hidden' id='locationTypeId' value='0'> <input
@@ -139,11 +130,11 @@
 </div>
 <div id="map_canvas"></div>
 <div id="locationTypeFields">
-	<form>
-		<div data-role="controlgroup" id="locationTypesContainer"
-			data-type="horizontal" data-mini="true"></div>
-	</form>
+	<div data-role="controlgroup" id="locationTypesContainer"
+		data-type="horizontal" data-enhance="false" ></div>
+	<br />
 </div>
+<div id="createType"></div>
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
 	</ul>

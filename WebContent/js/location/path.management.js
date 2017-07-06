@@ -22,7 +22,6 @@ function printBarcode(id, name) {
 		alert("The location does not exist yet. Please save the location first");
 		return;
 	}
-	// var query = '{"id":"' + id + '"}';
 	window.open("pages/location/barcodePrint.jsp?locationId=" + id);
 }
 
@@ -36,7 +35,7 @@ function saveMarker() {
 			+ $("#markerName").val() + "&coordinate="
 			+ $("#markerCoordinate").val() + "&locationType="
 			+ $("#locationTypeId").val() + "&locationId="
-				+ $("#markerId").val() + "&userName=NMMU";
+			+ $("#markerId").val() + "&userName=NMMU";
 
 	$.ajax({
 		url : url,
@@ -113,66 +112,97 @@ function getAllMarkers() {
 		markers[i].setMap(null);
 	}
 
-	$.ajax({
-		url : url,
-		cache : false,
-		success : function(data) {
-			var str = "";
-			$.each(data, function(k, l) {
-				str += '<a href="#" id="'
-						+ l.locationID
-						+ "_"+l.gps+"_"+l.locationType.locationTypeId+'" data-mini="true" onclick="selectParent(this)" class="ui-btn ui-shadow ui-corner-all">'
-						+ l.locationName + '</a>';
-				var pos = {
-					lat : parseFloat(l.gps.split(",")[0]),
-					lng : parseFloat(l.gps.split(",")[1])
-				};
-				marker = new google.maps.Marker({
-					map : map,
-					icon : refreshMap(l),
-				    animation: google.maps.Animation.DROP,
-					draggable : true,
-					title : l.locationName
+	$
+			.ajax({
+				url : url,
+				cache : false,
+				success : function(data) {
+					var str = "";
+					$
+							.each(
+									data,
+									function(k, l) {
+										str += '<a href="#" id="'
+												+ l.locationID
+												+ "_"
+												+ l.gps
+												+ "_"
+												+ l.locationType.locationTypeId
+												+ '" data-mini="true" onclick="selectParent(this)" class="ui-btn parentLocationList">'
+												+ l.locationName + '</a>';
+										var pos = {
+											lat : parseFloat(l.gps.split(",")[0]),
+											lng : parseFloat(l.gps.split(",")[1])
+										};
+										marker = new google.maps.Marker(
+												{
+													map : map,
+													icon : refreshMap(l),
+													animation : google.maps.Animation.DROP,
+													draggable : true,
+													title : l.locationName
 
-				});
-				marker.addListener('click', function(point) {
-					addToPath(l, l.gps);
-					map.setCenter(pos);
-					map.setZoom(17);
-				});
-				marker.addListener('dragend', function(point) {
-					if(confirm("Are you sure you want to move the marker?")){
-						$("#markerCoordinate").val(point.latLng.lat()+","+point.latLng.lng());
-						$("#markerId").val(l.locationID);
-						$("#parentLocationId").val(l.parentId);
-						$("#markerName").val(l.locationName);
-						$("#locationTypeId").val(l.locationType.locationTypeId);
-						saveMarker();
-					}
-					else{
-						this.setPosition(pos);
-					}
-				});
-				marker.setPosition(pos);
-				markers.push(marker);
+												});
+										marker.addListener('click', function(
+												point) {
+											addToPath(l, l.gps);
+											map.setCenter(pos);
+											map.setZoom(17);
+										});
+										marker
+												.addListener(
+														'dragend',
+														function(point) {
+															if (confirm("Are you sure you want to move the marker?")) {
+																$(
+																		"#markerCoordinate")
+																		.val(
+																				point.latLng
+																						.lat()
+																						+ ","
+																						+ point.latLng
+																								.lng());
+																$("#markerId")
+																		.val(
+																				l.locationID);
+																$(
+																		"#parentLocationId")
+																		.val(
+																				l.parentId);
+																$("#markerName")
+																		.val(
+																				l.locationName);
+																$(
+																		"#locationTypeId")
+																		.val(
+																				l.locationType.locationTypeId);
+																setLocationTypeCreate();
+																saveMarker();
+															} else {
+																this
+																		.setPosition(pos);
+															}
+														});
+										marker.setPosition(pos);
+										markers.push(marker);
+									});
+					$('#parentLocationListView').html(str);
+				}
 			});
-			$('#parentLocationListView').html(str);
-		}
-	});
 }
 
 function refreshMap(location) {
-	 var gps = {
-	 lat : parseFloat(location.gps.split(",")[0]),
-	 lng : parseFloat(location.gps.split(",")[1])
-	 };
+	var gps = {
+		lat : parseFloat(location.gps.split(",")[0]),
+		lng : parseFloat(location.gps.split(",")[1])
+	};
 	var icon = 'images/map-markers/';
 	if (location.locationType.locationTypeId == "1") {
 		icon += 'marker-blue.png';
 	} else if (location.locationType.locationTypeId == "2") {
 		icon += 'marker-green.png';
 		map.setCenter(gps);
-		map.setZoom(8);
+		map.setZoom(7);
 	} else if (location.locationType.locationTypeId == "3") {
 		icon += 'marker-orange.png';
 		map.setCenter(gps);
@@ -238,16 +268,6 @@ function getAllPaths() {
 	});
 }
 
-function animateCircle(line) {
-	var count = 0;
-	window.setInterval(function() {
-		count = (count + 1) % 200;
-		var icons = line.get('icons');
-		icons[0].offset = (count / 2) + '%';
-		line.set('icons', icons);
-	}, 20);
-}
-
 function addToPath(location, gps) {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
 		var edit = true;
@@ -306,25 +326,25 @@ function initMap() {
 		lat : -33.5343803,
 		lng : 24.2683424
 	};
-//	marker = new google.maps.Marker({
-//		position : myLatLng,
-//		map : map
-//	});
+	
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		zoom : 7,
-		streetViewControl : true,
-		fullscreenControl : true//,
-	//	mapTypeId : 'satellite'
+		fullscreenControl : true,
+		streetViewControl: false
+	// mapTypeId : 'satellite'
 	});
+	
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 			.getElementById('searchFields'));
-	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
-			.getElementById('locationTypeFields'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
-			.getElementById('infoDiv'));
+			.getElementById('createType'));
+	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+			.getElementById('locationTypeFields'));
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
+	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+			.getElementById('infoDiv'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");
@@ -333,67 +353,6 @@ function initMap() {
 		var lat = event.latLng.lat();
 		var lng = event.latLng.lng();
 		addToPath(null, lat + "," + lng);
-	});
-}
-
-function drawPoly() {
-	for ( var i = 0; i < paths.length; i++) {
-		paths[i].setMap(null);
-	}
-	for ( var i = 0; i < markers.length; i++) {
-		marker[i].setMap(null);
-	}
-	var url = "REST/GetLocationWS/GetADirectionFromTo?from=" + $("#from").val()
-			+ "&to=" + $("#to").val() + "&pathType="
-			+ $("[name='radio-choice-path-type']:checked").val();
-	$.ajax({
-		url : url,
-		cache : false,
-		success : function(data) {
-			var pathString = "";
-			$.each(data, function(k, l) {
-				if (k == 0) {
-					pathString = l.departure.locationID + ","
-							+ l.destination.locationID;
-					$("#departureName").val(l.departure.locationName);
-					$("#destinationName").val(l.destination.locationName);
-				} else
-					pathString += "," + l.destination.locationID;
-				var pathCoor = [];
-				pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps
-						.split(',')[0]),
-						parseFloat(l.departure.gps.split(',')[1])));
-				pathCoor.push(new google.maps.LatLng(
-						parseFloat(l.destination.gps.split(',')[0]),
-						parseFloat(l.destination.gps.split(',')[1])));
-				var lineSymbol = {
-					path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-					scale : 5,
-					strokeColor : 'black'
-				};
-				var pathPolyline = new google.maps.Polyline({
-					path : pathCoor,
-					geodesic : true,
-					icons : [ {
-						icon : lineSymbol,
-						offset : '100%'
-					} ],
-					strokeColor : 'black',
-					strokeOpacity : 1.0,
-					strokeWeight : 7
-				});
-				pathPolyline.setMap(map);
-				pathPolyline.addListener('click', function() {
-					removePath(l.pathId);
-				});
-				paths.push(pathPolyline);
-				animateCircle(pathPolyline);
-			});
-			$("#tripString").val(pathString);
-			$("#departureId").val(pathString.split(",")[0]);
-			$("#destinationId").val(
-					pathString.split(",")[pathString.split(",").length - 1]);
-		}
 	});
 }
 
@@ -416,8 +375,8 @@ function getLocationTypePanel() {
 				cache : false,
 				success : function(data) {
 					locationTypeJSONData = data;
-					var str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' id='NavBar"
-						+data.locationType+"' >";
+					var str = "<select name='selectLocationType'  data-iconpos='noicon' data-role='nojs' class='locationTypeNavBar' onclick='createMyType(this);' id='NavBar"
+							+ data.locationType + "' data-enhance='false'>";
 					str += "<option value='" + data.locationTypeId + "'>"
 							+ data.locationType + "</option>";
 					if (data.children.length > 1)
@@ -425,7 +384,7 @@ function getLocationTypePanel() {
 							str += "<option value='" + l.locationTypeId + "'>"
 									+ l.locationType + "</option>";
 						});
-					
+
 					str += "</select>";
 					$("#locationTypeId").val(data.locationTypeId);
 					$("#locationTypeDefinition").val(data.locationType);
@@ -434,50 +393,70 @@ function getLocationTypePanel() {
 					$("#locationTypesContainer").controlgroup("refresh");
 					$("#locationTypesContainer").controlgroup("container")
 							.append(str);
-					$("#NavBar"+data.locationType).selectmenu();
+					$("#NavBar" + data.locationType).selectmenu();
+					$("#NavBar" + data.locationType).selectmenu("refresh");
 					$("#locationTypesContainer").controlgroup("refresh");
 					getMyChild(data.locationTypeId);
+					setLocationTypeCreate();
 					getAllMarkers();
 				}
 			});
 }
 function changeTheLocation(li) {
 	$("#locationTypeId").val($(li).attr("id").split("_")[0]);
+	setLocationTypeCreate();
 	$("#parentLocationId").val($(li).attr("id").split("_")[1]);
 	var remove = false;
-	$("#infoListView li").each(function(){
-		if(remove)
+	$("#infoListView li").each(function() {
+		if (remove)
 			$(this).remove();
-		if($(this).attr("id") == $(li).attr("id"))
+		if ($(this).attr("id") == $(li).attr("id"))
 			remove = true;
 	});
 	getAllMarkers();
 }
+
+function setLocationTypeCreate() {
+	$(".locationTypeNavBar option").each(function() {
+		if ($(this).val() == $("#locationTypeId").val()) {
+			$("#locationTypeDefinition").val($(this).html().replace(" ", ""));
+			$("#createType").html($(this).html().replace(" ", ""));
+		}
+	});
+	google.maps.event.trigger(map, 'resize');
+
+}
+
 function selectParent(field) {
 	var exist = false;
-	$("#infoListView li").each(function(){
-		if($(this).html().indexOf($(field).html())!== -1)
+	$("#infoListView li").each(function() {
+		if ($(this).html().indexOf($(field).html()) !== -1)
 			exist = true;
 	});
-	if(!exist){
-		$(".locationTypeNavBar option").each(function(){
-			if($(this).val() == $(field).attr("id").split("_")[2]){
-				$("#locationTypeId").val($(this).val());
-				$("#locationTypeDefinition").val($(this).html().replace(" ",""));
-			}
-		});
+	if (!exist) {
+		$(".locationTypeNavBar option").each(
+				function() {
+					if ($(this).val() == $(field).attr("id").split("_")[2]) {
+						$("#locationTypeId").val($(this).val());
+						$("#locationTypeDefinition").val(
+								$(this).html().replace(" ", ""));
+					}
+				});
 		$("#parentLocationId").val($(field).attr("id").split("_")[0]);
 		$("#locationTypeId").val($(field).attr("id").split("_")[2]);
 		$("#infoListView").append(
-				"<li id='" + $("#locationTypeId").val() + "_" +  $(field).attr("id").split("_")[0] + "' onclick='changeTheLocation(this);'>["
+				"<li id='" + $("#locationTypeId").val() + "_"
+						+ $(field).attr("id").split("_")[0]
+						+ "' onclick='changeTheLocation(this);'>["
 						+ $("#locationTypeDefinition").val() + "] "
 						+ $(field).html() + "</li>");
 		$("#infoListView").listview();
 		getMyChild($(field).attr("id").split("_")[2]);
-//		getMyChild($(field).attr("id").split("_")[2]);
+		// getMyChild($(field).attr("id").split("_")[2]);
 		$("#infoListView").listview();
 		$("#infoListView").listview("refresh");
 		getAllMarkers();
+		setLocationTypeCreate();
 	}
 }
 
@@ -488,69 +467,41 @@ function getMyChild(select) {
 	else if (childData.children == null)
 		return;
 	var navbarId = "";
-//	if (childData.locationTypeId == select) {
-		 $("#locationTypeDefinition").val("");
-		 var str = "";
-		$
-				.each(
-						childData.children,
-						function(k, l) {
-							if (str == "") {
-								navbarId = l.locationType;
-								str = "<select name='selectLocationType' data-iconpos='noicon' class='locationTypeNavBar' id='NavBar"
-										+ l.locationType
-										+ "' >";
-							}
-							str += "<option value='" + l.locationTypeId + "'> "
-									+ l.locationType + "</option>";
-						});
-		str += "</select>";
-		if ($("select#NavBar" + navbarId).length == 0) {
-			$("#locationTypesContainer").controlgroup("container").append(str);
-			$("#NavBar" + navbarId).selectmenu();
-			$("#NavBar" + navbarId + " > option").each(function() {
-				$("#NavBar" + navbarId).css("min-width", $(this).css("width"));
-			});
-			$("#locationTypesContainer").controlgroup("refresh");
-		}
-//	} else
-		$.each(childData.children, function(k, l) {
-			childData = l;
-			getMyChild(l.locationTypeId);
+	// if (childData.locationTypeId == select) {
+	$("#locationTypeDefinition").val("");
+	var str = "";
+	$
+			.each(
+					childData.children,
+					function(k, l) {
+						if (str == "") {
+							navbarId = l.locationType;
+							str = "<select name='selectLocationType' data-iconpos='noicon' data-role='none' class='locationTypeNavBar' id='NavBar"
+									+ l.locationType
+									+ "' onclick='createMyType(this);'>";
+						}
+						str += "<option value='" + l.locationTypeId + "'> "
+								+ l.locationType + "</option>";
+					});
+	str += "</select>";
+	if ($("select#NavBar" + navbarId).length == 0) {
+		$("#locationTypesContainer").controlgroup("container").append(str);
+		$("#NavBar" + navbarId).selectmenu();
+		$("#NavBar" + navbarId + " > option").each(function() {
+			$("#NavBar" + navbarId).css("min-width", $(this).css("width"));
 		});
-}
-
-function startTrip() {
-	var url = "REST/GetLocationWS/StartTrip?from=" + $("#departureId").val()
-			+ "&to=" + $("#destinationId").val();
-	$.ajax({
-		url : url,
-		cache : false,
-		success : function(data) {
-			$("#tripId").val(data[0].tripId);
-		}
+		$("#locationTypesContainer").controlgroup("refresh");
+	}
+	// } else
+	$.each(childData.children, function(k, l) {
+		childData = l;
+		getMyChild(l.locationTypeId);
 	});
 }
 
-function removeTrip() {
-	var url = "REST/GetLocationWS/RemoveTrip?tripId=" + $("#tripId").val();
-	$.ajax({
-		url : url,
-		cache : false,
-		success : function(data) {
-			$("#from").val("");
-			$("#departureId").val("");
-			$("#to").val("");
-			$("#destinationId").val("");
-			$("#to").val("");
-			$("#tripString").val("");
-			$("#tripId").val("");
-			for ( var i = 0; i < paths.length; i++) {
-				paths[i].setMap(null);
-			}
-		}
-	});
-
+function createMyType(selectOpt) {
+	$("#locationTypeId").val($(selectOpt).val());
+	setLocationTypeCreate();
 }
 
 function getPathTypePanel() {

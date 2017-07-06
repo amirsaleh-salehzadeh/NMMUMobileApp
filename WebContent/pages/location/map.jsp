@@ -81,28 +81,24 @@
 	background-size: 24px 24px;
 	border-radius: 0;
 }
+
+#navigationDashboard {
+	font-size: 14pt;
+	color: black;
+	background-color: white;
+	margin-right: 2em;
+	padding: 7px;
+	background-color: rgba(255, 255, 255, 0.66);
+	border: 3px solid black;
+	display: none;
+}
+
+.dashboardHeader {
+	font-weight: bold;
+}
 </style>
-<script type="text/javascript">
-	$(document).ready(function() {
-		getLocationTypePanel();
-		$("#rightpanel").trigger("updatelayout");
-		$(".liLocationLV").each(function() {
-			$(this).bind('onclick', function(e) {
-				alert('Selected Name=' + $(this).attr('value'));
-			});
-		});
-	});
-</script>
 </head>
 <body>
-	<div data-role="panel" id="rightpanel" data-position="right"
-		data-display="overlay">
-		<div class="ui-block-solo" id="locationTypeListViewDiv">
-			<ul data-role="listview" data-inset="true" data-filter="true"
-				data-filter-placeholder="Location Type..." id="locationTypeListView">
-			</ul>
-		</div>
-	</div>
 	<input type="hidden" id="tripId">
 	<div data-role="tabs" id="tabs">
 		<div data-role="navbar">
@@ -112,6 +108,16 @@
 				<li><a href="#" data-ajax="false" onclick="openAR();">AR
 						View</a></li>
 			</ul>
+		</div>
+		<div id="navigationDashboard">
+<!-- 			<span class="dashboardHeader">Destination </span><span -->
+<!-- 				class="dashboardRes" id="destinationDef">NMU main building in -->
+<!-- 				south campus</span>  -->
+				 <span class="dashboardHeader">Distance</span> <span
+				class="dashboardRes" id="distanceDef">4 Km and 430 Meters</span><br />
+			<span class="dashboardHeader">Speed</span> <span class="dashboardRes"
+				id="speedDef">5.4 km/h</span>
+
 		</div>
 		<div id="mapView" class="ui-body-d ui-content">
 			<input type="hidden" id="tripString">
@@ -130,11 +136,6 @@
 							<input type="radio" name="radio-choice-path-type" id="walking"
 								value="1"> <label for="dirtroad"> <span
 								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<!-- 							<input type="radio" name="radio-choice-path-type" id="wheelchair" -->
-							<!-- 								value="3"> <label for="driving"> <span -->
-							<!-- 								class="ui-icon-driving ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
-							<!-- 							<input type="radio" name="radio-choice-path-type" id="driving" -->
-							<!-- 								value="4"> -->
 						</fieldset>
 					</div>
 					<div class="ui-block-B">
@@ -142,16 +143,16 @@
 							data-type="horizontal"
 							style="float: right; display: inline-block;">
 							<label for="clearTrip"><span
-								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk"
-								onclick="removeTrip()"></span></label> <input type="radio"
-								name="radio-choice-v-2" id="clearTrip" value="1"> <label
+								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-v-2" id="clearTrip"
+								value="1" onclick="removeTrip()"> <label
 								for="currentLocation"><span
 								class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-v-2" id="currentLocation"
-								value="1"> <label for="startTrip"><span
-								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"
-								onclick="startTrip()"></span></label> <input type="radio"
-								name="radio-choice-v-2" id="startTrip" value="1">
+								value="1" onclick="myLocation()"> <label for="startTrip"><span
+								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
+							<input type="radio" name="radio-choice-v-2" id="startTrip"
+								value="1" onclick="startTrip()">
 						</fieldset>
 					</div>
 				</div>
@@ -169,104 +170,8 @@
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
-	function openAR() {
-		var tmp = $('#destinationId').val();
-		if (tmp == null || tmp == "null" || tmp == "")
-			tmp = 0;
-		window.open("insta/docs/index.jsp?destinationId=" + tmp + "&pathType="
-				+ $("[name='radio-choice-path-type']:checked").val());
-	}
-	$(document)
-			.ready(
-					function() {
-						$("#map_canvas").css("min-width",
-								parseInt($("#mainBodyContents").css("width")));
-						$("#map_canvas").css(
-								"min-height",
-								parseInt($(window).height())
-										- parseInt($(".jqm-header").css(
-												"height")) - 7);
-					});
-	var myLatLng = {
-		lat : -34.009211,
-		lng : 25.669051
-	};
-	var infoWindow;
-	var successHandler = function(position) {
-		var pos = {
-			lat : position.coords.latitude,
-			lng : position.coords.longitude
-		};
-		// 		infoWindow.setPosition(pos);
-		// 		infoWindow.setContent('Location found.');
-		// 		infoWindow.open(map);
-		map.setCenter(pos);
-		marker = new google.maps.Marker({
-			position : pos,
-			map : map
-		});
-	};
-
-	var errorHandler = function(errorObj) {
-		alert(errorObj.code + ": " + errorObj.message);
-
-	};
-
-	function initiMap() {
-		map = new google.maps.Map(document.getElementById('map_canvas'), {
-			center : {
-				lat : -34.009211,
-				lng : 25.669051
-			},
-			zoom : 17
-		});
-		infoWindow = new google.maps.InfoWindow;
-
-		// Try HTML5 geolocation.
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(successHandler,
-					errorHandler, {
-						enableHighAccuracy : true,
-						maximumAge : 10000
-					});
-		} else {
-			// Browser doesn't support Geolocation
-			handleLocationError(false, infoWindow, map.getCenter());
-		}
-		// 		map = null;
-		// 		map = new google.maps.Map(document.getElementById('map_canvas'), {
-		// 			zoom : 17,
-		// 			streetViewControl : true,
-		// 			fullscreenControl : true
-		// 		});
-		input = document.getElementById('to');
-		map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
-				.getElementById('searchFields'));
-		google.maps.event.addListener(map, "click", function(event) {
-			var lat = event.latLng.lat();
-			var lng = event.latLng.lng();
-			if ($("#from").val() == "") {
-				$("#from").val(lat + ", " + lng);
-				return;
-			} else if ($("#to").val() == "") {
-				$("#to").val(lat + ", " + lng);
-				return;
-			} else {
-				drawPoly();
-			}
-		});
-	}
-	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-		infoWindow.setPosition(pos);
-		infoWindow
-				.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
-						: 'Error: Your browser doesn\'t support geolocation.');
-		infoWindow.open(map);
-	}
-</script>
-<script type="text/javascript" src="js/location/path.management.js"></script>
+<script type="text/javascript" src="js/location/path.navigation.js"></script>
 <script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places&callback=initiMap"
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>
 </html>
