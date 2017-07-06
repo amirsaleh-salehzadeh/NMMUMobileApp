@@ -89,7 +89,10 @@
 }
 
 #locationTypesContainer .ui-btn {
-	background: transparent;
+	background: url("../../images/MarkerPictures/Campus.png");
+	background-repeat:no-repeat;
+	background-position: right ;
+	padding-right:50;
 	color: white !important;
 	text-shadow: none !important;
 }
@@ -110,18 +113,28 @@ select.locationTypeNavBar  {
 	background-image: url(../../images/map-markers/marker-blue.png);
 	background-size: 66px 66px;
 }
-
+		
 .locationTypeNavBar option {
 	display: block;
-	background-color: black !important;
+	background-color: #00457c !important;
 	color: white;
 	border-width: 6px !important;
 	border: 2px #fff !important;
 	border-bottom: thin !important;
 	min-height: .7em;
 	border-color: white !important;
+	background-repeat:no-repeat;
+	background-position: right ;
+	padding-right:50;
 }
-
+.locationTypeNavBar select {
+	background: url("../../images/MarkerPictures/Campus.png");
+	background-repeat:no-repeat;
+	background-position: right ;
+	padding-right:50;
+	}
+}
+/* creation indicator  */
 #createType {
 	text-shadow: none;
 	position: absolute;
@@ -136,6 +149,7 @@ select.locationTypeNavBar  {
 	font-weight: bold;
 	padding: .33em;
 	margin-bottom: .11em;
+	
 	cursor: pointer;
 	color: white;
 }
