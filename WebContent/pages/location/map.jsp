@@ -90,18 +90,83 @@
 	padding: 7px;
 	background-color: rgba(255, 255, 255, 0.66);
 	border: 3px solid black;
-	display: none;
+	display: none; 
 }
 
 .dashboardHeader {
 	font-weight: bold;
 }
+
+.button, .button:visited {
+	background: #222 url(overlay.png) repeat-x;
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #fff;
+	text-decoration: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	position: relative;
+	cursor: pointer
+}
+
+
+    .small.button, .small.button:visited 		{ font-size: 11px}
+	.button, .button:visited,
+	.medium.button, .medium.button:visited 		{ font-size: 13px;
+												  font-weight: bold;
+												  line-height: 1;
+												  text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+												  }
+
+	.large.button, .large.button:visited 			        { font-size: 14px;
+											  padding: 8px 14px 9px; }
+
+	.super.button, .super.button:visited 			{ font-size: 34px;
+											  padding: 8px 14px 9px; }
+											  
+.pink.button, .magenta.button:visited	{ background-color: #e22092; }
+	.pink.button:hover					{ background-color: #c81e82; }
+	.green.button, .green.button:visited	{ background-color: #91bd09; }
+	.green.button:hover				        { background-color: #749a02; }
+	.red.button, .red.button:visited		{ background-color: #e62727; }
+	.red.button:hover					{ background-color: #cf2525; }
+	.orange.button, .orange.button:visited	{ background-color: #ff5c00; }
+	.orange.button:hover				{ background-color: #d45500; }
+	.blue.button, .blue.button:visited   	        { background-color: #2981e4; }
+	.blue.button:hover					{ background-color: #2575cf; }
+	.yellow.button, .yellow.button:visited	{ background-color: #ffb515; }
+	.yellow.button:hover				{ background-color: #fc9200; }											  
+
+#mapNavBar .ui-btn
+{
+    background: #f6f6f6; url(overlay.png) repeat-x;
+	display: inline-block;
+	padding: 8px 14px 9px;
+	color: #333;
+	text-decoration: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	position: relative;
+	cursor: pointer;
+	width: 480;
+	height: 20;
+	font-size: 14px;
+	
+}	
 </style>
 </head>
 <body>
 	<input type="hidden" id="tripId">
 	<div data-role="tabs" id="tabs">
-		<div data-role="navbar">
+		<div data-role="navbar" id="mapNavBar">
 			<ul>
 				<li><a href="#mapView" data-ajax="false" class="ui-btn-active">Map
 						View</a></li>
