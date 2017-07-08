@@ -12,7 +12,8 @@
 
 #searchFields {
 	padding-bottom: 12px;
-	width: 75%;
+	right: 4em !important;
+	left: 0.66em !important;
 }
 
 .inlineIcon {
@@ -99,12 +100,11 @@
 				class="dashboardRes" id="distanceToDef">Building 9</span><br />
 			<span class="dashboardHeader">Speed</span> <span class="dashboardRes"
 				id="speedDef">5.4 km/h</span>
-
 		</div>
+		<input type="hidden" class='tripInfo' id="tripIds">
+		<input type="hidden" class='tripInfo' id="tripGPSs">
+		<input type="hidden" class='tripInfo' id="tripLocations">
 		<div id="mapView" class="ui-body-d ui-content">
-			<input type="hidden" class='tripInfo' id="tripIds">
-			<input type="hidden" class='tripInfo' id="tripGPSs">
-			<input type="hidden" class='tripInfo' id="tripLocations">
 			<div id="map_canvas"></div>
 			<div id="searchFields" >
 				<div id="navBar" class="ui-grid-a" style="width: 100%;">
