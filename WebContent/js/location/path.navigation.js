@@ -391,9 +391,7 @@ $(document)
 					$("#map_canvas").css("min-width",
 							parseInt($("#mainBodyContents").css("width")));
 					$("#map_canvas")
-							.css(
-									"min-height",
-									parseInt($(window).height())
+							.height(parseInt($(window).height())
 											- (parseInt($(".jqm-header").css(
 													"height")) - 21 + parseInt($(
 													".ui-navbar").css("height"))));

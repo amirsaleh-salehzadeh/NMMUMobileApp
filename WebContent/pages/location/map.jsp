@@ -4,7 +4,7 @@
 <head>
 <style type="text/css">
 #map_canvas {
-	height: 333px;;
+	height: 333px;
 	width: 100%;
 	top: 0;
 	bottom: 0;
@@ -12,7 +12,7 @@
 
 #searchFields {
 	padding-bottom: 12px;
-	width: 75%
+	width: 75%;
 }
 
 .inlineIcon {
@@ -33,27 +33,6 @@
 	background-size: ewpx 24px;
 	border-radius: 0;
 }
-
-/* .ui-icon-bike:after { */
-/* 	background-image: */
-/* 		url("http://icons.iconarchive.com/icons/aha-soft/transport/24/bike-icon.png"); */
-/* 	background-size: 24px 24px; */
-/* 	border-radius: 0; */
-/* } */
-
-/* .ui-icon-driving:after { */
-/* 	background-image: */
-/* 		url("http://icons.iconarchive.com/icons/cemagraphics/classic-cars/24/yellow-pickup-icon.png"); */
-/* 	background-size: 24px 24px; */
-/* 	border-radius: 0; */
-/* } */
-
-/* .ui-icon-wheelchair:after { */
-/* 	background-image: */
-/* 		url("http://icons.iconarchive.com/icons/icons-land/transport/24/Wheelchair-icon.png"); */
-/* 	background-size: 24px 24px; */
-/* 	border-radius: 0; */
-/* } */
 
 .ui-icon-dirt-road:after {
 	background-image:
@@ -127,7 +106,7 @@
 			<input type="hidden" class='tripInfo' id="tripGPSs">
 			<input type="hidden" class='tripInfo' id="tripLocations">
 			<div id="map_canvas"></div>
-			<div id="searchFields" style="width: 85%;">
+			<div id="searchFields" >
 				<div id="navBar" class="ui-grid-a" style="width: 100%;">
 					<div class="ui-block-a">
 						<fieldset data-role="controlgroup" data-mini="true"
