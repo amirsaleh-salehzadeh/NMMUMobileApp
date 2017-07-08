@@ -156,11 +156,26 @@
 	border-bottom: 1px solid rgba(0,0,0,0.25);
 	position: relative;
 	cursor: pointer;
-	width: 480;
+	width: auto;
 	height: 20;
 	font-size: 14px;
 	
 }	
+
+.ui-icon-btnMapView:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
+.ui-icon-btnARView:after {
+	background-image:
+		url("http://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
+	background-size: 24px 24px;
+	border-radius: 0;
+}
+
 </style>
 </head>
 <body>
@@ -168,9 +183,9 @@
 	<div data-role="tabs" id="tabs">
 		<div data-role="navbar" id="mapNavBar">
 			<ul>
-				<li><a href="#mapView" data-ajax="false" class="ui-btn-active">Map
+				<li><a href="#mapView" data-ajax="false" class="ui-btn-active" id="btnMapView" >Map
 						View</a></li>
-				<li><a href="#" data-ajax="false" onclick="openAR();">AR
+				<li><a href="#" data-ajax="false" onclick="openAR();" id="btnARView" >AR
 						View</a></li>
 			</ul>
 		</div>
