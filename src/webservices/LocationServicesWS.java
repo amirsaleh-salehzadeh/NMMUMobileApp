@@ -18,6 +18,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import common.location.LocationENT;
+import common.location.LocationLST;
 import common.location.LocationTypeENT;
 import common.location.PathENT;
 import common.location.PathTypeENT;
@@ -39,7 +40,42 @@ public class LocationServicesWS {
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
-					.getAllLocationsForUser(userName, locationTypeId, parentLocationId));
+					.getAllLocationsForUser(userName, locationTypeId,
+							parentLocationId));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+
+	@GET
+	@Path("/SearchForALocation")
+	@Produces("application/json")
+	public String searchForALocation(@QueryParam("userName") String userName,
+			@QueryParam("locationType") String locationType,
+			@QueryParam("locationName") String locationName) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			LocationENT search = new LocationENT();
+			search.setLocationName(locationName);
+			search.setUserName(userName);
+			search.setLocationType(new LocationTypeENT(0, locationType));
+			search.setUserName(userName);
+			LocationLST ls = new LocationLST();
+			ls.setSearchLocation(search);
+			try {
+				json = mapper.writeValueAsString(getLocationDAO()
+						.searchForLocations(ls).getLocationENTs());
+				System.out.println(json);
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -130,16 +166,22 @@ public class LocationServicesWS {
 	@Path("/GetADirectionFromTo")
 	@Produces("application/json")
 	public String getADirectionFromTo(@QueryParam("from") String from,
-			@QueryParam("to") String to, @QueryParam("pathType") int pathType) {
+			@QueryParam("to") String to, @QueryParam("pathType") int pathType,
+			@QueryParam("destinationId") long destinationId,
+			@QueryParam("departureId") long departureId) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			json = mapper.writeValueAsString(getLocationDAO().getAPathFromTo(
-					from, to, pathType));
+			if(destinationId <=0)
+				destinationId =	getLocationDAO().findClosestLocation(to).getLocationID();
+			if(departureId <=0)
+				departureId =	getLocationDAO().findClosestLocation(from).getLocationID();
+			json = mapper.writeValueAsString(getLocationDAO().getShortestPath(departureId, destinationId, pathType));
 			System.out.println(json);
-//			tmp = "{ \"distance\": " + currentPage + ", \"recordsTotal\":" + totalItems
-//					+ ", \"recordsFiltered\":" + totalItems;
-//				tmp += ", \"successm\":\"" + success+"\"";
+			// tmp = "{ \"distance\": " + currentPage + ", \"recordsTotal\":" +
+			// totalItems
+			// + ", \"recordsFiltered\":" + totalItems;
+			// tmp += ", \"successm\":\"" + success+"\"";
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -159,7 +201,7 @@ public class LocationServicesWS {
 			@QueryParam("userName") String userName,
 			@QueryParam("address") String address,
 			@QueryParam("coordinate") String coordinate,
-			@QueryParam("parentId") long parentId ) {
+			@QueryParam("parentId") long parentId) {
 		LocationENT ent = new LocationENT(locationId, userName,
 				new LocationTypeENT(locationType), address, coordinate,
 				locationName);
@@ -282,12 +324,12 @@ public class LocationServicesWS {
 			@QueryParam("destinationId") long destinationId,
 			@QueryParam("pathType") int pathType) {
 		String json = "[]";
-//		ObjectMapper mapper = new ObjectMapper();
-//		// try {
-//		ArrayList<PathENT> shortestPathToDest = getLocationDAO()
-//				.getShortestPath(barcodeId, destinationId, pathType);
-//		ArrayList<PathENT> allPathsforADest = getLocationDAO()
-//				.getAllPathsForOnePoint(barcodeId, pathType);
+		// ObjectMapper mapper = new ObjectMapper();
+		// // try {
+		// ArrayList<PathENT> shortestPathToDest = getLocationDAO()
+		// .getShortestPath(barcodeId, destinationId, pathType);
+		// ArrayList<PathENT> allPathsforADest = getLocationDAO()
+		// .getAllPathsForOnePoint(barcodeId, pathType);
 
 		// } catch (JsonGenerationException e) {
 		// e.printStackTrace();

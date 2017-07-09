@@ -27,8 +27,25 @@ public class LocationENT {
 	private String gps = "";
 	private String locationName = "";
 	private long parentId;
-	
-	public LocationENT(long locationID, String userName, LocationTypeENT locationType, String address, String postBox,
+	public ArrayList<LocationENT> childrenENT = new ArrayList<LocationENT>();
+	private LocationENT parent;
+
+	/**
+	 * @return the parent
+	 */
+	public LocationENT getParent() {
+		return parent;
+	}
+
+	/**
+	 * @param parent the parent to set
+	 */
+	public void setParent(LocationENT parent) {
+		this.parent = parent;
+	}
+
+	public LocationENT(long locationID, String userName,
+			LocationTypeENT locationType, String address, String postBox,
 			String gps, String locationName, long parentId,
 			ArrayList<LocationENT> childrenENT) {
 		super();
@@ -51,15 +68,13 @@ public class LocationENT {
 	}
 
 	/**
-	 * @param parentId the parentId to set
+	 * @param parentId
+	 *            the parentId to set
 	 */
 	public void setParentId(long parentId) {
 		this.parentId = parentId;
 	}
 
-	public ArrayList<LocationENT> childrenENT = new ArrayList<LocationENT>();
-
-	
 	public ArrayList<LocationENT> getChildrenENT() {
 		return childrenENT;
 	}
@@ -72,10 +87,10 @@ public class LocationENT {
 			LocationTypeENT locationType, String address, String postBox,
 			String gps, String locationName) {
 		super();
-//		if (address == null)
-//			address = "N/A";
-//		if (gps == null)
-//			gps = "N/A";
+		// if (address == null)
+		// address = "N/A";
+		// if (gps == null)
+		// gps = "N/A";
 		if (country == 0)
 			country = 200;
 		this.locationID = locationID;
@@ -95,10 +110,10 @@ public class LocationENT {
 			LocationTypeENT locationType, String address, String gps,
 			String locationName) {
 		super();
-//		if (address == null)
-//			address = "N/A";
-//		if (gps == null)
-//			gps = "N/A";
+		// if (address == null)
+		// address = "N/A";
+		// if (gps == null)
+		// gps = "N/A";
 		if (country == 0)
 			country = 200;
 		this.locationID = locationID;
@@ -108,7 +123,7 @@ public class LocationENT {
 		this.gps = gps;
 		this.locationName = locationName;
 	}
-	
+
 	public LocationENT(String userName) {
 		super();
 		this.userName = userName;
