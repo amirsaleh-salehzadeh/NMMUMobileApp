@@ -10,9 +10,25 @@
 	bottom: 0;
 }
 
+#autocompleteContainer {
+	position: absolute;
+	max-height: 22em;
+	display: inline;
+	bottom: 11em;
+	overflow: auto;
+	z-index: 1000;
+	background-color: white;
+}
+
+#autocompleteDestination {
+	display: block;
+	cursor: pointer;
+	margin: 0 !important;
+}
+
 #searchFields {
-	padding-bottom: 12px;
-	right: 4em !important;
+	padding-bottom: 17px;
+	right: 5em !important;
 	left: 0.66em !important;
 }
 
@@ -29,53 +45,62 @@
 }
 
 .ui-icon-walking:after {
-	background-image:
-		url("images/icons/walking.png");
+	background-image: url("images/icons/walking.png");
 	background-size: ewpx 24px;
 	border-radius: 0;
 }
 
 .ui-icon-dirt-road:after {
-	background-image:
-		url("images/icons/grass.png");
+	background-image: url("images/icons/grass.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-start-trip:after {
-	background-image:
-		url("images/icons/start.png");
+	background-image: url("images/icons/start.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-current-location:after {
-	background-image:
-		url("images/icons/target.png");
+	background-image: url("images/icons/target.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-clear-trip:after {
-	background-image:
-		url("images/icons/bin.png");
+	background-image: url("images/icons/bin.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
-#navigationDashboard {
-	font-size: 14pt;
+#navigationInfo {
+	font-size: 10pt;
 	color: black;
-	background-color: white;
-	margin-right: 2em;
-	padding: 7px;
-	background-color: rgba(255, 255, 255, 0.66);
-	border: 3px solid black;
+	padding-bottom: .66em;
+	padding-top: .66em;
+	padding-left: 17em;
+	background-color: rgba(255, 255, 255, 0.33);
+	border: 1px solid grey;
+	display: block;
+	width: 100%;
+	min-height: 2.2em;
+}
+#destinationPresentation {
+	font-size: 10pt;
+	color: black;
+	padding-left: 1em;
+	padding-bottom: .66em;
+	padding-right: 1em;
+	padding-top: .66em;
+	background-color: rgba(255, 255, 255, 0.33);
 	display: none;
 }
 
 .dashboardHeader {
 	font-weight: bold;
+	font-size: 10pt;
+	color: red;
 }
 </style>
 </head>
@@ -90,23 +115,27 @@
 						View</a></li>
 			</ul>
 		</div>
-		<div id="navigationDashboard">
-<!-- 			<span class="dashboardHeader">Destination </span><span -->
-<!-- 				class="dashboardRes" id="destinationDef">NMU main building in -->
-<!-- 				south campus</span>  -->
-				 <span class="dashboardHeader">Distance</span> <span
-				class="dashboardRes" id="distanceDef">4 Km and 430 Meters</span><br />
-				<span class="dashboardHeader">Distance to </span> <span
-				class="dashboardRes" id="distanceToDef">Building 9</span><br />
+		<div id="navigationInfo">
 			<span class="dashboardHeader">Speed</span> <span class="dashboardRes"
 				id="speedDef">5.4 km/h</span>
 		</div>
-		<input type="hidden" class='tripInfo' id="tripIds">
-		<input type="hidden" class='tripInfo' id="tripGPSs">
-		<input type="hidden" class='tripInfo' id="tripLocations">
+		<div id="destinationPresentation">
+			<span
+				class="dashboardRes" id="distanceDef">4 Km and 430 Meters to </span><span
+				class="dashboardRes" id="destinationDef">NMU main building in south campus</span>
+			<!-- 			<span class="dashboardHeader">Distance to </span> <span -->
+			<!-- 				class="dashboardRes" id="distanceToDef">Building 9</span><br />  -->
+		</div>
+		<input type="hidden" class='tripInfo' id="tripIds"> <input
+			type="hidden" class='tripInfo' id="tripGPSs"> <input
+			type="hidden" class='tripInfo' id="tripLocations">
 		<div id="mapView" class="ui-body-d ui-content">
 			<div id="map_canvas"></div>
-			<div id="searchFields" >
+			<div id="searchFields">
+				<div class="ui-block-solo" id="autocompleteContainer">
+					<ul id="autocompleteDestination" data-role="listview"
+						data-inset="true" data-filter="true" data-input="#destinationName"></ul>
+				</div>
 				<div id="navBar" class="ui-grid-a" style="width: 100%;">
 					<div class="ui-block-a">
 						<fieldset data-role="controlgroup" data-mini="true"
@@ -133,22 +162,24 @@
 								for="currentLocation"><span
 								class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-v-2" id="currentLocation"
-								value="1" onclick="myLocation()"> <label for="startTrip"><span
+								value="1" onclick="findMyLocation()"> <label for="startTrip"><span
 								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-v-2" id="startTrip"
-								value="1" onclick="startTrip()">
+								value="1" onclick="getThePath()">
 						</fieldset>
 					</div>
 				</div>
 				<div class="ui-block-solo">
 					<input type="hidden" id="from" placeholder="Departure"> <input
 						type="hidden" id="departureId" placeholder="DepartureId">
-					<input type="text" id="departureName" placeholder="Departure">
+					<input type="hidden" id="departureName" placeholder="Departure">
+					<input type="hidden" id="to"> <input type="hidden"
+						id="destinationId" placeholder="DestinationId">
 				</div>
 				<div class="ui-block-solo">
-					<input type="hidden" id="to" placeholder="Destination"> <input
-						type="hidden" id="destinationId" placeholder="DestinationId">
-					<input type="text" id="destinationName" placeholder="Destination">
+					<input name="destinationName" id="destinationName"
+						data-type="search" placeholder="Search for a place"
+						data-mini="true" autocomplete="off" onkeyup="getDestination();">
 				</div>
 			</div>
 		</div>
