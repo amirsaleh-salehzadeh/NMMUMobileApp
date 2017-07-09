@@ -112,8 +112,7 @@ function getAllMarkers() {
 		markers[i].setMap(null);
 	}
 
-	$
-			.ajax({
+	$.ajax({
 				url : url,
 				cache : false,
 				success : function(data) {
@@ -402,6 +401,7 @@ function getLocationTypePanel() {
 				}
 			});
 }
+
 function changeTheLocation(li) {
 	$("#locationTypeId").val($(li).attr("id").split("_")[0]);
 	setLocationTypeCreate();

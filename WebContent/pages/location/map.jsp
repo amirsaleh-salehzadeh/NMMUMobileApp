@@ -4,15 +4,16 @@
 <head>
 <style type="text/css">
 #map_canvas {
-	height: 333px;;
+	height: 333px;
 	width: 100%;
 	top: 0;
 	bottom: 0;
 }
 
 #searchFields {
-	margin: 0 0 0 0;
 	padding-bottom: 12px;
+	right: 4em !important;
+	left: 0.66em !important;
 }
 
 .inlineIcon {
@@ -20,6 +21,7 @@
 	position: relative;
 	vertical-align: middle;
 	width: auto !important;
+	padding: 0;
 }
 
 .NoDisk:after {
@@ -28,56 +30,35 @@
 
 .ui-icon-walking:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/anatom5/people-disability/32/walking-icon.png");
-	background-size: 24px 24px;
-	border-radius: 0;
-}
-
-.ui-icon-bike:after {
-	background-image:
-		url("http://icons.iconarchive.com/icons/aha-soft/transport/24/bike-icon.png");
-	background-size: 24px 24px;
-	border-radius: 0;
-}
-
-.ui-icon-driving:after {
-	background-image:
-		url("http://icons.iconarchive.com/icons/cemagraphics/classic-cars/24/yellow-pickup-icon.png");
-	background-size: 24px 24px;
-	border-radius: 0;
-}
-
-.ui-icon-wheelchair:after {
-	background-image:
-		url("http://icons.iconarchive.com/icons/icons-land/transport/24/Wheelchair-icon.png");
-	background-size: 24px 24px;
+		url("images/icons/walking.png");
+	background-size: ewpx 24px;
 	border-radius: 0;
 }
 
 .ui-icon-dirt-road:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/chrisl21/minecraft/24/Grass-icon.png");
+		url("images/icons/grass.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-start-trip:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/custom-icon-design/pretty-office-5/24/start-icon.png");
+		url("images/icons/start.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-current-location:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/ahmadhania/spherical/24/target-icon.png");
+		url("images/icons/target.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
 
 .ui-icon-clear-trip:after {
 	background-image:
-		url("http://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
+		url("images/icons/bin.png");
 	background-size: 24px 24px;
 	border-radius: 0;
 }
@@ -115,14 +96,17 @@
 <!-- 				south campus</span>  -->
 				 <span class="dashboardHeader">Distance</span> <span
 				class="dashboardRes" id="distanceDef">4 Km and 430 Meters</span><br />
+				<span class="dashboardHeader">Distance to </span> <span
+				class="dashboardRes" id="distanceToDef">Building 9</span><br />
 			<span class="dashboardHeader">Speed</span> <span class="dashboardRes"
 				id="speedDef">5.4 km/h</span>
-
 		</div>
+		<input type="hidden" class='tripInfo' id="tripIds">
+		<input type="hidden" class='tripInfo' id="tripGPSs">
+		<input type="hidden" class='tripInfo' id="tripLocations">
 		<div id="mapView" class="ui-body-d ui-content">
-			<input type="hidden" id="tripString">
 			<div id="map_canvas"></div>
-			<div id="searchFields" style="width: 85%;">
+			<div id="searchFields" >
 				<div id="navBar" class="ui-grid-a" style="width: 100%;">
 					<div class="ui-block-a">
 						<fieldset data-role="controlgroup" data-mini="true"
