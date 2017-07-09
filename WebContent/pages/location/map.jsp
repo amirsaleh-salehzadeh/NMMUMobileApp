@@ -162,7 +162,7 @@
 								for="currentLocation"><span
 								class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-v-2" id="currentLocation"
-								value="1" onclick="myLocation()"> <label for="startTrip"><span
+								value="1" onclick="findMyLocation()"> <label for="startTrip"><span
 								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-v-2" id="startTrip"
 								value="1" onclick="getThePath()">
