@@ -94,6 +94,11 @@ function removeTheNextDestination() {
 	setCookie('TripPathIdsCookie', $("#tripIds").val(), 1);
 	setCookie('TripPathGPSCookie', $("#tripGPSs").val(), 1);
 	setCookie('TripPathLocationsCookie', $("#tripLocations").val(), 1);
+	pathPolylineTrack.setMap(null);
+	pathPolylineConstant.setMap(null);
+	pathPolylineTrack = null;
+	pathPolylineConstant = null;
+	drawConstantPolyline();
 }
 
 function drawConstantPolyline() {
@@ -118,6 +123,8 @@ function drawConstantPolyline() {
 		scale : 4,
 		strokeColor : 'yellow'
 	};
+	if (pathPolylineConstant != undefined)
+		pathPolylineConstant.setMap(null);
 	if (pathPolylineConstant == null)
 		pathPolylineConstant = new google.maps.Polyline({
 			path : tmpPathCoor,
@@ -266,6 +273,8 @@ function removeTrip() {
 			}
 		}
 	});
+	pathPolylineTrack.setMap(null);
+	pathPolylineConstant.setMap(null);
 	pathPolylineTrack = null;
 	pathPolylineConstant = null;
 	clearTimeout(walkingTimer);
