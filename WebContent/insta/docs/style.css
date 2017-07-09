@@ -6,12 +6,12 @@
 	display: block;
 	position: absolute;
 	overflow: hidden;
-	-webkit-transform: rotateX(77deg);
-	-ms-transform: rotateX(77deg);
-	transform: rotateX(77deg);
-	-webkit-transform: rotateZ(90deg);
-	-ms-transform: rotateZ(90deg);
-	transform: rotateZ(90deg);
+/* 	-webkit-transform: rotateX(77deg); */
+/* 	-ms-transform: rotateX(77deg); */
+/* 	transform: rotateX(77deg); */
+/* 	-webkit-transform: rotateZ(90deg); */
+/* 	-ms-transform: rotateZ(90deg); */
+/* 	transform: rotateZ(90deg); */
 	z-index: 10000;
 }
 

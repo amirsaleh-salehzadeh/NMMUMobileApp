@@ -74,19 +74,6 @@
 	border-radius: 0;
 }
 
-#navigationInfo {
-	font-size: 10pt;
-	color: black;
-	padding-bottom: .66em;
-	padding-top: .66em;
-	padding-left: 3em;
-	padding-right: .66em;
-	background-color: rgba(255, 255, 255, 0.33);
-	border: 1px solid grey;
-	display: block;
-	min-height: 2.2em;
-	display: none;
-}
 #destinationPresentation {
 	font-size: 10pt;
 	color: black;
@@ -115,8 +102,6 @@
 				<li><a href="#" data-ajax="false" onclick="openAR();">AR
 						View</a></li>
 			</ul>
-		</div>
-		<div id="navigationInfo">
 		</div>
 		<div id="destinationPresentation">
 			<span

@@ -149,9 +149,8 @@ var destin = document.getElementById("destId");
 function getTheBarcodeAR(content){
 	if(destin.value == "null"|| destin.value == "" || destin.value == null)
 		destin.value= 0;
-	$("#barcodeDescription").css("display","block");
-				$("#barcodeDescription").fadeIn(3000);
 	getBCodeInfo(content);
+	$("#barcodeDescription").css("display","block").trigger('create');
 // $.ajax({
 // url : "../../REST/GetLocationWS/GetALocation?locationId=" + content +
 // "&pathType=" + $("#pathTypeId").val(),
@@ -264,7 +263,7 @@ document
 			.ajax({
 				url : "../../REST/GetLocationWS/GetBarcodeForLocation?locationId="+x
 ,
-				cache : false,
+				cache : true,
 				success : function(data) {
 					$("#barcodeDescription").css("display","block");
 								$("#barcodeDescription").fadeIn(3000);

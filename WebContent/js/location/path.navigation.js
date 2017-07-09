@@ -4,7 +4,6 @@ var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID;
 var distanceToNextPosition, distanceToDestination;
 var angleToNextDestination;
 var paths = [];
-
 function getThePath() {
 	if (pathPolylineConstant != null)
 		return;
@@ -19,7 +18,7 @@ function getThePath() {
 	if ($("#to").val().length > 2) {
 		var destPoint = new google.maps.LatLng(parseFloat($("#to").val().split(
 				',')[0]), parseFloat($("#to").val().split(',')[1]));
-		if (markerDest != null)
+//		if (markerDest != null)
 			markerDest.setMap(null);
 		markerDest = new google.maps.Marker(
 				{
@@ -221,7 +220,16 @@ function walkToDestination() {
 	} else {
 		handleLocationError(false, infoWindow, map.getCenter());
 	}
-	walkingTimer = setTimeout(walkToDestination, 500);
+	var timeout = 500;
+	if(map.getZoom()<=15)
+		timeout = 5000;
+	else if(map.getZoom()<=16)
+		timout = 4000;
+	else if(map.getZoom()<=17)
+		timout = 2000;
+	else if(map.getZoom()<=18)
+		timout = 1000;
+	walkingTimer = setTimeout(walkToDestination, timeout);
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -284,7 +292,6 @@ function removeTrip() {
 	markerDest = null;
 	$("#tripId").val("");
 	$("#destinationPresentation").css("display", "none");
-	$("#navigationInfo").css("display", "none");
 	findMyLocation();
 }
 
@@ -309,6 +316,28 @@ var errorHandler = function(errorObj) {
 function initiMap() {
 	speed = 0;
 	heading = 0;
+	var myStyle = [ {
+		featureType : "administrative",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, 
+//	{
+//		featureType : "poi",
+//		elementType : "labels",
+//		stylers : [ {
+//			visibility : "off"
+//		} ]
+//	}, 
+	{
+		featureType : "water",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	} ];
+
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		center : {
 			lat : -34.009211,
@@ -323,16 +352,19 @@ function initiMap() {
 		fullscreenControl : true,
 		fullscreenControlOptions: {
             position: google.maps.ControlPosition.TOP_RIGHT
-        }
+        }, mapTypeControlOptions: {
+            mapTypeIds: ['mystyle', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN]
+        },
+        mapTypeId: 'mystyle'
 	});
+    map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, { name: 'My Style' }));
+
 	findMyLocation();
 	input = document.getElementById('to');
 	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
 			.getElementById('searchFields'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('destinationPresentation'));
-//	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
-//			.getElementById('navigationInfo'));
 	
 }
 
@@ -433,7 +465,6 @@ function getTimeLeft(distance) {
 	// + Hours + " hour/s " + Minutes + " minute/s and " + Seconds + "
 	// second/s.";
 	$("#destinationPresentation").css("display", "block");
-	$("#navigationInfo").css("display", "block");
 	if (Kilometres != 0)
 		$("#distanceDef").html(
 				Kilometres + " kilometer(s) and " + Metres + " meter(s)");
@@ -446,7 +477,6 @@ function getDistanceLeft(distance) {
 	var Kilometres = Math.floor(distance / 1000);
 	var Metres = Math.round(distance - (Kilometres * 1000));
 	$("#destinationPresentation").css("display", "block");
-	$("#navigationInfo").css("display", "block");
 	var res = "";
 	if (Kilometres != 0)
 		res = Kilometres + " kilometer(s) and " + Metres + " meter(s)";
@@ -520,7 +550,6 @@ var successTrackingHandler = function(position) {
 		});
 	}
 	marker.setPosition(currentPos);
-	map.panTo(currentPos);
 	// map.setCenter(currentPos);
 };
 
