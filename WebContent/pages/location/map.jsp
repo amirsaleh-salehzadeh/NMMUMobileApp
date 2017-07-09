@@ -122,12 +122,10 @@
 	.yellow.button, .yellow.button:visited	{ background-color: #ffb515; }
 	.yellow.button:hover				{ background-color: #fc9200; }											  
 
-#mapNavBar .ui-btn
-{
-    background: #f6f6f6; url(overlay.png) repeat-x;
+
+#mapNavBar .ui-btn {
 	display: inline-block;
-	padding: 8px 14px 9px;
-	color: #333;
+	/*padding: 8px 14px 9px;*/
 	text-decoration: none;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
@@ -137,26 +135,46 @@
 	border-bottom: 1px solid rgba(0,0,0,0.25);
 	position: relative;
 	cursor: pointer;
-	width: auto;
-	height: 20;
-	font-size: 14px;
+	height: 28px;
+	font-size: 16px;
+	border: none;
+	width: 50%;
 	
 }	
 
-.ui-icon-btnMapView:after {
-	background-image:
-		url("http://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
-	background-size: 24px 24px;
-	border-radius: 0;
+#btnMapView {
+	/*width: auto;
+	background: #38c url(overlay.png) repeat-x;
+	background-color: #38c;
+	color: #333;*/
+	
+	background-image: url(css/images/map/maps-icon.png); /* 24px x 24px */
+    
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+    padding-left: 48px;     /* make text start to the right of the image */
+    vertical-align: middle; /* align the text vertically centered */
+    
 }
 
-.ui-icon-btnARView:after {
-	background-image:
-		url("http://icons.iconarchive.com/icons/wwalczyszyn/iwindows/24/Recycle-Bin-icon.png");
-	background-size: 24px 24px;
-	border-radius: 0;
-}
+@media (max-width: 1500px){
+	#mapNavBar .ui-btn{
+		/* for tinkering later*/}
+	}	
 
+#btnARView {
+	/*width: auto;
+	background: #f6f6f6 url(overlay.png) repeat-x;
+	background-color: #38c;
+	color: #333;*/
+	background-image: url(css/images/map/smart-icon.png); /* 24px x 24px */
+    
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+    padding-left: 48px;     /* make text start to the right of the image */
+    vertical-align: middle; /* align the text vertically centered */
+	
+}
 </style>
 </head>
 <body>
