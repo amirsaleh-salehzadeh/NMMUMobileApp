@@ -74,18 +74,6 @@
 	border-radius: 0;
 }
 
-#navigationInfo {
-	font-size: 10pt;
-	color: black;
-	padding-bottom: .66em;
-	padding-top: .66em;
-	padding-left: 17em;
-	background-color: rgba(255, 255, 255, 0.33);
-	border: 1px solid grey;
-	display: block;
-	width: 100%;
-	min-height: 2.2em;
-}
 #destinationPresentation {
 	font-size: 10pt;
 	color: black;
@@ -115,14 +103,12 @@
 						View</a></li>
 			</ul>
 		</div>
-		<div id="navigationInfo">
-			<span class="dashboardHeader">Speed</span> <span class="dashboardRes"
-				id="speedDef">5.4 km/h</span>
-		</div>
 		<div id="destinationPresentation">
 			<span
 				class="dashboardRes" id="distanceDef">4 Km and 430 Meters to </span><span
 				class="dashboardRes" id="destinationDef">NMU main building in south campus</span>
+				<span class="dashboardHeader">Speed</span> <span class="dashboardRes"
+				id="speedDef">5.4 km/h</span>
 			<!-- 			<span class="dashboardHeader">Distance to </span> <span -->
 			<!-- 				class="dashboardRes" id="distanceToDef">Building 9</span><br />  -->
 		</div>
@@ -186,6 +172,7 @@
 	</div>
 </body>
 <script type="text/javascript" src="js/location/path.navigation.js"></script>
+<script type="text/javascript" src="js/location/path.navigation.directions.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>
