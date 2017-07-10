@@ -95,33 +95,38 @@
 }
 
 
-    .small.button, .small.button:visited 		{ font-size: 11px}
+    .small.button, .small.button:visited 	{ font-size: 11px}
 	.button, .button:visited,
-	.medium.button, .medium.button:visited 		{ font-size: 13px;
-												  font-weight: bold;
-												  line-height: 1;
-												  text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
-												  }
+	.medium.button, .medium.button:visited 	{ font-size: 13px;
+											font-weight: bold;
+											line-height: 1;
+											text-shadow: 0 -1px 1px rgba(0,0,0,0.25); }
 
-	.large.button, .large.button:visited 			        { font-size: 14px;
-											  padding: 8px 14px 9px; }
+	.large.button, .large.button:visited 	{ font-size: 14px; padding: 8px 14px 9px; }
 
-	.super.button, .super.button:visited 			{ font-size: 34px;
-											  padding: 8px 14px 9px; }
+	.super.button, .super.button:visited 	{ font-size: 34px; padding: 8px 14px 9px; }
 											  
-.pink.button, .magenta.button:visited	{ background-color: #e22092; }
-	.pink.button:hover					{ background-color: #c81e82; }
+	.pink.button, .magenta.button:visited	{ background-color: #e22092; }
+	.pink.button:hover						{ background-color: #c81e82; }
 	.green.button, .green.button:visited	{ background-color: #91bd09; }
 	.green.button:hover				        { background-color: #749a02; }
 	.red.button, .red.button:visited		{ background-color: #e62727; }
-	.red.button:hover					{ background-color: #cf2525; }
+	.red.button:hover						{ background-color: #cf2525; }
 	.orange.button, .orange.button:visited	{ background-color: #ff5c00; }
-	.orange.button:hover				{ background-color: #d45500; }
-	.blue.button, .blue.button:visited   	        { background-color: #2981e4; }
-	.blue.button:hover					{ background-color: #2575cf; }
+	.orange.button:hover					{ background-color: #d45500; }
+	.blue.button, .blue.button:visited   	{ background-color: #2981e4; }
+	.blue.button:hover						{ background-color: #2575cf; }
 	.yellow.button, .yellow.button:visited	{ background-color: #ffb515; }
-	.yellow.button:hover				{ background-color: #fc9200; }											  
+	.yellow.button:hover					{ background-color: #fc9200; }											  
 
+/* 
+.jqm-home .ui-grid-a {
+	margin: 0em 0em .2em;    
+}
+
+this fixes the gap problem for the mapNavBar but introduces a bug which doesnt allow the deparure/destination bars to resize properly now and then, so im leaving it here till we fix issue
+
+*/
 
 #mapNavBar .ui-btn {
 	display: inline-block;
@@ -173,7 +178,6 @@
     background-position: 0px 0px;  /* equivalent to 'top left' */
     padding-left: 48px;     /* make text start to the right of the image */
     vertical-align: middle; /* align the text vertically centered */
-	
 }
 </style>
 </head>
@@ -224,29 +228,60 @@
 						<fieldset data-role="controlgroup" data-mini="true"
 							data-type="horizontal"
 							style="float: right; display: inline-block;">
-							<label for="clearTrip"><span
-								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="clearTrip"
-								value="1" onclick="removeTrip()"> <label
-								for="currentLocation"><span
-								class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="currentLocation"
-								value="1" onclick="myLocation()"> <label for="startTrip"><span
-								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="startTrip"
-								value="1" onclick="startTrip()">
+							
+						<!-- left ui-block-B behind in case we change our mind or need to put more buttons here -->	
+								
 						</fieldset>
 					</div>
 				</div>
-				<div class="ui-block-solo">
+				<div class="ui-grid-a ui-responsive" style="width: 100%;">
+					<div class=ui-block-a >
 					<input type="hidden" id="from" placeholder="Departure"> <input
 						type="hidden" id="departureId" placeholder="DepartureId">
 					<input type="text" id="departureName" placeholder="Departure">
+					</div>
+					<div class=ui-block-b > 
+						<fieldset data-role="controlgroup" data-mini="true"
+						data-type="horizontal"
+						style="display: inline-block;">
+						<label for="currentLocation">
+						<span
+							class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk">
+						</span>
+						</label>
+						<input type="radio" name="radio-choice-v-2" id="currentLocation"
+							value="1" onclick="myLocation()">
+						</fieldset>
+					</div>
 				</div>
-				<div class="ui-block-solo">
+				<div class="ui-grid-a ui-responsive" style="width: 100%;">
+					<div class=ui-block-a >
 					<input type="hidden" id="to" placeholder="Destination"> <input
 						type="hidden" id="destinationId" placeholder="DestinationId">
 					<input type="text" id="destinationName" placeholder="Destination">
+					</div>
+				 	<div class=ui-block-b >
+				 		<fieldset data-role="controlgroup" data-mini="true"
+						data-type="horizontal"
+						style="display: inline-block;">
+						<label for="clearTrip">
+							<span
+								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk">
+							</span>
+						</label>
+						<input type="radio" name="radio-choice-v-2" id="clearTrip"
+							value="1" onclick="removeTrip()">
+							
+						<label for="startTrip">
+							<span
+								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk">
+							</span>
+						</label>
+						<input type="radio" name="radio-choice-v-2" id="startTrip"
+							value="1" onclick="startTrip()">
+						
+						</fieldset>			
+					</div>	
 				</div>
 			</div>
 		</div>
