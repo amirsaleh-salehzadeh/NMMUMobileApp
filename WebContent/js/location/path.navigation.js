@@ -269,12 +269,15 @@ function removeTrip() {
 		cache : false,
 		success : function(data) {
 			for ( var i = 0; i < paths.length; i++) {
-				paths[i].setMap(null);
+				if (paths[i] != undefined)
+					paths[i].setMap(null);
 			}
 		}
 	});
-	pathPolylineTrack.setMap(null);
-	pathPolylineConstant.setMap(null);
+	if (pathPolylineTrack != undefined)
+		pathPolylineTrack.setMap(null);
+	if (pathPolylineConstant != undefined)
+		pathPolylineConstant.setMap(null);
 	pathPolylineTrack = null;
 	pathPolylineConstant = null;
 	clearTimeout(walkingTimer);
@@ -332,13 +335,13 @@ function initiMap() {
 			visibility : "off"
 		} ]
 	}, 
-//	{
-//		featureType : "poi",
-//		elementType : "labels",
-//		stylers : [ {
-//			visibility : "off"
-//		} ]
-//	}, 
+	{
+		featureType : "poi",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, 
 	{
 		featureType : "water",
 		elementType : "labels",
@@ -397,7 +400,7 @@ function getDestination() {
 								.val(), html = "";
 						$("#autocompleteDestination").css("display", "block");
 						$ul.html("");
-						if (value && value.length >= 1) {
+						if (value && value.length >= 3) {
 							$ul
 									.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
 							$ul.listview("refresh");
