@@ -11,7 +11,6 @@
 				cnt_w = container.clientWidth,
 				wrapper_aspect_ratio = cnt_w / cnt_h,
 				video_aspect_ratio = w / h
-			
 			// stretch the video to cover the background entirely and center it
 			if (wrapper_aspect_ratio > video_aspect_ratio) {
 				background_video.setAttribute('width', cnt_w);
@@ -64,6 +63,7 @@
 						container.appendChild(background_video);
 						awe.util.connect_stream_to_src(awe.video_stream().stream, background_video);
 						background_video.addEventListener('play',resize_video, false);
+						console.log("hio");
             setTimeout(function() {
               resize_video();
             }, 1000);
