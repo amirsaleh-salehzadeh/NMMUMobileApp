@@ -42,7 +42,7 @@
 
     this.setup = function(initial_data){
       // do we validate fields in any way?
-      data = initial_data; //_clone(initial_data);
+      data = initial_data; // _clone(initial_data);
       this[ID_FIELD] = initial_data[ID_FIELD]
     };
     this._get_datastore = function(){
@@ -101,7 +101,7 @@
   // TBD if we keep this
   awe_v8_item.prototype.private_properties = [ID_FIELD];
   
-  /// awe base object class
+  // / awe base object class
   function awe_object(data, datastore){
     awe_v8_item.call(this, data, datastore);
   }
@@ -285,10 +285,12 @@
   awe_view.prototype.handler_data = {};
   awe_view.prototype.config = {
     
-    pois: [/* $id1, $id2, ... */],           // just ids or full object config ??? 
-    projections: [],    // I'm more towards the IDs-only option 
+    pois: [/* $id1, $id2, ... */],           // just ids or full object
+												// config ???
+    projections: [],    // I'm more towards the IDs-only option
     lights: [],         // we can store the scene objects config elsewhere
-    povs: []            // and then either just show poi on view load or add if not in scene yet, but object config exists 
+    povs: []            // and then either just show poi on view load or add if
+						// not in scene yet, but object config exists
     
   }
   
@@ -419,7 +421,8 @@
         return this.constructor.prototype.add.call(this, result, HEAD); // super
       }
       // set default settings
-      // NOTE: override this in your code to customize how you want your awe.js app to behave
+      // NOTE: override this in your code to customize how you want your
+		// awe.js app to behave
       
       this.settings.add([
         {
@@ -472,7 +475,8 @@
           result_body = [];
         BODY.forEach(function(item){
           if (!this_awe.events.view(item.id)) {
-            // prevent duplicate runs of register() that cannot be later unregister()ed via events.delete()
+            // prevent duplicate runs of register() that cannot be later
+			// unregister()ed via events.delete()
             var s = new awe_event(item, self);
             result_body.push(s);
           }
@@ -680,7 +684,7 @@
             gyro : false,      // is orientation supported
             motion : false,    // is motion supported
             audio : false,     // is web audio supported
-            gum: false,        // is camera/microphone access supported 
+            gum: false,        // is camera/microphone access supported
             webgl: false,      // is webgl supported
             css3d: false,      // is css3d supported
             storage : false,   // is local storage supported
@@ -774,7 +778,7 @@
           io.gum = true;
         }
 
-        // web audio enabled 
+        // web audio enabled
         if (!!window.AudioContext) {
           _audio_context = new AudioContext();
         }
@@ -1024,9 +1028,12 @@
     if (navigator.getUserMedia) { // WebRTC 1.0 standard compliant browser
       _get_user_media = navigator.getUserMedia.bind(navigator);
       _connect_stream_to_src = function(media_stream, media_element, identifier) {
-        
         media_element.srcObject = media_stream;
-        media_element.play();
+        var isPlaying = media_element.currentTime > 0 && !media_element.paused && !media_element.ended 
+        && media_element.readyState > 2;
+        if(!isPlaying){
+        	media_element.play();
+        }
         if (!identifier) {
           media_element.setAttribute('data-source-id', '_system');
         }
@@ -1036,7 +1043,8 @@
         }
       };
     }
-    else if (navigator.mozGetUserMedia) { // early firefox webrtc implementation
+    else if (navigator.mozGetUserMedia) { // early firefox webrtc
+											// implementation
       _get_user_media = navigator.mozGetUserMedia.bind(navigator);
       _connect_stream_to_src = function(media_stream, media_element, identifier) {
       
@@ -1051,7 +1059,8 @@
         }
       };
     }
-    else if (navigator.webkitGetUserMedia) { // early webkit webrtc implementation
+    else if (navigator.webkitGetUserMedia) { // early webkit webrtc
+												// implementation
       _get_user_media = navigator.webkitGetUserMedia.bind(navigator);
       _connect_stream_to_src = function(media_stream, media_element, identifier) {
         clearTimeout(_disconnect_stream_timeout);
@@ -1080,7 +1089,9 @@
           if (!Object.keys(_stream_targets).length) {
             // stop the stream entirely as nothing is listening
             try {
-              // TODO - add a timeout so we don't turn it on and off multiple times when switching views and multiple items have visibility changed
+              // TODO - add a timeout so we don't turn it on and off multiple
+				// times when switching views and multiple items have visibility
+				// changed
               // 1s should be more than enough
               clearTimeout(_disconnect_stream_timeout);
               _disconnect_stream_timeout = setTimeout(function(){
@@ -1210,6 +1221,6 @@
     this_awe.AUTO_DETECT_DEVICE_TYPE = true;
   }
     
-// END FILE:  awe-loader.js file
+// END FILE: awe-loader.js file
 
 })(window);

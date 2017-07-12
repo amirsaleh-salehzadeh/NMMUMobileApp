@@ -35,20 +35,20 @@ window
 																			// base
 																			// libraries
 																			[
-																					'../../js/location/camera/awe-standard-dependencies.js',
-																					'../../js/location/camera/awe-standard.js'
+																					'js/location/camera/awe-standard-dependencies.js',
+																					'js/location/camera/awe-standard.js'
 																							+ d ],
 																			// plugin
 																			// dependencies
 																			[
-																					'../../js/location/camera/awe-jsartoolkit-dependencies.js',
-																					'../../js/location/camera/plugins/StereoEffect.js',
-																					'../../js/location/camera/plugins/VREffect.js' ],
+																					'js/location/camera/awe-jsartoolkit-dependencies.js',
+																					'js/location/camera/plugins/StereoEffect.js',
+																					'js/location/camera/plugins/VREffect.js' ],
 																			// plugins
 																			[
-																					'../../js/location/camera/awe.marker_ar.js'
+																					'js/location/camera/awe.marker_ar.js'
 																							+ d,
-																					'../../js/location/camera/plugins/awe.rendering_effects.js'
+																					'js/location/camera/plugins/awe.rendering_effects.js'
 																							+ d ] ],
 																	success : function() {
 																		awe
@@ -93,7 +93,7 @@ window
 																								x : 0,
 																								y : 0,
 																								z : 0
-																							},texture: { path: '../../images/mini_logo.png' },
+																							},texture: { path: 'images/mini_logo.png' },
 																							material : {
 																								type : 'phong',
 																								color : 0xFFFFFF
@@ -261,7 +261,7 @@ document
 		function getBCodeInfo(x) {
 			$
 			.ajax({
-				url : "../../REST/GetLocationWS/GetBarcodeForLocation?locationId="+x
+				url : "REST/GetLocationWS/GetBarcodeForLocation?locationId="+x
 ,
 				cache : true,
 				success : function(data) {

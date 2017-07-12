@@ -17,7 +17,7 @@ public interface LocationDAOInterface {
 
 	public ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type);
 
-	public LocationLST getLocationLST(LocationLST lst) throws AMSException;
+	public LocationLST searchForLocations(LocationLST lst) throws AMSException;
 
 	public LocationENT getLocationENT(LocationENT ent);
 
@@ -56,6 +56,8 @@ public interface LocationDAOInterface {
 	public String getQRCodeForLocationENT(long locationId);
 	
 	public LocationLST getParentLocationsOfaType(int locationTypeId);
+	
+	public LocationENT getLocationENTAncestors(long locationId);
 	
 	
 }
