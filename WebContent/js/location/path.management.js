@@ -424,7 +424,6 @@ function setLocationTypeCreate() {
 		}
 	});
 	google.maps.event.trigger(map, 'resize');
-
 }
 
 function selectParent(field) {

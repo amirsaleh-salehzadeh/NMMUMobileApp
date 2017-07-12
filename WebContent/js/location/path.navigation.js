@@ -1,14 +1,14 @@
 var map, marker, infoWindow, markerDest;
 var pathPolylineConstant, pathPolylineTrack, polylineConstantLength;
 var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID;
-var distanceToNextPosition, distanceToDestination;
-var angleToNextDestination;
+var distanceToNextPosition, distanceToDestination, angleToNextDestination;
+var alpha, beta, gamma;
 var paths = [];
+
 function getThePath() {
 	if (pathPolylineConstant != null)
 		return;
-//	startSpeedoMeter();
-	if($("#from").val().length < 5)
+	if ($("#from").val().length < 5)
 		findMyLocation();
 	var url = "REST/GetLocationWS/GetADirectionFromTo?departureId="
 			+ $("#departureId").val() + "&destinationId="
@@ -18,7 +18,7 @@ function getThePath() {
 	if ($("#to").val().length > 2) {
 		var destPoint = new google.maps.LatLng(parseFloat($("#to").val().split(
 				',')[0]), parseFloat($("#to").val().split(',')[1]));
-//		if (markerDest != null)
+		if (markerDest != null)
 			markerDest.setMap(null);
 		markerDest = new google.maps.Marker(
 				{
@@ -152,9 +152,14 @@ function updatePolyLine(currentPos, altitude) {
 	var nextPosition = new google.maps.LatLng(parseFloat(nextDestGPS[0]
 			.split(',')[0]), parseFloat(nextDestGPS[0].split(',')[1]));
 	var secondNextPosition = new google.maps.LatLng(parseFloat(nextDestGPS[1]
-	.split(',')[0]), parseFloat(nextDestGPS[1].split(',')[1]));
-	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath, nextPosition);
-	var headingTo2st = google.maps.geometry.spherical.computeHeading(nextPosition, secondNextPosition);
+			.split(',')[0]), parseFloat(nextDestGPS[1].split(',')[1]));
+	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath,
+			nextPosition);
+	// console.log(headingTo1st + " map setheading: " + map.getHeading());
+	// marker.setTilt(map.getHeading());
+	// console.log("map getheading: " + map.getHeading());
+	var headingTo2st = google.maps.geometry.spherical.computeHeading(
+			nextPosition, secondNextPosition);
 	angleToNextDestination = headingTo2st - headingTo1st;
 	heading = angleToNextDestination;
 	tmpPathCoor.push(pointPath);
@@ -166,7 +171,11 @@ function updatePolyLine(currentPos, altitude) {
 	}
 	distanceToDestination = polylineConstantLength + distanceToNextPosition;
 	var nextDestName = getCookie("TripPathLocationsCookie").split(",")[0];
-	$("#speedDef").html(speed + " Km/h. "+Math.round(altitude)+" meters above sea. In about " + Math.round(distanceToNextPosition) + " meter(s), at " + nextDestName + ", " + getAngleDirection(heading));
+	$("#speedDef").html(
+			speed + " Km/h. " + Math.round(altitude)
+					+ " meters above sea. In about "
+					+ Math.round(distanceToNextPosition) + " meter(s), at "
+					+ nextDestName + ", " + getAngleDirection(heading));
 	$("[name='radio-choice-path-type']:checked").val();
 	// $("#distanceToDef").html(
 	// nextDestName + " " + getDistanceLeft(distanceToNextPosition));
@@ -200,7 +209,6 @@ function updatePolyLine(currentPos, altitude) {
 function resetWalking() {
 	clearTimeout(walkingTimer);
 	walkToDestination();
-	// map.setZoom(17);
 }
 
 function findMyLocation() {
@@ -208,7 +216,8 @@ function findMyLocation() {
 		navigator.geolocation.getCurrentPosition(successGetCurrentPosition,
 				errorHandler, {
 					enableHighAccuracy : true,
-					maximumAge : 0
+					maximumAge : 500,
+					accuracy : 122000
 				});
 	} else {
 		handleLocationError(false, infoWindow, map.getCenter());
@@ -216,25 +225,27 @@ function findMyLocation() {
 }
 
 function walkToDestination() {
-	if (walkingWatchID != undefined)
+	if (walkingWatchID != undefined) {
 		navigator.geolocation.clearWatch(walkingWatchID);
+		walkingWatchID = null;
+	}
 	if (navigator.geolocation) {
 		walkingWatchID = navigator.geolocation.watchPosition(
 				successTrackingHandler, errorHandler, {
 					enableHighAccuracy : true,
-					maximumAge : 0
+					maximumAge : 50
 				});
 	} else {
 		handleLocationError(false, infoWindow, map.getCenter());
 	}
 	var timeout = 500;
-	if(map.getZoom()<=15)
+	if (map.getZoom() <= 15)
 		timeout = 5000;
-	else if(map.getZoom()<=16)
+	else if (map.getZoom() <= 16)
 		timout = 4000;
-	else if(map.getZoom()<=17)
+	else if (map.getZoom() <= 17)
 		timout = 2000;
-	else if(map.getZoom()<=18)
+	else if (map.getZoom() <= 18)
 		timout = 1000;
 	walkingTimer = setTimeout(walkToDestination, timeout);
 }
@@ -281,11 +292,13 @@ function removeTrip() {
 	pathPolylineTrack = null;
 	pathPolylineConstant = null;
 	clearTimeout(walkingTimer);
-//	clearTimeout(speedTimer);
-	if (walkingWatchID != undefined)
+	// clearTimeout(speedTimer);
+	if (walkingWatchID != undefined) {
 		navigator.geolocation.clearWatch(walkingWatchID);
-//	if (speedWatchID != null)
-//		navigator.geolocation.clearWatch(speedWatchID);
+		walkingWatchID = null;
+	}
+	// if (speedWatchID != null)
+	// navigator.geolocation.clearWatch(speedWatchID);
 	setCookie('TripIdCookie', "", 0);
 	setCookie('TripPathIdsCookie', "", 0);
 	setCookie('TripPathGPSCookie', "", 0);
@@ -308,11 +321,12 @@ function removeTrip() {
 }
 
 function openAR() {
-	var tmp = $('#destinationId').val();
-	if (tmp == null || tmp == "null" || tmp == "")
-		tmp = 0;
-	window.open("insta/docs/index.jsp?destinationId=" + tmp + "&pathType="
-			+ $("[name='radio-choice-path-type']:checked").val());
+//	var tmp = $('#destinationId').val();
+//	if (tmp == null || tmp == "null" || tmp == "")
+//		tmp = 0;
+//	window.open("insta/docs/index.jsp?destinationId=" + tmp + "&pathType="
+//			+ $("[name='radio-choice-path-type']:checked").val());
+	
 }
 
 var myLatLng = {
@@ -324,7 +338,6 @@ var errorHandler = function(errorObj) {
 	alert(errorObj.code + ": " + errorObj.message);
 
 };
-
 function initiMap() {
 	speed = 0;
 	heading = 0;
@@ -334,15 +347,13 @@ function initiMap() {
 		stylers : [ {
 			visibility : "off"
 		} ]
-	}, 
-	{
+	}, {
 		featureType : "poi",
 		elementType : "labels",
 		stylers : [ {
 			visibility : "off"
 		} ]
-	}, 
-	{
+	}, {
 		featureType : "water",
 		elementType : "labels",
 		stylers : [ {
@@ -356,35 +367,39 @@ function initiMap() {
 			lng : 25.669051
 		},
 		zoom : 14,
-		zoomControl: true,
-        zoomControlOptions: {
-            position: google.maps.ControlPosition.RIGHT_BOTTOM
-        },
+		zoomControl : true,
+		zoomControlOptions : {
+			position : google.maps.ControlPosition.RIGHT_BOTTOM
+		},
 		streetViewControl : false,
 		fullscreenControl : true,
-		fullscreenControlOptions: {
-            position: google.maps.ControlPosition.TOP_RIGHT
-        }, mapTypeControlOptions: {
-            mapTypeIds: ['mystyle', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN]
-        },
-        mapTypeId: 'mystyle'
+		fullscreenControlOptions : {
+			position : google.maps.ControlPosition.TOP_RIGHT
+		},
+		mapTypeControlOptions : {
+			mapTypeIds : [ 'mystyle', google.maps.MapTypeId.ROADMAP,
+					google.maps.MapTypeId.TERRAIN ]
+		},
+		mapTypeId : 'mystyle'
 	});
-    map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, { name: 'My Style' }));
-
+	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
+		name : 'My Style'
+	}));
 	findMyLocation();
 	input = document.getElementById('to');
 	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
 			.getElementById('searchFields'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('destinationPresentation'));
-	
+	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
+			.getElementById('viewMode'));
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.setPosition(pos);
-//	infoWindow
-//			.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
-//					: 'Error: Your browser doesn\'t support geolocation.');
+	infoWindow
+			.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
+					: 'Error: Your browser doesn\'t support geolocation.');
 	alert(browserHasGeolocation ? 'Error: The Geolocation service failed.'
 			: 'Error: Your browser doesn\'t support geolocation.');
 	infoWindow.open(map);
@@ -404,17 +419,22 @@ function getDestination() {
 							$ul
 									.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
 							$ul.listview("refresh");
-							$.ajax({url : "REST/GetLocationWS/SearchForALocation?userName=NMMU"
-											+ "&locationName="
-											+ value,
-									dataType : "json",
-									crossDomain : true,
-									async : true,
-									cache : true
+							$
+									.ajax(
+											{
+												url : "REST/GetLocationWS/SearchForALocation?userName=NMMU"
+														+ "&locationName="
+														+ value,
+												dataType : "json",
+												crossDomain : true,
+												async : true,
+												cache : true
 											})
 									.then(
 											function(response) {
-												$.each(response,
+												$
+														.each(
+																response,
 																function(i, val) {
 																	html += "<li id='"
 																			+ val.locationID
@@ -515,27 +535,26 @@ function animateCircle(line) {
 		line.set('icons', icons);
 	}, 50);
 }
-
-//function startSpeedoMeter() {
-//	if (speedWatchID != undefined){
-//		navigator.geolocation.clearWatch(speedWatchID);console.log("hi");}
-//	if (navigator.geolocation) {
-//		speedWatchID = navigator.geolocation.watchPosition(successSpeedHandler,
-//				errorHandler, {
-//					enableHighAccuracy : true,
-//					maximumAge : 0
-//				});
-//	} else {
-//		handleLocationError(false, infoWindow, map.getCenter());
-//	}
-//	speedTimer = setTimeout(startSpeedoMeter, 200);
-//}
-
+//$(function() {
+//	$("#mapView").resizable({
+//		autoHide : true,
+//		stop : function(e, ui) {
+//			var parent = ui.element.parent();
+//			ui.element.css({
+//				// width: ui.element.width()/parent.width()*100+"%",
+//				height : ui.element.height() / parent.height() * 100 + "%"
+//			});
+//			console.log(ui.element.height() + '   >>  ' + parent.height());
+//		}
+//	});
+//
+//});
 var successTrackingHandler = function(position) {
 	// for ( var i = 0; i < paths.length; i++) {
 	// paths[i].setMap(null);
 	// }
-//	alert(Coordinates.heading);
+	// alert(Coordinates.heading);
+
 	var currentPos = {
 		lat : position.coords.latitude,
 		lng : position.coords.longitude
@@ -585,18 +604,60 @@ var successGetCurrentPosition = function(position) {
 			map.setCenter(this.getPosition());
 			resetWalking();
 		});
-	} 
+	}
 	marker.setPosition(currentPos);
 	map.panTo(currentPos);
 	// map.setCenter(currentPos);
 };
 
-//var successSpeedHandler = function(position) {
-//	if (position.coords.heading != null)
-//		heading = position.coords.heading;
-//	if (position.coords.speed != null) {
-//		speed = position.coords.speed * 3.6;
-//		speed = Math.round(speed);
-//	}
-//	if (speed != null && speed >= 0)
-//};
+function handleOrientation(event) {
+	alpha = event.alpha;
+	beta = event.beta; // In degree in the range [-180,180]
+	gamma = event.gamma;// In degree in the range [-90,90]
+
+	var strings = "alpha : " + alpha + "\n";
+	strings += "beta : " + beta + "\n";
+	strings += "gamma: " + gamma + "\n >>>> X: "
+			+ compassHeading(alpha, beta, gamma);// +
+	// event.acceleration.x
+	// console.log(strings);
+}
+
+window.addEventListener('deviceorientation', handleOrientation, true);
+
+function compassHeading(alpha, beta, gamma) {
+
+	// Convert degrees to radians
+	var alphaRad = alpha * (Math.PI / 180);
+	var betaRad = beta * (Math.PI / 180);
+	var gammaRad = gamma * (Math.PI / 180);
+
+	// Calculate equation components
+	var cA = Math.cos(alphaRad);
+	var sA = Math.sin(alphaRad);
+	var cB = Math.cos(betaRad);
+	var sB = Math.sin(betaRad);
+	var cG = Math.cos(gammaRad);
+	var sG = Math.sin(gammaRad);
+
+	// Calculate A, B, C rotation components
+	var rA = -cA * sG - sA * sB * cG;
+	var rB = -sA * sG + cA * sB * cG;
+	var rC = -cB * cG;
+
+	// Calculate compass heading
+	var compassHeading = Math.atan(rA / rB);
+
+	// Convert from half unit circle to whole unit circle
+	if (rB < 0) {
+		compassHeading += Math.PI;
+	} else if (rA < 0) {
+		compassHeading += 2 * Math.PI;
+	}
+
+	// Convert radians to degrees
+	compassHeading *= 180 / Math.PI;
+
+	return compassHeading;
+
+}
