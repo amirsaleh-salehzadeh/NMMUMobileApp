@@ -3,7 +3,7 @@
 <html>
 <head>
 <style type="text/css">
-#map_canvas,#videoContent, #cameraView {
+#map_canvas,#videoContent,#cameraView {
 	width: 100%;
 	top: 0;
 	bottom: 0;
@@ -90,6 +90,16 @@
 	font-size: 10pt;
 	color: red;
 }
+
+#viewModeCamera {
+	display: block;
+	position: absolute;
+	float: right;
+	padding-top: .6em;
+	padding-left: .66em;
+	z-index: 2;
+	width: 100%;
+}
 </style>
 <meta http-equiv="Cache-Control"
 	content="no-cache, no-store, must-revalidate" />
@@ -98,11 +108,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
-<link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css">
-<link rel="stylesheet"
-	href="css/jquery-mobile/jquery.dataTables.min.css">
+<!-- <link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css"> -->
 <script src="js/jquery.min.js"></script>
-<script src="js/index.js"></script>
+<!-- <script src="js/index.js"></script> -->
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -128,9 +136,11 @@
 				<!-- 			<span class="dashboardHeader">Distance to </span> <span -->
 				<!-- 				class="dashboardRes" id="distanceToDef">Building 9</span><br />  -->
 			</div>
-			<div id="viewMode">
-				<img alt="" src="images/icons/camera-ar.png" style="cursor: pointer;" onclick="selectDualMode()"> <img alt=""
-					src="images/icons/smart.png" style="cursor: pointer;" onclick="selectCameraMode()">
+			<div id="viewModeMap">
+				<img alt="" src="images/icons/camera-ar.png"
+					style="cursor: pointer;" onclick="selectDualMode()"> <img
+					alt="" src="images/icons/smart.png" style="cursor: pointer;"
+					onclick="selectCameraMode()">
 			</div>
 			<input type="hidden" class='tripInfo' id="tripIds"> <input
 				type="hidden" class='tripInfo' id="tripGPSs"> <input
@@ -191,6 +201,12 @@
 		</div>
 		<div id="cameraView" class="ui-block-solo"
 			style="max-height: 50%; min-width: 100%; display: none;">
+			<div id="viewModeCamera">
+				<img alt="" src="images/icons/camera-ar.png"
+					style="cursor: pointer;" onclick="selectDualMode()"> <img
+					alt="" src="images/icons/maps.png" style="cursor: pointer;"
+					onclick="selectMapMode()">
+			</div>
 			<video id="videoContent"></video>
 		</div>
 	</div>

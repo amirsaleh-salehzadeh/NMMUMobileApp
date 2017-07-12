@@ -258,7 +258,7 @@
             video_stream = this.constructor.prototype.view(BODY.id);
           }
           if (video_stream && video_stream.stream) {
-            video_stream.stream.stop()
+            video_stream.stream.stop();
           }
           return this.constructor.prototype.delete.call(this, BODY, HEAD); // super
         }

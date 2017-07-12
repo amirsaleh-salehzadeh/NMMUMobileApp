@@ -392,7 +392,7 @@ function initiMap() {
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('destinationPresentation'));
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
-			.getElementById('viewMode'));
+			.getElementById('viewModeMap'));
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -445,12 +445,9 @@ function getDestination() {
 																			+ " "
 																			+ val.locationName
 																			+ "</li>";
-																	$ul
-																			.html(html);
-																	$ul
-																			.listview("refresh");
-																	$ul
-																			.trigger("updatelayout");
+																	$ul.html(html);
+																	$ul.listview("refresh");
+																	$ul.trigger("updatelayout");
 																});
 
 											});
