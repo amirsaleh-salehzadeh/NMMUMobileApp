@@ -4,12 +4,13 @@
 <head>
 <style type="text/css">
 #map_canvas {
-	height: 333px;
+	height: 100%;
 	width: 100%;
 	top: 0;
 	bottom: 0;
 }
-
+/* height: 333px;
+	width: 100%; */
 #searchFields {
 	padding-bottom: 12px;
 	right: 4em !important;
@@ -290,5 +291,12 @@ this fixes the gap problem for the mapNavBar but introduces a bug which doesnt a
 <script type="text/javascript" src="js/location/path.navigation.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
-	type="text/javascript"></script>
+	type="text/javascript">
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {	
+		refreshPlaceHolders();	
+	});
+		
+</script>
 </html>
