@@ -5,55 +5,55 @@ function userMedia() {
 }
 var track;
 function startCamera() {
-	if (userMedia()) {
+	var backCamId ="";
+	  var constraints =null;
+	if (userMedia() && track == undefined) {
+		navigator.mediaDevices.enumerateDevices()
+		  .then(function(devices) {
+		    devices.forEach(function(device) {
+		    	constraints = {
+		  				video : true,
+		  				audio : false
+		  			};
+		    	if(device.kind.indexOf('video')>=0){
+		      if(device.label.indexOf('back')>=0){
+		    	  backCamId = device.deviceId;  
+		  			constraints = {
+		  				audio : false,
+		  				video: {
+		  				    optional: [{sourceId: backCamId}]
+		  				  }
+		  			};
+		      }
+		    }
+		    });
+		  }).then(function(){
+			  var media = navigator.getUserMedia(constraints, function(stream) {
+		  			var v = document.getElementById('videoContent');
+		  			// URL Object is different in WebKit
+		  			var url = window.URL || window.webkitURL;
 
-		var constraints = {
-			video : true,
-			audio : false
-		};
-		var media = navigator.getUserMedia(constraints, function(stream) {
-			var v = document.getElementById('videoContent');
-			// URL Object is different in WebKit
-			var url = window.URL || window.webkitURL;
-
-			// create the url and set the source of the video element
-			v.src = url ? url.createObjectURL(stream) : stream;
-			track = stream.getVideoTracks()[0].stop();
-			// Start the video
-			v.play();
-		}, function(error) {
-			console.log("ERROR");
-			console.log(error);
-		});
+		  			// create the url and set the source of the video element
+		  			v.src = url ? url.createObjectURL(stream) : stream;
+		  			track = stream.getVideoTracks()[0];
+		  			// Start the video
+		  			v.play();
+		  		}, function(error) {
+		  			console.log("ERROR");
+		  			console.log(error);
+		  		});
+		  }).catch(function(err) {
+		    console.log(err.name + ": " + error.message);
+		  });
 	} else {
 		console.log("KO");
 	}
 }
 
 function stopCamera() {
-	var MediaStream = window.MediaStream;
-
-	if (typeof MediaStream === 'undefined'
-			&& typeof webkitMediaStream !== 'undefined') {
-		MediaStream = webkitMediaStream;
-	}
-
-	/* global MediaStream:true */
-	if (typeof MediaStream !== 'undefined'
-			&& !('stop' in MediaStream.prototype)) {
-		MediaStream.prototype.stop = function() {
-			this.getAudioTracks().forEach(function(track) {
-				track.stop();
-			});
-
-			this.getVideoTracks().forEach(function(track) {
-				track.stop();
-			});
-		};
-	}
-	$('#videoContent').pause();
+	track.stop();
+	track = null;
 	$('#videoContent').src = "";
-//    localstream.stop();
 }
 
 function selectDualMode() {

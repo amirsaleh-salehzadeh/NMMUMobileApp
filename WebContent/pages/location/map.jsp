@@ -3,11 +3,18 @@
 <html>
 <head>
 <style type="text/css">
-#map_canvas,#videoContent,#cameraView {
-	width: 100%;
+#map_canvas,#videoContent {
+	min-width: 100%;
 	top: 0;
 	bottom: 0;
 	display: block;
+}
+
+#cameraView {
+	min-width: 100%;
+	top: 0;
+	bottom: 0;
+	display: none;
 }
 
 #autocompleteContainer {
@@ -199,12 +206,11 @@
 				</div>
 			</div>
 		</div>
-		<div id="cameraView" class="ui-block-solo"
-			style="max-height: 50%; min-width: 100%; display: none;">
+		<div id="cameraView" class="ui-block-solo">
 			<div id="viewModeCamera">
 				<img alt="" src="images/icons/camera-ar.png"
-					style="cursor: pointer;" onclick="selectDualMode()"> <img
-					alt="" src="images/icons/maps.png" style="cursor: pointer;"
+					style="cursor: pointer; float: right;" onclick="selectDualMode()"> <img
+					alt="" src="images/icons/maps.png" style="cursor: pointer; float: right;"
 					onclick="selectMapMode()">
 			</div>
 			<video id="videoContent"></video>
