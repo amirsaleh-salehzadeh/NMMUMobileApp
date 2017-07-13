@@ -126,9 +126,9 @@ public class LocationAction extends Action {
 			if (request.getParameter("reqCodeGrid") != null
 					&& request.getParameter("reqCodeGrid").equals("gridJson"))
 				return mapping.findForward("gridJson");
-		} catch (AMSException e) {
+		/*} catch (AMSException e) {
 			e.printStackTrace();
-		}
+		}*/
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("locationManagement");

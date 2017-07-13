@@ -126,7 +126,7 @@ body {
 			aria-hidden="true">
 			<ul>
 				<li data-filtertext="introduction overview getting started"><a
-					href="t_location.do?reqCode=mapView" data-ajax="false">Find a
+					href="location.do?reqCode=mapView" data-ajax="false">Find a
 						Place</a></li>
 				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a

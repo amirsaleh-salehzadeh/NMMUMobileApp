@@ -855,7 +855,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	public LocationENT getLocation(LocationENT location) throws AMSException {
 		Query q = null;
 		try {
@@ -870,7 +870,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			location = null;
 		}
 		return location;
-=======
+	}
+//=======
 	public LocationENT getLocationENTAncestors(long locationId) {
 		LocationENT res = new LocationENT();
 		try {
@@ -960,7 +961,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 		}
 		return ent;
->>>>>>> Amir
+//>>>>>>> Amir
 	}
 
 }

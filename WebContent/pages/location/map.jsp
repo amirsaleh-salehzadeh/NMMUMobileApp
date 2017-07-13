@@ -3,12 +3,8 @@
 <html>
 <head>
 <style type="text/css">
-<<<<<<< HEAD
-#map_canvas {
-	height: 100%;
-=======
+
 #map_canvas,#videoContent,#cameraView {
->>>>>>> Amir
 	width: 100%;
 	top: 0;
 	bottom: 0;
@@ -80,24 +76,21 @@
 	border-radius: 0;
 }
 
+.ui-icon-pointer:after {
+	background-image: url("images/icons/pointer.png");
+	background-size: 32px 32px;
+	border-radius: 0;
+}
+
 #destinationPresentation {
 	font-size: 10pt;
 	color: black;
-<<<<<<< HEAD
-	background-color: white;
-	margin-right: 2em;
-	padding: 7px;
-	background-color: rgba(255, 255, 255, 0.66);
-	border: 3px solid black;
-	display: none; 
-=======
 	padding-left: 1em;
 	padding-bottom: .66em;
 	padding-right: 1em;
 	padding-top: .66em;
 	background-color: rgba(255, 255, 255, 0.33);
 	display: none;
->>>>>>> Amir
 }
 
 .dashboardHeader {
@@ -217,6 +210,98 @@ this fixes the gap problem for the mapNavBar but introduces a bug which doesnt a
     padding-left: 48px;     /* make text start to the right of the image */
     vertical-align: middle; /* align the text vertically centered */
 }
+#btnDualMode {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	cursor: pointer; 
+	width: 48px; 
+	height: 48px;
+	background-image: url(images/icons/camera-ar.png); /* 48px x 48px */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+ 	background-color: transparent;
+ 	box-shadow: none;
+}
+#btnCameraMode {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	cursor: pointer; 
+	width: 48px; 
+	height: 48px;
+	background-image: url(images/icons/smart.png); /* 48px x 48px */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+	background-color: transparent;
+	box-shadow: none;
+}
+#btnToggleFullscreen {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	cursor: pointer; 
+	width: 48px; 
+	height: 48px;
+	background-image: url(images/icons/maximise.png); /* 48px x 48px */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+ 	background-color: transparent;
+ 	box-shadow: none;
+}
+
+#btnToggleFullscreen.off {
+	background-image: url(images/icons/minimise.png); /* 48px x 48px */
+}
+
+#viewModeMap {
+	margin: .66em .66em .66em;
+	padding-left: 1em;
+	height: 100px;
+}
+
+/* Tooltip container */ /* Further info at https://www.w3schools.com/css/css_tooltip.asp */
+.tooltip {
+    position: relative;
+    display: inline-block;
+ /* border-bottom: 1px dotted black;  If you want dots under the hoverable text or button */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 48px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 110%;
+    left: 50%;
+    margin-left: -24px; /* Use half of the width (48/2 = 24), to center the tooltip */
+    /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+    opacity: 0;
+    transition: opacity 3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%; /* Arrow At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
 </style>
 <meta http-equiv="Cache-Control"
 	content="no-cache, no-store, must-revalidate" />
@@ -232,46 +317,21 @@ this fixes the gap problem for the mapNavBar but introduces a bug which doesnt a
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
 <body>
-<<<<<<< HEAD
-	<input type="hidden" id="tripId">
-	<div data-role="tabs" id="tabs">
-		<div data-role="navbar" id="mapNavBar">
+
+	<div id="pageContents" style="min-width: 100%; min-height: 100%;">
+		<input type="hidden" id="tripId">
+		<div id="mapView" class="ui-block-solo"
+			style="min-width: 100%; max-height: 50%;">
+		<!-- 	<div data-role="navbar" id="mapNavBar">
 			<ul>
 				<li><a href="#mapView" data-ajax="false" class="ui-btn-active" id="btnMapView" >Map
 						View</a></li>
 				<li><a href="#" data-ajax="false" onclick="openAR();" id="btnARView" >AR
 						View</a></li>
 			</ul>
-		</div>
-		<div id="navigationDashboard">
-<!-- 			<span class="dashboardHeader">Destination </span><span -->
-<!-- 				class="dashboardRes" id="destinationDef">NMU main building in -->
-<!-- 				south campus</span>  -->
-				 <span class="dashboardHeader">Distance</span> <span
-				class="dashboardRes" id="distanceDef">4 Km and 430 Meters</span><br />
-				<span class="dashboardHeader">Distance to </span> <span
-				class="dashboardRes" id="distanceToDef">Building 9</span><br />
-			<span class="dashboardHeader">Speed</span> <span class="dashboardRes"
-				id="speedDef">5.4 km/h</span>
-		</div>
-		<input type="hidden" class='tripInfo' id="tripIds">
-		<input type="hidden" class='tripInfo' id="tripGPSs">
-		<input type="hidden" class='tripInfo' id="tripLocations">
-		<div id="mapView" class="ui-body-d ui-content">
-=======
-	<div id="pageContents" style="min-width: 100%; min-height: 100%;">
-		<input type="hidden" id="tripId">
-		<div id="mapView" class="ui-block-solo"
-			style="min-width: 100%; max-height: 50%;">
-			<!-- 		<div data-role="navbar"> -->
-			<!-- 			<ul> -->
-			<!-- 				<li><a href="#mapView" data-ajax="false" class="ui-btn-active">Map -->
-			<!-- 						View</a></li> -->
-			<!-- 				<li><a href="#" data-ajax="false" onclick="openAR();">AR -->
-			<!-- 						View</a></li> -->
-			<!-- 			</ul> -->
-			<!-- 		</div> -->
+			</div> -->
 			<div id="destinationPresentation">
 				<span class="dashboardRes" id="distanceDef">4 Km and 430
 					Meters to </span><span class="dashboardRes" id="destinationDef">NMU
@@ -280,16 +340,35 @@ this fixes the gap problem for the mapNavBar but introduces a bug which doesnt a
 				<!-- 			<span class="dashboardHeader">Distance to </span> <span -->
 				<!-- 				class="dashboardRes" id="distanceToDef">Building 9</span><br />  -->
 			</div>
-			<div id="viewModeMap">
-				<img alt="" src="images/icons/camera-ar.png"
-					style="cursor: pointer;" onclick="selectDualMode()"> <img
-					alt="" src="images/icons/smart.png" style="cursor: pointer;"
-					onclick="selectCameraMode()">
+			<div id="viewModeMap" class="ui-grid-b" >	
+				<div class="ui-block-a">
+				<div class="tooltip">
+					<span class="tooltiptext">Dual Mode</span>
+					<a href="#" data-role="button" id="btnDualMode"
+						alt=""  onclick="selectDualMode()" align="top"></a>
+					</div>
+				</div>
+					
+				<div class="ui-block-b">
+					<div class="tooltip">
+					<span class="tooltiptext">Camera mode</span>	
+					<a href="#" data-role="button" id="btnCameraMode" 
+						alt="" onclick="selectCameraMode()" align="top"></a>
+					</div>
+				</div>
+				
+				<div class="ui-block-c">
+					<div class="tooltip">
+					<span class="tooltiptext">Full Screen</span>
+					<a href="#" data-role="button" id="btnToggleFullscreen"
+						alt="" onclick="toggleFullScreen()" align="top"></a>
+					</div>
+				</div>	
 			</div>
-			<input type="hidden" class='tripInfo' id="tripIds"> <input
-				type="hidden" class='tripInfo' id="tripGPSs"> <input
-				type="hidden" class='tripInfo' id="tripLocations">
->>>>>>> Amir
+			<input type="hidden" class='tripInfo' id="tripIds">
+			<input type="hidden" class='tripInfo' id="tripGPSs">
+			<input type="hidden" class='tripInfo' id="tripLocations">
+
 			<div id="map_canvas"></div>
 			<div id="searchFields">
 				<div class="ui-block-solo" id="autocompleteContainer">
@@ -315,11 +394,10 @@ this fixes the gap problem for the mapNavBar but introduces a bug which doesnt a
 						<fieldset data-role="controlgroup" data-mini="true"
 							data-type="horizontal"
 							style="float: right; display: inline-block;">
-<<<<<<< HEAD
+
 							
-						<!-- left ui-block-B behind in case we change our mind or need to put more buttons here -->	
+						<!--  left ui-block-B behind in case we change our mind or need to put more buttons here -->	
 								
-=======
 							<label for="clearTrip"><span
 								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-v-2" id="clearTrip"
@@ -332,18 +410,20 @@ this fixes the gap problem for the mapNavBar but introduces a bug which doesnt a
 								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-v-2" id="startTrip"
 								value="1" onclick="getThePath()">
->>>>>>> Amir
-						</fieldset>
+				
+						</fieldset> 
 					</div>
 				</div>
 				<div class="ui-grid-a ui-responsive" style="width: 100%;">
 					<div class=ui-block-a >
-					<input type="hidden" id="from" placeholder="Departure"> <input
-						type="hidden" id="departureId" placeholder="DepartureId">
-<<<<<<< HEAD
-					<input type="text" id="departureName" placeholder="Departure">
+						<input type="hidden" id="from" placeholder="Departure"> <input
+							type="hidden" id="departureId" placeholder="DepartureId">
+						<input type="hidden" id="departureName" placeholder="Departure">
+						<input type="hidden" id="to">
+						<input type="hidden"
+							id="destinationId" placeholder="DestinationId">
 					</div>
-					<div class=ui-block-b > 
+					 <!--  <div class=ui-block-b > 
 						<fieldset data-role="controlgroup" data-mini="true"
 						data-type="horizontal"
 						style="display: inline-block;">
@@ -355,15 +435,15 @@ this fixes the gap problem for the mapNavBar but introduces a bug which doesnt a
 						<input type="radio" name="radio-choice-v-2" id="currentLocation"
 							value="1" onclick="myLocation()">
 						</fieldset>
-					</div>
+					</div> -->
 				</div>
 				<div class="ui-grid-a ui-responsive" style="width: 100%;">
 					<div class=ui-block-a >
-					<input type="hidden" id="to" placeholder="Destination"> <input
-						type="hidden" id="destinationId" placeholder="DestinationId">
-					<input type="text" id="destinationName" placeholder="Destination">
+						<input name="destinationName" id="destinationName"
+							data-type="search" placeholder="Search for a place"
+							data-mini="true" autocomplete="off" onkeyup="getDestination();">
 					</div>
-				 	<div class=ui-block-b >
+				 	<!-- <div class=ui-block-b >
 				 		<fieldset data-role="controlgroup" data-mini="true"
 						data-type="horizontal"
 						style="display: inline-block;">
@@ -384,17 +464,7 @@ this fixes the gap problem for the mapNavBar but introduces a bug which doesnt a
 							value="1" onclick="startTrip()">
 						
 						</fieldset>			
-					</div>	
-=======
-					<input type="hidden" id="departureName" placeholder="Departure">
-					<input type="hidden" id="to"> <input type="hidden"
-						id="destinationId" placeholder="DestinationId">
-				</div>
-				<div class="ui-block-solo">
-					<input name="destinationName" id="destinationName"
-						data-type="search" placeholder="Search for a place"
-						data-mini="true" autocomplete="off" onkeyup="getDestination();">
->>>>>>> Amir
+					</div>	-->
 				</div>
 			</div>
 		</div>
@@ -423,7 +493,6 @@ this fixes the gap problem for the mapNavBar but introduces a bug which doesnt a
 <script type="text/javascript">
 	$(document).ready(function() {	
 		refreshPlaceHolders();	
-	});
-		
+	});	
 </script>
 </html>

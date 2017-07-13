@@ -6,7 +6,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<<<<<<< HEAD
 <style type="text/css">
 .inlineIcon {
 	display: inline-block;
@@ -111,9 +110,7 @@
 	    return String;
 	}
 </script>
-=======
 <link href="css/location/path.management.css" rel="stylesheet">
->>>>>>> Amir
 </head>
 <div>
 	<input type="hidden" id="parentLocationId" value="0"> <input

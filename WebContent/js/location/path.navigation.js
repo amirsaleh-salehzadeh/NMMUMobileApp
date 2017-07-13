@@ -372,7 +372,7 @@ function initiMap() {
 			position : google.maps.ControlPosition.RIGHT_BOTTOM
 		},
 		streetViewControl : false,
-		fullscreenControl : true,
+		fullscreenControl : false,
 		fullscreenControlOptions : {
 			position : google.maps.ControlPosition.TOP_RIGHT
 		},
@@ -405,11 +405,12 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.open(map);
 }
 
-<<<<<<< HEAD
+
 function isFullScreen()
 {
     return (document.fullScreenElement && document.fullScreenElement !== null)
          || document.mozFullScreen
+         || document.msFullScreen
          || document.webkitIsFullScreen;
 }
 
@@ -441,9 +442,15 @@ function exitFullScreen()
 function toggleFullScreen(element)
 {
     if (isFullScreen())
-        exitFullScreen();
+    {	
+    	$('#btnToggleFullscreen').toggleClass('off');
+    	exitFullScreen();
+    }	
     else
-        requestFullScreen(element || document.documentElement);
+    {	
+    	$('#btnToggleFullscreen').toggleClass('off');
+    	requestFullScreen(element || document.documentElement);
+    }	
 }
 
 $(document)
@@ -455,8 +462,9 @@ $(document)
 							.height(parseInt($(window).height())
 											- ($(".jqm-header").height()) - 27 - $(
 													".ui-navbar").height());	
-				});
-=======
+				
+});
+
 function getDestination() {
 	$("#autocompleteDestination")
 			.on(
@@ -565,15 +573,6 @@ function getDistanceLeft(distance) {
 		res = Metres + " meter(s)";
 	return res;
 }
-
-$(document).ready(
-		function() {
-			$("#map_canvas").css("min-width",
-					parseInt($("#mainBodyContents").css("width")));
-			$("#map_canvas").height(
-					parseInt($(window).height()) - ($(".jqm-header").height())
-							- 27 - $(".ui-navbar").height());
-		});
 
 function animateCircle(line) {
 	var count = 0;
@@ -710,4 +709,3 @@ function compassHeading(alpha, beta, gamma) {
 	return compassHeading;
 
 }
->>>>>>> Amir

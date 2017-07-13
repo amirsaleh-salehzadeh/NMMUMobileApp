@@ -1,4 +1,8 @@
-/struts
-/hibernate
-/webservices
 /common
+/hibernate
+/hibernate.cfg.xml
+/servlets
+/struts
+/threads
+/tools
+/webservices
