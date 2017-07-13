@@ -21,21 +21,13 @@ function startScanner() {
 						refractoryPeriod : 5000
 					});
 					scanner = self.scanner;
-					self.scanner.addListener('scan',
-							function(content, image) {
-								if (destin.value != "null"
-										&& destin.value != ""
-										&& destin.value != null
-										&& destin.value != '0') {
-									getTheTripAR(content);
-								} else {
-									getTheBarcodeAR(content);
-								}
-								self.scans.unshift({
-									date : +(Date.now()),
-									content : content
-								});
-							});
+					self.scanner.addListener('scan', function(content, image) {
+						getTheBarcodeAR(content);
+						self.scans.unshift({
+							date : +(Date.now()),
+							content : content
+						});
+					});
 					Instascan.Camera
 							.getCameras()
 							.then(
@@ -76,7 +68,6 @@ function startScanner() {
 			});
 }
 document.addEventListener("DOMContentLoaded", function(event) {
-
 	if (window.DeviceOrientationEvent) {
 		window.addEventListener('deviceorientation', function(eventData) {
 			var tiltLR = eventData.gamma;
@@ -99,25 +90,66 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	}
 
 });
+
 function getBCodeInfo(x) {
-	$.ajax({
-		url : "REST/GetLocationWS/GetBarcodeForLocation?locationId=" + x,
-		cache : true,
-		success : function(data) {
-			$("#barcodeDescription").css("display", "block");
-			$("#barcodeDescription").fadeIn(3000);
-			$.each(data, function(k, l) {
-				$("#barcodeDescription").html("");
-				$("#barcodeDescription").append(
-						'<span class="heading">' + data['t']
-								+ ': </span><span class="locationText">'
-								+ data['n'] + '</span><br>');
+	$
+			.ajax({
+				url : "REST/GetLocationWS/GetBarcodeForLocation?locationId="
+						+ x,
+				cache : true,
+				success : function(data) {
+					$("#barcodeDescription").css("display", "block");
+					$("#barcodeDescription").fadeIn(3000);
+					$.each(data,function(k, l) {
+								$("#barcodeDescription").html("");
+								$("#barcodeDescription").append(
+												'<span class="heading">'
+														+ data['t']
+														+ ': </span><span class="locationText">'
+														+ data['n']
+														+ '</span><br>');
+								var barcodePosition = new google.maps.LatLng(
+										parseFloat(data['g']
+										.split(',')[0]),
+								parseFloat(data['g']
+										.split(',')[1]));
+								if (data['id'] == x) {
+									map.setCenter();
+									var nextDestGPS = getCookie(
+											"TripPathGPSCookie").split(
+											"_");
+									var tmpStr = "";
+									for ( var int = 0; int < nextDestGPS.length; int++) {
+										if (x == nextDestGPS[i]) {
+											if (int == 0)
+												tmpStr = nextDestGPS[int];
+											else
+												tmpStr += "_"
+														+ nextDestGPS[int];
+										}
+									}
+									var headingTo2st = google.maps.geometry.spherical
+											.computeHeading(
+													nextPosition,
+													secondNextPosition);
+									angleToNextDestination = headingTo2st
+											- headingTo1st;
+									heading = angleToNextDestination;
+									tmpPathCoor.push(pointPath);
+									tmpPathCoor.push(nextPosition);
+									distanceToNextPosition = google.maps.geometry.spherical
+											.computeDistanceBetween(
+													pointPath,
+													nextPosition);
+									if (distanceToNextPosition <= 5) {
+										removeTheNextDestination();
+									}
+								}
+							});
+
+					return presentLocation(data['p']);
+				}
 			});
-			return presentLocation(data['p']);
-			// $("#barcodeContainer").css("top",
-			// $("#headerContainer").css("height"));
-		}
-	});
 
 }
 function presentLocation(x) {
@@ -129,48 +161,12 @@ function presentLocation(x) {
 		presentLocation(x['p']);
 }
 
-function getTheTripAR(content) {
-	$.ajax({
-		url : url,
-		cache : false,
-		success : function(data) {
-			$("#mainBodyContents").html(data).trigger("create");
-			$(".ui-popup-active").css("display", "none");
-			refreshPlaceHolders();
-			if ($("#reqCodeGrid").val() != undefined) {
-				refreshGrid();
-			}
-			return true;
-		}
-	});
+function hideInfoDiv() {
+	$("#barcodeDescription").fadeOut(3000);
 }
-function hideInfoDiv(){
-	$("#barcodeDescription").fadeOut(11000);
-}
- var destin = document.getElementById("destinationId");
 function getTheBarcodeAR(content) {
-	if (destin.value == "null" || destin.value == "" || destin.value == null)
-		destin.value = 0;
-	console.log(">>" + content);
 	getBCodeInfo(content);
 	$("#barcodeDescription").css("display", "block").trigger('create');
-	// $.ajax({
-	// url : "../../REST/GetLocationWS/GetALocation?locationId=" + content +
-	// "&pathType=" + $("#pathTypeId").val(),
-	// cache : false,
-	// success : function(data) {
-	// $("#barcodeDescription").html("");
-	$("#barcodeDescription").css("display", "block");
-	// hideInfoDiv();
-
 	$("#barcodeDescription").fadeIn(3000);
-	hideInfoDiv();
-	// $("#barcodeDescription").append('<span
-	// class="heading">'+data.locationType.locationType +
-	// ' </span><span class="locationText" id="destination">' +
-	// data.locationName +
-	// '</span><br>');
-	// return true;
-	// }
-	// });
+	window.setInterval(hideInfoDiv, 5000);
 }

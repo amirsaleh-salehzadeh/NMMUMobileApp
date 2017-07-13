@@ -274,6 +274,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 						rs.getString("path_type"));
 				res.add(p);
 			}
+			rs.close();
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {

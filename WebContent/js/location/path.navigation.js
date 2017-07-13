@@ -87,6 +87,7 @@ function removeTheNextDestination() {
 	var tripIds = $("#tripIds").val().split(",");
 	var tripGPSs = $("#tripGPSs").val().split("_");
 	var tripLocations = $("#tripLocations").val().split(",");
+	
 	$("#tripIds").val($("#tripIds").val().replace(tripIds[0] + ",", ""));
 	$("#tripGPSs").val($("#tripGPSs").val().replace(tripGPSs[0] + "_", ""));
 	$("#tripLocations").val(
@@ -155,9 +156,6 @@ function updatePolyLine(currentPos, altitude) {
 			.split(',')[0]), parseFloat(nextDestGPS[1].split(',')[1]));
 	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath,
 			nextPosition);
-	// console.log(headingTo1st + " map setheading: " + map.getHeading());
-	// marker.setTilt(map.getHeading());
-	// console.log("map getheading: " + map.getHeading());
 	var headingTo2st = google.maps.geometry.spherical.computeHeading(
 			nextPosition, secondNextPosition);
 	angleToNextDestination = headingTo2st - headingTo1st;
@@ -321,12 +319,12 @@ function removeTrip() {
 }
 
 function openAR() {
-//	var tmp = $('#destinationId').val();
-//	if (tmp == null || tmp == "null" || tmp == "")
-//		tmp = 0;
-//	window.open("insta/docs/index.jsp?destinationId=" + tmp + "&pathType="
-//			+ $("[name='radio-choice-path-type']:checked").val());
-	
+	// var tmp = $('#destinationId').val();
+	// if (tmp == null || tmp == "null" || tmp == "")
+	// tmp = 0;
+	// window.open("insta/docs/index.jsp?destinationId=" + tmp + "&pathType="
+	// + $("[name='radio-choice-path-type']:checked").val());
+
 }
 
 var myLatLng = {
@@ -419,9 +417,7 @@ function getDestination() {
 							$ul
 									.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
 							$ul.listview("refresh");
-							$
-									.ajax(
-											{
+							$.ajax({
 												url : "REST/GetLocationWS/SearchForALocation?userName=NMMU"
 														+ "&locationName="
 														+ value,
@@ -445,9 +441,12 @@ function getDestination() {
 																			+ " "
 																			+ val.locationName
 																			+ "</li>";
-																	$ul.html(html);
-																	$ul.listview("refresh");
-																	$ul.trigger("updatelayout");
+																	$ul
+																			.html(html);
+																	$ul
+																			.listview("refresh");
+																	$ul
+																			.trigger("updatelayout");
 																});
 
 											});
@@ -532,26 +531,8 @@ function animateCircle(line) {
 		line.set('icons', icons);
 	}, 50);
 }
-//$(function() {
-//	$("#mapView").resizable({
-//		autoHide : true,
-//		stop : function(e, ui) {
-//			var parent = ui.element.parent();
-//			ui.element.css({
-//				// width: ui.element.width()/parent.width()*100+"%",
-//				height : ui.element.height() / parent.height() * 100 + "%"
-//			});
-//			console.log(ui.element.height() + '   >>  ' + parent.height());
-//		}
-//	});
-//
-//});
-var successTrackingHandler = function(position) {
-	// for ( var i = 0; i < paths.length; i++) {
-	// paths[i].setMap(null);
-	// }
-	// alert(Coordinates.heading);
 
+var successTrackingHandler = function(position) {
 	var currentPos = {
 		lat : position.coords.latitude,
 		lng : position.coords.longitude
@@ -578,13 +559,9 @@ var successTrackingHandler = function(position) {
 		});
 	}
 	marker.setPosition(currentPos);
-	// map.setCenter(currentPos);
 };
 
 var successGetCurrentPosition = function(position) {
-	// for ( var i = 0; i < paths.length; i++) {
-	// paths[i].setMap(null);
-	// }
 	var currentPos = {
 		lat : position.coords.latitude,
 		lng : position.coords.longitude
@@ -604,7 +581,6 @@ var successGetCurrentPosition = function(position) {
 	}
 	marker.setPosition(currentPos);
 	map.panTo(currentPos);
-	// map.setCenter(currentPos);
 };
 
 function handleOrientation(event) {

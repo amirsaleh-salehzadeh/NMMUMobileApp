@@ -6,27 +6,27 @@
 .compass {
 	width: 130px;
 	height: 127px;
-	bottom: 0px;
+	bottom: -65px;
 	float: left;
 	display: block;
 	position: absolute;
 	overflow: hidden;
-/* 	-webkit-transform: rotateX(77deg); */
-/* 	-ms-transform: rotateX(77deg); */
-/* 	transform: rotateX(77deg); */
-/* 	-webkit-transform: rotateZ(90deg); */
-/* 	-ms-transform: rotateZ(90deg); */
-/* 	transform: rotateZ(90deg); */
+	/* 	-webkit-transform: rotateX(77deg); */
+	/* 	-ms-transform: rotateX(77deg); */
+	/* 	transform: rotateX(77deg); */
+	/* 	-webkit-transform: rotateZ(90deg); */
+	/* 	-ms-transform: rotateZ(90deg); */
+	/* 	transform: rotateZ(90deg); */
 	z-index: 10000;
 }
 
 .compass .disc {
 	position: absolute;
 	top: 7px;
-	left: 7px;
 	z-index: 665;
 	background: url('http://dev.rvltn.eu/compass/compass.svg');
-	display: block; width : 111px;
+	display: block;
+	width: 111px;
 	height: 111px;
 	background-size: 100%;
 	width: 111px;
@@ -35,7 +35,6 @@
 .compass .arrow {
 	position: absolute;
 	top: 7px;
-	left: 7px;
 	z-index: 666;
 	background: url('http://dev.rvltn.eu/compass/arrow.svg');
 	width: 111px;
@@ -157,6 +156,12 @@
 	z-index: 2;
 	width: 100%;
 }
+
+#barcodeDescription {
+	position: absolute;
+	display: block;
+	z-index: 10000;
+}
 </style>
 <meta http-equiv="Cache-Control"
 	content="no-cache, no-store, must-revalidate" />
@@ -194,8 +199,7 @@
 			<span id="direction"></span>
 		</div>
 	</div>
-	<div id="barcodeDescription">
-	</div>
+	<div id="barcodeDescription"></div>
 	<div id="pageContents" style="min-width: 100%; min-height: 100%;">
 		<input type="hidden" id="tripId">
 		<div id="mapView" class="ui-block-solo"

@@ -53,14 +53,10 @@ function gotDevices(deviceInfos) {
 
 var track;
 function startCamera() {
-//	 navigator.mediaDevices.enumerateDevices()
-//	 .then(gotDevices).then(getStream).then(startScanner).catch(handleError);
 	startScanner();
 }
 
 function stopCamera() {
-//	track.stop();
-//	track = null;
 	cameraView = undefined;
 	scanner.stop();
 	$('#videoContent').src = "";
