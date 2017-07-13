@@ -3,6 +3,56 @@
 <html>
 <head>
 <style type="text/css">
+.compass {
+	width: 130px;
+	height: 127px;
+	bottom: 0px;
+	float: left;
+	display: block;
+	position: absolute;
+	overflow: hidden;
+/* 	-webkit-transform: rotateX(77deg); */
+/* 	-ms-transform: rotateX(77deg); */
+/* 	transform: rotateX(77deg); */
+/* 	-webkit-transform: rotateZ(90deg); */
+/* 	-ms-transform: rotateZ(90deg); */
+/* 	transform: rotateZ(90deg); */
+	z-index: 10000;
+}
+
+.compass .disc {
+	position: absolute;
+	top: 7px;
+	left: 7px;
+	z-index: 665;
+	background: url('http://dev.rvltn.eu/compass/compass.svg');
+	display: block; width : 111px;
+	height: 111px;
+	background-size: 100%;
+	width: 111px;
+}
+
+.compass .arrow {
+	position: absolute;
+	top: 7px;
+	left: 7px;
+	z-index: 666;
+	background: url('http://dev.rvltn.eu/compass/arrow.svg');
+	width: 111px;
+	height: 111px;
+	background-size: 100%;
+}
+
+#videoContent,#cameraView {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	transform: rotateY(180deg);
+	-webkit-transform: rotateY(180deg); /* Safari and Chrome */
+	-moz-transform: rotateY(180deg);
+}
+
 #map_canvas,#videoContent {
 	min-width: 100%;
 	top: 0;
@@ -115,6 +165,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
+<script type="text/javascript"
+	src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 <!-- <link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css"> -->
 <script src="js/jquery.min.js"></script>
 <!-- <script src="js/index.js"></script> -->
@@ -123,18 +179,27 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <body>
+	<div class="compass">
+		<div class="arrow"></div>
+		<div class="disc" id="compassDiscImg"></div>
+	</div>
+	<div class="orientation-data" style="display: none;">
+		<div>
+			<span id="tiltFB"></span>
+		</div>
+		<div>
+			<span id="tiltLR"></span>
+		</div>
+		<div>
+			<span id="direction"></span>
+		</div>
+	</div>
+	<div id="barcodeDescription">
+	</div>
 	<div id="pageContents" style="min-width: 100%; min-height: 100%;">
 		<input type="hidden" id="tripId">
 		<div id="mapView" class="ui-block-solo"
 			style="min-width: 100%; max-height: 50%;">
-			<!-- 		<div data-role="navbar"> -->
-			<!-- 			<ul> -->
-			<!-- 				<li><a href="#mapView" data-ajax="false" class="ui-btn-active">Map -->
-			<!-- 						View</a></li> -->
-			<!-- 				<li><a href="#" data-ajax="false" onclick="openAR();">AR -->
-			<!-- 						View</a></li> -->
-			<!-- 			</ul> -->
-			<!-- 		</div> -->
 			<div id="destinationPresentation">
 				<span class="dashboardRes" id="distanceDef">4 Km and 430
 					Meters to </span><span class="dashboardRes" id="destinationDef">NMU
@@ -209,9 +274,9 @@
 		<div id="cameraView" class="ui-block-solo">
 			<div id="viewModeCamera">
 				<img alt="" src="images/icons/camera-ar.png"
-					style="cursor: pointer; float: right;" onclick="selectDualMode()"> <img
-					alt="" src="images/icons/maps.png" style="cursor: pointer; float: right;"
-					onclick="selectMapMode()">
+					style="cursor: pointer; float: right;" onclick="selectDualMode()">
+				<img alt="" src="images/icons/maps.png"
+					style="cursor: pointer; float: right;" onclick="selectMapMode()">
 			</div>
 			<video id="videoContent"></video>
 		</div>
@@ -222,7 +287,8 @@
 	src="js/location/path.navigation.directions.js"></script>
 <script type="text/javascript"
 	src="js/location/path.navigation.camera.js"></script>
-
+<script type="text/javascript"
+	src="js/location/path.navigation.camera.scanner.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>

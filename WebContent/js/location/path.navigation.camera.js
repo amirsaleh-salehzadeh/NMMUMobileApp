@@ -4,12 +4,13 @@ function userMedia() {
 			|| navigator.msGetUserMedia || null;
 }
 
-var cameras = [];
+var cameraObjs = [];
+var cameraObj = undefined;
 function gotDevices(deviceInfos) {
 	  for (var i = 0; i !== deviceInfos.length; ++i) {
 	    var deviceInfo = deviceInfos[i];
 	    if (deviceInfo.kind === 'videoinput') {
-		    cameras.push(deviceInfo.deviceId);
+	    	cameraObjs.push(deviceInfo);
 	    } else {
 	      console.log('Found ome other kind of source/device: ', deviceInfo);
 	    }
@@ -22,14 +23,14 @@ function gotDevices(deviceInfos) {
 	      track.stop();
 	    });
 	  }
-	  var camera = cameras[0]; 
-	  if(cameras.length>1){
-		  camera = cameras[1];
+	  cameraObj = cameraObjs[0]; 
+	  if(cameraObjs.length>1){
+		  cameraObj = cameraObjs[1];
 	  }
 	  var constraints = {
 	    video: {
 	      optional: [{
-	        sourceId: camera
+	        sourceId: cameraObj.deviceId
 	      }]
 	    }
 	  };
@@ -52,13 +53,16 @@ function gotDevices(deviceInfos) {
 
 var track;
 function startCamera() {
-	 navigator.mediaDevices.enumerateDevices()
-	 .then(gotDevices).then(getStream).catch(handleError);
+//	 navigator.mediaDevices.enumerateDevices()
+//	 .then(gotDevices).then(getStream).then(startScanner).catch(handleError);
+	startScanner();
 }
 
 function stopCamera() {
-	track.stop();
-	track = null;
+//	track.stop();
+//	track = null;
+	cameraView = undefined;
+	scanner.stop();
 	$('#videoContent').src = "";
 }
 
