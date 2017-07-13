@@ -162,13 +162,13 @@ function getTheBarcodeAR(content){
 			
 			$("#barcodeDescription").fadeIn(3000);
 			hideInfoDiv();
- $("#barcodeDescription").append('<span
- class="heading">'+data.locationType.locationType +
- ' </span><span class="locationText" id="destination">' + data.locationName +
- '</span><br>');
- return true;
- }
- });
+// $("#barcodeDescription").append('<span
+// class="heading">'+data.locationType.locationType +
+// ' </span><span class="locationText" id="destination">' + data.locationName +
+// '</span><br>');
+// return true;
+// }
+// });
 }
 
 function hideInfoDiv(){

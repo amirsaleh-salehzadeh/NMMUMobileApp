@@ -19,7 +19,6 @@ function startScanner() {
 						captureImage : false,
 						backgroundScan : false,
 						refractoryPeriod : 5000
-
 					});
 					scanner = self.scanner;
 					self.scanner.addListener('scan',
