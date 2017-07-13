@@ -370,7 +370,7 @@ function initiMap() {
 			position : google.maps.ControlPosition.RIGHT_BOTTOM
 		},
 		streetViewControl : false,
-		fullscreenControl : true,
+		fullscreenControl : false,
 		fullscreenControlOptions : {
 			position : google.maps.ControlPosition.TOP_RIGHT
 		},
@@ -402,6 +402,66 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 			: 'Error: Your browser doesn\'t support geolocation.');
 	infoWindow.open(map);
 }
+
+
+function isFullScreen()
+{
+    return (document.fullScreenElement && document.fullScreenElement !== null)
+         || document.mozFullScreen
+         || document.msFullScreen
+         || document.webkitIsFullScreen;
+}
+
+
+function requestFullScreen(element)
+{
+    if (element.requestFullscreen)
+        element.requestFullscreen();
+    else if (element.msRequestFullscreen)
+        element.msRequestFullscreen();
+    else if (element.mozRequestFullScreen)
+        element.mozRequestFullScreen();
+    else if (element.webkitRequestFullscreen)
+        element.webkitRequestFullscreen();
+}
+
+function exitFullScreen()
+{
+    if (document.exitFullscreen)
+        document.exitFullscreen();
+    else if (document.msExitFullscreen)
+        document.msExitFullscreen();
+    else if (document.mozCancelFullScreen)
+        document.mozCancelFullScreen();
+    else if (document.webkitExitFullscreen)
+        document.webkitExitFullscreen();
+}
+
+function toggleFullScreen(element)
+{
+    if (isFullScreen())
+    {	
+    	$('#btnToggleFullscreen').toggleClass('off');
+    	exitFullScreen();
+    }	
+    else
+    {	
+    	$('#btnToggleFullscreen').toggleClass('off');
+    	requestFullScreen(element || document.documentElement);
+    }	
+}
+
+$(document)
+		.ready(
+				function() {
+					$("#map_canvas").css("min-width",
+							parseInt($("#mainBodyContents").css("width")));
+					$("#map_canvas")
+							.height(parseInt($(window).height())
+											- ($(".jqm-header").height()) - 27 - $(
+													".ui-navbar").height());	
+				
+});
 
 function getDestination() {
 	$("#autocompleteDestination")
@@ -512,15 +572,6 @@ function getDistanceLeft(distance) {
 		res = Metres + " meter(s)";
 	return res;
 }
-
-$(document).ready(
-		function() {
-			$("#map_canvas").css("min-width",
-					parseInt($("#mainBodyContents").css("width")));
-			$("#map_canvas").height(
-					parseInt($(window).height()) - ($(".jqm-header").height())
-							- 27 - $(".ui-navbar").height());
-		});
 
 function animateCircle(line) {
 	var count = 0;

@@ -43,6 +43,10 @@ body {
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
 					href="t_location.do?reqCode=pathManagement" data-ajax="false">Path
 						Management</a></li>
+				<li
+					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a
+					href="t_location.do?reqCode=locationManagement" data-ajax="false">Location
+						Management</a></li>
 			</ul>
 		</div>
 	</li>
@@ -122,7 +126,7 @@ body {
 			aria-hidden="true">
 			<ul>
 				<li data-filtertext="introduction overview getting started"><a
-					href="t_location.do?reqCode=mapView" data-ajax="false">Find a
+					href="location.do?reqCode=mapView" data-ajax="false">Find a
 						Place</a></li>
 				<li
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a

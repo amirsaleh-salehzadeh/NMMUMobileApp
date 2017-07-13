@@ -6,6 +6,110 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<style type="text/css">
+.inlineIcon {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	width: auto !important;
+}
+
+.ui-icon-map-marker:after {
+	background-image: url("images/icons/marker.png");
+	background-size: 23px 23px;
+	border-radius: 0;
+}
+
+.ui-icon-map-path:after {
+	background-image: url("images/icons/journey.png");
+	background-size: 23px 23px;
+	border-radius: 0;
+}
+
+#searchFields {
+	margin: 0 0 0 0;
+	padding-bottom: 12px;
+}
+
+#locationTypeFields {
+	/* 	padding-left: 22em; */
+	
+}
+
+#infoDiv {
+	position: absolute;
+	display: inline;
+	border: thick 4pt;
+	border-color: black;
+	font-size: 16pt;
+	font-weight: bold;
+	margin: 1em;
+	background-color: #9b221f;
+	font-size: 12pt;
+	cursor: pointer;
+}
+
+#infoDivTitle {
+	display: inline-block;
+	opacity: 1 !important;
+}
+
+#parentLocationListView {
+	position: absolute;
+	z-index: 100;
+	background-color: white;
+	width: 100%;
+}
+
+.locationTypeNavBar {
+	display: block;
+	min-height: 3em;
+	font-size: 16pt;
+}
+
+.locationTypeNavBar select {
+	display: block;
+	background: url('images/map-markers/marker-blue.png') no-repeat left
+		100% 100% #FEFEFE;
+	background-size: 66px 66px;
+}
+
+.locationTypeNavBar option {
+	display: block;
+	background-color: black !important;
+	color: white;
+	border-width: 6px;
+	border: 2px #fff;
+	border-bottom: thin;
+	min-height: .7em;
+	border-color: white;
+}
+</style>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// 		selectRightPanelVal();
+		$("#rightpanel").trigger("updatelayout");
+		$(".liLocationLV").each(function() {
+			$(this).bind('onclick', function(e) {
+				alert('Selected Name=' + $(this).attr('value'));
+			});
+		});
+	});
+	// DST 
+	//Distance in Metres
+	//Speed in KMH
+	//Time in Hours minutes seconds
+	function getTime(distance, speed) {
+		var TotalTime = (distance/1000) / speed;
+	    var Hours = floor(TotalTime);
+	    var Minutes = floor((TotalTime-Hours)*60);
+	    var Seconds = round((TotalTime-Hours-Minutes)*60);
+	    var Kilometres = floor(distance/1000);
+	    var Metres = round(distance-(Kilometres*1000));
+		var String = "You are " + Kilometres + " kilometer/s and " + Metres + " meter/s away from the destination. You will be there in about " + Hours + " hour/s " + Minutes + " minute/s and " + Seconds + " second/s.";
+	    return String;
+	}
+</script>
 <link href="css/location/path.management.css" rel="stylesheet">
 </head>
 <div>
