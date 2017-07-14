@@ -770,7 +770,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			qrent.setG(QRBarcodeGen.createQrCode(locationId + "", 666, "png"));
+			qrent.setI(QRBarcodeGen.createQrCode(locationId + "", 666, "png"));
 			json = mapper.writeValueAsString(qrent);
 			// QRBarcodeGen barcodeGen = new QRBarcodeGen();
 			// json = "{\"image\":\""

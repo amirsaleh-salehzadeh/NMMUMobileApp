@@ -5,23 +5,25 @@ var distanceToNextPosition, distanceToDestination, angleToNextDestination;
 var alpha, beta, gamma;
 var paths = [];
 
-function getGoogleMapPosition(gps) {
-	var res = new google.maps.LatLng(parseFloat(gps.split(',')[0]),
-			parseFloat(gps.split(',')[1]))
-	return res;
-}
-
-function getDistance(x, y) {
-	var res = google.maps.geometry.spherical.computeDistanceBetween(
-			getGoogleMapPosition(x), getGoogleMapPosition(y));
-	return res;
-}
-
 function getThePath() {
 	if (pathPolylineConstant != null)
 		return;
 	if ($("#from").val().length < 5)
 		findMyLocation();
+	var GPSCook = getCookie("TripPathGPSCookie");
+	if (GPSCook != "") {
+		if (markerDest != null)
+			markerDest.setMap(null);
+		markerDest = new google.maps.Marker(
+				{
+					position : getGoogleMapPosition(GPSCook.split("_")[GPSCook.split("_").length-1]),
+					map : map,
+					icon : 'http://icons.iconarchive.com/icons/icons8/windows-8/48/Sports-Finish-Flag-icon.png'
+				});
+		drawConstantPolyline();
+		resetWalking();
+		return;
+	}
 	var url = "REST/GetLocationWS/GetADirectionFromTo?departureId="
 			+ $("#departureId").val() + "&destinationId="
 			+ $("#destinationId").val() + "&from=" + $("#from").val() + "&to="
@@ -101,34 +103,35 @@ function removeTheNextDestination() {
 	var closestDest = 0;
 	var closestId = 0;
 	var curGPS = marker.getPosition();
-	for ( var int = 0; int < tripGPSs.length; int++) {
-		var dist = getDistance(curGPS.lat() + "," + curGPS.lng(), tripGPSs[int]);
-		console.log(curGPS);
-		if (int == 0)
-			closestDest = dist;
-		if (dist < closestDest) {
-			closestDest = dist;
-			closestId = int;
+	if (tripGPSs.length > 1)
+		for ( var int = 0; int < tripGPSs.length; int++) {
+			var dist = getDistance(curGPS.lat() + "," + curGPS.lng(),
+					tripGPSs[int]);
+			if (int == 0)
+				closestDest = dist;
+			if (dist < closestDest) {
+				closestDest = dist;
+				closestId = int;
+			}
 		}
-	}
 	var removeVarGPS = "";
 	var removeVarIDS = "";
 	var removeVarNames = "";
-	for ( var int = 0; int < tripGPSs.length; int++) {
-		if (int == 0) {
-			removeVarGPS = tripGPSs[int];
-			removeVarIDS = tripIds[int];
-			removeVarNames = tripLocations[int];
-		} else {
-			removeVarGPS += "_" + tripGPSs[int];
-			removeVarIDS += "_" + tripIds[int];
-			removeVarNames += "_" + tripLocations[int];
+	if (tripGPSs.length > 1)
+		for ( var int = 0; int < tripGPSs.length; int++) {
+			if (int == 0) {
+				removeVarGPS = tripGPSs[int];
+				removeVarIDS = tripIds[int];
+				removeVarNames = tripLocations[int];
+			} else {
+				removeVarGPS += "_" + tripGPSs[int];
+				removeVarIDS += "," + tripIds[int];
+				removeVarNames += "," + tripLocations[int];
+			}
+
+			if (int == closestId)
+				break;
 		}
-
-		if (int == closestId)
-			break;
-	}
-
 	$("#tripIds").val($("#tripIds").val().replace(removeVarIDS + ",", ""));
 	$("#tripGPSs").val($("#tripGPSs").val().replace(removeVarGPS + "_", ""));
 	$("#tripLocations").val(
@@ -142,19 +145,24 @@ function removeTheNextDestination() {
 		pathPolylineConstant.setMap(null);
 	pathPolylineTrack = null;
 	pathPolylineConstant = null;
-	drawConstantPolyline();
+	if ($("#tripGPSs").val().length > 1)
+		drawConstantPolyline();
+	resetWalking();
 }
 
 function drawConstantPolyline() {
 	var tmpPathCoor = [];
 	var nextDestGPS = getCookie("TripPathGPSCookie").split("_");
 	polylineConstantLength = 0;
-	for ( var i = 0; i < nextDestGPS.length; i++) {
-		if (i < nextDestGPS.length - 1)
-			polylineConstantLength += getDistance(nextDestGPS[i],
-					nextDestGPS[i + 1]);
-		tmpPathCoor.push(getGoogleMapPosition(nextDestGPS[i]));
-	}
+	if (nextDestGPS.length > 1)
+		for ( var i = 0; i < nextDestGPS.length; i++) {
+			if (i < nextDestGPS.length - 1)
+				polylineConstantLength += getDistance(nextDestGPS[i],
+						nextDestGPS[i + 1]);
+			tmpPathCoor.push(getGoogleMapPosition(nextDestGPS[i]));
+		}
+	else
+		return;
 	var lineSymbol = {
 		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 		scale : 4,
@@ -187,20 +195,22 @@ function updatePolyLine(currentPos, altitude) {
 	var tmpPathCoor = [];
 	var nextDestGPS = getCookie("TripPathGPSCookie").split("_");
 	var nextPosition = getGoogleMapPosition(nextDestGPS[0]);
-	var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
-	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath,
-			nextPosition);
-	var headingTo2st = google.maps.geometry.spherical.computeHeading(
-			nextPosition, secondNextPosition);
-	angleToNextDestination = headingTo2st - headingTo1st;
-	heading = angleToNextDestination;
+	if (nextDestGPS.length > 1) {
+		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
+		var headingTo1st = google.maps.geometry.spherical.computeHeading(
+				pointPath, nextPosition);
+		var headingTo2st = google.maps.geometry.spherical.computeHeading(
+				nextPosition, secondNextPosition);
+		angleToNextDestination = headingTo2st - headingTo1st;
+		heading = angleToNextDestination;
+	}
 	tmpPathCoor.push(pointPath);
 	tmpPathCoor.push(nextPosition);
 	distanceToNextPosition = google.maps.geometry.spherical
 			.computeDistanceBetween(pointPath, nextPosition);
-	// if (distanceToNextPosition <= 5) {
-	// removeTheNextDestination();
-	// }
+	if (distanceToNextPosition <= 5) {
+		removeTheNextDestination();
+	}
 	distanceToDestination = polylineConstantLength + distanceToNextPosition;
 	var nextDestName = getCookie("TripPathLocationsCookie").split(",")[0];
 	$("#speedDef").html(
@@ -209,8 +219,6 @@ function updatePolyLine(currentPos, altitude) {
 					+ Math.round(distanceToNextPosition) + " meter(s), at "
 					+ nextDestName + ", " + getAngleDirection(heading));
 	$("[name='radio-choice-path-type']:checked").val();
-	// $("#distanceToDef").html(
-	// nextDestName + " " + getDistanceLeft(distanceToNextPosition));
 	var lineSymbol = {
 		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 		scale : 4,
@@ -240,6 +248,10 @@ function updatePolyLine(currentPos, altitude) {
 
 function resetWalking() {
 	clearTimeout(walkingTimer);
+	if (walkingWatchID != undefined) {
+		navigator.geolocation.clearWatch(walkingWatchID);
+		walkingWatchID = null;
+	}
 	walkToDestination();
 }
 
@@ -279,30 +291,7 @@ function walkToDestination() {
 		timout = 2000;
 	else if (map.getZoom() <= 18)
 		timout = 1000;
-	walkingTimer = setTimeout(walkToDestination, timeout);
-}
-
-function setCookie(cname, cvalue, exdays) {
-	var d = new Date();
-	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-	var expires = "expires=" + d.toUTCString();
-	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-	var name = cname + "=";
-	var decodedCookie = decodeURIComponent(document.cookie);
-	var ca = decodedCookie.split(';');
-	for ( var i = 0; i < ca.length; i++) {
-		var c = ca[i];
-		while (c.charAt(0) == ' ') {
-			c = c.substring(1);
-		}
-		if (c.indexOf(name) == 0) {
-			return c.substring(name.length, c.length);
-		}
-	}
-	return "";
+	// walkingTimer = setTimeout(walkToDestination, timeout);
 }
 
 function removeTrip() {
@@ -324,13 +313,10 @@ function removeTrip() {
 	pathPolylineTrack = null;
 	pathPolylineConstant = null;
 	clearTimeout(walkingTimer);
-	// clearTimeout(speedTimer);
 	if (walkingWatchID != undefined) {
 		navigator.geolocation.clearWatch(walkingWatchID);
 		walkingWatchID = null;
 	}
-	// if (speedWatchID != null)
-	// navigator.geolocation.clearWatch(speedWatchID);
 	setCookie('TripIdCookie', "", 0);
 	setCookie('TripPathIdsCookie', "", 0);
 	setCookie('TripPathGPSCookie', "", 0);
@@ -350,15 +336,6 @@ function removeTrip() {
 	$("#tripId").val("");
 	$("#destinationPresentation").css("display", "none");
 	findMyLocation();
-}
-
-function openAR() {
-	// var tmp = $('#destinationId').val();
-	// if (tmp == null || tmp == "null" || tmp == "")
-	// tmp = 0;
-	// window.open("insta/docs/index.jsp?destinationId=" + tmp + "&pathType="
-	// + $("[name='radio-choice-path-type']:checked").val());
-
 }
 
 var myLatLng = {
@@ -474,16 +451,6 @@ function toggleFullScreen(element) {
 		requestFullScreen(element || document.documentElement);
 	}
 }
-
-$(document).ready(
-		function() {
-			$("#map_canvas").css("min-width",
-					parseInt($("#mainBodyContents").css("width")));
-			$("#map_canvas").height(
-					parseInt($(window).height()) - ($(".jqm-header").height())
-							- 27 - $(".ui-navbar").height());
-
-		});
 
 function getDestination() {
 	$("#autocompleteDestination")
@@ -707,3 +674,13 @@ function compassHeading(alpha, beta, gamma) {
 	return compassHeading;
 
 }
+
+$(document).ready(
+		function() {
+			$("#map_canvas").css("min-width",
+					parseInt($("#mainBodyContents").css("width")));
+			$("#map_canvas").height(
+					parseInt($(window).height()) - ($(".jqm-header").height())
+							- 27 - $(".ui-navbar").height());
+
+		});

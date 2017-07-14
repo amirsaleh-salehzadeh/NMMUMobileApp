@@ -53,7 +53,7 @@
 			          id:'projection_1', 
 								geometry: { shape: 'cube', x:120, y:120, z:120 },
 			          material:{ type: 'phong', color: 0xFFFFFF }, 
-                texture: { path: 'awe_by_buildAR.png' },
+               		 texture: { path: 'awe_by_buildAR.png' },
 			        }, { poi_id: 'poi_1' });
 			        awe.events.add([{
 								id: 'ar_tracking_marker',
@@ -73,7 +73,7 @@
 											awe.pois.update({
 												data: {
 													visible: true,
-                          position: { x:0, y:0, z:0 },
+                          							position: { x:0, y:0, z:0 },
 													matrix: event.detail['64'].transform
 												},
 												where: {

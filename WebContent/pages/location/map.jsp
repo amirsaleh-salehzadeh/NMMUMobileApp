@@ -11,12 +11,6 @@
 	display: block;
 	position: absolute;
 	overflow: hidden;
-	/* 	-webkit-transform: rotateX(77deg); */
-	/* 	-ms-transform: rotateX(77deg); */
-	/* 	transform: rotateX(77deg); */
-	/* 	-webkit-transform: rotateZ(90deg); */
-	/* 	-ms-transform: rotateZ(90deg); */
-	/* 	transform: rotateZ(90deg); */
 	z-index: 10000;
 }
 
@@ -148,7 +142,7 @@
 }
 
 #viewModeCamera {
-	display: block;
+	display: inline;
 	position: absolute;
 	float: right;
 	padding-top: .6em;
@@ -168,6 +162,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes" />
 <link rel="stylesheet"
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
 <script type="text/javascript"
@@ -176,7 +171,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
 <script type="text/javascript"
 	src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-<!-- <link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css"> -->
+<link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css">
 <script src="js/jquery.min.js"></script>
 <!-- <script src="js/index.js"></script> -->
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
@@ -251,7 +246,7 @@
 								for="currentLocation"><span
 								class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-v-2" id="currentLocation"
-								value="1" onclick="removeTheNextDestination()"> <label
+								value="1" onclick="findMylocation()"> <label
 								for="startTrip"><span
 								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 							<input type="radio" name="radio-choice-v-2" id="startTrip"
@@ -276,21 +271,28 @@
 		<div id="cameraView" class="ui-block-solo">
 			<div id="viewModeCamera">
 				<img alt="" src="images/icons/camera-ar.png"
-					style="cursor: pointer; float: right;" onclick="selectDualMode()">
-				<img alt="" src="images/icons/maps.png"
-					style="cursor: pointer; float: right;" onclick="selectMapMode()">
+					style="cursor: pointer; display: block-inline; float: right;"
+					onclick="selectDualMode()"> <img alt=""
+					src="images/icons/maps.png"
+					style="cursor: pointer; display: block-inline; float: right;"
+					onclick="selectMapMode()">
 			</div>
 			<video id="videoContent"></video>
 		</div>
 	</div>
 </body>
-<script type="text/javascript" src="js/location/path.navigation.js"></script>
 <script type="text/javascript"
-	src="js/location/path.navigation.directions.js"></script>
+	src="js/location/path.navigation.js?noCache=true"></script>
 <script type="text/javascript"
-	src="js/location/path.navigation.camera.js"></script>
+	src="js/location/path.navigation.tools.js?noCache=true"></script>
 <script type="text/javascript"
-	src="js/location/path.navigation.camera.scanner.js"></script>
+	src="js/location/path.navigation.directions.js?noCache=true"></script>
+<script type="text/javascript"
+	src="js/location/camera/path.navigation.camera.js?noCache=true"></script>
+<script type="text/javascript"
+	src="js/location/camera/path.navigation.camera.scanner.js?noCache=true"></script>
+<script type="text/javascript"
+	src="js/location/camera/path.navigation.camera.ar.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>

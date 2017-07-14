@@ -49,6 +49,7 @@ function startScanner() {
 										} else if (cameras.length > 0) {
 											self.activeCameraId = cameras[0].id;
 											self.scanner.start(cameras[0]);
+//											startAR();
 										} else {
 											console.error('No cameras found.');
 										}
@@ -82,7 +83,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		document.getElementById("tiltLR").innerHTML = Math.ceil(tiltLR);
 		document.getElementById("tiltFB").innerHTML = Math.ceil(tiltFB);
 		document.getElementById("direction").innerHTML = Math.ceil(dir);
-
 		var compassDisc = document.getElementById("compassDiscImg");
 		compassDisc.style.webkitTransform = "rotate(" + dir + "deg)";
 		compassDisc.style.MozTransform = "rotate(" + dir + "deg)";
@@ -92,8 +92,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function getBCodeInfo(x) {
-	$
-			.ajax({
+	$.ajax({
 				url : "REST/GetLocationWS/GetBarcodeForLocation?locationId="
 						+ x,
 				cache : true,
@@ -108,42 +107,29 @@ function getBCodeInfo(x) {
 														+ ': </span><span class="locationText">'
 														+ data['n']
 														+ '</span><br>');
-								var barcodePosition = new google.maps.LatLng(
-										parseFloat(data['g']
-										.split(',')[0]),
-								parseFloat(data['g']
-										.split(',')[1]));
-								if (data['id'] == x) {
-									map.setCenter();
-									var nextDestGPS = getCookie(
-											"TripPathGPSCookie").split(
+//								var barcodePosition = getGoogleMapPosition(data['g']);
+								var barcodePosition = {
+										lat : parseFloat(data['g'].split(",")[0]),
+										lng : parseFloat(data['g'].split(",")[1])
+									};
+//								marker.setMap(null);
+								marker.setPosition(barcodePosition);
+								map.panTo(barcodePosition);
+								map.setCenter(barcodePosition);
+								if (data['id'] == x && getCookie("TripPathGPSCookie") != "") {
+									var nextDestId = getCookie("TripPathIdsCookie").split(
 											"_");
 									var tmpStr = "";
-									for ( var int = 0; int < nextDestGPS.length; int++) {
-										if (x == nextDestGPS[i]) {
+									for ( var int = 0; int < nextDestId.length; int++) {
+										if (x == nextDestId[int]) {
 											if (int == 0)
-												tmpStr = nextDestGPS[int];
+												tmpStr = nextDestId[int];
 											else
-												tmpStr += "_"
+												tmpStr += ","
 														+ nextDestGPS[int];
 										}
 									}
-									var headingTo2st = google.maps.geometry.spherical
-											.computeHeading(
-													nextPosition,
-													secondNextPosition);
-									angleToNextDestination = headingTo2st
-											- headingTo1st;
-									heading = angleToNextDestination;
-									tmpPathCoor.push(pointPath);
-									tmpPathCoor.push(nextPosition);
-									distanceToNextPosition = google.maps.geometry.spherical
-											.computeDistanceBetween(
-													pointPath,
-													nextPosition);
-									if (distanceToNextPosition <= 5) {
 										removeTheNextDestination();
-									}
 								}
 							});
 
