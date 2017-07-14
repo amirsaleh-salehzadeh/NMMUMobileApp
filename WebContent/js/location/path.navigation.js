@@ -454,34 +454,25 @@ function toggleFullScreen(element) {
 
 function getDestination() {
 	$("#autocompleteDestination")
-			.on(
-					"filterablebeforefilter",
+			.on("filterablebeforefilter",
 					function(e, data) {
-
 						var $ul = $("#autocompleteDestination"), $input = $("#destinationName"), value = $input
 								.val(), html = "";
 						$("#autocompleteDestination").css("display", "block");
 						$ul.html("");
 						if (value && value.length >= 3) {
-							$ul
-									.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
+							$ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
 							$ul.listview("refresh");
-							$
-									.ajax(
-											{
-												url : "REST/GetLocationWS/SearchForALocation?userName=NMMU"
-														+ "&locationName="
-														+ value,
-												dataType : "json",
-												crossDomain : true,
-												async : true,
-												cache : true
-											})
-									.then(
-											function(response) {
-												$
-														.each(
-																response,
+							$.ajax({
+									url : "REST/GetLocationWS/SearchForALocation?userName=NMMU"
+											+ "&locationName="
+											+ value,
+									dataType : "json",
+									crossDomain : true,
+									async : true,
+									cache : true
+								}).then(function(response) {
+												$.each(response,
 																function(i, val) {
 																	html += "<li id='"
 																			+ val.locationID
