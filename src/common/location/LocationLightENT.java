@@ -21,8 +21,23 @@ public class LocationLightENT {
 	public long id;
 	public String t;// type
 	public String n;// Name
-	public String g;// gps or image uri
+	public String g;// gps
+	public String i; //image
 	public LocationLightENT p; // parent
+
+	/**
+	 * @return the i
+	 */
+	public String getI() {
+		return i;
+	}
+
+	/**
+	 * @param i the i to set
+	 */
+	public void setI(String i) {
+		this.i = i;
+	}
 
 	public LocationLightENT(long id, String t, String n, String g,
 			LocationLightENT p) {

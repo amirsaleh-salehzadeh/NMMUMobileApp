@@ -11,6 +11,8 @@ import common.location.PathTypeENT;
 import tools.AMSException;
 
 public interface LocationDAOInterface {
+	public LocationENT getLocation(LocationENT location) throws AMSException;
+	
 	public LocationENT saveUpdateLocation(LocationENT ent) throws AMSException;
 
 	public ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type);

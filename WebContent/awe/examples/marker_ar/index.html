@@ -17,23 +17,12 @@
 	right: 0;
 	overflow: hidden;
 }
-#debugCanvas {
-  position: absolute;
-  z-index: 999;
-  opacity: 0.5;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 </style>
 </head>
 <body>
-  <canvas id="debugCanvas"></canvas>
 <div id="container"></div>
-<script type="text/javascript" src="../../js/awe-v8.js"></script>
-<script type="text/javascript" src="../../js/awe-loader.js"></script>
+<script type="text/javascript" src="../../js/awe-loader-min.js"></script>
 <script type="text/javascript">
-//   DEBUG = true;
   window.addEventListener('load', function() {
     window.awe.init({
       device_type: awe.AUTO_DETECT_DEVICE_TYPE,
@@ -42,61 +31,70 @@
         default_camera_position: { x:0, y:0, z:0 },
         default_lights:[
           {
-            id: 'ambient_light',
-            type: 'ambient',
-            color: 0x666666
-          },
-          {
-            id: 'hemi',
-            type: 'hemisphere',
-            color: 0xCCCCCC,
+            id: 'point_light',
+            type: 'point',
+            color: 0xFFFFFF,
           },
         ],
       },
       ready: function() {
-        var d = '?_='+Date.now();
-        
         awe.util.require([
           {
             capabilities: ['gum','webgl'],
             files: [ 
-              // base libraries
-              [ '../../js/awe-standard-dependencies.js', '../../js/awe-standard.js'+d],
-              // plugin dependencies
-              ['awe-jsartoolkit-dependencies.js','../../js/plugins/StereoEffect.js', '../../js/plugins/VREffect.js'],
-              // plugins
-              ['awe.marker_ar.js'+d,'../../js/plugins/awe.rendering_effects.js'+d]
+              [ '../../js/awe-standard-dependencies.js', '../../js/awe-standard.js'],
+              'awe-jsartoolkit-dependencies.js',
+              'awe.marker_ar.js',
             ],
             success: function() { 
-							awe.setup_scene();
-			        
-							awe.settings.update({data:{value: 'ar'}, where:{id: 'view_mode'}})
-							
-              /*
-                Binding a POI to a jsartoolkit marker is easy
-                - First add the awe-jsartoolkit-dependencies.js plugin (see above)
-                - Then select a marker image you'd like to use
-                - Then add the matching number as a suffix for your POI id (e.g. _64)
-                NOTE: See 64.png in this directory or https://github.com/kig/JSARToolKit/blob/master/demos/markers
-                This automatically binds your POI to that marker id - easy!
-              */
-			        awe.pois.add({ id:'11', position: { x:0, y:0, z:0 }, visible: false });
+							awe.setup_scene();			
+			        awe.pois.add({ id:'poi_1', position: { x:0, y:0, z:10000 }, visible: false });
 			        awe.projections.add({ 
-			          id:'marker_projection', 
-								geometry: { shape: 'cube', x:50, y:50, z:50 },
-                position: { x:0, y:0, z:0 },
-                rotation: { x:0, y:0, z:180 },
+			          id:'projection_1', 
+								geometry: { shape: 'cube', x:120, y:120, z:120 },
 			          material:{ type: 'phong', color: 0xFFFFFF }, 
-                texture: { path: 'awe_orange_square.png' },
-                visible: false,
-			        }, { poi_id: '11' });
-			        
-			        awe.pois.add({ id:'fixed_poi', position: { x:100, y:0, z:-250 }, visible: true });
-			        
-			        // animate the fixed POI
-
-			        awe.plugins.view('render_effects').enable();
-			        awe.plugins.view('jsartoolkit').enable();
+               		 texture: { path: 'awe_by_buildAR.png' },
+			        }, { poi_id: 'poi_1' });
+			        awe.events.add([{
+								id: 'ar_tracking_marker',
+								device_types: {
+									pc: 1,
+									android: 1
+								},
+								register: function(handler) {
+									window.addEventListener('ar_tracking_marker', handler, false);
+								},
+								unregister: function(handler) {
+									window.removeEventListener('ar_tracking_marker', handler, false);
+								},
+								handler: function(event) {
+									if (event.detail) {
+										if (event.detail['64']) { // we are mapping marker #64 to this projection
+											awe.pois.update({
+												data: {
+													visible: true,
+                          							position: { x:0, y:0, z:0 },
+													matrix: event.detail['64'].transform
+												},
+												where: {
+													id: 'poi_1'
+												}
+											});
+										}
+										else {
+											awe.pois.update({
+												data: {
+													visible: false
+												},
+												where: {
+													id: 'poi_1'
+												}
+											});
+										}
+										awe.scene_needs_rendering = 1;
+									}
+								}
+							}])
 			      },
           },
           {
