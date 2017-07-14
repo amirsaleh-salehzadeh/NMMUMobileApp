@@ -104,7 +104,7 @@ public class LocationAction extends Action {
 
 	private ActionForward locationManagement(HttpServletRequest request,
 			ActionMapping mapping) {
-		try {
+//		try {
 			createMenusForLocation(request);
 			LocationLST locationLST = getLocationLST(request);
 			request.setAttribute("locationLST", locationLST);
@@ -126,9 +126,9 @@ public class LocationAction extends Action {
 			if (request.getParameter("reqCodeGrid") != null
 					&& request.getParameter("reqCodeGrid").equals("gridJson"))
 				return mapping.findForward("gridJson");
-		/*} catch (AMSException e) {
-			e.printStackTrace();
-		}*/
+//		} catch (AMSException e) {
+//			e.printStackTrace();
+//		}
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("locationManagement");
@@ -161,12 +161,12 @@ public class LocationAction extends Action {
 		LocationENT locationENT = new LocationENT(0, search,locationTypeENT  , Address, Gps, search);
 		LocationLST locationLST = new LocationLST(locationENT, pageNo, pageSize, true,
 				"location_name");
-		try {
-			locationLST = getLocationDAO().getLocationLST(locationLST);
-		} catch (AMSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			locationLST = null;//getLocationDAO().getLocationLST(locationLST);
+//		} catch (AMSException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return locationLST;
 	}
 
