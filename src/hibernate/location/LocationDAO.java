@@ -275,6 +275,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 						rs.getString("path_type"));
 				res.add(p);
 			}
+			rs.close();
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -769,7 +770,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			qrent.setG(QRBarcodeGen.createQrCode(locationId + "", 666, "png"));
+			qrent.setI(QRBarcodeGen.createQrCode(locationId + "", 666, "png"));
 			json = mapper.writeValueAsString(qrent);
 			// QRBarcodeGen barcodeGen = new QRBarcodeGen();
 			// json = "{\"image\":\""

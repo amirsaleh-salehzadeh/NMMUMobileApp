@@ -21,7 +21,7 @@
 												.each(
 														data,
 														function(k, l) {
-															if (k == 'g')
+															if (k == 'i')
 																$(
 																		"#barcodeContainer")
 																		.html(

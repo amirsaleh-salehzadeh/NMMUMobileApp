@@ -192,19 +192,20 @@ var app = new Vue({
     	}else{
     		getTheBarcodeAR(content);}
       self.scans.unshift({ date: +(Date.now()), content: content });
-    });
-    Instascan.Camera.getCameras().then(function (cameras) {
-      self.cameras = cameras;
-      if(cameras.length > 1){
-    	  for ( var i = 0; i < cameras.length; i++) {
-			if(cameras[i].name.indexOf("back")>=0||cameras[i].name.indexOf("rear")>=0){
-				 self.activeCameraId = cameras[i].id;
-			        self.scanner.start(cameras[i]);
+	    });
+	    Instascan.Camera.getCameras().then(function (cameras) {
+	      self.cameras = cameras;
+	      if(cameras.length > 1){
+	    	  for ( var i = 0; i < cameras.length; i++) {
+				if(cameras[i].name.indexOf("back")>=0||cameras[i].name.indexOf("rear")>=0){
+					 self.activeCameraId = cameras[i].id;
+				        self.scanner.start(cameras[i]);
+				};
 			};
-		};
-      }else if (cameras.length > 0) {
-          self.activeCameraId = cameras[0].id;
-          self.scanner.start(cameras[0]);
+	      }else if (cameras.length > 0) {
+	          self.activeCameraId = cameras[0].id;
+	          self.scanner.start(cameras[0]);
+	          console.error(cameras[0] + " >>> " + cameras[0].id);
         } else {
         console.error('No cameras found.');
       }
