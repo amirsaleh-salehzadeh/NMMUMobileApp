@@ -13,11 +13,11 @@
 <link rel="stylesheet"
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
 <script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+	src="js/location/camera/scanner/adapter.min.js"></script>
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
 <script type="text/javascript"
-	src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+	src="js/location/camera/scanner/instascan.min.js"></script>
 <link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css">
 <script src="js/jquery.min.js"></script>
 <!-- <script src="js/index.js"></script> -->
@@ -32,87 +32,101 @@
 	<div id="pageContents" style="min-width: 100%; min-height: 100%;">
 		<div id="mapView" class="ui-block-solo"
 			style="min-width: 100%; max-height: 50%;">
-
-			<div id="viewModeMap">
-				<img alt="" src="images/icons/camera-ar.png"
-					style="cursor: pointer;" onclick="selectDualMode()"> <img
-					alt="" src="images/icons/smart.png" style="cursor: pointer;"
-					onclick="selectCameraMode()">
-			</div>
+			<!-- 			<div id="viewModeMap"> -->
+			<!-- 				<img alt="" src="images/icons/camera-ar.png" -->
+			<!-- 					style="cursor: pointer;" onclick="selectDualMode()"> <img -->
+			<!-- 					alt="" src="images/icons/smart.png" style="cursor: pointer;" -->
+			<!-- 					onclick="selectCameraMode()"> -->
+			<!-- 			</div> -->
 			<input type="hidden" class='tripInfo' id="tripIds"> <input
 				type="hidden" class='tripInfo' id="tripGPSs"> <input
-				type="hidden" class='tripInfo' id="tripLocations">
+				type="hidden" class='tripInfo' id="tripLocations"> <input
+				type="hidden" id="from" placeholder="Departure"> <input
+				type="hidden" id="departureId" placeholder="DepartureId"> <input
+				type="hidden" id="departureName" placeholder="Departure"> <input
+				type="hidden" id="to"> <input type="hidden"
+				id="destinationId" placeholder="DestinationId">
 			<div id="map_canvas"></div>
-			<div id="searchFields">
-				<div class="ui-block-solo" id="autocompleteContainer">
-					<ul id="autocompleteDestination" data-role="listview"
-						data-inset="true" data-filter="true" data-input="#destinationName"></ul>
-				</div>
-				<div id="navBar" class="ui-grid-a" style="">
-					<div class="ui-block-a">
-						<fieldset data-role="controlgroup" data-mini="true"
-							data-type="horizontal"
-							style="float: left; display: inline-block;">
-							<input type="radio" name="radio-choice-path-type" id="dirtroad"
-								value="0" checked="checked"> <label for="wheelchair"><span
-								class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<label for="walking"><span
-								class="ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-path-type" id="walking"
-								value="1"> <label for="dirtroad"> <span
-								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-						</fieldset>
-					</div>
-					<div class="ui-block-B">
-						<fieldset data-role="controlgroup" data-mini="true"
-							data-type="horizontal"
-							style="float: right; display: inline-block;">
-							<label for="clearTrip"><span
-								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="clearTrip"
-								value="1" onclick="removeTrip()"> <label
-								for="currentLocation"><span
-								class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="currentLocation"
-								value="1" onclick="findMylocation()"> <label
-								for="startTrip"><span
-								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="startTrip"
-								value="1" onclick="getThePath()">
-						</fieldset>
-					</div>
-				</div>
-				<div class="ui-block-solo">
-					<input type="hidden" id="from" placeholder="Departure"> <input
-						type="hidden" id="departureId" placeholder="DepartureId">
-					<input type="hidden" id="departureName" placeholder="Departure">
-					<input type="hidden" id="to"> <input type="hidden"
-						id="destinationId" placeholder="DestinationId">
-				</div>
-				<div class="ui-block-solo">
-					<input name="destinationName" id="destinationName"
-						data-type="search" placeholder="Search for a place"
-						data-mini="true" autocomplete="off" onkeyup="getDestination();">
-				</div>
-			</div>
+			<!-- 			<div id="searchFields"> -->
+			<!-- 							<div class="ui-block-solo" id="autocompleteContainer"> -->
+			<!-- 								<ul id="autocompleteDestination" data-role="listview" -->
+			<!-- 									data-inset="true" data-filter="true" data-input="#destinationName"></ul> -->
+			<!-- 							</div> -->
+			<!-- 				<div id="navBar" class="ui-grid-a" style=""> -->
+			<!-- 					<div class="ui-block-a"> -->
+			<!-- 						<fieldset data-role="controlgroup" data-mini="true" -->
+			<!-- 							data-type="horizontal" -->
+			<!-- 							style="float: left; display: inline-block;"> -->
+			<!-- 							<input type="radio" name="radio-choice-path-type" id="dirtroad" -->
+			<!-- 								value="0" checked="checked"> <label for="wheelchair"><span -->
+			<!-- 								class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
+			<!-- 							<label for="walking"><span -->
+			<!-- 								class="ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
+			<!-- 							<input type="radio" name="radio-choice-path-type" id="walking" -->
+			<!-- 								value="1"> <label for="dirtroad"> <span -->
+			<!-- 								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
+			<!-- 						</fieldset> -->
+			<!-- 					</div> -->
+			<!-- 				</div> -->
+			<!-- 				<div class="ui-block-solo"> -->
+			<!-- 					<input type="hidden" id="from" placeholder="Departure"> <input -->
+			<!-- 						type="hidden" id="departureId" placeholder="DepartureId"> -->
+			<!-- 					<input type="hidden" id="departureName" placeholder="Departure"> -->
+			<!-- 					<input type="hidden" id="to"> <input type="hidden" -->
+			<!-- 						id="destinationId" placeholder="DestinationId"> -->
+			<!-- 				</div> -->
+			<!-- 							<div class="ui-block-solo"> -->
+			<!-- 								<input name="destinationName" id="destinationName" -->
+			<!-- 									data-type="search" placeholder="Search for a place" -->
+			<!-- 									data-mini="true" autocomplete="off" onkeyup="getDestination();"> -->
+			<!-- 							</div> -->
+			<!-- 			</div> -->
 		</div>
 		<div id="cameraView" class="ui-block-solo">
-			<div id="viewModeCamera">
-				<img alt="" src="images/icons/camera-ar.png"
-					style="cursor: pointer; display: block-inline; float: right;"
-					onclick="selectDualMode()"> <img alt=""
-					src="images/icons/maps.png"
-					style="cursor: pointer; display: block-inline; float: right;"
-					onclick="selectMapMode()">
-			</div>
 			<video id="videoContent"></video>
 		</div>
 	</div>
-	<div id="destinationPresentation">
-		<span class="dashboardRes" id="distanceDef"></span> <span
-			class="dashboardRes" id="destinationDef"></span> <span
-			class="dashboardHeader">Speed</span> <span class="dashboardRes"
-			id="speedDef"></span>
+	<div id="buttonContainer">
+		<input type="button" id="openMenuBTN" onclick="openMenu()"> <input
+			type="button" id="openSearchBTN" onclick="openSearch()">
+	</div>
+	<div id="searchBarDiv">
+		<div class="ui-block-solo" id="autocompleteContainer">
+			<ul id="autocompleteDestination" data-role="listview"
+				data-inset="true" data-filter="true" data-input="#destinationName"></ul>
+		</div>
+		<div class="ui-block-solo" id="destinationNameDiv">
+			<input name="destinationName" id="destinationName" data-type="search"
+				placeholder="Search for a place" data-mini="true" autocomplete="off"
+				onkeyup="getDestination();">
+		</div>
+		<!-- 		<ul data-role="listview" class="ui-listview-outer"> -->
+		<!-- 			<li><a href="#">Humans</a></li> -->
+		<!-- 			<li data-role="collapsible" data-iconpos="right" data-shadow="false" -->
+		<!-- 				data-corners="false">     -->
+		<!-- 				<h2>Fish</h2>      -->
+		<!-- 				<ul data-role="listview" data-shadow="false" data-inset="true" -->
+		<!-- 					data-corners="false"> -->
+		<!-- 					<li><a href="#">Salmon</a></li> -->
+		<!-- 					<li>Pollock</li> -->
+		<!-- 					<li>Trout</li> -->
+		<!-- 				</ul> -->
+		<!-- 			</li> -->
+		<!-- 			<li data-role="collapsible" data-iconpos="right" data-shadow="false" -->
+		<!-- 				data-corners="false">     -->
+		<!-- 				<h2>Choose your preference</h2>      -->
+		<!-- 				<form> -->
+		<!-- 					       -->
+		<!-- 					<fieldset data-role="controlgroup" data-type="horizontal"> -->
+		<!-- 						        <label>Birds<input type="checkbox" -->
+		<!-- 							id="choose-birds-regular"></label>         <label>Humans<input -->
+		<!-- 							type="checkbox" id="choose-humans-regular"></label>         <label>Fish<input -->
+		<!-- 							type="checkbox" id="choose-fish-regular"></label>        -->
+		<!-- 					</fieldset> -->
+		<!-- 					     -->
+		<!-- 				</form>    -->
+		<!-- 			</li> -->
+		<!-- 		</ul> -->
 	</div>
 	<div id="dashboardPanel">
 		<div class="compass">
@@ -130,6 +144,50 @@
 				<span id="direction"></span>
 			</div>
 		</div>
+		<div id="dashboardDiv">
+			<div id="actionBTNs">
+				<div id="mapModeSettings" class="buttonGroups">
+					<div class="ui-block-solo">
+						<input type="button" class="navbtn" id="satelliteView"
+							onclick="mapSattelView()">
+					</div>
+					<div class="ui-block-solo">
+						<input type="button" class="navbtn" id="mapViewIcon"
+							onclick="mapMapView()">
+					</div>
+				</div>
+				<div id="zoomSettings" class="buttonGroups">
+					<div class="ui-block-solo">
+						<input type="button" class="navbtn" id="zoomin"
+							onclick="zoomInMap()">
+					</div>
+					<div class="ui-block-solo">
+						<input type="button" class="navbtn" id="zoomout"
+							onclick="zoomOutMap()">
+					</div>
+				</div>
+				<div id="actionBTNsHorizontal">
+					<div class="ui-block-solo">
+						<div id="mapViewSettings" class="buttonGroups">
+							<input type="button" class="navbtn" id="remove"
+								onclick="removeTrip()" data-mini="true"> <input
+								type="button" class="navbtn" id="start" onclick="getThePath()">
+							<input type="button" class="navbtn" id="mylocation"
+								onclick="findMyLocation()">
+						</div>
+					</div>
+					<div class="ui-block-solo">
+						<div id="navigationSettings" class="buttonGroups">
+							<input type="button" class="navbtn" id="mapViewSelect"
+								onclick="selectMapMode()"> <input type="button"
+								class="navbtn" id="dualModeSelect" onclick="selectDualMode()">
+							<input type="button" class="navbtn" id="cameraMode"
+								onclick="selectCameraMode()">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 <script type="text/javascript"
@@ -140,6 +198,8 @@
 	src="js/location/path.navigation.directions.js?noCache=true"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.js?noCache=true"></script>
+<script type="text/javascript"
+	src="js/location/path.navigation.map.js?noCache=true"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.scanner.js?noCache=true"></script>
 <script type="text/javascript"
