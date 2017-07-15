@@ -13,11 +13,11 @@
 <link rel="stylesheet"
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
 <script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+	src="js/location/camera/scanner/adapter.min.js"></script>
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
 <script type="text/javascript"
-	src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+	src="js/location/camera/scanner/instascan.min.js"></script>
 <link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css">
 <script src="js/jquery.min.js"></script>
 <!-- <script src="js/index.js"></script> -->
@@ -32,16 +32,17 @@
 	<div id="pageContents" style="min-width: 100%; min-height: 100%;">
 		<div id="mapView" class="ui-block-solo"
 			style="min-width: 100%; max-height: 50%;">
-
-			<div id="viewModeMap">
-				<img alt="" src="images/icons/camera-ar.png"
-					style="cursor: pointer;" onclick="selectDualMode()"> <img
-					alt="" src="images/icons/smart.png" style="cursor: pointer;"
-					onclick="selectCameraMode()">
-			</div>
+			<!-- 			<div id="viewModeMap"> -->
+			<!-- 				<img alt="" src="images/icons/camera-ar.png" -->
+			<!-- 					style="cursor: pointer;" onclick="selectDualMode()"> <img -->
+			<!-- 					alt="" src="images/icons/smart.png" style="cursor: pointer;" -->
+			<!-- 					onclick="selectCameraMode()"> -->
+			<!-- 			</div> -->
 			<input type="hidden" class='tripInfo' id="tripIds"> <input
 				type="hidden" class='tripInfo' id="tripGPSs"> <input
 				type="hidden" class='tripInfo' id="tripLocations">
+				<input type="button" id="openMenuBTN"
+								onclick="openMenu()" data-mini="true">
 			<div id="map_canvas"></div>
 			<div id="searchFields">
 				<div class="ui-block-solo" id="autocompleteContainer">
@@ -63,24 +64,6 @@
 								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 						</fieldset>
 					</div>
-					<div class="ui-block-B">
-						<fieldset data-role="controlgroup" data-mini="true"
-							data-type="horizontal"
-							style="float: right; display: inline-block;">
-							<label for="clearTrip"><span
-								class="ui-icon-clear-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="clearTrip"
-								value="1" onclick="removeTrip()"> <label
-								for="currentLocation"><span
-								class="ui-icon-current-location ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="currentLocation"
-								value="1" onclick="findMylocation()"> <label
-								for="startTrip"><span
-								class="ui-icon-start-trip ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-v-2" id="startTrip"
-								value="1" onclick="getThePath()">
-						</fieldset>
-					</div>
 				</div>
 				<div class="ui-block-solo">
 					<input type="hidden" id="from" placeholder="Departure"> <input
@@ -97,24 +80,10 @@
 			</div>
 		</div>
 		<div id="cameraView" class="ui-block-solo">
-			<div id="viewModeCamera">
-				<img alt="" src="images/icons/camera-ar.png"
-					style="cursor: pointer; display: block-inline; float: right;"
-					onclick="selectDualMode()"> <img alt=""
-					src="images/icons/maps.png"
-					style="cursor: pointer; display: block-inline; float: right;"
-					onclick="selectMapMode()">
-			</div>
 			<video id="videoContent"></video>
 		</div>
 	</div>
-	<div id="destinationPresentation">
-		<span class="dashboardRes" id="distanceDef"></span> <span
-			class="dashboardRes" id="destinationDef"></span> <span
-			class="dashboardHeader">Speed</span> <span class="dashboardRes"
-			id="speedDef"></span>
-	</div>
-	<div id="dashboardPanel">
+	<div id="dashboardPanel" data-role="panel">
 		<div class="compass">
 			<div class="arrow"></div>
 			<div class="disc" id="compassDiscImg"></div>
@@ -130,6 +99,46 @@
 				<span id="direction"></span>
 			</div>
 		</div>
+		<div id="dashboardDiv">
+			<div id="actionBTNs">
+				<div id="mapModeSettings" class="buttonGroups">
+					<div class="ui-block-solo">
+						<input type="button" class="navbtn" id="satelliteView" onclick="mapSattelView()">
+					</div>
+					<div class="ui-block-solo">
+						<input type="button" class="navbtn" id="mapViewIcon" onclick="mapMapView()">
+					</div>
+				</div>
+				<div id="zoomSettings" class="buttonGroups">
+					<div class="ui-block-solo">
+						<input type="button" class="navbtn" id="zoomin" onclick="zoomInMap()">
+					</div>
+					<div class="ui-block-solo">
+						<input type="button" class="navbtn" id="zoomout" onclick="zoomOutMap()">
+					</div>
+				</div>
+				<div id="actionBTNsHorizontal">
+					<div class="ui-block-solo">
+						<div id="mapViewSettings" class="buttonGroups">
+							<input type="button" class="navbtn" id="remove"
+								onclick="removeTrip()" data-mini="true"> <input
+								type="button" class="navbtn" id="start" onclick="getThePath()">
+							<input type="button" class="navbtn" id="mylocation"
+								onclick="findMylocation()">
+						</div>
+					</div>
+					<div class="ui-block-solo">
+						<div id="navigationSettings" class="buttonGroups">
+							<input type="button" class="navbtn" id="mapViewSelect"
+								onclick="selectMapMode()"> <input type="button"
+								class="navbtn" id="dualModeSelect" onclick="selectDualMode()">
+							<input type="button" class="navbtn" id="cameraMode"
+								onclick="selectCameraMode()">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 <script type="text/javascript"
@@ -140,6 +149,8 @@
 	src="js/location/path.navigation.directions.js?noCache=true"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.js?noCache=true"></script>
+	<script type="text/javascript"
+	src="js/location/path.navigation.map.js?noCache=true"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.scanner.js?noCache=true"></script>
 <script type="text/javascript"

@@ -334,7 +334,7 @@ function removeTrip() {
 		markerDest.setMap(null);
 	markerDest = null;
 	$("#tripId").val("");
-	$("#destinationPresentation").css("display", "none");
+//	$("#destinationPresentation").css("display", "none");
 	findMyLocation();
 }
 
@@ -376,32 +376,31 @@ function initiMap() {
 			lng : 25.669051
 		},
 		zoom : 14,
-		zoomControl : true,
-		zoomControlOptions : {
-			position : google.maps.ControlPosition.RIGHT_BOTTOM
-		},
+		zoomControl : false,
 		streetViewControl : false,
-		fullscreenControl : false,
-		fullscreenControlOptions : {
-			position : google.maps.ControlPosition.TOP_RIGHT
-		},
-		mapTypeControlOptions : {
-			mapTypeIds : [ 'mystyle', google.maps.MapTypeId.ROADMAP,
-					google.maps.MapTypeId.TERRAIN ]
-		},
-		mapTypeId : 'mystyle'
+		fullscreenControl : false//,
+//		fullscreenControlOptions : {
+//			position : google.maps.ControlPosition.TOP_RIGHT
+//		},
+//		mapTypeControlOptions : {
+//			mapTypeIds : [ 'mystyle', google.maps.MapTypeId.ROADMAP,
+//					google.maps.MapTypeId.TERRAIN ]
+//		},
+//		mapTypeId : 'mystyle'
 	});
 	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
 		name : 'My Style'
 	}));
 	findMyLocation();
 	input = document.getElementById('to');
-	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
-			.getElementById('searchFields'));
-	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
-			.getElementById('destinationPresentation'));
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
-			.getElementById('viewModeMap'));
+			.getElementById('openMenuBTN'));
+//	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
+//			.getElementById('searchFields'));
+//	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+//			.getElementById('destinationPresentation'));
+//	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
+//			.getElementById('viewModeMap'));
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -532,7 +531,7 @@ function getTimeLeft(distance) {
 	// meter/s away from the destination. You will be there in about "
 	// + Hours + " hour/s " + Minutes + " minute/s and " + Seconds + "
 	// second/s.";
-	$("#destinationPresentation").css("display", "block");
+//	$("#destinationPresentation").css("display", "block");
 	if (Kilometres != 0)
 		$("#distanceDef").html(
 				Kilometres + " kilometer(s) and " + Metres + " meter(s)");
@@ -544,7 +543,7 @@ function getTimeLeft(distance) {
 function getDistanceLeft(distance) {
 	var Kilometres = Math.floor(distance / 1000);
 	var Metres = Math.round(distance - (Kilometres * 1000));
-	$("#destinationPresentation").css("display", "block");
+//	$("#destinationPresentation").css("display", "block");
 	var res = "";
 	if (Kilometres != 0)
 		res = Kilometres + " kilometer(s) and " + Metres + " meter(s)";
