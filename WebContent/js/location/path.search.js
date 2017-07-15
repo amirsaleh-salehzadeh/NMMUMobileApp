@@ -17,19 +17,9 @@ function getLocationTypePanel() {
 	            		});
 
 					str+= '</ul></li>';
-//					$("#locationTypeId").val(data.locationTypeId);
-//					$("#locationTypeDefinition").val(data.locationType);
-//					$("#locationTypesContainer").controlgroup("container")
-//							.empty();
-//					$("#locationTypesContainer").controlgroup("refresh");
-//					$("#locationTypesContainer").controlgroup("container")
-//							.append(str);
-//					$("#NavBar" + data.locationType).selectmenu();
-//					$("#NavBar" + data.locationType).selectmenu("refresh");
-//					$("#locationTypesContainer").controlgroup("refresh");
-					//getMyChild(data.locationTypeId);
-//					setLocationTypeCreate();
-//					getAllMarkers();
+					
+					getMyChild(data.locationTypeId);
+				
 					$("#locationTypeList").append(str).listview('refresh');
 				}
 			});
