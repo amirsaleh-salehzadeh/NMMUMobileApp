@@ -22,22 +22,6 @@
 	display: none;
 }
 
-#autocompleteContainer {
-	position: absolute;
-	max-height: 22em;
-	display: inline;
-	bottom: 11em;
-	overflow: auto;
-	z-index: 50;
-	background-color: white;
-}
-
-#autocompleteDestination {
-	display: block;
-	cursor: pointer;
-	margin: 0 !important;
-}
-
 #searchFields {
 	padding-bottom: 17px;
 	right: 5em !important;
@@ -114,8 +98,9 @@
 	position: fixed;
 	bottom: 0em;
 	height: 121px;
-	z-index: auto;
 	width: 100%;
+	bottom: -100%;
+	z-index: 999999;
 }
 
 .compass {
@@ -184,8 +169,6 @@
 	background-image: linear-gradient(to bottom, #a7cfdf, #23538a);
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
 		startColorstr=#a7cfdf, endColorstr=#23538a);
-		
-		
 }
 
 /* buttons in panel */
@@ -259,7 +242,7 @@
 
 #mapModeSettings,#zoomSettings {
 	float: left !important;
-/* 	min-height: 100%; */
+	/* 	min-height: 100%; */
 	padding: 7px 4px 7px 4px;
 }
 
@@ -348,10 +331,63 @@
 	display: inline-block;
 	float: left;
 }
+/* CONFIG BUTTONS */
+#buttonContainer {
+	max-width: 100%;
+	position: absolute;
+	z-index: 100000;
+	bottom: 0;
+	right: 0;
+}
 
 #openMenuBTN {
-	background-image: url("../../images/icons/setting.png") !important;
+	min-width: 51px;
+	min-height: 51px;
+	background-image: url("../../images/icons/settings.png") !important;
 	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	background-size: 48px 48px;
+	background-color: transparent;
+	border: 0;
+}
+
+#openSearchBTN {
+	min-width: 51px;
+	min-height: 51px;
+	background-image: url("../../images/icons/search.png") !important;
+	background-repeat: no-repeat;
+	background-size: 48px 48px;
+	background-color: transparent;
+	border: 0;
+}
+
+/* SEARCH BAR */
+#searchBarDiv {
+	height: 100%;
+	display: inline;
+	position: fixed;
+	bottom: 0em;
+	width: 266px;
+	right: -100%;
+	z-index: 999999;
+	background-color: white;
+}
+
+#autocompleteContainer {
+	position: absolute;
+	max-height: 100%;
+	display: inline;
+	overflow: auto;
+	z-index: 120;
+	background-color: white;
+}
+
+#autocompleteDestination {
+	display: block;
+	cursor: pointer;
+	margin: 0 !important;
+}
+
+#destinationNameDiv {
+	bottom: 0;
+	position: absolute;
 }

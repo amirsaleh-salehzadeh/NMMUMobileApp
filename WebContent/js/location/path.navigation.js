@@ -378,6 +378,7 @@ function initiMap() {
 		zoom : 14,
 		zoomControl : false,
 		streetViewControl : false,
+		mapTypeControl: false,
 		fullscreenControl : false//,
 //		fullscreenControlOptions : {
 //			position : google.maps.ControlPosition.TOP_RIGHT
@@ -393,8 +394,8 @@ function initiMap() {
 	}));
 	findMyLocation();
 	input = document.getElementById('to');
-	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
-			.getElementById('openMenuBTN'));
+//	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document
+//			.getElementById('buttonContainer'));
 //	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
 //			.getElementById('searchFields'));
 //	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
@@ -670,7 +671,10 @@ $(document).ready(
 			$("#map_canvas").css("min-width",
 					parseInt($("#mainBodyContents").css("width")));
 			$("#map_canvas").height(
-					parseInt($(window).height()) - ($(".jqm-header").height())
-							- 27 - $(".ui-navbar").height());
+					parseInt($(window).height()));
+			$("#mapView").height(
+					parseInt($(window).height()));
+			$("#pageContents").height(
+					parseInt($(window).height()));
 
 		});

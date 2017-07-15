@@ -40,50 +40,95 @@
 			<!-- 			</div> -->
 			<input type="hidden" class='tripInfo' id="tripIds"> <input
 				type="hidden" class='tripInfo' id="tripGPSs"> <input
-				type="hidden" class='tripInfo' id="tripLocations">
-				<input type="button" id="openMenuBTN"
-								onclick="openMenu()" data-mini="true">
+				type="hidden" class='tripInfo' id="tripLocations"> <input
+				type="hidden" id="from" placeholder="Departure"> <input
+				type="hidden" id="departureId" placeholder="DepartureId"> <input
+				type="hidden" id="departureName" placeholder="Departure"> <input
+				type="hidden" id="to"> <input type="hidden"
+				id="destinationId" placeholder="DestinationId">
 			<div id="map_canvas"></div>
-			<div id="searchFields">
-				<div class="ui-block-solo" id="autocompleteContainer">
-					<ul id="autocompleteDestination" data-role="listview"
-						data-inset="true" data-filter="true" data-input="#destinationName"></ul>
-				</div>
-				<div id="navBar" class="ui-grid-a" style="">
-					<div class="ui-block-a">
-						<fieldset data-role="controlgroup" data-mini="true"
-							data-type="horizontal"
-							style="float: left; display: inline-block;">
-							<input type="radio" name="radio-choice-path-type" id="dirtroad"
-								value="0" checked="checked"> <label for="wheelchair"><span
-								class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<label for="walking"><span
-								class="ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-							<input type="radio" name="radio-choice-path-type" id="walking"
-								value="1"> <label for="dirtroad"> <span
-								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-						</fieldset>
-					</div>
-				</div>
-				<div class="ui-block-solo">
-					<input type="hidden" id="from" placeholder="Departure"> <input
-						type="hidden" id="departureId" placeholder="DepartureId">
-					<input type="hidden" id="departureName" placeholder="Departure">
-					<input type="hidden" id="to"> <input type="hidden"
-						id="destinationId" placeholder="DestinationId">
-				</div>
-				<div class="ui-block-solo">
-					<input name="destinationName" id="destinationName"
-						data-type="search" placeholder="Search for a place"
-						data-mini="true" autocomplete="off" onkeyup="getDestination();">
-				</div>
-			</div>
+			<!-- 			<div id="searchFields"> -->
+			<!-- 							<div class="ui-block-solo" id="autocompleteContainer"> -->
+			<!-- 								<ul id="autocompleteDestination" data-role="listview" -->
+			<!-- 									data-inset="true" data-filter="true" data-input="#destinationName"></ul> -->
+			<!-- 							</div> -->
+			<!-- 				<div id="navBar" class="ui-grid-a" style=""> -->
+			<!-- 					<div class="ui-block-a"> -->
+			<!-- 						<fieldset data-role="controlgroup" data-mini="true" -->
+			<!-- 							data-type="horizontal" -->
+			<!-- 							style="float: left; display: inline-block;"> -->
+			<!-- 							<input type="radio" name="radio-choice-path-type" id="dirtroad" -->
+			<!-- 								value="0" checked="checked"> <label for="wheelchair"><span -->
+			<!-- 								class="ui-icon-wheelchair ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
+			<!-- 							<label for="walking"><span -->
+			<!-- 								class="ui-icon-walking ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
+			<!-- 							<input type="radio" name="radio-choice-path-type" id="walking" -->
+			<!-- 								value="1"> <label for="dirtroad"> <span -->
+			<!-- 								class="ui-icon-dirt-road ui-btn-icon-notext inlineIcon NoDisk"></span></label> -->
+			<!-- 						</fieldset> -->
+			<!-- 					</div> -->
+			<!-- 				</div> -->
+			<!-- 				<div class="ui-block-solo"> -->
+			<!-- 					<input type="hidden" id="from" placeholder="Departure"> <input -->
+			<!-- 						type="hidden" id="departureId" placeholder="DepartureId"> -->
+			<!-- 					<input type="hidden" id="departureName" placeholder="Departure"> -->
+			<!-- 					<input type="hidden" id="to"> <input type="hidden" -->
+			<!-- 						id="destinationId" placeholder="DestinationId"> -->
+			<!-- 				</div> -->
+			<!-- 							<div class="ui-block-solo"> -->
+			<!-- 								<input name="destinationName" id="destinationName" -->
+			<!-- 									data-type="search" placeholder="Search for a place" -->
+			<!-- 									data-mini="true" autocomplete="off" onkeyup="getDestination();"> -->
+			<!-- 							</div> -->
+			<!-- 			</div> -->
 		</div>
 		<div id="cameraView" class="ui-block-solo">
 			<video id="videoContent"></video>
 		</div>
 	</div>
-	<div id="dashboardPanel" data-role="panel">
+	<div id="buttonContainer">
+		<input type="button" id="openMenuBTN" onclick="openMenu()"> <input
+			type="button" id="openSearchBTN" onclick="openSearch()">
+	</div>
+	<div id="searchBarDiv">
+		<div class="ui-block-solo" id="autocompleteContainer">
+			<ul id="autocompleteDestination" data-role="listview"
+				data-inset="true" data-filter="true" data-input="#destinationName"></ul>
+		</div>
+		<div class="ui-block-solo" id="destinationNameDiv">
+			<input name="destinationName" id="destinationName" data-type="search"
+				placeholder="Search for a place" data-mini="true" autocomplete="off"
+				onkeyup="getDestination();">
+		</div>
+		<!-- 		<ul data-role="listview" class="ui-listview-outer"> -->
+		<!-- 			<li><a href="#">Humans</a></li> -->
+		<!-- 			<li data-role="collapsible" data-iconpos="right" data-shadow="false" -->
+		<!-- 				data-corners="false">     -->
+		<!-- 				<h2>Fish</h2>      -->
+		<!-- 				<ul data-role="listview" data-shadow="false" data-inset="true" -->
+		<!-- 					data-corners="false"> -->
+		<!-- 					<li><a href="#">Salmon</a></li> -->
+		<!-- 					<li>Pollock</li> -->
+		<!-- 					<li>Trout</li> -->
+		<!-- 				</ul> -->
+		<!-- 			</li> -->
+		<!-- 			<li data-role="collapsible" data-iconpos="right" data-shadow="false" -->
+		<!-- 				data-corners="false">     -->
+		<!-- 				<h2>Choose your preference</h2>      -->
+		<!-- 				<form> -->
+		<!-- 					       -->
+		<!-- 					<fieldset data-role="controlgroup" data-type="horizontal"> -->
+		<!-- 						        <label>Birds<input type="checkbox" -->
+		<!-- 							id="choose-birds-regular"></label>         <label>Humans<input -->
+		<!-- 							type="checkbox" id="choose-humans-regular"></label>         <label>Fish<input -->
+		<!-- 							type="checkbox" id="choose-fish-regular"></label>        -->
+		<!-- 					</fieldset> -->
+		<!-- 					     -->
+		<!-- 				</form>    -->
+		<!-- 			</li> -->
+		<!-- 		</ul> -->
+	</div>
+	<div id="dashboardPanel">
 		<div class="compass">
 			<div class="arrow"></div>
 			<div class="disc" id="compassDiscImg"></div>
@@ -103,18 +148,22 @@
 			<div id="actionBTNs">
 				<div id="mapModeSettings" class="buttonGroups">
 					<div class="ui-block-solo">
-						<input type="button" class="navbtn" id="satelliteView" onclick="mapSattelView()">
+						<input type="button" class="navbtn" id="satelliteView"
+							onclick="mapSattelView()">
 					</div>
 					<div class="ui-block-solo">
-						<input type="button" class="navbtn" id="mapViewIcon" onclick="mapMapView()">
+						<input type="button" class="navbtn" id="mapViewIcon"
+							onclick="mapMapView()">
 					</div>
 				</div>
 				<div id="zoomSettings" class="buttonGroups">
 					<div class="ui-block-solo">
-						<input type="button" class="navbtn" id="zoomin" onclick="zoomInMap()">
+						<input type="button" class="navbtn" id="zoomin"
+							onclick="zoomInMap()">
 					</div>
 					<div class="ui-block-solo">
-						<input type="button" class="navbtn" id="zoomout" onclick="zoomOutMap()">
+						<input type="button" class="navbtn" id="zoomout"
+							onclick="zoomOutMap()">
 					</div>
 				</div>
 				<div id="actionBTNsHorizontal">
@@ -124,7 +173,7 @@
 								onclick="removeTrip()" data-mini="true"> <input
 								type="button" class="navbtn" id="start" onclick="getThePath()">
 							<input type="button" class="navbtn" id="mylocation"
-								onclick="findMylocation()">
+								onclick="findMyLocation()">
 						</div>
 					</div>
 					<div class="ui-block-solo">
@@ -149,7 +198,7 @@
 	src="js/location/path.navigation.directions.js?noCache=true"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.js?noCache=true"></script>
-	<script type="text/javascript"
+<script type="text/javascript"
 	src="js/location/path.navigation.map.js?noCache=true"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.scanner.js?noCache=true"></script>
