@@ -80,6 +80,7 @@
 #dashboardDiv {
 	background-color: #00457c;
 	display: inline-block;
+	background-color: rgba(0, 69, 124, 0.66);
 	bottom: 0em;
 	height: 100%;
 	z-index: auto;
@@ -87,16 +88,19 @@
 	display: inline-block;
 	float: right;
 	right: 0;
-	border: 1px solid #7eb9d0;
+	/*border: 1px solid #7eb9d0;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
-	border-radius: 3px;
+	border-radius: 3px;*/
+	border: none;
+	border-color: transparent;
 	font-size: 12px;
 	font-family: arial, helvetica, sans-serif;
 	text-decoration: none;
 	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
 	font-weight: bold;
 	color: #FFFFFF;
+	/*
 	background-color: #a7cfdf;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#a7cfdf),
 		to(#23538a));
@@ -106,9 +110,8 @@
 	background-image: -o-linear-gradient(top, #a7cfdf, #23538a);
 	background-image: linear-gradient(to bottom, #a7cfdf, #23538a);
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
-		startColorstr=#a7cfdf, endColorstr=#23538a);
-	background-color: rgba(0, 69, 124, 0.22);
-		
+		startColorstr=#a7cfdf, endColorstr=#23538a); */
+	background-color: transparent;	
 }
 
 /* buttons in panel */
@@ -139,10 +142,12 @@
 }
 
 .buttonGroups {
-	border: 1px solid #a8c1d5;
+	/*border: 1px solid #a8c1d5;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
-	border-radius: 3px;
+	border-radius: 3px;*/
+	border: none;
+	border-color: transparent;
 	font-size: 12px;
 	font-family: arial, helvetica, sans-serif;
 	padding: 2px 4px 2px 4px;
@@ -151,7 +156,7 @@
 	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
 	font-weight: bold;
 	color: #FFFFFF;
-	background-color: #CEDCE7;
+	/*background-color: #CEDCE7;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#CEDCE7),
 		to(#596a72));
 	background-image: -webkit-linear-gradient(top, #CEDCE7, #596a72);
@@ -160,8 +165,9 @@
 	background-image: -o-linear-gradient(top, #CEDCE7, #596a72);
 	background-image: linear-gradient(to bottom, #CEDCE7, #596a72);
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
-		startColorstr=#CEDCE7, endColorstr=#596a72);
+		startColorstr=#CEDCE7, endColorstr=#596a72);*/
 	min-height: 45%;
+	background-color: transparent;
 }
 
 .navbtn {
@@ -194,71 +200,125 @@
 #zoomin {
 	background-image: url("../../images/icons/zoomin.png") !important;
 	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	/*background-size: 27px 27px;*/
+	background-size: 32px 32px;
+	/*background-position: left 2px center;*/
+	background-position: top 5px center;
+	background-color: transparent;
+	border: none;
+	border-color: transparent;
 }
 
 #zoomout {
 	background-image: url("../../images/icons/zoomout.png") !important;
 	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	/*background-size: 27px 27px;*/
+	background-size: 32px 32px;
+	/*background-position: left 2px center;*/
+	background-position: top 5px center;
+	background-color: transparent;
+	border: none;
+	border-color: transparent;
 }
 
 #start {
 	background-image: url("../../images/icons/startBlue.png") !important;
 	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	/*background-size: 27px 27px;*/
+	background-size: 32px 32px;
+	/*background-position: left 2px center;*/
+	background-position: top 5px center;
+	background-color: transparent;
+	border: none;
+	border-color: transparent;
 }
 
 #remove {
 	background-image: url("../../images/icons/stop.png") !important;
 	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	/*background-size: 27px 27px;*/
+	background-size: 32px 32px;
+	/*background-position: left 2px center;*/
+	background-position: top 5px center;
+	background-color: transparent;
+	border: none;
+	border-color: transparent;
 }
 
 #mylocation {
 	background-image: url("../../images/icons/target.png") !important;
 	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	/*background-size: 27px 27px;*/
+	background-size: 32px 32px;
+	/*background-position: left 2px center;*/
+	background-position: top 5px center;
+	background-color: transparent;
+	border: none;
+	border-color: transparent;
 }
 
 #mapViewSelect {
 	background-image: url("../../images/icons/maps.png") !important;
 	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	/*background-size: 27px 27px;*/
+	background-size: 32px 32px;
+	/*background-position: left 2px center;*/
+	background-position: top 5px center;
+	background-color: transparent;
+	border: none;
+	border-color: transparent;
 }
 
 #dualModeSelect {
 	background-image: url("../../images/icons/camera-ar.png") !important;
 	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	/*background-size: 27px 27px;*/
+	background-size: 32px 32px;
+	/*background-position: left 2px center;*/
+	background-position: top 5px center;
+	background-color: transparent;
+	border: none;
+	border-color: transparent;
 }
 
 #cameraMode {
 	background-image: url("../../images/icons/camera.png") !important;
 	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	/*background-size: 27px 27px;*/
+	background-size: 32px 32px;
+	/*background-position: left 2px center;*/
+	background-position: top 5px center;
+	background-color: transparent;
+	border: none;
+	border-color: transparent;
 }
 
 #satelliteView {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	cursor: pointer; 
+	width: 48px; 
+	height: 48px;
 	background-image: url("../../images/icons/satellite.png") !important;
-	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+ 	background-color: transparent;
+ 	box-shadow: none;
 }
 
 #mapViewIcon {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	cursor: pointer; 
+	width: 48px; 
+	height: 48px;
 	background-image: url("../../images/icons/mapsview.png") !important;
-	background-repeat: no-repeat;
-	background-size: 27px 27px;
-	background-position: left 2px center;
+	background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+ 	background-color: transparent;
+ 	box-shadow: none;
 }
 
 
@@ -323,7 +383,6 @@
 	bottom: 0;
 	position: absolute;
 }
-<<<<<<< HEAD
 
 /* NAVIGATE POPUP */
 #popupPathType {
@@ -372,14 +431,20 @@
 }
 
 /* INFO SPANS */
+
 #barcodeDescription {
 	position: absolute;
 	display: block;
 	width: 100%;
-	z-index: 100;
+	/*z-index: 100;*/
 	background-color: transparent;
 	padding-left: 7px;
 	padding-top: 7px;
+	height: 55%;
+	z-index: 999999;
+	bottom: 0em;
+	width: 200px;
+	left: -100%;
 }
 
 .headingInfo{
@@ -393,12 +458,34 @@
 	padding-left: 1.3em;
 }
 
+#infobuttonContainer {
+	max-width: 100%;
+	position: absolute;
+	z-index: 100000;
+	top: 110px;
+	left: 0;
+}
+
+#openInfoBTN {
+	
+	min-width: 48px;
+	min-height: 48px;
+	background-image: url("../../images/icons/infoOrange.png") !important;
+	background-repeat: no-repeat;
+	background-size: 48px 48px;
+	background-color: transparent;
+	border: 0;
+}
+
+/* INFO SPANS END */
+
 #autocompleteDestination .ui-collapsible{
 	background-color: transparent;
 	border-color:transparent;
 	padding:0;
 	
 }
+
 .ui-collapsible-heading .ui-btn {
 	background-color: #2a2a2a;
     border-color: #1d1d1d;
@@ -409,3 +496,31 @@
     font-family: sans-serif;
 	
 }
+
+/* FULLSCREEN BUTTON */
+#btnToggleFullscreen {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	cursor: pointer; 
+	width: 48px; 
+	height: 48px;
+	background-image: url("../../images/icons/maximise.png") !important; /* 48px x 48px */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+ 	background-color: transparent;
+ 	box-shadow: none;
+}
+#btnToggleFullscreen.off {
+	background-image: url("../../images/icons/minimise.png") !important;  /* 48px x 48px */
+}
+#viewFullScreen {
+	margin: .66em .66em .66em;
+}
+/* FULLSCREEN BUTTON END*/
+
+/* VIEW MAPTYPE DIV */
+#viewMapType {
+	margin: .66em .66em .66em;
+}
+

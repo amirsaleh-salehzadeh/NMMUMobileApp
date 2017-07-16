@@ -354,21 +354,128 @@ function initiMap() {
 		featureType : "administrative",
 		elementType : "labels",
 		stylers : [ {
-			visibility : "off"
+			visibility : "on"
 		} ]
 	}, {
 		featureType : "poi",
 		elementType : "labels",
 		stylers : [ {
-			visibility : "off"
+			visibility : "on"
 		} ]
 	}, {
 		featureType : "water",
 		elementType : "labels",
 		stylers : [ {
-			visibility : "off"
+			visibility : "on"
 		} ]
-	} ];
+	},{
+        featureType: "landscape.man_made",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#f7f1df"
+            }
+        ]
+    },
+    {
+        featureType: "landscape.natural",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#d0e3b4"
+            }
+        ]
+    },
+    {
+        featureType: "landscape.natural.terrain",
+        elementType: "geometry",
+        stylers: [
+            {
+                visibility: "on"
+            }
+        ]
+    },
+    {
+        featureType: "poi.business",
+        elementType: "all",
+        stylers: [
+            {
+                visibility: "on"
+            }
+        ]
+    },
+    {
+        featureType: "poi.medical",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#fbd3da"
+            }
+        ]
+    },
+    {
+        featureType: "poi.park",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#bde6ab"
+            }
+        ]
+    },
+    {
+        featureType: "road",
+        elementType: "geometry.stroke",
+        stylers: [
+            {
+                visibility: "off"
+            }
+        ]
+    },
+    {
+        featureType: "road.highway",
+        elementType: "geometry.fill",
+        stylers: [
+            {
+                color: "#ffe15f"
+            }
+        ]
+    },
+    {
+        featureType: "road.highway",
+        elementType: "geometry.stroke",
+        stylers: [
+            {
+                color: "#efd151"
+            }
+        ]
+    },
+    {
+        featureType: "road.arterial",
+        elementType: "geometry.fill",
+        stylers: [
+            {
+                color: "#ffffff"
+            }
+        ]
+    },
+    {
+        featureType: "road.local",
+        elementType: "geometry.fill",
+        stylers: [
+            {
+                color: "black"
+            }
+        ]
+    },
+    {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#a2daf2"
+            }
+        ]
+    } ];
 
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		center : {
@@ -378,41 +485,21 @@ function initiMap() {
 		zoom : 14,
 		zoomControl : false,
 		streetViewControl : false,
-<<<<<<< HEAD
-<<<<<<< HEAD
-		fullscreenControl : false,
-		fullscreenControlOptions : {
-			position : google.maps.ControlPosition.TOP_RIGHT
-		},
-		mapTypeControlOptions : {
-			mapTypeIds : [ 'mystyle', google.maps.MapTypeId.ROADMAP,
-					google.maps.MapTypeId.TERRAIN ]
-		},
-		mapTypeId : 'mystyle'
-=======
-		mapTypeControl: false,
-		fullscreenControl : false//,
-//		fullscreenControlOptions : {
-//			position : google.maps.ControlPosition.TOP_RIGHT
-//		},
-//		mapTypeControlOptions : {
-//			mapTypeIds : [ 'mystyle', google.maps.MapTypeId.ROADMAP,
-//					google.maps.MapTypeId.TERRAIN ]
-//		},
-//		mapTypeId : 'mystyle'
->>>>>>> Amir
-=======
 		mapTypeControl : false,
 		rotateControl : false,
 		fullscreenControl : false
 	// ,
->>>>>>> Amir
 	});
 	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
 		name : 'My Style'
 	}));
 	findMyLocation();
 	input = document.getElementById('to');
+	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
+			.getElementById('viewFullScreen'));
+			map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
+			.getElementById('viewMapType'));
+	map.setMapTypeId('mystyle');
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -425,68 +512,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.open(map);
 }
 
-<<<<<<< HEAD
-
-function isFullScreen()
-{
-    return (document.fullScreenElement && document.fullScreenElement !== null)
-         || document.mozFullScreen
-         || document.msFullScreen
-         || document.webkitIsFullScreen;
-}
-
-
-function requestFullScreen(element)
-{
-    if (element.requestFullscreen)
-        element.requestFullscreen();
-    else if (element.msRequestFullscreen)
-        element.msRequestFullscreen();
-    else if (element.mozRequestFullScreen)
-        element.mozRequestFullScreen();
-    else if (element.webkitRequestFullscreen)
-        element.webkitRequestFullscreen();
-}
-
-function exitFullScreen()
-{
-    if (document.exitFullscreen)
-        document.exitFullscreen();
-    else if (document.msExitFullscreen)
-        document.msExitFullscreen();
-    else if (document.mozCancelFullScreen)
-        document.mozCancelFullScreen();
-    else if (document.webkitExitFullscreen)
-        document.webkitExitFullscreen();
-}
-
-function toggleFullScreen(element)
-{
-    if (isFullScreen())
-    {	
-    	$('#btnToggleFullscreen').toggleClass('off');
-    	exitFullScreen();
-    }	
-    else
-    {	
-    	$('#btnToggleFullscreen').toggleClass('off');
-    	requestFullScreen(element || document.documentElement);
-    }	
-}
-
-$(document)
-		.ready(
-				function() {
-					$("#map_canvas").css("min-width",
-							parseInt($("#mainBodyContents").css("width")));
-					$("#map_canvas")
-							.height(parseInt($(window).height())
-											- ($(".jqm-header").height()) - 27 - $(
-													".ui-navbar").height());	
-				
-});
-
-=======
 function isFullScreen() {
 	return (document.fullScreenElement && document.fullScreenElement !== null)
 			|| document.mozFullScreen || document.msFullScreen
@@ -525,7 +550,6 @@ function toggleFullScreen(element) {
 	}
 }
 
->>>>>>> Amir
 function getDestination() {
 	$("#autocompleteDestination")
 			.on(
@@ -704,63 +728,6 @@ var successGetCurrentPosition = function(position) {
 	map.setCenter(currentPos);
 };
 
-<<<<<<< HEAD
-function handleOrientation(event) {
-	alpha = event.alpha;
-	beta = event.beta; // In degree in the range [-180,180]
-	gamma = event.gamma;// In degree in the range [-90,90]
-
-	var strings = "alpha : " + alpha + "\n";
-	strings += "beta : " + beta + "\n";
-	strings += "gamma: " + gamma + "\n >>>> X: "
-			+ compassHeading(alpha, beta, gamma);// +
-	// event.acceleration.x
-	// console.log(strings);
-}
-
-window.addEventListener('deviceorientation', handleOrientation, true);
-
-function compassHeading(alpha, beta, gamma) {
-
-	// Convert degrees to radians
-	var alphaRad = alpha * (Math.PI / 180);
-	var betaRad = beta * (Math.PI / 180);
-	var gammaRad = gamma * (Math.PI / 180);
-
-	// Calculate equation components
-	var cA = Math.cos(alphaRad);
-	var sA = Math.sin(alphaRad);
-	var cB = Math.cos(betaRad);
-	var sB = Math.sin(betaRad);
-	var cG = Math.cos(gammaRad);
-	var sG = Math.sin(gammaRad);
-
-	// Calculate A, B, C rotation components
-	var rA = -cA * sG - sA * sB * cG;
-	var rB = -sA * sG + cA * sB * cG;
-	var rC = -cB * cG;
-
-	// Calculate compass heading
-	var compassHeading = Math.atan(rA / rB);
-
-	// Convert from half unit circle to whole unit circle
-	if (rB < 0) {
-		compassHeading += Math.PI;
-	} else if (rA < 0) {
-		compassHeading += 2 * Math.PI;
-	}
-
-	// Convert radians to degrees
-	compassHeading *= 180 / Math.PI;
-
-	return compassHeading;
-
-}
-<<<<<<< HEAD
-=======
-
-=======
->>>>>>> Amir
 $(document).ready(
 		function() {
 			$("#map_canvas").css("min-width",
@@ -770,4 +737,3 @@ $(document).ready(
 			$("#pageContents").height(parseInt($(window).height()));
 
 		});
->>>>>>> Amir

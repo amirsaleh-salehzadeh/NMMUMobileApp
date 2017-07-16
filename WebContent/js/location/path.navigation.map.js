@@ -35,6 +35,8 @@ function mapMapView() {
 function openCloseMenu() {
 	if (parseInt($('#searchBarDiv').css("right")) >= 0)
 		openCloseSearch();
+	if (parseInt($('#barcodeDescription').css("left")) >= 0)
+		openCloseInfo();
 	if (parseInt($('#dashboardPanel').css("bottom")) < -10) {
 		$('#buttonContainer').animate({
 			'bottom' : '121'
@@ -52,12 +54,15 @@ function openCloseMenu() {
 	}
 	$("#dashboardPanel").trigger("updatelayout");
 	$("#searchBarDiv").trigger("updatelayout");
+	$("#barcodeDescription").trigger("updatelayout");
 }
 
 function openCloseSearch() {
 	if (parseInt($('#dashboardPanel').css("bottom")) >= 0) {
 		openCloseMenu();
 	}
+	if (parseInt($('#barcodeDescription').css("left")) >= 0)
+		openCloseInfo();
 	if (parseInt($('#searchBarDiv').css("right")) < -10) {
 		$('#buttonContainer').animate({
 			'right' : '266'
@@ -76,4 +81,27 @@ function openCloseSearch() {
 	$("#autocompleteContainer").css("bottom", "44");
 	$("#dashboardPanel").trigger("updatelayout");
 	$("#searchBarDiv").trigger("updatelayout");
+}
+function openCloseInfo() {
+	if (parseInt($('#dashboardPanel').css("bottom")) >= 0) {
+		openCloseMenu();
+	}
+	if (parseInt($('#searchBarDiv').css("right")) >= 0)
+		openCloseSearch();
+	if (parseInt($('#barcodeDescription').css("left")) < -10) {
+		$('#infobuttonContainer').animate({
+			'left' : '75'
+		}, 500);
+		$('#barcodeDescription').animate({
+			'left' : '0'
+		}, 500);
+	} else {
+		$('#infobuttonContainer').animate({
+			'left' : '0'
+		}, 500);
+		$('#barcodeDescription').animate({
+			'left' : '-100%'
+		}, 500);
+	}
+	$("#barcodeDescription").trigger("updatelayout");
 }
