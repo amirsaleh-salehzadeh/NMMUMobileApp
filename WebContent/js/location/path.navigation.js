@@ -93,6 +93,8 @@ function getThePath() {
 			alert(thrownError);
 		}
 	});
+	$("#start").css("display", "none");
+	$("#remove").css("display", "inline-block");
 }
 
 function removeTheNextDestination() {

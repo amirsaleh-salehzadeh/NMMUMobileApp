@@ -3,8 +3,7 @@ function getClosestBuilding(){
 }
 
 function initiateNavigation() {
-	$("#start").css("display", "none");
-	$("#remove").css("display", "inline-block");
+	
 	if ($("#destinationId").val() == "") {
 		alert("Please choose a destination first please.");
 		if (parseInt($('#searchBarDiv').css("right")) < -10){

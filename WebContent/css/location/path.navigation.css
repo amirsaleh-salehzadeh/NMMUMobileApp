@@ -263,6 +263,12 @@
 
 
 /* CONFIG BUTTONS */
+#remove{
+	
+display: none;	
+	
+}
+
 #buttonContainer {
 	max-width: 100%;
 	position: absolute;
