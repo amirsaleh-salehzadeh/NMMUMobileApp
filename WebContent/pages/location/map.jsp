@@ -22,8 +22,7 @@
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="css/location/path.navigation.css">
-<script src="js/jquery/jquery-ui.js"></script>
-<script src="https://cdn.rawgit.com/konvajs/konva/1.6.3/konva.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <body>
 	<div id="pageContents" style="min-width: 100%; min-height: 100%;">
 		<div data-role="popup" id="popupPathType">
@@ -75,14 +74,15 @@
 		<input type="button" id="openSearchBTN" onclick="openCloseSearch()">
 	</div>
 	<div id="searchBarDiv">
-		<div class="ui-block-solo" id="autocompleteContainer">
+		<div class="ui-block-solo" data-role="collapsible-set" id="autocompleteContainer">
 			<ul id="autocompleteDestination" data-role="listview"
-				data-inset="true" data-filter="true" data-input="#destinationName"></ul>
+				data-inset="true" data-filter="true" data-input="#destinationName">
+			</ul>
 		</div>
 		<div class="ui-block-solo" id="destinationNameDiv">
 			<input name="destinationName" id="destinationName" data-type="search"
-				placeholder="Search for a place" data-mini="true" autocomplete="off"
-				onkeyup="getDestination();">
+				placeholder="Search for a place" data-mini="true" autocomplete="off">
+
 		</div>
 	</div>
 	<div id="dashboardPanel">
@@ -162,6 +162,7 @@
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.ar.js"></script>
 <script type="text/javascript" src="js/location/path.navigation.geo.js"></script>
+<script src="js/location/path.search.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>
