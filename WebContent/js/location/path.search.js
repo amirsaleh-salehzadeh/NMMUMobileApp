@@ -10,6 +10,7 @@ function getLocationTypePanel() {
 				async : true,
 				success : function(data) {
 					locationTypeJSONData = data;
+					
 					var listAdd = '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
 					listAdd += '<h2>' + data.locationType + '</h2>';
 					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" '
@@ -20,6 +21,7 @@ function getLocationTypePanel() {
 								.each(
 										data.children,
 										function(k, l) {
+											
 											listAdd += '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
 											listAdd += '<h2>' + l.locationType
 													+ '</h2>';
