@@ -494,7 +494,6 @@ function selectDestination(destination) {
 	$("#destinationId").val($(destination).attr("id").split("_")[0]);
 	$("#destinationName").val($(destination).html());
 	$("#to").val($(destination).attr("id").split("_")[1].replace(" ", ""));
-	$("#autocompleteDestination").css("display", "none");
 	var destPoint = getGoogleMapPosition($("#to").val());
 	if (markerDest != null)
 		markerDest.setMap(null);

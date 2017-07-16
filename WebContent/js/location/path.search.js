@@ -13,7 +13,7 @@ function getLocationTypePanel() {
 					
 					var listAdd = '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
 					listAdd += '<h2>' + data.locationType + '</h2>';
-					listAdd += '<ul data-role="listview" data-theme="b" data-iconpos="right" data-inset="true" '
+					listAdd += '<ul data-role="listview" data-theme="b" data-iconpos="right" data-inset="true" data-filter="true" data-input="#destinationName"'
 							+ data.locationTypeId + ' class="locationTypes">';
 					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" data-mini="true" id="'
 							+ data.locationTypeId + '" class="locationTypes">';
@@ -77,7 +77,7 @@ function getMyChild(select) {
 						listAdd += '<h2>' + l.locationType + '</h2>';
 						listAdd += '<ul data-role="listview" data-theme="b" id="'
 								+ l.locationTypeId
-								+ '" class="locationTypes"></ul></li>';
+								+ '" class="locationTypes" data-filter="true" data-input="#destinationName"></ul></li>';
 					});
 	$("#autocompleteDestination").append(listAdd);
 	$("#autocompleteDestination").listview("refresh");

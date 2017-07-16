@@ -310,6 +310,7 @@
 	overflow: auto;
 	z-index: 120;
 	background-color: transparent;
+	max-width:271px;
 }
 
 #autocompleteDestination {
@@ -397,6 +398,11 @@
 	background-color: transparent;
 	border-color:transparent;
 	padding:0;
+	
+}
+#autocompleteDestination .ui-collapsible-content{
+	background-color: transparent;
+	max-width:271px;
 	
 }
 .ui-collapsible-heading .ui-btn {
