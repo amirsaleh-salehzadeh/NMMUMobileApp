@@ -123,7 +123,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 						.getLocationType();
 			if (lst.getSearchLocation().getLocationName() != null)
 				location = lst.getSearchLocation().getLocationName();
-			query = "select l.* from location l"
+			query = "select l.*, lt.location_type as ltype from location l"
 					+ " inner join location_type lt on lt.location_type_id = l.location_type"
 					+ " where l.username = '"
 					+ lst.getSearchLocation().getUserName() + "'"
@@ -133,8 +133,16 @@ public class LocationDAO extends BaseHibernateDAO implements
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				locationENTs.add(getLocationENTAncestors(rs
-						.getLong("location_id")));
+//				locationENTs.add(getLocationENTAncestors(rs
+//						.getLong("location_id")));
+				LocationENT ent = new LocationENT(rs.getInt("location_id"),
+						rs.getString("username"), new LocationTypeENT(
+								rs.getInt("location_type"),
+								rs.getString("ltype")),
+						rs.getString("address"), rs.getString("gps"),
+						rs.getString("location_name"));
+				ent.setParentId(rs.getLong("parent_id"));
+				locationENTs.add(ent);
 			}
 			ps.close();
 			rs.close();
@@ -587,8 +595,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 		ArrayList<LocationENT> ent = dao.getAllLocationsForUser("NMMU", 3, 0);
 		LocationENT search = new LocationENT();
 		// search.setLocationType(new LocationTypeENT(0, "Roo"));
-		search.setLocationName("ot");
+//		search.setLocationName("ot");
 		search.setUserName("NMMU");
+		
 		LocationLST ls = new LocationLST();
 		ls.setSearchLocation(search);
 		try {
@@ -856,7 +865,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-//<<<<<<< HEAD
 	public LocationENT getLocation(LocationENT location) throws AMSException {
 		Query q = null;
 		try {
@@ -872,7 +880,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		}
 		return location;
 	}
-//=======
+
 	public LocationENT getLocationENTAncestors(long locationId) {
 		LocationENT res = new LocationENT();
 		try {
@@ -889,6 +897,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 			String[] concatParents = null;
 			while (rs.next()) {
 				concatParents = rs.getString("res").split(",");
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
 			}
 			query = "select l.*, lt.location_type as ltype from location l "
 					+ " left join location_type lt on lt.location_type_id = l.location_type"
@@ -962,7 +978,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 		}
 		return ent;
-//>>>>>>> Amir
 	}
 
 }
