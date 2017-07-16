@@ -7,28 +7,29 @@ function getLocationTypePanel() {
 			.ajax({
 				url : url,
 				cache : true,
-				async : true,
+				async : false,
 				success : function(data) {
 					locationTypeJSONData = data;
 					var listAdd = '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
 					listAdd += '<h2>' + data.locationType + '</h2>';
-					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" '
-							+ data.locationTypeId + ' class="locationTypes">';
+					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" data-mini="true" id="'
+							+ data.locationTypeId + '" class="locationTypes">';
 
-					if (data.children.length > 1)
-						$
-								.each(
-										data.children,
-										function(k, l) {
-											listAdd += '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
-											listAdd += '<h2>' + l.locationType
-													+ '</h2>';
-											listAdd += '<ul data-role="listview" data-theme="b" id="'
-													+ l.locationTypeId
-													+ '" class="locationTypes"></ul>This ONE</li>';
-										});
-
+//					if (data.children.length > 1)
+//						$
+//								.each(
+//										data.children,
+//										function(k, l) {
+//											listAdd += '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
+//											listAdd += '<h2>' + l.locationType
+//													+ '</h2>';
+//											listAdd += '<ul data-role="listview" data-theme="b" id="'
+//													+ l.locationTypeId
+//													+ '" class="locationTypes"></ul>This ONE</li>';
+//										});
+					listAdd += "</ul></li>";
 					$("#autocompleteDestination").append(listAdd);
+					$("#autocompleteDestination").listview();
 					$("#autocompleteDestination").listview("refresh");
 					getMyChild(data.locationTypeId);
 					$('li[data-role=collapsible]').collapsible();
@@ -38,18 +39,19 @@ function getLocationTypePanel() {
 			+ "&locationName=";
 	$.ajax({
 		url : url,
-		cache : false,
+		cache : true,
+		async: false,
 		success : function(data) {
 			$.each(data, function(k, l) {
 				var str = "";
-				console.log("alert" + l.locationName);
 				str += "<li id='" + l.locationID + "_" + l.gps
 						+ "' onclick='selectDestination(this)'>"
 						+ l.locationType.locationType + " " + l.locationName
 						+ "</li>";
-				$("ul#" + l.locationType.locationTypeId).append(str);
-				$("ul#" + l.locationType.locationTypeId).listview();
-				$("ul#" + l.locationType.locationTypeId).listview("refresh");
+				$("#" + l.locationType.locationTypeId).append(str);
+				$("#" + l.locationType.locationTypeId).listview();
+				$("#" + l.locationType.locationTypeId).listview("refresh");
+				$("#autocompleteDestination").listview("refresh");
 			});
 		}
 	});
@@ -66,7 +68,7 @@ function getMyChild(select) {
 			.each(
 					childData.children,
 					function(k, l) {
-						listAdd += '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
+						listAdd += '<li data-role="collapsible" data-mini="true" data-iconpos="right" data-inset="false">';
 						listAdd += '<h2>' + l.locationType + '</h2>';
 						listAdd += '<ul data-role="listview" data-theme="b" id="'
 								+ l.locationTypeId
@@ -74,8 +76,6 @@ function getMyChild(select) {
 					});
 	$("#autocompleteDestination").append(listAdd);
 	$("#autocompleteDestination").listview("refresh");
-	$('.selector').trigger('pagecreate');
-
 	// } else
 	$.each(childData.children, function(k, l) {
 		childData = l;
