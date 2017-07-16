@@ -447,7 +447,7 @@ function getDestination() {
 								.val(), html = "";
 						$("#autocompleteDestination").css("display", "block");
 						$ul.html("");
-						if (value && value.length >= 3) {
+//						if (value && value.length >= 3) {
 							$ul
 									.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
 							$ul.listview("refresh");
@@ -483,7 +483,7 @@ function getDestination() {
 											ajaxCallSearch = undefined;
 										}
 									});
-						}
+//						}
 
 					});
 	$("#autocompleteDestination").css("width",

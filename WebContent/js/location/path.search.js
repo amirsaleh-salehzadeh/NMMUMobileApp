@@ -13,16 +13,25 @@ function getLocationTypePanel() {
 					
 					var listAdd = '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
 					listAdd += '<h2>' + data.locationType + '</h2>';
+<<<<<<< HEAD
 					listAdd += '<ul data-role="listview" data-theme="b" data-iconpos="right" data-inset="true" '
 							+ data.locationTypeId + ' class="locationTypes">';
+=======
+					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" data-mini="true" id="'
+							+ data.locationTypeId + '" class="locationTypes">';
+>>>>>>> refs/remotes/origin/Amir
 
 //					if (data.children.length > 1)
 //						$
 //								.each(
 //										data.children,
 //										function(k, l) {
+<<<<<<< HEAD
 //											
 //											listAdd += '<li data-role="collapsible" data-mini="true" data-iconpos="right" data-inset="false">';
+=======
+//											listAdd += '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
+>>>>>>> refs/remotes/origin/Amir
 //											listAdd += '<h2>' + l.locationType
 //													+ '</h2>';
 //											listAdd += '<ul data-role="listview" data-theme="b" id="'

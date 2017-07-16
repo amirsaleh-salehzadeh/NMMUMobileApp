@@ -6,7 +6,7 @@
 	content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <link rel="stylesheet"
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
@@ -75,14 +75,13 @@
 	</div>
 	<div id="searchBarDiv">
 		<div class="ui-block-solo" data-role="collapsible-set" id="autocompleteContainer">
-			<ul id="autocompleteDestination" data-role="listview"
+			<ul id="autocompleteDestination" data-role="listview" data-mini="true"
 				data-inset="true" data-filter="true" data-input="#destinationName">
 			</ul>
 		</div>
 		<div class="ui-block-solo" id="destinationNameDiv">
 			<input name="destinationName" id="destinationName" data-type="search"
 				placeholder="Search for a place" data-mini="true" autocomplete="off">
-
 		</div>
 	</div>
 	<div id="dashboardPanel">
