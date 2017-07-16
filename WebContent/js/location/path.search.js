@@ -7,7 +7,7 @@ function getLocationTypePanel() {
 			.ajax({
 				url : url,
 				cache : true,
-				async : true,
+				async : false,
 				success : function(data) {
 					locationTypeJSONData = data;
 					
