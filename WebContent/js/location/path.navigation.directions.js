@@ -1,16 +1,16 @@
 function getAngleDirection(angle) {
 	angle = parseFloat(angle);
+	var arrowGif = document.getElementById("directionShow");
+	arrowGif.style.webkitTransform = "rotate(" + angle + "deg)";
+	arrowGif.style.MozTransform = "rotate(" + angle + "deg)";
+	arrowGif.style.transform = "rotate(" + angle + "deg)";
 	if (parseFloat(-10) <= angle && angle <= parseFloat(10))
 		return "keep going straight on the same direction";
 	else if (angle < parseFloat(-10))
 		return "turn left";
 	else if (angle > parseFloat(10))
 		return "turn right";
-	console.log("hi>>>" + angle);
-	var arrowGif = document.getElementById("arrowDirId");
-	arrowGif.style.webkitTransform = "rotate(" + angle + "deg)";
-	arrowGif.style.MozTransform = "rotate(" + angle + "deg)";
-	arrowGif.style.transform = "rotate(" + angle + "deg)";
+
 }
 
 function getTripInfo() {

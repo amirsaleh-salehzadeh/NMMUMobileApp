@@ -49,9 +49,9 @@
 				left</span><span class="infoValue" id="distanceLeftInf"></span><br /> <span
 				class="headingInfo">Arrival time</span><span class="infoValue"
 				id="arrivalTimeInf"></span><br />
-			<div id="directionShow">
-				<img alt="" src="images/icons/anim/arrow.gif" id="arrowDirId"
-					style="background-color: transparent; left: 53px; position: absolute;">
+			<div id="directionShow"
+				style="background-color: transparent; left: 53px; position: absolute;">
+				<img alt="" src="images/icons/anim/arrow.gif" id="arrowDirId">
 			</div>
 		</div>
 		<input type="hidden" id="tripId">
@@ -150,9 +150,9 @@
 <script type="text/javascript"
 	src="js/location/path.navigation.js?noCache=true"></script>
 <script type="text/javascript"
-	src="js/location/path.navigation.tools.js?noCache=true"></script>
-<script type="text/javascript"
 	src="js/location/path.navigation.directions.js?noCache=true"></script>
+<script type="text/javascript"
+	src="js/location/path.navigation.tools.js?noCache=true"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.js?noCache=true"></script>
 <script type="text/javascript"
@@ -161,8 +161,7 @@
 	src="js/location/camera/path.navigation.camera.scanner.js?noCache=true"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.ar.js"></script>
-<script type="text/javascript"
-	src="js/location/path.navigation.geo.js"></script>
+<script type="text/javascript" src="js/location/path.navigation.geo.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>

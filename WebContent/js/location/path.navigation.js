@@ -209,8 +209,8 @@ function updatePolyLine(currentPos, altitude) {
 				nextPosition, secondNextPosition);
 		angleToNextDestination = headingTo2st - headingTo1st;
 		heading = angleToNextDestination;
-		getAngleDirection(heading);
 	}
+	getAngleDirection(heading);
 	tmpPathCoor.push(pointPath);
 	tmpPathCoor.push(nextPosition);
 	distanceToNextPosition = google.maps.geometry.spherical
