@@ -1,13 +1,12 @@
 var map, marker, infoWindow, markerDest;
 var pathPolylineConstant, pathPolylineTrack, polylineConstantLength;
-var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID;
+var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID, altitude;
 var distanceToNextPosition, distanceToDestination, angleToNextDestination;
-var alpha, beta, gamma;
 var paths = [];
+var ajaxCallSearch;
 
+//after starting a trip to fetch the path to destination, create a trip and draw polylines
 function getThePath() {
-	if (pathPolylineConstant != null)
-		return;
 	if ($("#from").val().length < 5)
 		findMyLocation();
 	var GPSCook = getCookie("TripPathGPSCookie");
@@ -16,9 +15,10 @@ function getThePath() {
 			markerDest.setMap(null);
 		markerDest = new google.maps.Marker(
 				{
-					position : getGoogleMapPosition(GPSCook.split("_")[GPSCook.split("_").length-1]),
+					position : getGoogleMapPosition(GPSCook.split("_")[GPSCook
+							.split("_").length - 1]),
 					map : map,
-					icon : 'http://icons.iconarchive.com/icons/icons8/windows-8/48/Sports-Finish-Flag-icon.png'
+					icon : 'images/icons/finish.png'
 				});
 		drawConstantPolyline();
 		resetWalking();
@@ -37,7 +37,7 @@ function getThePath() {
 				{
 					position : destPoint,
 					map : map,
-					icon : 'http://icons.iconarchive.com/icons/icons8/windows-8/48/Sports-Finish-Flag-icon.png'
+					icon : 'images/icons/finish.png'
 				});
 	}
 	$.ajax({
@@ -75,7 +75,6 @@ function getThePath() {
 			setCookie('TripPathIdsCookie', $("#tripIds").val(), 1);
 			setCookie('TripPathGPSCookie', $("#tripGPSs").val(), 1);
 			setCookie('TripPathLocationsCookie', $("#tripLocations").val(), 1);
-			drawConstantPolyline();
 		}
 	});
 	var url = "REST/GetLocationWS/StartTrip?from=" + $("#departureId").val()
@@ -199,10 +198,18 @@ function updatePolyLine(currentPos, altitude) {
 		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
 		var headingTo1st = google.maps.geometry.spherical.computeHeading(
 				pointPath, nextPosition);
+		marker.setIcon(null);
+		marker.setIcon({
+			path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+			scale : 7,
+			strokeWeight : 3,
+			rotation : headingTo1st
+		});
 		var headingTo2st = google.maps.geometry.spherical.computeHeading(
 				nextPosition, secondNextPosition);
 		angleToNextDestination = headingTo2st - headingTo1st;
 		heading = angleToNextDestination;
+		getAngleDirection(heading);
 	}
 	tmpPathCoor.push(pointPath);
 	tmpPathCoor.push(nextPosition);
@@ -212,13 +219,7 @@ function updatePolyLine(currentPos, altitude) {
 		removeTheNextDestination();
 	}
 	distanceToDestination = polylineConstantLength + distanceToNextPosition;
-	var nextDestName = getCookie("TripPathLocationsCookie").split(",")[0];
-	$("#speedDef").html(
-			speed + " Km/h. " + Math.round(altitude)
-					+ " meters above sea. In about "
-					+ Math.round(distanceToNextPosition) + " meter(s), at "
-					+ nextDestName + ", " + getAngleDirection(heading));
-	$("[name='radio-choice-path-type']:checked").val();
+	getTripInfo();
 	var lineSymbol = {
 		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 		scale : 4,
@@ -243,7 +244,6 @@ function updatePolyLine(currentPos, altitude) {
 		pathPolylineTrack.setPath(tmpPathCoor);
 	pathPolylineTrack.setMap(null);
 	pathPolylineTrack.setMap(map);
-	$("#distanceDef").html(getDistanceLeft(distanceToDestination) + " to ");
 }
 
 function resetWalking() {
@@ -277,7 +277,7 @@ function walkToDestination() {
 		walkingWatchID = navigator.geolocation.watchPosition(
 				successTrackingHandler, errorHandler, {
 					enableHighAccuracy : true,
-					maximumAge : 50
+					maximumAge : 200
 				});
 	} else {
 		handleLocationError(false, infoWindow, map.getCenter());
@@ -334,7 +334,7 @@ function removeTrip() {
 		markerDest.setMap(null);
 	markerDest = null;
 	$("#tripId").val("");
-//	$("#destinationPresentation").css("display", "none");
+	// $("#destinationPresentation").css("display", "none");
 	findMyLocation();
 }
 
@@ -378,30 +378,16 @@ function initiMap() {
 		zoom : 14,
 		zoomControl : false,
 		streetViewControl : false,
-		mapTypeControl: false,
-		fullscreenControl : false//,
-//		fullscreenControlOptions : {
-//			position : google.maps.ControlPosition.TOP_RIGHT
-//		},
-//		mapTypeControlOptions : {
-//			mapTypeIds : [ 'mystyle', google.maps.MapTypeId.ROADMAP,
-//					google.maps.MapTypeId.TERRAIN ]
-//		},
-//		mapTypeId : 'mystyle'
+		mapTypeControl : false,
+		rotateControl : false,
+		fullscreenControl : false
+	// ,
 	});
 	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
 		name : 'My Style'
 	}));
 	findMyLocation();
 	input = document.getElementById('to');
-//	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document
-//			.getElementById('buttonContainer'));
-//	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
-//			.getElementById('searchFields'));
-//	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
-//			.getElementById('destinationPresentation'));
-//	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
-//			.getElementById('viewModeMap'));
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -454,44 +440,49 @@ function toggleFullScreen(element) {
 
 function getDestination() {
 	$("#autocompleteDestination")
-			.on("filterablebeforefilter",
+			.on(
+					"filterablebeforefilter",
 					function(e, data) {
 						var $ul = $("#autocompleteDestination"), $input = $("#destinationName"), value = $input
 								.val(), html = "";
 						$("#autocompleteDestination").css("display", "block");
 						$ul.html("");
 						if (value && value.length >= 3) {
-							$ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
+							$ul
+									.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
 							$ul.listview("refresh");
-							$.ajax({
-									url : "REST/GetLocationWS/SearchForALocation?userName=NMMU"
-											+ "&locationName="
-											+ value,
-									dataType : "json",
-									crossDomain : true,
-									async : true,
-									cache : true
-								}).then(function(response) {
-												$.each(response,
-																function(i, val) {
-																	html += "<li id='"
-																			+ val.locationID
-																			+ "_"
-																			+ val.gps
-																			+ "' onclick='selectDestination(this)'>"
-																			+ val.locationType.locationType
-																			+ " "
-																			+ val.locationName
-																			+ "</li>";
-																	$ul
-																			.html(html);
-																	$ul
-																			.listview("refresh");
-																	$ul
-																			.trigger("updatelayout");
-																});
-
-											});
+							if (ajaxCallSearch != undefined)
+								ajaxCallSearch.abort();
+							ajaxCallSearch = $
+									.ajax({
+										url : "REST/GetLocationWS/SearchForALocation?userName=NMMU"
+												+ "&locationName=" + value,
+										dataType : "json",
+										// crossDomain : true,
+										async : true,
+										cache : true,
+										success : function(response) {
+											$.each(
+															response,
+															function(i, val) {
+																html += "<li id='"
+																		+ val.locationID
+																		+ "_"
+																		+ val.gps
+																		+ "' onclick='selectDestination(this)'>"
+																		+ val.locationType.locationType
+																		+ " "
+																		+ val.locationName
+																		+ "</li>";
+																$ul.html(html);
+																$ul
+																		.listview("refresh");
+																$ul
+																		.trigger("updatelayout");
+															});
+											ajaxCallSearch = undefined;
+										}
+									});
 						}
 
 					});
@@ -511,40 +502,36 @@ function selectDestination(destination) {
 			{
 				position : destPoint,
 				map : map,
-				icon : 'http://icons.iconarchive.com/icons/icons8/windows-8/48/Sports-Finish-Flag-icon.png'
+				icon : 'images/icons/finish.png'
 			});
 	var bounds = new google.maps.LatLngBounds();
 	bounds.extend(markerDest.getPosition());
 	bounds.extend(marker.getPosition());
 	map.fitBounds(bounds);
+	openCloseSearch();
+	openCloseMenu();
 }
 
 function getTimeLeft(distance) {
+	var Hours, Minutes, Seconds = 0;
+	if (speed == undefined)
+		speed = 0.001;
 	if (speed > 0) {
 		var TotalTime = (distance / 1000) / speed;
-		var Hours = Math.floor(TotalTime);
-		var Minutes = Math.floor((TotalTime - Hours) * 60);
-		var Seconds = Math.round((TotalTime - Hours - Minutes) * 60);
+		Hours = Math.floor(TotalTime);
+		Minutes = Math.floor((TotalTime - Hours) * 60);
+		Seconds = Math.round((TotalTime - Hours - Minutes) * 60);
 	}
-	var Kilometres = Math.floor(distance / 1000);
-	var Metres = Math.round(distance - (Kilometres * 1000));
-	// var String = "You are " + Kilometres + " kilometer/s and " + Metres + "
-	// meter/s away from the destination. You will be there in about "
-	// + Hours + " hour/s " + Minutes + " minute/s and " + Seconds + "
-	// second/s.";
-//	$("#destinationPresentation").css("display", "block");
-	if (Kilometres != 0)
-		$("#distanceDef").html(
-				Kilometres + " kilometer(s) and " + Metres + " meter(s)");
-	else
-		$("#distanceDef").html(Metres + " meter(s)");
+	var String = "";
+	if (Hours > 0)
+		String += Hours + " hour/s ";
+	String += Minutes + " minute/s and " + Seconds + " second/s.";
 	return String;
 }
 
 function getDistanceLeft(distance) {
 	var Kilometres = Math.floor(distance / 1000);
 	var Metres = Math.round(distance - (Kilometres * 1000));
-//	$("#destinationPresentation").css("display", "block");
 	var res = "";
 	if (Kilometres != 0)
 		res = Kilometres + " kilometer(s) and " + Metres + " meter(s)";
@@ -570,18 +557,19 @@ var successTrackingHandler = function(position) {
 	};
 	$("#from").val(position.coords.latitude + "," + position.coords.longitude);
 	$("#departureName").val("Current Location");
-	if (position.coords.heading != null)
+	if (position.coords.heading != null) {
 		heading = position.coords.heading;
+	}
 	if (position.coords.speed != null) {
 		speed = position.coords.speed * 3.6;
 		speed = Math.round(speed);
 	}
+	altitude = position.coords.altitude
 	if (getCookie("TripPathGPSCookie").length > 5)
-		updatePolyLine(currentPos, position.coords.altitude);
+		updatePolyLine(currentPos, altitude);
 	if (marker == null) {
 		marker = new google.maps.Marker({
-			map : map,
-			icon : 'images/icons/target.png',
+			map : map
 		});
 		marker.addListener('click', function() {
 			map.setZoom(17);
@@ -589,6 +577,13 @@ var successTrackingHandler = function(position) {
 			resetWalking();
 		});
 	}
+	marker.setIcon(null);
+	marker.setIcon({
+		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+		scale : 7,
+		strokeWeight : 3,
+		rotation : heading
+	});
 	marker.setPosition(currentPos);
 };
 
@@ -601,8 +596,7 @@ var successGetCurrentPosition = function(position) {
 	$("#departureName").val("Current Location");
 	if (marker == null) {
 		marker = new google.maps.Marker({
-			map : map,
-			icon : 'images/icons/target.png',
+			map : map
 		});
 		marker.addListener('click', function() {
 			map.setZoom(17);
@@ -610,71 +604,24 @@ var successGetCurrentPosition = function(position) {
 			resetWalking();
 		});
 	}
+	marker.setIcon(null);
+	marker.setIcon({
+		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+		scale : 7,
+		strokeWeight : 3,
+		rotation : heading
+	});
 	marker.setPosition(currentPos);
 	map.panTo(currentPos);
+	map.setCenter(currentPos);
 };
-
-function handleOrientation(event) {
-	alpha = event.alpha;
-	beta = event.beta; // In degree in the range [-180,180]
-	gamma = event.gamma;// In degree in the range [-90,90]
-
-	var strings = "alpha : " + alpha + "\n";
-	strings += "beta : " + beta + "\n";
-	strings += "gamma: " + gamma + "\n >>>> X: "
-			+ compassHeading(alpha, beta, gamma);// +
-	// event.acceleration.x
-	// console.log(strings);
-}
-
-window.addEventListener('deviceorientation', handleOrientation, true);
-
-function compassHeading(alpha, beta, gamma) {
-
-	// Convert degrees to radians
-	var alphaRad = alpha * (Math.PI / 180);
-	var betaRad = beta * (Math.PI / 180);
-	var gammaRad = gamma * (Math.PI / 180);
-
-	// Calculate equation components
-	var cA = Math.cos(alphaRad);
-	var sA = Math.sin(alphaRad);
-	var cB = Math.cos(betaRad);
-	var sB = Math.sin(betaRad);
-	var cG = Math.cos(gammaRad);
-	var sG = Math.sin(gammaRad);
-
-	// Calculate A, B, C rotation components
-	var rA = -cA * sG - sA * sB * cG;
-	var rB = -sA * sG + cA * sB * cG;
-	var rC = -cB * cG;
-
-	// Calculate compass heading
-	var compassHeading = Math.atan(rA / rB);
-
-	// Convert from half unit circle to whole unit circle
-	if (rB < 0) {
-		compassHeading += Math.PI;
-	} else if (rA < 0) {
-		compassHeading += 2 * Math.PI;
-	}
-
-	// Convert radians to degrees
-	compassHeading *= 180 / Math.PI;
-
-	return compassHeading;
-
-}
 
 $(document).ready(
 		function() {
 			$("#map_canvas").css("min-width",
 					parseInt($("#mainBodyContents").css("width")));
-			$("#map_canvas").height(
-					parseInt($(window).height()));
-			$("#mapView").height(
-					parseInt($(window).height()));
-			$("#pageContents").height(
-					parseInt($(window).height()));
+			$("#map_canvas").height(parseInt($(window).height()));
+			$("#mapView").height(parseInt($(window).height()));
+			$("#pageContents").height(parseInt($(window).height()));
 
 		});

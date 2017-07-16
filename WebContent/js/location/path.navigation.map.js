@@ -1,3 +1,17 @@
+function getClosestBuilding(){
+	
+}
+
+function initiateNavigation() {
+	if ($("#destinationId").val() == "") {
+		alert("Please choose a destination first please.");
+		if (parseInt($('#searchBarDiv').css("right")) < -10)
+			openCloseSearch();
+		return;	
+	}
+	$('#popupPathType').popup('open').trigger('create');
+}
+
 function zoomInMap() {
 	var zoom = map.getZoom();
 	zoom++;
@@ -18,9 +32,9 @@ function mapMapView() {
 	map.setMapTypeId('mystyle');
 }
 
-function openMenu() {
+function openCloseMenu() {
 	if (parseInt($('#searchBarDiv').css("right")) >= 0)
-		openSearch();
+		openCloseSearch();
 	if (parseInt($('#dashboardPanel').css("bottom")) < -10) {
 		$('#buttonContainer').animate({
 			'bottom' : '121'
@@ -39,9 +53,10 @@ function openMenu() {
 	$("#dashboardPanel").trigger("updatelayout");
 	$("#searchBarDiv").trigger("updatelayout");
 }
-function openSearch() {
+
+function openCloseSearch() {
 	if (parseInt($('#dashboardPanel').css("bottom")) >= 0) {
-		openMenu();
+		openCloseMenu();
 	}
 	if (parseInt($('#searchBarDiv').css("right")) < -10) {
 		$('#buttonContainer').animate({
