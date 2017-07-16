@@ -1,5 +1,6 @@
 /common
 /hibernate
+/hibernate.cfg.xml
 /servlets
 /struts
 /threads

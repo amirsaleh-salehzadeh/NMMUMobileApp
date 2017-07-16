@@ -6,56 +6,87 @@ function getLocationTypePanel() {
 	$
 			.ajax({
 				url : url,
-				cache : false,
+				cache : true,
+				async : true,
 				success : function(data) {
 					locationTypeJSONData = data;
-					var str = '<li data-role="collapsible" data-iconpos="right" data-shadow="false" data-corners="false">';
-					str += data.locationType + '<ul data-role="listview" data-shadow="false" data-inset="true" data-corners="false">';
-					 
-						$.each(data.children, function(k, l) {
-							str += '<li><a href="#"></a></li>';
-	            		});
+					var listAdd = '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
+					listAdd += '<h2>' + data.locationType + '</h2>';
+					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" '
+							+ data.locationTypeId
+							+ ' class="locationTypes">';
 
-					str+= '</ul></li>';
+					if (data.children.length > 1)
+						$
+								.each(
+										data.children,
+										function(k, l) {
+											listAdd += '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
+											listAdd += '<h2>' + l.locationType
+													+ '</h2>';
+											listAdd += '<ul data-role="listview" data-theme="b" id="'
+													+ l.locationTypeId
+													+ '" class="locationTypes"></ul>This ONE</li>';
+										});
 					
+					$("#autocompleteDestination").append(listAdd);
+					$("#autocompleteDestination").listview("refresh");
 					getMyChild(data.locationTypeId);
-				
-					$("#locationTypeList").append(str).listview('refresh');
+					$('li[data-role=collapsible]').collapsible();
 				}
 			});
+	alert("sup");
+	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
+		+ "&locationName=";
+     $.ajax({
+			url : url,
+			cache : false,
+			success : function(data) {
+				$.each(data,function(k, l) {	
+				var str = "";
+						alert("sup" + l.locationType.locationTypeId);
+										str += "<li id='"
+												+ l.locationID
+												+ "_"
+												+ l.gps
+												+ "' onclick='selectDestination(this)'>"
+												+ l.locationType.locationType
+												+ " "
+												+ l.locationName
+												+ "</li>";
+										alert(l.locationType);
+										$("#"+l.locationType.locationTypeId).append(str);	
+										$("#"+l.locationType.locationTypeId).listview("refresh");
+					
+	
+	
+								});
+			}});
 }
+				
+
 var childData;
 function getMyChild(select) {
 	if (childData == null)
 		childData = locationTypeJSONData;
 	else if (childData.children == null)
 		return;
-	var navbarId = "";
-	// if (childData.locationTypeId == select) {
-	$("#locationTypeDefinition").val("");
-	var str = "";
+	var listAdd = "";
 	$
 			.each(
 					childData.children,
 					function(k, l) {
-						if (str == "") {
-							navbarId = l.locationType;
-							str = "<select name='selectLocationType' data-iconpos='noicon' data-role='none' class='locationTypeNavBar' id='NavBar"
-									+ l.locationType
-									+ "' onclick='createMyType(this);'>";
-						}
-						str += "<option value='" + l.locationTypeId + "'> "
-								+ l.locationType + "</option>";
+						listAdd += '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
+						listAdd += '<h2>' + l.locationType + '</h2>';
+						listAdd += '<ul data-role="listview" data-theme="b" id="'
+								+ l.locationTypeId
+								+ '" class="locationTypes"></ul></li>';
 					});
-	str += "</select>";
-	if ($("select#NavBar" + navbarId).length == 0) {
-		$("#locationTypesContainer").controlgroup("container").append(str);
-		$("#NavBar" + navbarId).selectmenu();
-		$("#NavBar" + navbarId + " > option").each(function() {
-			$("#NavBar" + navbarId).css("min-width", $(this).css("width"));
-		});
-		$("#locationTypesContainer").controlgroup("refresh");
-	}
+	listAdd +='</ul></li>';
+		$("#autocompleteDestination").append(listAdd);
+		$("#autocompleteDestination").listview("refresh");
+		$('.selector').trigger('pagecreate');
+		
 	// } else
 	$.each(childData.children, function(k, l) {
 		childData = l;
@@ -64,3 +95,6 @@ function getMyChild(select) {
 }
 
 
+function onSearch(){
+//create a normal li ul of the returned locations
+}

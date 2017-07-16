@@ -26,6 +26,7 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="css/location/path.navigation.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="js/location/path.search.js"></script>
 <body>
 	<div id="barcodeDescription"></div>
 	<input type="hidden" id="tripId">
@@ -87,13 +88,14 @@
 		</div>
 	</div>
 	<div id="buttonContainer">
-		<input type="button" id="openMenuBTN" onclick="openMenu()"> <input
-			type="button" id="openSearchBTN" onclick="openSearch()">
+		<input type="button" id="openMenuBTN" onclick="openMenu()"> 
+		<input type="button" id="openSearchBTN" onclick="openSearch();">
 	</div>
 	<div id="searchBarDiv">
-		<div class="ui-block-solo" id="autocompleteContainer">
+		<div class="ui-block-solo" data-role="collapsible-set" id="autocompleteContainer">
 			<ul id="autocompleteDestination" data-role="listview"
-				data-inset="true" data-filter="true" data-input="#destinationName"></ul>
+				data-inset="true" data-filter="true" data-input="#destinationName">
+			</ul>
 		</div>
 		<div class="ui-block-solo" id="destinationNameDiv">
 			<input name="destinationName" id="destinationName" data-type="search"
