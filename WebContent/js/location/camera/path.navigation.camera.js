@@ -66,6 +66,7 @@ function stopCamera() {
 }
 
 function selectDualMode() {
+	$("#zoomSettings").css("display", "block");
 	$("#cameraView").css("display", "block");
 	$("#mapView").css("display", "block");
 	$('#cameraView').height($(window).height() / 2);
@@ -83,6 +84,8 @@ function selectCameraMode() {
 	$("#cameraView").css("display", "block");
 	$("#mapView").css("display", "none");
 	$('#cameraView').height($(window).height());
+	$("#zoomSettings").css("display", "none");
+	
 	document.getElementById('videoContent').style.height = '100%';
 	document.getElementById('videoContent').style.width = '100%';
 	google.maps.event.trigger(map, "resize");
@@ -91,6 +94,7 @@ function selectCameraMode() {
 }
 
 function selectMapMode() {
+	$("#zoomSettings").css("display", "block");
 	$("#cameraView").css("display", "none");
 	$("#mapView").css("display", "block");
 	$('#mapView').height($(window).height());

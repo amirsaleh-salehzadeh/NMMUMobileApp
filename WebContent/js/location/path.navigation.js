@@ -295,6 +295,8 @@ function walkToDestination() {
 }
 
 function removeTrip() {
+	
+	$("#start").css("display", "inline-block");
 	var url = "REST/GetLocationWS/RemoveTrip?tripId=" + $("#tripId").val();
 	$.ajax({
 		url : url,
@@ -334,6 +336,7 @@ function removeTrip() {
 		markerDest.setMap(null);
 	markerDest = null;
 	$("#tripId").val("");
+	$("#remove").css("display", "none");
 	// $("#destinationPresentation").css("display", "none");
 	findMyLocation();
 }
