@@ -75,14 +75,13 @@
 	</div>
 	<div id="searchBarDiv">
 		<div class="ui-block-solo" data-role="collapsible-set" id="autocompleteContainer">
-			<ul id="autocompleteDestination" data-role="listview"
+			<ul id="autocompleteDestination" data-role="listview" data-mini="true"
 				data-inset="true" data-filter="true" data-input="#destinationName">
 			</ul>
 		</div>
 		<div class="ui-block-solo" id="destinationNameDiv">
 			<input name="destinationName" id="destinationName" data-type="search"
 				placeholder="Search for a place" data-mini="true" autocomplete="off">
-
 		</div>
 	</div>
 	<div id="dashboardPanel">
