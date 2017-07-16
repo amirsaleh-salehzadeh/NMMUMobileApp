@@ -99,8 +99,8 @@
 		</div>
 		<div class="ui-block-solo" id="destinationNameDiv">
 			<input name="destinationName" id="destinationName" data-type="search"
-				placeholder="Search for a place" data-mini="true" autocomplete="off"
-				onkeyup="getDestination();">
+				placeholder="Search for a place" data-mini="true" autocomplete="off">
+
 		</div>
 		<!-- 		<ul data-role="listview" class="ui-listview-outer"> -->
 		<!-- 			<li><a href="#">Humans</a></li> -->

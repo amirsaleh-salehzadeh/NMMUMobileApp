@@ -13,8 +13,7 @@ function getLocationTypePanel() {
 					var listAdd = '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
 					listAdd += '<h2>' + data.locationType + '</h2>';
 					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" '
-							+ data.locationTypeId
-							+ ' class="locationTypes">';
+							+ data.locationTypeId + ' class="locationTypes">';
 
 					if (data.children.length > 1)
 						$
@@ -28,42 +27,33 @@ function getLocationTypePanel() {
 													+ l.locationTypeId
 													+ '" class="locationTypes"></ul>This ONE</li>';
 										});
-					
+
 					$("#autocompleteDestination").append(listAdd);
 					$("#autocompleteDestination").listview("refresh");
 					getMyChild(data.locationTypeId);
 					$('li[data-role=collapsible]').collapsible();
 				}
 			});
-	alert("sup");
 	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
-		+ "&locationName=";
-     $.ajax({
-			url : url,
-			cache : false,
-			success : function(data) {
-				$.each(data,function(k, l) {	
+			+ "&locationName=";
+	$.ajax({
+		url : url,
+		cache : false,
+		success : function(data) {
+			$.each(data, function(k, l) {
 				var str = "";
-						alert("sup" + l.locationType.locationTypeId);
-										str += "<li id='"
-												+ l.locationID
-												+ "_"
-												+ l.gps
-												+ "' onclick='selectDestination(this)'>"
-												+ l.locationType.locationType
-												+ " "
-												+ l.locationName
-												+ "</li>";
-										alert(l.locationType);
-										$("#"+l.locationType.locationTypeId).append(str);	
-										$("#"+l.locationType.locationTypeId).listview("refresh");
-					
-	
-	
-								});
-			}});
+				console.log("alert" + l.locationName);
+				str += "<li id='" + l.locationID + "_" + l.gps
+						+ "' onclick='selectDestination(this)'>"
+						+ l.locationType.locationType + " " + l.locationName
+						+ "</li>";
+				$("ul#" + l.locationType.locationTypeId).append(str);
+				$("ul#" + l.locationType.locationTypeId).listview();
+				$("ul#" + l.locationType.locationTypeId).listview("refresh");
+			});
+		}
+	});
 }
-				
 
 var childData;
 function getMyChild(select) {
@@ -82,11 +72,10 @@ function getMyChild(select) {
 								+ l.locationTypeId
 								+ '" class="locationTypes"></ul></li>';
 					});
-	listAdd +='</ul></li>';
-		$("#autocompleteDestination").append(listAdd);
-		$("#autocompleteDestination").listview("refresh");
-		$('.selector').trigger('pagecreate');
-		
+	$("#autocompleteDestination").append(listAdd);
+	$("#autocompleteDestination").listview("refresh");
+	$('.selector').trigger('pagecreate');
+
 	// } else
 	$.each(childData.children, function(k, l) {
 		childData = l;
@@ -94,7 +83,6 @@ function getMyChild(select) {
 	});
 }
 
-
-function onSearch(){
-//create a normal li ul of the returned locations
+function onSearch() {
+	// create a normal li ul of the returned locations
 }
