@@ -13,7 +13,7 @@ function getLocationTypePanel() {
 					
 					var listAdd = '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
 					listAdd += '<h2>' + data.locationType + '</h2>';
-					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" '
+					listAdd += '<ul data-role="listview" data-theme="b" data-iconpos="right" data-inset="true" '
 							+ data.locationTypeId + ' class="locationTypes">';
 
 //					if (data.children.length > 1)
