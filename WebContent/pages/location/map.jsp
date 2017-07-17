@@ -27,7 +27,7 @@
 	<div id="pageContents" style="min-width: 100%; min-height: 100%;">
 		<div data-role="popup" id="popupPathType">
 			<div class="ui-block-a">
-				    <label for="dirtroad" class="popupPathItem"><input
+				    <label for="dirtroad" class="popupPathItem"><input
 					type="radio" name="radio-choice-path-type" id="dirtroad" value="0"
 					checked="checked">Shortest Path (This path may contain
 					unsmooth walkways)</label><br /> <label for="walking"
@@ -35,22 +35,6 @@
 					name="radio-choice-path-type" id="walking" value="1">
 				</label> <a data-role="button" href="#" data-mini="true"
 					onclick="getThePath()">Navigate Me</a>
-			</div>
-		</div>
-		<div id="barcodeDescription" class="ui-block-solo">
-			<span class="headingInfo">Current Location</span><span
-				class="infoValue" id="currentLocationInf"></span><br /> <span
-				class="headingInfo">Speed</span><span class="infoValue"
-				id="speedInf"></span><br /> <span class="headingInfo">Sea
-				level</span><span class="infoValue" id="seaLevelInf"></span><br /> <span
-				class="headingInfo">Destination</span><span class="infoValue"
-				id="destinationInf"></span><br /> <span class="headingInfo">Distance
-				left</span><span class="infoValue" id="distanceLeftInf"></span><br /> <span
-				class="headingInfo">Arrival time</span><span class="infoValue"
-				id="arrivalTimeInf"></span><br />
-			<div id="directionShow"
-				style="background-color: transparent; left: 53px; position: absolute;">
-				<img alt="" src="images/icons/anim/arrow.gif" id="arrowDirId">
 			</div>
 		</div>
 		<input type="hidden" id="tripId">
@@ -65,8 +49,54 @@
 				id="destinationId" placeholder="DestinationId">
 			<div id="map_canvas"></div>
 		</div>
+		<div class="ui-block-a" stle="float: right" id="viewMapType">
+			<div class="ui-grid-a">
+				<input type="button" class="navbtn" id="satelliteView"
+				onclick="mapSattelView()">	
+			</div>
+			<div class="ui-grid-b">
+				<input type="button" class="navbtn" id="mapViewIcon"
+				onclick="mapMapView()">
+			</div>
+		</div>
+		<div class="ui-block-solo" stle="float: right" id="viewFullScreen">
+					<a href="#" data-role="button" id="btnToggleFullscreen"
+						alt="" onclick="toggleFullScreen()" align="top"></a>
+		</div>
 		<div id="cameraView" class="ui-block-solo">
 			<video id="videoContent"></video>
+		</div>
+	</div>
+	<div id="infobuttonContainer">
+		<input type="button" id="openInfoBTN" onclick="openCloseInfo()">
+	</div>
+	<div id="barcodeDescription" class="ui-block-solo">
+		<img alt="" src="images/icons/target-old.png" style="width: 32px; height: 32px;">
+		<span class="headingInfo"><!-- Current Location --></span>
+		<span class="infoValue" id="currentLocationInf"></span><br /> 
+		
+		<img alt="" src="images/icons/speed.png" style="width: 32px; height: 32px;">
+		<span class="headingInfo"><!-- Speed--></span>
+		<span class="infoValue" id="speedInf"></span><br /> 
+		
+		<img alt="" src="images/icons/altitude.png" style="width: 32px; height: 32px;">
+		<span class="headingInfo"><!-- Sea level--></span>
+		<span class="infoValue" id="seaLevelInf"></span><br />
+		
+		<img alt="" src="images/icons/finish.png" style="width: 32px; height: 32px;">
+		<span class="headingInfo"><!-- Destination--></span>
+		<span class="infoValue" id="destinationInf"></span><br />
+		
+		<img alt="" src="images/icons/distance.png" style="width: 32px; height: 32px;">
+		<span class="headingInfo"><!-- Distance left--></span>
+		<span class="infoValue" id="distanceLeftInf"></span><br />
+		
+		<img alt="" src="images/icons/time.png" style="width: 32px; height: 32px;">
+		<span class="headingInfo"><!-- Arrival time--></span>
+		<span class="infoValue" id="arrivalTimeInf"></span><br />
+		<div id="directionShow"
+			style="background-color: transparent; left: 53px; position: absolute;">
+			<img alt="" src="images/icons/anim/arrow.gif" id="arrowDirId">
 		</div>
 	</div>
 	<div id="buttonContainer">
@@ -103,14 +133,6 @@
 		<div id="dashboardDiv">
 			<div id="actionBTNs">
 				<div id="mapModeSettings" class="buttonGroups">
-					<div class="ui-block-solo">
-						<input type="button" class="navbtn" id="satelliteView"
-							onclick="mapSattelView()">
-					</div>
-					<div class="ui-block-solo">
-						<input type="button" class="navbtn" id="mapViewIcon"
-							onclick="mapMapView()">
-					</div>
 				</div>
 				<div id="zoomSettings" class="buttonGroups">
 					<div class="ui-block-solo">
@@ -161,7 +183,7 @@
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.ar.js"></script>
 <script type="text/javascript" src="js/location/path.navigation.geo.js"></script>
-<script src="js/location/path.search.js"></script>
+<script src="js/location/path.panels.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>

@@ -5,7 +5,8 @@ var distanceToNextPosition, distanceToDestination, angleToNextDestination;
 var paths = [];
 var ajaxCallSearch;
 
-//starting a trip, fetches the path to destination, creates a trip and draw polylines
+// starting a trip, fetches the path to destination, creates a trip and draw
+// polylines
 function getThePath() {
 	if ($("#from").val().length < 5)
 		findMyLocation();
@@ -359,21 +360,128 @@ function initiMap() {
 		featureType : "administrative",
 		elementType : "labels",
 		stylers : [ {
-			visibility : "off"
+			visibility : "on"
 		} ]
 	}, {
 		featureType : "poi",
 		elementType : "labels",
 		stylers : [ {
-			visibility : "off"
+			visibility : "on"
 		} ]
 	}, {
 		featureType : "water",
 		elementType : "labels",
 		stylers : [ {
-			visibility : "off"
+			visibility : "on"
 		} ]
-	} ];
+	},{
+        featureType: "landscape.man_made",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#f7f1df"
+            }
+        ]
+    },
+    {
+        featureType: "landscape.natural",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#d0e3b4"
+            }
+        ]
+    },
+    {
+        featureType: "landscape.natural.terrain",
+        elementType: "geometry",
+        stylers: [
+            {
+                visibility: "on"
+            }
+        ]
+    },
+    {
+        featureType: "poi.business",
+        elementType: "all",
+        stylers: [
+            {
+                visibility: "on"
+            }
+        ]
+    },
+    {
+        featureType: "poi.medical",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#fbd3da"
+            }
+        ]
+    },
+    {
+        featureType: "poi.park",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#bde6ab"
+            }
+        ]
+    },
+    {
+        featureType: "road",
+        elementType: "geometry.stroke",
+        stylers: [
+            {
+                visibility: "off"
+            }
+        ]
+    },
+    {
+        featureType: "road.highway",
+        elementType: "geometry.fill",
+        stylers: [
+            {
+                color: "#ffe15f"
+            }
+        ]
+    },
+    {
+        featureType: "road.highway",
+        elementType: "geometry.stroke",
+        stylers: [
+            {
+                color: "#efd151"
+            }
+        ]
+    },
+    {
+        featureType: "road.arterial",
+        elementType: "geometry.fill",
+        stylers: [
+            {
+                color: "#ffffff"
+            }
+        ]
+    },
+    {
+        featureType: "road.local",
+        elementType: "geometry.fill",
+        stylers: [
+            {
+                color: "black"
+            }
+        ]
+    },
+    {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#a2daf2"
+            }
+        ]
+    } ];
 
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		center : {
@@ -393,6 +501,11 @@ function initiMap() {
 	}));
 	findMyLocation();
 	input = document.getElementById('to');
+	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
+			.getElementById('viewFullScreen'));
+			map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
+			.getElementById('viewMapType'));
+	map.setMapTypeId('mystyle');
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -453,7 +566,7 @@ function getDestination() {
 								.val(), html = "";
 						$("#autocompleteDestination").css("display", "block");
 						$ul.html("");
-//						if (value && value.length >= 3) {
+// if (value && value.length >= 3) {
 							$ul
 									.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
 							$ul.listview("refresh");
@@ -489,7 +602,7 @@ function getDestination() {
 											ajaxCallSearch = undefined;
 										}
 									});
-//						}
+// }
 
 					});
 	$("#autocompleteDestination").css("width",
@@ -619,7 +732,6 @@ var successGetCurrentPosition = function(position) {
 	marker.setPosition(currentPos);
 	map.panTo(currentPos);
 	map.setCenter(currentPos);
-	drawPolyLines(")
 	
 };
 
