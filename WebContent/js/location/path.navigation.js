@@ -5,7 +5,7 @@ var distanceToNextPosition, distanceToDestination, angleToNextDestination;
 var paths = [];
 var ajaxCallSearch;
 
-//after starting a trip to fetch the path to destination, create a trip and draw polylines
+//starting a trip, fetches the path to destination, creates a trip and draw polylines
 function getThePath() {
 	if ($("#from").val().length < 5)
 		findMyLocation();
@@ -444,6 +444,7 @@ function toggleFullScreen(element) {
 }
 
 function getDestination() {
+	alert(1);
 	$("#autocompleteDestination")
 			.on(
 					"filterablebeforefilter",
@@ -618,6 +619,8 @@ var successGetCurrentPosition = function(position) {
 	marker.setPosition(currentPos);
 	map.panTo(currentPos);
 	map.setCenter(currentPos);
+	drawPolyLines(")
+	
 };
 
 $(document).ready(

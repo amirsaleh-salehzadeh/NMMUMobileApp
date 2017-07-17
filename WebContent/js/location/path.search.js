@@ -2,7 +2,6 @@ window.onload = getLocationTypePanel;
 var locationTypeJSONData;
 function getLocationTypePanel() {
 	var url = "REST/GetLocationWS/GetAllLocationTypes";
-	$("#locationTypesContainer").controlgroup();
 	$
 			.ajax({
 				url : url,
@@ -10,7 +9,7 @@ function getLocationTypePanel() {
 				async : false,
 				success : function(data) {
 					locationTypeJSONData = data;
-					
+
 					var listAdd = '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
 					listAdd += '<h2>' + data.locationType + '</h2>';
 					listAdd += '<ul data-role="listview" data-theme="b" data-iconpos="right" data-inset="true" data-filter="true" data-input="#destinationName"'
@@ -18,24 +17,28 @@ function getLocationTypePanel() {
 					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" data-mini="true" id="'
 							+ data.locationTypeId + '" class="locationTypes">';
 
-//					if (data.children.length > 1)
-//						$
-//								.each(
-//										data.children,
-//										function(k, l) {
-//											
-//											listAdd += '<li data-role="collapsible" data-mini="true" data-iconpos="right" data-inset="false">';
-//											listAdd += '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
-//											listAdd += '<h2>' + l.locationType
-//													+ '</h2>';
-//											listAdd += '<ul data-role="listview" data-theme="b" id="'
-//													+ l.locationTypeId
-//													+ '" class="locationTypes"></ul>This ONE</li>';
-//										});
+					// if (data.children.length > 1)
+					// $
+					// .each(
+					// data.children,
+					// function(k, l) {
+					//											
+					// listAdd += '<li data-role="collapsible" data-mini="true"
+					// data-iconpos="right" data-inset="false">';
+					// listAdd += '<li data-role="collapsible"
+					// data-iconpos="right" data-inset="false">';
+					// listAdd += '<h2>' + l.locationType
+					// + '</h2>';
+					// listAdd += '<ul data-role="listview" data-theme="b" id="'
+					// + l.locationTypeId
+					// + '" class="locationTypes"></ul>This ONE</li>';
+					// });
 					listAdd += "</ul></li>";
 					$("#autocompleteDestination").append(listAdd);
 					$("#autocompleteDestination").listview();
 					$("#autocompleteDestination").listview("refresh");
+					$("#" + data.locationTypeId).listview();
+					$("#" + data.locationTypeId).listview("refresh");
 					getMyChild(data.locationTypeId);
 					$('li[data-role=collapsible]').collapsible();
 				}
@@ -45,7 +48,7 @@ function getLocationTypePanel() {
 	$.ajax({
 		url : url,
 		cache : true,
-		async: false,
+		async : false,
 		success : function(data) {
 			$.each(data, function(k, l) {
 				var str = "";
