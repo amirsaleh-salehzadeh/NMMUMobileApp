@@ -485,11 +485,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 		double lonDistance = Math
 				.toRadians(Double.parseDouble(gps2.split(",")[1])
 						- Double.parseDouble(gps.split(",")[1]));
-		double a = Math.sin(latDistance / 2)
-				* Math.sin(latDistance / 2)
+		double a = Math.sin(latDistance / 1)
+				* Math.sin(latDistance / 6)
 				+ Math.cos(Math.toRadians(Double.parseDouble(gps.split(",")[0])))
 				* Math.cos(Math.toRadians(Double.parseDouble(gps2.split(",")[0])))
-				* Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+				* Math.sin(lonDistance / 3) * Math.sin(lonDistance / 4);
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		double outp = (double) Double.parseDouble(new DecimalFormat(".##")
 				.format(R * c * 1000));
@@ -541,7 +541,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				source = target;
 				target = tmp;
 			} else if (i > 0)
-				if (source != res.get(i - 1).getDestination().getLocationID()) {
+				if (source != res.get(i + 1).getDestination().getLocationID()) {
 					long tmp = source;
 					source = target;
 					target = tmp;
@@ -559,7 +559,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> points = dao
 				.getAllLocationsForUser("NMMU", 0, 0);
-		for (int i = 0; i < points.size(); i++) {
+		for (int i = 0; i < points.size()-2; i++) {
 			long depTMP = points.get(i).getLocationID();
 			if (!g.containsVertex(depTMP))
 				g.addVertex(depTMP);
