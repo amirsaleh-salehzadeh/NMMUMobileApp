@@ -30,10 +30,14 @@ function zoomOutMap() {
 
 function mapSattelView() {
 	map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+	$("#satelliteView").fadeOut();
+	$("#mapViewIcon").fadeIn();
 }
 
 function mapMapView() {
 	map.setMapTypeId('mystyle');
+	$("#satelliteView").fadeIn();
+	$("#mapViewIcon").fadeOut();
 }
 
 function openCloseMenu() {

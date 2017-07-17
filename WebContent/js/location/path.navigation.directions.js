@@ -23,3 +23,14 @@ function getTripInfo() {
 	$("#distanceLeftInf").html(getDistanceLeft(distanceToDestination));
 	$("#arrivalTimeInf").html(getTimeLeft(distanceToDestination));
 }
+
+function getDistanceLeft(distance) {
+	var Kilometres = Math.floor(distance / 1000);
+	var Metres = Math.round(distance - (Kilometres * 1000));
+	var res = "";
+	if (Kilometres != 0)
+		res = Kilometres + " kilometer(s) and " + Metres + " meter(s)";
+	else
+		res = Metres + " meter(s)";
+	return res;
+}

@@ -54,44 +54,42 @@ function gotDevices(deviceInfos) {
 var track;
 function startCamera() {
  startScanner();
-//	navigator.mediaDevices.enumerateDevices()
-//	 .then(gotDevices).then(getStream).catch(handleError);
-//	startAR();
 }
 
 function stopCamera() {
 	cameraView = undefined;
-	scanner.stop();
+	if(scanner != undefined)
+		scanner.stop();
 	$('#videoContent').src = "";
 }
 
 function selectDualMode() {
 	$("#zoomSettings").css("display", "block");
-	$("#cameraView").css("display", "block");
+	$("#cameraView").css("display", "absolute");
 	$("#mapView").css("display", "block");
-	$('#cameraView').height($(window).height() / 2);
-	$('#map_canvas').height($(window).height() / 2);
-	$('#mapView').height($(window).height() / 2);
-	$('#videoContent').height($(window).height() / 2);
+	$('#cameraView').height($(window).height() / 4);
+	$('#videoContent').height($(window).height() / 4);
+	$('#cameraView').width($(window).width() / 4);
+	$('#videoContent').width($(window).width() / 4);
 	document.getElementById('videoContent').style.height = '100%';
 	document.getElementById('videoContent').style.width = '100%';
-	google.maps.event.trigger(map, "resize");
- startCamera();
+	stopCamera();
+	startCamera();
 	findMyLocation();
 }
 
-function selectCameraMode() {
-	$("#cameraView").css("display", "block");
-	$("#mapView").css("display", "none");
-	$('#cameraView').height($(window).height());
-	$("#zoomSettings").css("display", "none");
-	
-	document.getElementById('videoContent').style.height = '100%';
-	document.getElementById('videoContent').style.width = '100%';
-	google.maps.event.trigger(map, "resize");
- startCamera();
-	findMyLocation();
-}
+// function selectCameraMode() {
+// $("#cameraView").css("display", "block");
+// $("#mapView").css("display", "none");
+// $('#cameraView').height($(window).height());
+// $("#zoomSettings").css("display", "none");
+//	
+// document.getElementById('videoContent').style.height = '100%';
+// document.getElementById('videoContent').style.width = '100%';
+// google.maps.event.trigger(map, "resize");
+// startCamera();
+// findMyLocation();
+// }
 
 function selectMapMode() {
 	$("#zoomSettings").css("display", "block");

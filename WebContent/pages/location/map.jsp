@@ -6,7 +6,8 @@
 	content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <link rel="stylesheet"
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
@@ -27,7 +28,7 @@
 	<div id="pageContents" style="min-width: 100%; min-height: 100%;">
 		<div data-role="popup" id="popupPathType">
 			<div class="ui-block-a">
-				    <label for="dirtroad" class="popupPathItem"><input
+				<label for="dirtroad" class="popupPathItem"><input
 					type="radio" name="radio-choice-path-type" id="dirtroad" value="0"
 					checked="checked">Shortest Path (This path may contain
 					unsmooth walkways)</label><br /> <label for="walking"
@@ -52,16 +53,16 @@
 		<div class="ui-block-a" stle="float: right" id="viewMapType">
 			<div class="ui-grid-a">
 				<input type="button" class="navbtn" id="satelliteView"
-				onclick="mapSattelView()">	
+					onclick="mapSattelView()">
 			</div>
 			<div class="ui-grid-b">
 				<input type="button" class="navbtn" id="mapViewIcon"
-				onclick="mapMapView()">
+					onclick="mapMapView()">
 			</div>
 		</div>
 		<div class="ui-block-solo" stle="float: right" id="viewFullScreen">
-					<a href="#" data-role="button" id="btnToggleFullscreen"
-						alt="" onclick="toggleFullScreen()" align="top"></a>
+			<a href="#" data-role="button" id="btnToggleFullscreen" alt=""
+				onclick="toggleFullScreen()" align="top"></a>
 		</div>
 		<div id="cameraView" class="ui-block-solo">
 			<video id="videoContent"></video>
@@ -71,29 +72,30 @@
 		<input type="button" id="openInfoBTN" onclick="openCloseInfo()">
 	</div>
 	<div id="barcodeDescription" class="ui-block-solo">
-		<img alt="" src="images/icons/target-old.png" style="width: 32px; height: 32px;">
-		<span class="headingInfo"><!-- Current Location --></span>
-		<span class="infoValue" id="currentLocationInf"></span><br /> 
-		
-		<img alt="" src="images/icons/speed.png" style="width: 32px; height: 32px;">
-		<span class="headingInfo"><!-- Speed--></span>
-		<span class="infoValue" id="speedInf"></span><br /> 
-		
-		<img alt="" src="images/icons/altitude.png" style="width: 32px; height: 32px;">
-		<span class="headingInfo"><!-- Sea level--></span>
-		<span class="infoValue" id="seaLevelInf"></span><br />
-		
-		<img alt="" src="images/icons/finish.png" style="width: 32px; height: 32px;">
-		<span class="headingInfo"><!-- Destination--></span>
-		<span class="infoValue" id="destinationInf"></span><br />
-		
-		<img alt="" src="images/icons/distance.png" style="width: 32px; height: 32px;">
-		<span class="headingInfo"><!-- Distance left--></span>
-		<span class="infoValue" id="distanceLeftInf"></span><br />
-		
-		<img alt="" src="images/icons/time.png" style="width: 32px; height: 32px;">
-		<span class="headingInfo"><!-- Arrival time--></span>
-		<span class="infoValue" id="arrivalTimeInf"></span><br />
+		<img alt="" src="images/icons/target-old.png"
+			style="width: 32px; height: 32px;"> <span class="headingInfo">
+			<!-- Current Location -->
+		</span> <span class="infoValue" id="currentLocationInf"></span><br /> <img
+			alt="" src="images/icons/speed.png"
+			style="width: 32px; height: 32px;"> <span class="headingInfo">
+			<!-- Speed-->
+		</span> <span class="infoValue" id="speedInf"></span><br /> <img alt=""
+			src="images/icons/altitude.png" style="width: 32px; height: 32px;">
+		<span class="headingInfo">
+			<!-- Sea level-->
+		</span> <span class="infoValue" id="seaLevelInf"></span><br /> <img alt=""
+			src="images/icons/finish.png" style="width: 32px; height: 32px;">
+		<span class="headingInfo">
+			<!-- Destination-->
+		</span> <span class="infoValue" id="destinationInf"></span><br /> <img
+			alt="" src="images/icons/distance.png"
+			style="width: 32px; height: 32px;"> <span class="headingInfo">
+			<!-- Distance left-->
+		</span> <span class="infoValue" id="distanceLeftInf"></span><br /> <img
+			alt="" src="images/icons/time.png" style="width: 32px; height: 32px;">
+		<span class="headingInfo">
+			<!-- Arrival time-->
+		</span> <span class="infoValue" id="arrivalTimeInf"></span><br />
 		<div id="directionShow"
 			style="background-color: transparent; left: 53px; position: absolute;">
 			<img alt="" src="images/icons/anim/arrow.gif" id="arrowDirId">
@@ -104,9 +106,11 @@
 		<input type="button" id="openSearchBTN" onclick="openCloseSearch()">
 	</div>
 	<div id="searchBarDiv">
-		<div class="ui-block-solo" data-role="collapsible-set" id="autocompleteContainer">
-			<ul id="autocompleteDestination" data-role="listview" data-mini="true"
-				data-inset="true" data-filter="true" data-input="#destinationName">
+		<div class="ui-block-solo" data-role="collapsible-set"
+			id="autocompleteContainer">
+			<ul id="autocompleteDestination" data-role="listview"
+				data-mini="true" data-inset="true" data-filter="true"
+				data-input="#destinationName">
 			</ul>
 		</div>
 		<div class="ui-block-solo" id="destinationNameDiv">
@@ -132,8 +136,7 @@
 		</div>
 		<div id="dashboardDiv">
 			<div id="actionBTNs">
-				<div id="mapModeSettings" class="buttonGroups">
-				</div>
+				<div id="mapModeSettings" class="buttonGroups"></div>
 				<div id="zoomSettings" class="buttonGroups">
 					<div class="ui-block-solo">
 						<input type="button" class="navbtn" id="zoomin"
@@ -159,8 +162,8 @@
 							<input type="button" class="navbtn" id="mapViewSelect"
 								onclick="selectMapMode()"> <input type="button"
 								class="navbtn" id="dualModeSelect" onclick="selectDualMode()">
-							<input type="button" class="navbtn" id="cameraMode"
-								onclick="selectCameraMode()">
+							<!-- 							<input type="button" class="navbtn" id="cameraMode" -->
+							<!-- 								onclick="selectCameraMode()"> -->
 						</div>
 					</div>
 				</div>

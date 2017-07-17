@@ -556,58 +556,6 @@ function toggleFullScreen(element) {
 	}
 }
 
-function getDestination() {
-	alert(1);
-	$("#autocompleteDestination")
-			.on(
-					"filterablebeforefilter",
-					function(e, data) {
-						var $ul = $("#autocompleteDestination"), $input = $("#destinationName"), value = $input
-								.val(), html = "";
-						$("#autocompleteDestination").css("display", "block");
-						$ul.html("");
-// if (value && value.length >= 3) {
-							$ul
-									.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
-							$ul.listview("refresh");
-							if (ajaxCallSearch != undefined)
-								ajaxCallSearch.abort();
-							ajaxCallSearch = $
-									.ajax({
-										url : "REST/GetLocationWS/SearchForALocation?userName=NMMU"
-												+ "&locationName=" + value,
-										dataType : "json",
-										// crossDomain : true,
-										async : true,
-										cache : true,
-										success : function(response) {
-											$.each(
-															response,
-															function(i, val) {
-																html += "<li id='"
-																		+ val.locationID
-																		+ "_"
-																		+ val.gps
-																		+ "' onclick='selectDestination(this)'>"
-																		+ val.locationType.locationType
-																		+ " "
-																		+ val.locationName
-																		+ "</li>";
-																$ul.html(html);
-																$ul
-																		.listview("refresh");
-																$ul
-																		.trigger("updatelayout");
-															});
-											ajaxCallSearch = undefined;
-										}
-									});
-// }
-
-					});
-	$("#autocompleteDestination").css("width",
-			$("#destinationName").css("width")).trigger("create");
-}
 
 function selectDestination(destination) {
 	$("#destinationId").val($(destination).attr("id").split("_")[0]);
@@ -645,17 +593,6 @@ function getTimeLeft(distance) {
 		String += Hours + " hour/s ";
 	String += Minutes + " minute/s and " + Seconds + " second/s.";
 	return String;
-}
-
-function getDistanceLeft(distance) {
-	var Kilometres = Math.floor(distance / 1000);
-	var Metres = Math.round(distance - (Kilometres * 1000));
-	var res = "";
-	if (Kilometres != 0)
-		res = Kilometres + " kilometer(s) and " + Metres + " meter(s)";
-	else
-		res = Metres + " meter(s)";
-	return res;
 }
 
 function animateCircle(line) {
@@ -732,7 +669,6 @@ var successGetCurrentPosition = function(position) {
 	marker.setPosition(currentPos);
 	map.panTo(currentPos);
 	map.setCenter(currentPos);
-	
 };
 
 $(document).ready(
@@ -742,5 +678,5 @@ $(document).ready(
 			$("#map_canvas").height(parseInt($(window).height()));
 			$("#mapView").height(parseInt($(window).height()));
 			$("#pageContents").height(parseInt($(window).height()));
-
+			$("#mapViewIcon").fadeOut();
 		});
