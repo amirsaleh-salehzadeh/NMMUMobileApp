@@ -26,7 +26,8 @@
 	<div id="pageContents" style="width: 100%; height: 100%;">
 	<div data-role="popup" id="popupCurrentLocation">
 	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-	 You are at 
+	 You are at <input type="text" name="currentLocationName" id="currentLocationName" value=""> 
+	 <br> <input type="text" name="currentTime" id="currentTime" value="">
 	
 	
 	</div>
