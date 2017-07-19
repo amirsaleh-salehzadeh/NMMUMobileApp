@@ -24,7 +24,14 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <body>
 	<div id="pageContents" style="width: 100%; height: 100%;">
+	<div data-role="popup" id="popupCurrentLocation">
+	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+	 You are at 
+	
+	
+	</div>
 		<div data-role="popup" id="popupPathType">
+		<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
 			<div class="ui-block-a">
 				<label for="dirtroad" class="popupPathItem"><input
 					type="radio" name="radio-choice-path-type" id="dirtroad" value="0"
@@ -34,6 +41,7 @@
 					name="radio-choice-path-type" id="walking" value="1">
 				</label> <a data-role="button" href="#" onclick="getThePath()">Navigate
 					Me</a>
+					
 			</div>
 		</div>
 		<input type="hidden" id="tripIds"> <input type="hidden"
@@ -120,15 +128,10 @@
 					data-input="#destinationName">
 				</ul>
 			</div>
-			<div class="ui-block-solo" id="departureNameDiv">
-				<input name="departureName" id="departureName"
-					data-type="search" placeholder="Choose starting point"
-					data-mini="true" autocomplete="off">
-			</div>
 			<div class="ui-block-solo" id="destinationNameDiv">
 				<input name="destinationName" id="destinationName"
 					data-type="search" placeholder="Choose destination"
-					data-mini="true" autocomplete="off">
+					data-mini="true" autocomplete="off" ">
 					
 			</div>
 			
