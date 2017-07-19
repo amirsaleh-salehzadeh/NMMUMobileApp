@@ -76,7 +76,10 @@ function getThePath() {
 			setCookie('TripPathIdsCookie', $("#tripIds").val(), 1);
 			setCookie('TripPathGPSCookie', $("#tripGPSs").val(), 1);
 			setCookie('TripPathLocationsCookie', $("#tripLocations").val(), 1);
-		}
+		},error: function (xhr, ajaxOptions, thrownError) {
+	        alert(xhr.status);
+	        alert(thrownError);
+	      }
 	});
 	var url = "REST/GetLocationWS/StartTrip?from=" + $("#departureId").val()
 			+ "&to=" + $("#destinationId").val();
@@ -92,7 +95,10 @@ function getThePath() {
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
-		}
+		},error: function (xhr, ajaxOptions, thrownError) {
+	        alert(xhr.status);
+	        alert(thrownError);
+	      }
 	});
 	$("#start").css("display", "none");
 	$("#remove").css("display", "inline-block");
@@ -309,7 +315,10 @@ function removeTrip() {
 				if (paths[i] != undefined)
 					paths[i].setMap(null);
 			}
-		}
+		},error: function (xhr, ajaxOptions, thrownError) {
+	        alert(xhr.status);
+	        alert(thrownError);
+	      }
 	});
 	if (pathPolylineTrack != undefined)
 		pathPolylineTrack.setMap(null);

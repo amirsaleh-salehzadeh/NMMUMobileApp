@@ -43,7 +43,10 @@ function getLocationTypePanel() {
 				$("#" + l.locationType.locationTypeId).listview("refresh");
 				$("#autocompleteDestination").listview("refresh");
 			});
-		} 
+		},error: function (xhr, ajaxOptions, thrownError) {
+	        alert(xhr.status);
+	        alert(thrownError);
+	      } 
 	});
 }
 

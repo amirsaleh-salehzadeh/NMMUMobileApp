@@ -14,6 +14,10 @@ function removeMarker() {
 				}
 				getAllMarkers();
 			}
+		,error: function (xhr, ajaxOptions, thrownError) {
+	        alert(xhr.status);
+	        alert(thrownError);
+	      }
 		});
 }
 
@@ -49,6 +53,10 @@ function saveMarker() {
 				map : map,
 				icon : refreshMap(data),
 				title : data.locationName
+				,error: function (xhr, ajaxOptions, thrownError) {
+			        alert(xhr.status);
+			        alert(thrownError);
+			      }
 			});
 			var bounds = new google.maps.LatLngBounds();
 			bounds.extend(marker.getPosition());
@@ -76,7 +84,10 @@ function removePath(id) {
 					return;
 				}
 				getAllPaths();
-			}
+			},error: function (xhr, ajaxOptions, thrownError) {
+		        alert(xhr.status);
+		        alert(thrownError);
+		      }
 		});
 	} else {
 		return;
@@ -98,7 +109,10 @@ function savePath() {
 			$("#destinationId").val("");
 			getAllPaths();
 			$('#insertAPath').popup('close');
-		}
+		},error: function (xhr, ajaxOptions, thrownError) {
+	        alert(xhr.status);
+	        alert(thrownError);
+	      }
 	});
 }
 
@@ -186,7 +200,10 @@ function getAllMarkers() {
 										markers.push(marker);
 									});
 					$('#parentLocationListView').html(str);
-				}
+				},error: function (xhr, ajaxOptions, thrownError) {
+			        alert(xhr.status);
+			        alert(thrownError);
+			      }
 			});
 }
 
@@ -263,7 +280,10 @@ function getAllPaths() {
 				paths.push(pathPolyline);
 			});
 		}
-
+	,error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      }
 	});
 }
 
@@ -519,7 +539,10 @@ function getPathTypePanel() {
 			$("ul#pathTypeListView").listview();
 			$("ul#pathTypeListView").listview("refresh");
 			$("#rightpanel").trigger("updatelayout");
-		}
+		},error: function (xhr, ajaxOptions, thrownError) {
+	        alert(xhr.status);
+	        alert(thrownError);
+	      }
 	});
 }
 

@@ -120,11 +120,19 @@
 					data-input="#destinationName">
 				</ul>
 			</div>
-			<div class="ui-block-solo" id="destinationNameDiv">
-				<input name="destinationName" id="destinationName"
-					data-type="search" placeholder="Search for a place"
+			<div class="ui-block-solo" id="departureNameDiv">
+				<input name="departureName" id="departureName"
+					data-type="search" placeholder="Choose starting point"
 					data-mini="true" autocomplete="off">
 			</div>
+			<div class="ui-block-solo" id="destinationNameDiv">
+				<input name="destinationName" id="destinationName"
+					data-type="search" placeholder="Choose destination"
+					data-mini="true" autocomplete="off">
+					
+			</div>
+			
+			
 		</div>
 		<!-- 				DIRECTION SHOW -->
 		<div id="directionShow"
@@ -203,6 +211,4 @@
 <script src="js/location/path.panels.js"></script>
 <script type="text/javascript"
 	src="js/location/path.navigation.map.js?noCache=true"></script>
-	<script type="text/javascript"
-	src="js/location/path.navigation.map.js"></script>
 </html>

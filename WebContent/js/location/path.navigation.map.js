@@ -53,7 +53,7 @@ function openCloseSearch() {
 			'right' : '-100%'
 		}, 500);
 	}
-	$("#autocompleteContainer").css("bottom", "44");
+	$("#autocompleteContainer").css("bottom", "88");
 	$("#searchBarDiv").trigger("updatelayout");
 }
 

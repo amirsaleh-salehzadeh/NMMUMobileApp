@@ -283,6 +283,10 @@ button {
 	bottom: 0;
 	position: absolute;
 }
+#departureNameDiv {
+	bottom: 44;
+	position: absolute;
+}
 
 /* NAVIGATE POPUP */
 #popupPathType {
