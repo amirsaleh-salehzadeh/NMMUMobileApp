@@ -37,6 +37,7 @@ function mapMapView() {
 
 function openCloseSearch() {
 	if (parseInt($('#barcodeDescription').css("top")) >= 0)
+		//openCloseInfo();
 	if (parseInt($('#searchBarDiv').css("right")) < -10) {
 		$('#buttonContainer').animate({
 			'right' : '266'
