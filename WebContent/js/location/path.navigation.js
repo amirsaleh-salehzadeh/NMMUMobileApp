@@ -680,3 +680,23 @@ $(document).ready(
 			getLocationTypePanel();
 //			selectMapMode();
 		});
+//////////// CHANGED HERE
+function resizeCompass() {
+	if($("#compassID").css("width")=="70px"){
+		$("#compassID").css("height","120px");
+		$("#compassID").css("width","120px");
+		$("#compassArrowID").css("height","120px");
+		$("#compassArrowID").css("width","120px");
+		$("#compassDiscImg").css("height","120px");
+		$("#compassDiscImg").css("width","120px");
+		}
+	else {
+		$("#compassID").css("height","70px");
+		$("#compassID").css("width","70px");
+		$("#compassArrowID").css("height","70px");
+		$("#compassArrowID").css("width","70px");
+		$("#compassDiscImg").css("height","70px");
+		$("#compassDiscImg").css("width","70px");
+	}
+		
+}

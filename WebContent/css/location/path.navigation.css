@@ -43,10 +43,10 @@ button {
 	display: none;
 }
 
-/* COMPASS */
+/* COMPASS */    /* //////////// CHANGED HERE START */
 .compass {
-	width: 130px;
-	height: 111px;
+	width: 70px; /* 130px */
+	height: 70px; /* 111px */
 	float: left;
 	bottom: 15%;
 	left: 0%;
@@ -55,6 +55,8 @@ button {
 	overflow: hidden;
 	z-index: 100;
 	display: inline-block;
+	padding: 4px 4px 4px 4px;
+	
 }
 
 .compass .disc {
@@ -62,8 +64,8 @@ button {
 	z-index: 101;
 	background: url('http://dev.rvltn.eu/compass/compass.svg');
 	display: block;
-	width: 111px;
-	height: 111px;
+	width: 70px; /* 111px */
+	height: 70px; /* 111px */
 	background-size: 100%;
 }
 
@@ -71,11 +73,10 @@ button {
 	position: absolute;
 	z-index: 103;
 	background: url('http://dev.rvltn.eu/compass/arrow.svg');
-	width: 111px;
-	height: 111px;
+	width: 70px; /* 111px */ 
+	height: 70px; /* 111px */
 	background-size: 100%;
-	width: 111px;
-}
+} /* //////////// CHANGED HERE END */
 
 /* MAP ZOOM */
 #zoomSettings {
@@ -167,46 +168,46 @@ button {
 }
 
 /* ICONS */
-#start {
+#start {  /* //////////// CHANGED HERE */
 	background-image: url("../../images/icons/startBlue.png") !important;
 	background-repeat: no-repeat;
-	background-size: 32px 32px;
+	background-size: 48px 48px; /* was 32px 32px */
 	background-position: center;
 	border: none;
 }
 
-#remove {
+#remove {  /* //////////// CHANGED HERE */
 	background-image: url("../../images/icons/stop.png") !important;
 	background-repeat: no-repeat;
 	/*background-size: 27px 27px;*/
-	background-size: 32px 32px;
+	background-size: 48px 48px; /* was 32px 32px */
 	/*background-position: left 2px center;*/
 	background-position: center;
 	border: none;
 }
 
-#mylocation {
+#mylocation {  /* //////////// CHANGED HERE */
 	background-image: url("../../images/icons/target.png") !important;
 	background-repeat: no-repeat;
-	background-size: 32px 32px;
+	background-size: 48px 48px; /* was 32px 32px */
 	background-position: left 2px center;
 	background-position: center;
 	border: none;
 }
 
-#mapViewSelect {
+#mapViewSelect {  /* //////////// CHANGED HERE */
 	background-image: url("../../images/icons/maps.png") !important;
 	background-repeat: no-repeat;
-	background-size: 32px 32px;
+	background-size: 48px 48px; /* was 32px 32px */
 	background-position: left 2px center;
 	background-position: center;
 	border: none;
 }
 
-#dualModeSelect {
+#dualModeSelect { /* //////////// CHANGED HERE */
 	background-image: url("../../images/icons/qrcodescan.png") !important;
 	background-repeat: no-repeat;
-	background-size: 32px 32px;
+	background-size: 48px 48px; /* was 32px 32px */
 	background-position: left 2px center;
 	background-position: center;
 	border: none;
@@ -305,7 +306,8 @@ button {
 		startColorstr=#3093c7, endColorstr=#1c5a85);
 }
 
-.popupPathItem {
+.popupPathItem { /* //////////// CHANGED HERE */
+	right: 4px; /* ////// NEW FOR SPACING PROBLEM */
 	border: 1px solid #d1dcdf !important;
 	-webkit-border-radius: 3px !important;
 	-moz-border-radius: 3px !important;
@@ -352,8 +354,9 @@ button {
 	padding-bottom: 3px;
 }
 
-.infoValue {
-	padding-left: 1.3em;
+.infoValue { /* //////////// CHANGED HERE */
+	/* padding-left: 1.3em; */
+	padding-left: 34px; /* to move text to right */
 }
 
 /* INFO SPANS END */
@@ -392,14 +395,16 @@ button {
 	/* 48px x 48px */
 }
 
-#viewFullScreen {
-	margin: .66em .66em .66em;
+#viewFullScreen {    /* //////////// CHANGED HERE */
+	/* margin: .66em .66em .66em; */
+	padding: 7px 4px 7px 4px;
 }
 /* FULLSCREEN BUTTON END*/
 
 /* VIEW MAPTYPE DIV */
-#viewMapType {
-	margin: .66em .66em .66em;
+#viewMapType { /* //////////// CHANGED HERE */
+	/* margin: .66em .66em .66em; */
+	padding: 7px 4px 7px 4px;
 }
 
 #destinationShow {
@@ -423,26 +428,26 @@ button {
 	right: 0;
 }
 
-#destinationShowIMG {
+#destinationShowIMG {    /* //////////// CHANGED HERE */
 	display: block;
 	z-index: 11;
 	background-color: white;
 	opacity: 0.66;
-	position: fixed;
+	position: absolute; /* fixed */
 	border: 1px solid #d1dcdf !important;
 	-webkit-border-radius: 22px !important;
 	-moz-border-radius: 22px !important;
 	border-radius: 22px !important;
 }
 
-.dashboardShow {
+.dashboardShow {     /* //////////// CHANGED HERE */
 	display: block;
-	min-width: 15%;
+	min-width: 103px; /* 15% */
 	min-height: 33px;
 	z-index: 10;
 	background-color: black;
 	opacity: 0.77;
-	position: fixed;
+	position: absolute; /* fixed */
 	color: white;
 	text-decoration: none;
 	text-align: center;
@@ -452,12 +457,12 @@ button {
 	border-radius: 7px !important;
 }
 
-.destinationShowIMG {
+.destinationShowIMG {   /* //////////// CHANGED HERE */
 	display: block;
 	z-index: 11;
 	background-color: white;
 	opacity: 0.66;
-	position: fixed;
+	position: absolute; /* fixed */
 	border: 1px solid #d1dcdf !important;
 	-webkit-border-radius: 7px !important;
 	-moz-border-radius: 7px !important;
