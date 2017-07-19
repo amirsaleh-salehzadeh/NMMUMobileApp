@@ -258,13 +258,16 @@ button {
 }
 
 #autocompleteContainer {
-	position: absolute;
-	max-height: 100%;
-	display: inline;
-	overflow: auto;
-	z-index: 125;
-	background-color: transparent;
+	    background-color: #00457c;
+    border-radius: 11px;
+    width: 100%;
+    position: absolute;
+    display: block;
+    max-height: 333px;
+    overflow: auto;
+    box-sizing: border-box;
 	max-width: 271px;
+	border-color:white;
 }
 
 #autocompleteDestination {
@@ -459,3 +462,30 @@ button {
 	border-radius: 7px !important;
 }
 /* LIST VIEW */
+
+#autocompleteDestination .ui-collapsible {
+	
+	padding:0;
+	background-color:transparent;
+	border-width:0;
+
+	}
+	#autocompleteDestination .ui-collapsible .ui-li-static{
+	background-color:#00457c;
+	border-color:white;
+	height:30;
+	padding:0;
+	padding-left:5;
+	}
+	#autocompleteDestination .ui-btn,  .ui-btn-icon-right{
+	padding:0;
+	padding-left:5;
+	height:35;
+	border-color:white; 
+	}
+	#autocompleteDestination .ui-collapsible-heading, .ui-collapsible-heading>.ui-btn{
+	margin:0;
+	}
+	#autocompleteDestination .ui-li-static .ui-body-inherit .ui-collapsible .ui-collapsible-themed-content .ui-collapsible-collapsed .ui-first-child{
+	display:none;
+	}
