@@ -688,5 +688,5 @@ $(document).ready(
 			selectMapMode();
 			getLocationTypePanel();
 //			selectMapMode();
-			$('#popupCurrentLocation').popup('open').trigger('create');
+			
 		});

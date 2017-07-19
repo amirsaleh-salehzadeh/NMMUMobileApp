@@ -24,12 +24,20 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <body>
 	<div id="pageContents" style="width: 100%; height: 100%;">
+	<input  type="hidden" id="currentLocationName" placeholder="Current Location" value="">
+	<input  type="hidden" id="currentTime" placeholder="Current Time" value="">
 	<div data-role="popup" id="popupCurrentLocation">
 	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-	 You are at <input type="text" name="currentLocationName" id="currentLocationName" value=""> 
-	 <br> <input type="text" name="currentTime" id="currentTime" value="">
+	 You are at <%= request.getParameter("currentLocationName") %> 
+	 <br> <%= request.getParameter("currentTime") %> 
+	<div>
+	<image>
+	
+	</div>
+	<div>
 	
 	
+	</div>
 	</div>
 		<div data-role="popup" id="popupPathType">
 		<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>

@@ -287,6 +287,8 @@ button {
 
 /* NAVIGATE POPUP */
 #popupCurrentLocation{
+	height:700px;
+	width:1500px;
 	border: 1px solid #25729a;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;

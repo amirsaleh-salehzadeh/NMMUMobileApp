@@ -81,3 +81,26 @@ function selectMapMode() {
 	stopCamera();
 	findMyLocation();
 }
+function arrivalPopup(gps){
+	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
+		+ "&gps=" + gps;
+$.ajax({
+	url : url,
+	cache : true,
+	async : true,
+	success : function(data) {
+		$.each(data, function(k, l) {
+			$('#currentTime').val(Date());
+			$('#currentLocationName').val(l.locationName);
+			$('#popupCurrentLocation').popup('open');
+	});
+	},error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      } 
+});
+	
+	
+	
+	
+}
