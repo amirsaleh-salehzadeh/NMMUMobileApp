@@ -677,5 +677,6 @@ $(document).ready(
 		function() {
 			$("#mapViewIcon").fadeOut();
 			selectMapMode();
+			getLocationTypePanel();
 //			selectMapMode();
 		});

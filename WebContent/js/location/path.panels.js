@@ -36,7 +36,7 @@ function getLocationTypePanel() {
 				var str = "";
 				str += "<li id='" + l.locationID + "_" + l.gps
 						+ "' onclick='selectDestination(this)'>"
-						+ l.locationType.locationType + " " + l.locationName
+					    + l.locationName
 						+ "</li>";
 				$("#" + l.locationType.locationTypeId).append(str);
 				$("#" + l.locationType.locationTypeId).listview();
