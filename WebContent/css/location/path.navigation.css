@@ -254,7 +254,7 @@ button {
 	width: 211px;
 	right: -100%;
 	background-color: transparent;
-	z-index: 100;
+	z-index: 120;
 	top:-13%;
 }
 
