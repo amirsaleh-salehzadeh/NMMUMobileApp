@@ -1,4 +1,3 @@
-window.onload = getLocationTypePanel;
 var locationTypeJSONData;
 function getLocationTypePanel() {
 	var url = "REST/GetLocationWS/GetAllLocationTypes";
@@ -16,23 +15,6 @@ function getLocationTypePanel() {
 							+ data.locationTypeId + ' class="locationTypes">';
 					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" data-mini="true" id="'
 							+ data.locationTypeId + '" class="locationTypes">';
-
-					// if (data.children.length > 1)
-					// $
-					// .each(
-					// data.children,
-					// function(k, l) {
-					//											
-					// listAdd += '<li data-role="collapsible" data-mini="true"
-					// data-iconpos="right" data-inset="false">';
-					// listAdd += '<li data-role="collapsible"
-					// data-iconpos="right" data-inset="false">';
-					// listAdd += '<h2>' + l.locationType
-					// + '</h2>';
-					// listAdd += '<ul data-role="listview" data-theme="b" id="'
-					// + l.locationTypeId
-					// + '" class="locationTypes"></ul>This ONE</li>';
-					// });
 					listAdd += "</ul></li>";
 					$("#autocompleteDestination").append(listAdd);
 					$("#autocompleteDestination").listview();
@@ -48,7 +30,7 @@ function getLocationTypePanel() {
 	$.ajax({
 		url : url,
 		cache : true,
-		async : false,
+		async : true,
 		success : function(data) {
 			$.each(data, function(k, l) {
 				var str = "";
@@ -61,7 +43,7 @@ function getLocationTypePanel() {
 				$("#" + l.locationType.locationTypeId).listview("refresh");
 				$("#autocompleteDestination").listview("refresh");
 			});
-		}
+		} 
 	});
 }
 
@@ -91,6 +73,3 @@ function getMyChild(select) {
 	});
 }
 
-function onSearch() {
-	// create a normal li ul of the returned locations
-}

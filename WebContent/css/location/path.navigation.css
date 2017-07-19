@@ -1,55 +1,55 @@
-#videoContent, #cameraView {
+button {
+	cursor: pointer;
+}
+
+#pageContents {
+	display: inline;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+#videoContent,#cameraView {
 	width: 100%;
 	height: 100%;
-	position: relative;
+	position: absolute;
 	overflow: hidden;
 	transform: rotateY(180deg);
 	-webkit-transform: rotateY(180deg);
 	-moz-transform: rotateY(180deg);
+	z-index: 100;
 }
 
-#map_canvas, #videoContent {
-	min-width: 100%;
-	top: 0;
-	bottom: 0;
-	display: block;
-}
-
-#cameraView {
-	min-width: 100%;
-	top: 0;
-	bottom: 0;
-	display: none;
-}
-
-#viewModeCamera {
-	display: inline;
-	position: absolute;
-	float: right;
-	padding-top: .6em;
-	padding-left: .66em;
-	z-index: 1;
+#map_canvas,#mapView {
 	width: 100%;
+	top: 0;
+	display: block;
+	height: 100%;
+	position: fixed;
 }
 
-/* panel bottom */
 #dashboardPanel {
 	display: inline;
 	position: fixed;
 	bottom: 0em;
-	height: 121px;
+	height: 13%;
 	width: 100%;
-	bottom: -100%;
-	z-index: 999999;
-	background: transparent;
+	display: inline-block;
+	background: transparent !important;
 }
 
+#cameraView {
+	top: 111;
+	left: 33;
+	display: none;
+}
+
+/* COMPASS */
 .compass {
 	width: 130px;
 	height: 111px;
 	float: left;
-	top: 5px;
-	left: 5px;
+	bottom: 15%;
+	left: 0%;
 	display: inline-block;
 	position: absolute;
 	overflow: hidden;
@@ -77,160 +77,102 @@
 	width: 111px;
 }
 
-#dashboardDiv {
-	background-color: #00457c;
-	display: inline-block;
-	background-color: rgba(0, 69, 124, 0.66);
-	bottom: 0em;
-	height: 100%;
-	z-index: auto;
-	width: 100%;
-	display: inline-block;
-	float: right;
-	right: 0;
-	/*border: 1px solid #7eb9d0;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;*/
-	border: none;
-	border-color: transparent;
-	font-size: 12px;
-	font-family: arial, helvetica, sans-serif;
-	text-decoration: none;
-	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-	font-weight: bold;
-	color: #FFFFFF;
-	/*
-	background-color: #a7cfdf;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#a7cfdf),
-		to(#23538a));
-	background-image: -webkit-linear-gradient(top, #a7cfdf, #23538a);
-	background-image: -moz-linear-gradient(top, #a7cfdf, #23538a);
-	background-image: -ms-linear-gradient(top, #a7cfdf, #23538a);
-	background-image: -o-linear-gradient(top, #a7cfdf, #23538a);
-	background-image: linear-gradient(to bottom, #a7cfdf, #23538a);
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
-		startColorstr=#a7cfdf, endColorstr=#23538a); */
-	background-color: transparent;	
-}
-
-/* buttons in panel */
-#actionBTNs {
-	display: inline-block;
-	float: right;
-	right: 0;
-	min-height: 100%;
-	width: 100%;
-	margin-left: 111px;
-}
-
-#actionBTNsHorizontal {
-	display: inline-block;
-	float: right;
-	right: 0;
-	min-height: 100%;
-}
-
-#mapModeSettings,#zoomSettings {
-	float: left !important;
-	/* 	min-height: 100%; */
+/* MAP ZOOM */
+#zoomSettings {
 	padding: 7px 4px 7px 4px;
 }
 
-#mapModeSettings {
-	margin-left: 122px;
-}
-
-.buttonGroups {
-	/*border: 1px solid #a8c1d5;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;*/
-	border: none;
-	border-color: transparent;
-	font-size: 12px;
-	font-family: arial, helvetica, sans-serif;
-	padding: 2px 4px 2px 4px;
-	text-decoration: none;
-	display: inline-block;
-	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-	font-weight: bold;
-	color: #FFFFFF;
-	/*background-color: #CEDCE7;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#CEDCE7),
-		to(#596a72));
-	background-image: -webkit-linear-gradient(top, #CEDCE7, #596a72);
-	background-image: -moz-linear-gradient(top, #CEDCE7, #596a72);
-	background-image: -ms-linear-gradient(top, #CEDCE7, #596a72);
-	background-image: -o-linear-gradient(top, #CEDCE7, #596a72);
-	background-image: linear-gradient(to bottom, #CEDCE7, #596a72);
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
-		startColorstr=#CEDCE7, endColorstr=#596a72);*/
-	min-height: 45%;
-	background-color: transparent;
-}
-
-.navbtn {
-	height: 44%;
-	border: 1px solid #2a2c2f;
+.zoomBTN {
+	cursor: pointer;
+	min-width: 42px;
+	min-height: 42px;
+	margin-bottom: 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	font-size: 12px;
-	font-family: arial, helvetica, sans-serif;
-	padding: 8px 7px 8px 7px;
-	text-decoration: none;
+	padding: 10px 10px 10px 10px;
 	display: inline-block;
-	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-	font-weight: bold;
-	color: #FFFFFF;
-	background-color: #45484d;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#45484d),
-		to(#000000));
-	background-image: -webkit-linear-gradient(top, #45484d, #000000);
-	background-image: -moz-linear-gradient(top, #45484d, #000000);
-	background-image: -ms-linear-gradient(top, #45484d, #000000);
-	background-image: -o-linear-gradient(top, #45484d, #000000);
-	background-image: linear-gradient(to bottom, #45484d, #000000);
+	border: 1px solid #5d7fbc;
+	background-color: #819bcb;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#819bcb),
+		to(#536f9d));
+	background-image: -webkit-linear-gradient(top, #819bcb, #536f9d);
+	background-image: -moz-linear-gradient(top, #819bcb, #536f9d);
+	background-image: -ms-linear-gradient(top, #819bcb, #536f9d);
+	background-image: -o-linear-gradient(top, #819bcb, #536f9d);
+	background-image: linear-gradient(to bottom, #819bcb, #536f9d);
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
-		startColorstr=#45484d, endColorstr=#000000);
-	min-width: 33px;
+		startColorstr=#819bcb, endColorstr=#536f9d);
 }
 
 #zoomin {
 	background-image: url("../../images/icons/zoomin.png") !important;
 	background-repeat: no-repeat;
-	/*background-size: 27px 27px;*/
 	background-size: 32px 32px;
-	/*background-position: left 2px center;*/
-	background-position: top 5px center;
-	background-color: transparent;
-	border: none;
-	border-color: transparent;
+	background-position: center;
 }
 
 #zoomout {
 	background-image: url("../../images/icons/zoomout.png") !important;
 	background-repeat: no-repeat;
-	/*background-size: 27px 27px;*/
 	background-size: 32px 32px;
-	/*background-position: left 2px center;*/
-	background-position: top 5px center;
-	background-color: transparent;
-	border: none;
-	border-color: transparent;
+	background-position: center;
 }
 
+/* panel bottom */
+.navbtnsdiv {
+	height: 90%;
+	width: 90%;
+	margin: auto;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-block;
+	padding: 3px 3px 3px 3px;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.navbtn {
+	height: 100%;
+	width: 100%;
+	margin: auto;
+	box-shadow: 0px 0px 7px 7px #fff;
+	display: block;
+	cursor: pointer;
+	display: block;
+	background-color: transparent;
+}
+
+/* CONFIG BUTTONS */
+#remove {
+	display: none;
+}
+
+.blur {
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	background-color: rgba(0, 69, 124, 0.44);
+	-webkit-filter: blur(8px);
+	-moz-filter: blur(8px);
+	-ms-filter: blur(8px);
+	-o-filter: blur(8px);
+	filter: blur(8px);
+	border: 1px solid #25729a;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	position: absolute;
+	display: block;
+}
+
+/* ICONS */
 #start {
 	background-image: url("../../images/icons/startBlue.png") !important;
 	background-repeat: no-repeat;
-	/*background-size: 27px 27px;*/
 	background-size: 32px 32px;
-	/*background-position: left 2px center;*/
-	background-position: top 5px center;
-	background-color: transparent;
+	background-position: center;
 	border: none;
-	border-color: transparent;
 }
 
 #remove {
@@ -239,134 +181,80 @@
 	/*background-size: 27px 27px;*/
 	background-size: 32px 32px;
 	/*background-position: left 2px center;*/
-	background-position: top 5px center;
-	background-color: transparent;
+	background-position: center;
 	border: none;
-	border-color: transparent;
 }
 
 #mylocation {
 	background-image: url("../../images/icons/target.png") !important;
 	background-repeat: no-repeat;
-	/*background-size: 27px 27px;*/
 	background-size: 32px 32px;
-	/*background-position: left 2px center;*/
-	background-position: top 5px center;
-	background-color: transparent;
+	background-position: left 2px center;
+	background-position: center;
 	border: none;
-	border-color: transparent;
 }
 
 #mapViewSelect {
 	background-image: url("../../images/icons/maps.png") !important;
 	background-repeat: no-repeat;
-	/*background-size: 27px 27px;*/
 	background-size: 32px 32px;
-	/*background-position: left 2px center;*/
-	background-position: top 5px center;
-	background-color: transparent;
+	background-position: left 2px center;
+	background-position: center;
 	border: none;
-	border-color: transparent;
 }
 
 #dualModeSelect {
 	background-image: url("../../images/icons/qrcodescan.png") !important;
 	background-repeat: no-repeat;
-	/*background-size: 27px 27px;*/
 	background-size: 32px 32px;
-	/*background-position: left 2px center;*/
-	background-position: top 5px center;
-	background-color: transparent;
+	background-position: left 2px center;
+	background-position: center;
 	border: none;
-	border-color: transparent;
-}
-
-#cameraMode {
-	background-image: url("../../images/icons/camera.png") !important;
-	background-repeat: no-repeat;
-	/*background-size: 27px 27px;*/
-	background-size: 32px 32px;
-	/*background-position: left 2px center;*/
-	background-position: top 5px center;
-	background-color: transparent;
-	border: none;
-	border-color: transparent;
 }
 
 #satelliteView {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	cursor: pointer; 
-	width: 48px; 
+	cursor: pointer;
+	width: 48px;
 	height: 48px;
 	background-image: url("../../images/icons/satellite.png") !important;
-	background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0px 0px;  /* equivalent to 'top left' */
- 	background-color: transparent;
- 	box-shadow: none;
+	background-repeat: no-repeat;
+	box-shadow: none;
 }
 
 #mapViewIcon {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	cursor: pointer; 
-	width: 48px; 
+	cursor: pointer;
+	width: 48px;
 	height: 48px;
 	background-image: url("../../images/icons/mapsview.png") !important;
-	background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0px 0px;  /* equivalent to 'top left' */
- 	background-color: transparent;
- 	box-shadow: none;
-}
-
-
-/* CONFIG BUTTONS */
-#remove{
-	
-display: none;	
-	
-}
-
-#buttonContainer {
-	max-width: 100%;
-	position: absolute;
-	z-index: 100000;
-	bottom: 0;
-	right: 0;
-}
-
-#openMenuBTN {
-	min-width: 48px;
-	min-height: 48px;
-	background-image: url("../../images/icons/settings.png") !important;
 	background-repeat: no-repeat;
-	background-size: 48px 48px;
-	background-color: transparent;
-	border: 0;
+	background-position: 0px 0px; /* equivalent to 'top left' */
+	box-shadow: none;
 }
 
 #openSearchBTN {
-	min-width: 48px;
-	min-height: 48px;
 	background-image: url("../../images/icons/search.png") !important;
 	background-repeat: no-repeat;
 	background-size: 48px 48px;
-	background-color: transparent;
-	border: 0;
+	background-position: center;
+	border: none;
 }
 
 /* SEARCH BAR */
 #searchBarDiv {
 	height: 100%;
-	display: inline;
-	position: fixed;
+	display: block;
+	position: absolute;
 	bottom: 0em;
-	width: 266px;
+	width: 211px;
 	right: -100%;
-	z-index: 999999;
 	background-color: transparent;
+	z-index: 100;
 }
 
 #autocompleteContainer {
@@ -374,9 +262,9 @@ display: none;
 	max-height: 100%;
 	display: inline;
 	overflow: auto;
-	z-index: 120;
+	z-index: 125;
 	background-color: transparent;
-	max-width:271px;
+	max-width: 271px;
 }
 
 #autocompleteDestination {
@@ -428,85 +316,56 @@ display: none;
 	background-color: #f2f5f6 !important;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#f2f5f6),
 		to(#c8d7dc)) !important;
-	background-image: -webkit-linear-gradient(top, #f2f5f6, #c8d7dc) !important;
+	background-image: -webkit-linear-gradient(top, #f2f5f6, #c8d7dc)
+		!important;
 	background-image: -moz-linear-gradient(top, #f2f5f6, #c8d7dc) !important;
 	background-image: -ms-linear-gradient(top, #f2f5f6, #c8d7dc) !important;
 	background-image: -o-linear-gradient(top, #f2f5f6, #c8d7dc) !important;
-	background-image: linear-gradient(to bottom, #f2f5f6, #c8d7dc) !important;
+	background-image: linear-gradient(to bottom, #f2f5f6, #c8d7dc)
+		!important;
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
 		startColorstr=#f2f5f6, endColorstr=#c8d7dc) !important;
 }
 
 /* INFO SPANS */
-
 #barcodeDescription {
 	position: absolute;
-	display: block;
-	width: 100%;
-	/*z-index: 100;*/
+	display: table;
+	width: 75%;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	top: 0; background-color : transparent;
+	height: 77px;
 	background-color: transparent;
-	padding-left: 7px;
-	padding-top: 7px;
-	height: 55%;
-	z-index: 999999;
-	bottom: 0em;
-	width: 200px;
-	left: -100%;
 }
 
-.headingInfo{
+.headingInfo {
 	min-height: 1.1em;
 	background-color: black;
 	color: white;
 	padding-bottom: 3px;
 }
 
-.infoValue{
+.infoValue {
 	padding-left: 1.3em;
 }
 
-#infobuttonContainer {
-	max-width: 100%;
-	position: absolute;
-	z-index: 100000;
-	top: 110px;
-	left: 0;
-}
-
-#openInfoBTN {
-	
-	min-width: 48px;
-	min-height: 48px;
-	background-image: url("../../images/icons/infoOrange.png") !important;
-	background-repeat: no-repeat;
-	background-size: 48px 48px;
-	background-color: transparent;
-	border: 0;
-}
-
 /* INFO SPANS END */
-
-	/* #autocompleteDestination .ui-collapsible{ */
-	/* 	background-color: transparent; */
-	/* 	border-color:transparent; */
-	/* 	padding:0; */
-		
-	/* } */
-#autocompleteDestination .ui-collapsible-content{
+#autocompleteDestination .ui-collapsible-content {
 	background-color: transparent;
-	max-width:271px;
-	
+	max-width: 271px;
 }
+
 .ui-collapsible-heading .ui-btn {
 	height: 15;
 	background-color: #2a2a2a;
-    border-color: #1d1d1d;
-    color: #fff;
-    text-shadow: 0 1px 0 #111;
-    font-size: 1em;
-    line-height: 1.3;
-    font-family: sans-serif;
-	
+	border-color: #1d1d1d;
+	color: #fff;
+	text-shadow: 0 1px 0 #111;
+	font-size: 1em;
+	line-height: 1.3;
+	font-family: sans-serif;
 }
 
 /* FULLSCREEN BUTTON */
@@ -514,18 +373,20 @@ display: none;
 	margin: 0;
 	padding: 0;
 	border: 0;
-	cursor: pointer; 
-	width: 48px; 
+	cursor: pointer;
+	width: 48px;
 	height: 48px;
-	background-image: url("../../images/icons/maximise.png") !important; /* 48px x 48px */
-    background-repeat: no-repeat;  /* make the background image appear only once */
-    background-position: 0px 0px;  /* equivalent to 'top left' */
- 	background-color: transparent;
- 	box-shadow: none;
+	background-image: url("../../images/icons/maximise.png") !important;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	box-shadow: none;
 }
+
 #btnToggleFullscreen.off {
-	background-image: url("../../images/icons/minimise.png") !important;  /* 48px x 48px */
+	background-image: url("../../images/icons/minimise.png") !important;
+	/* 48px x 48px */
 }
+
 #viewFullScreen {
 	margin: .66em .66em .66em;
 }
@@ -536,3 +397,65 @@ display: none;
 	margin: .66em .66em .66em;
 }
 
+#destinationShow {
+	width: 50%;
+	height: 2em;
+	display: table;
+	z-index: 10;
+	background-color: black;
+	opacity: 0.77;
+	position: absolute;
+	margin: 0 auto;
+	color: white;
+	text-decoration: none;
+	text-align: center; right : 0;
+	left: 0;
+	bottom: 15%;
+	border: 3px solid #d1dcdf !important;
+	-webkit-border-radius: 22px !important;
+	-moz-border-radius: 22px !important;
+	border-radius: 22px !important;
+	right: 0;
+}
+
+#destinationShowIMG {
+	display: block;
+	z-index: 11;
+	background-color: white;
+	opacity: 0.66;
+	position: fixed;
+	border: 1px solid #d1dcdf !important;
+	-webkit-border-radius: 22px !important;
+	-moz-border-radius: 22px !important;
+	border-radius: 22px !important;
+}
+
+.dashboardShow {
+	display: block;
+	min-width: 15%;
+	min-height: 33px;
+	z-index: 10;
+	background-color: black;
+	opacity: 0.77;
+	position: fixed;
+	color: white;
+	text-decoration: none;
+	text-align: center;
+	border: 2px solid #d1dcdf !important;
+	-webkit-border-radius: 7px !important;
+	-moz-border-radius: 7px !important;
+	border-radius: 7px !important;
+}
+
+.destinationShowIMG {
+	display: block;
+	z-index: 11;
+	background-color: white;
+	opacity: 0.66;
+	position: fixed;
+	border: 1px solid #d1dcdf !important;
+	-webkit-border-radius: 7px !important;
+	-moz-border-radius: 7px !important;
+	border-radius: 7px !important;
+}
+/* LIST VIEW */

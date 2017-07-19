@@ -22,10 +22,8 @@
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="css/location/path.navigation.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <body>
-	<div id="pageContents" style="min-width: 100%; min-height: 100%;">
+	<div id="pageContents" style="width: 100%; height: 100%;">
 		<div data-role="popup" id="popupPathType">
 			<div class="ui-block-a">
 				<label for="dirtroad" class="popupPathItem"><input
@@ -34,95 +32,18 @@
 					unsmooth walkways)</label><br /> <label for="walking"
 					class="popupPathItem">Normal Path<input type="radio"
 					name="radio-choice-path-type" id="walking" value="1">
-				</label> <a data-role="button" href="#" data-mini="true"
-					onclick="getThePath()">Navigate Me</a>
+				</label> <a data-role="button" href="#" onclick="getThePath()">Navigate
+					Me</a>
 			</div>
 		</div>
-		<input type="hidden" id="tripId">
-		<div id="mapView" class="ui-block-solo"
-			style="min-width: 100%; max-height: 50%;">
-			<input type="hidden" id="tripIds"> <input type="hidden"
-				id="tripGPSs"> <input type="hidden" id="tripLocations">
-			<input type="hidden" id="from" placeholder="Departure"> <input
-				type="hidden" id="departureId" placeholder="DepartureId"> <input
-				type="hidden" id="departureName" placeholder="Departure"> <input
-				type="hidden" id="to"> <input type="hidden"
-				id="destinationId" placeholder="DestinationId">
-			<div id="map_canvas"></div>
-		</div>
-		<div class="ui-block-a" stle="float: right" id="viewMapType">
-			<div class="ui-grid-a">
-				<input type="button" class="navbtn" id="satelliteView"
-					onclick="mapSattelView()">
-			</div>
-			<div class="ui-grid-b">
-				<input type="button" class="navbtn" id="mapViewIcon"
-					onclick="mapMapView()">
-			</div>
-		</div>
-		<div class="ui-block-solo" stle="float: right" id="viewFullScreen">
-			<a href="#" data-role="button" id="btnToggleFullscreen" alt=""
-				onclick="toggleFullScreen()" align="top"></a>
-		</div>
-		<div id="cameraView" class="ui-block-solo">
-			<video id="videoContent"></video>
-		</div>
-	</div>
-	<div id="infobuttonContainer">
-		<input type="button" id="openInfoBTN" onclick="openCloseInfo()">
-	</div>
-	<div id="barcodeDescription" class="ui-block-solo">
-		<img alt="" src="images/icons/target-old.png"
-			style="width: 32px; height: 32px;"> <span class="headingInfo">
-			<!-- Current Location -->
-		</span> <span class="infoValue" id="currentLocationInf"></span><br /> <img
-			alt="" src="images/icons/speed.png"
-			style="width: 32px; height: 32px;"> <span class="headingInfo">
-			<!-- Speed-->
-		</span> <span class="infoValue" id="speedInf"></span><br /> <img alt=""
-			src="images/icons/altitude.png" style="width: 32px; height: 32px;">
-		<span class="headingInfo">
-			<!-- Sea level-->
-		</span> <span class="infoValue" id="seaLevelInf"></span><br /> <img alt=""
-			src="images/icons/finish.png" style="width: 32px; height: 32px;">
-		<span class="headingInfo">
-			<!-- Destination-->
-		</span> <span class="infoValue" id="destinationInf"></span><br /> <img
-			alt="" src="images/icons/distance.png"
-			style="width: 32px; height: 32px;"> <span class="headingInfo">
-			<!-- Distance left-->
-		</span> <span class="infoValue" id="distanceLeftInf"></span><br /> <img
-			alt="" src="images/icons/time.png" style="width: 32px; height: 32px;">
-		<span class="headingInfo">
-			<!-- Arrival time-->
-		</span> <span class="infoValue" id="arrivalTimeInf"></span><br />
-		<div id="directionShow"
-			style="background-color: transparent; left: 53px; position: absolute;">
-			<img alt="" src="images/icons/anim/arrow.gif" id="arrowDirId">
-		</div>
-	</div>
-	<div id="buttonContainer">
-		<input type="button" id="openMenuBTN" onclick="openCloseMenu()">
-		<input type="button" id="openSearchBTN" onclick="openCloseSearch()">
-	</div>
-	<div id="searchBarDiv">
-		<div class="ui-block-solo" data-role="collapsible-set"
-			id="autocompleteContainer">
-			<ul id="autocompleteDestination" data-role="listview"
-				data-mini="true" data-inset="true" data-filter="true"
-				data-input="#destinationName">
-			</ul>
-		</div>
-		<div class="ui-block-solo" id="destinationNameDiv">
-			<input name="destinationName" id="destinationName" data-type="search"
-				placeholder="Search for a place" data-mini="true" autocomplete="off">
-		</div>
-	</div>
-	<div id="dashboardPanel">
-		<div class="compass">
-			<div class="arrow"></div>
-			<div class="disc" id="compassDiscImg"></div>
-		</div>
+		<input type="hidden" id="tripIds"> <input type="hidden"
+			id="tripGPSs"> <input type="hidden" id="tripLocations">
+		<input type="hidden" id="from" placeholder="Departure"> <input
+			type="hidden" id="departureId" placeholder="DepartureId"> <input
+			type="hidden" id="departureName" placeholder="Departure"> <input
+			type="hidden" id="to"> <input type="hidden"
+			id="destinationId" placeholder="DestinationId"> <input
+			type="hidden" id="tripId">
 		<div class="orientation-data" style="display: none;">
 			<div>
 				<span id="tiltFB"></span>
@@ -134,45 +55,140 @@
 				<span id="direction"></span>
 			</div>
 		</div>
-		<div id="dashboardDiv">
-			<div id="actionBTNs">
-				<div id="mapModeSettings" class="buttonGroups"></div>
-				<div id="zoomSettings" class="buttonGroups">
-					<div class="ui-block-solo">
-						<input type="button" class="navbtn" id="zoomin"
-							onclick="zoomInMap()">
+		<div id="mapView" class="ui-block-solo">
+			<div id="map_canvas"></div>
+			<div id="zoomSettings">
+				<div class="ui-block-solo">
+					<input type="button" class="zoomBTN" id="zoomin"
+						onclick="zoomInMap()">
+				</div>
+				<div class="ui-block-solo">
+					<input type="button" class="zoomBTN" id="zoomout"
+						onclick="zoomOutMap()">
+				</div>
+			</div>
+			<div id="viewMapType">
+				<input type="button" class="navbtn" id="satelliteView"
+					onclick="mapSattelView()"> <input type="button"
+					class="navbtn" id="mapViewIcon" onclick="mapMapView()">
+			</div>
+			<div class="ui-block-solo" style="float: right" id="viewFullScreen">
+				<a href="#" data-role="button" id="btnToggleFullscreen" alt=""
+					onclick="toggleFullScreen()"></a>
+			</div>
+		</div>
+		<div id="cameraView" class="ui-block-solo">
+			<video id="videoContent"></video>
+		</div>
+		<!-- 		UPPER PANEL -->
+		<div id="barcodeDescription" class="ui-block-solo">
+			<div class="ui-grid-a">
+				<!-- 				SPEED AND ALT -->
+				<div class="ui-block-a">
+					<div class="dashboardShow">
+						<img alt="" src="images/icons/speed.png"
+							class="destinationShowIMG">
+						<span class="infoValue" id="speedInf">5.7 Km/h</span>
 					</div>
-					<div class="ui-block-solo">
-						<input type="button" class="navbtn" id="zoomout"
-							onclick="zoomOutMap()">
+					<br />
+					<div class="dashboardShow">
+						<img alt="" class="destinationShowIMG"
+							src="images/icons/altitude.png"> <span class="infoValue"
+							id="seaLevelInf"> 1321 m</span>
 					</div>
 				</div>
-				<div id="actionBTNsHorizontal">
-					<div class="ui-block-solo">
-						<div id="mapViewSettings" class="buttonGroups">
-							<input type="button" class="navbtn" id="remove"
-								onclick="removeTrip()" data-mini="true"> <input
-								type="button" class="navbtn" id="start"
-								onclick="initiateNavigation()"> <input type="button"
-								class="navbtn" id="mylocation" onclick="findMyLocation()">
-						</div>
+				<div class="ui-block-b">
+					<div class="dashboardShow">
+						<img alt="" src="images/icons/distance.png"
+							class="destinationShowIMG">
+						<span class="infoValue" id="distanceLeftInf">4.35 Km</span>
 					</div>
-					<div class="ui-block-solo">
-						<div id="navigationSettings" class="buttonGroups">
-							<input type="button" class="navbtn" id="mapViewSelect"
-								onclick="selectMapMode()"> <input type="button"
-								class="navbtn" id="dualModeSelect" onclick="selectDualMode()">
-							<!-- 							<input type="button" class="navbtn" id="cameraMode" -->
-							<!-- 								onclick="selectCameraMode()"> -->
-						</div>
+					<div class="dashboardShow">
+						<br /> <img alt="" src="images/icons/time.png"
+							class="destinationShowIMG" >
+						<span class="infoValue" id="arrivalTimeInf">15':14"</span>
 					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 	SEARCH FEILD -->
+		<div id="searchBarDiv">
+			<div class="ui-block-solo" data-role="collapsible-set"
+				id="autocompleteContainer">
+				<ul id="autocompleteDestination" data-role="listview"
+					data-mini="true" data-inset="true" data-filter="true"
+					data-input="#destinationName">
+				</ul>
+			</div>
+			<div class="ui-block-solo" id="destinationNameDiv">
+				<input name="destinationName" id="destinationName"
+					data-type="search" placeholder="Search for a place"
+					data-mini="true" autocomplete="off">
+			</div>
+		</div>
+		<!-- 				DIRECTION SHOW -->
+		<div id="directionShow"
+			style="background-color: transparent; left: 53px; top: 73px; position: absolute;">
+			<img alt="" src="images/icons/anim/arrow.gif" id="arrowDirId">
+			<br /> <span id="navigationDesc" class="infoValue">In 200
+				meters
+				<p>TURN LEFT
+			</span>
+		</div>
+		<!--  COMPASS -->
+		<div class="compass">
+			<div class="arrow"></div>
+			<div class="disc" id="compassDiscImg"></div>
+		</div>
+		<!-- 		DESTINATION SHOW -->
+		<div id="destinationShow">
+			<img alt="" id="destinationShowIMG" src="images/icons/finish.png"
+				style="width: 32px; height: 32px; z-index: 13;"> <span
+				class="infoValue" id="destinationInf">Main Building</span>
+		</div>
+		<!-- 		BOTTOM PANEL -->
+		<div class="ui-grid-c ui-block-solo" id="dashboardPanel">
+			<div class="blur" id="blurDivPanel"></div>
+			<!-- 			QR OR MAP MODE -->
+			<div class="ui-block-a">
+				<div class="navbtnsdiv">
+					<input type="button" class="navbtn" id="mapViewSelect"
+						onclick="selectMapMode()"> <input type="button"
+						class="navbtn" id="dualModeSelect" onclick="selectDualMode()">
+				</div>
+			</div>
+			<!-- 				   START/STOPNAVIGATION -->
+			<div class="ui-block-b">
+				<div class="navbtnsdiv">
+					<input type="button" id="remove" class="navbtn"
+						onclick="removeTrip()"> <input type="button"
+						class="navbtn" id="start" onclick="initiateNavigation()">
+				</div>
+			</div>
+			<!-- 				    MY CURRENT LOCATION -->
+			<div class="ui-block-c">
+				<div class="navbtnsdiv">
+					<input type="button" id="mylocation" class="navbtn"
+						onclick="findMyLocation()">
+				</div>
+			</div>
+			<!-- 				    SEARCH BUTTON -->
+			<div class="ui-block-d">
+				<div class="navbtnsdiv">
+					<input type="button" id="openSearchBTN" class="navbtn"
+						onclick="openCloseSearch()">
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
+<link rel="stylesheet" href="css/location/path.navigation.css">
 <script type="text/javascript"
 	src="js/location/path.navigation.js?noCache=true"></script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
+	type="text/javascript"></script>
+<script src="js/jquery/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="js/location/path.navigation.directions.js?noCache=true"></script>
 <script type="text/javascript"
@@ -180,14 +196,11 @@
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.js?noCache=true"></script>
 <script type="text/javascript"
-	src="js/location/path.navigation.map.js?noCache=true"></script>
-<script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.scanner.js?noCache=true"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.ar.js"></script>
 <script type="text/javascript" src="js/location/path.navigation.geo.js"></script>
 <script src="js/location/path.panels.js"></script>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
-	type="text/javascript"></script>
+<script type="text/javascript"
+	src="js/location/path.navigation.map.js?noCache=true"></script>
 </html>

@@ -212,8 +212,8 @@ function updatePolyLine(currentPos, altitude) {
 				nextPosition, secondNextPosition);
 		angleToNextDestination = headingTo2st - headingTo1st;
 		heading = angleToNextDestination;
+		$("#arrowDirId").html(getAngleDirection(headingTo2st));
 	}
-	getAngleDirection(heading);
 	tmpPathCoor.push(pointPath);
 	tmpPathCoor.push(nextPosition);
 	distanceToNextPosition = google.maps.geometry.spherical
@@ -366,7 +366,7 @@ function initiMap() {
 		featureType : "poi",
 		elementType : "labels",
 		stylers : [ {
-			visibility : "on"
+			visibility : "off"
 		} ]
 	}, {
 		featureType : "water",
@@ -397,7 +397,7 @@ function initiMap() {
         elementType: "geometry",
         stylers: [
             {
-                visibility: "on"
+                visibility: "off"
             }
         ]
     },
@@ -406,7 +406,7 @@ function initiMap() {
         elementType: "all",
         stylers: [
             {
-                visibility: "on"
+                visibility: "off"
             }
         ]
     },
@@ -505,6 +505,8 @@ function initiMap() {
 			.getElementById('viewFullScreen'));
 			map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
 			.getElementById('viewMapType'));
+			map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document
+			.getElementById('zoomSettings'));
 	map.setMapTypeId('mystyle');
 }
 
@@ -673,10 +675,7 @@ var successGetCurrentPosition = function(position) {
 
 $(document).ready(
 		function() {
-			$("#map_canvas").css("min-width",
-					parseInt($("#mainBodyContents").css("width")));
-			$("#map_canvas").height(parseInt($(window).height()));
-			$("#mapView").height(parseInt($(window).height()));
-			$("#pageContents").height(parseInt($(window).height()));
 			$("#mapViewIcon").fadeOut();
+			selectMapMode();
+//			selectMapMode();
 		});
