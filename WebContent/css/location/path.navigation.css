@@ -473,14 +473,16 @@ button {
 	#autocompleteDestination .ui-collapsible .ui-li-static{
 	background-color:#00457c;
 	border-color:white;
-	height:30;
+	height:25;
 	padding:0;
 	padding-left:5;
+	padding-top:5;
 	}
 	#autocompleteDestination .ui-btn,  .ui-btn-icon-right{
 	padding:0;
 	padding-left:5;
-	height:35;
+	padding-top:5;
+	height:30;
 	border-color:white; 
 	}
 	#autocompleteDestination .ui-collapsible-heading, .ui-collapsible-heading>.ui-btn{
