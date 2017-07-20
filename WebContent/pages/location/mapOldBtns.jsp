@@ -156,7 +156,7 @@
 			<div class="ui-block-solo" data-role="collapsible-set"
 				id="autocompleteContainer">
 				<ul id="autocompleteDestination" data-role="listview"
-					data-mini="true" data-inset="true" data-filter-reveal="true" data-collapsed="false" data-filter="true"
+					data-mini="true" data-inset="true" data-filter="true"
 					data-input="#destinationName">
 				</ul>
 			</div>
@@ -198,30 +198,32 @@
 			<!-- 			QR OR MAP MODE -->
 			<div class="ui-block-a">
 				<div class="navbtnsdiv">
-					<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
-					<button type="button" class="navbtn" id="dualModeSelect"
-						onclick="selectDualMode()">Scan</button>
+					<input type="button" class="navbtn" id="mapViewSelect"
+						onclick="selectMapMode()"> <input type="button"
+						class="navbtn" id="dualModeSelect" onclick="selectDualMode()">
 				</div>
 			</div>
 			<!-- 				   START/STOPNAVIGATION -->
 			<div class="ui-block-b">
 				<div class="navbtnsdiv">
-					<button class="navbtn" id="remove" onclick="removeTrip()">Stop</button>
-					<button class="navbtn" id="start" onclick="initiateNavigation()">Go</button>
+				
+					<input type="button" id="remove" class="navbtn"
+						onclick="removeTrip()"> <button
+						class="navbtn" id="start" onclick="initiateNavigation()">Go</button>
 				</div>
 			</div>
 			<!-- 				    MY CURRENT LOCATION -->
 			<div class="ui-block-c">
 				<div class="navbtnsdiv">
-					<button id="mylocation" class="navbtn" onclick="findMyLocation()">My&nbsp;location</button>
-
+					<input type="button" id="mylocation" class="navbtn"
+						onclick="findMyLocation()">
 				</div>
 			</div>
 			<!-- 				    SEARCH BUTTON -->
 			<div class="ui-block-d">
 				<div class="navbtnsdiv">
-					<button id="openSearchBTN" class="navbtn"
-						onclick="openCloseSearch()">Find</button>
+					<input type="button" id="openSearchBTN" class="navbtn"
+						onclick="openCloseSearch()">
 				</div>
 			</div>
 		</div>

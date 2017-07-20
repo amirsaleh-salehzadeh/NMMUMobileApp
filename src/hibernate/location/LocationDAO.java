@@ -335,6 +335,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	private ArrayList<LocationTypeENT> getLocationTypeTree(LocationTypeENT ent) {
 		ArrayList<LocationTypeENT> res = new ArrayList<LocationTypeENT>();
+		if(ent.getLocationTypeId() >= 3)
+			return null;
 		try {
 			Connection conn = null;
 			conn = getConnection();
@@ -350,6 +352,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent = new LocationTypeENT(rs.getInt("location_type_id"),
 						rs.getString("location_type"), null, null);
 				ent.setChildren(getLocationTypeTree(ent));
+				if(rs.getInt("location_type_id")>3)
+					break;
 				res.add(ent);
 			}
 			ps.close();

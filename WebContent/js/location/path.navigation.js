@@ -152,7 +152,6 @@ function removeTheNextDestination() {
 	pathPolylineConstant = null;
 	if ($("#tripGPSs").val().length > 1)
 		drawConstantPolyline();
-	resetWalking();
 }
 
 function drawConstantPolyline() {
@@ -192,6 +191,7 @@ function drawConstantPolyline() {
 	pathPolylineConstant.setMap(map);
 	paths.push(pathPolylineConstant);
 	animateCircle(pathPolylineConstant);
+	resetWalking();
 }
 
 function updatePolyLine(currentPos, altitude) {
@@ -648,7 +648,6 @@ $(document).ready(function() {
 	selectMapMode();
 	getLocationTypePanel();
 	showViewItems();
-	// selectMapMode();
 });
 
 function resizeCompass() {

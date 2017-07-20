@@ -6,7 +6,10 @@ function initiateNavigation() {
 		}
 		return;
 	}
-	$('#popupPathType').popup('open').trigger('create');
+	if (getCookie("TripPathGPSCookie") == "")
+		$('#popupPathType').popup('open').trigger('create');
+	else
+		showViewItems();
 }
 
 function zoomInMap() {
@@ -105,7 +108,7 @@ function showViewItems() {
 		$("#destinationShow").fadeOut();
 		$("#compassID").fadeOut();
 		$("#directionShow").fadeOut();
-	}else{
+	} else {
 		getThePath();
 		$("#start").fadeOut();
 		$("#remove").css("display", "inline-block");
