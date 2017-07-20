@@ -26,15 +26,22 @@
 	<div id="pageContents" style="width: 100%; height: 100%;">
 		<div data-role="popup" id="popupPathType">
 			<div class="ui-block-a">
-				<label for="dirtroad" class="popupPathItem"><input
+				
+				<label for="dirtroad" class="popupPathItem" style="width: 100%; text-align: center;"> <!-- //////////// CHANGED HERE START-->
+					<input
 					type="radio" name="radio-choice-path-type" id="dirtroad" value="0"
 					checked="checked">Shortest Path (This path may contain
-					unsmooth walkways)</label><br /> <label for="walking"
-					class="popupPathItem">Normal Path<input type="radio"
+					unsmooth walkways)
+				<img alt="" src="images/icons/fastSpeed.png" style="width:32px;height:32px;vertical-align: middle;">	
+				</label>
+				<br />
+				<label for="walking" class="popupPathItem" style="width: 100%; text-align: center;">Normal Path
+					<input type="radio"
 					name="radio-choice-path-type" id="walking" value="1">
-				</label> <a data-role="button" href="#" onclick="getThePath()">Navigate
-					Me</a>
-			</div>
+					<img alt="" src="images/icons/normalSpeed.png" style="width:32px;height:32px;vertical-align: middle;">
+				</label>
+				<a data-role="button" href="#" onclick="getThePath()">Navigate Me</a>
+			</div> <!-- //////////// CHANGED HERE END-->
 		</div>
 		<input type="hidden" id="tripIds"> <input type="hidden"
 			id="tripGPSs"> <input type="hidden" id="tripLocations">
@@ -83,30 +90,39 @@
 		<!-- 		UPPER PANEL -->
 		<div id="barcodeDescription" class="ui-block-solo">
 			<div class="ui-grid-a">
-				<!-- 				SPEED AND ALT -->
-				<div class="ui-block-a">
+				<!-- 				SPEED AND ALT --> <!-- //////////// CHANGED HERE -->
+				<div class="ui-block-a" style="width: 50%;">
+					<div class="ui-bar" style="min-height:33px; padding-top: 0.4em; padding-right: 0.2em; padding-bottom: 0.2em; padding-left: 1em;">
 					<div class="dashboardShow">
 						<img alt="" src="images/icons/speed.png"
 							class="destinationShowIMG">
 						<span class="infoValue" id="speedInf">5.7 Km/h</span>
 					</div>
-					<br />
+					</div>
+					<!-- <br /> -->
+					<div class="ui-bar" style="min-height:33px; padding-top: 0.2em; padding-right: 0.2em; padding-bottom: 0.4em; padding-left: 1em;">
 					<div class="dashboardShow">
 						<img alt="" class="destinationShowIMG"
 							src="images/icons/altitude.png"> <span class="infoValue"
 							id="seaLevelInf"> 1321 m</span>
 					</div>
+					</div>
 				</div>
-				<div class="ui-block-b">
+				<div class="ui-block-b" style="width: 45%;">
+					<div class="ui-bar" style="min-height:33px; padding-top: 0.4em; padding-right: 0.2em; padding-bottom: 0.2em; padding-left: 0.2em;">
 					<div class="dashboardShow">
 						<img alt="" src="images/icons/distance.png"
 							class="destinationShowIMG">
 						<span class="infoValue" id="distanceLeftInf">4.35 Km</span>
 					</div>
+					</div>
+					<!-- <br /> -->
+					<div class="ui-bar" style="min-height:33px; padding-top: 0.2em; padding-right: 0.2em; padding-bottom: 0.4em; padding-left: 0.2em;">
 					<div class="dashboardShow">
-						<br /> <img alt="" src="images/icons/time.png"
+						 <img alt="" src="images/icons/time.png"
 							class="destinationShowIMG" >
 						<span class="infoValue" id="arrivalTimeInf">15':14"</span>
+					</div>
 					</div>
 				</div>
 			</div>
@@ -136,16 +152,16 @@
 		</div>
 		<!-- 				DIRECTION SHOW -->
 		<div id="directionShow"
-			style="background-color: transparent; left: 53px; top: 73px; position: absolute;">
+			style="background-color: transparent; left: 53px; top: 73px; position: absolute;"> <!-- changed position from left: 53px; top: 73px; -->
 			<img alt="" src="images/icons/anim/arrow.gif" id="arrowDirId">
 			<br /> <span id="navigationDesc" class="infoValue">In 200
 				meters
 				<p>TURN LEFT
 			</span>
 		</div>
-		<!--  COMPASS -->
-		<div class="compass">
-			<div class="arrow"></div>
+		<!--  COMPASS --> <!-- //////////// CHANGED HERE -->
+		<div class="compass" id="compassID" onclick="resizeCompass()" style="cursor: pointer;">
+			<div class="arrow" id="compassArrowID"></div>
 			<div class="disc" id="compassDiscImg"></div>
 		</div>
 		<!-- 		DESTINATION SHOW -->
