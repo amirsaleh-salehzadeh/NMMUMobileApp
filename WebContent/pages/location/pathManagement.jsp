@@ -100,14 +100,20 @@
 	//Speed in KMH
 	//Time in Hours minutes seconds
 	function getTime(distance, speed) {
-		var TotalTime = (distance/1000) / speed;
-	    var Hours = floor(TotalTime);
-	    var Minutes = floor((TotalTime-Hours)*60);
-	    var Seconds = round((TotalTime-Hours-Minutes)*60);
-	    var Kilometres = floor(distance/1000);
-	    var Metres = round(distance-(Kilometres*1000));
-		var String = "You are " + Kilometres + " kilometer/s and " + Metres + " meter/s away from the destination. You will be there in about " + Hours + " hour/s " + Minutes + " minute/s and " + Seconds + " second/s.";
-	    return String;
+		var TotalTime = (distance / 1000) / speed;
+		var Hours = floor(TotalTime);
+		var Minutes = floor((TotalTime - Hours) * 60);
+		var Seconds = round((TotalTime - Hours - Minutes) * 60);
+		var Kilometres = floor(distance / 1000);
+		var Metres = round(distance - (Kilometres * 1000));
+		var String = "You are "
+				+ Kilometres
+				+ " kilometer/s and "
+				+ Metres
+				+ " meter/s away from the destination. You will be there in about "
+				+ Hours + " hour/s " + Minutes + " minute/s and " + Seconds
+				+ " second/s.";
+		return String;
 	}
 </script>
 <link href="css/location/path.management.css" rel="stylesheet">
@@ -115,7 +121,11 @@
 <div>
 	<input type="hidden" id="parentLocationId" value="0"> <input
 		type='hidden' id='locationTypeId' value='0'> <input
-		type='hidden' id='locationTypeDefinition' value='def'>
+		type='hidden' id='locationTypeDefinition' value='def'> <input
+		type="hidden" name="destinationId" id="destinationId"><input
+		type="hidden" name="departureId" id="departureId"><input
+		type="hidden" name="markerCoordinate" id="markerCoordinate"> <input
+		type="hidden" name="markerId" id="markerId">
 	<div class="ui-field-contain" id="locationsUnderAType">
 		<form>
 			    <input data-type="search" id="parentLocation">
@@ -128,7 +138,7 @@
 <div id="map_canvas"></div>
 <div id="locationTypeFields">
 	<div data-role="controlgroup" id="locationTypesContainer"
-		data-type="horizontal" data-enhance="false" ></div>
+		data-type="horizontal" data-enhance="false"></div>
 	<br />
 </div>
 <div id="createType"></div>
@@ -137,6 +147,7 @@
 	</ul>
 </div>
 <div id="searchFields" style="width: 85%;">
+	<textarea rows="2" cols="2" id="pathLatLng"></textarea>
 	<fieldset data-role="controlgroup" data-type="horizontal"
 		name="optionType">
 		<label for="marker"><span
@@ -158,9 +169,7 @@
 	<div class="ui-block-solo">
 		<label for="markerName" id="markerLabel"></label> <input type="text"
 			placeholder="Location Name" name="markerName" id="markerName"
-			value=""> <input type="hidden" name="markerCoordinate"
-			id="markerCoordinate"> <input type="hidden" name="markerId"
-			id="markerId">
+			value="">
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
@@ -179,7 +188,6 @@
 			onclick="removeMarker()">Remove</a>
 	</div>
 </div>
-
 <div data-role="popup" id="insertAPath" data-position-to="window"
 	data-transition="turn"
 	style="background-color: #000000; width: 333px; padding: 7px 7px 7px 7px;">
@@ -188,13 +196,11 @@
 		onclick="$('#insertAPath').popup('close');">Close</a>
 	<div class="ui-block-solo">
 		<input type="text" placeholder="From" name="departure" id="departure"
-			value=""> <input type="hidden" name="departureId"
-			id="departureId">
+			value="">
 	</div>
 	<div class="ui-block-solo">
 		<input type="text" placeholder="To" name="destination"
-			id="destination" value=""> <input type="hidden"
-			name="destinationId" id="destinationId">
+			id="destination" value="">
 	</div>
 	<div class="ui-field-contain">
 		    <label for="pathType">Path Type</label> <select name="pathType"
