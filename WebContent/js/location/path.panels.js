@@ -48,6 +48,7 @@ function getLocationTypePanel() {
 	        alert(thrownError);
 	      } 
 	});
+	$( "div#searchBarDiv" ).on( "swipe", openCloseSearch );
 }
 
 var childData;

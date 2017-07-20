@@ -152,7 +152,6 @@ button {
 .blur {
 	width: 100%;
 	height: 100%;
-	z-index: -1;
 	background-color: rgba(0, 69, 124, 0.44);
 	-webkit-filter: blur(8px);
 	-moz-filter: blur(8px);
@@ -255,7 +254,7 @@ button {
 	width: 211px;
 	right: -100%;
 	background-color: transparent;
-	z-index: 120;
+	z-index: 20;
 	top:-13%;
 }
 

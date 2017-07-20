@@ -246,7 +246,7 @@
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.ar.js"></script>
 <script type="text/javascript" src="js/location/path.navigation.geo.js"></script>
-<script src="js/location/path.panels.js"></script>
+<script src="js/location/path.panels.js?noCache=true"></script>
 <script type="text/javascript"
 	src="js/location/path.navigation.map.js?noCache=true"></script>
 </html>

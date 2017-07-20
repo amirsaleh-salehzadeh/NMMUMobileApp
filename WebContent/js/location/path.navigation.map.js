@@ -1,6 +1,6 @@
 function initiateNavigation() {
 	if ($("#destinationId").val() == "") {
-		alert("Please choose a destination first please.");
+		alert("To start a trip, please select a destination first.");
 		if (parseInt($('#searchBarDiv').css("right")) < -10) {
 			openCloseSearch();
 		}
@@ -33,7 +33,6 @@ function mapMapView() {
 	$("#mapViewIcon").fadeOut();
 }
 
-
 function openCloseSearch() {
 	if (parseInt($('#searchBarDiv').css("right")) < -10) {
 		$('#buttonContainer').animate({
@@ -54,7 +53,6 @@ function openCloseSearch() {
 	$("#searchBarDiv").trigger("updatelayout");
 }
 
-
 function selectDualMode() {
 	$("#zoomSettings").css("display", "block");
 	$("#cameraView").css("display", "block");
@@ -73,33 +71,44 @@ function selectDualMode() {
 
 function selectMapMode() {
 	$("#cameraView").css("display", "none");
-//	$('#mapView').height($(window).height());
-//	$('#map_canvas').height($(window).height());
+	// $('#mapView').height($(window).height());
+	// $('#map_canvas').height($(window).height());
 	$('#mapViewSelect').fadeOut();
 	$('#dualModeSelect').fadeIn();
 	stopCamera();
 	findMyLocation();
 }
-function arrivalPopup(gps){
-	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
-		+ "&gps=" + gps;
-$.ajax({
-	url : url,
-	cache : true,
-	async : true,
-	success : function(data) {
-		$.each(data, function(k, l) {
-			$('#currentTime').val(Date());
-			$('#currentLocationName').val(l.locationName);
-			$('#popupCurrentLocation').popup('open');
+function arrivalPopup(gps) {
+	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU" + "&gps="
+			+ gps;
+	$.ajax({
+		url : url,
+		cache : true,
+		async : true,
+		success : function(data) {
+			$.each(data, function(k, l) {
+				$('#currentTime').val(Date());
+				$('#currentLocationName').val(l.locationName);
+				$('#popupCurrentLocation').popup('open');
+			});
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
 	});
-	},error: function (xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
-      } 
-});
-	
-	
-	
-	
+}
+
+function showViewItems() {
+	if (getCookie("TripPathGPSCookie") == "") {
+		$("#barcodeDescription").fadeOut();
+		$("#destinationShow").fadeOut();
+		$("#compassID").fadeOut();
+		$("#directionShow").fadeOut();
+	}else{
+		getThePath();
+		$("#start").fadeOut();
+		$("#remove").css("display", "inline-block");
+		$("#remove").fadeIn();
+	}
 }
