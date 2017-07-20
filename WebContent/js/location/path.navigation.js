@@ -689,7 +689,7 @@ $(document).ready(
 			getLocationTypePanel();
 //			selectMapMode();
 		});
-//////////// CHANGED HERE
+
 function resizeCompass() {
 	if($("#compassID").css("width")=="70px"){
 		$("#compassID").css("height","120px");

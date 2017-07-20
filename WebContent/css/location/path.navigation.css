@@ -168,7 +168,7 @@ button {
 }
 
 /* ICONS */
-#start {  /* //////////// CHANGED HERE */
+#start {  
 	background-image: url("../../images/icons/startBlue.png") !important;
 	background-repeat: no-repeat;
 	background-size: 48px 48px; /* was 32px 32px */
@@ -176,7 +176,7 @@ button {
 	border: none;
 }
 
-#remove {  /* //////////// CHANGED HERE */
+#remove {  
 	background-image: url("../../images/icons/stop.png") !important;
 	background-repeat: no-repeat;
 	/*background-size: 27px 27px;*/
@@ -186,7 +186,7 @@ button {
 	border: none;
 }
 
-#mylocation {  /* //////////// CHANGED HERE */
+#mylocation {  
 	background-image: url("../../images/icons/target.png") !important;
 	background-repeat: no-repeat;
 	background-size: 48px 48px; /* was 32px 32px */
@@ -195,7 +195,7 @@ button {
 	border: none;
 }
 
-#mapViewSelect {  /* //////////// CHANGED HERE */
+#mapViewSelect {  
 	background-image: url("../../images/icons/maps.png") !important;
 	background-repeat: no-repeat;
 	background-size: 48px 48px; /* was 32px 32px */
@@ -204,7 +204,7 @@ button {
 	border: none;
 }
 
-#dualModeSelect { /* //////////// CHANGED HERE */
+#dualModeSelect { 
 	background-image: url("../../images/icons/qrcodescan.png") !important;
 	background-repeat: no-repeat;
 	background-size: 48px 48px; /* was 32px 32px */
@@ -332,7 +332,7 @@ button {
 		startColorstr=#3093c7, endColorstr=#1c5a85);
 }
 
-.popupPathItem { /* //////////// CHANGED HERE */
+.popupPathItem { 
 	right: 4px; /* ////// NEW FOR SPACING PROBLEM */
 	border: 1px solid #d1dcdf !important;
 	-webkit-border-radius: 3px !important;
@@ -380,7 +380,7 @@ button {
 	padding-bottom: 3px;
 }
 
-.infoValue { /* //////////// CHANGED HERE */
+.infoValue { 
 	/* padding-left: 1.3em; */
 	padding-left: 34px; /* to move text to right */
 }
@@ -421,14 +421,14 @@ button {
 	/* 48px x 48px */
 }
 
-#viewFullScreen {    /* //////////// CHANGED HERE */
+#viewFullScreen {    
 	/* margin: .66em .66em .66em; */
 	padding: 7px 4px 7px 4px;
 }
 /* FULLSCREEN BUTTON END*/
 
 /* VIEW MAPTYPE DIV */
-#viewMapType { /* //////////// CHANGED HERE */
+#viewMapType { 
 	/* margin: .66em .66em .66em; */
 	padding: 7px 4px 7px 4px;
 }
@@ -454,8 +454,10 @@ button {
 	right: 0;
 }
 
-#destinationShowIMG {    /* //////////// CHANGED HERE */
+#destinationShowIMG {    
 	display: block;
+	max-width: 32px;
+	max-height: 32px;
 	z-index: 11;
 	background-color: white;
 	opacity: 0.66;
@@ -466,7 +468,7 @@ button {
 	border-radius: 22px !important;
 }
 
-.dashboardShow {     /* //////////// CHANGED HERE */
+.dashboardShow {     
 	display: block;
 	min-width: 103px; /* 15% */
 	min-height: 33px;
@@ -475,6 +477,8 @@ button {
 	opacity: 0.77;
 	position: absolute; /* fixed */
 	color: white;
+	font-weight: normal;
+	font-size: 10pt;
 	text-decoration: none;
 	text-align: center;
 	border: 2px solid #d1dcdf !important;
@@ -483,7 +487,7 @@ button {
 	border-radius: 7px !important;
 }
 
-.destinationShowIMG {   /* //////////// CHANGED HERE */
+.destinationShowIMG {   
 	display: block;
 	z-index: 11;
 	background-color: white;
