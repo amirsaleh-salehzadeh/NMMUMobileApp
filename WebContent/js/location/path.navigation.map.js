@@ -50,7 +50,7 @@ function openCloseSearch() {
 			'right' : '-100%'
 		}, 500);
 	}
-	$("#autocompleteContainer").css("bottom", "88");
+	$("#autocompleteContainer").css("bottom", "44");
 	$("#searchBarDiv").trigger("updatelayout");
 }
 
@@ -79,4 +79,27 @@ function selectMapMode() {
 	$('#dualModeSelect').fadeIn();
 	stopCamera();
 	findMyLocation();
+}
+function arrivalPopup(gps){
+	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
+		+ "&gps=" + gps;
+$.ajax({
+	url : url,
+	cache : true,
+	async : true,
+	success : function(data) {
+		$.each(data, function(k, l) {
+			$('#currentTime').val(Date());
+			$('#currentLocationName').val(l.locationName);
+			$('#popupCurrentLocation').popup('open');
+	});
+	},error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      } 
+});
+	
+	
+	
+	
 }

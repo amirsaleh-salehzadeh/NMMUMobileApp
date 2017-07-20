@@ -47,7 +47,7 @@ function getThePath() {
 		async : false,
 		success : function(data) {
 			var pathIds = "";
-			var pathGPSs = "";
+		    var pathGPSs = "";
 			var pathLocations = "";
 			$.each(data, function(k, l) {
 				if (k == 0) {
@@ -67,13 +67,13 @@ function getThePath() {
 					$("#destinationDef").html(l.destination.locationName);
 				}
 			});
-			$("#tripIds").val(pathIds);
+		//	$("#tripIds").val(pathIds);
 			$("#tripGPSs").val(pathGPSs);
 			$("#tripLocations").val(pathLocations);
 			$("#departureId").val(pathIds.split(",")[0]);
 			$("#destinationId").val(
 					pathIds.split(",")[pathIds.split(",").length - 1]);
-			setCookie('TripPathIdsCookie', $("#tripIds").val(), 1);
+		//	setCookie('TripPathIdsCookie', $("#tripIds").val(), 1);
 			setCookie('TripPathGPSCookie', $("#tripGPSs").val(), 1);
 			setCookie('TripPathLocationsCookie', $("#tripLocations").val(), 1);
 		},error: function (xhr, ajaxOptions, thrownError) {
@@ -81,25 +81,25 @@ function getThePath() {
 	        alert(thrownError);
 	      }
 	});
-	var url = "REST/GetLocationWS/StartTrip?from=" + $("#departureId").val()
-			+ "&to=" + $("#destinationId").val();
-	$.ajax({
-		url : url,
-		cache : true,
-		async : false,
-		success : function(data) {
-			$("#tripId").val(data[0].tripId);
-			setCookie('TripIdCookie', data[0].tripId, 1);
-			resetWalking();
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-		},error: function (xhr, ajaxOptions, thrownError) {
-	        alert(xhr.status);
-	        alert(thrownError);
-	      }
-	});
+//	var url = "REST/GetLocationWS/StartTrip?from=" + $("#departureId").val()
+//			+ "&to=" + $("#destinationId").val();
+//	$.ajax({
+//		url : url,
+//		cache : true,
+//		async : false,
+//		success : function(data) {
+//			$("#tripId").val(data[0].tripId);
+//			setCookie('TripIdCookie', data[0].tripId, 1);
+//			resetWalking();
+//		},
+//		error : function(xhr, ajaxOptions, thrownError) {
+//			alert(xhr.status);
+//			alert(thrownError);
+//		},error: function (xhr, ajaxOptions, thrownError) {
+//	        alert(xhr.status);
+//	        alert(thrownError);
+//	      }
+//	});
 	$("#start").css("display", "none");
 	$("#remove").css("display", "inline-block");
 }
