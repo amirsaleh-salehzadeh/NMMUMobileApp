@@ -30,7 +30,7 @@ function getLocationTypePanel() {
 					getMyChild(data.locationTypeId);
 					$('li[data-role=collapsible]').collapsible();
 					url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
-						+ "&locationName=";
+						+ "&locationType=Building&locationName=";
 				$.ajax({
 					url : url,
 					cache : true,
