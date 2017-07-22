@@ -237,7 +237,8 @@ function updatePolyLine(currentPos, altitude) {
 			geodesic : true,
 			icons : [ {
 				icon : lineSymbol,
-				offset : '100%'
+				offset: '0',
+			    repeat: '20px'
 			} ],
 			strokeColor : 'green',
 			strokeOpacity : 1.0,
