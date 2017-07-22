@@ -301,11 +301,7 @@ function addToPath(location, gps) {
 			$("#markerName").val(location.locationName);
 			$("#markerCoordinate").val(gps);
 			$("#markerLabel").html(location.locationType.locationType);
-			// alert(location.parentId);
 		}
-		// $("#locationType option[value=" + typeId + "]").attr('selected',
-		// 'selected').trigger('create');
-
 		openMarkerPopup(edit);
 	} else {
 		if ($("#departure").val() == "") {
