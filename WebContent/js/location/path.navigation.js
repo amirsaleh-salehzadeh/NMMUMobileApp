@@ -700,3 +700,7 @@ function resizeCompass() {
 	}
 		
 }
+
+function emergencyClick() {
+	alert("Emergency button coming soon");
+}

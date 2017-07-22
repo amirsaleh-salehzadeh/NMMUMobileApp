@@ -82,6 +82,8 @@
 			<div class="ui-block-solo" style="float: right" id="viewFullScreen">
 				<a href="#" data-role="button" id="btnToggleFullscreen" alt=""
 					onclick="toggleFullScreen()"></a>
+				<a href="#" data-role="button" id="btnEmergency" alt=""
+					onclick="emergencyClick()"></a>	
 			</div>
 		</div>
 		<div id="cameraView" class="ui-block-solo">

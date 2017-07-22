@@ -401,6 +401,20 @@ button {
 }
 /* FULLSCREEN BUTTON END*/
 
+#btnEmergency {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	cursor: pointer;
+	width: 48px;
+	height: 48px;
+	background-image: url("../../images/icons/emergency-icon.png") !important;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	box-shadow: none;
+}
+
+
 /* VIEW MAPTYPE DIV */
 #viewMapType { /* //////////// CHANGED HERE */
 	/* margin: .66em .66em .66em; */
