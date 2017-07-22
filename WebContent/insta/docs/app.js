@@ -143,6 +143,10 @@ function getTheTripAR(content){
 			}
 			return true;
 		}
+	,error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      }
 	});
 }
 var destin = document.getElementById("destId");
@@ -168,6 +172,10 @@ function getTheBarcodeAR(content){
 // '</span><br>');
 // return true;
 // }
+//			,error: function (xhr, ajaxOptions, thrownError) {
+//		        alert(xhr.status);
+//		        alert(thrownError);
+//		      }
 // });
 }
 

@@ -27,13 +27,23 @@ button {
 	position: fixed;
 }
 
+#dashboardPanel {
+	display: inline;
+	position: fixed;
+	bottom: 0em;
+	height: 13%;
+	width: 100%;
+	display: inline-block;
+	background: transparent !important;
+}
+
 #cameraView {
 	top: 111;
 	left: 33;
 	display: none;
 }
 
-/* COMPASS */
+/* COMPASS */    /* //////////// CHANGED HERE START */
 .compass {
 	width: 70px; /* 130px */
 	height: 70px; /* 111px */
@@ -46,6 +56,7 @@ button {
 	z-index: 100;
 	display: inline-block;
 	padding: 4px 4px 4px 4px;
+	
 }
 
 .compass .disc {
@@ -62,10 +73,10 @@ button {
 	position: absolute;
 	z-index: 103;
 	background: url('http://dev.rvltn.eu/compass/arrow.svg');
-	width: 70px; /* 111px */
+	width: 70px; /* 111px */ 
 	height: 70px; /* 111px */
 	background-size: 100%;
-}
+} /* //////////// CHANGED HERE END */
 
 /* MAP ZOOM */
 #zoomSettings {
@@ -109,23 +120,14 @@ button {
 	background-position: center;
 }
 
-/*  panel bottom panel bottom panel bottom panel bottom panel bottom panel bottom panel bottom panel bottom panel bottom panel bottom */
-#dashboardPanel {
-	display: inline;
-	position: fixed;
-	bottom: 0em;
-	height: 13%;
-	width: 100%;
-	display: inline-block;
-	background: transparent !important;
-}
-
+/* panel bottom */
 .navbtnsdiv {
 	height: 90%;
 	width: 90%;
 	margin: auto;
 	cursor: pointer;
-	display: inline;
+	text-decoration: none;
+	display: inline-block;
 	padding: 3px 3px 3px 3px;
 	background-color: transparent;
 	cursor: pointer;
@@ -135,29 +137,28 @@ button {
 	height: 100%;
 	width: 100%;
 	margin: auto;
-	box-shadow: 0px 0px 3px 3px rgb(12, 28, 44);
+	box-shadow: 0px 0px 7px 7px #fff;
 	display: block;
-	color: rgb(247, 175, 35) !important;
-	font-size: 9px;
-	text-decoration: none;
-	text-shadow: none !important;
-	background-position: top;
-	text-transform: uppercase;
-	display: inline-block;
-	background-color: transparent !important;
-	padding-top: 51px;
-	background-position: top
+	cursor: pointer;
+	display: block;
+	background-color: transparent;
+}
+
+/* CONFIG BUTTONS */
+#remove {
+	display: none;
 }
 
 .blur {
 	width: 100%;
 	height: 100%;
-	background-color: rgba(12, 28, 44, 0.77);
-	-webkit-filter: blur(1px);
-	-moz-filter: blur(1px);
-	-ms-filter: blur(1px);
-	-o-filter: blur(1px);
-	filter: blur(1px);
+	background-color: rgba(0, 69, 124, 0.44);
+	-webkit-filter: blur(8px);
+	-moz-filter: blur(8px);
+	-ms-filter: blur(8px);
+	-o-filter: blur(8px);
+	filter: blur(8px);
+	border: 1px solid #25729a;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -165,43 +166,49 @@ button {
 	display: block;
 }
 
-/* CONFIG BUTTONS CONFIG BUTTONS CONFIG BUTTONS CONFIG BUTTONS CONFIG BUTTONS CONFIG BUTTONS CONFIG BUTTONS CONFIG BUTTONS CONFIG BUTTONS */
-#remove {
-	display: none;
-}
-
-#start {
+/* ICONS */
+#start {  
 	background-image: url("../../images/icons/startBlue.png") !important;
 	background-repeat: no-repeat;
-	background-size: 48px 48px;
+	background-size: 48px 48px; /* was 32px 32px */
+	background-position: center;
 	border: none;
 }
 
-#remove {
+#remove {  
 	background-image: url("../../images/icons/stop.png") !important;
 	background-repeat: no-repeat;
-	background-size: 48px 48px;
+	/*background-size: 27px 27px;*/
+	background-size: 48px 48px; /* was 32px 32px */
+	/*background-position: left 2px center;*/
+	background-position: center;
 	border: none;
 }
 
-#mylocation {
+#mylocation {  
 	background-image: url("../../images/icons/target.png") !important;
 	background-repeat: no-repeat;
 	background-size: 48px 48px; /* was 32px 32px */
+	background-position: left 2px center;
+	background-position: center;
 	border: none;
 }
 
-#mapViewSelect {
+#mapViewSelect {  
 	background-image: url("../../images/icons/maps.png") !important;
 	background-repeat: no-repeat;
 	background-size: 48px 48px; /* was 32px 32px */
+	background-position: left 2px center;
+	background-position: center;
 	border: none;
 }
 
-#dualModeSelect {
+#dualModeSelect { 
 	background-image: url("../../images/icons/qrcodescan.png") !important;
 	background-repeat: no-repeat;
 	background-size: 48px 48px; /* was 32px 32px */
+	background-position: left 2px center;
+	background-position: center;
 	border: none;
 }
 
@@ -226,6 +233,7 @@ button {
 	height: 48px;
 	background-image: url("../../images/icons/mapsview.png") !important;
 	background-repeat: no-repeat;
+	background-position: 0px 0px; /* equivalent to 'top left' */
 	box-shadow: none;
 }
 
@@ -233,6 +241,7 @@ button {
 	background-image: url("../../images/icons/search.png") !important;
 	background-repeat: no-repeat;
 	background-size: 48px 48px;
+	background-position: center;
 	border: none;
 }
 
@@ -246,20 +255,21 @@ button {
 	right: -100%;
 	background-color: transparent;
 	z-index: 20;
-	top: -13%;
+	top:-13%;
 }
 
 #autocompleteContainer {
-	background-color: #00457c;
-	border-radius: 11px;
-	width: 100%;
-	position: absolute;
-	display: block;
-	max-height: 333px;
-	overflow: auto;
-	box-sizing: border-box;
+	    background-color: #00457c;
+    border-radius: 11px;
+    width: 100%;
+    position: absolute;
+    display: block;
+    max-height: 333px;
+    overflow: auto;
+    box-sizing: border-box;
 	max-width: 271px;
-	border-color: white;
+	border-color:white;
+	
 }
 
 #autocompleteDestination {
@@ -274,10 +284,11 @@ button {
 	position: absolute;
 }
 
+
 /* NAVIGATE POPUP */
-#popupCurrentLocation {
-	height: 700px;
-	width: 1500px;
+#popupCurrentLocation{
+	height:700px;
+	width:1500px;
 	border: 1px solid #25729a;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
@@ -296,7 +307,10 @@ button {
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
 		startColorstr=#3093c7, endColorstr=#1c5a85);
 }
-
+	
+	
+	
+}
 #popupPathType {
 	border: 1px solid #25729a;
 	-webkit-border-radius: 3px;
@@ -317,7 +331,7 @@ button {
 		startColorstr=#3093c7, endColorstr=#1c5a85);
 }
 
-.popupPathItem {
+.popupPathItem { 
 	right: 4px; /* ////// NEW FOR SPACING PROBLEM */
 	border: 1px solid #d1dcdf !important;
 	-webkit-border-radius: 3px !important;
@@ -353,8 +367,7 @@ button {
 	margin: 0 auto;
 	left: 0;
 	right: 0;
-	top: 0;
-	background-color: transparent;
+	top: 0; background-color : transparent;
 	height: 77px;
 	background-color: transparent;
 }
@@ -366,7 +379,8 @@ button {
 	padding-bottom: 3px;
 }
 
-.infoValue {
+.infoValue { 
+	/* padding-left: 1.3em; */
 	padding-left: 34px; /* to move text to right */
 }
 
@@ -381,6 +395,7 @@ button {
 	background-color: #2a2a2a;
 	border-color: #1d1d1d;
 	color: #fff;
+	text-shadow: 0 1px 0 #111;
 	font-size: 1em;
 	line-height: 1.3;
 	font-family: sans-serif;
@@ -405,28 +420,14 @@ button {
 	/* 48px x 48px */
 }
 
-#viewFullScreen {
+#viewFullScreen {    
 	/* margin: .66em .66em .66em; */
 	padding: 7px 4px 7px 4px;
 }
 /* FULLSCREEN BUTTON END*/
 
-#btnEmergency {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	cursor: pointer;
-	width: 48px;
-	height: 48px;
-	background-image: url("../../images/icons/emergency-icon.png") !important;
-	background-repeat: no-repeat;
-	background-color: transparent;
-	box-shadow: none;
-}
-
-
 /* VIEW MAPTYPE DIV */
-#viewMapType {
+#viewMapType { 
 	/* margin: .66em .66em .66em; */
 	padding: 7px 4px 7px 4px;
 }
@@ -442,8 +443,7 @@ button {
 	margin: 0 auto;
 	color: white;
 	text-decoration: none;
-	text-align: center;
-	right: 0;
+	text-align: center; right : 0;
 	left: 0;
 	bottom: 15%;
 	border: 3px solid #d1dcdf !important;
@@ -453,7 +453,7 @@ button {
 	right: 0;
 }
 
-#destinationShowIMG {
+#destinationShowIMG {    
 	display: block;
 	max-width: 32px;
 	max-height: 32px;
@@ -467,7 +467,7 @@ button {
 	border-radius: 22px !important;
 }
 
-.dashboardShow {
+.dashboardShow {     
 	display: block;
 	min-width: 103px; /* 15% */
 	min-height: 33px;
@@ -486,7 +486,7 @@ button {
 	border-radius: 7px !important;
 }
 
-.destinationShowIMG {
+.destinationShowIMG {   
 	display: block;
 	z-index: 11;
 	background-color: white;
@@ -497,32 +497,30 @@ button {
 	-moz-border-radius: 7px !important;
 	border-radius: 7px !important;
 }
-
 /* LIST VIEW */
+
 #autocompleteDestination .ui-collapsible {
-	padding: 0;
-	background-color: transparent;
-	border-width: 0;
-}
+	
+	padding:0;
+	background-color:transparent;
+	border-width:0;
 
-#autocompleteDestination .ui-collapsible .ui-li-static {
-	background-color: #00457c;
-	border-color: white;
-	height: 25;
-	padding: 0;
-	padding-left: 5;
-	padding-top: 5;
-}
-
-#autocompleteDestination .ui-btn,.ui-btn-icon-right {
-	padding: 0;
-	padding-left: 5;
-	padding-top: 5;
-	height: 30;
-	border-color: white;
-}
-
-#autocompleteDestination .ui-collapsible-heading,.ui-collapsible-heading>.ui-btn
-	{
-	margin: 0;
-}
+	}
+	#autocompleteDestination .ui-collapsible .ui-li-static{
+	background-color:#00457c;
+	border-color:white;
+	height:25;
+	padding:0;
+	padding-left:5;
+	padding-top:5;
+	}
+	#autocompleteDestination .ui-btn,  .ui-btn-icon-right{
+	padding:0;
+	padding-left:5;
+	padding-top:5;
+	height:30;
+	border-color:white; 
+	}
+	#autocompleteDestination .ui-collapsible-heading, .ui-collapsible-heading>.ui-btn{
+	margin:0;
+	}

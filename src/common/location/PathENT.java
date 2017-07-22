@@ -11,6 +11,15 @@ public class PathENT {
 	}
 
 	public PathENT(LocationENT departure, LocationENT destination,
+			double distance, PathTypeENT pathType) {
+		super();
+		this.departure = departure;
+		this.destination = destination;
+		this.distance = distance;
+		this.pathType = pathType;
+	}
+
+	public PathENT(LocationENT departure, LocationENT destination,
 			double distance, PathTypeENT pathType, long pathId) {
 		super();
 		this.departure = departure;

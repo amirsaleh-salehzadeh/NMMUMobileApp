@@ -21,6 +21,11 @@ public class BaseHibernateDAO {
 	private static final String USERNAME = "root";
 	private static final String PASSWORD = "";
 	
+//	private static final String DBADDRESS = "jdbc:mysql://postgrad.nmmu.ac.za:3306/nmmumobile";
+//	private static final String DBDRIVER = "com.mysql.jdbc.Driver";
+//	private static final String USERNAME = "nmmu_mobile_user";
+//	private static final String PASSWORD = "Dfjr9bg834gmb";
+	
 	public Session getSession(){
 		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 		return sessionFactory.openSession();

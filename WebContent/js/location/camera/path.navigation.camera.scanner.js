@@ -113,6 +113,10 @@ function getBCodeInfo(x) {
 
 					return presentLocation(data['p']);
 				}
+	,error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      }
 			});
 
 }
