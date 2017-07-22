@@ -126,6 +126,7 @@
 		type="hidden" name="departureId" id="departureId"><input
 		type="hidden" name="markerCoordinate" id="markerCoordinate"> <input
 		type="hidden" name="markerId" id="markerId">
+		<input type="text" name="destinationIds" id="destinationIds">
 	<div class="ui-field-contain" id="locationsUnderAType">
 		<form>
 			    <input data-type="search" id="parentLocation">
