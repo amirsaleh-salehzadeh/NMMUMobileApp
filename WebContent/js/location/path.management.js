@@ -33,7 +33,7 @@ function refreshMap(locationTypeId, gpsStr) {
 	} else if (locationTypeId == "5") {
 		icon += 'road.png';
 		map.setCenter(gps);
-		map.setZoom(20);
+		map.setZoom(15);
 	} else
 		icon += 'marker-yellow.png';
 	return icon;
@@ -61,6 +61,97 @@ function openPathCreationPopup() {
 }
 
 function initMap() {
+	var myStyle = [ {
+		featureType : "administrative",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "on"
+		} ]
+	}, {
+		featureType : "poi",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "water",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "on"
+		} ]
+	}, {
+		featureType : "landscape.man_made",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#f7f1df"
+		} ]
+	}, {
+		featureType : "landscape.natural",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#d0e3b4"
+		} ]
+	}, {
+		featureType : "landscape.natural.terrain",
+		elementType : "geometry",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "poi.business",
+		elementType : "all",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "poi.medical",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#fbd3da"
+		} ]
+	}, {
+		featureType : "poi.park",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#bde6ab"
+		} ]
+	}, {
+		featureType : "road",
+		elementType : "geometry.stroke",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "road.highway",
+		elementType : "geometry.fill",
+		stylers : [ {
+			color : "#ffe15f"
+		} ]
+	}, {
+		featureType : "road.highway",
+		elementType : "geometry.stroke",
+		stylers : [ {
+			color : "#efd151"
+		} ]
+	}, {
+		featureType : "road.arterial",
+		elementType : "geometry.fill",
+		stylers : [ {
+			color : "#ffffff"
+		} ]
+	}, {
+		featureType : "road.local",
+		elementType : "geometry.fill",
+		stylers : [ {
+			color : "black"
+		} ]
+	}, {
+		featureType : "water",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#a2daf2"
+		} ]
+	} ];
 	getLocationTypePanel();
 	getPathTypePanel();
 	getAllPaths();
@@ -74,7 +165,10 @@ function initMap() {
 		fullscreenControl : true,
 		streetViewControl : false
 	});
-
+	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
+		name : 'My Style'
+	}));
+	map.setMapTypeId('mystyle');
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
 			.getElementById('searchFields'));
