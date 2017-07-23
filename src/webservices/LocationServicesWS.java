@@ -177,11 +177,6 @@ public class LocationServicesWS {
 			if(departureId <=0)
 				departureId =	getLocationDAO().findClosestLocation(from).getLocationID();
 			json = mapper.writeValueAsString(getLocationDAO().getShortestPath(departureId, destinationId, pathType));
-			System.out.println(json);
-			// tmp = "{ \"distance\": " + currentPage + ", \"recordsTotal\":" +
-			// totalItems
-			// + ", \"recordsFiltered\":" + totalItems;
-			// tmp += ", \"successm\":\"" + success+"\"";
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
