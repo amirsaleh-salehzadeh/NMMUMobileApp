@@ -162,6 +162,7 @@ function getAllMarkers() {
 																this
 																		.setPosition(pos);
 															}
+															getAllPaths();
 														});
 										marker.setPosition(pos);
 										markers.push(marker);

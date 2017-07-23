@@ -6,6 +6,7 @@ function getAllPaths() {
 	$.ajax({
 		url : url,
 		cache : false,
+		async : true,
 		success : function(data) {
 			$.each(data, function(k, l) {
 				var pathCoor = [];
@@ -33,7 +34,7 @@ function getAllPaths() {
 					geodesic : true,
 					strokeColor : color,
 					strokeOpacity : 1.0,
-					strokeWeight : 6
+					strokeWeight : 2
 				});
 				pathPolyline.addListener('click', function() {
 					removePath(l.pathId);
@@ -49,43 +50,46 @@ function getAllPaths() {
 	});
 }
 
-function savePath() {
-	var locationLatLngs = $("#pathLatLng").val().split(",");
-	for ( var i = 1; i < locationLatLngs.length; i++) {
-		var des, dep;
-		dep = $("#departureId").val();
-		des = $("#destinationId").val();
-		$("#markerName").val("Intersection");
-		$("#markerCoordinate").val(locationLatLngs[i]);
-		$("#locationTypeId").val(5);
-		$("#markerId").val(0);
-		saveMarker();
-		$("#departureId").val(locationIds[i]);
-		$("#destinationId").val(locationIds[i + 1]);
-		var url = "REST/GetLocationWS/SavePath?fLocationId="
-				+ $("#departureId").val() + "&tLocationId="
-				+ $("#destinationId").val() + "&pathType="
-				+ $("#pathType").val();
-		$.ajax({
-			url : url,
-			cache : false,
-			async : true,
-			success : function(data) {
-				$("#departure").val("");
-				$("#departureId").val("");
-				$("#destination").val("");
-				$("#destinationId").val("");
-				$('#insertAPath').popup('close');
-			},
-			error : function(xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);
-			}
-		});
-	}
+// SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH INCLUDES MANY POINTS
+function saveThePath() {
+	var locationLatLngs = $("#pathLatLng").val().split("_");
+	if (locationLatLngs.length <= 2) {
+		saveAPath();
+	} else
+		for ( var i = 1; i < locationLatLngs.length; i++) {
+			$("#markerName").val("Intersection");
+			$("#markerCoordinate").val(locationLatLngs[i]);
+			$("#locationTypeId").val(5);
+			$("#markerId").val(0);
+			saveMarker();
+			$("#destinationId").val($("#markerId").val());
+			saveAPath();
+		}
+	$('#insertAPath').popup('close');
+	cancelADrawnPath();
 	getAllPaths();
 }
 
+// SAVE A PATH BETWEEN TWO POINTS
+function saveAPath() {
+	var url = "REST/GetLocationWS/SavePath?fLocationId="
+			+ $("#departureId").val() + "&tLocationId="
+			+ $("#destinationId").val() + "&pathType=" + $("#pathType").val();
+	$.ajax({
+		url : url,
+		cache : false,
+		async : false,
+		success : function(data) {
+			$("#departureId").val($("#destinationId").val());
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+}
+
+// REMOVE A PATH
 function removePath(id) {
 	if (confirm('Are you sure you want to remove this path?')) {
 		var url = "REST/GetLocationWS/RemoveAPath?pathId=" + id;
@@ -129,7 +133,13 @@ function addAPathInnerConnection(event) {
 	pathMarkers.push(pathMarker);
 }
 
-var constantLine, movingLine, pathPolylineConstant, lastOne;
+$(document).keyup(function(e) {
+	if (e.keyCode == 27) {
+		cancelADrawnPath();
+	}
+});
+
+var movingLine, pathPolylineConstant, lastOne;
 function updateMovingLine(event) {
 	var pointPath = event.latLng;
 	var tmpPathCoor = [];
@@ -178,9 +188,9 @@ function updateConstantLine() {
 	if (pathPolylineConstant == null)
 		pathPolylineConstant = new google.maps.Polyline({
 			path : tmpPathCoor,
-			strokeColor : 'green',
+			strokeColor : 'black',
 			strokeOpacity : 1.0,
-			strokeWeight : 3
+			strokeWeight : 2
 		});
 	else
 		pathPolylineConstant.setPath(tmpPathCoor);
@@ -188,10 +198,25 @@ function updateConstantLine() {
 	paths.push(pathPolylineConstant);
 }
 
-function cancelAPath() {
-	for ( var i = 0; i < tmpPathCoor.length; i++) {
-		tmpPathCoor[i].setMap(null);
+function cancelADrawnPath() {
+	if (pathMarkers != null)
+		for ( var int = 0; int < pathMarkers.length; int++) {
+			pathMarkers[int].setMap(null);
+		}
+	google.maps.event.clearInstanceListeners(map);
+	if (movingLine != undefined) {
+		movingLine.setMap(null);
+		movingLine = undefined;
 	}
+	if (pathPolylineConstant != undefined) {
+		pathPolylineConstant.setMap(null);
+		pathPolylineConstant = undefined;
+	}
+	$("#departure").val("");
+	$("#departureId").val("");
+	$("#destination").val("");
+	$("#destinationId").val("");
+	$("#markerId").val("");
 	$("#pathLatLng").val("");
 }
 
@@ -224,26 +249,6 @@ function addAPath(location, gps) {
 		$("#pathLatLng").val(
 				$("#pathLatLng").val().replace("_" + lastUnnecessaryMarkerGPS,
 						""));
-		// $("#markerId").val(lastUnnecessaryMarkerId);
-		// var url = "REST/GetLocationWS/RemoveALocation?locationId="
-		// + $("#markerId").val();
-		// $.ajax({
-		// url : url,
-		// cache : false,
-		// async : true,
-		// success : function(data) {
-		// $('#insertAMarker').popup('close');
-		// if (data.errorMSG != null) {
-		// alert(data.errorMSG);
-		// return;
-		// }
-		// getAllMarkers();
-		// },
-		// error : function(xhr, ajaxOptions, thrownError) {
-		// alert(xhr.status);
-		// alert(thrownError);
-		// }
-		// });
 		$("#pathLatLng").val($("#pathLatLng").val() + "_" + location.gps);
 		openPathCreationPopup();
 	}

@@ -125,7 +125,9 @@
 		type="hidden" name="destinationId" id="destinationId"><input
 		type="hidden" name="departureId" id="departureId"><input
 		type="hidden" name="markerCoordinate" id="markerCoordinate"> <input
-		type="hidden" name="markerId" id="markerId">
+		type="hidden" name="markerId" id="markerId"> <input
+		type="hidden" id="pathLatLng">
+
 	<div class="ui-field-contain" id="locationsUnderAType">
 		<form>
 			    <input data-type="search" id="parentLocation">
@@ -147,8 +149,6 @@
 	</ul>
 </div>
 <div id="searchFields" style="width: 85%;">
-	<textarea rows="2" cols="2" id="pathLatLng"></textarea>
-	<input type="text" name="destinationIds" id="destinationIds">
 	<fieldset data-role="controlgroup" data-type="horizontal"
 		name="optionType">
 		<label for="marker"><span
@@ -215,7 +215,7 @@
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all" id="submitRider"
-			onclick="savePath()">Save</a>
+			onclick="saveThePath()">Save</a>
 	</div>
 </div>
 <script type="text/javascript" src="js/location/path.management.js"></script>
