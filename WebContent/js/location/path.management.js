@@ -10,28 +10,27 @@ function printBarcode(id, name) {
 	window.open("pages/location/barcodePrint.jsp?locationId=" + id);
 }
 
-
-function refreshMap(location) {
+function refreshMap(locationTypeId, gpsStr) {
 	var gps = {
-		lat : parseFloat(location.gps.split(",")[0]),
-		lng : parseFloat(location.gps.split(",")[1])
+		lat : parseFloat(gpsStr.split(",")[0]),
+		lng : parseFloat(gpsStr.split(",")[1])
 	};
 	var icon = 'images/map-markers/';
-	if (location.locationType.locationTypeId == "1") {
+	if (locationTypeId == "1") {
 		icon += 'marker-blue.png';
-	} else if (location.locationType.locationTypeId == "2") {
+	} else if (locationTypeId == "2") {
 		icon += 'marker-green.png';
 		map.setCenter(gps);
 		map.setZoom(7);
-	} else if (location.locationType.locationTypeId == "3") {
+	} else if (locationTypeId == "3") {
 		icon += 'building.png';
 		map.setCenter(gps);
 		map.setZoom(15);
-	} else if (location.locationType.locationTypeId == "4") {
+	} else if (locationTypeId == "4") {
 		icon += 'marker-pink.png';
 		map.setCenter(gps);
 		map.setZoom(19);
-	} else if (location.locationType.locationTypeId == "5") {
+	} else if (locationTypeId == "5") {
 		icon += 'road.png';
 		map.setCenter(gps);
 		map.setZoom(20);
@@ -39,80 +38,6 @@ function refreshMap(location) {
 		icon += 'marker-yellow.png';
 	return icon;
 }
-
-//function addToPath(location, gps) {
-//	gps = gps.replace(" ", "");
-//	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-//		var edit = true;
-//		if (location == null) {
-//			edit = false;
-//			$("#markerId").val("");
-//			$("#markerName").val("");
-//			$("#markerCoordinate").val(gps);
-//			$("#markerLabel").html();
-//		} else {
-//			$("#markerId").val(location.locationID);
-//			$("#markerName").val(location.locationName);
-//			$("#markerCoordinate").val(gps);
-//			$("#markerLabel").html(location.locationType.locationType);
-//		}
-//		openMarkerPopup(edit);
-//	} else {
-//		if (location == null) {
-//			alert("A path can only be drawn between two locations");
-//			return;
-//		}
-//		if ($("#departure").val() == "") {
-//			$("#departure").val(location.locationName);
-//			$("#departureId").val(location.locationID);
-//			google.maps.event.clearInstanceListeners(map);
-//			$("#pathLatLng").val(location.gps);
-//			$("#destinationIds").val(location.locationID);
-//			google.maps.event.addListener(map, "click", function(event) {
-//				addAPathInnerConnection(event);
-//			});
-//			return;
-//		} else if ($("#destination").val() == "") {
-//			$("#destination").val(location.locationName);
-//			$("#destinationId").val(location.locationID);
-//			google.maps.event.clearInstanceListeners(map);
-//			var lastUnnecessaryMarkerId = $("#destinationIds").val().split(",")[$(
-//					"#destinationIds").val().split("_").length];
-//			var lastUnnecessaryMarkerGPS = $("#pathLatLng").val().split("_")[$(
-//					"#pathLatLng").val().split("_").length];
-//			$("#destinationIds").val(
-//					$("#destinationIds").val().replace(
-//							"," + lastUnnecessaryMarkerId, ""));
-//			$("#pathLatLng").val(
-//					$("#pathLatLng").val().replace(
-//							"_" + lastUnnecessaryMarkerGPS, ""));
-//			$("#markerId").val(lastUnnecessaryMarkerId);
-//			var url = "REST/GetLocationWS/RemoveALocation?locationId="
-//					+ $("#markerId").val();
-//			$.ajax({
-//				url : url,
-//				cache : false,
-//				async : true,
-//				success : function(data) {
-//					$('#insertAMarker').popup('close');
-//					if (data.errorMSG != null) {
-//						alert(data.errorMSG);
-//						return;
-//					}
-//					getAllMarkers();
-//				},
-//				error : function(xhr, ajaxOptions, thrownError) {
-//					alert(xhr.status);
-//					alert(thrownError);
-//				}
-//			});
-//			$("#pathLatLng").val($("#pathLatLng").val() + "_" + gps);
-//			$("#destinationIds").val(
-//					$("#destinationIds").val() + "," + location.locationID);
-//			openPathCreationPopup();
-//		}
-//	}
-//}
 
 function getGoogleMapPosition(gps) {
 	var res = new google.maps.LatLng(parseFloat(gps.split(',')[0]),
@@ -170,10 +95,9 @@ function initMap() {
 		var lng = event.latLng.lng();
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			addAMarker(null, lat + "," + lng);
-		} 
-//		else {
-//			addAPath(null, lat + "," + lng);
-//		}
+		} else {
+			addAPath(null, lat + "," + lng);
+		}
 	});
 }
 

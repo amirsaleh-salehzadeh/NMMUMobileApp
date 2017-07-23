@@ -34,7 +34,7 @@ function saveMarker() {
 	$.ajax({
 		url : url,
 		cache : false,
-		async : true,
+		async : false,
 		success : function(data) {
 			marker = new google.maps.Marker({
 				position : {
@@ -42,7 +42,7 @@ function saveMarker() {
 					lng : parseFloat(data.gps.split(",")[1])
 				},
 				map : map,
-				icon : refreshMap(data),
+				icon : refreshMap(data.locationType.locationTypeId, data.gps),
 				title : data.locationName
 			});
 			var bounds = new google.maps.LatLngBounds();
@@ -55,11 +55,7 @@ function saveMarker() {
 				}
 			});
 			markers.push(marker);
-			if ($("#destinationIds").val() != "")
-				$("#destinationIds").val(
-						$("#destinationIds").val() + "," + data.locationID);
-			else
-				$("#destinationIds").val(data.locationID);
+			$("#markerId").val(data.locationID);
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
@@ -69,8 +65,9 @@ function saveMarker() {
 	if (!$('#insertAMarker').parent().hasClass('ui-popup-hidden')) {
 		$('#insertAMarker').popup('close');
 		$('#insertAMarker').popup("destroy");
-	    return( -1 );
-	};
+		return (-1);
+	}
+	;
 }
 
 function getAllMarkers() {
@@ -106,24 +103,32 @@ function getAllMarkers() {
 										marker = new google.maps.Marker(
 												{
 													map : map,
-													icon : refreshMap(l),
+													icon : refreshMap(
+															l.locationType.locationTypeId,
+															l.gps),
 													animation : google.maps.Animation.DROP,
 													draggable : true,
 													title : l.locationName
 
 												});
-										google.maps.event.addListener(marker, 'click', function(point) {
-				
-											if ($('[name="optionType"] :radio:checked')
+										google.maps.event
+												.addListener(
+														marker,
+														'click',
+														function(point) {
+
+															if ($(
+																	'[name="optionType"] :radio:checked')
 																	.val() == "marker") {
-												addAMarker(l,
-														l.gps);
-											} else {
-												addAPath(l,
-														l.gps);
-											}
-											map.setCenter(pos);
-											map.setZoom(17);});
+																addAMarker(l,
+																		l.gps);
+															} else {
+																addAPath(l,
+																		l.gps);
+															}
+															map.setCenter(pos);
+															map.setZoom(17);
+														});
 										marker
 												.addListener(
 														'dragend',
@@ -172,7 +177,7 @@ function getAllMarkers() {
 
 function openMarkerPopup(edit) {
 	if (!edit
-			&& (parseInt($("#locationTypeId").val()) > 1 || $(
+			&& (parseInt($("#locationTypeId").val()) <= 1 || $(
 					"#parentLocationId").val() == "0")) {
 		alert("Please select the marker type (at the top menu) and parent location (at the right side menu) first.");
 		return;
@@ -181,7 +186,7 @@ function openMarkerPopup(edit) {
 	$('#insertAMarker').popup('open').trigger('create');
 }
 
-function addAMarker(location, gps){
+function addAMarker(location, gps) {
 	gps = gps.replace(" ", "");
 	var edit = true;
 	if (location == null) {
