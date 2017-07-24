@@ -113,13 +113,59 @@ function getMyChild(select) {
 						listAdd += '<ul data-role="listview" data-theme="b" data-filter-reveal="true" data-collapsed="false" id="'
 								+ l.locationTypeId
 								+ '" class="locationTypes" data-filter="true" data-input="#destinationName"></ul></li>';
-					});
+						});
+	
 	$("#autocompleteDestination").append(listAdd);
 	$("#autocompleteDestination").listview("refresh");
 	// } else
 	$.each(childData.children, function(k, l) {
+		console.log(l.locationTypeId);
 		childData = l;
 		getMyChild(l.locationTypeId);
 	});
 }
 
+function getCampusMarkers(locationId){
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
+		+ locationId + "&userName=NMMU";
+for ( var i = 0; i < markers.length; i++) {
+	markers[i].setMap(null);
+}
+$
+		.ajax({
+			url : url,
+			cache : false,
+			async : true,
+			success : function(data) {
+				
+				$
+						.each(
+								data,
+								function(k, l) {
+									var pos = {
+										lat : parseFloat(l.gps.split(",")[0]),
+										lng : parseFloat(l.gps.split(",")[1])
+									};
+									marker = new google.maps.Marker(
+											{
+												map : map,
+												icon :'WebContent/images/map-markers/building.png' ,
+												animation : google.maps.Animation.DROP,
+												title : l.locationName,
+
+											});
+																					
+									marker.setPosition(pos);
+									markers.push(marker);
+								});
+				
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				alert(xhr.status);
+				alert(thrownError);
+			}
+		});
+	
+	
+	
+}
