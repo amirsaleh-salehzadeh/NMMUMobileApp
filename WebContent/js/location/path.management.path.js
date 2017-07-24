@@ -52,6 +52,7 @@ function getAllPaths() {
 
 // SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH INCLUDES MANY POINTS
 function saveThePath() {
+	var des = $("#destinationId").val();
 	var locationLatLngs = $("#pathLatLng").val().split("_");
 	if (locationLatLngs.length <= 2) {
 		saveAPath();
@@ -61,8 +62,12 @@ function saveThePath() {
 			$("#markerCoordinate").val(locationLatLngs[i]);
 			$("#locationTypeId").val(5);
 			$("#markerId").val(0);
-			saveMarker();
-			$("#destinationId").val($("#markerId").val());
+			if (i < locationLatLngs.length - 1) {
+				saveMarker();
+				$("#destinationId").val($("#markerId").val());
+			} else {
+				$("#destinationId").val(des);
+			}
 			saveAPath();
 		}
 	$('#insertAPath').popup('close');
