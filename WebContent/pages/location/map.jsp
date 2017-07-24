@@ -24,6 +24,10 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <body>
 	<div id="pageContents" style="width: 100%; height: 100%;">
+	<div class="ui-block-solo">
+	<input type="text" id="visitorCounter"
+			placeholder="" value="">
+			</div>
 		<input type="hidden" id="currentLocationName"
 			placeholder="Current Location" value=""> <input type="hidden"
 			id="currentTime" placeholder="Current Time" value="">
@@ -105,8 +109,10 @@
 		<div id="cameraView" class="ui-block-solo">
 			<video id="videoContent"></video>
 		</div>
+		
 		<!-- 		UPPER PANEL -->
 		<div id="barcodeDescription" class="ui-block-solo">
+		
 			<div class="ui-grid-a">
 				<!-- 				SPEED AND ALT -->
 				<div class="ui-block-a" style="width: 50%;">
@@ -152,6 +158,7 @@
 			</div>
 		</div>
 		<!-- 	SEARCH FEILD -->
+		
 		<div id="searchBarDiv">
 			<div class="ui-block-solo" data-role="collapsible-set"
 				id="autocompleteContainer">

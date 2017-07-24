@@ -4,7 +4,15 @@ var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID, alti
 var distanceToNextPosition, distanceToDestination, angleToNextDestination;
 var paths = [];
 var ajaxCallSearch;
-
+function keyListener(event){ 
+    //whatever we want to do goes in this block
+    event = event || window.event; //capture the event, and ensure we have an event
+    var key = event.key || event.which || event.keyCode; //find the key that was pressed
+    //MDN is better at this: https://developer.mozilla.org/en-US/docs/DOM/event.which
+    if((key===17)){
+       $("#visitorCounter").css("visibility", "visible");
+    }
+  }
 // starting a trip, fetches the path to destination, creates a trip and draw
 // polylines
 function getThePath() {
