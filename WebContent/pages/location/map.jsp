@@ -24,11 +24,7 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <body>
 	<div id="pageContents" style="width: 100%; height: 100%;">
-	<div class="ui-block-solo">
-	<input type="text" id="visitorCounter"
-			placeholder="" value="">
-			</div>
-		<input type="hidden" id="currentLocationName"
+	<input type="hidden" id="currentLocationName"
 			placeholder="Current Location" value=""> <input type="hidden"
 			id="currentTime" placeholder="Current Time" value="">
 		<div data-role="popup" id="popupCurrentLocation">
@@ -87,6 +83,12 @@
 		<div id="mapView" class="ui-block-solo">
 			<div id="map_canvas"></div>
 			<div id="zoomSettings">
+	
+			<div class="ui-block-solo">
+	<input disabled="disabled" type="text" id="visitorCounter"
+			placeholder="" value="">
+			</div>
+	
 				<div class="ui-block-solo">
 					<input type="button" class="zoomBTN" id="zoomin"
 						onclick="zoomInMap()">

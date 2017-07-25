@@ -1,10 +1,10 @@
 var locationTypeJSONData;
-var marker;
 var markers = [];
 function getLocationTypePanel() {
-	for ( var i = 0; i < markers.length; i++) {
-		markers[i].setMap(null);
-	}
+	if (markers != undefined)
+		for ( var i = 0; i < markers.length; i++) {
+			markers[i].setMap(null);
+		}
 	var url = "REST/GetLocationWS/GetAllLocationTypes";
 	$
 			.ajax({
@@ -19,7 +19,6 @@ function getLocationTypePanel() {
 					listAdd += '<ul data-role="listview" data-theme="b" data-collapsed="false" id="'
 							+ data.locationTypeId
 							+ '" class="locationTypes" data-filter="true" data-input="#destinationName"></ul></li>';
-					console.log(data.locationTypeId);
 					$("#autocompleteDestination").append(listAdd);
 					$("#autocompleteDestination").listview();
 					$("#autocompleteDestination").listview("refresh");
@@ -27,74 +26,122 @@ function getLocationTypePanel() {
 					$("#" + data.locationTypeId).listview("refresh");
 					getMyChild(data.locationTypeId);
 					$('li[data-role=collapsible]').collapsible();
-					
+
 					url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
-						+ "&locationType=Campus&locationName=";
-				$.ajax({
-					url : url,
-					cache : true,
-					async : true,
-					success : function(data) {
-						$.each(data, function(k, l) {
-							var marker = marker = new google.maps.Marker({
-								position : {
-									lat : parseFloat(l.gps.split(",")[0]),
-									lng : parseFloat(l.gps.split(",")[1])
+							+ "&locationType=Campus&locationName=";
+					$
+							.ajax({
+								url : url,
+								cache : true,
+								async : true,
+								success : function(data) {
+									$
+											.each(
+													data,
+													function(k, l) {
+														var markerTMP = new google.maps.Marker(
+																{
+																	position : {
+																		lat : parseFloat(l.gps
+																				.split(",")[0]),
+																		lng : parseFloat(l.gps
+																				.split(",")[1])
+																	},
+																	icon : 'images/map-markers/marker-green.png',
+																	title : l.locationName
+																});
+														markerTMP.setMap(map);
+														google.maps.event.addListener(marker, 'click', function() {
+															getCampusMarkers(l.locationID);
+														});
+														markers.push(markerTMP);
+														var str = "";
+														str += "<li id='"
+																+ l.locationID
+																+ "_"
+																+ l.gps
+																+ "' onclick='getCampusMarkers(" +l.locationID+ ")'>"
+																+ l.locationName
+																+ "</li>";
+
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.append(str);
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.listview();
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.listview(
+																		"refresh");
+														$(
+																"#autocompleteDestination")
+																.listview(
+																		"refresh");
+													});
+
 								},
-								map : map,
-								icon : 'WebContent/images/map-markers/marker-green.png',
-								title : l.locationName
+								error : function(xhr, ajaxOptions, thrownError) {
+									alert(xhr.status);
+									alert(thrownError);
+								}
 							});
-							markers.push(marker);
-							var str = "";
-							str += "<li id='" + l.locationID + "_" + l.gps
-									+ "' onclick='selectDestination(this);getCampusMarkers('"+l.locationId+")'>"
-								    + l.locationName
-									+ "</li>";
-							
-							$("#" + l.locationType.locationTypeId).append(str);
-							$("#" + l.locationType.locationTypeId).listview();
-							$("#" + l.locationType.locationTypeId).listview("refresh");
-							$("#autocompleteDestination").listview("refresh");
-						});
-						
-					},error: function (xhr, ajaxOptions, thrownError) {
-				        alert(xhr.status);
-				        alert(thrownError);
-				      } 
-				});
-					
+
 					url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
-						+ "&locationType=Building&locationName=";
-				$.ajax({
-					url : url,
-					cache : true,
-					async : true,
-					success : function(data) {
-						$.each(data, function(k, l) {
-						
-							var str = "";
-							str += "<li id='" + l.locationID + "_" + l.gps
-									+ "' onclick='selectDestination(this)'>"
-								    + l.locationName
-									+ "</li>";
-							
-							$("#" + l.locationType.locationTypeId).append(str);
-							$("#" + l.locationType.locationTypeId).listview();
-							$("#" + l.locationType.locationTypeId).listview("refresh");
-							$("#autocompleteDestination").listview("refresh");
-						});
-						
-					},error: function (xhr, ajaxOptions, thrownError) {
-				        alert(xhr.status);
-				        alert(thrownError);
-				      } 
-				});
-				
-				$( "div#searchBarDiv" ).on( "swipe", openCloseSearch );
+							+ "&locationType=Building&locationName=";
+					$
+							.ajax({
+								url : url,
+								cache : true,
+								async : true,
+								success : function(data) {
+									$
+											.each(
+													data,
+													function(k, l) {
+
+														var str = "";
+														str += "<li id='"
+																+ l.locationID
+																+ "_"
+																+ l.gps
+																+ "' onclick='selectDestination(this)'>"
+																+ l.locationName
+																+ "</li>";
+
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.append(str);
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.listview();
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.listview(
+																		"refresh");
+														$(
+																"#autocompleteDestination")
+																.listview(
+																		"refresh");
+													});
+
+								},
+								error : function(xhr, ajaxOptions, thrownError) {
+									alert(xhr.status);
+									alert(thrownError);
+								}
+							});
+
+					$("div#searchBarDiv").on("swipe", openCloseSearch);
 				}
 			});
-	
+
 }
 
 var childData;
@@ -113,8 +160,8 @@ function getMyChild(select) {
 						listAdd += '<ul data-role="listview" data-theme="b" data-filter-reveal="true" data-collapsed="false" id="'
 								+ l.locationTypeId
 								+ '" class="locationTypes" data-filter="true" data-input="#destinationName"></ul></li>';
-						});
-	
+					});
+
 	$("#autocompleteDestination").append(listAdd);
 	$("#autocompleteDestination").listview("refresh");
 	// } else
@@ -125,47 +172,45 @@ function getMyChild(select) {
 	});
 }
 
-function getCampusMarkers(locationId){
+function getCampusMarkers(locationId) {
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-		+ locationId + "&userName=NMMU";
-for ( var i = 0; i < markers.length; i++) {
-	markers[i].setMap(null);
-}
-$
-		.ajax({
-			url : url,
-			cache : false,
-			async : true,
-			success : function(data) {
-				
-				$
-						.each(
-								data,
-								function(k, l) {
-									var pos = {
-										lat : parseFloat(l.gps.split(",")[0]),
-										lng : parseFloat(l.gps.split(",")[1])
-									};
-									marker = new google.maps.Marker(
-											{
-												map : map,
-												icon :'WebContent/images/map-markers/building.png' ,
-												animation : google.maps.Animation.DROP,
-												title : l.locationName,
+			+ locationId + "&userName=NMMU";
+	for ( var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
+	}
+	$.ajax({
+		url : url,
+		cache : false,
+		async : true,
+		success : function(data) {
 
-											});
-																					
-									marker.setPosition(pos);
-									markers.push(marker);
-								});
+			$.each(data, function(k, l) {
+				var markerTMP = new google.maps.Marker(
+						{
+							position : {
+								lat : parseFloat(l.gps
+										.split(",")[0]),
+								lng : parseFloat(l.gps
+										.split(",")[1])
+							},
+							icon : 'images/map-markers/building.png',
+							title : l.locationName
+						});
+				google.maps.event.addListener(marker, 'click', function() {
+					selectDestination(this);
+				});
+				markerTMP.setMap(map);
+				markers.push(markerTMP);
+				});
 				
-			},
-			error : function(xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);
-			}
-		});
-	
-	
-	
+
+			
+
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+
 }
