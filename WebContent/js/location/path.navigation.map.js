@@ -6,10 +6,13 @@ function initiateNavigation() {
 		}
 		return;
 	}
-	if (getCookie("TripPathGPSCookie") == "")
-		$('#popupPathType').popup('open').trigger('create');
-	else
-		showViewItems();
+//	if (getCookie("TripPathGPSCookie") == ""){
+//		$('#popupPathType').popup();
+//		$('#popupPathType').popup('open').trigger('create');
+//	}
+//	else
+//		showViewItems();
+	getThePath();
 }
 
 function zoomInMap() {
@@ -99,7 +102,7 @@ function arrivalPopup(gps) {
 function showViewItems() {
 	if (getCookie("TripPathGPSCookie") == "") {
 		$("#barcodeDescription").fadeOut();
-		$("#destinationShow").fadeOut();
+		$("#currentLocationShow").fadeOut();
 		$("#compassID").fadeOut();
 		$("#directionShow").fadeOut();
 		$("#start").fadeIn();
@@ -109,7 +112,7 @@ function showViewItems() {
 		$("#start").fadeOut();
 		$("#remove").fadeIn();
 		$("#barcodeDescription").fadeIn();
-		$("#destinationShow").fadeIn();
+		$("#currentLocationShow").fadeIn();
 		$("#compassID").fadeIn();
 		$("#directionShow").fadeIn();
 	}

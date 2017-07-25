@@ -349,15 +349,14 @@ button {
 /* INFO SPANS */
 #barcodeDescription {
 	position: absolute;
-	display: table;
+	display: block;
 	width: 75%;
 	margin: 0 auto;
 	left: 0;
 	right: 0;
 	top: 0;
 	background-color: transparent;
-	height: 77px;
-	background-color: transparent;
+	min-height: 77px;
 }
 
 .headingInfo {
@@ -365,10 +364,6 @@ button {
 	background-color: black;
 	color: white;
 	padding-bottom: 3px;
-}
-
-.infoValue {
-	padding-left: 34px; /* to move text to right */
 }
 
 /* INFO SPANS END */
@@ -418,7 +413,7 @@ button {
 	padding: 7px 4px 7px 4px;
 }
 
-#destinationShow {
+#currentLocationShow {
 	width: 50%;
 	height: 2em;
 	display: table;
@@ -457,16 +452,16 @@ button {
 .dashboardShow {
 	display: block;
 	min-width: 103px; /* 15% */
-	min-height: 33px;
+	height: 100%;
 	z-index: 10;
-	background-color: black;
+	background-color: rgb(12, 28, 44);
 	opacity: 0.77;
 	position: absolute; /* fixed */
 	color: white;
-	font-weight: normal;
+	font-weight: lighter;
 	font-size: 10pt;
 	text-decoration: none;
-	text-align: center;
+	text-align: left;
 	border: 2px solid #d1dcdf !important;
 	-webkit-border-radius: 7px !important;
 	-moz-border-radius: 7px !important;

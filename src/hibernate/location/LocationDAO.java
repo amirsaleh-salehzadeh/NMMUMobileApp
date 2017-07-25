@@ -252,8 +252,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			if (parentLocationIds != null && parentLocationIds.length() >= 1)
 				query += " and l.parent_id in (" + parentLocationIds +")";
 			else if (locationTypeIds != null && locationTypeIds.length() >= 1)
-//				query += " and l.location_type in (" + locationTypeIds + ")";
-				query += " and l.location_type in (3,5)";
+				query += " and l.location_type in (" + locationTypeIds + ")";
 			query += " order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
@@ -509,10 +508,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return outp;
 	}
 
-	public LocationENT findClosestLocation(String GPSCoordinates) {
+	public LocationENT findClosestLocation(String GPSCoordinates, String locationTypeIds) {
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> points = dao
-				.getAllLocationsForUser("NMMU", null, null);
+				.getAllLocationsForUser("NMMU", locationTypeIds, null);
 		int closest = -1;
 		double[] distances = new double[points.size()];
 		for (int i = 0; i < points.size(); i++) {
@@ -571,7 +570,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				DefaultWeightedEdge.class);
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> points = dao
-				.getAllLocationsForUser("NMMU", null, null);
+				.getAllLocationsForUser("NMMU", "3,5", null);
 		for (int i = 0; i < points.size(); i++) {
 			long depTMP = points.get(i).getLocationID();
 			if (!g.containsVertex(depTMP))
@@ -593,14 +592,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 			}
 		}
 		return g;
-	}
-
-	public ArrayList<PathENT> getAPathFromTo(String fromCoordinate,
-			String toCoordinate, int pathTypeId) {
-		LocationENT from = findClosestLocation(fromCoordinate);
-		LocationENT to = findClosestLocation(toCoordinate);
-		return getShortestPath(from.getLocationID(), to.getLocationID(),
-				pathTypeId);
 	}
 
 	public static void main(String[] args) {
