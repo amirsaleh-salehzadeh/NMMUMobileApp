@@ -197,7 +197,7 @@ function getCampusMarkers(locationId) {
 							title : l.locationName
 						});
 				google.maps.event.addListener(markerTMP, 'click', function() {
-					selectDestination(this.markerTMP);
+					selectDestination();
 				});
 				markerTMP.setMap(map);
 				markers.push(markerTMP);
