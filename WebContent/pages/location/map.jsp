@@ -43,7 +43,6 @@
 			<a href="#" data-rel="back"
 				class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
 			<div class="ui-block-a">
-
 				<label for="dirtroad" class="popupPathItem"
 					style="width: 100%; text-align: center;"> <!-- //////////// CHANGED HERE START-->
 					<input type="radio" name="radio-choice-path-type" id="dirtroad"

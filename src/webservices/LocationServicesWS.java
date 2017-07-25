@@ -34,14 +34,14 @@ public class LocationServicesWS {
 	@Produces("application/json")
 	public String getAllLocationsForUser(
 			@QueryParam("userName") String userName,
-			@QueryParam("locationTypeId") int locationTypeId,
-			@QueryParam("parentLocationId") long parentLocationId) {
+			@QueryParam("locationTypeId") String locationTypeIds,
+			@QueryParam("parentLocationId") String parentLocationIds) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
-					.getAllLocationsForUser(userName, locationTypeId,
-							parentLocationId));
+					.getAllLocationsForUser(userName, locationTypeIds,
+							parentLocationIds));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

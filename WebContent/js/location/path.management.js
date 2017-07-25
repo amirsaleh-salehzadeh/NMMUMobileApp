@@ -257,9 +257,9 @@ function selectParent(field) {
 		getMyChild($(field).attr("id").split("_")[2]);
 		$("#infoListView").listview();
 		$("#infoListView").listview("refresh");
-		getAllMarkers();
-		setLocationTypeCreate();
 	}
+	getAllMarkers();
+	setLocationTypeCreate();
 }
 
 function createMyType(selectOpt) {

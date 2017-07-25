@@ -1,6 +1,6 @@
 function getAngleDirection(angle) {
 	angle = parseFloat(angle);
-	var arrowGif = document.getElementById("directionShow");
+	var arrowGif = document.getElementById("arrowDirId");
 	arrowGif.style.webkitTransform = "rotate(" + angle + "deg)";
 	arrowGif.style.MozTransform = "rotate(" + angle + "deg)";
 	arrowGif.style.transform = "rotate(" + angle + "deg)";

@@ -38,16 +38,10 @@ function mapMapView() {
 
 function openCloseSearch() {
 	if (parseInt($('#searchBarDiv').css("right")) < -10) {
-		$('#buttonContainer').animate({
-			'right' : '266'
-		}, 500);
 		$('#searchBarDiv').animate({
 			'right' : '0'
 		}, 500);
 	} else {
-		$('#buttonContainer').animate({
-			'right' : '0'
-		}, 500);
 		$('#searchBarDiv').animate({
 			'right' : '-100%'
 		}, 500);
@@ -108,10 +102,15 @@ function showViewItems() {
 		$("#destinationShow").fadeOut();
 		$("#compassID").fadeOut();
 		$("#directionShow").fadeOut();
+		$("#start").fadeIn();
+		$("#remove").fadeOut();
 	} else {
-		getThePath();
+//		getThePath();
 		$("#start").fadeOut();
-		$("#remove").css("display", "inline-block");
 		$("#remove").fadeIn();
+		$("#barcodeDescription").fadeIn();
+		$("#destinationShow").fadeIn();
+		$("#compassID").fadeIn();
+		$("#directionShow").fadeIn();
 	}
 }
