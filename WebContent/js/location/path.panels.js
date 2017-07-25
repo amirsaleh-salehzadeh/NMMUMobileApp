@@ -51,7 +51,7 @@ function getLocationTypePanel() {
 																	title : l.locationName
 																});
 														markerTMP.setMap(map);
-														google.maps.event.addListener(marker, 'click', function() {
+														google.maps.event.addListener(markerTMP, 'click', function() {
 															getCampusMarkers(l.locationID);
 														});
 														markers.push(markerTMP);
@@ -196,8 +196,8 @@ function getCampusMarkers(locationId) {
 							icon : 'images/map-markers/building.png',
 							title : l.locationName
 						});
-				google.maps.event.addListener(marker, 'click', function() {
-					selectDestination(this);
+				google.maps.event.addListener(markerTMP, 'click', function() {
+					selectDestination(this.markerTMP);
 				});
 				markerTMP.setMap(map);
 				markers.push(markerTMP);
