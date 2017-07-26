@@ -6,9 +6,9 @@
 		<property name="hibernate.dialect">
 			org.hibernate.dialect.MySQLDialect
 		</property>
-<!-- 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nmmumobile?characterEncoding=utf8</property> -->
-<!-- 		<property name="hibernate.connection.username">root</property> -->
-<!-- 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property> -->
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nmmumobile?characterEncoding=utf8</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 
 <!-- 		<property name="hibernate.connection.url">jdbc:mysql://postgrad.nmmu.ac.za:3306/nmmumobile?characterEncoding=utf8</property> -->
 <!-- 		<property name="hibernate.connection.username">nmmu_mobile_user</property> -->
@@ -17,9 +17,9 @@
 
 <!-- 	LIVE SERVER NEVER USE IT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 <!-- 	>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
-		<property name="hibernate.connection.url">jdbc:mysql://lnxsql-sc1.nmmu.ac.za:3306/findmedb?characterEncoding=utf8</property>
-		<property name="hibernate.connection.username">findmeuser</property>
-		<property name="hibernate.connection.password">findM32017*&</property>
+<!-- 		<property name="hibernate.connection.url">jdbc:mysql://lnxsql-sc1.nmmu.ac.za:3306/findmedb?characterEncoding=utf8</property> -->
+<!-- 		<property name="hibernate.connection.username">findmeuser</property> -->
+<!-- 		<property name="hibernate.connection.password">findM32017*&</property> -->
 <!-- 	>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
 		
 

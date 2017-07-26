@@ -1,5 +1,10 @@
 var locationTypeJSONData;
+var markers = [];
 function getLocationTypePanel() {
+	if (markers != undefined)
+		for ( var i = 0; i < markers.length; i++) {
+			markers[i].setMap(null);
+		}
 	var url = "REST/GetLocationWS/GetAllLocationTypes";
 	$
 			.ajax({
@@ -9,19 +14,11 @@ function getLocationTypePanel() {
 				success : function(data) {
 					locationTypeJSONData = data;
 
-//					var listAdd = '<li data-role="collapsible" data-iconpos="right" data-inset="false">';
-//					listAdd += '<h2>' + data.locationType + '</h2>';
-//					listAdd += '<ul data-role="listview" data-theme="b" data-iconpos="right" data-inset="true" data-filter="true" data-input="#destinationName"'
-//							+ data.locationTypeId + ' class="locationTypes">';
-//					listAdd += '<ul data-role="listview" data-theme="b" data-inset="true" data-mini="true" id="'
-//							+ data.locationTypeId + '" class="locationTypes">';
-//					listAdd += "</ul></li>";
 					var listAdd = '<li data-role="collapsible" data-mini="true" data-iconpos="right" data-inset="true">';
 					listAdd += '<h2>' + data.locationType + '</h2>';
 					listAdd += '<ul data-role="listview" data-theme="b" data-collapsed="false" id="'
 							+ data.locationTypeId
 							+ '" class="locationTypes" data-filter="true" data-input="#destinationName"></ul></li>';
-					
 					$("#autocompleteDestination").append(listAdd);
 					$("#autocompleteDestination").listview();
 					$("#autocompleteDestination").listview("refresh");
@@ -29,32 +26,122 @@ function getLocationTypePanel() {
 					$("#" + data.locationTypeId).listview("refresh");
 					getMyChild(data.locationTypeId);
 					$('li[data-role=collapsible]').collapsible();
+
 					url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
-						+ "&locationType=Building&locationName=";
-				$.ajax({
-					url : url,
-					cache : true,
-					async : true,
-					success : function(data) {
-						$.each(data, function(k, l) {
-							var str = "";
-							str += "<li id='" + l.locationID + "_" + l.gps
-									+ "' onclick='selectDestination(this)'>"
-								    + l.locationName
-									+ "</li>";
-							$("#" + l.locationType.locationTypeId).append(str);
-							$("#" + l.locationType.locationTypeId).listview();
-							$("#" + l.locationType.locationTypeId).listview("refresh");
-							$("#autocompleteDestination").listview("refresh");
-						});
-					},error: function (xhr, ajaxOptions, thrownError) {
-				        alert(xhr.status);
-				        alert(thrownError);
-				      } 
-				});
-				$( "div#searchBarDiv" ).on( "swipe", openCloseSearch );
+							+ "&locationType=Campus&locationName=";
+					$
+							.ajax({
+								url : url,
+								cache : true,
+								async : true,
+								success : function(data) {
+									$
+											.each(
+													data,
+													function(k, l) {
+														var markerTMP = new google.maps.Marker(
+																{
+																	position : {
+																		lat : parseFloat(l.gps
+																				.split(",")[0]),
+																		lng : parseFloat(l.gps
+																				.split(",")[1])
+																	},
+																	icon : 'images/map-markers/marker-green.png',
+																	title : l.locationName
+																});
+														markerTMP.setMap(map);
+														google.maps.event.addListener(markerTMP, 'click', function() {
+															getCampusMarkers(l.locationID);
+														});
+														markers.push(markerTMP);
+														var str = "";
+														str += "<li id='"
+																+ l.locationID
+																+ "_"
+																+ l.gps
+																+ "' onclick='getCampusMarkers(" +l.locationID+ ")'>"
+																+ l.locationName
+																+ "</li>";
+
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.append(str);
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.listview();
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.listview(
+																		"refresh");
+														$(
+																"#autocompleteDestination")
+																.listview(
+																		"refresh");
+													});
+
+								},
+								error : function(xhr, ajaxOptions, thrownError) {
+									alert(xhr.status);
+									alert(thrownError);
+								}
+							});
+
+					url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
+							+ "&locationType=Building&locationName=";
+					$
+							.ajax({
+								url : url,
+								cache : true,
+								async : true,
+								success : function(data) {
+									$
+											.each(
+													data,
+													function(k, l) {
+
+														var str = "";
+														str += "<li id='"
+																+ l.locationID
+																+ "_"
+																+ l.gps
+																+ "' onclick='selectDestination(this)'>"
+																+ l.locationName
+																+ "</li>";
+
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.append(str);
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.listview();
+														$(
+																"#"
+																		+ l.locationType.locationTypeId)
+																.listview(
+																		"refresh");
+														$(
+																"#autocompleteDestination")
+																.listview(
+																		"refresh");
+													});
+
+								},
+								error : function(xhr, ajaxOptions, thrownError) {
+									alert(xhr.status);
+									alert(thrownError);
+								}
+							});
+
+					$("div#searchBarDiv").on("swipe", openCloseSearch);
 				}
 			});
+
 }
 
 var childData;
@@ -74,12 +161,56 @@ function getMyChild(select) {
 								+ l.locationTypeId
 								+ '" class="locationTypes" data-filter="true" data-input="#destinationName"></ul></li>';
 					});
+
 	$("#autocompleteDestination").append(listAdd);
 	$("#autocompleteDestination").listview("refresh");
 	// } else
 	$.each(childData.children, function(k, l) {
+		console.log(l.locationTypeId);
 		childData = l;
 		getMyChild(l.locationTypeId);
 	});
 }
 
+function getCampusMarkers(locationId) {
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
+			+ locationId + "&userName=NMMU";
+	for ( var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
+	}
+	$.ajax({
+		url : url,
+		cache : false,
+		async : true,
+		success : function(data) {
+
+			$.each(data, function(k, l) {
+				var markerTMP = new google.maps.Marker(
+						{
+							position : {
+								lat : parseFloat(l.gps
+										.split(",")[0]),
+								lng : parseFloat(l.gps
+										.split(",")[1])
+							},
+							icon : 'images/map-markers/building.png',
+							title : l.locationName
+						});
+				google.maps.event.addListener(markerTMP, 'click', function() {
+					selectDestination(this.markerTMP);
+				});
+				markerTMP.setMap(map);
+				markers.push(markerTMP);
+				});
+				
+
+			
+
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+
+}

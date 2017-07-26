@@ -4,7 +4,21 @@ var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID, alti
 var distanceToNextPosition, distanceToDestination, angleToNextDestination;
 var paths = [];
 var ajaxCallSearch;
+function KeyPress(e) {
+    var eventKeys = window.event? event : e;    		
+    if (eventKeys.keyCode == 86 && eventKeys.ctrlKey && eventKeys.shiftKey ) {
+    	if($( "#visitorCounter" ).css( "display" )== "none"){
+    		$( "#visitorCounter" ).css( "display" , "block");
+    		$( "#visitorCounter" ).css( "display" );
+    	}else{
+    		$( "#visitorCounter" ).css( "display" , "none");
+    		$( "#visitorCounter" ).css( "display" );
+    		
+    	}
+    }
+}
 
+document.onkeydown = KeyPress;
 // starting a trip, fetches the path to destination, creates a trip and draw
 // polylines
 function getThePath() {

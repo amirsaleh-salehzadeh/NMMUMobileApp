@@ -24,7 +24,7 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <body>
 	<div id="pageContents" style="width: 100%; height: 100%;">
-		<input type="hidden" id="currentLocationName"
+	<input type="hidden" id="currentLocationName"
 			placeholder="Current Location" value=""> <input type="hidden"
 			id="currentTime" placeholder="Current Time" value="">
 		<div data-role="popup" id="popupCurrentLocation">
@@ -34,10 +34,6 @@
 			<%=request.getParameter("currentLocationName")%>
 			<br>
 			<%=request.getParameter("currentTime")%>
-			<div>
-				<image>
-			</div>
-			<div></div>
 		</div>
 		<div data-role="popup" id="popupPathType">
 			<a href="#" data-rel="back"
@@ -81,6 +77,12 @@
 		<div id="mapView" class="ui-block-solo">
 			<div id="map_canvas"></div>
 			<div id="zoomSettings">
+	
+			<div class="ui-block-solo">
+	<input disabled="disabled" type="text" id="visitorCounter"
+			placeholder="" value="">
+			</div>
+	
 				<div class="ui-block-solo">
 					<input type="button" class="zoomBTN" id="zoomin"
 						onclick="zoomInMap()">
@@ -103,6 +105,7 @@
 		<div id="cameraView" class="ui-block-solo">
 			<video id="videoContent"></video>
 		</div>
+		
 		<!-- 		UPPER PANEL -->
 		<div id="barcodeDescription" class="ui-block-solo">
 				<!-- 				SPEED AND ALT -->
@@ -125,6 +128,7 @@
 <!-- 				</div> -->
 		</div>
 		<!-- 	SEARCH FEILD -->
+		
 		<div id="searchBarDiv">
 			<div class="ui-block-solo" data-role="collapsible-set"
 				id="autocompleteContainer">
