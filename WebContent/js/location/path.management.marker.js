@@ -71,109 +71,112 @@ function saveMarker() {
 }
 
 function getAllMarkers() {
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-			+ $("#parentLocationId").val() + "&locationTypeId="
-			+ $("#locationTypeId").val() + "&userName=NMMU";
+	 var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
+	 + $("#parentLocationId").val() + "&locationTypeId="
+	 + $("#locationTypeId").val() + "&userName=NMMU";
+//	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
+//			+ $("#parentLocationId").val() + "&userName=NMMU";
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
 	}
-	$
-			.ajax({
-				url : url,
-				cache : false,
-				async : true,
-				success : function(data) {
-					var str = "";
-					$
-							.each(
-									data,
-									function(k, l) {
-										str += '<a href="#" id="'
-												+ l.locationID
-												+ "_"
-												+ l.gps
-												+ "_"
-												+ l.locationType.locationTypeId
-												+ '" data-mini="true" onclick="selectParent(this)" class="ui-btn parentLocationList">'
-												+ l.locationName + '</a>';
-										var pos = {
-											lat : parseFloat(l.gps.split(",")[0]),
-											lng : parseFloat(l.gps.split(",")[1])
-										};
-										marker = new google.maps.Marker(
-												{
-													map : map,
-													icon : refreshMap(
-															l.locationType.locationTypeId,
-															l.gps),
-													animation : google.maps.Animation.DROP,
-													draggable : true,
-													title : l.locationName
+	$.ajax({
+		url : url,
+		cache : false,
+		async : true,
+		success : function(data) {
+			var str = "";
+			$
+					.each(
+							data,
+							function(k, l) {
+								if (parseInt(l.locationType.locationTypeId) >= parseInt($(
+										"#locationTypeId").val()))
+									str += '<a href="#" id="'
+											+ l.locationID
+											+ "_"
+											+ l.gps
+											+ "_"
+											+ l.locationType.locationTypeId
+											+ '" data-mini="true" onclick="selectParent(this)" class="ui-btn parentLocationList">'
+											+ l.locationName + '</a>';
+								var pos = {
+									lat : parseFloat(l.gps.split(",")[0]),
+									lng : parseFloat(l.gps.split(",")[1])
+								};
+								marker = new google.maps.Marker(
+										{
+											map : map,
+											icon : refreshMap(
+													l.locationType.locationTypeId,
+													l.gps),
+											animation : google.maps.Animation.DROP,
+											draggable : true,
+											title : l.locationName
 
+										});
+								google.maps.event
+										.addListener(
+												marker,
+												'click',
+												function(point) {
+
+													if ($(
+															'[name="optionType"] :radio:checked')
+															.val() == "marker") {
+														addAMarker(l,
+																l.gps);
+													} else {
+														addAPath(l,
+																l.gps);
+													}
+//													map.setCenter(pos);
+//													map.setZoom(17);
 												});
-										google.maps.event
-												.addListener(
-														marker,
-														'click',
-														function(point) {
-
-															if ($(
-																	'[name="optionType"] :radio:checked')
-																	.val() == "marker") {
-																addAMarker(l,
-																		l.gps);
-															} else {
-																addAPath(l,
-																		l.gps);
-															}
-															map.setCenter(pos);
-															map.setZoom(17);
-														});
-										marker
-												.addListener(
-														'dragend',
-														function(point) {
-															if (confirm("Are you sure you want to move the marker?")) {
-																$(
-																		"#markerCoordinate")
-																		.val(
-																				point.latLng
-																						.lat()
-																						+ ","
-																						+ point.latLng
-																								.lng());
-																$("#markerId")
-																		.val(
-																				l.locationID);
-																$(
-																		"#parentLocationId")
-																		.val(
-																				l.parentId);
-																$("#markerName")
-																		.val(
-																				l.locationName);
-																$(
-																		"#locationTypeId")
-																		.val(
-																				l.locationType.locationTypeId);
-																setLocationTypeCreate();
-																saveMarker();
-															} else {
-																this
-																		.setPosition(pos);
-															}
-															getAllPaths();
-														});
-										marker.setPosition(pos);
-										markers.push(marker);
-									});
-					$('#parentLocationListView').html(str);
-				},
-				error : function(xhr, ajaxOptions, thrownError) {
-					alert(xhr.status);
-					alert(thrownError);
-				}
-			});
+								marker
+										.addListener(
+												'dragend',
+												function(point) {
+													if (confirm("Are you sure you want to move the marker?")) {
+														$(
+																"#markerCoordinate")
+																.val(
+																		point.latLng
+																				.lat()
+																				+ ","
+																				+ point.latLng
+																						.lng());
+														$("#markerId")
+																.val(
+																		l.locationID);
+														$(
+																"#parentLocationId")
+																.val(
+																		l.parentId);
+														$("#markerName")
+																.val(
+																		l.locationName);
+														$(
+																"#locationTypeId")
+																.val(
+																		l.locationType.locationTypeId);
+														setLocationTypeCreate();
+														saveMarker();
+													} else {
+														this
+																.setPosition(pos);
+													}
+													getAllPaths();
+												});
+								marker.setPosition(pos);
+								markers.push(marker);
+							});
+			$('#parentLocationListView').html(str);
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
 }
 
 function openMarkerPopup(edit) {

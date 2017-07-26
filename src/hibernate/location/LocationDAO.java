@@ -236,7 +236,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 	}
 
 	public ArrayList<LocationENT> getAllLocationsForUser(String username,
-			int locationTypeId, long parentLocationId) {
+			String locationTypeIds, String parentLocationIds) {
 		ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
 		try {
 			Connection conn = null;
@@ -248,11 +248,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 			String query = "";
 			query = "select l.*, lt.location_type as locaName from location l "
 					+ " left join location_type lt on lt.location_type_id = l.location_type";
-			query += " where l.username = '" + username + "' ";
-			if (parentLocationId > 0)
-				query += " and l.parent_id = " + parentLocationId;
-			else if (locationTypeId > 0)
-				query += " and l.location_type = " + locationTypeId;
+			query += " where l.username = '" + username + "'";
+			if (parentLocationIds != null && parentLocationIds.length() >= 1)
+				query += " and l.parent_id in (" + parentLocationIds +")";
+			else if (locationTypeIds != null && locationTypeIds.length() >= 1)
+				query += " and l.location_type in (" + locationTypeIds + ")";
 			query += " order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
@@ -508,10 +508,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return outp;
 	}
 
-	public LocationENT findClosestLocation(String GPSCoordinates) {
+	public LocationENT findClosestLocation(String GPSCoordinates, String locationTypeIds) {
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> points = dao
-				.getAllLocationsForUser("NMMU", 0, 0);
+				.getAllLocationsForUser("NMMU", locationTypeIds, null);
 		int closest = -1;
 		double[] distances = new double[points.size()];
 		for (int i = 0; i < points.size(); i++) {
@@ -570,7 +570,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				DefaultWeightedEdge.class);
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> points = dao
-				.getAllLocationsForUser("NMMU", 0, 0);
+				.getAllLocationsForUser("NMMU", "3,5", null);
 		for (int i = 0; i < points.size(); i++) {
 			long depTMP = points.get(i).getLocationID();
 			if (!g.containsVertex(depTMP))
@@ -594,17 +594,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return g;
 	}
 
-	public ArrayList<PathENT> getAPathFromTo(String fromCoordinate,
-			String toCoordinate, int pathTypeId) {
-		LocationENT from = findClosestLocation(fromCoordinate);
-		LocationENT to = findClosestLocation(toCoordinate);
-		return getShortestPath(from.getLocationID(), to.getLocationID(),
-				pathTypeId);
-	}
-
 	public static void main(String[] args) {
 		LocationDAO dao = new LocationDAO();
-		ArrayList<LocationENT> ent = dao.getAllLocationsForUser("NMMU", 3, 0);
+//		ArrayList<LocationENT> ent = dao.getAllLocationsForUser("NMMU", 3, 0);
 		LocationENT search = new LocationENT();
 		// search.setLocationType(new LocationTypeENT(0, "Roo"));
 		// search.setLocationName("ot");

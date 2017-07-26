@@ -114,9 +114,10 @@ button {
 	display: inline;
 	position: fixed;
 	bottom: 0em;
+	left: 0em;
 	height: 13%;
 	width: 100%;
-	display: inline-block;
+/* 	display: inline-block; */
 	background: transparent !important;
 }
 
@@ -125,7 +126,7 @@ button {
 	width: 90%;
 	margin: auto;
 	cursor: pointer;
-	display: inline;
+/* 	display: inline; */
 	padding: 3px 3px 3px 3px;
 	background-color: transparent;
 	cursor: pointer;
@@ -136,14 +137,14 @@ button {
 	width: 100%;
 	margin: auto;
 	box-shadow: 0px 0px 3px 3px rgb(12, 28, 44);
-	display: block;
+/* 	display: block; */
 	color: rgb(247, 175, 35) !important;
 	font-size: 9px;
 	text-decoration: none;
 	text-shadow: none !important;
 	background-position: top;
 	text-transform: uppercase;
-	display: inline-block;
+/* 	display: inline-block; */
 	background-color: transparent !important;
 	padding-top: 51px;
 	background-position: top
@@ -348,15 +349,14 @@ button {
 /* INFO SPANS */
 #barcodeDescription {
 	position: absolute;
-	display: table;
+	display: block;
 	width: 75%;
 	margin: 0 auto;
 	left: 0;
 	right: 0;
 	top: 0;
 	background-color: transparent;
-	height: 77px;
-	background-color: transparent;
+	min-height: 77px;
 }
 
 .headingInfo {
@@ -364,10 +364,6 @@ button {
 	background-color: black;
 	color: white;
 	padding-bottom: 3px;
-}
-
-.infoValue {
-	padding-left: 34px; /* to move text to right */
 }
 
 /* INFO SPANS END */
@@ -417,7 +413,7 @@ button {
 	padding: 7px 4px 7px 4px;
 }
 
-#destinationShow {
+#currentLocationShow {
 	width: 50%;
 	height: 2em;
 	display: table;
@@ -456,16 +452,16 @@ button {
 .dashboardShow {
 	display: block;
 	min-width: 103px; /* 15% */
-	min-height: 33px;
+	height: 100%;
 	z-index: 10;
-	background-color: black;
+	background-color: rgb(12, 28, 44);
 	opacity: 0.77;
 	position: absolute; /* fixed */
 	color: white;
-	font-weight: normal;
+	font-weight: lighter;
 	font-size: 10pt;
 	text-decoration: none;
-	text-align: center;
+	text-align: left;
 	border: 2px solid #d1dcdf !important;
 	-webkit-border-radius: 7px !important;
 	-moz-border-radius: 7px !important;

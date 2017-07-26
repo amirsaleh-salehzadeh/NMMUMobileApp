@@ -34,14 +34,14 @@ public class LocationServicesWS {
 	@Produces("application/json")
 	public String getAllLocationsForUser(
 			@QueryParam("userName") String userName,
-			@QueryParam("locationTypeId") int locationTypeId,
-			@QueryParam("parentLocationId") long parentLocationId) {
+			@QueryParam("locationTypeId") String locationTypeIds,
+			@QueryParam("parentLocationId") String parentLocationIds) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
-					.getAllLocationsForUser(userName, locationTypeId,
-							parentLocationId));
+					.getAllLocationsForUser(userName, locationTypeIds,
+							parentLocationIds));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -172,11 +172,29 @@ public class LocationServicesWS {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			if(destinationId <=0)
-				destinationId =	getLocationDAO().findClosestLocation(to).getLocationID();
+			if(destinationId <=0)//building and external intersection
+				destinationId =	getLocationDAO().findClosestLocation(to, "3,5").getLocationID();
 			if(departureId <=0)
-				departureId =	getLocationDAO().findClosestLocation(from).getLocationID();
+				departureId =	getLocationDAO().findClosestLocation(from, "3,5").getLocationID();
 			json = mapper.writeValueAsString(getLocationDAO().getShortestPath(departureId, destinationId, pathType));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+	
+	@GET
+	@Path("/FindClosestBuilding")
+	@Produces("application/json")
+	public String findClosestBuilding(@QueryParam("from") String from) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(getLocationDAO().getLocationENTAncestors(getLocationDAO().findClosestLocation(from, "3").getLocationID()));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

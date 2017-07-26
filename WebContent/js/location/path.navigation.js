@@ -34,15 +34,16 @@ function getThePath() {
 			map : map,
 			icon : 'images/icons/finish.png'
 		});
-		drawConstantPolyline();
 		resetWalking();
+		drawConstantPolyline();
+		showViewItems();
 		return;
 	}
 	var url = "REST/GetLocationWS/GetADirectionFromTo?departureId="
 			+ $("#departureId").val() + "&destinationId="
 			+ $("#destinationId").val() + "&from=" + $("#from").val() + "&to="
-			+ $("#to").val() + "&pathType="
-			+ $("[name='radio-choice-path-type']:checked").val();
+			+ $("#to").val() + "&pathType=1";
+//			+ $("[name='radio-choice-path-type']:checked").val();
 	if ($("#to").val().length > 2) {
 		var destPoint = getGoogleMapPosition($("#to").val());
 		if (markerDest != null)
@@ -55,8 +56,8 @@ function getThePath() {
 	}
 	$.ajax({
 		url : url,
-		cache : true,
-		async : true,
+		cache : false,
+		async : false,
 		success : function(data) {
 			var pathIds = "";
 			var pathGPSs = "";
@@ -67,58 +68,41 @@ function getThePath() {
 							+ l.destination.locationID;
 					pathGPSs += l.departure.gps.replace(" ", "") + "_"
 							+ l.destination.gps.replace(" ", "");
-					pathLocations += l.departure.locationName + ","
+					pathLocations += l.departure.locationName + "_"
 							+ l.destination.locationName;
 					$("#departureName").val(l.departure.locationName);
 					$("#destinationName").val(l.destination.locationName);
 					$("#departureId").val(l.departure.locationID);
 				} else {
-					pathIds += "," + l.destination.locationID;
 					pathGPSs += "_" + l.destination.gps.replace(" ", "");
-					pathLocations += "," + l.destination.locationName;
+					pathLocations += "_" + l.destination.locationName;
 					$("#destinationDef").html(l.destination.locationName);
 				}
 			});
-			// $("#tripIds").val(pathIds);
-			$("#tripGPSs").val(pathGPSs);
-			$("#tripLocations").val(pathLocations);
 			$("#departureId").val(pathIds.split(",")[0]);
 			$("#destinationId").val(
 					pathIds.split(",")[pathIds.split(",").length - 1]);
-			// setCookie('TripPathIdsCookie', $("#tripIds").val(), 1);
-			setCookie('TripPathGPSCookie', $("#tripGPSs").val(), 1);
-			setCookie('TripPathLocationsCookie', $("#tripLocations").val(), 1);
+			setCookie('TripPathIdsCookie', pathIds, 1);
+			setCookie('TripPathGPSCookie', pathGPSs, 1);
+			setCookie('TripPathLocationsCookie', pathLocations, 1);
+			resetWalking();
+			drawConstantPolyline();
+			showViewItems();
+			$('#popupPathType').popup();
+			$('#popupPathType').popup('close');
+			$('#popupPathType').popup("destroy");
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
 		}
 	});
-	// var url = "REST/GetLocationWS/StartTrip?from=" + $("#departureId").val()
-	// + "&to=" + $("#destinationId").val();
-	// $.ajax({
-	// url : url,
-	// cache : true,
-	// async : false,
-	// success : function(data) {
-	// $("#tripId").val(data[0].tripId);
-	// setCookie('TripIdCookie', data[0].tripId, 1);
-	// resetWalking();
-	// },
-	// error : function(xhr, ajaxOptions, thrownError) {
-	// alert(xhr.status);
-	// alert(thrownError);
-	// },error: function (xhr, ajaxOptions, thrownError) {
-	// alert(xhr.status);
-	// alert(thrownError);
-	// }
-	// });
 }
 
 function removeTheNextDestination() {
-	var tripIds = $("#tripIds").val().split(",");
-	var tripGPSs = $("#tripGPSs").val().split("_");
-	var tripLocations = $("#tripLocations").val().split(",");
+	var tripIds = getCookie("TripPathIdsCookie").split(",");
+	var tripGPSs = getCookie("TripPathGPSCookie").split("_");
+	var tripLocations = getCookie("TripPathLocationsCookie").split("_");
 	var closestDest = 0;
 	var closestId = 0;
 	var curGPS = marker.getPosition();
@@ -145,26 +129,31 @@ function removeTheNextDestination() {
 			} else {
 				removeVarGPS += "_" + tripGPSs[int];
 				removeVarIDS += "," + tripIds[int];
-				removeVarNames += "," + tripLocations[int];
+				removeVarNames += "_" + tripLocations[int];
 			}
-
 			if (int == closestId)
 				break;
 		}
-	$("#tripIds").val($("#tripIds").val().replace(removeVarIDS + ",", ""));
-	$("#tripGPSs").val($("#tripGPSs").val().replace(removeVarGPS + "_", ""));
-	$("#tripLocations").val(
-			$("#tripLocations").val().replace(removeVarNames + ",", ""));
-	setCookie('TripPathIdsCookie', $("#tripIds").val(), 1);
-	setCookie('TripPathGPSCookie', $("#tripGPSs").val(), 1);
-	setCookie('TripPathLocationsCookie', $("#tripLocations").val(), 1);
+	// $("#tripIds").val($("#tripIds").val().replace(removeVarIDS + ",", ""));
+	setCookie("TripPathIdsCookie", getCookie("TripPathIdsCookie").replace(
+			removeVarIDS + ",", ""), 1);
+	setCookie("TripPathGPSCookie", getCookie("TripPathGPSCookie").replace(
+			removeVarGPS + ",", ""), 1);
+	setCookie("TripPathLocationsCookie", getCookie("TripPathLocationsCookie")
+			.replace(removeVarNames + "_", ""), 1);
+	// $("#tripGPSs").val($("#tripGPSs").val().replace(removeVarGPS + "_", ""));
+	// $("#tripLocations").val(
+	// $("#tripLocations").val().replace(removeVarNames + ",", ""));
+	// setCookie('TripPathIdsCookie', $("#tripIds").val(), 1);
+	// setCookie('TripPathGPSCookie', $("#tripGPSs").val(), 1);
+	// setCookie('TripPathLocationsCookie', $("#tripLocations").val(), 1);
 	if (pathPolylineTrack != undefined)
 		pathPolylineTrack.setMap(null);
 	if (pathPolylineConstant != undefined)
 		pathPolylineConstant.setMap(null);
 	pathPolylineTrack = null;
 	pathPolylineConstant = null;
-	if ($("#tripGPSs").val().length > 1)
+	if (getCookie("TripPathGPSCookie").length > 1)
 		drawConstantPolyline();
 }
 
@@ -197,8 +186,8 @@ function drawConstantPolyline() {
 				offset : '100%'
 			} ],
 			strokeColor : 'green',
-			strokeOpacity : 1.0,
-			strokeWeight : 3
+			strokeOpacity : 0.77,
+			strokeWeight : 6
 		});
 	else
 		pathPolylineConstant.setPath(tmpPathCoor);
@@ -214,48 +203,50 @@ function updatePolyLine(currentPos, altitude) {
 	var tmpPathCoor = [];
 	var nextDestGPS = getCookie("TripPathGPSCookie").split("_");
 	var nextPosition = getGoogleMapPosition(nextDestGPS[0]);
-	if (nextDestGPS.length > 1) {
-		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
-		var headingTo1st = google.maps.geometry.spherical.computeHeading(
-				pointPath, nextPosition);
-		marker.setIcon(null);
-		marker.setIcon({
-			path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-			scale : 7,
-			strokeWeight : 3,
-			rotation : headingTo1st
-		});
-		var headingTo2st = google.maps.geometry.spherical.computeHeading(
-				nextPosition, secondNextPosition);
-		angleToNextDestination = headingTo2st - headingTo1st;
-		heading = angleToNextDestination;
-		$("#arrowDirId").html(getAngleDirection(headingTo2st));
-	}
 	tmpPathCoor.push(pointPath);
 	tmpPathCoor.push(nextPosition);
 	distanceToNextPosition = google.maps.geometry.spherical
 			.computeDistanceBetween(pointPath, nextPosition);
+	var headingTo1st = google.maps.geometry.spherical.computeHeading(
+			pointPath, nextPosition);
+	marker.setIcon(null);
+	marker.setIcon({
+		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+		scale : 7,
+		strokeWeight : 3,
+		rotation : headingTo1st
+	});
+	if (nextDestGPS.length > 1) {
+		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
+		var headingTo2st = google.maps.geometry.spherical.computeHeading(
+				nextPosition, secondNextPosition);
+		angleToNextDestination = headingTo2st - headingTo1st;
+		heading = angleToNextDestination;
+		$("#navigationDesc").html(getDistanceLeft(distanceToNextPosition)); 
+//				+ "<p>"
+//						+ getAngleDirection(headingTo2st));
+		getAngleDirection(headingTo2st);
+	}
 	if (distanceToNextPosition <= 5) {
 		removeTheNextDestination();
 	}
 	distanceToDestination = polylineConstantLength + distanceToNextPosition;
 	getTripInfo();
-	var lineSymbol = {
-		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-		scale : 4,
-		strokeColor : 'yellow'
-	};
 	if (pathPolylineTrack == null) {
+		var lineSymbol = {
+			path : 'M 0,-1 0,1',
+			strokeOpacity : 1,
+			scale : 4
+		};
 		pathPolylineTrack = new google.maps.Polyline({
 			path : tmpPathCoor,
-			geodesic : true,
 			icons : [ {
 				icon : lineSymbol,
-				offset: '0',
-			    repeat: '20px'
+				offset : '0',
+				repeat : '20px'
 			} ],
-			strokeColor : 'green',
-			strokeOpacity : 1.0,
+			strokeColor : 'white',
+			strokeOpacity : 0,
 			strokeWeight : 3,
 			map : map
 		});
@@ -268,8 +259,8 @@ function updatePolyLine(currentPos, altitude) {
 }
 
 function resetWalking() {
-	clearTimeout(walkingTimer);
 	if (walkingWatchID != undefined) {
+		clearTimeout(walkingTimer);
 		navigator.geolocation.clearWatch(walkingWatchID);
 		walkingWatchID = null;
 	}
@@ -281,8 +272,7 @@ function findMyLocation() {
 		navigator.geolocation.getCurrentPosition(successGetCurrentPosition,
 				errorHandler, {
 					enableHighAccuracy : true,
-					maximumAge : 500,
-					accuracy : 122000
+					maximumAge : 1000
 				});
 	} else {
 		handleLocationError(false, infoWindow, map.getCenter());
@@ -297,42 +287,40 @@ function walkToDestination() {
 	if (navigator.geolocation) {
 		walkingWatchID = navigator.geolocation.watchPosition(
 				successTrackingHandler, errorHandler, {
-					enableHighAccuracy : true,
-					maximumAge : 200
+					enableHighAccuracy : true
 				});
 	} else {
 		handleLocationError(false, infoWindow, map.getCenter());
 	}
-	var timeout = 500;
-	if (map.getZoom() <= 15)
-		timeout = 5000;
-	else if (map.getZoom() <= 16)
-		timout = 4000;
-	else if (map.getZoom() <= 17)
-		timout = 2000;
-	else if (map.getZoom() <= 18)
-		timout = 1000;
+	// var timeout = 500;
+	// if (map.getZoom() <= 15)
+	// timeout = 5000;
+	// else if (map.getZoom() <= 16)
+	// timout = 4000;
+	// else if (map.getZoom() <= 17)
+	// timout = 2000;
+	// else if (map.getZoom() <= 18)
+	// timout = 1000;
 	// walkingTimer = setTimeout(walkToDestination, timeout);
 }
 
 function removeTrip() {
-	$("#start").css("display", "inline-block");
-	var url = "REST/GetLocationWS/RemoveTrip?tripId=" + $("#tripId").val();
-	$.ajax({
-		url : url,
-		cache : false,
-		async : true,
-		success : function(data) {
-			for ( var i = 0; i < paths.length; i++) {
-				if (paths[i] != undefined)
-					paths[i].setMap(null);
-			}
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-		}
-	});
+	// var url = "REST/GetLocationWS/RemoveTrip?tripId=" + $("#tripId").val();
+	// $.ajax({
+	// url : url,
+	// cache : false,
+	// async : true,
+	// success : function(data) {
+	for ( var i = 0; i < paths.length; i++) {
+		if (paths[i] != undefined)
+			paths[i].setMap(null);
+	}
+	// },
+	// error : function(xhr, ajaxOptions, thrownError) {
+	// alert(xhr.status);
+	// alert(thrownError);
+	// }
+	// });
 	if (pathPolylineTrack != undefined)
 		pathPolylineTrack.setMap(null);
 	if (pathPolylineConstant != undefined)
@@ -383,7 +371,7 @@ function initiMap() {
 		featureType : "administrative",
 		elementType : "labels",
 		stylers : [ {
-			visibility : "on"
+			visibility : "off"
 		} ]
 	}, {
 		featureType : "poi",
@@ -487,7 +475,6 @@ function initiMap() {
 	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
 		name : 'My Style'
 	}));
-	findMyLocation();
 	input = document.getElementById('to');
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
 			.getElementById('viewFullScreen'));
@@ -496,6 +483,14 @@ function initiMap() {
 	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document
 			.getElementById('zoomSettings'));
 	map.setMapTypeId('mystyle');
+	findMyLocation();
+	$("#mapViewIcon").fadeOut();
+	selectMapMode();
+	getLocationTypePanel();
+	if (getCookie("TripPathGPSCookie") != "")
+		getThePath();
+	else
+		showViewItems();
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -565,23 +560,6 @@ function selectDestination(destination) {
 	openCloseSearch();
 }
 
-function getTimeLeft(distance) {
-	var Hours, Minutes, Seconds = 0;
-	if (speed == undefined)
-		speed = 0.001;
-	if (speed > 0) {
-		var TotalTime = (distance / 1000) / speed;
-		Hours = Math.floor(TotalTime);
-		Minutes = Math.floor((TotalTime - Hours) * 60);
-		Seconds = Math.round((TotalTime - Hours - Minutes) * 60);
-	}
-	var String = "";
-	if (Hours > 0)
-		String += Hours + " hour/s ";
-	String += Minutes + " minute/s and " + Seconds + " second/s.";
-	return String;
-}
-
 function animateCircle(line) {
 	var count = 0;
 	window.setInterval(function() {
@@ -606,7 +584,7 @@ var successTrackingHandler = function(position) {
 		speed = position.coords.speed * 3.6;
 		speed = Math.round(speed);
 	}
-	altitude = position.coords.altitude
+	altitude = position.coords.altitude;
 	if (getCookie("TripPathGPSCookie").length > 5)
 		updatePolyLine(currentPos, altitude);
 	if (marker == null) {
@@ -635,6 +613,20 @@ var successGetCurrentPosition = function(position) {
 		lng : position.coords.longitude
 	};
 	$("#from").val(position.coords.latitude + "," + position.coords.longitude);
+	var url = "REST/GetLocationWS/FindClosestBuilding?from=" + $("#from").val();
+	$.ajax({
+		url : url,
+		cache : false,
+		async : true,
+		success : function(data) {
+			$("#currentLocationInf").html(data.locationName);
+			$("#departureId").html(data.locationID);
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
 	$("#departureName").val("Current Location");
 	if (marker == null) {
 		marker = new google.maps.Marker({
@@ -659,10 +651,10 @@ var successGetCurrentPosition = function(position) {
 };
 
 $(document).ready(function() {
-	$("#mapViewIcon").fadeOut();
-	selectMapMode();
-	getLocationTypePanel();
-	showViewItems();
+	// $("#mapViewIcon").fadeOut();
+	// selectMapMode();
+	// getLocationTypePanel();
+	// showViewItems();
 });
 
 function resizeCompass() {
