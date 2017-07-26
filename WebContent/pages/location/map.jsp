@@ -24,7 +24,7 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <body>
 	<div id="pageContents" style="width: 100%; height: 100%;">
-	<input type="hidden" id="currentLocationName"
+		<input type="hidden" id="currentLocationName"
 			placeholder="Current Location" value=""> <input type="hidden"
 			id="currentTime" placeholder="Current Time" value="">
 		<div data-role="popup" id="popupCurrentLocation">
@@ -77,12 +77,11 @@
 		<div id="mapView" class="ui-block-solo">
 			<div id="map_canvas"></div>
 			<div id="zoomSettings">
-	
-			<div class="ui-block-solo">
-	<input disabled="disabled" type="text" id="visitorCounter"
-			placeholder="" value="">
-			</div>
-	
+				<div class="ui-block-solo">
+					<input disabled="disabled" type="text" id="visitorCounter"
+						placeholder="" value="" style="display: none;">
+				</div>
+
 				<div class="ui-block-solo">
 					<input type="button" class="zoomBTN" id="zoomin"
 						onclick="zoomInMap()">
@@ -97,7 +96,7 @@
 					onclick="mapSattelView()"> <input type="button"
 					class="navbtn" id="mapViewIcon" onclick="mapMapView()">
 			</div>
-			<div class="ui-block-solo" style="float: right" id="viewFullScreen">
+			<div class="ui-block-solo" style="float: right; display: none;" id="viewFullScreen">
 				<a href="#" data-role="button" id="btnToggleFullscreen" alt=""
 					onclick="toggleFullScreen()"></a>
 			</div>
@@ -105,30 +104,30 @@
 		<div id="cameraView" class="ui-block-solo">
 			<video id="videoContent"></video>
 		</div>
-		
+
 		<!-- 		UPPER PANEL -->
 		<div id="barcodeDescription" class="ui-block-solo">
-				<!-- 				SPEED AND ALT -->
-<!-- 				<div class="ui-block-a" style="width: 50%;"> -->
-<!-- 					<div class="ui-bar" -->
-<!-- 						style="min-height: 33px; padding-top: 0.4em; padding-right: 0.2em; padding-bottom: 0.2em; padding-left: 1em;"> -->
-<!-- 						<div class="dashboardShow"> -->
-<!-- 							<img alt="" src="images/icons/speed.png" -->
-<!-- 								class="destinationShowIMG"> <span class="infoValue" -->
-<!-- 								id="speedInf">5.7 Km/h</span> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-					<!-- <br /> -->
-					<div class="dashboardShow">
-						<span class="infoValue"
-							id="destinationInf">Main Building</span><p><span
-							class="infoValue" id="distanceLeftInf">4.35 Km</span><span class="infoValue"
-								id="arrivalTimeInf">15':14"</span>
-					</div>
-<!-- 				</div> -->
+			<!-- 				SPEED AND ALT -->
+			<!-- 				<div class="ui-block-a" style="width: 50%;"> -->
+			<!-- 					<div class="ui-bar" -->
+			<!-- 						style="min-height: 33px; padding-top: 0.4em; padding-right: 0.2em; padding-bottom: 0.2em; padding-left: 1em;"> -->
+			<!-- 						<div class="dashboardShow"> -->
+			<!-- 							<img alt="" src="images/icons/speed.png" -->
+			<!-- 								class="destinationShowIMG"> <span class="infoValue" -->
+			<!-- 								id="speedInf">5.7 Km/h</span> -->
+			<!-- 						</div> -->
+			<!-- 					</div> -->
+			<!-- <br /> -->
+			<div class="dashboardShow">
+				<span class="infoValue" id="destinationInf">Main Building</span>
+				<p>
+					<span class="infoValue" id="distanceLeftInf">4.35 Km</span><span
+						class="infoValue" id="arrivalTimeInf">15':14"</span>
+			</div>
+			<!-- 				</div> -->
 		</div>
 		<!-- 	SEARCH FEILD -->
-		
+
 		<div id="searchBarDiv">
 			<div class="ui-block-solo" data-role="collapsible-set"
 				id="autocompleteContainer">
@@ -163,10 +162,10 @@
 		</div>
 		<!-- 		CURRENT LOCATION SHOW -->
 		<div id="currentLocationShow">
-<!-- 			<img alt="" id="destinationShowIMG" src="images/icons/target-old.png" -->
-<!-- 				style="width: 32px; height: 32px; z-index: 13;">  -->
-				<span
-				class="infoValue" id="currentLocationInf">Embizewni Building</span>
+			<!-- 			<img alt="" id="destinationShowIMG" src="images/icons/target-old.png" -->
+			<!-- 				style="width: 32px; height: 32px; z-index: 13;">  -->
+			<span class="infoValue" id="currentLocationInf">Embizewni
+				Building</span>
 		</div>
 		<!-- 		BOTTOM PANEL -->
 		<div class="ui-grid-c ui-block-solo" id="dashboardPanel">
@@ -204,24 +203,22 @@
 	</div>
 </body>
 <link rel="stylesheet" href="css/location/path.navigation.css">
-<script type="text/javascript"
-	src="js/location/path.navigation.js?noCache=true"></script>
+<script type="text/javascript" src="js/location/path.navigation.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>
 <script src="js/jquery/jquery-ui.js"></script>
 <script type="text/javascript"
-	src="js/location/path.navigation.directions.js?noCache=true"></script>
+	src="js/location/path.navigation.directions.js"></script>
 <script type="text/javascript"
-	src="js/location/path.navigation.tools.js?noCache=true"></script>
+	src="js/location/path.navigation.tools.js"></script>
 <script type="text/javascript"
-	src="js/location/camera/path.navigation.camera.js?noCache=true"></script>
+	src="js/location/camera/path.navigation.camera.js"></script>
 <script type="text/javascript"
-	src="js/location/camera/path.navigation.camera.scanner.js?noCache=true"></script>
+	src="js/location/camera/path.navigation.camera.scanner.js"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.ar.js"></script>
 <script type="text/javascript" src="js/location/path.navigation.geo.js"></script>
-<script src="js/location/path.panels.js?noCache=true"></script>
-<script type="text/javascript"
-	src="js/location/path.navigation.map.js?noCache=true"></script>
+<script src="js/location/path.panels.js"></script>
+<script type="text/javascript" src="js/location/path.navigation.map.js"></script>
 </html>
