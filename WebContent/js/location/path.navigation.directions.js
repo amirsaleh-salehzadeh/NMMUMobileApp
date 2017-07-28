@@ -47,10 +47,7 @@ function getTimeLeft(distance) {
 function getTripInfo() {
 	var nextDestName = getCookie("TripPathLocationsCookie").split("_")[0];
 	$("#currentLocationInf").html(nextDestName);
-//	$("#speedInf").html(speed + " Km/h. ");
-//	$("#seaLevelInf").html(Math.round(altitude) + " meter(s) above sea.");
 	var destName = getCookie("TripPathLocationsCookie").split("_");
 	$("#destinationInf").html(destName[destName.length - 1]);
-//	$("#distanceLeftInf").html(getDistanceLeft(distanceToDestination));
 	$("#arrivalTimeInf").html(getTimeLeft(distanceToDestination));
 }

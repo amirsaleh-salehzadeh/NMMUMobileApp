@@ -5,17 +5,17 @@ var distanceToNextPosition, distanceToDestination, angleToNextDestination;
 var paths = [];
 var ajaxCallSearch;
 function KeyPress(e) {
-    var eventKeys = window.event? event : e;    		
-    if (eventKeys.keyCode == 86 && eventKeys.ctrlKey && eventKeys.shiftKey ) {
-    	if($( "#visitorCounter" ).css( "display" )== "none"){
-    		$( "#visitorCounter" ).css( "display" , "block");
-    		$( "#visitorCounter" ).css( "display" );
-    	}else{
-    		$( "#visitorCounter" ).css( "display" , "none");
-    		$( "#visitorCounter" ).css( "display" );
-    		
-    	}
-    }
+	var eventKeys = window.event ? event : e;
+	if (eventKeys.keyCode == 86 && eventKeys.ctrlKey && eventKeys.shiftKey) {
+		if ($("#visitorCounter").css("display") == "none") {
+			$("#visitorCounter").css("display", "block");
+			$("#visitorCounter").css("display");
+		} else {
+			$("#visitorCounter").css("display", "none");
+			$("#visitorCounter").css("display");
+
+		}
+	}
 }
 
 document.onkeydown = KeyPress;
@@ -43,7 +43,7 @@ function getThePath() {
 			+ $("#departureId").val() + "&destinationId="
 			+ $("#destinationId").val() + "&from=" + $("#from").val() + "&to="
 			+ $("#to").val() + "&pathType=1";
-//			+ $("[name='radio-choice-path-type']:checked").val();
+	// + $("[name='radio-choice-path-type']:checked").val();
 	if ($("#to").val().length > 2) {
 		var destPoint = getGoogleMapPosition($("#to").val());
 		if (markerDest != null)
@@ -207,8 +207,8 @@ function updatePolyLine(currentPos, altitude) {
 	tmpPathCoor.push(nextPosition);
 	distanceToNextPosition = google.maps.geometry.spherical
 			.computeDistanceBetween(pointPath, nextPosition);
-	var headingTo1st = google.maps.geometry.spherical.computeHeading(
-			pointPath, nextPosition);
+	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath,
+			nextPosition);
 	marker.setIcon(null);
 	marker.setIcon({
 		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
@@ -222,9 +222,9 @@ function updatePolyLine(currentPos, altitude) {
 				nextPosition, secondNextPosition);
 		angleToNextDestination = headingTo2st - headingTo1st;
 		heading = angleToNextDestination;
-		$("#navigationDesc").html(getDistanceLeft(distanceToNextPosition)); 
-//				+ "<p>"
-//						+ getAngleDirection(headingTo2st));
+		$("#navigationDesc").html(getDistanceLeft(distanceToNextPosition));
+		// + "<p>"
+		// + getAngleDirection(headingTo2st));
 		getAngleDirection(headingTo2st);
 	}
 	if (distanceToNextPosition <= 5) {
@@ -476,12 +476,14 @@ function initiMap() {
 		name : 'My Style'
 	}));
 	input = document.getElementById('to');
-	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
-			.getElementById('viewFullScreen'));
+//	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
+//			.getElementById('viewFullScreen'));
 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
 			.getElementById('viewMapType'));
 	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document
 			.getElementById('zoomSettings'));
+	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+			.getElementById('searchBarDivTop'));
 	map.setMapTypeId('mystyle');
 	findMyLocation();
 	$("#mapViewIcon").fadeOut();
@@ -656,22 +658,3 @@ $(document).ready(function() {
 	// getLocationTypePanel();
 	// showViewItems();
 });
-
-function resizeCompass() {
-	if ($("#compassID").css("width") == "70px") {
-		$("#compassID").css("height", "120px");
-		$("#compassID").css("width", "120px");
-		$("#compassArrowID").css("height", "120px");
-		$("#compassArrowID").css("width", "120px");
-		$("#compassDiscImg").css("height", "120px");
-		$("#compassDiscImg").css("width", "120px");
-	} else {
-		$("#compassID").css("height", "70px");
-		$("#compassID").css("width", "70px");
-		$("#compassArrowID").css("height", "70px");
-		$("#compassArrowID").css("width", "70px");
-		$("#compassDiscImg").css("height", "70px");
-		$("#compassDiscImg").css("width", "70px");
-	}
-
-}

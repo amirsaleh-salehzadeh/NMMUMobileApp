@@ -14,9 +14,9 @@ function getLocationTypePanel() {
 				success : function(data) {
 					locationTypeJSONData = data;
 
-					var listAdd = '<li data-role="collapsible" data-mini="true" data-iconpos="right" data-inset="true">';
+					var listAdd = '<li data-role="collapsible" data-mini="true" data-collapsed="false" data-iconpos="right" data-inset="true">';
 					listAdd += '<h2>' + data.locationType + '</h2>';
-					listAdd += '<ul data-role="listview" data-theme="b" data-collapsed="false" id="'
+					listAdd += '<ul data-role="listview" id="'
 							+ data.locationTypeId
 							+ '" class="locationTypes" data-filter="true" data-input="#destinationName"></ul></li>';
 					$("#autocompleteDestination").append(listAdd);
@@ -155,9 +155,9 @@ function getMyChild(select) {
 			.each(
 					childData.children,
 					function(k, l) {
-						listAdd += '<li data-role="collapsible" data-mini="true" data-iconpos="right" data-inset="true" >';
+						listAdd += '<li data-role="collapsible" data-mini="true" data-collapsed="false" data-iconpos="right" data-inset="true" >';
 						listAdd += '<h2>' + l.locationType + '</h2>';
-						listAdd += '<ul data-role="listview" data-theme="b" data-filter-reveal="true" data-collapsed="false" id="'
+						listAdd += '<ul data-role="listview" data-theme="b" data-filter-reveal="true" id="'
 								+ l.locationTypeId
 								+ '" class="locationTypes" data-filter="true" data-input="#destinationName"></ul></li>';
 					});
@@ -202,10 +202,6 @@ function getCampusMarkers(locationId) {
 				markerTMP.setMap(map);
 				markers.push(markerTMP);
 				});
-				
-
-			
-
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
