@@ -96,7 +96,8 @@
 					onclick="mapSattelView()"> <input type="button"
 					class="navbtn zoomBTN" id="mapViewIcon" onclick="mapMapView()">
 			</div>
-			<div class="ui-block-solo" style="float: right; display: none;" id="viewFullScreen">
+			<div class="ui-block-solo" style="float: right; display: none;"
+				id="viewFullScreen">
 				<a href="#" data-role="button" id="btnToggleFullscreen" alt=""
 					onclick="toggleFullScreen()"></a>
 			</div>
@@ -139,8 +140,8 @@
 			</div>
 			<div class="ui-block-solo" id="destinationNameDiv">
 				<input name="destinationName" id="destinationName"
-					data-type="search" placeholder="Where to go"
-					data-mini="true" autocomplete="off">
+					data-type="search" placeholder="Where to go" data-mini="true"
+					autocomplete="off">
 			</div>
 		</div>
 		<!-- 				DIRECTION SHOW -->
@@ -158,11 +159,16 @@
 			<div class="disc" id="compassDiscImg"></div>
 		</div>
 		<!-- 		CURRENT LOCATION SHOW -->
-		<div id="currentLocationShow">
+		<div class="ui-grid-a ui-block-solo" id="currentLocationShow">
 			<!-- 			<img alt="" id="destinationShowIMG" src="images/icons/target-old.png" -->
 			<!-- 				style="width: 32px; height: 32px; z-index: 13;">  -->
-			<span class="infoValue" id="currentLocationInf">Embizewni
-				Building</span>
+			<div class="ui-block-a">
+				<button id="remove" onclick="removeTrip()">Stop</button>
+			</div>
+			<div class="ui-block-b">
+				<span class="infoValue" id="currentLocationInf">Embizewni
+					Building</span>
+			</div>
 		</div>
 		<!-- 		BOTTOM PANEL -->
 		<div class="ui-grid-c ui-block-solo" id="dashboardPanel">

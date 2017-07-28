@@ -227,6 +227,7 @@ function updatePolyLine(currentPos, altitude) {
 		// + getAngleDirection(headingTo2st));
 		getAngleDirection(headingTo2st);
 	}
+	console.log(distanceToNextPosition);
 	if (distanceToNextPosition <= 5) {
 		removeTheNextDestination();
 	}
@@ -559,6 +560,7 @@ function selectDestination(destination) {
 	bounds.extend(markerDest.getPosition());
 	bounds.extend(marker.getPosition());
 	map.fitBounds(bounds);
+	initiateNavigation();
 	openCloseSearch();
 }
 
