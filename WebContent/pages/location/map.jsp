@@ -92,9 +92,9 @@
 				</div>
 			</div>
 			<div id="viewMapType">
-				<input type="button" class="navbtn" id="satelliteView"
+				<input type="button" class="zoomBTN" id="satelliteView"
 					onclick="mapSattelView()"> <input type="button"
-					class="navbtn" id="mapViewIcon" onclick="mapMapView()">
+					class="navbtn zoomBTN" id="mapViewIcon" onclick="mapMapView()">
 			</div>
 			<div class="ui-block-solo" style="float: right; display: none;" id="viewFullScreen">
 				<a href="#" data-role="button" id="btnToggleFullscreen" alt=""
@@ -128,23 +128,20 @@
 		</div>
 		<!-- 	SEARCH FEILD -->
 
-		<div id="searchBarDiv">
+		<div id="searchBarDivTop">
 			<div class="ui-block-solo" data-role="collapsible-set"
-				id="autocompleteContainer">
+				id="autocompleteContainer" data-collapsed="false">
 				<ul id="autocompleteDestination" data-role="listview"
 					data-mini="true" data-inset="true" data-filter-reveal="true"
-					data-collapsed="false" data-filter="true"
+					data-collapsed="true" data-filter="true"
 					data-input="#destinationName">
 				</ul>
 			</div>
 			<div class="ui-block-solo" id="destinationNameDiv">
 				<input name="destinationName" id="destinationName"
-					data-type="search" placeholder="Choose destination"
-					data-mini="true" autocomplete="off"">
-
+					data-type="search" placeholder="Where to go"
+					data-mini="true" autocomplete="off">
 			</div>
-
-
 		</div>
 		<!-- 				DIRECTION SHOW -->
 		<div id="directionShow"

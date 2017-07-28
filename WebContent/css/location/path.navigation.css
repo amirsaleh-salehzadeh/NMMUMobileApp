@@ -83,7 +83,7 @@ button {
 	padding: 10px 10px 10px 10px;
 	display: inline-block;
 	border: 1px solid #5d7fbc;
-	background-color:  rgba(12, 28, 44, 0.66);
+	background-color: rgba(12, 28, 44, 0.66);
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#819bcb),
 		to(#536f9d));
 	background-image: -webkit-linear-gradient(top, #819bcb, #536f9d);
@@ -111,13 +111,13 @@ button {
 
 /*  panel bottom panel bottom panel bottom panel bottom panel bottom panel bottom panel bottom panel bottom panel bottom panel bottom */
 #dashboardPanel {
-	display: inline;
+	display: none;
 	position: fixed;
 	bottom: 0em;
 	left: 0em;
 	height: 13%;
 	width: 100%;
-/* 	display: inline-block; */
+	/* 	display: inline-block; */
 	background: transparent !important;
 }
 
@@ -126,7 +126,7 @@ button {
 	width: 90%;
 	margin: auto;
 	cursor: pointer;
-/* 	display: inline; */
+	/* 	display: inline; */
 	padding: 3px 3px 3px 3px;
 	background-color: transparent;
 	cursor: pointer;
@@ -137,14 +137,14 @@ button {
 	width: 100%;
 	margin: auto;
 	box-shadow: 0px 0px 13px 13px rgb(12, 28, 44);
-/* 	display: block; */
+	/* 	display: block; */
 	color: rgb(247, 175, 35) !important;
 	font-size: 9px;
 	text-decoration: none;
 	text-shadow: none !important;
 	background-position: top;
 	text-transform: uppercase;
-/* 	display: inline-block; */
+	/* 	display: inline-block; */
 	background-color: transparent !important;
 	padding-top: 51px;
 	background-position: top
@@ -238,28 +238,21 @@ button {
 }
 
 /* SEARCH BAR */
-#searchBarDiv {
-	height: 100%;
-	display: block;
-	position: absolute;
-	bottom: 0em;
-	width: 211px;
-	right: -100%;
-	background-color: transparent;
-	z-index: 20;
-	top: -13%;
+#searchBarDivTop {
+	width: 100%;
+	background-color: #0C1C2C;
 }
 
 #autocompleteContainer {
-	background-color: #00457c;
+	background-color: #0C1C2C;
 	border-radius: 11px;
 	width: 100%;
 	position: absolute;
 	display: block;
+	top: 3.3em;
 	max-height: 333px;
 	overflow: auto;
 	box-sizing: border-box;
-	max-width: 271px;
 	border-color: white;
 }
 
@@ -268,11 +261,6 @@ button {
 	cursor: pointer;
 	margin: 0 !important;
 	background-color: transparent;
-}
-
-#destinationNameDiv {
-	bottom: 0;
-	position: absolute;
 }
 
 /* NAVIGATE POPUP */
@@ -451,7 +439,7 @@ button {
 
 .dashboardShow {
 	display: block;
-	min-width: 103px; /* 15% */
+	min-width: 100%; /* 15% */
 	height: 100%;
 	z-index: 10;
 	background-color: rgb(12, 28, 44);
@@ -488,7 +476,7 @@ button {
 }
 
 #autocompleteDestination .ui-collapsible .ui-li-static {
-	background-color: #00457c;
+	background-color: #0C1C2C;
 	border-color: white;
 	height: 25;
 	padding: 0;
