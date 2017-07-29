@@ -485,6 +485,8 @@ function initiMap() {
 			.getElementById('zoomSettings'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('searchBarDivTop'));
+	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
+					.getElementById('scannerBTNContainer'));
 	map.setMapTypeId('mystyle');
 	findMyLocation();
 	$("#mapViewIcon").fadeOut();

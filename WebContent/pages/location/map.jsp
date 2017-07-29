@@ -130,8 +130,7 @@
 			</div>
 			<div class="ui-block-solo" id="destinationNameDiv">
 				<input name="destinationName" id="destinationName"
-					placeholder="Where to go" data-mini="true"
-					autocomplete="on">
+					placeholder="Where to go" data-mini="true" autocomplete="on">
 			</div>
 		</div>
 		<!-- 				DIRECTION SHOW -->
@@ -160,6 +159,11 @@
 			<div class="ui-block-b" id="currentLocationInfoContainer">
 				<span id="currentLocationInf">Embizewni Building</span>
 			</div>
+		</div>
+		<div id="scannerBTNContainer">
+			<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
+			<button type="button" class="navbtn" id="dualModeSelect"
+				onclick="selectDualMode()">Scan</button>
 		</div>
 		<!-- 		BOTTOM PANEL -->
 		<div class="ui-grid-c ui-block-solo" id="dashboardPanel">
