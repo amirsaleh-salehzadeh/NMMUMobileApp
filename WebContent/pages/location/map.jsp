@@ -22,6 +22,12 @@
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="css/location/path.navigation.css">
+<link rel="stylesheet"
+	href="css/location/path.navigation.current.location.css">
+<link rel="stylesheet"
+	href="css/location/path.navigation.search.list.css">
+<link rel="stylesheet" href="css/location/path.navigation.trip.info.css">
 <body>
 	<div id="pageContents" style="width: 100%; height: 100%;">
 		<input type="hidden" id="currentLocationName"
@@ -108,23 +114,8 @@
 
 		<!-- 		UPPER PANEL -->
 		<div id="barcodeDescription" class="ui-block-solo">
-			<!-- 				SPEED AND ALT -->
-			<!-- 				<div class="ui-block-a" style="width: 50%;"> -->
-			<!-- 					<div class="ui-bar" -->
-			<!-- 						style="min-height: 33px; padding-top: 0.4em; padding-right: 0.2em; padding-bottom: 0.2em; padding-left: 1em;"> -->
-			<!-- 						<div class="dashboardShow"> -->
-			<!-- 							<img alt="" src="images/icons/speed.png" -->
-			<!-- 								class="destinationShowIMG"> <span class="infoValue" -->
-			<!-- 								id="speedInf">5.7 Km/h</span> -->
-			<!-- 						</div> -->
-			<!-- 					</div> -->
-			<!-- <br /> -->
-			<div class="dashboardShow">
-				<span class="infoValue" id="destinationInf">Main Building</span>
-				<p>
-					<span class="infoValue" id="distanceLeftInf">4.35 Km</span><span
-						class="infoValue" id="arrivalTimeInf">15':14"</span>
-			</div>
+			<span id="destinationInf">Main Building</span><br /> <span
+				id="distanceLeftInf">4.35 Km</span><span id="arrivalTimeInf">15':14"</span>
 			<!-- 				</div> -->
 		</div>
 		<!-- 	SEARCH FEILD -->
@@ -134,14 +125,13 @@
 				id="autocompleteContainer" data-collapsed="false">
 				<ul id="autocompleteDestination" data-role="listview"
 					data-mini="true" data-inset="true" data-filter-reveal="true"
-					data-collapsed="true" data-filter="true"
-					data-input="#destinationName">
+					data-filter="true" data-input="#destinationName">
 				</ul>
 			</div>
 			<div class="ui-block-solo" id="destinationNameDiv">
 				<input name="destinationName" id="destinationName"
-					data-type="search" placeholder="Where to go" data-mini="true"
-					autocomplete="off">
+					placeholder="Where to go" data-mini="true"
+					autocomplete="on">
 			</div>
 		</div>
 		<!-- 				DIRECTION SHOW -->
@@ -160,14 +150,15 @@
 		</div>
 		<!-- 		CURRENT LOCATION SHOW -->
 		<div class="ui-grid-a ui-block-solo" id="currentLocationShow">
-			<!-- 			<img alt="" id="destinationShowIMG" src="images/icons/target-old.png" -->
-			<!-- 				style="width: 32px; height: 32px; z-index: 13;">  -->
-			<div class="ui-block-a">
-				<button id="remove" onclick="removeTrip()">Stop</button>
+			<div class="ui-block-a" id="currentLocationButtonContainer"
+				onclick="removeTrip()">
+				<div class="ui-block-solo">
+					<button id="remove"></button>
+				</div>
+				<div class="ui-block-solo">Stop</div>
 			</div>
-			<div class="ui-block-b">
-				<span class="infoValue" id="currentLocationInf">Embizewni
-					Building</span>
+			<div class="ui-block-b" id="currentLocationInfoContainer">
+				<span id="currentLocationInf">Embizewni Building</span>
 			</div>
 		</div>
 		<!-- 		BOTTOM PANEL -->
@@ -205,7 +196,6 @@
 		</div>
 	</div>
 </body>
-<link rel="stylesheet" href="css/location/path.navigation.css">
 <script type="text/javascript" src="js/location/path.navigation.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"

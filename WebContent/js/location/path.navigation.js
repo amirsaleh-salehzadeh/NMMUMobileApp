@@ -624,6 +624,7 @@ var successGetCurrentPosition = function(position) {
 		async : true,
 		success : function(data) {
 			$("#currentLocationInf").html(data.locationName);
+			$("#currentLocationInfoContainer").trigger("create");
 			$("#departureId").html(data.locationID);
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
