@@ -26,6 +26,15 @@ public class BaseHibernateDAO {
 //	private static final String USERNAME = "nmmu_mobile_user";
 //	private static final String PASSWORD = "Dfjr9bg834gmb";
 	
+//	LIVE SERVER NEVER USE IT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//	>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//	private static final String DBADDRESS = "jdbc:mysql://lnxsql-sc1.nmmu.ac.za:3306/findmedb?characterEncoding=utf8";
+//	private static final String DBDRIVER = "com.mysql.jdbc.Driver";
+//	private static final String USERNAME = "findmeuser";
+//	private static final String PASSWORD = "findM32017*&";
+//	LIVE SERVER NEVER USE IT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//	>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 	public Session getSession(){
 		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 		return sessionFactory.openSession();

@@ -6,10 +6,13 @@ function initiateNavigation() {
 		}
 		return;
 	}
-	if (getCookie("TripPathGPSCookie") == "")
-		$('#popupPathType').popup('open').trigger('create');
-	else
-		showViewItems();
+//	if (getCookie("TripPathGPSCookie") == ""){
+//		$('#popupPathType').popup();
+//		$('#popupPathType').popup('open').trigger('create');
+//	}
+//	else
+//		showViewItems();
+	getThePath();
 }
 
 function zoomInMap() {
@@ -37,21 +40,15 @@ function mapMapView() {
 }
 
 function openCloseSearch() {
-	if (parseInt($('#searchBarDiv').css("right")) < -10) {
-		$('#buttonContainer').animate({
-			'right' : '266'
-		}, 500);
-		$('#searchBarDiv').animate({
-			'right' : '0'
-		}, 500);
-	} else {
-		$('#buttonContainer').animate({
-			'right' : '0'
-		}, 500);
-		$('#searchBarDiv').animate({
-			'right' : '-100%'
-		}, 500);
-	}
+//	if (parseInt($('#searchBarDiv').css("right")) < -10) {
+//		$('#searchBarDiv').animate({
+//			'right' : '0'
+//		}, 500);
+//	} else {
+//		$('#searchBarDiv').animate({
+//			'right' : '-100%'
+//		}, 500);
+//	}
 	$("#autocompleteContainer").css("bottom", "44");
 	$("#searchBarDiv").trigger("updatelayout");
 }
@@ -105,13 +102,18 @@ function arrivalPopup(gps) {
 function showViewItems() {
 	if (getCookie("TripPathGPSCookie") == "") {
 		$("#barcodeDescription").fadeOut();
-		$("#destinationShow").fadeOut();
+		$("#currentLocationShow").fadeOut();
 		$("#compassID").fadeOut();
 		$("#directionShow").fadeOut();
+		$("#start").fadeIn();
+		$("#remove").fadeOut();
 	} else {
-		getThePath();
+//		getThePath();
 		$("#start").fadeOut();
-		$("#remove").css("display", "inline-block");
 		$("#remove").fadeIn();
+		$("#barcodeDescription").fadeIn();
+		$("#currentLocationShow").fadeIn();
+		$("#compassID").fadeIn();
+		$("#directionShow").fadeIn();
 	}
 }

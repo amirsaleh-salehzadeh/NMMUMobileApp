@@ -21,7 +21,7 @@ public interface LocationDAOInterface {
 
 	public LocationENT getLocationENT(LocationENT ent);
 
-	public ArrayList<LocationENT> getAllLocationsForUser(String username, int locationTypeId, long parentLocationId);
+	public ArrayList<LocationENT> getAllLocationsForUser(String username, String locationTypeIds, String parentLocationIds);
 
 	public boolean deleteLocation(LocationENT ent) throws AMSException;
 
@@ -37,12 +37,9 @@ public interface LocationDAOInterface {
 
 	public void savePath(PathENT path);
 
-	public LocationENT findClosestLocation(String GPSCoordinates);
+	public LocationENT findClosestLocation(String GPSCoordinates, String locationTypeIds);
 
 	public PathENT getAPath(PathENT ent);
-
-	public ArrayList<PathENT> getAPathFromTo(String fromCoordinate,
-			String toCoordinate, int pathTypeId);
 
 	public long saveTrip(long deptLocationId, long destLocationId);
 

@@ -119,13 +119,15 @@
 <link href="css/location/path.management.css" rel="stylesheet">
 </head>
 <div>
-	<input type="hidden" id="parentLocationId" value="0"> <input
-		type='hidden' id='locationTypeId' value='0'> <input
+	<input type="hidden" id="parentLocationId"> <input
+		type='hidden' id='locationTypeId' > <input
 		type='hidden' id='locationTypeDefinition' value='def'> <input
 		type="hidden" name="destinationId" id="destinationId"><input
 		type="hidden" name="departureId" id="departureId"><input
 		type="hidden" name="markerCoordinate" id="markerCoordinate"> <input
-		type="hidden" name="markerId" id="markerId">
+		type="hidden" name="markerId" id="markerId"> <input
+		type="hidden" id="pathLatLng">
+
 	<div class="ui-field-contain" id="locationsUnderAType">
 		<form>
 			    <input data-type="search" id="parentLocation">
@@ -147,17 +149,16 @@
 	</ul>
 </div>
 <div id="searchFields" style="width: 85%;">
-	<textarea rows="2" cols="2" id="pathLatLng"></textarea>
 	<fieldset data-role="controlgroup" data-type="horizontal"
 		name="optionType">
 		<label for="marker"><span
 			class="ui-alt-icon ui-icon-map-marker ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 		<input type="radio" name="radio-choice" id="marker" value="marker"
-			checked="checked" onclick="selectRightPanelVal();"> <label
+			checked="checked" onclick="selectActionType();"> <label
 			for="path"><span
 			class="ui-alt-icon ui-icon-map-path ui-btn-icon-notext inlineIcon NoDisk"></span></label>
 		<input type="radio" name="radio-choice" id="path" value="path"
-			onclick="selectRightPanelVal();">
+			onclick="selectActionType();">
 	</fieldset>
 </div>
 <div data-role="popup" id="insertAMarker" data-position-to="window"
@@ -214,10 +215,17 @@
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all" id="submitRider"
-			onclick="savePath()">Save</a>
+			onclick="saveThePath()">Save</a>
 	</div>
 </div>
 <script type="text/javascript" src="js/location/path.management.js"></script>
+<script type="text/javascript"
+	src="js/location/path.management.marker.js"></script>
+<script type="text/javascript" src="js/location/path.management.path.js"></script>
+<script type="text/javascript"
+	src="js/location/path.management.panel.js"></script>
+
+
 <script async defer
 	src="https
 	://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&callback=initMap"
