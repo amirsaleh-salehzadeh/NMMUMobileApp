@@ -173,7 +173,7 @@ function drawConstantPolyline() {
 	var lineSymbol = {
 		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 		scale : 4,
-		strokeColor : 'yellow'
+		strokeColor : '#F7AF23'
 	};
 	if (pathPolylineConstant != undefined)
 		pathPolylineConstant.setMap(null);
@@ -185,8 +185,8 @@ function drawConstantPolyline() {
 				icon : lineSymbol,
 				offset : '100%'
 			} ],
-			strokeColor : 'green',
-			strokeOpacity : 0.77,
+			strokeColor : '#0C1C2C',
+			strokeOpacity : 1,
 			strokeWeight : 6
 		});
 	else
@@ -293,35 +293,13 @@ function walkToDestination() {
 	} else {
 		handleLocationError(false, infoWindow, map.getCenter());
 	}
-	// var timeout = 500;
-	// if (map.getZoom() <= 15)
-	// timeout = 5000;
-	// else if (map.getZoom() <= 16)
-	// timout = 4000;
-	// else if (map.getZoom() <= 17)
-	// timout = 2000;
-	// else if (map.getZoom() <= 18)
-	// timout = 1000;
-	// walkingTimer = setTimeout(walkToDestination, timeout);
 }
 
 function removeTrip() {
-	// var url = "REST/GetLocationWS/RemoveTrip?tripId=" + $("#tripId").val();
-	// $.ajax({
-	// url : url,
-	// cache : false,
-	// async : true,
-	// success : function(data) {
 	for ( var i = 0; i < paths.length; i++) {
 		if (paths[i] != undefined)
 			paths[i].setMap(null);
 	}
-	// },
-	// error : function(xhr, ajaxOptions, thrownError) {
-	// alert(xhr.status);
-	// alert(thrownError);
-	// }
-	// });
 	if (pathPolylineTrack != undefined)
 		pathPolylineTrack.setMap(null);
 	if (pathPolylineConstant != undefined)
@@ -351,7 +329,6 @@ function removeTrip() {
 	markerDest = null;
 	$("#tripId").val("");
 	$("#remove").css("display", "none");
-	// $("#destinationPresentation").css("display", "none");
 	findMyLocation();
 	showViewItems();
 }
@@ -380,11 +357,29 @@ function initiMap() {
 		stylers : [ {
 			visibility : "off"
 		} ]
-	}, {
+	},
+    {
+        featureType: "road",
+        elementType: "labels",
+        stylers: [
+            {
+                visibility: "off"
+            }
+        ]
+    },
+    {
+        featureType: "transit.station",
+        elementType: "labels",
+        stylers: [
+            {
+                visibility: "off"
+            }
+        ]
+    }, {
 		featureType : "water",
 		elementType : "labels",
 		stylers : [ {
-			visibility : "on"
+			visibility : "off"
 		} ]
 	}, {
 		featureType : "landscape.man_made",
@@ -477,15 +472,13 @@ function initiMap() {
 		name : 'My Style'
 	}));
 	input = document.getElementById('to');
-//	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
-//			.getElementById('viewFullScreen'));
 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
 			.getElementById('viewMapType'));
-	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
+	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document
 			.getElementById('zoomSettings'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('searchBarDivTop'));
-	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document
+	map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document
 					.getElementById('scannerBTNContainer'));
 	map.setMapTypeId('mystyle');
 	findMyLocation();
@@ -544,26 +537,6 @@ function toggleFullScreen(element) {
 		$('#btnToggleFullscreen').toggleClass('off');
 		requestFullScreen(element || document.documentElement);
 	}
-}
-
-function selectDestination(destination) {
-	$("#destinationId").val($(destination).attr("id").split("_")[0]);
-	$("#destinationName").val($(destination).html());
-	$("#to").val($(destination).attr("id").split("_")[1].replace(" ", ""));
-	var destPoint = getGoogleMapPosition($("#to").val());
-	if (markerDest != null)
-		markerDest.setMap(null);
-	markerDest = new google.maps.Marker({
-		position : destPoint,
-		map : map,
-		icon : 'images/icons/finish.png'
-	});
-	var bounds = new google.maps.LatLngBounds();
-	bounds.extend(markerDest.getPosition());
-	bounds.extend(marker.getPosition());
-	map.fitBounds(bounds);
-	initiateNavigation();
-	openCloseSearch();
 }
 
 function animateCircle(line) {
@@ -686,4 +659,3 @@ function resizeCompass() {
 function emergencyClick() {
 	alert("Emergency button coming soon");
 }
-
