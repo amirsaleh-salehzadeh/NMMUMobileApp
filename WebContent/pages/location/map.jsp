@@ -23,6 +23,7 @@
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="css/location/path.navigation.css">
+<link rel="stylesheet" href="css/location/path.navigation.buttons.css">
 <link rel="stylesheet"
 	href="css/location/path.navigation.current.location.css">
 <link rel="stylesheet"
@@ -105,9 +106,8 @@
 			<div class="ui-block-solo" style="float: right; display: none;"
 				id="viewFullScreen">
 				<a href="#" data-role="button" id="btnToggleFullscreen" alt=""
-					onclick="toggleFullScreen()"></a>
-				<a href="#" data-role="button" id="btnEmergency" alt=""
-					onclick="emergencyClick()"></a>	
+					onclick="toggleFullScreen()"></a> <a href="#" data-role="button"
+					id="btnEmergency" alt="" onclick="emergencyClick()"></a>
 			</div>
 		</div>
 		<div id="cameraView" class="ui-block-solo">
@@ -163,13 +163,13 @@
 			</div>
 		</div>
 		<div id="scannerBTNContainer">
+			<div class="blur" id="blurDivPanel"></div>
 			<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
-			<button type="button" class="navbtn" id="dualModeSelect"
-				onclick="selectDualMode()">Scan</button>
+			<button class="navbtn" id="dualModeSelect"
+				onclick="selectDualMode()">Scan QR</button>
 		</div>
 		<!-- 		BOTTOM PANEL -->
 		<div class="ui-grid-c ui-block-solo" id="dashboardPanel">
-			<div class="blur" id="blurDivPanel"></div>
 			<!-- 			QR OR MAP MODE -->
 			<div class="ui-block-a">
 				<div class="navbtnsdiv">

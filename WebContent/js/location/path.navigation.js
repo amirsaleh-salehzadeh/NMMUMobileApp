@@ -481,11 +481,11 @@ function initiMap() {
 //			.getElementById('viewFullScreen'));
 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
 			.getElementById('viewMapType'));
-	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document
+	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
 			.getElementById('zoomSettings'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('searchBarDivTop'));
-	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
+	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document
 					.getElementById('scannerBTNContainer'));
 	map.setMapTypeId('mystyle');
 	findMyLocation();
@@ -663,7 +663,6 @@ $(document).ready(function() {
 	// getLocationTypePanel();
 	// showViewItems();
 });
-<<<<<<< HEAD
 
 function resizeCompass() {
 	if ($("#compassID").css("width") == "70px") {
@@ -681,16 +680,10 @@ function resizeCompass() {
 		$("#compassDiscImg").css("height", "70px");
 		$("#compassDiscImg").css("width", "70px");
 	}
-<<<<<<< HEAD
 		
 }
 
 function emergencyClick() {
 	alert("Emergency button coming soon");
 }
-=======
 
-}
->>>>>>> Amir
-=======
->>>>>>> Amir
