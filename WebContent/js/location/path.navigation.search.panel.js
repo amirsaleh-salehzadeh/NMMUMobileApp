@@ -170,7 +170,6 @@ function getMyChild(select) {
 	$("#autocompleteDestination").listview("refresh");
 	// } else
 	$.each(childData.children, function(k, l) {
-		console.log(l.locationTypeId);
 		childData = l;
 		getMyChild(l.locationTypeId);
 	});
@@ -197,7 +196,9 @@ function selectDestination(destination) {
 		content : content,
 	    maxWidth: 111
 	});
-	infowindowDestination.open(map, markerDest);
+	markerDest.addListener('click', function() {
+		infowindowDestination.open(map, markerDest);
+	});
 	var bounds = new google.maps.LatLngBounds();
 	bounds.extend(markerDest.getPosition());
 	bounds.extend(marker.getPosition());
@@ -205,6 +206,8 @@ function selectDestination(destination) {
 	// initiateNavigation();
 	// openCloseSearch();
 	$("#autocompleteContainer").hide();
+	infowindowDestination.open(map, markerDest);
+
 }
 
 $("#destinationName").keyup(
@@ -217,6 +220,7 @@ $("#destinationName").keyup(
 		});
 
 function getCampusMarkers(locationId) {
+	alert(1);
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ locationId + "&userName=NMMU";
 	for ( var i = 0; i < markers.length; i++) {
@@ -224,7 +228,7 @@ function getCampusMarkers(locationId) {
 	}
 	$.ajax({
 		url : url,
-		cache : false,
+		cache : true,
 		async : true,
 		success : function(data) {
 

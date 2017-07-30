@@ -221,13 +221,12 @@ function updatePolyLine(currentPos, altitude) {
 		var headingTo2st = google.maps.geometry.spherical.computeHeading(
 				nextPosition, secondNextPosition);
 		angleToNextDestination = headingTo2st - headingTo1st;
+		console.log("headingTo1st " + headingTo1st);
+		console.log("headingTo2st " + headingTo2st);
 		heading = angleToNextDestination;
 		$("#navigationDesc").html(getDistanceLeft(distanceToNextPosition));
-		// + "<p>"
-		// + getAngleDirection(headingTo2st));
-		getAngleDirection(headingTo2st);
+		getAngleDirection(angleToNextDestination);
 	}
-	console.log(distanceToNextPosition);
 	if (distanceToNextPosition <= 5) {
 		removeTheNextDestination();
 	}
@@ -316,9 +315,9 @@ function removeTrip() {
 	setCookie('TripPathGPSCookie', "", 0);
 	setCookie('TripPathLocationsCookie', "", 0);
 	$("#from").val("");
-	$("#departureId").val("");
+	$("#departureId").val("0");
 	$("#to").val("");
-	$("#destinationId").val("");
+	$("#destinationId").val("0");
 	$("#to").val("");
 	$("#tripIds").val("");
 	$("#tripGPSs").val("");
@@ -357,25 +356,19 @@ function initiMap() {
 		stylers : [ {
 			visibility : "off"
 		} ]
-	},
-    {
-        featureType: "road",
-        elementType: "labels",
-        stylers: [
-            {
-                visibility: "off"
-            }
-        ]
-    },
-    {
-        featureType: "transit.station",
-        elementType: "labels",
-        stylers: [
-            {
-                visibility: "off"
-            }
-        ]
-    }, {
+	}, {
+		featureType : "road",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "transit.station",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
 		featureType : "water",
 		elementType : "labels",
 		stylers : [ {
@@ -479,7 +472,7 @@ function initiMap() {
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('searchBarDivTop'));
 	map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document
-					.getElementById('scannerBTNContainer'));
+			.getElementById('scannerBTNContainer'));
 	map.setMapTypeId('mystyle');
 	findMyLocation();
 	$("#mapViewIcon").fadeOut();
@@ -653,7 +646,7 @@ function resizeCompass() {
 		$("#compassDiscImg").css("height", "70px");
 		$("#compassDiscImg").css("width", "70px");
 	}
-		
+
 }
 
 function emergencyClick() {

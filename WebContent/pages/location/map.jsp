@@ -65,9 +65,9 @@
 		<input type="hidden" id="tripIds"> <input type="hidden"
 			id="tripGPSs"> <input type="hidden" id="tripLocations">
 		<input type="hidden" id="from" placeholder="Departure"> <input
-			type="hidden" id="departureId" placeholder="DepartureId"> <input
-			type="hidden" id="departureName" placeholder="Departure"> <input
-			type="hidden" id="to"> <input type="hidden"
+			type="hidden" id="departureId" placeholder="DepartureId" value="0">
+		<input type="hidden" id="departureName" placeholder="Departure">
+		<input type="hidden" id="to"> <input type="hidden"
 			id="destinationId" placeholder="DestinationId"> <input
 			type="hidden" id="tripId">
 		<div class="orientation-data" style="display: none;">
@@ -124,9 +124,8 @@
 		<div id="zoomSettings">
 			<div class="ui-block-solo" style="display: none;">
 				<input disabled="disabled" type="text" id="visitorCounter"
-					placeholder="" value="" >
+					placeholder="" value="">
 			</div>
-
 			<div class="ui-block-solo">
 				<input type="button" class="zoomBTN" id="zoomin"
 					onclick="zoomInMap()">
@@ -137,19 +136,22 @@
 			</div>
 		</div>
 		<!-- 				DIRECTION SHOW -->
-		<div id="directionShow"
-			style="background-color: transparent; left: 23px; top: 73px; position: absolute;">
+<!-- 		<div id="directionShow" -->
+<!-- 			style="background-color: transparent; left: 23px; top: 73px; position: absolute;"> -->
 			<!-- changed position from left: 53px; top: 73px; -->
-			<img alt="" src="images/icons/anim/arrow2.gif" id="arrowDirId">
-			<br /> <span id="navigationDesc" class="infoValue"> </span>
-		</div>
-		<!--  COMPASS -->
-		<div class="compass" id="compassID" onclick="resizeCompass()"
-			style="cursor: pointer;">
-			<div class="arrow" id="compassArrowID"></div>
-			<div class="disc" id="compassDiscImg"></div>
-		</div>
-		<!-- 		CURRENT LOCATION SHOW -->
+<!-- 			<img alt="" src="images/icons/anim/arrow2.gif" id="arrowDirId"> -->
+<!-- 			<br /> <span id="navigationDesc" class="infoValue"> </span> -->
+			<canvas id="directionCanvas" width="111" height="111"
+				style="background-color: white"></canvas>
+
+<!-- 		</div> -->
+<!-- 		<!--  COMPASS --> 
+<!-- 		<div class="compass" id="compassID" onclick="resizeCompass()" -->
+<!-- 			style="cursor: pointer;"> -->
+<!-- 			<div class="arrow" id="compassArrowID"></div> -->
+<!-- 			<div class="disc" id="compassDiscImg"></div> -->
+<!-- 		</div> -->
+<!-- 		<!-- 		CURRENT LOCATION SHOW -->
 		<div class="ui-grid-a ui-block-solo" id="currentLocationShow">
 			<div class="ui-block-a" id="currentLocationButtonContainer"
 				onclick="removeTrip()">
@@ -163,10 +165,9 @@
 			</div>
 		</div>
 		<!-- 		 SCANNER BUTTON -->
-		<div id="scannerBTNContainer">
+		<div id="scannerBTNContainer" style="display: none;">
 			<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
-			<button class="navbtn" id="dualModeSelect"
-				onclick="selectDualMode()">Scan QR</button>
+			<button class="navbtn" id="dualModeSelect" onclick="selectDualMode()">Scan</button>
 		</div>
 		<!-- 		BOTTOM PANEL -->
 		<div class="ui-grid-c ui-block-solo" id="dashboardPanel">

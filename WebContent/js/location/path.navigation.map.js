@@ -99,7 +99,6 @@ function showViewItems() {
 		$("#start").fadeIn();
 		$("#remove").fadeOut();
 	} else {
-//		getThePath();
 		$("#start").fadeOut();
 		$("#remove").fadeIn();
 		$("#barcodeDescription").fadeIn();
