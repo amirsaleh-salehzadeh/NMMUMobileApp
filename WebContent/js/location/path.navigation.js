@@ -380,11 +380,29 @@ function initiMap() {
 		stylers : [ {
 			visibility : "off"
 		} ]
-	}, {
+	},
+    {
+        featureType: "road",
+        elementType: "labels",
+        stylers: [
+            {
+                visibility: "off"
+            }
+        ]
+    },
+    {
+        featureType: "transit.station",
+        elementType: "labels",
+        stylers: [
+            {
+                visibility: "off"
+            }
+        ]
+    }, {
 		featureType : "water",
 		elementType : "labels",
 		stylers : [ {
-			visibility : "on"
+			visibility : "off"
 		} ]
 	}, {
 		featureType : "landscape.man_made",
@@ -661,7 +679,6 @@ $(document).ready(function() {
 	// getLocationTypePanel();
 	// showViewItems();
 });
-<<<<<<< HEAD
 
 function resizeCompass() {
 	if ($("#compassID").css("width") == "70px") {
@@ -679,16 +696,9 @@ function resizeCompass() {
 		$("#compassDiscImg").css("height", "70px");
 		$("#compassDiscImg").css("width", "70px");
 	}
-<<<<<<< HEAD
 		
 }
 
 function emergencyClick() {
 	alert("Emergency button coming soon");
 }
-=======
-
-}
->>>>>>> Amir
-=======
->>>>>>> Amir
