@@ -16,15 +16,15 @@ public class BaseHibernateDAO {
 	public static final int AMSEX_DELETE = AMSException.AMSEX_DELETE;
 	public static final int AMSEX_SAVE = AMSException.AMSEX_SAVE;
 	public static final int AMSEX_SAVE_DUPLICATE = AMSException.AMSEX_SAVE_DUPLICATE;
-//	private static final String DBADDRESS = "jdbc:mysql://localhost:3306/nmmumobile";
-//	private static final String DBDRIVER = "com.mysql.jdbc.Driver";
-//	private static final String USERNAME = "root";
-//	private static final String PASSWORD = "";
-	
-	private static final String DBADDRESS = "jdbc:mysql://postgrad.nmmu.ac.za:3306/nmmumobile";
+	private static final String DBADDRESS = "jdbc:mysql://localhost:3306/nmmumobile";
 	private static final String DBDRIVER = "com.mysql.jdbc.Driver";
-	private static final String USERNAME = "nmmu_mobile_user";
-	private static final String PASSWORD = "Dfjr9bg834gmb";
+	private static final String USERNAME = "root";
+	private static final String PASSWORD = "";
+	
+//	private static final String DBADDRESS = "jdbc:mysql://postgrad.nmmu.ac.za:3306/nmmumobile";
+//	private static final String DBDRIVER = "com.mysql.jdbc.Driver";
+//	private static final String USERNAME = "nmmu_mobile_user";
+//	private static final String PASSWORD = "Dfjr9bg834gmb";
 	
 //	LIVE SERVER NEVER USE IT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //	>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
