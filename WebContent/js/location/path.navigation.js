@@ -481,11 +481,11 @@ function initiMap() {
 //			.getElementById('viewFullScreen'));
 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
 			.getElementById('viewMapType'));
-	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document
+	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
 			.getElementById('zoomSettings'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('searchBarDivTop'));
-	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
+	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document
 					.getElementById('scannerBTNContainer'));
 	map.setMapTypeId('mystyle');
 	findMyLocation();
@@ -663,3 +663,27 @@ $(document).ready(function() {
 	// getLocationTypePanel();
 	// showViewItems();
 });
+
+function resizeCompass() {
+	if ($("#compassID").css("width") == "70px") {
+		$("#compassID").css("height", "120px");
+		$("#compassID").css("width", "120px");
+		$("#compassArrowID").css("height", "120px");
+		$("#compassArrowID").css("width", "120px");
+		$("#compassDiscImg").css("height", "120px");
+		$("#compassDiscImg").css("width", "120px");
+	} else {
+		$("#compassID").css("height", "70px");
+		$("#compassID").css("width", "70px");
+		$("#compassArrowID").css("height", "70px");
+		$("#compassArrowID").css("width", "70px");
+		$("#compassDiscImg").css("height", "70px");
+		$("#compassDiscImg").css("width", "70px");
+	}
+		
+}
+
+function emergencyClick() {
+	alert("Emergency button coming soon");
+}
+
