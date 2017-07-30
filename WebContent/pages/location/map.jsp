@@ -83,26 +83,6 @@
 		</div>
 		<div id="mapView" class="ui-block-solo">
 			<div id="map_canvas"></div>
-			<div id="zoomSettings">
-				<div class="ui-block-solo">
-					<input disabled="disabled" type="text" id="visitorCounter"
-						placeholder="" value="" style="display: none;">
-				</div>
-
-				<div class="ui-block-solo">
-					<input type="button" class="zoomBTN" id="zoomin"
-						onclick="zoomInMap()">
-				</div>
-				<div class="ui-block-solo">
-					<input type="button" class="zoomBTN" id="zoomout"
-						onclick="zoomOutMap()">
-				</div>
-			</div>
-			<div id="viewMapType">
-				<input type="button" class="zoomBTN" id="satelliteView"
-					onclick="mapSattelView()"> <input type="button"
-					class="navbtn zoomBTN" id="mapViewIcon" onclick="mapMapView()">
-			</div>
 			<div class="ui-block-solo" style="float: right; display: none;"
 				id="viewFullScreen">
 				<a href="#" data-role="button" id="btnToggleFullscreen" alt=""
@@ -121,7 +101,6 @@
 			<!-- 				</div> -->
 		</div>
 		<!-- 	SEARCH FEILD -->
-
 		<div id="searchBarDivTop">
 			<div class="ui-block-solo" data-role="collapsible-set"
 				id="autocompleteContainer" data-collapsed="false">
@@ -135,6 +114,28 @@
 					placeholder="Where to go" data-mini="true" autocomplete="on">
 			</div>
 		</div>
+		<!-- 		MAP VIEW STYLE -->
+		<div id="viewMapType">
+			<input type="button" class="zoomBTN" id="satelliteView"
+				onclick="mapSattelView()"> <input type="button"
+				class="zoomBTN" id="mapViewIcon" onclick="mapMapView()">
+		</div>
+		<!-- 		ZOOM SETTINGS -->
+		<div id="zoomSettings">
+			<div class="ui-block-solo" style="display: none;">
+				<input disabled="disabled" type="text" id="visitorCounter"
+					placeholder="" value="" >
+			</div>
+
+			<div class="ui-block-solo">
+				<input type="button" class="zoomBTN" id="zoomin"
+					onclick="zoomInMap()">
+			</div>
+			<div class="ui-block-solo">
+				<input type="button" class="zoomBTN" id="zoomout"
+					onclick="zoomOutMap()">
+			</div>
+		</div>
 		<!-- 				DIRECTION SHOW -->
 		<div id="directionShow"
 			style="background-color: transparent; left: 23px; top: 73px; position: absolute;">
@@ -143,7 +144,6 @@
 			<br /> <span id="navigationDesc" class="infoValue"> </span>
 		</div>
 		<!--  COMPASS -->
-		<!-- //////////// CHANGED HERE -->
 		<div class="compass" id="compassID" onclick="resizeCompass()"
 			style="cursor: pointer;">
 			<div class="arrow" id="compassArrowID"></div>
@@ -162,8 +162,8 @@
 				<span id="currentLocationInf">Embizewni Building</span>
 			</div>
 		</div>
+		<!-- 		 SCANNER BUTTON -->
 		<div id="scannerBTNContainer">
-			<div class="blur" id="blurDivPanel"></div>
 			<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
 			<button class="navbtn" id="dualModeSelect"
 				onclick="selectDualMode()">Scan QR</button>
@@ -218,6 +218,6 @@
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.ar.js"></script>
 <script type="text/javascript" src="js/location/path.navigation.geo.js"></script>
-<script src="js/location/path.panels.js"></script>
+<script src="js/location/path.navigation.search.panel.js"></script>
 <script type="text/javascript" src="js/location/path.navigation.map.js"></script>
 </html>

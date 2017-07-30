@@ -40,16 +40,7 @@ function mapMapView() {
 }
 
 function openCloseSearch() {
-//	if (parseInt($('#searchBarDiv').css("right")) < -10) {
-//		$('#searchBarDiv').animate({
-//			'right' : '0'
-//		}, 500);
-//	} else {
-//		$('#searchBarDiv').animate({
-//			'right' : '-100%'
-//		}, 500);
-//	}
-	$("#autocompleteContainer").css("bottom", "44");
+	$("#autocompleteContainer").css("display", "none");
 	$("#searchBarDiv").trigger("updatelayout");
 }
 

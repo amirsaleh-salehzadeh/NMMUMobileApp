@@ -10,7 +10,6 @@
 	text-decoration: none;
 	text-align: center;
 	text-shadow: none !important;
-	bottom: 0;
 	border: 3px solid #d1dcdf !important;
 	-webkit-border-radius: 22px !important;
 	-moz-border-radius: 22px !important;
@@ -20,6 +19,7 @@
 	margin: 0 auto;
 	left: 0;
 	right: 0;
+	bottom: .33em;
 	vertical-align: middle;
 }
 
@@ -33,7 +33,6 @@
 	padding-left: 5;
 	padding-top: 5;
 }
-
 
 #remove {
 	width: 100% !important;
