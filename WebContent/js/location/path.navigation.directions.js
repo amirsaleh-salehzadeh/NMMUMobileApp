@@ -47,6 +47,7 @@ function getTimeLeft(distance) {
 function getTripInfo() {
 	var nextDestName = getCookie("TripPathLocationsCookie").split("_")[0];
 	$("#currentLocationInf").html(nextDestName);
+	$("#currentLocationInfoContainer").trigger("create");
 	var destName = getCookie("TripPathLocationsCookie").split("_");
 	$("#destinationInf").html(destName[destName.length - 1]);
 	$("#arrivalTimeInf").html(getTimeLeft(distanceToDestination));

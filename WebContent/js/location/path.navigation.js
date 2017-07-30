@@ -227,6 +227,7 @@ function updatePolyLine(currentPos, altitude) {
 		// + getAngleDirection(headingTo2st));
 		getAngleDirection(headingTo2st);
 	}
+	console.log(distanceToNextPosition);
 	if (distanceToNextPosition <= 5) {
 		removeTheNextDestination();
 	}
@@ -484,6 +485,8 @@ function initiMap() {
 			.getElementById('zoomSettings'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('searchBarDivTop'));
+	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
+					.getElementById('scannerBTNContainer'));
 	map.setMapTypeId('mystyle');
 	findMyLocation();
 	$("#mapViewIcon").fadeOut();
@@ -559,6 +562,7 @@ function selectDestination(destination) {
 	bounds.extend(markerDest.getPosition());
 	bounds.extend(marker.getPosition());
 	map.fitBounds(bounds);
+	initiateNavigation();
 	openCloseSearch();
 }
 
@@ -622,6 +626,7 @@ var successGetCurrentPosition = function(position) {
 		async : true,
 		success : function(data) {
 			$("#currentLocationInf").html(data.locationName);
+			$("#currentLocationInfoContainer").trigger("create");
 			$("#departureId").html(data.locationID);
 		},
 		error : function(xhr, ajaxOptions, thrownError) {

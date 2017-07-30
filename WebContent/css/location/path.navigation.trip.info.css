@@ -1,0 +1,21 @@
+#barcodeDescription {
+	position: absolute;
+	display: block;
+	max-width: 100%;
+	left: 4.3em;
+	top: .43em;
+	right: .43em !important;
+	min-height: 48px;
+	text-align: left;
+	background-color: rgb(12, 28, 44);
+	border: 2px solid #0C1C2C !important;
+	-webkit-border-radius: 7px !important;
+	-moz-border-radius: 7px !important;
+	border-radius: 7px !important;
+	z-index: 10;
+	font-weight: bold;
+	font-size: 10pt;
+	text-decoration: none;
+	text-shadow: none; padding-left : .22em;
+	color: rgb(247, 175, 35) !important;
+}

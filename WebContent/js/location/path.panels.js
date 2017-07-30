@@ -157,7 +157,7 @@ function getMyChild(select) {
 					function(k, l) {
 						listAdd += '<li data-role="collapsible" data-mini="true" data-collapsed="false" data-iconpos="right" data-inset="true" >';
 						listAdd += '<h2>' + l.locationType + '</h2>';
-						listAdd += '<ul data-role="listview" data-theme="b" data-filter-reveal="true" id="'
+						listAdd += '<ul data-role="listview" data-filter-reveal="true" id="'
 								+ l.locationTypeId
 								+ '" class="locationTypes" data-filter="true" data-input="#destinationName"></ul></li>';
 					});
