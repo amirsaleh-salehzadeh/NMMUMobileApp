@@ -3,6 +3,7 @@ function initiateNavigation() {
 		alert("To start a trip, please select a destination first.");
 		if (parseInt($('#searchBarDiv').css("right")) < -10) {
 			openCloseSearch();
+			
 		}
 		return;
 	}
@@ -12,7 +13,10 @@ function initiateNavigation() {
 //	}
 //	else
 //		showViewItems();
+	$("#informationWindowDestination").popup("close");
+	$("#informationWindowDestination").refresh;
 	getThePath();
+	
 }
 
 function zoomInMap() {

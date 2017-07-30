@@ -112,6 +112,8 @@ function getLocationTypePanel() {
 																+ l.locationID
 																+ "_"
 																+ l.gps
+																+ "_"
+																+ l.locationType.locationType
 																+ "' onclick='selectDestination(this)'>"
 																+ l.locationName
 																+ "</li>";
@@ -170,7 +172,6 @@ function getMyChild(select) {
 	$("#autocompleteDestination").listview("refresh");
 	// } else
 	$.each(childData.children, function(k, l) {
-		console.log(l.locationTypeId);
 		childData = l;
 		getMyChild(l.locationTypeId);
 	});
@@ -188,16 +189,15 @@ function selectDestination(destination) {
 		map : map,
 		icon : 'images/icons/finish.png'
 	});
-	 var content = '<div id="iw-container">' +
-     '<div class="iw-content">' +
+	 var content = '<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><div id="iw-container">' +
+     '<div class="iw-content">' + '<div id="destInfo">' +  $(destination).attr("id").split("_")[2] + ": " + $("#destinationName").val() +
        '<button class="navbtn" id="start" onclick="initiateNavigation()">Direct me</button>'+
-     '</div>' +
-   '</div>';
-	var infowindowDestination = new google.maps.InfoWindow({
-		content : content,
-	    maxWidth: 111
-	});
-	infowindowDestination.open(map, markerDest);
+    
+     '</div></div></div>';
+	
+	    $("#informationWindowDestination").html(content);
+	 $('#informationWindowDestination').popup().trigger('create');
+		$('#informationWindowDestination').popup('open').trigger('create');
 	var bounds = new google.maps.LatLngBounds();
 	bounds.extend(markerDest.getPosition());
 	bounds.extend(marker.getPosition());

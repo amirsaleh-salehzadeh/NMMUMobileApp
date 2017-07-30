@@ -124,7 +124,7 @@
 		<div id="zoomSettings">
 			<div class="ui-block-solo" style="display: none;">
 				<input disabled="disabled" type="text" id="visitorCounter"
-					placeholder="" value="" >
+					placeholder="" value="">
 			</div>
 
 			<div class="ui-block-solo">
@@ -165,8 +165,7 @@
 		<!-- 		 SCANNER BUTTON -->
 		<div id="scannerBTNContainer">
 			<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
-			<button class="navbtn" id="dualModeSelect"
-				onclick="selectDualMode()">Scan QR</button>
+			<button class="navbtn" id="dualModeSelect"    onclick="selectDualMode()">Scan QR</button>
 		</div>
 		<!-- 		BOTTOM PANEL -->
 		<div class="ui-grid-c ui-block-solo" id="dashboardPanel">
@@ -200,6 +199,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="ui-container">
+			<div data-role="popup" id="informationWindowDestination"
+				class="ui-content" data-transition="turn"
+				style="background-color: #0C1C2C; width:111;padding:2 2 2 2;" >
+				</div>
+		</div>
+
 	</div>
 </body>
 <script type="text/javascript" src="js/location/path.navigation.js"></script>

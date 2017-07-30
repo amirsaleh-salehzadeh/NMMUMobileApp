@@ -4,6 +4,11 @@
    width: 111px !important;
    background-color: rgb(12, 28, 44);
    border-radius: 2px 2px 0 0;
+   
+}
+#destInfo{
+	color:rgb(247, 175, 35);
+	text-shadow: none;
 }
 
 #pageContents {
