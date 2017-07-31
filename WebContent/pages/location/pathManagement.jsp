@@ -119,8 +119,8 @@
 <link href="css/location/path.management.css" rel="stylesheet">
 </head>
 <div>
-	<input type="hidden" id="parentLocationId"> <input
-		type='hidden' id='locationTypeId' > <input
+	<input type="hidden" id="parentLocationId" > <input
+		type='hidden' id='locationTypeId' value="0"> <input
 		type='hidden' id='locationTypeDefinition' value='def'> <input
 		type="hidden" name="destinationId" id="destinationId"><input
 		type="hidden" name="departureId" id="departureId"><input
