@@ -112,6 +112,8 @@ function getLocationTypePanel() {
 																+ l.locationID
 																+ "_"
 																+ l.gps
+																+ "_"
+																+ l.locationType.locationType
 																+ "' onclick='selectDestination(this)'>"
 																+ l.locationName
 																+ "</li>";
@@ -187,18 +189,25 @@ function selectDestination(destination) {
 		map : map,
 		icon : 'images/icons/finish.png'
 	});
-	 var content = '<div id="iw-container">' +
-     '<div class="iw-content">' +
-       '<button class="navbtn" id="start" onclick="initiateNavigation()">Direct me</button>'+
-     '</div>' +
-   '</div>';
+	var content = '<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><div id="iw-container">'
+			+ '<div class="iw-content">'
+			+ '<div id="destInfo">'
+			+ $(destination).attr("id").split("_")[2]
+			+ ": "
+			+ $("#destinationName").val()
+			+ '<button class="navbtn" id="start" onclick="initiateNavigation()">Direct me</button>'
+			+ '</div></div>';
 	var infowindowDestination = new google.maps.InfoWindow({
 		content : content,
-	    maxWidth: 111
+		maxWidth : 111
 	});
 	markerDest.addListener('click', function() {
 		infowindowDestination.open(map, markerDest);
 	});
+
+	$("#informationWindowDestination").html(content);
+	$('#informationWindowDestination').popup().trigger('create');
+	$('#informationWindowDestination').popup('open');
 	var bounds = new google.maps.LatLngBounds();
 	bounds.extend(markerDest.getPosition());
 	bounds.extend(marker.getPosition());
@@ -242,7 +251,7 @@ function getCampusMarkers(locationId) {
 					title : l.locationName
 				});
 				google.maps.event.addListener(markerTMP, 'click', function() {
-					selectDestination(this.markerTMP);
+					selectDestination();
 				});
 				markerTMP.setMap(map);
 				markers.push(markerTMP);

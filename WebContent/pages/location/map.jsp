@@ -59,7 +59,6 @@
 					style="width: 32px; height: 32px; vertical-align: middle;">
 				</label> <a data-role="button" href="#" onclick="getThePath()">Navigate
 					Me</a>
-
 			</div>
 		</div>
 		<input type="hidden" id="tripIds"> <input type="hidden"
@@ -93,7 +92,6 @@
 		<div id="cameraView" class="ui-block-solo">
 			<video id="videoContent"></video>
 		</div>
-
 		<!-- 		UPPER PANEL -->
 		<div id="barcodeDescription" class="ui-block-solo">
 			<span id="destinationInf">Main Building</span><br /> <span
@@ -138,69 +136,74 @@
 	<!-- 				DIRECTION SHOW -->
 	<div id="directionShow"
 		style="background-color: transparent; left: 23px; top: 73px; position: absolute;">
-		changed position from left: 53px; top: 73px; <img alt=""
-			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span
-			id="navigationDesc" class="infoValue"> </span>
+<!-- 		changed position from left: 53px; top: 73px; <img alt="" -->
+<!-- 			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span -->
+<!-- 			id="navigationDesc" class="infoValue"> </span> -->
 		<canvas id="directionCanvas" width="111" height="111"
 			style="background-color: white"></canvas>
+	</div>
+	<!-- 		<!--  COMPASS -->
+	<!-- 		<div class="compass" id="compassID" onclick="resizeCompass()" -->
+	<!-- 			style="cursor: pointer;"> -->
+	<!-- 			<div class="arrow" id="compassArrowID"></div> -->
+	<!-- 			<div class="disc" id="compassDiscImg"></div> -->
+	<!-- 		</div> -->
+	<!-- 		<!-- 		CURRENT LOCATION SHOW -->
+	<div class="ui-grid-a ui-block-solo" id="currentLocationShow">
+		<div class="ui-block-a" id="currentLocationButtonContainer"
+			onclick="removeTrip()">
+			<div class="ui-block-solo">
+				<button id="remove"></button>
+			</div>
+			<div class="ui-block-solo">Stop</div>
+		</div>
+		<div class="ui-block-b" id="currentLocationInfoContainer">
+			<span id="currentLocationInf">Embizewni Building</span>
+		</div>
+	</div>
+	<!-- 		 SCANNER BUTTON -->
+	<div id="scannerBTNContainer" style="display: none;">
+		<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
+		<button class="navbtn" id="dualModeSelect" onclick="selectDualMode()">Scan</button>
+	</div>
+	<!-- 		BOTTOM PANEL -->
+	<div class="ui-grid-c ui-block-solo" id="dashboardPanel">
+		<!-- 			QR OR MAP MODE -->
+		<div class="ui-block-a">
+			<div class="navbtnsdiv">
+				<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
+				<button type="button" class="navbtn" id="dualModeSelect"
+					onclick="selectDualMode()">Scan</button>
+			</div>
+		</div>
+		<!-- 				   START/STOPNAVIGATION -->
+		<div class="ui-block-b">
+			<div class="navbtnsdiv">
+				<button class="navbtn" id="remove" onclick="removeTrip()">Stop</button>
+				<button class="navbtn" id="start" onclick="initiateNavigation()">Go</button>
+			</div>
+		</div>
+		<!-- 				    MY CURRENT LOCATION -->
+		<div class="ui-block-c">
+			<div class="navbtnsdiv">
+				<button id="mylocation" class="navbtn" onclick="findMyLocation()">My&nbsp;location</button>
 
-		<!-- 		</div> -->
-		<!-- 		<!--  COMPASS -->
-		<!-- 		<div class="compass" id="compassID" onclick="resizeCompass()" -->
-		<!-- 			style="cursor: pointer;"> -->
-		<!-- 			<div class="arrow" id="compassArrowID"></div> -->
-		<!-- 			<div class="disc" id="compassDiscImg"></div> -->
-		<!-- 		</div> -->
-		<!-- 		<!-- 		CURRENT LOCATION SHOW -->
-		<div class="ui-grid-a ui-block-solo" id="currentLocationShow">
-			<div class="ui-block-a" id="currentLocationButtonContainer"
-				onclick="removeTrip()">
-				<div class="ui-block-solo">
-					<button id="remove"></button>
-				</div>
-				<div class="ui-block-solo">Stop</div>
-			</div>
-			<div class="ui-block-b" id="currentLocationInfoContainer">
-				<span id="currentLocationInf">Embizewni Building</span>
 			</div>
 		</div>
-		<!-- 		 SCANNER BUTTON -->
-		<div id="scannerBTNContainer" style="display: none;">
-			<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
-			<button class="navbtn" id="dualModeSelect" onclick="selectDualMode()">Scan</button>
-		</div>
-		<!-- 		BOTTOM PANEL -->
-		<div class="ui-grid-c ui-block-solo" id="dashboardPanel">
-			<!-- 			QR OR MAP MODE -->
-			<div class="ui-block-a">
-				<div class="navbtnsdiv">
-					<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
-					<button type="button" class="navbtn" id="dualModeSelect"
-						onclick="selectDualMode()">Scan</button>
-				</div>
-			</div>
-			<!-- 				   START/STOPNAVIGATION -->
-			<div class="ui-block-b">
-				<div class="navbtnsdiv">
-					<button class="navbtn" id="remove" onclick="removeTrip()">Stop</button>
-					<button class="navbtn" id="start" onclick="initiateNavigation()">Go</button>
-				</div>
-			</div>
-			<!-- 				    MY CURRENT LOCATION -->
-			<div class="ui-block-c">
-				<div class="navbtnsdiv">
-					<button id="mylocation" class="navbtn" onclick="findMyLocation()">My&nbsp;location</button>
-
-				</div>
-			</div>
-			<!-- 				    SEARCH BUTTON -->
-			<div class="ui-block-d">
-				<div class="navbtnsdiv">
-					<button id="openSearchBTN" class="navbtn"
-						onclick="openCloseSearch()">Find</button>
-				</div>
+		<!-- 				    SEARCH BUTTON -->
+		<div class="ui-block-d">
+			<div class="navbtnsdiv">
+				<button id="openSearchBTN" class="navbtn"
+					onclick="openCloseSearch()">Find</button>
 			</div>
 		</div>
+	</div>
+	<div class="ui-container">
+		<div data-role="popup" id="informationWindowDestination"
+			class="ui-content" data-transition="turn"
+			style="background-color: #0C1C2C; width: 111; padding: 2 2 2 2;">
+		</div>
+	</div>
 	</div>
 </body>
 <script type="text/javascript" src="js/location/path.navigation.js"></script>
