@@ -189,29 +189,22 @@ function selectDestination(destination) {
 		map : map,
 		icon : 'images/icons/finish.png'
 	});
-	var content = '<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><div id="iw-container">'
+	var content = '<div id="iw-container">'
 			+ '<div class="iw-content">'
-			+ '<div id="destInfo">'
+			+ '<div id="headerInfo" class="ui-block-solo">'
 			+ $(destination).attr("id").split("_")[2]
-			+ ": "
+			+ "</div><div id='destInfo' class='ui-block-solo'>"
 			+ $("#destinationName").val()
-			+ '<button class="navbtn" id="start" onclick="initiateNavigation()">Direct me</button>'
-			+ '</div></div>';
+			+ '</div><button class="navbtn" id="start" onclick="initiateNavigation()">Direct me</button>'
+			+ '</div>';
 	var infowindowDestination = new google.maps.InfoWindow({
-		content : content,
-		maxWidth : 111
+		content : content
 	});
 	markerDest.addListener('click', function() {
 		infowindowDestination.open(map, markerDest);
 	});
 
-	$("#informationWindowDestination").html(content);
-	$('#informationWindowDestination').popup().trigger('create');
-	$('#informationWindowDestination').popup('open');
-	var bounds = new google.maps.LatLngBounds();
-	bounds.extend(markerDest.getPosition());
-	bounds.extend(marker.getPosition());
-	map.fitBounds(bounds);
+	map.setCenter(markerDest.getPosition());
 	// initiateNavigation();
 	// openCloseSearch();
 	$("#autocompleteContainer").hide();

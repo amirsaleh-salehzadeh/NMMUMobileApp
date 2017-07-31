@@ -7,14 +7,16 @@ function initiateNavigation() {
 		}
 		return;
 	}
+	var bounds = new google.maps.LatLngBounds();
+	bounds.extend(markerDest.getPosition());
+	bounds.extend(marker.getPosition());
+	map.fitBounds(bounds);
 //	if (getCookie("TripPathGPSCookie") == ""){
 //		$('#popupPathType').popup();
 //		$('#popupPathType').popup('open').trigger('create');
 //	}
 //	else
 //		showViewItems();
-	$("#informationWindowDestination").popup("close");
-	$("#informationWindowDestination").refresh;
 	getThePath();
 	
 }
@@ -74,7 +76,7 @@ function selectMapMode() {
 	findMyLocation();
 }
 function arrivalPopup(gps) {
-	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU" + "&gps="
+	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU&gps="
 			+ gps;
 	$.ajax({
 		url : url,
@@ -100,6 +102,7 @@ function showViewItems() {
 		$("#currentLocationShow").fadeOut();
 		$("#compassID").fadeOut();
 		$("#directionShow").fadeOut();
+		$("#destinationNameDiv").fadeIn();
 		$("#start").fadeIn();
 		$("#remove").fadeOut();
 	} else {
@@ -107,6 +110,7 @@ function showViewItems() {
 		$("#remove").fadeIn();
 		$("#barcodeDescription").fadeIn();
 		$("#currentLocationShow").fadeIn();
+		$("#destinationNameDiv").fadeOut();
 		$("#compassID").fadeIn();
 		$("#directionShow").fadeIn();
 	}

@@ -1,6 +1,6 @@
 #currentLocationShow {
 	width: 90%;
-	min-height: 2em;
+	min-height: 3.7em;
 	display: inline;
 	z-index: 10;
 	background-color: transparent;
@@ -10,7 +10,7 @@
 	text-decoration: none;
 	text-align: center;
 	text-shadow: none !important;
-	border: 3px solid #d1dcdf !important;
+	border: 3px solid rgba(12, 28, 44, 1) !important;
 	-webkit-border-radius: 22px !important;
 	-moz-border-radius: 22px !important;
 	border-radius: 22px !important;

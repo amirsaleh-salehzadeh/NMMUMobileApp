@@ -71,7 +71,6 @@ function getThePath() {
 					pathLocations += l.departure.locationName + "_"
 							+ l.destination.locationName;
 					$("#departureName").val(l.departure.locationName);
-					$("#destinationName").val(l.destination.locationName);
 					$("#departureId").val(l.departure.locationID);
 				} else {
 					pathGPSs += "_" + l.destination.gps.replace(" ", "");
