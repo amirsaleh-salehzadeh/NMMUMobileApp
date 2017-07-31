@@ -98,60 +98,60 @@
 		<div id="barcodeDescription" class="ui-block-solo">
 			<span id="destinationInf">Main Building</span><br /> <span
 				id="distanceLeftInf">4.35 Km</span><span id="arrivalTimeInf">15':14"</span>
-			<!-- 				</div> -->
 		</div>
-		<!-- 	SEARCH FEILD -->
-		<div id="searchBarDivTop">
-			<div class="ui-block-solo" data-role="collapsible-set"
-				id="autocompleteContainer" data-collapsed="false">
-				<ul id="autocompleteDestination" data-role="listview"
-					data-mini="true" data-inset="true" data-filter-reveal="true"
-					data-filter="true" data-input="#destinationName">
-				</ul>
-			</div>
-			<div class="ui-block-solo" id="destinationNameDiv">
-				<input name="destinationName" id="destinationName"
-					placeholder="Where to go" data-mini="true" autocomplete="on">
-			</div>
+	</div>
+	<!-- 	SEARCH FEILD -->
+	<div id="searchBarDivTop">
+		<div class="ui-block-solo" data-role="collapsible-set"
+			id="autocompleteContainer" data-collapsed="false">
+			<ul id="autocompleteDestination" data-role="listview"
+				data-mini="true" data-inset="true" data-filter-reveal="true"
+				data-filter="true" data-input="#destinationName">
+			</ul>
 		</div>
-		<!-- 		MAP VIEW STYLE -->
-		<div id="viewMapType">
-			<input type="button" class="zoomBTN" id="satelliteView"
-				onclick="mapSattelView()"> <input type="button"
-				class="zoomBTN" id="mapViewIcon" onclick="mapMapView()">
+		<div class="ui-block-solo" id="destinationNameDiv">
+			<input name="destinationName" id="destinationName"
+				placeholder="Where to go" data-mini="true" autocomplete="on">
 		</div>
-		<!-- 		ZOOM SETTINGS -->
-		<div id="zoomSettings">
-			<div class="ui-block-solo" style="display: none;">
-				<input disabled="disabled" type="text" id="visitorCounter"
-					placeholder="" value="">
-			</div>
-			<div class="ui-block-solo">
-				<input type="button" class="zoomBTN" id="zoomin"
-					onclick="zoomInMap()">
-			</div>
-			<div class="ui-block-solo">
-				<input type="button" class="zoomBTN" id="zoomout"
-					onclick="zoomOutMap()">
-			</div>
+	</div>
+	<!-- 		MAP VIEW STYLE -->
+	<div id="viewMapType">
+		<input type="button" class="zoomBTN" id="satelliteView"
+			onclick="mapSattelView()"> <input type="button"
+			class="zoomBTN" id="mapViewIcon" onclick="mapMapView()">
+	</div>
+	<!-- 		ZOOM SETTINGS -->
+	<div id="zoomSettings">
+		<div class="ui-block-solo" style="display: none;">
+			<input disabled="disabled" type="text" id="visitorCounter"
+				placeholder="" value="">
 		</div>
-		<!-- 				DIRECTION SHOW -->
-<!-- 		<div id="directionShow" -->
-<!-- 			style="background-color: transparent; left: 23px; top: 73px; position: absolute;"> -->
-			<!-- changed position from left: 53px; top: 73px; -->
-<!-- 			<img alt="" src="images/icons/anim/arrow2.gif" id="arrowDirId"> -->
-<!-- 			<br /> <span id="navigationDesc" class="infoValue"> </span> -->
-			<canvas id="directionCanvas" width="111" height="111"
-				style="background-color: white"></canvas>
+		<div class="ui-block-solo">
+			<input type="button" class="zoomBTN" id="zoomin"
+				onclick="zoomInMap()">
+		</div>
+		<div class="ui-block-solo">
+			<input type="button" class="zoomBTN" id="zoomout"
+				onclick="zoomOutMap()">
+		</div>
+	</div>
+	<!-- 				DIRECTION SHOW -->
+	<div id="directionShow"
+		style="background-color: transparent; left: 23px; top: 73px; position: absolute;">
+		changed position from left: 53px; top: 73px; <img alt=""
+			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span
+			id="navigationDesc" class="infoValue"> </span>
+		<canvas id="directionCanvas" width="111" height="111"
+			style="background-color: white"></canvas>
 
-<!-- 		</div> -->
-<!-- 		<!--  COMPASS --> 
-<!-- 		<div class="compass" id="compassID" onclick="resizeCompass()" -->
-<!-- 			style="cursor: pointer;"> -->
-<!-- 			<div class="arrow" id="compassArrowID"></div> -->
-<!-- 			<div class="disc" id="compassDiscImg"></div> -->
-<!-- 		</div> -->
-<!-- 		<!-- 		CURRENT LOCATION SHOW -->
+		<!-- 		</div> -->
+		<!-- 		<!--  COMPASS -->
+		<!-- 		<div class="compass" id="compassID" onclick="resizeCompass()" -->
+		<!-- 			style="cursor: pointer;"> -->
+		<!-- 			<div class="arrow" id="compassArrowID"></div> -->
+		<!-- 			<div class="disc" id="compassDiscImg"></div> -->
+		<!-- 		</div> -->
+		<!-- 		<!-- 		CURRENT LOCATION SHOW -->
 		<div class="ui-grid-a ui-block-solo" id="currentLocationShow">
 			<div class="ui-block-a" id="currentLocationButtonContainer"
 				onclick="removeTrip()">
