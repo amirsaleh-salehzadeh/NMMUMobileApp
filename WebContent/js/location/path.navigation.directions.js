@@ -19,9 +19,9 @@ function getDistanceLeft(distance) {
 	var Metres = Math.round(distance - (Kilometres * 1000));
 	var res = "";
 	if (Kilometres != 0)
-		res = Kilometres + "." + Metres + " (Km). ";
+		res = Kilometres + "." + Metres + " (Km) ";
 	else
-		res = Metres + " (m). ";
+		res = Metres + " (m) ";
 	return res;
 }
 
@@ -40,7 +40,7 @@ function getTimeLeft(distance) {
 	var String = " ";
 	if (Hours > 0)
 		String += Hours + "': ";
-	String += Minutes + "\": " + Seconds + " s. ";
+	String += Minutes + "\": " + Seconds + " s ";
 	return String;
 }
 
@@ -50,6 +50,7 @@ function getTripInfo() {
 	$("#currentLocationInfoContainer").trigger("create");
 	var destName = getCookie("TripPathLocationsCookie").split("_");
 	$("#destinationInf").html(destName[destName.length - 1]);
+	$("#distanceLeftInf").html(getDistanceLeft(distanceToDestination) + " to ");
 	$("#arrivalTimeInf").html(getTimeLeft(distanceToDestination));
 }
 (function() {

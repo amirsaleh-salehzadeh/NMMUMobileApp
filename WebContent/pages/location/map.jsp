@@ -143,8 +143,11 @@
 		</div>
 		<!-- 		UPPER PANEL -->
 		<div id="barcodeDescription" class="ui-block-solo">
-			<span id="destinationInf">Main Building</span><br /> <span
-				id="distanceLeftInf">4.35 Km</span><span id="arrivalTimeInf">15':14"</span>
+		 <span
+				id="distanceLeftInf">4.35 Km</span> <br/>
+			<img alt="" src="images/icons/finishss.png">&nbsp;
+			<span id="destinationInf">Main Building</span>
+<!-- 				<span id="arrivalTimeInf">15':14"</span> -->
 		</div>
 	</div>
 	<!-- 	SEARCH FEILD -->
@@ -189,9 +192,9 @@
 		<!-- 			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span -->
 		<!-- 			id="navigationDesc" class="infoValue"> </span> -->
 		<canvas id="directionCanvas" width="111" height="111"
-			style="background-color: white"></canvas>
+			style="background-color: white; display: none;"></canvas>
 	</div>
-<!-- 		CURRENT LOCATION SHOW -->
+	<!-- 		CURRENT LOCATION SHOW -->
 	<div class="ui-grid-a ui-block-solo" id="currentLocationShow">
 		<div class="ui-block-a" id="currentLocationButtonContainer"
 			onclick="removeTrip()">
@@ -210,36 +213,36 @@
 		<button class="navbtn" id="dualModeSelect" onclick="selectDualMode()">Scan</button>
 	</div>
 	<!-- 		BOTTOM PANEL -->
-<!-- 	<div class="ui-grid-c ui-block-solo" id="dashboardPanel"> -->
-<!-- 		<!-- 			QR OR MAP MODE --> -->
-<!-- 		<div class="ui-block-a"> -->
-<!-- 			<div class="navbtnsdiv"> -->
-<!-- 				<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button> -->
-<!-- 				<button type="button" class="navbtn" id="dualModeSelect" -->
-<!-- 					onclick="selectDualMode()">Scan</button> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<!-- 				   START/STOPNAVIGATION --> -->
-<!-- 		<div class="ui-block-b"> -->
-<!-- 			<div class="navbtnsdiv"> -->
-<!-- 				<button class="navbtn" id="remove" onclick="removeTrip()">Stop</button> -->
-<!-- 				<button class="navbtn" id="start" onclick="initiateNavigation()">Go</button> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<!-- 				    MY CURRENT LOCATION --> -->
-<!-- 		<div class="ui-block-c"> -->
-<!-- 			<div class="navbtnsdiv"> -->
-<!-- 				<button id="mylocation" class="navbtn" onclick="findMyLocation()">My&nbsp;location</button> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<!-- 				    SEARCH BUTTON --> -->
-<!-- 		<div class="ui-block-d"> -->
-<!-- 			<div class="navbtnsdiv"> -->
-<!-- 				<button id="openSearchBTN" class="navbtn" -->
-<!-- 					onclick="openCloseSearch()">Find</button> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
+	<!-- 	<div class="ui-grid-c ui-block-solo" id="dashboardPanel"> -->
+	<!-- 			QR OR MAP MODE -->
+	<!-- 		<div class="ui-block-a"> -->
+	<!-- 			<div class="navbtnsdiv"> -->
+	<!-- 				<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button> -->
+	<!-- 				<button type="button" class="navbtn" id="dualModeSelect" -->
+	<!-- 					onclick="selectDualMode()">Scan</button> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+		<!-- 				   START/STOPNAVIGATION -->
+	<!-- 		<div class="ui-block-b"> -->
+	<!-- 			<div class="navbtnsdiv"> -->
+	<!-- 				<button class="navbtn" id="remove" onclick="removeTrip()">Stop</button> -->
+	<!-- 				<button class="navbtn" id="start" onclick="initiateNavigation()">Go</button> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 				    MY CURRENT LOCATION -->
+	<!-- 		<div class="ui-block-c"> -->
+	<!-- 			<div class="navbtnsdiv"> -->
+	<!-- 				<button id="mylocation" class="navbtn" onclick="findMyLocation()">My&nbsp;location</button> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 				    SEARCH BUTTON -->
+	<!-- 		<div class="ui-block-d"> -->
+	<!-- 			<div class="navbtnsdiv"> -->
+	<!-- 				<button id="openSearchBTN" class="navbtn" -->
+	<!-- 					onclick="openCloseSearch()">Find</button> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 	</div> -->
 </body>
 <script type="text/javascript" src="js/location/path.navigation.js"></script>
 <script async defer

@@ -101,7 +101,7 @@ function showViewItems() {
 		$("#barcodeDescription").fadeOut();
 		$("#currentLocationShow").fadeOut();
 		$("#compassID").fadeOut();
-		$("#directionShow").fadeOut();
+//		$("#directionShow").fadeOut();
 		$("#destinationNameDiv").fadeIn();
 		$("#start").fadeIn();
 		$("#remove").fadeOut();
@@ -112,6 +112,6 @@ function showViewItems() {
 		$("#currentLocationShow").fadeIn();
 		$("#destinationNameDiv").fadeOut();
 		$("#compassID").fadeIn();
-		$("#directionShow").fadeIn();
+//		$("#directionShow").fadeIn();
 	}
 }
