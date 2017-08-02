@@ -184,7 +184,7 @@ function drawConstantPolyline() {
 				icon : lineSymbol,
 				offset : '100%'
 			} ],
-			strokeColor : '#0C1C2C',
+			strokeColor : '#081B2C',
 			strokeOpacity : 1,
 			strokeWeight : 6
 		});
@@ -628,25 +628,6 @@ $(document).ready(function() {
 	// getLocationTypePanel();
 	// showViewItems();
 });
-
-function resizeCompass() {
-	if ($("#compassID").css("width") == "70px") {
-		$("#compassID").css("height", "120px");
-		$("#compassID").css("width", "120px");
-		$("#compassArrowID").css("height", "120px");
-		$("#compassArrowID").css("width", "120px");
-		$("#compassDiscImg").css("height", "120px");
-		$("#compassDiscImg").css("width", "120px");
-	} else {
-		$("#compassID").css("height", "70px");
-		$("#compassID").css("width", "70px");
-		$("#compassArrowID").css("height", "70px");
-		$("#compassArrowID").css("width", "70px");
-		$("#compassDiscImg").css("height", "70px");
-		$("#compassDiscImg").css("width", "70px");
-	}
-
-}
 
 function emergencyClick() {
 	alert("Emergency button coming soon");

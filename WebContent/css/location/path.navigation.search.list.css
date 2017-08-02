@@ -1,7 +1,7 @@
 .ui-collapsible-heading .ui-btn {
 	height: 15;
-	background-color: rgb(247, 175, 35);
-	color: rgb(12, 28, 44) !important;
+	background-color: rgb(248, 182, 36);
+	color: rgb(8, 27, 44) !important;
 	text-shadow: none;
 	font-weight: bolder;
 }
@@ -39,17 +39,15 @@
 }
 
 #destinationName {
-	background-color: rgba(12, 28, 44, .77) !important;
-	color: rgb(247, 175, 35) !important;
+	background-color: rgba(8, 27, 44, .77) !important;
+	color: rgb(248, 182, 36) !important;
 	background-image: url("../../images/icons/search.png");
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
 	background-position: 4px 5px;
 	padding-bottom: 5px;
-	z-index: 11;
 	text-shadow: none;
 	min-height: 3em !important;
-	z-index: 11;
 	padding-left: 41px;
 	z-index: 11;
 }
@@ -59,7 +57,7 @@
 }
 
 #destinationName::-webkit-input-placeholder {
-	color: rgba(247, 175, 35, 1);
+	color: rgba(248, 182, 36, 1);
 	padding-left: 44px;
 }
 

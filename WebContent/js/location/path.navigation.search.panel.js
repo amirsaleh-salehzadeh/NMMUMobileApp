@@ -143,8 +143,6 @@ function getLocationTypePanel() {
 									alert(thrownError);
 								}
 							});
-
-					$("div#searchBarDiv").on("swipe", openCloseSearch);
 				}
 			});
 
@@ -180,6 +178,10 @@ function getMyChild(select) {
 function selectDestination(destination) {
 	$("#destinationId").val($(destination).attr("id").split("_")[0]);
 	$("#destinationName").val($(destination).html());
+	$("#LocationInf").html($(destination).html());
+	$( "#locationInfoDiv" ).animate({
+	    bottom: "0"
+	  }, 1500);
 	$("#to").val($(destination).attr("id").split("_")[1].replace(" ", ""));
 	var destPoint = getGoogleMapPosition($("#to").val());
 	if (markerDest != null)
@@ -189,26 +191,26 @@ function selectDestination(destination) {
 		map : map,
 		icon : 'images/icons/finish.png'
 	});
-	var content = '<div id="iw-container">'
-			+ '<div class="iw-content">'
-			+ '<div id="headerInfo" class="ui-block-solo">'
-			+ $(destination).attr("id").split("_")[2]
-			+ "</div><div id='destInfo' class='ui-block-solo'>"
-			+ $("#destinationName").val()
-			+ '</div><button class="navbtn" id="start" onclick="initiateNavigation()">Direct me</button>'
-			+ '</div>';
-	var infowindowDestination = new google.maps.InfoWindow({
-		content : content
-	});
+//	var content = '<div id="iw-container">'
+//			+ '<div class="iw-content">'
+//			+ '<div id="headerInfo" class="ui-block-solo">'
+//			+ $(destination).attr("id").split("_")[2]
+//			+ "</div><div id='destInfo' class='ui-block-solo'>"
+//			+ $("#destinationName").val()
+//			+ '</div>'
+//			+ '</div>';
+//	var infowindowDestination = new google.maps.InfoWindow({
+//		content : content
+//	});
 	markerDest.addListener('click', function() {
-		infowindowDestination.open(map, markerDest);
+//		infowindowDestination.open(map, markerDest);
+		selectDestination(destination)
 	});
 
-	map.setCenter(markerDest.getPosition());
+	map.panTo(markerDest.getPosition());
 	// initiateNavigation();
-	// openCloseSearch();
 	$("#autocompleteContainer").hide();
-	infowindowDestination.open(map, markerDest);
+//	infowindowDestination.open(map, markerDest);
 
 }
 

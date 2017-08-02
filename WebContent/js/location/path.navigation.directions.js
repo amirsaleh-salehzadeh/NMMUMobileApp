@@ -49,7 +49,7 @@ function getTripInfo() {
 	$("#currentLocationInf").html(nextDestName);
 	$("#currentLocationInfoContainer").trigger("create");
 	var destName = getCookie("TripPathLocationsCookie").split("_");
-	$("#destinationInf").html(destName[destName.length - 1]);
+	$("#destinationDescriptionInput").val(destName[destName.length - 1]);
 	$("#distanceLeftInf").html(getDistanceLeft(distanceToDestination) + " to ");
 	$("#arrivalTimeInf").html(getTimeLeft(distanceToDestination));
 }

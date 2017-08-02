@@ -1,16 +1,11 @@
 function initiateNavigation() {
-	if ($("#destinationId").val() == "") {
-		alert("To start a trip, please select a destination first.");
-		if (parseInt($('#searchBarDiv').css("right")) < -10) {
-			openCloseSearch();
-			
-		}
-		return;
-	}
 	var bounds = new google.maps.LatLngBounds();
 	bounds.extend(markerDest.getPosition());
 	bounds.extend(marker.getPosition());
 	map.fitBounds(bounds);
+	$( "#locationInfoDiv" ).animate({
+	    bottom: "-100%"
+	  }, 1500);
 //	if (getCookie("TripPathGPSCookie") == ""){
 //		$('#popupPathType').popup();
 //		$('#popupPathType').popup('open').trigger('create');
@@ -45,11 +40,6 @@ function mapMapView() {
 	$("#mapViewIcon").fadeOut();
 }
 
-function openCloseSearch() {
-	$("#autocompleteContainer").css("display", "none");
-	$("#searchBarDiv").trigger("updatelayout");
-}
-
 function selectDualMode() {
 	$("#zoomSettings").css("display", "block");
 	$("#cameraView").css("display", "block");
@@ -66,8 +56,9 @@ function selectDualMode() {
 	findMyLocation();
 }
 
+// TO SELECT MAP MODE OR AR MODE
 function selectMapMode() {
-	$("#cameraView").css("display", "none");
+//	$("#cameraView").css("display", "none");
 	// $('#mapView').height($(window).height());
 	// $('#map_canvas').height($(window).height());
 	$('#mapViewSelect').fadeOut();
@@ -100,18 +91,10 @@ function showViewItems() {
 	if (getCookie("TripPathGPSCookie") == "") {
 		$("#barcodeDescription").fadeOut();
 		$("#currentLocationShow").fadeOut();
-		$("#compassID").fadeOut();
-//		$("#directionShow").fadeOut();
-		$("#destinationNameDiv").fadeIn();
-		$("#start").fadeIn();
-		$("#remove").fadeOut();
+		$("#searchBarDivTop").fadeIn();
 	} else {
-		$("#start").fadeOut();
-		$("#remove").fadeIn();
 		$("#barcodeDescription").fadeIn();
 		$("#currentLocationShow").fadeIn();
-		$("#destinationNameDiv").fadeOut();
-		$("#compassID").fadeIn();
-//		$("#directionShow").fadeIn();
+		$("#searchBarDivTop").fadeOut();
 	}
 }
