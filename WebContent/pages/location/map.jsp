@@ -125,7 +125,7 @@
 			<span id="distanceLeftInf"></span> <br /> <input type="text"
 				class="descriptionInput" id="departureDescriptionInput"
 				value="Current Location" data-role="none" disabled="disabled">
-			<input type="text" data-role="none" class="descriptionInput"
+			<input type="text" data-role="none" class="descriptionInput" disabled="disabled"
 				id="destinationDescriptionInput">
 			<!-- 				<span id="arrivalTimeInf">15':14"</span> -->
 		</div>

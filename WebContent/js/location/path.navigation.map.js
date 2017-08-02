@@ -3,17 +3,17 @@ function initiateNavigation() {
 	bounds.extend(markerDest.getPosition());
 	bounds.extend(marker.getPosition());
 	map.fitBounds(bounds);
-	$( "#locationInfoDiv" ).animate({
-	    bottom: "-100%"
-	  }, 1500);
-//	if (getCookie("TripPathGPSCookie") == ""){
-//		$('#popupPathType').popup();
-//		$('#popupPathType').popup('open').trigger('create');
-//	}
-//	else
-//		showViewItems();
+	$("#locationInfoDiv").animate({
+		bottom : "-=100%"
+	}, 1500);
+	// if (getCookie("TripPathGPSCookie") == ""){
+	// $('#popupPathType').popup();
+	// $('#popupPathType').popup('open').trigger('create');
+	// }
+	// else
+	// showViewItems();
 	getThePath();
-	
+
 }
 
 function zoomInMap() {
@@ -58,7 +58,7 @@ function selectDualMode() {
 
 // TO SELECT MAP MODE OR AR MODE
 function selectMapMode() {
-//	$("#cameraView").css("display", "none");
+	// $("#cameraView").css("display", "none");
 	// $('#mapView').height($(window).height());
 	// $('#map_canvas').height($(window).height());
 	$('#mapViewSelect').fadeOut();
@@ -67,8 +67,7 @@ function selectMapMode() {
 	findMyLocation();
 }
 function arrivalPopup(gps) {
-	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU&gps="
-			+ gps;
+	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU&gps=" + gps;
 	$.ajax({
 		url : url,
 		cache : true,

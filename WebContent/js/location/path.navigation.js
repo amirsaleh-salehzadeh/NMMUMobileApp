@@ -326,7 +326,6 @@ function removeTrip() {
 		markerDest.setMap(null);
 	markerDest = null;
 	$("#tripId").val("");
-	$("#remove").css("display", "none");
 	findMyLocation();
 	showViewItems();
 }
