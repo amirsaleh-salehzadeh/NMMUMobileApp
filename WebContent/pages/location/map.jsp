@@ -198,6 +198,7 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript" src="js/location/path.navigation.polygon.js"></script>
 <script type="text/javascript" src="js/location/path.navigation.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"

@@ -512,6 +512,7 @@ function initiMap() {
 		getThePath();
 	else
 		showViewItems();
+	drawPolygons();
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
