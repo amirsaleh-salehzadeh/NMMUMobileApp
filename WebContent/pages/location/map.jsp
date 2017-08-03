@@ -213,7 +213,7 @@
 	<div class="ui-block-solo" id="locationInfoDiv">
 		<div class="blurBlue"></div>
 		<div id="LocationInfoContainer">
-			<span id="LocationInf"></span>
+			<div id="LocationInf"></div>
 			<button id="start" onclick="initiateNavigation()">Direction</button>
 		</div>
 	</div>

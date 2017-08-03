@@ -228,34 +228,6 @@
 }
 
 /* LIST VIEW */
-#autocompleteDestination .ui-collapsible {
-	padding: 0;
-	background-color: transparent;
-	border-width: 0;
-}
-
-#autocompleteDestination .ui-collapsible .ui-li-static {
-	background-color: #0C1C2C;
-	border-color: white;
-	height: 25;
-	padding: 0;
-	padding-left: 5;
-	padding-top: 5;
-}
-
-#autocompleteDestination .ui-btn,.ui-btn-icon-right {
-	padding: 0;
-	padding-left: 5;
-	padding-top: 5;
-	height: 30;
-	border-color: white;
-}
-
-#autocompleteDestination .ui-collapsible-heading,.ui-collapsible-heading>.ui-btn
-	{
-	margin: 0;
-}
-
 .blurBlue{
 	position: absolute;
 	width: 100%;

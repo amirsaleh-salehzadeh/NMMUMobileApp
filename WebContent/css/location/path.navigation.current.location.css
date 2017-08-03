@@ -22,17 +22,6 @@
 	vertical-align: middle;
 }
 
-#autocompleteDestination .ui-collapsible .ui-li-static {
-	background-color: rgba(8, 27, 44, .77) !important;
-	color: rgba(248, 182, 36, 1);
-	border-color: white;
-	height: 25;
-	text-shadow: none;
-	padding: 0;
-	padding-left: 5;
-	padding-top: 5;
-}
-
 #remove {
 	width: 100% !important;
 	z-index: 11;

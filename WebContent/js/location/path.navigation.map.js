@@ -13,7 +13,6 @@ function initiateNavigation() {
 	// else
 	// showViewItems();
 	getThePath();
-
 }
 
 function zoomInMap() {

@@ -25,6 +25,18 @@
 	margin: 0;
 }
 
+#autocompleteDestination .ui-collapsible .ui-li-static {
+	background-color: rgba(8, 27, 44, .77) !important;
+	color: rgba(248, 182, 36, 1) !important;
+	border-color: white;
+	height: 25;
+	text-shadow: none;
+	padding: 0;
+	font-size: 11pt;
+	padding-left: 5;
+	padding-top: 5;
+}
+
 #searchBarDivTop {
 	width: 100%;
 	position: absolute;
@@ -50,6 +62,8 @@
 	min-height: 3em !important;
 	padding-left: 41px;
 	z-index: 11;
+	font-size: 13pt;
+	font-weight: bold;
 }
 
 .ui-page-theme-a .ui-body-inherit {
@@ -57,7 +71,7 @@
 }
 
 #destinationName::-webkit-input-placeholder {
-	color: rgba(248, 182, 36, 1);
+	color: rgba(248, 182, 36, .77);
 	padding-left: 44px;
 }
 
@@ -68,8 +82,8 @@
 	display: block;
 	top: 5.5em;
 	max-height: 333px;
-	padding-left: 7px !important;
-	padding-right: 7px !important;
+	padding-left: 13px !important;
+	padding-right: 17px !important;
 	overflow: auto;
 	box-sizing: border-box;
 	background-color: transparent !important;
