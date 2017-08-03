@@ -34,27 +34,7 @@ function handleOrientation(event) {
 //			+ compassHeading(alpha, beta, gamma);// +
 }
 
-function resizeCompass() {
-	if ($("#compassID").css("width") == "70px") {
-		$("#compassID").css("height", "120px");
-		$("#compassID").css("width", "120px");
-		$("#compassArrowID").css("height", "120px");
-		$("#compassArrowID").css("width", "120px");
-		$("#compassDiscImg").css("height", "120px");
-		$("#compassDiscImg").css("width", "120px");
-	} else {
-		$("#compassID").css("height", "70px");
-		$("#compassID").css("width", "70px");
-		$("#compassArrowID").css("height", "70px");
-		$("#compassArrowID").css("width", "70px");
-		$("#compassDiscImg").css("height", "70px");
-		$("#compassDiscImg").css("width", "70px");
-	}
-
-}
-
-
-window.addEventListener('deviceorientation', handleOrientation, true);
+//window.addEventListener('deviceorientation', handleOrientation, true);
 
 function compassHeading(alpha, beta, gamma) {
 
@@ -93,26 +73,26 @@ function compassHeading(alpha, beta, gamma) {
 
 }
 
-document.addEventListener("DOMContentLoaded", function(event) {
-	if (window.DeviceOrientationEvent) {
-		window.addEventListener('deviceorientation', function(eventData) {
-			var tiltLR = eventData.gamma;
-			var tiltFB = eventData.beta;
-			var dir = eventData.alpha;
-			deviceOrientationHandler(tiltLR, tiltFB, dir);
-		}, false);
-	}
-	;
-
-	function deviceOrientationHandler(tiltLR, tiltFB, dir) {
-		document.getElementById("tiltLR").innerHTML = Math.ceil(tiltLR);
-		document.getElementById("tiltFB").innerHTML = Math.ceil(tiltFB);
-		document.getElementById("direction").innerHTML = Math.ceil(dir);
-		var compassDisc = document.getElementById("compassDiscImg");
-		compassDisc.style.webkitTransform = "rotate(" + dir + "deg)";
-		compassDisc.style.MozTransform = "rotate(" + dir + "deg)";
-		compassDisc.style.transform = "rotate(" + dir + "deg)";
-	}
-
-});
+//document.addEventListener("DOMContentLoaded", function(event) {
+//	if (window.DeviceOrientationEvent) {
+//		window.addEventListener('deviceorientation', function(eventData) {
+//			var tiltLR = eventData.gamma;
+//			var tiltFB = eventData.beta;
+//			var dir = eventData.alpha;
+//			deviceOrientationHandler(tiltLR, tiltFB, dir);
+//		}, false);
+//	}
+//	;
+//
+//	function deviceOrientationHandler(tiltLR, tiltFB, dir) {
+//		document.getElementById("tiltLR").innerHTML = Math.ceil(tiltLR);
+//		document.getElementById("tiltFB").innerHTML = Math.ceil(tiltFB);
+//		document.getElementById("direction").innerHTML = Math.ceil(dir);
+//		var compassDisc = document.getElementById("compassDiscImg");
+//		compassDisc.style.webkitTransform = "rotate(" + dir + "deg)";
+//		compassDisc.style.MozTransform = "rotate(" + dir + "deg)";
+//		compassDisc.style.transform = "rotate(" + dir + "deg)";
+//	}
+//
+//});
 

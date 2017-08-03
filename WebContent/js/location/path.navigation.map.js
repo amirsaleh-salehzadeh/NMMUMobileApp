@@ -1,17 +1,14 @@
 function initiateNavigation() {
-	if ($("#destinationId").val() == "") {
-		alert("To start a trip, please select a destination first.");
-		if (parseInt($('#searchBarDiv').css("right")) < -10) {
-			openCloseSearch();
-		}
-		return;
-	}
-//	if (getCookie("TripPathGPSCookie") == ""){
-//		$('#popupPathType').popup();
-//		$('#popupPathType').popup('open').trigger('create');
-//	}
-//	else
-//		showViewItems();
+	var bounds = new google.maps.LatLngBounds();
+	bounds.extend(markerDest.getPosition());
+	bounds.extend(marker.getPosition());
+	map.fitBounds(bounds);
+	// if (getCookie("TripPathGPSCookie") == ""){
+	// $('#popupPathType').popup();
+	// $('#popupPathType').popup('open').trigger('create');
+	// }
+	// else
+	// showViewItems();
 	getThePath();
 }
 
@@ -34,23 +31,9 @@ function mapSattelView() {
 }
 
 function mapMapView() {
-	map.setMapTypeId('mystyle');
+	map.setMapTypeId('map_style');
 	$("#satelliteView").fadeIn();
 	$("#mapViewIcon").fadeOut();
-}
-
-function openCloseSearch() {
-//	if (parseInt($('#searchBarDiv').css("right")) < -10) {
-//		$('#searchBarDiv').animate({
-//			'right' : '0'
-//		}, 500);
-//	} else {
-//		$('#searchBarDiv').animate({
-//			'right' : '-100%'
-//		}, 500);
-//	}
-	$("#autocompleteContainer").css("bottom", "44");
-	$("#searchBarDiv").trigger("updatelayout");
 }
 
 function selectDualMode() {
@@ -69,8 +52,9 @@ function selectDualMode() {
 	findMyLocation();
 }
 
+// TO SELECT MAP MODE OR AR MODE
 function selectMapMode() {
-	$("#cameraView").css("display", "none");
+	// $("#cameraView").css("display", "none");
 	// $('#mapView').height($(window).height());
 	// $('#map_canvas').height($(window).height());
 	$('#mapViewSelect').fadeOut();
@@ -79,8 +63,7 @@ function selectMapMode() {
 	findMyLocation();
 }
 function arrivalPopup(gps) {
-	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU" + "&gps="
-			+ gps;
+	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU&gps=" + gps;
 	$.ajax({
 		url : url,
 		cache : true,
@@ -103,17 +86,10 @@ function showViewItems() {
 	if (getCookie("TripPathGPSCookie") == "") {
 		$("#barcodeDescription").fadeOut();
 		$("#currentLocationShow").fadeOut();
-		$("#compassID").fadeOut();
-		$("#directionShow").fadeOut();
-		$("#start").fadeIn();
-		$("#remove").fadeOut();
+		$("#searchBarDivTop").fadeIn();
 	} else {
-//		getThePath();
-		$("#start").fadeOut();
-		$("#remove").fadeIn();
 		$("#barcodeDescription").fadeIn();
 		$("#currentLocationShow").fadeIn();
-		$("#compassID").fadeIn();
-		$("#directionShow").fadeIn();
+		$("#searchBarDivTop").fadeOut();
 	}
 }

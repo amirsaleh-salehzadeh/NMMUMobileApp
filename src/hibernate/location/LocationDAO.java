@@ -535,7 +535,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ta.setName("GraphMapThread");
 			ta.setDaemon(true);
 			ta.start();
-		} else if (pathTypeId == 2)
+		} 
+		if (pathTypeId == 2)
 			graph = GraphMapThread.graphWalkaway;
 		else
 			graph = GraphMapThread.graphDirt;
