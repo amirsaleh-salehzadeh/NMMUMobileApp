@@ -212,8 +212,9 @@
 	
 	<div class="ui-block-solo" id="locationInfoDiv">
 		<div class="blurBlue"></div>
+		<div class="spinnerLoading" style="display: none;"></div>
 		<div id="LocationInfoContainer">
-			<div id="LocationInf"></div>
+			<div id="locationInf"></div>
 			<button id="start" onclick="initiateNavigation()">Direction</button>
 		</div>
 	</div>

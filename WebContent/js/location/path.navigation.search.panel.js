@@ -178,7 +178,8 @@ function getMyChild(select) {
 function selectDestination(destination) {
 	$("#destinationId").val($(destination).attr("id").split("_")[0]);
 	$("#destinationName").val($(destination).html());
-	$("#LocationInf").html($(destination).html());
+	$(".spinnerLoading").css('display','none');
+	$("#locationInf").html($(destination).html());
 	$( "#locationInfoDiv" ).animate({
 	    bottom: "0"
 	  }, 1500);

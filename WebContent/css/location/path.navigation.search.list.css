@@ -15,7 +15,7 @@
 #autocompleteDestination .ui-btn,.ui-btn-icon-right {
 	padding: 0;
 	padding-left: 5;
-	padding-top: 5;
+	padding-top: 9;
 	height: 30;
 	z-index: 10;
 }
@@ -56,11 +56,11 @@
 	background-image: url("../../images/icons/search.png");
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
-	background-position: 4px 5px;
+	background-position: 9px 5px;
 	padding-bottom: 5px;
 	text-shadow: none;
 	min-height: 3em !important;
-	padding-left: 41px;
+	padding-left: 47px;
 	z-index: 11;
 	font-size: 13pt;
 	font-weight: bold;

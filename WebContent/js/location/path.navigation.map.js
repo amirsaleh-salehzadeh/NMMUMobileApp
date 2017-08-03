@@ -3,9 +3,6 @@ function initiateNavigation() {
 	bounds.extend(markerDest.getPosition());
 	bounds.extend(marker.getPosition());
 	map.fitBounds(bounds);
-	$("#locationInfoDiv").animate({
-		bottom : "-=100%"
-	}, 1500);
 	// if (getCookie("TripPathGPSCookie") == ""){
 	// $('#popupPathType').popup();
 	// $('#popupPathType').popup('open').trigger('create');
@@ -34,7 +31,7 @@ function mapSattelView() {
 }
 
 function mapMapView() {
-	map.setMapTypeId('mystyle');
+	map.setMapTypeId('map_style');
 	$("#satelliteView").fadeIn();
 	$("#mapViewIcon").fadeOut();
 }

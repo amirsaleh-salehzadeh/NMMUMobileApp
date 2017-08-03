@@ -55,10 +55,11 @@ function getThePath() {
 	}
 	$.ajax({
 		url : url,
-		cache : false,
-		async : false,
+		cache : true,
+		async : true,
 		beforeSend : function() {
-			$("#locationInf").html('<div class="spinner"></div>');
+			$("#locationInf").html('');
+			$(".spinnerLoading").css('display','block');
 		},
 		success : function(data) {
 			var pathIds = "";
@@ -88,10 +89,13 @@ function getThePath() {
 			setCookie('TripPathLocationsCookie', pathLocations, 1);
 			resetWalking();
 			drawConstantPolyline();
+			$("#locationInfoDiv").animate({
+				bottom : "-=100%"
+			}, 1500);
 			showViewItems();
-			$('#popupPathType').popup();
-			$('#popupPathType').popup('close');
-			$('#popupPathType').popup("destroy");
+//			$('#popupPathType').popup();
+//			$('#popupPathType').popup('close');
+//			$('#popupPathType').popup("destroy");
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);

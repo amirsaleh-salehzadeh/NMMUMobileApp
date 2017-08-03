@@ -10,18 +10,32 @@
 	background-color: rgba(8, 27, 44, 1);
 }
 
-.spinner {
-  width: 66px;
-  height: 66px;
-  margin: 10px auto;
-  background-color:  rgb(248, 182, 36);
-  border-radius: 100%;  
-  z-index: 200002;
-  -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
-  animation: sk-scaleout 1.0s infinite ease-in-out;
+.spinnerLoading {
+	width: 22px;
+	height: 22px;
+	display: block;
+	margin-left: 50%;
+	margin-top: 7%;
+	background-color: rgb(248, 182, 36);
+	border-radius: 100%;
+	z-index: 200002;
+	-webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+	animation: sk-scaleout 1.0s infinite ease-in-out;
 }
 
-@-webkit-keyframes sk-scaleout {
+.spinner {
+	width: 66px;
+	height: 66px;
+	margin: 10px auto;
+	background-color: rgb(248, 182, 36);
+	border-radius: 100%;
+	z-index: 200002;
+	-webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+	animation: sk-scaleout 1.0s infinite ease-in-out;
+}
+
+@
+-webkit-keyframes sk-scaleout {
   0% { -webkit-transform: scale(0) }
   100% {
     -webkit-transform: scale(1.0);
