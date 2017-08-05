@@ -42,7 +42,6 @@ function getMyChild(select) {
 	else if (childData.children == null)
 		return;
 	var navbarId = "";
-	// if (childData.locationTypeId == select) {
 	$("#locationTypeDefinition").val("");
 	var str = "";
 	$

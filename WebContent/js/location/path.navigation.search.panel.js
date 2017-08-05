@@ -143,8 +143,6 @@ function getLocationTypePanel() {
 									alert(thrownError);
 								}
 							});
-
-					$("div#searchBarDiv").on("swipe", openCloseSearch);
 				}
 			});
 
@@ -180,6 +178,11 @@ function getMyChild(select) {
 function selectDestination(destination) {
 	$("#destinationId").val($(destination).attr("id").split("_")[0]);
 	$("#destinationName").val($(destination).html());
+	$(".spinnerLoading").css('display','none');
+	$("#locationInf").html($(destination).html());
+	$( "#locationInfoDiv" ).animate({
+	    bottom: "0"
+	  }, 1500);
 	$("#to").val($(destination).attr("id").split("_")[1].replace(" ", ""));
 	var destPoint = getGoogleMapPosition($("#to").val());
 	if (markerDest != null)
@@ -189,22 +192,27 @@ function selectDestination(destination) {
 		map : map,
 		icon : 'images/icons/finish.png'
 	});
-	 var content = '<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><div id="iw-container">' +
-     '<div class="iw-content">' + '<div id="destInfo">' +  $(destination).attr("id").split("_")[2] + ": " + $("#destinationName").val() +
-       '<button class="navbtn" id="start" onclick="initiateNavigation()">Direct me</button>'+
-    
-     '</div></div></div>';
-	
-	    $("#informationWindowDestination").html(content);
-	 $('#informationWindowDestination').popup().trigger('create');
-		$('#informationWindowDestination').popup('open').trigger('create');
-	var bounds = new google.maps.LatLngBounds();
-	bounds.extend(markerDest.getPosition());
-	bounds.extend(marker.getPosition());
-	map.fitBounds(bounds);
+//	var content = '<div id="iw-container">'
+//			+ '<div class="iw-content">'
+//			+ '<div id="headerInfo" class="ui-block-solo">'
+//			+ $(destination).attr("id").split("_")[2]
+//			+ "</div><div id='destInfo' class='ui-block-solo'>"
+//			+ $("#destinationName").val()
+//			+ '</div>'
+//			+ '</div>';
+//	var infowindowDestination = new google.maps.InfoWindow({
+//		content : content
+//	});
+	markerDest.addListener('click', function() {
+//		infowindowDestination.open(map, markerDest);
+		selectDestination(destination)
+	});
+
+	map.panTo(markerDest.getPosition());
 	// initiateNavigation();
-	// openCloseSearch();
 	$("#autocompleteContainer").hide();
+//	infowindowDestination.open(map, markerDest);
+
 }
 
 $("#destinationName").keyup(
@@ -217,6 +225,7 @@ $("#destinationName").keyup(
 		});
 
 function getCampusMarkers(locationId) {
+	alert(1);
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ locationId + "&userName=NMMU";
 	for ( var i = 0; i < markers.length; i++) {
@@ -224,7 +233,7 @@ function getCampusMarkers(locationId) {
 	}
 	$.ajax({
 		url : url,
-		cache : false,
+		cache : true,
 		async : true,
 		success : function(data) {
 

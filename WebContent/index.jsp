@@ -4,7 +4,7 @@
 <html>
 <head>
 <script type="text/javascript">
-	window.location.replace("t_newsfeed.do?reqCode=newsFeedList");
+	window.location.replace("location.do?reqCode=mapView");
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
