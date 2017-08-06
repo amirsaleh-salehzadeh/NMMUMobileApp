@@ -91,6 +91,10 @@ function getThePath() {
 			$("#locationInfoDiv").animate({
 				bottom : "-=13%"
 			}, 1500);
+			$("#locationInfoDiv").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',   
+				    function(e) {
+				$("#locationInfoDiv").css('display', 'none');
+				  });
 			$("#zoomSettings").animate({
 				bottom : 11
 			}, 1500);
@@ -631,6 +635,10 @@ $(document).ready(
 						$("#locationInfoDiv").animate({
 							bottom : "-=13%"
 						}, 1500);
+						$("#locationInfoDiv").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',   
+							    function(e) {
+							$("#locationInfoDiv").css('display', 'none');
+							  });
 						$("#zoomSettings").animate({
 							bottom : 11
 						}, 1500);
@@ -643,5 +651,13 @@ function errorMessagePopupOpen(content) {
 //	$('#popupErrorMessage').popup();
 //	$("#errorMessageBTN").click();
 	$('#popupErrorMessage').popup('open', {transition:"turn"});
+//	$('#popupErrorMessage').trigger('updatelayout');
+}
+
+function arrivalMessagePopupOpen() {
+//	$('#popupErrorMessage').popup();
+//	$("#errorMessageBTN").click();
+//	$('#closeArrivalMessage').width($('#popupArrivalMessage').width()-6).trigger("create");
+	$('#popupArrivalMessage').popup('open', {transition:"turn"});
 //	$('#popupErrorMessage').trigger('updatelayout');
 }

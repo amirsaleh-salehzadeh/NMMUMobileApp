@@ -66,6 +66,7 @@
 	border: none;
 	font-size: 13pt;
 	font-weight: 200;
+	width: 100%;
 }
 
 .ui-page-theme-a .ui-body-inherit {
@@ -102,7 +103,7 @@ span.clearicon span {
 	width: 100%;
 	position: absolute;
 	display: block;
-	top: 6em;
+	top: 5.5em;
 	max-height: 333px;
 	padding-left: 13px !important;
 	padding-right: 17px !important;

@@ -178,6 +178,7 @@ function selectDestination(destination) {
 	$("#destinationName").val($(destination).html());
 	$(".spinnerLoading").css('display','none');
 	$("#locationInf").html($(destination).html());
+	$("#locationInfoDiv").css('display', 'block');
 	$( "#locationInfoDiv" ).animate({
 	    bottom: "0"
 	  }, 1500);
