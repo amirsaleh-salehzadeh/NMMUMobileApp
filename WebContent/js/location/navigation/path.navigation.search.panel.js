@@ -89,8 +89,7 @@ function getLocationTypePanel() {
 
 								},
 								error : function(xhr, ajaxOptions, thrownError) {
-									alert(xhr.status);
-									alert(thrownError);
+									errorMessagePopupOpen(thrownError);
 								}
 							});
 
@@ -139,8 +138,7 @@ function getLocationTypePanel() {
 
 								},
 								error : function(xhr, ajaxOptions, thrownError) {
-									alert(xhr.status);
-									alert(thrownError);
+									errorMessagePopupOpen(thrownError);
 								}
 							});
 				}
@@ -180,9 +178,13 @@ function selectDestination(destination) {
 	$("#destinationName").val($(destination).html());
 	$(".spinnerLoading").css('display','none');
 	$("#locationInf").html($(destination).html());
+	$("#locationInfoDiv").css('display', 'block');
 	$( "#locationInfoDiv" ).animate({
 	    bottom: "0"
 	  }, 1500);
+	$("#zoomSettings").animate({
+		bottom : $("#locationInfoDiv").height()
+	}, 1500);
 	$("#to").val($(destination).attr("id").split("_")[1].replace(" ", ""));
 	var destPoint = getGoogleMapPosition($("#to").val());
 	if (markerDest != null)
@@ -225,7 +227,6 @@ $("#destinationName").keyup(
 		});
 
 function getCampusMarkers(locationId) {
-	alert(1);
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ locationId + "&userName=NMMU";
 	for ( var i = 0; i < markers.length; i++) {
@@ -254,8 +255,7 @@ function getCampusMarkers(locationId) {
 			});
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
+			errorMessagePopupOpen(thrownError);
 		}
 	});
 

@@ -59,7 +59,7 @@ function getThePath() {
 		async : true,
 		beforeSend : function() {
 			$("#locationInf").html('');
-			$(".spinnerLoading").css('display','block');
+			$(".spinnerLoading").css('display', 'block');
 		},
 		success : function(data) {
 			var pathIds = "";
@@ -73,7 +73,6 @@ function getThePath() {
 							+ l.destination.gps.replace(" ", "");
 					pathLocations += l.departure.locationName + "_"
 							+ l.destination.locationName;
-					$("#departureName").val(l.departure.locationName);
 					$("#departureId").val(l.departure.locationID);
 				} else {
 					pathGPSs += "_" + l.destination.gps.replace(" ", "");
@@ -90,16 +89,19 @@ function getThePath() {
 			resetWalking();
 			drawConstantPolyline();
 			$("#locationInfoDiv").animate({
-				bottom : "-=100%"
+				bottom : "-=13%"
+			}, 1500);
+			$("#locationInfoDiv").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',   
+				    function(e) {
+				$("#locationInfoDiv").css('display', 'none');
+				  });
+			$("#zoomSettings").animate({
+				bottom : 11
 			}, 1500);
 			showViewItems();
-//			$('#popupPathType').popup();
-//			$('#popupPathType').popup('close');
-//			$('#popupPathType').popup("destroy");
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
+			errorMessagePopupOpen(thrownError);
 		}
 	});
 }
@@ -139,18 +141,14 @@ function removeTheNextDestination() {
 			if (int == closestId)
 				break;
 		}
-	// $("#tripIds").val($("#tripIds").val().replace(removeVarIDS + ",", ""));
 	setCookie("TripPathIdsCookie", getCookie("TripPathIdsCookie").replace(
 			removeVarIDS + ",", ""), 1);
 	setCookie("TripPathGPSCookie", getCookie("TripPathGPSCookie").replace(
 			removeVarGPS + ",", ""), 1);
 	setCookie("TripPathLocationsCookie", getCookie("TripPathLocationsCookie")
 			.replace(removeVarNames + "_", ""), 1);
-	// $("#tripGPSs").val($("#tripGPSs").val().replace(removeVarGPS + "_", ""));
 	// $("#tripLocations").val(
 	// $("#tripLocations").val().replace(removeVarNames + ",", ""));
-	// setCookie('TripPathIdsCookie', $("#tripIds").val(), 1);
-	// setCookie('TripPathGPSCookie', $("#tripGPSs").val(), 1);
 	// setCookie('TripPathLocationsCookie', $("#tripLocations").val(), 1);
 	if (pathPolylineTrack != undefined)
 		pathPolylineTrack.setMap(null);
@@ -324,14 +322,11 @@ function removeTrip() {
 	$("#to").val("");
 	$("#destinationId").val("0");
 	$("#to").val("");
-	$("#tripIds").val("");
-	$("#tripGPSs").val("");
 	$("#tripLocations").val("");
 	$("#destinationName").val("");
 	if (markerDest != null)
 		markerDest.setMap(null);
 	markerDest = null;
-	$("#tripId").val("");
 	findMyLocation();
 	showViewItems();
 }
@@ -342,21 +337,16 @@ var myLatLng = {
 };
 
 var errorHandler = function(errorObj) {
-	alert(errorObj.code + ": " + errorObj.message);
+	errorMessagePopupOpen(errorObj.code + ": " + errorObj.message);
 
 };
 function initiMap() {
 	speed = 0;
 	heading = 0;
+
 	var styles = [ {
 		featureType : "administrative",
 		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "poi.business",
-		elementType : "all",
 		stylers : [ {
 			visibility : "off"
 		} ]
@@ -385,114 +375,76 @@ function initiMap() {
 			visibility : "off"
 		} ]
 	}, {
-		"featureType" : "administrative",
-		"elementType" : "labels.text.fill",
-		"stylers" : [ {
-			"color" : "#444444"
+		featureType : "landscape.man_made",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#f7f1df"
 		} ]
 	}, {
-		"featureType" : "landscape",
-		"elementType" : "all",
-		"stylers" : [ {
-			"color" : "#f2f2f2"
+		featureType : "landscape.natural",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#d0e3b4"
 		} ]
 	}, {
-		"featureType" : "poi",
-		"elementType" : "all",
-		"stylers" : [ {
-			"visibility" : "on"
+		featureType : "landscape.natural.terrain",
+		elementType : "geometry",
+		stylers : [ {
+			visibility : "off"
 		} ]
 	}, {
-		"featureType" : "poi",
-		"elementType" : "geometry.fill",
-		"stylers" : [ {
-			"saturation" : "-100"
-		}, {
-			"lightness" : "57"
+		featureType : "poi.business",
+		elementType : "all",
+		stylers : [ {
+			visibility : "off"
 		} ]
 	}, {
-		"featureType" : "poi",
-		"elementType" : "geometry.stroke",
-		"stylers" : [ {
-			"lightness" : "1"
+		featureType : "poi.medical",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#fbd3da"
 		} ]
 	}, {
-		"featureType" : "poi",
-		"elementType" : "labels",
-		"stylers" : [ {
-			"visibility" : "off"
+		featureType : "poi.park",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#bde6ab"
 		} ]
 	}, {
-		"featureType" : "road",
-		"elementType" : "all",
-		"stylers" : [ {
-			"saturation" : -100
-		}, {
-			"lightness" : 45
+		featureType : "road",
+		elementType : "geometry.stroke",
+		stylers : [ {
+			visibility : "off"
 		} ]
 	}, {
-		"featureType" : "road.arterial",
-		"elementType" : "labels.icon",
-		"stylers" : [ {
-			"visibility" : "off"
+		featureType : "road.highway",
+		elementType : "geometry.fill",
+		stylers : [ {
+			color : "#ffe15f"
 		} ]
 	}, {
-		"featureType" : "transit",
-		"elementType" : "all",
-		"stylers" : [ {
-			"visibility" : "off"
+		featureType : "road.highway",
+		elementType : "geometry.stroke",
+		stylers : [ {
+			color : "#efd151"
 		} ]
 	}, {
-		"featureType" : "transit.station.bus",
-		"elementType" : "all",
-		"stylers" : [ {
-			"visibility" : "on"
+		featureType : "road.arterial",
+		elementType : "geometry.fill",
+		stylers : [ {
+			color : "#ffffff"
 		} ]
 	}, {
-		"featureType" : "transit.station.bus",
-		"elementType" : "labels.text.fill",
-		"stylers" : [ {
-			"visibility" : "off"
+		featureType : "road.local",
+		elementType : "geometry.fill",
+		stylers : [ {
+			color : "black"
 		} ]
 	}, {
-		"featureType" : "transit.station.bus",
-		"elementType" : "labels.icon",
-		"stylers" : [ {
-			"saturation" : "-100"
-		}, {
-			"weight" : "1"
-		}, {
-			"lightness" : "0"
-		} ]
-	}, {
-		"featureType" : "transit.station.rail",
-		"elementType" : "all",
-		"stylers" : [ {
-			"visibility" : "on"
-		} ]
-	}, {
-		"featureType" : "transit.station.rail",
-		"elementType" : "labels.text.fill",
-		"stylers" : [ {
-			"gamma" : "1"
-		}, {
-			"lightness" : "40"
-		} ]
-	}, {
-		"featureType" : "transit.station.rail",
-		"elementType" : "labels.icon",
-		"stylers" : [ {
-			"saturation" : "-100"
-		}, {
-			"lightness" : "30"
-		} ]
-	}, {
-		"featureType" : "water",
-		"elementType" : "all",
-		"stylers" : [ {
-			"color" : "#d2d2d2"
-		}, {
-			"visibility" : "on"
+		featureType : "water",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#a2daf2"
 		} ]
 	} ];
 	var styledMap = new google.maps.StyledMapType(styles, {
@@ -509,7 +461,8 @@ function initiMap() {
 		streetViewControl : false,
 		mapTypeControl : false,
 		rotateControl : false,
-		fullscreenControl : false
+		fullscreenControl : false,
+		labels : true
 	// ,
 	});
 	// map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
@@ -520,7 +473,7 @@ function initiMap() {
 	input = document.getElementById('to');
 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
 			.getElementById('viewMapType'));
-	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document
+	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document
 			.getElementById('zoomSettings'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('searchBarDivTop'));
@@ -543,7 +496,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow
 			.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
 					: 'Error: Your browser doesn\'t support geolocation.');
-	alert(browserHasGeolocation ? 'Error: The Geolocation service failed.'
+	errorMessagePopupOpen(browserHasGeolocation ? 'Error: The Geolocation service failed.'
 			: 'Error: Your browser doesn\'t support geolocation.');
 	infoWindow.open(map);
 }
@@ -602,7 +555,6 @@ var successTrackingHandler = function(position) {
 		lng : position.coords.longitude
 	};
 	$("#from").val(position.coords.latitude + "," + position.coords.longitude);
-	$("#departureName").val("Current Location");
 	if (position.coords.heading != null) {
 		heading = position.coords.heading;
 	}
@@ -650,11 +602,9 @@ var successGetCurrentPosition = function(position) {
 			$("#departureId").html(data.locationID);
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
+			errorMessagePopupOpen(thrownError);
 		}
 	});
-	$("#departureName").val("Current Location");
 	if (marker == null) {
 		marker = new google.maps.Marker({
 			map : map
@@ -677,13 +627,38 @@ var successGetCurrentPosition = function(position) {
 	map.setCenter(currentPos);
 };
 
-$(document).ready(function() {
-	// $("#mapViewIcon").fadeOut();
-	// selectMapMode();
-	// getLocationTypePanel();
-	// showViewItems();
-});
+$(document).ready(
+		function() {
+			$('#destinationName').wrap('<span class="clearicon" />').after(
+					$('<span/>').click(function() {
+						$('#destinationName').val("");
+						removeTrip();
+						$("#locationInfoDiv").animate({
+							bottom : "-=13%"
+						}, 1500);
+						$("#locationInfoDiv").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',   
+							    function(e) {
+							$("#locationInfoDiv").css('display', 'none');
+							  });
+						$("#zoomSettings").animate({
+							bottom : 11
+						}, 1500);
+						$("#autocompleteContainer").hide();
+					}));
+		});
 
-function emergencyClick() {
-	alert("Emergency button coming soon");
+function errorMessagePopupOpen(content) {
+	$("#errorMessageContent").html(content).trigger("create");
+//	$('#popupErrorMessage').popup();
+//	$("#errorMessageBTN").click();
+	$('#popupErrorMessage').popup('open', {transition:"turn"});
+//	$('#popupErrorMessage').trigger('updatelayout');
+}
+
+function arrivalMessagePopupOpen() {
+//	$('#popupErrorMessage').popup();
+//	$("#errorMessageBTN").click();
+//	$('#closeArrivalMessage').width($('#popupArrivalMessage').width()-6).trigger("create");
+	$('#popupArrivalMessage').popup('open', {transition:"turn"});
+//	$('#popupErrorMessage').trigger('updatelayout');
 }

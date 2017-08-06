@@ -546,6 +546,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(graph,
 				dep, dest);
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
+		if(shortest_path == null)
+			shortest_path = new ArrayList<DefaultWeightedEdge>();
 		for (int i = 0; i < shortest_path.size(); i++) {
 			long source = graph.getEdgeSource(shortest_path.get(i));
 			long target = graph.getEdgeTarget(shortest_path.get(i));
