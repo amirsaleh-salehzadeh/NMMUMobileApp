@@ -4,6 +4,9 @@ button {
 
 #zoomSettings {
 	padding: 7px 4px 7px 4px;
+	display: block;
+	position: absolute;
+	bottom: 11;
 }
 
 .zoomBTN {
