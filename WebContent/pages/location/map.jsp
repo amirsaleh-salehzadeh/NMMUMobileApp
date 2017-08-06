@@ -49,7 +49,7 @@
 
 	<div id="pageContents" style="width: 100%; height: 100%;"
 		data-role="page">
-<!-- 		<div id="divTransparent"></div> -->
+		<!-- 		<div id="divTransparent"></div> -->
 
 		<!-- INITIAL LOADING PAGE -->
 
@@ -168,8 +168,7 @@
 			</div>
 			<div class="ui-block-solo" id="destinationNameDiv">
 				<input name="destinationName" id="destinationName"
-					placeholder="Find a Place" data-role="none"
-					>
+					placeholder="Find a Place" data-role="none">
 			</div>
 		</div>
 
@@ -286,18 +285,22 @@
 				onclick="$('#popupErrorMessage').popup('close');"
 				id="closeErrorMessage">Close</a>
 		</div>
-		
-		
+
+
 		<!-- 	ARRIVAL POPUP -->
 
 
-		<div data-role="popup" id="popupArrivalMessage" class="ui-content"
-			data-position-to="window" data-transition="turn">
-			<div id="arrivalMessageHeader" class="ui-block-solo">Error!</div>
-			<div id="arrivalMessageContent" class="ui-block-solo"></div>
-			<a data-role="button" href="#"
-				onclick="$('#popupArrivalMessage').popup('close');"
-				id="closeArrivalMessage">Close</a>
+		<div data-role="popup" id="popupArrivalMessage" data-transition="turn">
+			<div id="arrivalMessageHeader" class="ui-block-solo">Header</div>
+			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
+			<div class="ui-grid-solo">
+				<div class="ui-block-a">
+					<a data-role="button" href="#"
+						class="ui-btn ui-corner-all ui-shadow ui-btn-inline "
+						id="closeArrivalMessage" data-rel="back">Close</a>
+				</div>
+			</div>
+
 		</div>
 
 	</div>

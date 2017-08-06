@@ -72,8 +72,7 @@ function saveMarker() {
 
 function getAllMarkers() {
 	 var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-	 + $("#parentLocationId").val() + "&locationTypeId="
-	 + $("#locationTypeId").val() + "&userName=NMMU";
+	 + $("#parentLocationId").val() + "&locationTypeId=2,3,5&userName=NMMU";
 //	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 //			+ $("#parentLocationId").val() + "&userName=NMMU";
 	for ( var i = 0; i < markers.length; i++) {
