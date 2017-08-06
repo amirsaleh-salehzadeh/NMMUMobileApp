@@ -34,7 +34,7 @@
 	padding: 0;
 	font-size: 11pt;
 	padding-left: 5;
-	padding-top: 5;
+	padding-top: 11;
 }
 
 #searchBarDivTop {
@@ -46,7 +46,7 @@
 }
 
 #destinationNameDiv {
-	padding-left: .66em;
+	padding-left: 1.1em;
 	margin-right: 1.1em;
 }
 
@@ -56,14 +56,16 @@
 	background-image: url("../../images/icons/search.png");
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
-	background-position: 9px 5px;
+	background-position: 9px 10px;
 	padding-bottom: 5px;
 	text-shadow: none;
 	min-height: 3em !important;
 	padding-left: 47px;
+	padding-right: 33px;
 	z-index: 11;
+	border: none;
 	font-size: 13pt;
-	font-weight: bold;
+	font-weight: 200;
 }
 
 .ui-page-theme-a .ui-body-inherit {
@@ -72,7 +74,27 @@
 
 #destinationName::-webkit-input-placeholder {
 	color: rgba(248, 182, 36, .77);
-	padding-left: 44px;
+	padding-left: 22px;
+}
+
+span.clearicon {
+	position: relative;
+	right: 13px;
+	margin-left: 1.1em;
+	margin-right: 1.1em;
+}
+
+span.clearicon span {
+	position: absolute;
+	display: block;
+	bottom: -8px;
+	right: 2px;
+	width: 32px;
+	height: 32px;
+	background-image: url("../../images/icons/clearInput.png");
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	cursor: pointer;
 }
 
 #autocompleteContainer {
@@ -80,14 +102,13 @@
 	width: 100%;
 	position: absolute;
 	display: block;
-	top: 5.5em;
+	top: 6em;
 	max-height: 333px;
 	padding-left: 13px !important;
 	padding-right: 17px !important;
 	overflow: auto;
 	box-sizing: border-box;
 	background-color: transparent !important;
-	overflow: auto;
 }
 
 #autocompleteDestination {
