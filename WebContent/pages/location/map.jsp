@@ -39,6 +39,8 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(100);
+		//errorMessagePopupOpen("Error");
+		arrivalMessagePopupOpen("Arrival");
 	});
 </script>
 <body>
@@ -282,7 +284,7 @@
 			<div id="errorMessageHeader" class="ui-block-solo">Error!</div>
 			<div id="errorMessageContent" class="ui-block-solo"></div>
 			<a data-role="button" href="#"
-				onclick="$('#popupErrorMessage').popup('close');"
+				onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"
 				id="closeErrorMessage">Close</a>
 		</div>
 
@@ -295,7 +297,7 @@
 			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
 			<div class="ui-grid-solo">
 				<div class="ui-block-a">
-					<a data-role="button" href="#"
+					<a data-role="button" href="#" onclick="$('#map_canvas').toggleClass('off');"
 						class="ui-btn ui-corner-all ui-shadow ui-btn-inline "
 						id="closeArrivalMessage" data-rel="back">Close</a>
 				</div>
@@ -305,15 +307,7 @@
 
 	</div>
 </body>
-<<<<<<< HEAD
 <script type="text/javascript" src="js/location/path.navigation.polygon.js"></script>
-<script type="text/javascript" src="js/location/path.navigation.js"></script>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
-	type="text/javascript"></script>
-<script src="js/jquery/jquery-ui.js"></script>
-=======
->>>>>>> Amir
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.scanner.js"></script>
 <script type="text/javascript"

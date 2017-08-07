@@ -26,7 +26,8 @@ function drawPolygons () // this draws static polygon on map, this function is u
 
 var drawingManager;
 var selectedShape;
-var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
+//var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
+var colors =['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082','#FFFFFF', '#C0C0C0', '#808080', '#000000', '#FF0000','#800000','#FFFF00','#808000','#00FF00','#008000','#00FFFF','#008080','#0000FF','#000080','#FF00FF','#800080'];
 var selectedColor;
 var colorButtons = {};
 
@@ -51,9 +52,12 @@ function setSelection (shape) {
 }
 
 function deleteSelectedShape () {
-    if (selectedShape) {
+	var c = confirm("Are you sure you want to delete this polygon?");
+    if (c==true) {
         selectedShape.setMap(null);
-    }
+        }
+        else{
+        }
 }
 
 function selectColor (color) {
