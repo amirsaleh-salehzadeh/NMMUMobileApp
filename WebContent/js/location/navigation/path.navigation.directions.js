@@ -92,7 +92,7 @@ function displayImage(angle) {
 	var startPointY = 100;
 	var endPointX = 50 * Math.cos(angle) + 50;
 	var endPointY = 50 * Math.sin(angle) + 50;
-	var quadPointX = 50;
+	var quadPointX = 100;
 	var quadPointY = 50;
 	ctx.strokeStyle = "rgb(12, 28, 44)";
 	ctx.lineWidth = 7;
@@ -117,4 +117,3 @@ function displayImage(angle) {
 	ctx.stroke();
 	ctx.closePath();
 }
-displayImage(48);

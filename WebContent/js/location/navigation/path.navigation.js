@@ -650,6 +650,7 @@ function errorMessagePopupOpen(content) {
 	$("#errorMessageContent").html(content).trigger("create");
 //	$('#popupErrorMessage').popup();
 //	$("#errorMessageBTN").click();
+	$('#popupErrorMessage').popup();
 	$('#popupErrorMessage').popup('open', {transition:"turn"});
 //	$('#popupErrorMessage').trigger('updatelayout');
 }

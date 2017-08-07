@@ -39,6 +39,9 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(100);
+		// 		errorMessagePopupOpen('hi');
+		// 		arrivalMessagePopupOpen();
+		displayImage(30);
 	});
 </script>
 <body>
@@ -206,12 +209,12 @@
 
 
 		<div id="directionShow"
-			style="background-color: transparent; left: 23px; top: 73px; position: absolute; display: none;">
+			style="background-color: transparent; left: 23px; top: 73px; position: absolute; display: block;">
 			<!-- 		changed position from left: 53px; top: 73px; <img alt="" -->
 			<!-- 			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span -->
 			<!-- 			id="navigationDesc" class="infoValue"> </span> -->
 			<canvas id="directionCanvas" width="111" height="111"
-				style="background-color: white; display: none;"></canvas>
+				style="background-color: white;"></canvas>
 		</div>
 
 
@@ -313,9 +316,6 @@
 	src="js/location/camera/path.navigation.camera.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.map.js"></script>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
-	type="text/javascript"></script>
 <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.directions.js"></script>
@@ -324,4 +324,7 @@
 <script src="js/location/navigation/path.navigation.search.panel.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.js"></script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
+	type="text/javascript"></script>
 </html>
