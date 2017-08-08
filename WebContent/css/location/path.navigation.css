@@ -156,11 +156,6 @@
 	box-shadow: none;
 }
 
-#btnToggleFullscreen.off {
-	background-image: url("../../images/icons/minimise.png") !important;
-	/* 48px x 48px */
-}
-
 #viewFullScreen {
 	padding: 7px 4px 7px 4px;
 }

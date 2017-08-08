@@ -650,13 +650,16 @@ $(document).ready(
 function errorMessagePopupOpen(content) {
 	$("#errorMessageContent").html(content).trigger("create");
 	$('#popupErrorMessage').popup();
-	$('#popupErrorMessage').popup('open', {transition:"turn"});
+	$('#popupErrorMessage').popup({history: false, transition:"turn"});
+	$('#popupErrorMessage').popup('open').trigger('create');
 //	$('#popupErrorMessage').trigger('updatelayout');
 	$('#map_canvas').toggleClass('off');
 }
 
 function arrivalMessagePopupOpen() {
-	$('#popupArrivalMessage').popup('open', {transition:"turn"});
+	$('#popupArrivalMessage').popup().trigger('create');
+	$('#popupArrivalMessage').popup({history: false, transition:"turn"});
+	$('#popupArrivalMessage').popup('open').trigger('create');
 //	$('#popupErrorMessage').trigger('updatelayout');
 	$('#map_canvas').toggleClass('off');
 }

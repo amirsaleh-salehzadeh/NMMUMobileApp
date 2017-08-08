@@ -39,12 +39,12 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(100);
-		// 		errorMessagePopupOpen('hi');
-		// 		arrivalMessagePopupOpen();
+// 				errorMessagePopupOpen('hi');
+		// 				arrivalMessagePopupOpen();
 		displayImage(30);
 	});
 </script>
-<body >
+<body>
 
 
 	<!-- 		PAGE CONTENT -->
@@ -52,7 +52,7 @@
 
 	<div id="pageContents" style="max-width: 100%; max-height: 100%;"
 		data-role="page">
-		<!-- 		<div id="divTransparent"></div> -->
+
 
 		<!-- INITIAL LOADING PAGE -->
 
@@ -157,6 +157,7 @@
 			<span id="distanceLeftInf"></span>
 			<!-- 				<span id="arrivalTimeInf">15':14"</span> -->
 		</div>
+
 
 		<!-- 	SEARCH FEILD -->
 
@@ -282,27 +283,30 @@
 
 		<div data-role="popup" id="popupErrorMessage" class="ui-content"
 			data-position-to="window" data-transition="turn">
+			<a href="#" data-role="button" data-theme="a" class="popupCloseBtn"
+				onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"></a>
 			<div id="errorMessageHeader" class="ui-block-solo">Error!</div>
 			<div id="errorMessageContent" class="ui-block-solo"></div>
 			<a data-role="button" href="#"
 				onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"
-				id="closeErrorMessage">Close</a>
+				class="closePopupMessage"><img src="images/icons/clearInput.png"
+				alt="" class="closeMessageButtonIcon" />Close</a>
 		</div>
 
 
 		<!-- 	ARRIVAL POPUP -->
 
 
-		<div data-role="popup" id="popupArrivalMessage" data-transition="turn">
+		<div data-role="popup" id="popupArrivalMessage" class="ui-content"
+			data-position-to="window" data-transition="turn">
+			<a href="#" data-role="button" data-theme="a" class="popupCloseBtn"
+				onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"></a>
 			<div id="arrivalMessageHeader" class="ui-block-solo">Header</div>
 			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
-			<div class="ui-grid-solo">
-				<div class="ui-block-a">
-					<a data-role="button" href="#" onclick="$('#map_canvas').toggleClass('off');"
-						class="ui-btn ui-corner-all ui-shadow ui-btn-inline "
-						id="closeArrivalMessage" data-rel="back">Close</a>
-				</div>
-			</div>
+			<a data-role="button" href="#"
+				onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"
+				class="closePopupMessage"><img src="images/icons/clearInput.png"
+				alt="" class="closeMessageButtonIcon" />Close</a>
 		</div>
 
 
