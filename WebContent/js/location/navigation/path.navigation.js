@@ -649,17 +649,10 @@ $(document).ready(
 
 function errorMessagePopupOpen(content) {
 	$("#errorMessageContent").html(content).trigger("create");
-//	$('#popupErrorMessage').popup();
-//	$("#errorMessageBTN").click();
 	$('#popupErrorMessage').popup();
 	$('#popupErrorMessage').popup('open', {transition:"turn"});
-//	$('#popupErrorMessage').trigger('updatelayout');
 }
 
 function arrivalMessagePopupOpen() {
-//	$('#popupErrorMessage').popup();
-//	$("#errorMessageBTN").click();
-//	$('#closeArrivalMessage').width($('#popupArrivalMessage').width()-6).trigger("create");
 	$('#popupArrivalMessage').popup('open', {transition:"turn"});
-//	$('#popupErrorMessage').trigger('updatelayout');
 }
