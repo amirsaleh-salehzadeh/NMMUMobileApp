@@ -1,9 +1,23 @@
 #popupErrorMessage {
 	background-color: rgba(8, 27, 44, 1) !important;
-	min-height: 113px !important;
-	min-width: 213px !important;
-	border: 2px solid red !important;
+	min-width: 177px !important;
+	border: none !important;
 	border-radius: 7px;
+}
+
+#popupArrivalMessage {
+	background-color: rgba(8, 27, 44, 1) !important;
+	min-width: 177px !important;
+	border: none !important;
+	border-radius: 7px;
+}
+
+#arrivalMessageContent {
+	background-color: rgba(8, 27, 44, 1) !important;
+	cursor: pointer;
+	margin: 10% auto;
+	color: rgba(248, 182, 36, 1) !important;
+	text-shadow: none !important;
 }
 
 #errorMessageContent {
@@ -11,107 +25,80 @@
 	text-shadow: none !important;
 	margin: 10% auto;
 	padding: 11px;
-	/*     box-shadow: 0 3px 20px rgba(0,0,0,0.9); */
-	/*     background: #fff; */
-	/*     background: -moz-linear-gradient(#fff, #ccc); */
-	/*     background: -webkit-linear-gradient(#fff, #ccc); */
-	/*     background: -o-linear-gradient(#fff, #ccc); */
-	/*     background: linear-gradient(#fff, #ccc); */
-	/*     text-shadow: 0 1px 0 #fff; */
 }
 
 #errorMessageHeader {
 	min-height: 2em;
-	background-color: rgba(248, 0, 0, .22) !important;
+	background-color: rgba(248, 0, 0, .88) !important;
 	text-shadow: none !important;
-	font-size: 13pt;
+	font-size: 14pt;
 	font-weight: bold;
-	padding-top: .4em;
+	padding-top: .44em;
 	padding-left: 2.7em;
-	color: rgba(255, 0, 0, 1) !important;
+	color: rgba(8, 27, 44, 1) !important;
 	background-image: url("../../images/icons/error.png");
 	background-size: 32px 32px;
 	background-repeat: no-repeat;
 	background-position: 3px;
 }
 
-#closeErrorMessage {
-	cursor: pointer;
-	margin: 7px;
-	background-color: rgba(248, 182, 36, 1) !important;
-	border: 2px solid;
-	color: rgba(8, 27, 44, 1) !important;
-	border-color: red !important;
-	border-radius: 7px !important;
-	text-shadow: none !important;
-}
-
-#divTransparent {
-	position: absolute;
-	display: block;
-	width: 100%;
-	height: 100%;
-	-webkit-filter: blur(20px);
-	-moz-filter: blur(20px);
-	-o-filter: blur(20px);
-	-ms-filter: blur(20px);
-	filter: blur(20px);
-	opacity: 0.4;
-}
-
-#popupArrivalMessage {
-	top: 0 !important;
-	left: 0 !important;
-	width: 100% !important;
-	height: 100% !important;
-	background-color: rgba(8, 27, 44, 1) !important;
-	border: 2px solid rgb(248, 182, 36) !important;
-	border-radius: 7px;
-}
-
-.ui-popup-container,.ui-popup {
-	height: 88%;
-	width: 88%;
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
 #arrivalMessageHeader {
 	min-height: 2em;
-	background-color: rgba(248, 182, 36, .33) !important;
+	background-color: rgba(248, 182, 36, 1) !important;
 	text-shadow: none !important;
-	font-size: 13pt;
+	font-size: 14pt;
 	font-weight: bold;
-	padding-top: .4em;
+	padding-top: .44em;
 	padding-left: 2.7em;
-	color: rgba(255, 0, 0, 1) !important;
+	color: rgba(8, 27, 44, 1) !important;
 	background-image: url("../../images/map-markers/building.png");
 	background-size: 32px 32px;
 	background-repeat: no-repeat;
 	background-position: 3px;
 }
 
-#arrivalMessageContent {
+.closePopupMessage {
 	cursor: pointer;
 	margin: 7px;
 	background-color: rgba(248, 182, 36, 1) !important;
-	border: 2px solid;
+	border: 1px solid;
+	bottom: 5;
 	color: rgba(8, 27, 44, 1) !important;
-	border-color: red !important;
+	border-color: transparent !important;
 	border-radius: 7px !important;
 	text-shadow: none !important;
 }
 
-#closeArrivalMessage {
-	cursor: pointer;
-	background-color: rgba(248, 182, 36, 1) !important;
-	border: 2px solid;
-	bottom: 0 !important;
-	width: 80%;
-	color: rgba(8, 27, 44, 1) !important;
-	border-radius: 7px !important;
-	text-shadow: none !important;
-	
+.popupCloseBtn {
+	background-image: url('../../images/icons/clearInput.png');
+	background-repeat: no-repeat;
+	background-size: 29px 29px;
+	background-color: rgba(8, 27, 44, 1) !important;
+	background-position: 1px 1px;
+	width: 24px !important;
+	height: 24px !important;
+	position: absolute !important;
+	top: -12 !important;
+	right: -12 !important;
+	margin: 0 !important;
+	border: 5px double !important;
+	border-color: rgb(248, 182, 36) !important;
+	padding: 3px 3px !important;
+	box-shadow: none !important;
+	border-radius: 100% !important;
 }
 
+.closeMessageButtonIcon {
+	width: 27px;
+	height: 27px;
+	background-color: rgba(8, 27, 44, 1) !important;
+	border: 5px double !important;
+	border-color: rgb(248, 182, 36) !important;
+	border-radius: 100% !important;
+	padding: 1px 1px !important;
+	box-shadow: none !important;
+	position: absolute !important;
+	float: left;
+	left: 2;
+	top: 0;
+}

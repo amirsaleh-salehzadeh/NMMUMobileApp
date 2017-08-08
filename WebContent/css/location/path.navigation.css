@@ -23,6 +23,14 @@
 	position: fixed;
 }
 
+#map_canvas.off {
+	-webkit-filter: blur(2px);
+  	-moz-filter: blur(2px);
+  	-o-filter: blur(2px);
+  	-ms-filter: blur(2px);
+  	filter: blur(2px);
+}
+
 #cameraView {
 	top: 111;
 	left: 33;
@@ -146,11 +154,6 @@
 	background-repeat: no-repeat;
 	background-color: transparent;
 	box-shadow: none;
-}
-
-#btnToggleFullscreen.off {
-	background-image: url("../../images/icons/minimise.png") !important;
-	/* 48px x 48px */
 }
 
 #viewFullScreen {

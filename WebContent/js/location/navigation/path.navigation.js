@@ -378,7 +378,7 @@ function initiMap() {
 		featureType : "landscape.man_made",
 		elementType : "geometry",
 		stylers : [ {
-			color : "#f7f1df"
+			color : "#efe6cc" //#f7f1df
 		} ]
 	}, {
 		featureType : "landscape.natural",
@@ -414,7 +414,7 @@ function initiMap() {
 		featureType : "road",
 		elementType : "geometry.stroke",
 		stylers : [ {
-			visibility : "off"
+			visibility : "on"
 		} ]
 	}, {
 		featureType : "road.highway",
@@ -488,6 +488,7 @@ function initiMap() {
 		getThePath();
 	else
 		showViewItems();
+	//drawPolygons();
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -648,16 +649,17 @@ $(document).ready(
 
 function errorMessagePopupOpen(content) {
 	$("#errorMessageContent").html(content).trigger("create");
-//	$('#popupErrorMessage').popup();
-//	$("#errorMessageBTN").click();
-	$('#popupErrorMessage').popup('open', {transition:"turn"});
+	$('#popupErrorMessage').popup();
+	$('#popupErrorMessage').popup({history: false, transition:"turn"});
+	$('#popupErrorMessage').popup('open').trigger('create');
 //	$('#popupErrorMessage').trigger('updatelayout');
+	$('#map_canvas').toggleClass('off');
 }
 
 function arrivalMessagePopupOpen() {
-//	$('#popupErrorMessage').popup();
-//	$("#errorMessageBTN").click();
-//	$('#closeArrivalMessage').width($('#popupArrivalMessage').width()-6).trigger("create");
-	$('#popupArrivalMessage').popup('open', {transition:"turn"});
+	$('#popupArrivalMessage').popup().trigger('create');
+	$('#popupArrivalMessage').popup({history: false, transition:"turn"});
+	$('#popupArrivalMessage').popup('open').trigger('create');
 //	$('#popupErrorMessage').trigger('updatelayout');
+	$('#map_canvas').toggleClass('off');
 }
