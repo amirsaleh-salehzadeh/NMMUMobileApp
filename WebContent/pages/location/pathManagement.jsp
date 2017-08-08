@@ -86,7 +86,7 @@
 }
 
 #panelColour {
-    width: 200px;
+    width: 250px;
     font-family: Arial, sans-serif;
     font-size: 13px;
     float: left;

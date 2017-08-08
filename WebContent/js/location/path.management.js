@@ -198,7 +198,7 @@ function initMap() {
 	        strokeWeight: 0,
 	        fillOpacity: 0.45,
 	        editable: true,
-	        draggable: true
+	        draggable: false
 	    };
 	    // Creates a drawing manager attached to the map that allows the user to draw
 	    // markers, lines, and shapes.
@@ -210,11 +210,11 @@ function initMap() {
 	           	drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
 	        },
 	        markerOptions: {
-	            draggable: true
+	            draggable: false
 	        },
 	        polylineOptions: {
 	            editable: true,
-	            draggable: true
+	            draggable: false
 	        },
 	        rectangleOptions: polyOptions,
 	        circleOptions: polyOptions,
@@ -267,7 +267,7 @@ function initMap() {
 	    google.maps.event.addListener(drawingManager, 'drawingmode_changed', clearSelection);
 	    google.maps.event.addListener(map, 'click', clearSelection);
 	    google.maps.event.addDomListener(document.getElementById('delete-button'), 'click', deleteSelectedShape);
-
+	    
 	    buildColorPalette();
 }
 //google.maps.event.addDomListener(window, 'load', initialize);

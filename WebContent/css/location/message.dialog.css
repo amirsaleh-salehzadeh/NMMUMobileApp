@@ -1,5 +1,6 @@
 #popupErrorMessage {
-	background-color: rgba(8, 27, 44, 1) !important;
+	/*background-color: rgba(8, 27, 44, 1) !important;*/
+	background-color: #fff !important;
 	min-height: 113px !important;
 	min-width: 213px !important;
 	border: 2px solid red !important;
@@ -64,7 +65,8 @@
 	left: 0 !important;
 	width: 100% !important;
 	height: 100% !important;
-	background-color: rgba(8, 27, 44, 1) !important;
+	/*background-color: rgba(8, 27, 44, 1) !important;*/
+	background-color: #fff !important;
 	border: 2px solid rgb(248, 182, 36) !important;
 	border-radius: 7px;
 }
@@ -108,7 +110,7 @@
 	background-color: rgba(248, 182, 36, 1) !important;
 	border: 2px solid;
 	bottom: 0 !important;
-	width: 80%;
+	width: 83%;
 	color: rgba(8, 27, 44, 1) !important;
 	border-radius: 7px !important;
 	text-shadow: none !important;

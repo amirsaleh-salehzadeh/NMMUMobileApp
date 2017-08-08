@@ -285,7 +285,7 @@
 			<div id="errorMessageHeader" class="ui-block-solo">Error!</div>
 			<div id="errorMessageContent" class="ui-block-solo"></div>
 			<a data-role="button" href="#"
-				onclick="$('#popupErrorMessage').popup('close');"
+				onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"
 				id="closeErrorMessage">Close</a>
 		</div>
 
@@ -298,7 +298,7 @@
 			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
 			<div class="ui-grid-solo">
 				<div class="ui-block-a">
-					<a data-role="button" href="#"
+					<a data-role="button" href="#" onclick="$('#map_canvas').toggleClass('off');"
 						class="ui-btn ui-corner-all ui-shadow ui-btn-inline "
 						id="closeArrivalMessage" data-rel="back">Close</a>
 				</div>

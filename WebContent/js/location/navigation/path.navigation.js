@@ -378,7 +378,7 @@ function initiMap() {
 		featureType : "landscape.man_made",
 		elementType : "geometry",
 		stylers : [ {
-			color : "#f7f1df"
+			color : "#efe6cc" //#f7f1df
 		} ]
 	}, {
 		featureType : "landscape.natural",
@@ -414,7 +414,7 @@ function initiMap() {
 		featureType : "road",
 		elementType : "geometry.stroke",
 		stylers : [ {
-			visibility : "off"
+			visibility : "on"
 		} ]
 	}, {
 		featureType : "road.highway",
@@ -651,8 +651,12 @@ function errorMessagePopupOpen(content) {
 	$("#errorMessageContent").html(content).trigger("create");
 	$('#popupErrorMessage').popup();
 	$('#popupErrorMessage').popup('open', {transition:"turn"});
+//	$('#popupErrorMessage').trigger('updatelayout');
+	$('#map_canvas').toggleClass('off');
 }
 
 function arrivalMessagePopupOpen() {
 	$('#popupArrivalMessage').popup('open', {transition:"turn"});
+//	$('#popupErrorMessage').trigger('updatelayout');
+	$('#map_canvas').toggleClass('off');
 }
