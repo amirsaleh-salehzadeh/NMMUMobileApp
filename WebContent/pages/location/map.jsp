@@ -191,6 +191,11 @@
 
 
 		<div id="zoomSettings">
+		<div id="visitorCounter">
+		<a href="http://www.reliablecounter.com" target="_blank">
+		<img src="http://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
+			alt="" title="" border="0"></a>
+	    </div>
 			<div class="ui-block-solo" style="display: none;">
 				<input disabled="disabled" type="text" id="visitorCounter"
 					placeholder="" value="">

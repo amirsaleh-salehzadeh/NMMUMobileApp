@@ -1,3 +1,7 @@
+#visitorCounter{
+	
+	display:none;
+}
 #pageContents {
 	display: inline;
 	max-height: 100%;
