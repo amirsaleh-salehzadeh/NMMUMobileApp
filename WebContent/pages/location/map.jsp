@@ -39,6 +39,9 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(100);
+// 				errorMessagePopupOpen('hi');
+		// 				arrivalMessagePopupOpen();
+		displayImage(30);
 	});
 </script>
 <body>
@@ -47,9 +50,9 @@
 	<!-- 		PAGE CONTENT -->
 
 
-	<div id="pageContents" style="width: 100%; height: 100%;"
+	<div id="pageContents" style="max-width: 100%; max-height: 100%;"
 		data-role="page">
-		<!-- 		<div id="divTransparent"></div> -->
+
 
 		<!-- INITIAL LOADING PAGE -->
 
@@ -155,6 +158,7 @@
 			<!-- 				<span id="arrivalTimeInf">15':14"</span> -->
 		</div>
 
+
 		<!-- 	SEARCH FEILD -->
 
 
@@ -206,12 +210,12 @@
 
 
 		<div id="directionShow"
-			style="background-color: transparent; left: 23px; top: 73px; position: absolute; display: none;">
+			style="background-color: transparent; left: 23px; top: 73px; position: absolute; display: block;">
 			<!-- 		changed position from left: 53px; top: 73px; <img alt="" -->
 			<!-- 			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span -->
 			<!-- 			id="navigationDesc" class="infoValue"> </span> -->
 			<canvas id="directionCanvas" width="111" height="111"
-				style="background-color: white; display: none;"></canvas>
+				style="background-color: white;"></canvas>
 		</div>
 
 
@@ -279,29 +283,32 @@
 
 		<div data-role="popup" id="popupErrorMessage" class="ui-content"
 			data-position-to="window" data-transition="turn">
+			<a href="#" data-role="button" data-theme="a" class="popupCloseBtn"
+				onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"></a>
 			<div id="errorMessageHeader" class="ui-block-solo">Error!</div>
 			<div id="errorMessageContent" class="ui-block-solo"></div>
 			<a data-role="button" href="#"
-				onclick="$('#popupErrorMessage').popup('close');"
-				id="closeErrorMessage">Close</a>
+				onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"
+				class="closePopupMessage"><img src="images/icons/clearInput.png"
+				alt="" class="closeMessageButtonIcon" />Close</a>
 		</div>
 
 
 		<!-- 	ARRIVAL POPUP -->
 
 
-		<div data-role="popup" id="popupArrivalMessage" data-transition="turn">
+		<div data-role="popup" id="popupArrivalMessage" class="ui-content"
+			data-position-to="window" data-transition="turn">
+			<a href="#" data-role="button" data-theme="a" class="popupCloseBtn"
+				onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"></a>
 			<div id="arrivalMessageHeader" class="ui-block-solo">Header</div>
 			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
-			<div class="ui-grid-solo">
-				<div class="ui-block-a">
-					<a data-role="button" href="#"
-						class="ui-btn ui-corner-all ui-shadow ui-btn-inline "
-						id="closeArrivalMessage" data-rel="back">Close</a>
-				</div>
-			</div>
-
+			<a data-role="button" href="#"
+				onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"
+				class="closePopupMessage"><img src="images/icons/clearInput.png"
+				alt="" class="closeMessageButtonIcon" />Close</a>
 		</div>
+
 
 	</div>
 </body>
@@ -313,9 +320,6 @@
 	src="js/location/camera/path.navigation.camera.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.map.js"></script>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
-	type="text/javascript"></script>
 <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.directions.js"></script>
@@ -324,4 +328,7 @@
 <script src="js/location/navigation/path.navigation.search.panel.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.js"></script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
+	type="text/javascript"></script>
 </html>

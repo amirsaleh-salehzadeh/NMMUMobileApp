@@ -1,10 +1,9 @@
 #currentLocationShow {
-	width: 90%;
+	width: auto;
 	min-height: 3.7em;
 	display: inline;
 	z-index: 10;
 	position: absolute;
-	margin: 0 auto;
 	background-color: rgb(248, 182, 36) !important;
 	text-decoration: none;
 	text-align: center;
@@ -15,11 +14,11 @@
 	border-radius: 22px !important;
 	margin-top: 0;
 	margin-left: 0;
-	margin: 0 auto;
-	left: 0;
-	right: 0;
-	bottom: 20%;
-	vertical-align: middle;
+	/* margin: 0 auto; */
+	left: 7px;
+	right: 52px;
+	bottom: 30px; /* 20% */
+	/*vertical-align: middle;*/
 }
 
 #remove {

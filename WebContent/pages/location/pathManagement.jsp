@@ -84,6 +84,33 @@
 	min-height: .7em;
 	border-color: white;
 }
+
+#panelColour {
+    width: 250px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    float: left;
+    margin: 10px;
+}
+
+#color-palette {
+    clear: both;
+}
+
+.color-button {
+    width: 14px;
+    height: 14px;
+    font-size: 0;
+    margin: 2px;
+    float: left;
+    cursor: pointer;
+}
+
+#delete-button {
+    margin-top: 5px;
+    width: auto;
+}
+
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -137,6 +164,12 @@
 
 	</div>
 </div>
+<div id="panelColour">
+            <div id="color-palette"></div>
+            <div>
+                <button id="delete-button">Delete Selected Shape</button>
+            </div>
+        </div>
 <div id="map_canvas"></div>
 <div id="locationTypeFields">
 	<div data-role="controlgroup" id="locationTypesContainer"
@@ -218,6 +251,7 @@
 			onclick="saveThePath()">Save</a>
 	</div>
 </div>
+<script type="text/javascript" src="js/location/path.navigation.polygon.js"></script>
 <script type="text/javascript" src="js/location/path.management.js"></script>
 <script type="text/javascript"
 	src="js/location/path.management.marker.js"></script>
@@ -228,6 +262,6 @@
 
 <script async defer
 	src="https
-	://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&callback=initMap"
+	://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
 	type="text/javascript"></script>
 </html>
