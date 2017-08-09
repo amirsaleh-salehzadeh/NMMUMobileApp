@@ -1,53 +1,60 @@
-.ui-collapsible-heading .ui-btn {
-	height: 15;
-	background-color: rgb(248, 182, 36);
-	color: rgb(8, 27, 44) !important;
-	text-shadow: none;
-	font-weight: bolder;
-}
-
-#autocompleteDestination .ui-collapsible {
-	padding: 0;
+#resultsListView {
+	margin: 0 !important;
 	background-color: transparent !important;
-	border-width: 0;
 }
 
-#autocompleteDestination .ui-btn,.ui-btn-icon-right {
+#resultsListView>li {
+	background-color: transparent !important;
+	border-color: rgb(248, 182, 36) !important;
+}
+
+#resultsListView>li h2{
+	background-color: transparent !important;
+	border-color: rgb(248, 182, 36) !important;
+	margin: .22em 0em !important;
+}
+
+#resultsListView>li p{
+	background-color: transparent !important;
+	border-color: rgb(248, 182, 36) !important;
+	margin: .22em 0em !important;
+}
+
+.resultsListViewContent {
+	background-color: transparent !important;
+	text-shadow: none !important;
+	color: rgb(248, 182, 36) !important;
+	max-height: 2em !important;
+	max-width: 100% !important;
+	padding-left: 3.25em !important;
+}
+
+.resultsListViewContent.ui-btn {
 	padding: 0;
-	padding-left: 5;
-	padding-top: 9;
-	height: 30;
-	z-index: 10;
+	border-color:  rgb(248, 182, 36) !important;
+	border-right: 0em !important;
+	border-left: 0em !important;
+	border-radius: 0em !important;
 }
 
-#autocompleteDestination .ui-collapsible-heading,.ui-collapsible-heading>.ui-btn
-	{
-	margin: 0;
-}
-
-#autocompleteDestination .ui-collapsible .ui-li-static {
-	background-color: rgba(8, 27, 44, .77) !important;
-	color: rgba(248, 182, 36, 1) !important;
-	border-color: white;
-	height: 25;
-	text-shadow: none;
-	padding: 0;
-	font-size: 11pt;
-	padding-left: 5;
-	padding-top: 11;
+.resultsListViewContent.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
+	background: none !important;
+	background-image: none !important;
 }
 
 #searchBarDivTop {
-	width: 100%;
+	width: 100% !important;
 	position: absolute;
+	margin: 3% auto !important;
 	padding-top: 1.1em;
 	padding-bottom: 1.1em;
 	background-color: transparent !important;
+	margin-right: 1.1em !important;
 }
 
 #destinationNameDiv {
 	padding-left: 1.1em;
-	margin-right: 1.1em;
+/* 	margin-right: 1.1em !important; */
 }
 
 #destinationName {
@@ -59,23 +66,53 @@
 	background-position: 9px 10px;
 	padding-bottom: 5px;
 	text-shadow: none;
-	min-height: 3em !important;
+	min-height: 2em !important;
 	padding-left: 47px;
 	padding-right: 33px;
+	margin: 4% auto !important;
 	z-index: 11;
 	border: none;
 	font-size: 13pt;
 	font-weight: 200;
-	width: 100%;
+}
+
+#searchField {
+	background-color: rgba(8, 27, 44, .77) !important;
+	color: rgb(248, 182, 36) !important;
+	background-image: url("../../images/icons/search.png");
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	background-position: 9px 10px;
+	text-shadow: none;
+	min-height: 3em !important;
+	padding-left: 47px;
+	border-color:  rgb(248, 182, 36) !important; font-size : 13pt;
+	font-weight: 200;
+	width: auto !important;
+	font-size: 13pt;
+	margin: 3% auto !important;
+}
+
+.listViewIcons {
+	margin: 5% 5% !important;
+	width: 24px;
+	height: 24px;
+}
+
+#resultsListView {
+	overflow: auto !important;
+	max-height: 75% !important;
+	min-height: 222px !important;
 }
 
 .ui-page-theme-a .ui-body-inherit {
 	background-color: transparent !important;
 }
 
-#destinationName::-webkit-input-placeholder {
+#destinationName::-webkit-input-placeholder,#searchField::-webkit-input-placeholder
+	{
 	color: rgba(248, 182, 36, .77);
-	padding-left: 22px;
+	padding-left: 1em !important;
 }
 
 span.clearicon {
@@ -98,24 +135,6 @@ span.clearicon span {
 	cursor: pointer;
 }
 
-#autocompleteContainer {
-	border-radius: 11px;
-	width: 100%;
-	position: absolute;
-	display: block;
-	top: 5.5em;
-	max-height: 333px;
-	padding-left: 13px !important;
-	padding-right: 17px !important;
-	overflow: auto;
-	box-sizing: border-box;
-	background-color: transparent !important;
-}
-
-#autocompleteDestination {
-	width: 100% !important;
-	display: block;
-	cursor: pointer;
-	margin: 0 !important;
-	background-color: transparent !important;
+.locationTypes {
+	text-shadow: none !important;
 }

@@ -25,7 +25,6 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="css/location/path.navigation.css">
 <link rel="stylesheet" href="css/location/path.navigation.buttons.css">
-<link rel="stylesheet" href="css/location/message.dialog.css">
 <link rel="stylesheet"
 	href="css/location/path.navigation.current.location.css">
 <link rel="stylesheet"
@@ -34,46 +33,54 @@
 <link rel="stylesheet"
 	href="css/location/path.navigation.infowindow.css">
 <link rel="stylesheet" href="css/location/loading.nmu.css">
+<link rel="stylesheet" href="css/location/message.dialog.css">
 <style type="text/css">
 </style>
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(100);
 // 				errorMessagePopupOpen('hi');
+<<<<<<< HEAD
 		// 				arrivalMessagePopupOpen();
 		displayImage(0);
+=======
+// 										arrivalMessagePopupOpen();
+		displayImage(30);
+>>>>>>> refs/remotes/origin/Amir
 	});
 </script>
 <body>
 
+<<<<<<< HEAD
+=======
+	<!-- INITIAL LOADING PAGE -->
+
+
+	<div id="work-in-progress">
+		<img alt="Nelson Mandela University" src="images/logos/nmulogo-s.jpg"
+			width="100%" style="margin-top: 11px;">
+		<!-- 		<div> -->
+		<!-- 			<img>Smart Navigation Widget -->
+		<!-- 		</div> -->
+		<div class="spinner"></div>
+		<br>
+		<div id="fountainTextG">
+			<div id="fountainTextG_1" class="fountainTextG">L</div>
+			<div id="fountainTextG_2" class="fountainTextG">O</div>
+			<div id="fountainTextG_3" class="fountainTextG">A</div>
+			<div id="fountainTextG_4" class="fountainTextG">D</div>
+			<div id="fountainTextG_5" class="fountainTextG">I</div>
+			<div id="fountainTextG_6" class="fountainTextG">N</div>
+			<div id="fountainTextG_7" class="fountainTextG">G</div>
+		</div>
+	</div>
+
+>>>>>>> refs/remotes/origin/Amir
 	<!-- 		PAGE CONTENT -->
 
 
 	<div id="pageContents" style="max-width: 100%; max-height: 100%;"
 		data-role="page">
-
-
-		<!-- INITIAL LOADING PAGE -->
-
-
-		<div id="work-in-progress">
-			<img alt="Nelson Mandela University" src="images/logos/nmulogo-s.jpg"
-				width="100%" style="margin-top: 11px;">
-			<!-- 		<div> -->
-			<!-- 			<img>Smart Navigation Widget -->
-			<!-- 		</div> -->
-			<div class="spinner"></div>
-			<br>
-			<div id="fountainTextG">
-				<div id="fountainTextG_1" class="fountainTextG">L</div>
-				<div id="fountainTextG_2" class="fountainTextG">O</div>
-				<div id="fountainTextG_3" class="fountainTextG">A</div>
-				<div id="fountainTextG_4" class="fountainTextG">D</div>
-				<div id="fountainTextG_5" class="fountainTextG">I</div>
-				<div id="fountainTextG_6" class="fountainTextG">N</div>
-				<div id="fountainTextG_7" class="fountainTextG">G</div>
-			</div>
-		</div>
 
 
 		<!-- 	SELECT PATH POPUP -->
@@ -158,20 +165,15 @@
 		</div>
 
 
-		<!-- 	SEARCH FEILD -->
+		<!-- 	SEARCH BUTTON -->
 
 
 		<div id="searchBarDivTop">
-			<div class="ui-block-solo" data-role="collapsible-set"
-				id="autocompleteContainer" data-collapsed="false">
-				<ul id="autocompleteDestination" data-role="listview"
-					data-mini="true" data-inset="true" data-filter-reveal="true"
-					data-filter="true" data-input="#destinationName">
-				</ul>
-			</div>
 			<div class="ui-block-solo" id="destinationNameDiv">
-				<input name="destinationName" id="destinationName"
-					placeholder="Find a Place" data-role="none">
+				<a data-role="button" href="#" data-rel="popup"
+					href="#" data-transition="turn"
+					id="destinationName" onclick="searchResultPopupOpen();">Find a
+					Place</a>
 			</div>
 		</div>
 
@@ -214,7 +216,7 @@
 
 
 		<div id="directionShow"
-			style="background-color: transparent; left: 23px; top: 73px; position: absolute; display: block;">
+			style="background-color: transparent; left: 23px; top: 73px; position: absolute; display: none;">
 			<!-- 		changed position from left: 53px; top: 73px; <img alt="" -->
 			<!-- 			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span -->
 			<!-- 			id="navigationDesc" class="infoValue"> </span> -->
@@ -287,14 +289,17 @@
 
 		<div data-role="popup" id="popupErrorMessage" class="ui-content"
 			data-position-to="window" data-transition="turn">
-			<a href="#" data-role="button" data-theme="a" class="popupCloseBtn"
+			<a href="#" data-role="button" class="popupCloseBtn"
 				onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"></a>
 			<div id="errorMessageHeader" class="ui-block-solo">Error!</div>
 			<div id="errorMessageContent" class="ui-block-solo"></div>
-			<a data-role="button" href="#"
-				onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"
-				class="closePopupMessage"><img src="images/icons/clearInput.png"
-				alt="" class="closeMessageButtonIcon" />Close</a>
+			<div class="ui-block-solo">
+				<a data-role="button" href="#"
+					onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"
+					class="closePopupMessage"><img
+					src="images/icons/clearInput.png" alt=""
+					class="closeMessageButtonIcon" />Close</a>
+			</div>
 		</div>
 
 
@@ -303,12 +308,38 @@
 
 		<div data-role="popup" id="popupArrivalMessage" class="ui-content"
 			data-position-to="window" data-transition="turn">
-			<a href="#" data-role="button" data-theme="a" class="popupCloseBtn"
+			<a href="#" data-role="button" class="popupCloseBtn"
 				onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"></a>
 			<div id="arrivalMessageHeader" class="ui-block-solo">Header</div>
 			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
-			<a data-role="button" href="#"
-				onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"
+			<div class="ui-block-solo">
+				<a data-role="button" href="#"
+					onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"
+					class="closePopupMessage"><img
+					src="images/icons/clearInput.png" alt=""
+					class="closeMessageButtonIcon" />Close</a>
+			</div>
+		</div>
+
+
+		<!-- SEARCH VIEW POPUP -->
+		<!-- 	ARRIVAL POPUP -->
+
+
+		<div data-role="popup" id="popupSearchResult" class="ui-content"
+			data-position-to="window" data-transition="turn">
+			<a href="#" data-role="none" class="popupCloseBtn"
+				onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"></a>
+			<div class="ui-block-solo">
+				<input type="text"
+					id="searchField" placeholder="Find a Place" data-role="none">
+			</div>
+			<div class="ui-block-solo">
+				<ul data-role="listview" id="resultsListView" data-filter="true"
+					data-inset="true" data-input="#searchField"></ul>
+			</div>
+			<a data-role="button" href="#" id="popupSearchResultCloseBTN"
+				onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"
 				class="closePopupMessage"><img src="images/icons/clearInput.png"
 				alt="" class="closeMessageButtonIcon" />Close</a>
 		</div>
@@ -322,8 +353,6 @@
 	src="js/location/camera/path.navigation.camera.ar.js"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.js"></script>
-<script type="text/javascript"
-	src="js/location/navigation/path.navigation.map.js"></script>
 <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.directions.js"></script>
@@ -331,7 +360,11 @@
 	src="js/location/navigation/path.navigation.tools.js"></script>
 <script src="js/location/navigation/path.navigation.search.panel.js"></script>
 <script type="text/javascript"
+	src="js/location/navigation/path.navigation.popups.js"></script>
+<script type="text/javascript"
 	src="js/location/navigation/path.navigation.js"></script>
+<script type="text/javascript"
+	src="js/location/navigation/path.navigation.map.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>
