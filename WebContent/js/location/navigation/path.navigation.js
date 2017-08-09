@@ -4,8 +4,14 @@ var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID, alti
 var distanceToNextPosition, distanceToDestination, angleToNextDestination;
 var paths = [];
 var ajaxCallSearch;
+
+// KEY PRESS
+
 function KeyPress(e) {
 	var eventKeys = window.event ? event : e;
+
+	// SHOW/VIEW VISITORS
+
 	if (eventKeys.keyCode == 86 && eventKeys.ctrlKey && eventKeys.shiftKey) {
 		if ($("#visitorCounter").css("display") == "none") {
 			$("#visitorCounter").css("display", "block");
@@ -18,6 +24,7 @@ function KeyPress(e) {
 }
 
 document.onkeydown = KeyPress;
+
 // starting a trip, fetches the path to destination, creates a trip and draw
 // polylines
 function getThePath() {
@@ -91,10 +98,9 @@ function getThePath() {
 			$("#locationInfoDiv").animate({
 				bottom : "-=13%"
 			}, 1500);
-			$("#locationInfoDiv").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',   
-				    function(e) {
-				$("#locationInfoDiv").css('display', 'none');
-				  });
+			setTimeout(function() {
+				$("#locationInfoDiv").css('display', 'none').trigger("create");
+			}, 1500);
 			$("#zoomSettings").animate({
 				bottom : 11
 			}, 1500);
@@ -340,156 +346,6 @@ var errorHandler = function(errorObj) {
 	errorMessagePopupOpen(errorObj.code + ": " + errorObj.message);
 
 };
-function initiMap() {
-	speed = 0;
-	heading = 0;
-
-	var styles = [ {
-		featureType : "administrative",
-		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "poi",
-		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "road",
-		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "transit.station",
-		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "water",
-		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "landscape.man_made",
-		elementType : "geometry",
-		stylers : [ {
-			color : "#efe6cc" //#f7f1df
-		} ]
-	}, {
-		featureType : "landscape.natural",
-		elementType : "geometry",
-		stylers : [ {
-			color : "#d0e3b4"
-		} ]
-	}, {
-		featureType : "landscape.natural.terrain",
-		elementType : "geometry",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "poi.business",
-		elementType : "all",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "poi.medical",
-		elementType : "geometry",
-		stylers : [ {
-			color : "#fbd3da"
-		} ]
-	}, {
-		featureType : "poi.park",
-		elementType : "geometry",
-		stylers : [ {
-			color : "#bde6ab"
-		} ]
-	}, {
-		featureType : "road",
-		elementType : "geometry.stroke",
-		stylers : [ {
-			visibility : "on"
-		} ]
-	}, {
-		featureType : "road.highway",
-		elementType : "geometry.fill",
-		stylers : [ {
-			color : "#ffe15f"
-		} ]
-	}, {
-		featureType : "road.highway",
-		elementType : "geometry.stroke",
-		stylers : [ {
-			color : "#efd151"
-		} ]
-	}, {
-		featureType : "road.arterial",
-		elementType : "geometry.fill",
-		stylers : [ {
-			color : "#ffffff"
-		} ]
-	}, {
-		featureType : "road.local",
-		elementType : "geometry.fill",
-		stylers : [ {
-			color : "black"
-		} ]
-	}, {
-		featureType : "water",
-		elementType : "geometry",
-		stylers : [ {
-			color : "#a2daf2"
-		} ]
-	} ];
-	var styledMap = new google.maps.StyledMapType(styles, {
-		name : "Styled Map"
-	});
-
-	map = new google.maps.Map(document.getElementById('map_canvas'), {
-		center : {
-			lat : -34.009211,
-			lng : 25.669051
-		},
-		zoom : 14,
-		zoomControl : false,
-		streetViewControl : false,
-		mapTypeControl : false,
-		rotateControl : false,
-		fullscreenControl : false,
-		labels : true
-	// ,
-	});
-	// map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
-	// name : 'My Style'
-	// }));
-	map.mapTypes.set('map_style', styledMap);
-	map.setMapTypeId('map_style');
-	input = document.getElementById('to');
-	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
-			.getElementById('viewMapType'));
-	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document
-			.getElementById('zoomSettings'));
-	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
-			.getElementById('searchBarDivTop'));
-	map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document
-			.getElementById('scannerBTNContainer'));
-	map.setMapTypeId('map_style');
-	findMyLocation();
-	$("#mapViewIcon").fadeOut();
-	selectMapMode();
-	getLocationTypePanel();
-	if (getCookie("TripPathGPSCookie") != "")
-		getThePath();
-	else
-		showViewItems();
-	//drawPolygons();
-}
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.setPosition(pos);
@@ -499,6 +355,14 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	errorMessagePopupOpen(browserHasGeolocation ? 'Error: The Geolocation service failed.'
 			: 'Error: Your browser doesn\'t support geolocation.');
 	infoWindow.open(map);
+}
+
+function initiateNavigation() {
+	var bounds = new google.maps.LatLngBounds();
+	bounds.extend(markerDest.getPosition());
+	bounds.extend(marker.getPosition());
+	map.fitBounds(bounds);
+	getThePath();
 }
 
 function isFullScreen() {
@@ -630,36 +494,21 @@ var successGetCurrentPosition = function(position) {
 $(document).ready(
 		function() {
 			$('#destinationName').wrap('<span class="clearicon" />').after(
-					$('<span/>').click(function() {
-						$('#destinationName').val("");
-						removeTrip();
-						$("#locationInfoDiv").animate({
-							bottom : "-=13%"
-						}, 1500);
-						$("#locationInfoDiv").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',   
-							    function(e) {
-							$("#locationInfoDiv").css('display', 'none');
-							  });
-						$("#zoomSettings").animate({
-							bottom : 11
-						}, 1500);
-						$("#autocompleteContainer").hide();
-					}));
+					$('<span/>').click(
+							function() {
+								$('#destinationName').val("");
+								removeTrip();
+								$("#locationInfoDiv").animate({
+									bottom : "-=13%"
+								}, 1500);
+								setTimeout(function() {
+									$("#locationInfoDiv")
+											.css('display', 'none').trigger(
+													"create");
+								}, 1500);
+								$("#zoomSettings").animate({
+									bottom : 11
+								}, 1500);
+								$("#autocompleteContainer").hide();
+							}));
 		});
-
-function errorMessagePopupOpen(content) {
-	$("#errorMessageContent").html(content).trigger("create");
-	$('#popupErrorMessage').popup();
-	$('#popupErrorMessage').popup({history: false, transition:"turn"});
-	$('#popupErrorMessage').popup('open').trigger('create');
-//	$('#popupErrorMessage').trigger('updatelayout');
-	$('#map_canvas').toggleClass('off');
-}
-
-function arrivalMessagePopupOpen() {
-	$('#popupArrivalMessage').popup().trigger('create');
-	$('#popupArrivalMessage').popup({history: false, transition:"turn"});
-	$('#popupArrivalMessage').popup('open').trigger('create');
-//	$('#popupErrorMessage').trigger('updatelayout');
-	$('#map_canvas').toggleClass('off');
-}

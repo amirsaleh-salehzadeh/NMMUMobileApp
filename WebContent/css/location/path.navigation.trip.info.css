@@ -84,7 +84,7 @@
 #locationInfoDiv {
 	position: absolute;
 	z-index: 100;
-	display: none;
+	display: block;
 	background-color: rgba(8, 27, 44, .77) !important;
 	color: rgb(248, 182, 36) !important;
 	text-shadow: none !important;

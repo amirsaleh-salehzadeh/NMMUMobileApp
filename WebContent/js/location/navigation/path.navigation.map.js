@@ -1,15 +1,152 @@
-function initiateNavigation() {
-	var bounds = new google.maps.LatLngBounds();
-	bounds.extend(markerDest.getPosition());
-	bounds.extend(marker.getPosition());
-	map.fitBounds(bounds);
-	// if (getCookie("TripPathGPSCookie") == ""){
-	// $('#popupPathType').popup();
-	// $('#popupPathType').popup('open').trigger('create');
-	// }
-	// else
-	// showViewItems();
-	getThePath();
+function initiMap() {
+	speed = 0;
+	heading = 0;
+
+	var styles = [ {
+		featureType : "administrative",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "poi",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "road",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "transit.station",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "water",
+		elementType : "labels",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "landscape.man_made",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#efe6cc" // #f7f1df
+		} ]
+	}, {
+		featureType : "landscape.natural",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#d0e3b4"
+		} ]
+	}, {
+		featureType : "landscape.natural.terrain",
+		elementType : "geometry",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "poi.business",
+		elementType : "all",
+		stylers : [ {
+			visibility : "off"
+		} ]
+	}, {
+		featureType : "poi.medical",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#fbd3da"
+		} ]
+	}, {
+		featureType : "poi.park",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#bde6ab"
+		} ]
+	}, {
+		featureType : "road",
+		elementType : "geometry.stroke",
+		stylers : [ {
+			visibility : "on"
+		} ]
+	}, {
+		featureType : "road.highway",
+		elementType : "geometry.fill",
+		stylers : [ {
+			color : "#ffe15f"
+		} ]
+	}, {
+		featureType : "road.highway",
+		elementType : "geometry.stroke",
+		stylers : [ {
+			color : "#efd151"
+		} ]
+	}, {
+		featureType : "road.arterial",
+		elementType : "geometry.fill",
+		stylers : [ {
+			color : "#ffffff"
+		} ]
+	}, {
+		featureType : "road.local",
+		elementType : "geometry.fill",
+		stylers : [ {
+			color : "black"
+		} ]
+	}, {
+		featureType : "water",
+		elementType : "geometry",
+		stylers : [ {
+			color : "#a2daf2"
+		} ]
+	} ];
+	var styledMap = new google.maps.StyledMapType(styles, {
+		name : "Styled Map"
+	});
+
+	map = new google.maps.Map(document.getElementById('map_canvas'), {
+		center : {
+			lat : -34.009211,
+			lng : 25.669051
+		},
+		zoom : 14,
+		zoomControl : false,
+		streetViewControl : false,
+		mapTypeControl : false,
+		rotateControl : false,
+		fullscreenControl : false,
+		labels : true
+	// ,
+	});
+	// map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
+	// name : 'My Style'
+	// }));
+	map.mapTypes.set('map_style', styledMap);
+	map.setMapTypeId('map_style');
+	input = document.getElementById('to');
+	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
+			.getElementById('viewMapType'));
+	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document
+			.getElementById('zoomSettings'));
+	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+			.getElementById('searchBarDivTop'));
+	map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document
+			.getElementById('scannerBTNContainer'));
+	map.setMapTypeId('map_style');
+	findMyLocation();
+	$("#mapViewIcon").fadeOut();
+	selectMapMode();
+	getLocationTypePanel();
+	if (getCookie("TripPathGPSCookie") != "")
+		getThePath();
+	else
+		showViewItems();
+	// drawPolygons();
 }
 
 function zoomInMap() {

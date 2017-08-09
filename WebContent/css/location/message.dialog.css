@@ -1,17 +1,41 @@
+/* MESSAGE BOXES 
+ERROR*/
 #popupErrorMessage {
 	background-color: rgba(8, 27, 44, 1) !important;
 	min-width: 177px !important;
-	border: none !important;
-	border-radius: 7px;
+	border: 1 solid !important;
+	border-top: 0 !important;
+	border-color: rgb(255, 0, 0) !important;
+	border-radius: 0px 0px 11px 11px;
 }
 
+/* MESSAGE BOXES 
+ARRIVAL*/
 #popupArrivalMessage {
 	background-color: rgba(8, 27, 44, 1) !important;
 	min-width: 177px !important;
-	border: none !important;
-	border-radius: 7px;
+	border: 1 solid !important;
+	border-color: rgb(248, 182, 36) !important;
+	border-radius: 0px 0px 11px 11px;
 }
 
+/* MESSAGE BOXES 
+SEARCH RESULT*/
+#popupSearchResult {
+	background-color: rgba(8, 27, 44, .88) !important;
+	max-width: 90% !important;
+	max-height: 90% !important;
+	margin: 3% auto !important;
+	border: 1 solid !important;
+	border-color: rgb(248, 182, 36) !important;
+	border-radius: 0px 0px 11px 11px;
+	bottom: 3 !important;
+	top: 3px !important;
+	overflow: hidden !important;
+}
+
+/* CONTENTS 
+ARRIVAL */
 #arrivalMessageContent {
 	background-color: rgba(8, 27, 44, 1) !important;
 	cursor: pointer;
@@ -20,6 +44,10 @@
 	text-shadow: none !important;
 }
 
+/* CONTENTS 
+ERROR 
+CONTENT
+*/
 #errorMessageContent {
 	color: rgb(248, 182, 36);
 	text-shadow: none !important;
@@ -27,6 +55,9 @@
 	padding: 11px;
 }
 
+/* CONTENTS 
+ERROR
+HEADER*/
 #errorMessageHeader {
 	min-height: 2em;
 	background-color: rgba(248, 0, 0, .88) !important;
@@ -42,6 +73,9 @@
 	background-position: 3px;
 }
 
+/* CONTENTS 
+ARRIVAL
+HEADER*/
 #arrivalMessageHeader {
 	min-height: 2em;
 	background-color: rgba(248, 182, 36, 1) !important;
@@ -67,25 +101,7 @@
 	border-color: transparent !important;
 	border-radius: 7px !important;
 	text-shadow: none !important;
-}
-
-.popupCloseBtn {
-	background-image: url('../../images/icons/clearInput.png');
-	background-repeat: no-repeat;
-	background-size: 29px 29px;
-	background-color: rgba(8, 27, 44, 1) !important;
-	background-position: 1px 1px;
-	width: 24px !important;
-	height: 24px !important;
-	position: absolute !important;
-	top: -12 !important;
-	right: -12 !important;
-	margin: 0 !important;
-	border: 5px double !important;
-	border-color: rgb(248, 182, 36) !important;
-	padding: 3px 3px !important;
-	box-shadow: none !important;
-	border-radius: 100% !important;
+	z-index: 100;
 }
 
 .closeMessageButtonIcon {
@@ -101,4 +117,34 @@
 	float: left;
 	left: 2;
 	top: 0;
+}
+
+#popupSearchResultCloseBTN {
+	position: absolute !important;
+	bottom: 3;
+	right: 3;
+	left: 3;
+	width: auto !important;
+	margin: 3% auto !important;
+}
+
+.popupCloseBtn {
+	background-image: url('../../images/icons/clearInput.png');
+	background-repeat: no-repeat;
+	background-size: 29px 29px;
+	background-color: rgba(8, 27, 44, 1) !important;
+	background-position: 1px 1px;
+	width: 24px !important;
+	height: 24px !important;
+	position: fixed !important;
+	display: block !important;
+	top: -5 !important;
+	right: -5 !important;
+	margin: 0 !important;
+	border: 5px double !important;
+	border-color: rgb(248, 182, 36) !important;
+	padding: 3px 3px !important;
+	box-shadow: none !important;
+	border-radius: 100% !important;
+	z-index: 101 !important;
 }

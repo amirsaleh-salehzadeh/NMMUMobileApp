@@ -26,9 +26,92 @@ public class LocationENT {
 	private String postBox = null;
 	private String gps = "";
 	private String locationName = "";
+	private String icon = "";
+	private String plan = "";
+	private String boundary = "";
+	private String description = "";
 	private long parentId;
 	public ArrayList<LocationENT> childrenENT = new ArrayList<LocationENT>();
 	private LocationENT parent;
+
+	public LocationENT(long locationID, String userName, int country,
+			LocationTypeENT locationType, String address, String postBox,
+			String gps, String locationName, String icon, String plan,
+			String boundary, String description, long parentId,
+			ArrayList<LocationENT> childrenENT, LocationENT parent) {
+		super();
+		this.locationID = locationID;
+		this.userName = userName;
+		this.country = country;
+		this.locationType = locationType;
+		this.address = address;
+		this.postBox = postBox;
+		this.gps = gps;
+		this.locationName = locationName;
+		this.icon = icon;
+		this.plan = plan;
+		this.boundary = boundary;
+		this.description = description;
+		this.parentId = parentId;
+		this.childrenENT = childrenENT;
+		this.parent = parent;
+	}
+
+	/**
+	 * @return the icon
+	 */
+	public String getIcon() {
+		return icon;
+	}
+
+	/**
+	 * @param icon the icon to set
+	 */
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	/**
+	 * @return the plan
+	 */
+	public String getPlan() {
+		return plan;
+	}
+
+	/**
+	 * @param plan the plan to set
+	 */
+	public void setPlan(String plan) {
+		this.plan = plan;
+	}
+
+	/**
+	 * @return the boundary
+	 */
+	public String getBoundary() {
+		return boundary;
+	}
+
+	/**
+	 * @param boundary the boundary to set
+	 */
+	public void setBoundary(String boundary) {
+		this.boundary = boundary;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	/**
 	 * @return the parent
