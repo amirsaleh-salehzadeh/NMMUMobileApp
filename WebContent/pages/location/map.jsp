@@ -41,11 +41,10 @@
 		$('#work-in-progress').fadeOut(100);
 // 				errorMessagePopupOpen('hi');
 		// 				arrivalMessagePopupOpen();
-		displayImage(30);
+		displayImage(0);
 	});
 </script>
 <body>
-
 
 	<!-- 		PAGE CONTENT -->
 

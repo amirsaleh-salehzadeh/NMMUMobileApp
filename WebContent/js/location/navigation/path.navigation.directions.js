@@ -88,11 +88,29 @@ var back = new Image();
 var ctx;
 function displayImage(angle) {
 	var ctx = document.getElementById('directionCanvas').getContext('2d');
+	
+	var a = angle;
+	switch (true) {
+	    case ((0 <= a <45)):
+	       
+	        break;
+	    case (45<= a <90):
+	        break;
+	    case (90<= a <180):
+	        break;
+	    case (180<= a <270):
+	        break;
+	    case (270<= a <360):
+	        break;
+	}
+	
+	
+	
 	var startPointX = 50;
 	var startPointY = 100;
-	var endPointX = 50 * Math.cos(angle) + 50;
-	var endPointY = 50 * Math.sin(angle) + 50;
-	var quadPointX = 100;
+	var endPointX = 30;
+	var endPointY = 15;
+	var quadPointX = 50;
 	var quadPointY = 50;
 	ctx.strokeStyle = "rgb(12, 28, 44)";
 	ctx.lineWidth = 7;
