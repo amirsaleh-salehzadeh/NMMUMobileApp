@@ -61,7 +61,7 @@ function getMyChild(select) {
 
 function selectDestination(destination, content) {
 	$("#destinationId").val($(destination).attr("id").split("_")[0]);
-	$("#destinationName").val($(destination).html());
+	$("#destinationName").html(content);
 	$(".spinnerLoading").css('display', 'none');
 	// $("#locationInf").html($(destination).html());
 	$("#locationInf").html(content);

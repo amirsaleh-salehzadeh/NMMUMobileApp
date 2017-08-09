@@ -43,16 +43,18 @@
 }
 
 #searchBarDivTop {
-	width: 100%;
+	width: 100% !important;
 	position: absolute;
+	margin: 3% auto !important;
 	padding-top: 1.1em;
 	padding-bottom: 1.1em;
 	background-color: transparent !important;
+	margin-right: 1.1em !important;
 }
 
 #destinationNameDiv {
 	padding-left: 1.1em;
-	margin-right: 1.1em !important;
+/* 	margin-right: 1.1em !important; */
 }
 
 #destinationName {
@@ -72,7 +74,6 @@
 	border: none;
 	font-size: 13pt;
 	font-weight: 200;
-	width: 100% !important;
 }
 
 #searchField {
