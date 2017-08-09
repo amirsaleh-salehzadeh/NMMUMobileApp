@@ -119,3 +119,25 @@ span.clearicon span {
 	margin: 0 !important;
 	background-color: transparent !important;
 }
+
+.marquee {
+	display:block;
+	width:100%;
+	white-space:nowrap;
+	overflow:hidden;		
+}
+
+.marquee span {
+	display:inline-block;
+	padding-left:100%;
+	-webkit-animation:scroll 5s infinte;
+}
+
+@-webkit-keyframes scroll {
+	0% {
+	    -webkit-transfrom: translate(0, 0);
+    }
+	100% {
+	     -webkit-transfrom: translate(-100%, 0);
+    }   
+}
