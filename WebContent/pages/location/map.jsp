@@ -250,7 +250,7 @@
 			<div class="spinnerLoading" style="display: none;"></div>
 			<div id="LocationInfoContainer">
 				<div id="locationInf"></div>
-				<button id="start" onclick="initiateNavigation()">Directions</button>
+				<button id="start" onclick="initiateNavigation()">Get <br/>Directions</button>
 			</div>
 		</div>
 
