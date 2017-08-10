@@ -38,7 +38,7 @@ function getThePath() {
 			position : getGoogleMapPosition(GPSCook.split("_")[GPSCook
 					.split("_").length - 1]),
 			map : map,
-			icon : 'images/icons/finish.png'
+			icon : 'images/map-markers/marker-orange.png'
 		});
 		resetWalking();
 		drawConstantPolyline();
