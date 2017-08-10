@@ -17,9 +17,11 @@ button {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+	border-color: rgb(248, 182, 36) !important;
 	padding: 10px 10px 10px 10px;
 	display: inline-block;
 	background-color: rgba(8, 27, 44, .77);
+	padding: 10px 10px 10px 10px;
 }
 
 #zoomin {
@@ -31,6 +33,20 @@ button {
 
 #zoomout {
 	background-image: url("../../images/icons/zoomout.png") !important;
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	background-position: center;
+}
+
+#satelliteView {
+	background-image: url("../../images/icons/satellite.png") !important;
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	background-position: center;
+}
+
+#mapViewIcon {
+	background-image: url("../../images/icons/mapsview.png") !important;
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
 	background-position: center;
@@ -71,14 +87,14 @@ button {
 #mylocation {
 	background-image: url("../../images/icons/target.png") !important;
 	background-repeat: no-repeat;
-	background-size: 48px 48px;
+	background-size: 32px 32px;
 	border: none;
 }
 
 #mapViewSelect {
 	background-image: url("../../images/icons/maps.png") !important;
 	background-repeat: no-repeat;
-	background-size: 48px 48px;
+	background-size: 32px 32px;
 	border: none;
 }
 
@@ -87,30 +103,6 @@ button {
 	background-repeat: no-repeat;
 	background-size: 48px 48px;
 	border: none;
-}
-
-#satelliteView {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	cursor: pointer;
-	width: 48px;
-	height: 48px;
-	background-image: url("../../images/icons/satellite.png") !important;
-	background-repeat: no-repeat;
-	box-shadow: none;
-}
-
-#mapViewIcon {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	cursor: pointer;
-	width: 48px;
-	height: 48px;
-	background-image: url("../../images/icons/mapsview.png") !important;
-	background-repeat: no-repeat;
-	box-shadow: none;
 }
 
 #btnToggleFullscreen {

@@ -56,25 +56,24 @@
 	background-image: url("../../images/icons/startBlue.png") !important;
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
-	background-position: 22px;
+	background-color: rgb(8, 27, 44) !important;
+	background-position: center;
 	border: none;
 	width: 64px !important;
 	height: 100% !important;
+	min-height: 33px !important;
 	display: block;
 	position: absolute !important;
 	float: right !important;
 	top: 0;
 	right: 0;
-	min-height: 33px !important;
 	margin: 0 auto;
-	color: rgba(248, 182, 36, 1) !important;
+	color: rgb(248, 182, 36) !important;
 	font-size: 9px;
 	text-decoration: none;
 	text-shadow: none !important;
-	background-position: center;
 	text-transform: uppercase;
 	text-align: center !important;
-	background-color: transparent !important;
 	padding-top: 6em;
 	padding-left: 0 !important;
 	padding-right: 0 !important;
@@ -85,13 +84,14 @@
 	position: absolute;
 	z-index: 100;
 	display: block;
-	background-color: rgba(8, 27, 44, .77) !important;
-	color: rgb(248, 182, 36) !important;
-	text-shadow: none !important;
+	background-color: rgba(248, 182, 36, .77) !important;
+	color: rgb(8, 27, 44) !important;
+	font-weight: bold; text-shadow : none !important;
 	width: 100%;
 	height: 13% !important;
 	bottom: -13%;
 	overflow: hidden !important;
+	text-shadow: none !important;
 }
 
 #LocationInfoContainer {

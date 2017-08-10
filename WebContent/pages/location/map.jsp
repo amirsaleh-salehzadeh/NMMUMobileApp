@@ -39,9 +39,9 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(100);
-// 				errorMessagePopupOpen('hi');
-// 										arrivalMessagePopupOpen();
-		displayImage(30);
+		// 				errorMessagePopupOpen('hi');
+		// 										arrivalMessagePopupOpen();
+		displayImage(100);
 	});
 </script>
 <body>
@@ -162,36 +162,42 @@
 
 		<div id="searchBarDivTop">
 			<div class="ui-block-solo" id="destinationNameDiv">
-				<a data-role="button" href="#" data-rel="popup"
-					href="#" data-transition="turn"
-					id="destinationName" onclick="searchResultPopupOpen();">Find a
-					Place</a>
+				<a data-role="button" href="#" data-rel="popup" href="#"
+					data-transition="turn" id="destinationName"
+					onclick="searchResultPopupOpen('Select Destination');">Find a
+					Place</a> <span onclick="clearSearchBTN()"></span>
 			</div>
+
 		</div>
 
 
 		<!-- 		MAP VIEW MODE -->
 
 
-		<div id="viewMapType">
-			<input type="button" class="zoomBTN" id="satelliteView"
-				onclick="mapSattelView()"> <input type="button"
-				class="zoomBTN" id="mapViewIcon" onclick="mapMapView()">
-		</div>
+		<!-- 		<div id="viewMapType"> -->
+		<!-- 			<input type="button" class="zoomBTN" id="satelliteView" -->
+		<!-- 				onclick="mapSattelView()"> <input type="button" -->
+		<!-- 				class="zoomBTN" id="mapViewIcon" onclick="mapMapView()"> -->
+		<!-- 		</div> -->
 
 
 		<!-- 		ZOOM SETTINGS -->
 
 
 		<div id="zoomSettings">
-		<div id="visitorCounter">
-		<a href="http://www.reliablecounter.com" target="_blank">
-		<img src="http://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
-			alt="" title="" border="0"></a>
-	    </div>
+			<div id="visitorCounter">
+				<a href="http://www.reliablecounter.com" target="_blank"> <img
+					src="http://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
+					alt="" title="" border="0"></a>
+			</div>
 			<div class="ui-block-solo" style="display: none;">
 				<input disabled="disabled" type="text" id="visitorCounter"
 					placeholder="" value="">
+			</div>
+			<div class="ui-block-solo">
+				<input type="button" class="zoomBTN" id="satelliteView"
+					onclick="mapSattelView()"> <input type="button"
+					class="zoomBTN" id="mapViewIcon" onclick="mapMapView()">
 			</div>
 			<div class="ui-block-solo">
 				<input type="button" class="zoomBTN" id="zoomin"
@@ -208,7 +214,7 @@
 
 
 		<div id="directionShow"
-			style="background-color: transparent; left: 23px; top: 73px; position: absolute; display: none;">
+			style="background-color: transparent; left: 23px; top: 73px; position: absolute;">
 			<!-- 		changed position from left: 53px; top: 73px; <img alt="" -->
 			<!-- 			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span -->
 			<!-- 			id="navigationDesc" class="infoValue"> </span> -->
@@ -242,7 +248,7 @@
 			<div class="spinnerLoading" style="display: none;"></div>
 			<div id="LocationInfoContainer">
 				<div id="locationInf"></div>
-				<button id="start" onclick="initiateNavigation()">Direction</button>
+				<button id="start" onclick="initiateNavigation()">Directions</button>
 			</div>
 		</div>
 
@@ -322,9 +328,10 @@
 			data-position-to="window" data-transition="turn">
 			<a href="#" data-role="none" class="popupCloseBtn"
 				onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"></a>
-			<div class="ui-block-solo">
-				<input type="text"
-					id="searchField" placeholder="Find a Place" data-role="none">
+			<div class="ui-block-solo" id="searchPopupHeader"></div>
+			<div class="ui-block-solo" id="searchFieldDiv">
+				<input type="text" id="searchField" placeholder="Find a Place"
+					data-role="none"> <span onclick="searchFieldDivClearBTN();"></span>
 			</div>
 			<div class="ui-block-solo">
 				<ul data-role="listview" id="resultsListView" data-filter="true"
@@ -340,6 +347,8 @@
 	</div>
 </body>
 <script type="text/javascript"
+	src="js/location/navigation/path.navigation.tools.js"></script>
+<script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.scanner.js"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.ar.js"></script>
@@ -348,15 +357,13 @@
 <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.directions.js"></script>
-<script type="text/javascript"
-	src="js/location/navigation/path.navigation.tools.js"></script>
 <script src="js/location/navigation/path.navigation.search.panel.js"></script>
-<script type="text/javascript"
-	src="js/location/navigation/path.navigation.popups.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.map.js"></script>
+<script type="text/javascript"
+	src="js/location/navigation/path.navigation.popups.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>

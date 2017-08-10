@@ -129,9 +129,7 @@ function initiMap() {
 	map.mapTypes.set('map_style', styledMap);
 	map.setMapTypeId('map_style');
 	input = document.getElementById('to');
-	map.controls[google.maps.ControlPosition.TOP_LEFT].push(document
-			.getElementById('viewMapType'));
-	map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document
+	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
 			.getElementById('zoomSettings'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('searchBarDivTop'));
@@ -177,7 +175,7 @@ function selectDualMode() {
 	$("#zoomSettings").css("display", "block");
 	$("#cameraView").css("display", "block");
 	$("#cameraView").css("position", "absolute");
-//	$("#mapView").css("display", "block");
+	// $("#mapView").css("display", "block");
 	$('#cameraView').height($(window).height() / 4);
 	$('#videoContent').height($(window).height() / 4);
 	$('#cameraView').width($(window).width() / 4);
@@ -210,4 +208,28 @@ function showViewItems() {
 		$("#currentLocationShow").fadeIn();
 		$("#searchBarDivTop").fadeOut();
 	}
+}
+
+function hideBottomPanel() {
+	$("#locationInfoDiv").animate({
+		bottom : "-=13%"
+	}, 1500);
+	setTimeout(function() {
+		$("#locationInfoDiv").css('display', 'none').trigger("create");
+		$("#locationInfoDiv").css('bottom','-13%');
+	}, 1500);
+	$("#zoomSettings").animate({
+		bottom : 11
+	}, 1500);
+}
+
+function showBottomPanel() {
+	$("#locationInfoDiv").css('display', 'block');
+	$("#locationInfoDiv").css('bottom', '-13%');
+	$("#locationInfoDiv").animate({
+		bottom : "0"
+	}, 1500);
+	$("#zoomSettings").animate({
+		bottom : $("#locationInfoDiv").height()
+	}, 1500);
 }

@@ -12,8 +12,8 @@ function getLocationTypePanel() {
 			$.each(data, function(k, l) {
 				str += "<li id='" + l.locationID + "_" + l.gps + "_"
 						+ l.locationType.locationType
-						+ "' onclick='selectDestination(this, \"" + l.locationName
-						+ "\")' data-icon='false'>"
+						+ "' onclick='selectDestination(this, \""
+						+ l.locationName + "\")' data-icon='false'>"
 						+ '<a href="#" class="resultsListViewContent">';
 				var src = "images/map-markers/building.png";
 				if (l.icon != null)
@@ -21,7 +21,7 @@ function getLocationTypePanel() {
 				str += '<img src="' + src + '" class="listViewIcons"><h2>'
 						+ l.locationName + '</h2><p>';
 				var desc = "&nbsp;";
-				if(l.description != null)
+				if (l.description != null)
 					desc = l.description;
 				str += desc + '</p></a></li>';
 			});
@@ -63,15 +63,8 @@ function selectDestination(destination, content) {
 	$("#destinationId").val($(destination).attr("id").split("_")[0]);
 	$("#destinationName").html(content);
 	$(".spinnerLoading").css('display', 'none');
-	// $("#locationInf").html($(destination).html());
 	$("#locationInf").html(content);
-	$("#locationInfoDiv").css('display', 'block');
-	$("#locationInfoDiv").animate({
-		bottom : "0"
-	}, 1500);
-	$("#zoomSettings").animate({
-		bottom : $("#locationInfoDiv").height()
-	}, 1500);
+	showBottomPanel();
 	$("#to").val($(destination).attr("id").split("_")[1].replace(" ", ""));
 	var destPoint = getGoogleMapPosition($("#to").val());
 	if (markerDest != null)
@@ -82,23 +75,22 @@ function selectDestination(destination, content) {
 		icon : 'images/icons/finish.png'
 	});
 	markerDest.addListener('click', function() {
-		// infowindowDestination.open(map, markerDest);
 		selectDestination(destination);
 	});
-
 	map.panTo(markerDest.getPosition());
 	$('#popupSearchResult').popup('close');
 	$('#map_canvas').toggleClass('off');
 }
 
-$("#destinationName").keyup(
-		function() {
-			$("#autocompleteContainer").show();
-			if ($(this).val() == '') {
-				$("ul:jqmData(role='listview')").children().addClass(
-						'ui-screen-hidden');
-			}
-		});
+function clearSearchBTN() {
+	$("#destinationName").html("Find a Place");
+	hideBottomPanel();
+}
+
+function searchFieldDivClearBTN() {
+	$("#searchField").val("");
+	$("#resultsListView").listview("refresh");
+}
 
 function getCampusMarkers(locationId) {
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="

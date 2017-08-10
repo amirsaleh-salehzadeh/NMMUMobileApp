@@ -6,7 +6,6 @@ function errorMessagePopupOpen(content) {
 		transition : "turn"
 	});
 	$('#popupErrorMessage').popup('open').trigger('create');
-	// $('#popupErrorMessage').trigger('updatelayout');
 	$('#map_canvas').toggleClass('off');
 }
 
@@ -17,11 +16,11 @@ function arrivalMessagePopupOpen() {
 		transition : "turn"
 	});
 	$('#popupArrivalMessage').popup('open').trigger('create');
-	// $('#popupErrorMessage').trigger('updatelayout');
 	$('#map_canvas').toggleClass('off');
 }
 
-function searchResultPopupOpen() {
+function searchResultPopupOpen(headerText) {
+	$("#searchPopupHeader").html(headerText);
 	getLocationTypePanel();
 	$('#popupSearchResult').css({
 		'height' : $(window).height() * 0.95
@@ -36,20 +35,8 @@ function searchResultPopupOpen() {
 		transition : "turn"
 	});
 	$('#popupSearchResult').popup('open').trigger('create');
-	// $('#popupErrorMessage').trigger('updatelayout');
-	if ($("#locationInfoDiv").css('display') != 'none') {
-		$("#locationInfoDiv").animate({
-			bottom : "-=13%"
-		}, 1500);
-		setTimeout(function() {
-			$("#locationInfoDiv").css('display', 'none').trigger("create");
-		}, 1500);
-		$("#zoomSettings").animate({
-			bottom : 11
-		}, 1500);
-	}
+	hideBottomPanel();
 	$('#map_canvas').toggleClass('off');
 	$('#searchField').trigger("create");
 	$('#searchField').trigger("focus");
-
 }

@@ -54,7 +54,7 @@
 
 #destinationNameDiv {
 	padding-left: 1.1em;
-/* 	margin-right: 1.1em !important; */
+	margin-right: 1.1em !important;
 }
 
 #destinationName {
@@ -65,12 +65,13 @@
 	background-size: 32px 32px;
 	background-position: 9px 10px;
 	padding-bottom: 5px;
-	text-shadow: none;
-	min-height: 2em !important;
 	padding-left: 47px;
 	padding-right: 33px;
-	margin: 4% auto !important;
+	margin: 1% auto !important;
+	text-shadow: none;
+	min-height: 2em !important;
 	z-index: 11;
+	left: 7;
 	border: none;
 	font-size: 13pt;
 	font-weight: 200;
@@ -86,15 +87,16 @@
 	text-shadow: none;
 	min-height: 3em !important;
 	padding-left: 47px;
+	padding-right: 29px;
 	border-color:  rgb(248, 182, 36) !important; font-size : 13pt;
 	font-weight: 200;
-	width: auto !important;
+	width: 100% !important;
 	font-size: 13pt;
-	margin: 3% auto !important;
+	margin: 3px auto !important;
 }
 
 .listViewIcons {
-	margin: 5% 5% !important;
+	margin: 7px 7px !important;
 	width: 24px;
 	height: 24px;
 }
@@ -115,26 +117,35 @@
 	padding-left: 1em !important;
 }
 
-span.clearicon {
-	position: relative;
-	right: 13px;
-	margin-left: 1.1em;
-	margin-right: 1.1em;
-}
-
-span.clearicon span {
-	position: absolute;
+div#destinationNameDiv span, div#searchFieldDiv span {
+	position: absolute !important;
 	display: block;
-	bottom: -8px;
-	right: 2px;
-	width: 32px;
-	height: 32px;
+	top: 2.2em;
+	right: 5px;
+	width: 32px !important;
+	height: 32px !important;
 	background-image: url("../../images/icons/clearInput.png");
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
 	cursor: pointer;
+	z-index: 12;
+}
+
+div#searchFieldDiv span {
+	top: 2.5em !important;
 }
 
 .locationTypes {
+	text-shadow: none !important;
+}
+
+#searchPopupHeader{
+	width: 100%;
+	background-color: rgb(248, 182, 36);
+	text-align: center;
+	color: rgba(8, 27, 44) !important;
+	font-size: 14pt;
+	font-weight: bold;
+	min-height: 1.5em !important;
 	text-shadow: none !important;
 }
