@@ -129,7 +129,7 @@ function initiMap() {
 	map.mapTypes.set('map_style', styledMap);
 	map.setMapTypeId('map_style');
 	input = document.getElementById('to');
-	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(document
+	map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document
 			.getElementById('zoomSettings'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('searchBarDivTop'));
@@ -212,24 +212,24 @@ function showViewItems() {
 
 function hideBottomPanel() {
 	$("#locationInfoDiv").animate({
-		bottom : "-=13%"
+		bottom : "-=" + $("#locationInfoDiv").height()
 	}, 1500);
 	setTimeout(function() {
-		$("#locationInfoDiv").css('display', 'none').trigger("create");
-		$("#locationInfoDiv").css('bottom','-13%');
+		$("#locationInfoDiv").css('display', 'none');
+		$("#locationInfoDiv").css('bottom','-' + $("#locationInfoDiv").height()).trigger("create");
 	}, 1500);
-	$("#zoomSettings").animate({
-		bottom : 11
-	}, 1500);
+//	$("#zoomSettings").animate({
+//		bottom : 11
+//	}, 1500);
 }
 
 function showBottomPanel() {
-	$("#locationInfoDiv").css('display', 'block');
-	$("#locationInfoDiv").css('bottom', '-13%');
+	$("#locationInfoDiv").css('bottom', '-' + $("#locationInfoDiv").height());
+	$("#locationInfoDiv").css('display', 'block').trigger("create");
 	$("#locationInfoDiv").animate({
 		bottom : "0"
 	}, 1500);
-	$("#zoomSettings").animate({
-		bottom : $("#locationInfoDiv").height()
-	}, 1500);
+//	$("#zoomSettings").animate({
+//		bottom : $("#locationInfoDiv").height()
+//	}, 1500);
 }

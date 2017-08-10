@@ -1,10 +1,10 @@
 function getAngleDirection(angle) {
 	if (angle < 0)
 		angle = 360 + angle;
-//	var arrowGif = document.getElementById("arrowDirId");
-//	arrowGif.style.webkitTransform = "rotate(" + angle + "deg)";
-//	arrowGif.style.MozTransform = "rotate(" + angle + "deg)";
-//	arrowGif.style.transform = "rotate(" + angle + "deg)";
+	// var arrowGif = document.getElementById("arrowDirId");
+	// arrowGif.style.webkitTransform = "rotate(" + angle + "deg)";
+	// arrowGif.style.MozTransform = "rotate(" + angle + "deg)";
+	// arrowGif.style.transform = "rotate(" + angle + "deg)";
 	if (parseFloat(-10) <= angle && angle <= parseFloat(10))
 		return "keep going straight on the same direction";
 	else if (angle < parseFloat(-10))
@@ -46,7 +46,7 @@ function getTimeLeft(distance) {
 
 function getTripInfo() {
 	var nextDestName = getCookie("TripPathLocationsCookie").split("_")[0];
-//	$("#currentLocationInf").html(nextDestName);
+	// $("#currentLocationInf").html(nextDestName);
 	$("#currentLocationInfoContainer").trigger("create");
 	var destName = getCookie("TripPathLocationsCookie").split("_");
 	$("#destinationDescriptionInput").val(destName[destName.length - 1]);
@@ -82,25 +82,75 @@ function getTripInfo() {
 }());
 
 // function drawCanvasDirection(){
-var canvas;
-var myImage = new Image();
-var back = new Image();
-var ctx;
 function displayImage(angle) {
 	var ctx = document.getElementById('directionCanvas').getContext('2d');
-	var startPointX = 50;
-	var startPointY = 100;
-	var endPointX = 50 * Math.cos(angle) + 50;
-	var endPointY = 50 * Math.sin(angle) + 50;
-	var quadPointX = 100;
-	var quadPointY = 50;
+	ctx.clearRect(0, 0, document.getElementById('directionCanvas').width,
+			document.getElementById('directionCanvas').height);
+	var startPointX, startPointY, endPointX, endPointY, quadPointX, quadPointY;
+	if (0 <= angle && angle < 45) {
+		startPointX = 50;
+		startPointY = 100;
+		endPointX = 50 + (angle * 1.1);
+		endPointY = 5;
+		quadPointX = 50;
+		quadPointY = 50;
+	} else if (45 <= angle && angle < 90) {
+		startPointX = 50;
+		startPointY = 100;
+		endPointX = 100;
+		endPointY = ((angle - 45) * 1.1);
+		quadPointX = 50;
+		quadPointY = 50;
+	} else if (90 <= angle && angle < 135) {
+		startPointX = 50 - ((angle - 90) * 0.55);
+		startPointY = 100;
+		endPointX = 100;
+		endPointY = ((angle - 45) * 1.1);
+		quadPointX = 50;
+		quadPointY = 50;// - ((angle - 45) * 1.1)
+	} else if (135 <= angle && angle <= 180) {
+		startPointX = 25;
+		startPointY = 100;
+		endPointX = 100 - ((angle - 135) * 1.1);
+		endPointY = 100;
+		quadPointX = 50;
+		quadPointY = 0;
+	} else if (180 < angle && angle < 225) {
+		startPointX = 75;
+		startPointY = 100;
+		endPointX = 50 - ((angle - 180));
+		endPointY = 100;
+		quadPointX = 50;
+		quadPointY = 0;
+	} else if (225 <= angle && angle < 270) {
+		startPointX = 75 - ((angle - 225) * 0.55);
+		startPointY = 100;
+		endPointX = 10;
+		endPointY = 100 - ((angle - 225));
+		quadPointX = 50;
+		quadPointY = 50;// - ((angle - 225) * 1.1)
+	} else if (270 <= angle && angle < 315) {
+		startPointX = 50;
+		startPointY = 100;
+		endPointX = 10;
+		endPointY = ((angle - 270) * 1.1);
+		quadPointX = 50;
+		quadPointY = 50;
+	} else if (315 <= angle && angle <= 360) {
+		startPointX = 50;
+		startPointY = 100;
+		endPointX = 0 + ((angle - 315));
+		endPointY = 5;
+		quadPointX = 50;
+		quadPointY = 50;
+	}
+
 	ctx.strokeStyle = "rgb(12, 28, 44)";
 	ctx.lineWidth = 7;
 	ctx.lineCap = "round";
 	var arrowAngle = Math.atan2(quadPointX - endPointX, quadPointY - endPointY)
 			+ Math.PI;
 	var arrowWidth = 11;
-
 	ctx.beginPath();
 	ctx.moveTo(startPointX, startPointY);
 	ctx.quadraticCurveTo(quadPointX, quadPointY, endPointX, endPointY);
@@ -116,4 +166,7 @@ function displayImage(angle) {
 
 	ctx.stroke();
 	ctx.closePath();
+	angle = angle + 5;
+	if (angle >= 360)
+		angle = 0;
 }

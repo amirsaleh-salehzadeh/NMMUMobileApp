@@ -37,11 +37,13 @@
 <style type="text/css">
 </style>
 <script type="text/javascript">
+
 	$(window).bind('load', function() {
-		$('#work-in-progress').fadeOut(100);
+		$('#work-in-progress').fadeOut(3000);
 		// 				errorMessagePopupOpen('hi');
 		// 										arrivalMessagePopupOpen();
-		displayImage(100);
+		displayImage(110);
+
 	});
 </script>
 <body>
@@ -214,7 +216,7 @@
 
 
 		<div id="directionShow"
-			style="background-color: transparent; left: 23px; top: 73px; position: absolute;">
+			style="background-color: transparent; left: 23px; top: 73px; position: absolute; display: none;">
 			<!-- 		changed position from left: 53px; top: 73px; <img alt="" -->
 			<!-- 			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span -->
 			<!-- 			id="navigationDesc" class="infoValue"> </span> -->

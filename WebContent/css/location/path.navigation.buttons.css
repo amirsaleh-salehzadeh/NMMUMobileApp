@@ -6,7 +6,7 @@ button {
 	padding: 7px 4px 7px 4px;
 	display: block;
 	position: absolute;
-	bottom: 11;
+/* 	bottom: 11; */
 }
 
 .zoomBTN {
@@ -139,9 +139,4 @@ button {
 	background-repeat: no-repeat;
 	background-color: transparent;
 	box-shadow: none;
-}
-
-/* VIEW MAPTYPE DIV */
-#viewMapType {
-	padding: 7px 4px 7px 4px;
 }
