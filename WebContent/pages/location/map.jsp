@@ -10,6 +10,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="icon" type="image/png" href="favicon.ico">
 <link rel="stylesheet"
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
 <script type="text/javascript"
@@ -22,7 +23,7 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="css/location/path.navigation.css">
 <link rel="stylesheet" href="css/location/path.navigation.buttons.css">
 <link rel="stylesheet"
@@ -187,8 +188,8 @@
 
 		<div id="zoomSettings">
 			<div id="visitorCounter">
-				<a href="http://www.reliablecounter.com" target="_blank"> <img
-					src="http://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
+				<a href="https://www.reliablecounter.com" target="_blank"> <img
+					src="https://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
 					alt="" title="" border="0"></a>
 			</div>
 			<div class="ui-block-solo" style="display: none;">
