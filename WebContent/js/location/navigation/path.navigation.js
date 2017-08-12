@@ -1,4 +1,4 @@
-var map, marker, infoWindow, markerDest;
+var map, marker, infoWindow, markerDest, markerDepart;
 var pathPolylineConstant, pathPolylineTrack, polylineConstantLength;
 var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID, altitude;
 var distanceToNextPosition, distanceToDestination, angleToNextDestination;
@@ -56,7 +56,7 @@ function getThePath() {
 		markerDest = new google.maps.Marker({
 			position : destPoint,
 			map : map,
-			icon : 'images/icons/finish.png'
+			icon : 'images/map-markers/marker-orange.png'
 		});
 	}
 	$.ajax({
@@ -261,7 +261,7 @@ function updatePolyLine(currentPos, altitude) {
 
 function resetWalking() {
 	if (walkingWatchID != undefined) {
-		clearTimeout(walkingTimer);
+//		clearTimeout(walkingTimer);
 		navigator.geolocation.clearWatch(walkingWatchID);
 		walkingWatchID = null;
 	}
@@ -306,7 +306,7 @@ function removeTrip() {
 		pathPolylineConstant.setMap(null);
 	pathPolylineTrack = null;
 	pathPolylineConstant = null;
-	clearTimeout(walkingTimer);
+//	clearTimeout(walkingTimer);
 	if (walkingWatchID != undefined) {
 		navigator.geolocation.clearWatch(walkingWatchID);
 		walkingWatchID = null;
@@ -322,10 +322,14 @@ function removeTrip() {
 	$("#to").val("");
 	$("#tripLocations").val("");
 	$("#destinationName").val("");
+	if(markerDepart != null)
+		markerDepart.setMap(null);
 	if (markerDest != null)
 		markerDest.setMap(null);
 	markerDest = null;
+	markerDepart = null;
 	findMyLocation();
+	clearSearchBTN();
 	showViewItems();
 }
 
@@ -432,12 +436,6 @@ var successTrackingHandler = function(position) {
 		});
 	}
 	marker.setIcon(null);
-//	marker.setIcon({
-//		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-//		scale : 7,
-//		strokeWeight : 3,
-//		rotation : heading
-//	});
 	marker.setIcon('images/icons/target-old.png');
 	marker.setPosition(currentPos);
 };
@@ -473,12 +471,6 @@ var successGetCurrentPosition = function(position) {
 		});
 	}
 	marker.setIcon(null);
-//	marker.setIcon({
-//		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-//		scale : 7,
-//		strokeWeight : 3,
-//		rotation : heading
-//	});
 	marker.setIcon('images/icons/target-old.png');
 	marker.setPosition(currentPos);
 	map.panTo(currentPos);
@@ -488,5 +480,5 @@ var successGetCurrentPosition = function(position) {
 $(document).ready(function() {
 	$('#destinationName').val("");
 	removeTrip();
-	hideBottomPanel();
+	getLocationTypePanel();
 });

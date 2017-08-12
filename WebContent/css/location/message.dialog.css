@@ -93,7 +93,7 @@ HEADER*/
 
 .closePopupMessage {
 	cursor: pointer;
-	margin: 7px;
+	margin: 7px auto;
 	background-color: rgba(248, 182, 36, 1) !important;
 	border: 1px solid;
 	bottom: 5;
@@ -105,8 +105,8 @@ HEADER*/
 }
 
 .closeMessageButtonIcon {
-	width: 27px;
-	height: 27px;
+	width: 22px;
+	height: 22px;
 	background-color: rgba(8, 27, 44, 1) !important;
 	border: 5px double !important;
 	border-color: rgb(248, 182, 36) !important;
@@ -119,13 +119,23 @@ HEADER*/
 	top: 0;
 }
 
-#popupSearchResultCloseBTN {
-	position: absolute !important;
-	bottom: 3;
-	right: 3;
-	left: 3;
+#popupSearchResultCloseBTN, #popupSearchResultCloseBTNDual {
+	bottom: 1;
+	right: 1;
+	left: 1;
 	width: auto !important;
-	margin: 3% auto !important;
+	margin: 1% auto !important;
+	font-size: 10pt;
+}
+
+#popupSearchResultCurrentLocationBTN {
+	bottom: 1;
+	right: 1;
+	left: 1;
+	width: auto !important;
+	margin: 1% auto !important;
+	font-size: 10pt;
+	padding-left: 37px !important;
 }
 
 .popupCloseBtn {
@@ -147,4 +157,8 @@ HEADER*/
 	box-shadow: none !important;
 	border-radius: 100% !important;
 	z-index: 101 !important;
+}
+
+#departureButtonGroup{
+	margin: 3% auto !important;
 }

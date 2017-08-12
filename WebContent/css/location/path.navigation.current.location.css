@@ -15,9 +15,10 @@
 	margin-top: 0;
 	margin-right: 0;
 	right: 7px;
-	left: 52px;
-	bottom: 30px; /* 20% */
+	left: 7px;
+	bottom: 11px; /* 20% */
 	overflow: hidden !important;
+	margin: 5% auto !important;
 }
 
 #remove {

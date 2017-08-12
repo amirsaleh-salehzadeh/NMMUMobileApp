@@ -20,8 +20,20 @@ function arrivalMessagePopupOpen() {
 }
 
 function searchResultPopupOpen(headerText) {
-	$("#searchPopupHeader").html(headerText);
-	getLocationTypePanel();
+	if (headerText.indexOf("rom") != -1) {
+		$("#departureButtonGroup").css("display", "block").trigger("create");
+		$("#popupSearchResultCloseBTN").css("display", "none")
+				.trigger("create");
+		$("#searchPopupHeader").html(
+				"<span id='destinationNameHeader'>To "
+						+ $("#destinationName").html() + "</span><br/>"
+						+ headerText);
+	} else {
+		$("#popupSearchResultCloseBTN").css("display", "block").trigger(
+				"create");
+		$("#departureButtonGroup").css("display", "none").trigger("create");
+		$("#searchPopupHeader").html(headerText);
+	}
 	$('#popupSearchResult').css({
 		'height' : $(window).height() * 0.95
 	});
@@ -35,7 +47,8 @@ function searchResultPopupOpen(headerText) {
 		transition : "turn"
 	});
 	$('#popupSearchResult').popup('open').trigger('create');
-	hideBottomPanel();
+	if ($("#locationInfoDiv").css('display') != 'none')
+		hideBottomPanel();
 	$('#map_canvas').toggleClass('off');
 	$('#searchField').trigger("create");
 	$('#searchField').trigger("focus");

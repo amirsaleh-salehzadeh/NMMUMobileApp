@@ -139,7 +139,7 @@ function initiMap() {
 	findMyLocation();
 	$("#mapViewIcon").fadeOut();
 	selectMapMode();
-	getLocationTypePanel();
+//	getLocationTypePanel();
 	if (getCookie("TripPathGPSCookie") != "")
 		getThePath();
 	else
@@ -215,12 +215,9 @@ function hideBottomPanel() {
 		bottom : "-=" + $("#locationInfoDiv").height()
 	}, 1500);
 	setTimeout(function() {
+//		$("#locationInfoDiv").css('bottom','-' + $("#locationInfoDiv").height()).trigger("create");
 		$("#locationInfoDiv").css('display', 'none');
-		$("#locationInfoDiv").css('bottom','-' + $("#locationInfoDiv").height()).trigger("create");
 	}, 1500);
-//	$("#zoomSettings").animate({
-//		bottom : 11
-//	}, 1500);
 }
 
 function showBottomPanel() {
@@ -229,7 +226,4 @@ function showBottomPanel() {
 	$("#locationInfoDiv").animate({
 		bottom : "0"
 	}, 1500);
-//	$("#zoomSettings").animate({
-//		bottom : $("#locationInfoDiv").height()
-//	}, 1500);
 }
