@@ -2,11 +2,12 @@
 	position: absolute;
 	display: block;
 	max-width: 100%;
-	left: 4.3em;
+	left: .43em;
 	top: .43em;
 	right: .43em !important;
 	min-height: 48px;
 	text-align: left;
+	margin: 7px auto !important;
 	background-color: rgba(8, 27, 44, .77);
 	border: 2px solid #081B2C !important;
 	-webkit-border-radius: 7px !important;
@@ -24,10 +25,10 @@
 .descriptionInput {
 	color: rgb(248, 182, 36) !important;
 	text-shadow: none;
-	height: 22px !important;
+	height: 33px !important;
 	min-height: 1em !important;
 	border: 1px solid rgb(248, 182, 36) !important;
-	padding-left: 21px !important;
+	padding-left: 33px !important;
 	margin-left: 13px;
 	margin-top: 3px;
 	border-radius: 7px;
@@ -41,14 +42,14 @@
 #departureDescriptionInput {
 	background-image: url("../../images/icons/target.png") !important;
 	background-repeat: no-repeat !important;
-	background-size: 15px 15px !important;
+	background-size: 27px 27px !important;
 	background-position: 2px 2px !important;
 }
 
 #destinationDescriptionInput {
 	background-image: url("../../images/icons/finishss.png") !important;
 	background-repeat: no-repeat !important;
-	background-size: 15px 15px !important;
+	background-size: 27px 27px !important;
 	background-position: 2px 2px !important;
 }
 
@@ -56,25 +57,24 @@
 	background-image: url("../../images/icons/startBlue.png") !important;
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
-	background-position: 22px;
+	background-color: rgb(8, 27, 44) !important;
+	background-position: 45% 22% !important;
 	border: none;
 	width: 64px !important;
 	height: 100% !important;
+	min-height: 33px !important;
 	display: block;
 	position: absolute !important;
 	float: right !important;
 	top: 0;
 	right: 0;
-	min-height: 33px !important;
 	margin: 0 auto;
-	color: rgba(248, 182, 36, 1) !important;
+	color: rgb(248, 182, 36) !important;
 	font-size: 9px;
 	text-decoration: none;
 	text-shadow: none !important;
-	background-position: center;
 	text-transform: uppercase;
 	text-align: center !important;
-	background-color: transparent !important;
 	padding-top: 6em;
 	padding-left: 0 !important;
 	padding-right: 0 !important;
@@ -84,14 +84,15 @@
 #locationInfoDiv {
 	position: absolute;
 	z-index: 100;
-	display: block;
-	background-color: rgba(8, 27, 44, .77) !important;
-	color: rgb(248, 182, 36) !important;
-	text-shadow: none !important;
+	display: none;
+	background-color: rgba(248, 182, 36, .77) !important;
+	color: rgb(8, 27, 44) !important;
+	font-weight: bold; text-shadow : none !important;
 	width: 100%;
 	height: 13% !important;
 	bottom: -13%;
 	overflow: hidden !important;
+	text-shadow: none !important;
 }
 
 #LocationInfoContainer {

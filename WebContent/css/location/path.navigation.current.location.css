@@ -1,6 +1,6 @@
 #currentLocationShow {
 	width: auto;
-	min-height: 3.7em;
+	min-height: 4.4em;
 	display: inline;
 	z-index: 10;
 	position: absolute;
@@ -13,12 +13,12 @@
 	-moz-border-radius: 22px !important;
 	border-radius: 22px !important;
 	margin-top: 0;
-	margin-left: 0;
-	/* margin: 0 auto; */
+	margin-right: 0;
+	right: 7px;
 	left: 7px;
-	right: 52px;
-	bottom: 30px; /* 20% */
-	/*vertical-align: middle;*/
+	bottom: 11px; /* 20% */
+	overflow: hidden !important;
+	margin: 5% auto !important;
 }
 
 #remove {
@@ -37,6 +37,7 @@
 
 #currentLocationInfoContainer {
 	width: 70% !important;
+	overflow: auto !important;
 }
 
 #currentLocationButtonContainer {

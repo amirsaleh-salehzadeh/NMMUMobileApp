@@ -6,7 +6,6 @@ function errorMessagePopupOpen(content) {
 		transition : "turn"
 	});
 	$('#popupErrorMessage').popup('open').trigger('create');
-	// $('#popupErrorMessage').trigger('updatelayout');
 	$('#map_canvas').toggleClass('off');
 }
 
@@ -17,12 +16,24 @@ function arrivalMessagePopupOpen() {
 		transition : "turn"
 	});
 	$('#popupArrivalMessage').popup('open').trigger('create');
-	// $('#popupErrorMessage').trigger('updatelayout');
 	$('#map_canvas').toggleClass('off');
 }
 
-function searchResultPopupOpen() {
-	getLocationTypePanel();
+function searchResultPopupOpen(headerText) {
+	if (headerText.indexOf("rom") != -1) {
+		$("#departureButtonGroup").css("display", "block").trigger("create");
+		$("#popupSearchResultCloseBTN").css("display", "none")
+				.trigger("create");
+		$("#searchPopupHeader").html(
+				"<span id='destinationNameHeader'>To "
+						+ $("#destinationName").html() + "</span><br/>"
+						+ headerText);
+	} else {
+		$("#popupSearchResultCloseBTN").css("display", "block").trigger(
+				"create");
+		$("#departureButtonGroup").css("display", "none").trigger("create");
+		$("#searchPopupHeader").html(headerText);
+	}
 	$('#popupSearchResult').css({
 		'height' : $(window).height() * 0.95
 	});
@@ -36,20 +47,9 @@ function searchResultPopupOpen() {
 		transition : "turn"
 	});
 	$('#popupSearchResult').popup('open').trigger('create');
-	// $('#popupErrorMessage').trigger('updatelayout');
-	if ($("#locationInfoDiv").css('display') != 'none') {
-		$("#locationInfoDiv").animate({
-			bottom : "-=13%"
-		}, 1500);
-		setTimeout(function() {
-			$("#locationInfoDiv").css('display', 'none').trigger("create");
-		}, 1500);
-		$("#zoomSettings").animate({
-			bottom : 11
-		}, 1500);
-	}
+	if ($("#locationInfoDiv").css('display') != 'none')
+		hideBottomPanel();
 	$('#map_canvas').toggleClass('off');
 	$('#searchField').trigger("create");
 	$('#searchField').trigger("focus");
-
 }

@@ -1,4 +1,4 @@
-var map, marker, infoWindow, markerDest;
+var map, marker, infoWindow, markerDest, markerDepart;
 var pathPolylineConstant, pathPolylineTrack, polylineConstantLength;
 var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID, altitude;
 var distanceToNextPosition, distanceToDestination, angleToNextDestination;
@@ -38,7 +38,7 @@ function getThePath() {
 			position : getGoogleMapPosition(GPSCook.split("_")[GPSCook
 					.split("_").length - 1]),
 			map : map,
-			icon : 'images/icons/finish.png'
+			icon : 'images/map-markers/marker-orange.png'
 		});
 		resetWalking();
 		drawConstantPolyline();
@@ -49,7 +49,6 @@ function getThePath() {
 			+ $("#departureId").val() + "&destinationId="
 			+ $("#destinationId").val() + "&from=" + $("#from").val() + "&to="
 			+ $("#to").val() + "&pathType=1";
-	// + $("[name='radio-choice-path-type']:checked").val();
 	if ($("#to").val().length > 2) {
 		var destPoint = getGoogleMapPosition($("#to").val());
 		if (markerDest != null)
@@ -57,7 +56,7 @@ function getThePath() {
 		markerDest = new google.maps.Marker({
 			position : destPoint,
 			map : map,
-			icon : 'images/icons/finish.png'
+			icon : 'images/map-markers/marker-orange.png'
 		});
 	}
 	$.ajax({
@@ -95,15 +94,7 @@ function getThePath() {
 			setCookie('TripPathLocationsCookie', pathLocations, 1);
 			resetWalking();
 			drawConstantPolyline();
-			$("#locationInfoDiv").animate({
-				bottom : "-=13%"
-			}, 1500);
-			setTimeout(function() {
-				$("#locationInfoDiv").css('display', 'none').trigger("create");
-			}, 1500);
-			$("#zoomSettings").animate({
-				bottom : 11
-			}, 1500);
+			hideBottomPanel();
 			showViewItems();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -219,12 +210,13 @@ function updatePolyLine(currentPos, altitude) {
 	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath,
 			nextPosition);
 	marker.setIcon(null);
-	marker.setIcon({
-		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-		scale : 7,
-		strokeWeight : 3,
-		rotation : headingTo1st
-	});
+//	marker.setIcon({
+//		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+//		scale : 7,
+//		strokeWeight : 3,
+//		rotation : headingTo1st
+//	});
+	marker.setIcon('images/icons/target-old.png');
 	if (nextDestGPS.length > 1) {
 		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
 		var headingTo2st = google.maps.geometry.spherical.computeHeading(
@@ -269,7 +261,7 @@ function updatePolyLine(currentPos, altitude) {
 
 function resetWalking() {
 	if (walkingWatchID != undefined) {
-		clearTimeout(walkingTimer);
+//		clearTimeout(walkingTimer);
 		navigator.geolocation.clearWatch(walkingWatchID);
 		walkingWatchID = null;
 	}
@@ -314,7 +306,7 @@ function removeTrip() {
 		pathPolylineConstant.setMap(null);
 	pathPolylineTrack = null;
 	pathPolylineConstant = null;
-	clearTimeout(walkingTimer);
+//	clearTimeout(walkingTimer);
 	if (walkingWatchID != undefined) {
 		navigator.geolocation.clearWatch(walkingWatchID);
 		walkingWatchID = null;
@@ -330,10 +322,14 @@ function removeTrip() {
 	$("#to").val("");
 	$("#tripLocations").val("");
 	$("#destinationName").val("");
+	if(markerDepart != null)
+		markerDepart.setMap(null);
 	if (markerDest != null)
 		markerDest.setMap(null);
 	markerDest = null;
+	markerDepart = null;
 	findMyLocation();
+	clearSearchBTN();
 	showViewItems();
 }
 
@@ -440,12 +436,7 @@ var successTrackingHandler = function(position) {
 		});
 	}
 	marker.setIcon(null);
-	marker.setIcon({
-		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-		scale : 7,
-		strokeWeight : 3,
-		rotation : heading
-	});
+	marker.setIcon('images/icons/target-old.png');
 	marker.setPosition(currentPos);
 };
 
@@ -480,35 +471,14 @@ var successGetCurrentPosition = function(position) {
 		});
 	}
 	marker.setIcon(null);
-	marker.setIcon({
-		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-		scale : 7,
-		strokeWeight : 3,
-		rotation : heading
-	});
+	marker.setIcon('images/icons/target-old.png');
 	marker.setPosition(currentPos);
 	map.panTo(currentPos);
 	map.setCenter(currentPos);
 };
 
-$(document).ready(
-		function() {
-			$('#destinationName').wrap('<span class="clearicon" />').after(
-					$('<span/>').click(
-							function() {
-								$('#destinationName').val("");
-								removeTrip();
-								$("#locationInfoDiv").animate({
-									bottom : "-=13%"
-								}, 1500);
-								setTimeout(function() {
-									$("#locationInfoDiv")
-											.css('display', 'none').trigger(
-													"create");
-								}, 1500);
-								$("#zoomSettings").animate({
-									bottom : 11
-								}, 1500);
-								$("#autocompleteContainer").hide();
-							}));
-		});
+$(document).ready(function() {
+	$('#destinationName').val("");
+	removeTrip();
+	getLocationTypePanel();
+});

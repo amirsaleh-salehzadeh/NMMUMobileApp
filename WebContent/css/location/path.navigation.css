@@ -1,3 +1,7 @@
+#visitorCounter {
+	display: none;
+}
+
 #pageContents {
 	display: inline;
 	max-height: 100%;
@@ -25,10 +29,10 @@
 
 #map_canvas.off {
 	-webkit-filter: blur(2px);
-  	-moz-filter: blur(2px);
-  	-o-filter: blur(2px);
-  	-ms-filter: blur(2px);
-  	filter: blur(2px);
+	-moz-filter: blur(2px);
+	-o-filter: blur(2px);
+	-ms-filter: blur(2px);
+	filter: blur(2px);
 }
 
 #cameraView {
@@ -159,9 +163,6 @@
 #viewFullScreen {
 	padding: 7px 4px 7px 4px;
 }
-#viewMapType {
-	padding: 7px 4px 7px 4px;
-}
 
 #currentLocationShow {
 	width: 50%;
@@ -185,20 +186,6 @@
 	right: 0;
 }
 
-#destinationShowIMG {
-	display: block;
-	max-width: 32px;
-	max-height: 32px;
-	z-index: 11;
-	background-color: white;
-	opacity: 0.66;
-	position: absolute; /* fixed */
-	border: 1px solid #d1dcdf !important;
-	-webkit-border-radius: 22px !important;
-	-moz-border-radius: 22px !important;
-	border-radius: 22px !important;
-}
-
 .dashboardShow {
 	display: block;
 	min-width: 100%; /* 15% */
@@ -218,20 +205,8 @@
 	border-radius: 7px !important;
 }
 
-.destinationShowIMG {
-	display: block;
-	z-index: 11;
-	background-color: white;
-	opacity: 0.66;
-	position: absolute; /* fixed */
-	border: 1px solid #d1dcdf !important;
-	-webkit-border-radius: 7px !important;
-	-moz-border-radius: 7px !important;
-	border-radius: 7px !important;
-}
-
 /* LIST VIEW */
-.blurBlue{
+.blurBlue {
 	position: absolute;
 	width: 100%;
 	z-index: -1;

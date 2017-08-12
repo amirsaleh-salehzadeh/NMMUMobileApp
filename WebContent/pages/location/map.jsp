@@ -3,10 +3,10 @@
 <html>
 <head>
 <meta http-equiv="Cache-Control"
-	content=" no-cache, no-store, must-revalidate" />
+	content="public" />
 <!-- no-cache, no-store, must-revalidate -->
-<meta http-equiv="Pragma" content="public" />
-<meta http-equiv="Expires" content="0" />
+<!-- <meta http-equiv="Pragma" content="public" /> -->
+<!-- <meta http-equiv="Expires" content="0" /> -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -38,10 +38,11 @@
 </style>
 <script type="text/javascript">
 	$(window).bind('load', function() {
-		$('#work-in-progress').fadeOut(100);
-// 				errorMessagePopupOpen('hi');
-// 										arrivalMessagePopupOpen();
-		displayImage(30);
+		$('#work-in-progress').fadeOut(2000);
+		// 				errorMessagePopupOpen('hi');
+		// 										arrivalMessagePopupOpen();
+		displayImage(110);
+
 	});
 </script>
 <body>
@@ -162,31 +163,42 @@
 
 		<div id="searchBarDivTop">
 			<div class="ui-block-solo" id="destinationNameDiv">
-				<a data-role="button" href="#" data-rel="popup"
-					href="#" data-transition="turn"
-					id="destinationName" onclick="searchResultPopupOpen();">Find a
-					Place</a>
+				<a data-role="button" href="#" data-rel="popup" href="#"
+					data-transition="turn" id="destinationName"
+					onclick="searchResultPopupOpen('Where To?');">Find a Place</a> <span
+					onclick="clearSearchBTN()"></span>
 			</div>
+
 		</div>
 
 
 		<!-- 		MAP VIEW MODE -->
 
 
-		<div id="viewMapType">
-			<input type="button" class="zoomBTN" id="satelliteView"
-				onclick="mapSattelView()"> <input type="button"
-				class="zoomBTN" id="mapViewIcon" onclick="mapMapView()">
-		</div>
+		<!-- 		<div id="viewMapType"> -->
+		<!-- 			<input type="button" class="zoomBTN" id="satelliteView" -->
+		<!-- 				onclick="mapSattelView()"> <input type="button" -->
+		<!-- 				class="zoomBTN" id="mapViewIcon" onclick="mapMapView()"> -->
+		<!-- 		</div> -->
 
 
 		<!-- 		ZOOM SETTINGS -->
 
 
 		<div id="zoomSettings">
+			<div id="visitorCounter">
+				<a href="http://www.reliablecounter.com" target="_blank"> <img
+					src="http://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
+					alt="" title="" border="0"></a>
+			</div>
 			<div class="ui-block-solo" style="display: none;">
 				<input disabled="disabled" type="text" id="visitorCounter"
 					placeholder="" value="">
+			</div>
+			<div class="ui-block-solo">
+				<input type="button" class="zoomBTN" id="satelliteView"
+					onclick="mapSattelView()"> <input type="button"
+					class="zoomBTN" id="mapViewIcon" onclick="mapMapView()">
 			</div>
 			<div class="ui-block-solo">
 				<input type="button" class="zoomBTN" id="zoomin"
@@ -237,7 +249,11 @@
 			<div class="spinnerLoading" style="display: none;"></div>
 			<div id="LocationInfoContainer">
 				<div id="locationInf"></div>
-				<button id="start" onclick="initiateNavigation()">Direction</button>
+				<!-- WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
+				<button id="start" onclick="searchResultPopupOpen('From?');">
+					<!-- WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
+					Get <br />Directions
+				</button>
 			</div>
 		</div>
 
@@ -310,30 +326,50 @@
 
 
 		<!-- SEARCH VIEW POPUP -->
-		<!-- 	ARRIVAL POPUP -->
 
 
 		<div data-role="popup" id="popupSearchResult" class="ui-content"
 			data-position-to="window" data-transition="turn">
 			<a href="#" data-role="none" class="popupCloseBtn"
 				onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"></a>
-			<div class="ui-block-solo">
-				<input type="text"
-					id="searchField" placeholder="Find a Place" data-role="none">
+			<div class="ui-block-solo" id="searchPopupHeader"></div>
+			<div class="ui-block-solo" id="searchFieldDiv">
+				<input type="text" id="searchField" placeholder="Find a Place"
+					data-role="none"> <span onclick="searchFieldDivClearBTN();"></span>
 			</div>
 			<div class="ui-block-solo">
 				<ul data-role="listview" id="resultsListView" data-filter="true"
 					data-inset="true" data-input="#searchField"></ul>
 			</div>
+			<div class="ui-grid-a ui-block-solo" style="display: none;"
+				id="departureButtonGroup">
+				<div class="ui-block-a">
+					<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
+						onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"
+						class="closePopupMessage"><img
+						src="images/icons/clearInput.png" alt=""
+						class="closeMessageButtonIcon" />Close</a>
+				</div>
+				<div class="ui-block-b">
+					<a data-role="button" href="#"
+						id="popupSearchResultCurrentLocationBTN"
+						onclick="getDirectionFromCurrentLocation();"
+						class="closePopupMessage"><img src="images/icons/target.png"
+						alt="" class="closeMessageButtonIcon" />My Location</a>
+				</div>
+			</div>
 			<a data-role="button" href="#" id="popupSearchResultCloseBTN"
 				onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"
-				class="closePopupMessage"><img src="images/icons/clearInput.png"
+				class="closePopupMessage" style="margin: 5% auto !important;"><img src="images/icons/clearInput.png"
 				alt="" class="closeMessageButtonIcon" />Close</a>
+
 		</div>
 
 
 	</div>
 </body>
+<script type="text/javascript"
+	src="js/location/navigation/path.navigation.tools.js"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.scanner.js"></script>
 <script type="text/javascript"
@@ -343,15 +379,13 @@
 <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.directions.js"></script>
-<script type="text/javascript"
-	src="js/location/navigation/path.navigation.tools.js"></script>
 <script src="js/location/navigation/path.navigation.search.panel.js"></script>
-<script type="text/javascript"
-	src="js/location/navigation/path.navigation.popups.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.map.js"></script>
+<script type="text/javascript"
+	src="js/location/navigation/path.navigation.popups.js"></script>
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=places,geometry&callback=initiMap"
 	type="text/javascript"></script>
