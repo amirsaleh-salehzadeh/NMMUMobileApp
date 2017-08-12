@@ -277,7 +277,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setIcon(rs.getString("icon"));
 				ent.setPlan(rs.getString("plan"));
 				locationENTs.add(ent);
-
 			}
 			rs.close();
 			ps.close();
