@@ -154,6 +154,7 @@
 		type="hidden" name="markerCoordinate" id="markerCoordinate"> <input
 		type="hidden" name="markerId" id="markerId"> <input
 		type="hidden" id="pathLatLng">
+	<input type="hidden" name ="boundry" id="boundry">
 
 	<div class="ui-field-contain" id="locationsUnderAType">
 		<form>
@@ -164,12 +165,14 @@
 
 	</div>
 </div>
-<div id="panelColour">
-            <div id="color-palette"></div>
-            <div>
-                <button id="delete-button">Delete Selected Shape</button>
-            </div>
-        </div>
+<div id="polygons">
+	<div id="panelColour">
+		<div id="color-palette"></div>
+		<div>
+     	  	<button id="delete-button">Delete Selected Shape</button>
+		</div>
+	</div>
+</div>
 <div id="map_canvas"></div>
 <div id="locationTypeFields">
 	<div data-role="controlgroup" id="locationTypesContainer"
