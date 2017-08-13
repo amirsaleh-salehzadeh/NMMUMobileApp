@@ -82,87 +82,67 @@ function getTripInfo() {
 }());
 
 // function drawCanvasDirection(){
-var canvas;
-var myImage = new Image();
-var back = new Image();
-var ctx;
 function displayImage(angle) {
 	var ctx = document.getElementById('directionCanvas').getContext('2d');
-
+	ctx.clearRect(0, 0, document.getElementById('directionCanvas').width,
+			document.getElementById('directionCanvas').height);
+	var startPointX, startPointY, endPointX, endPointY, quadPointX, quadPointY;
 	if (0 <= angle && angle < 45) {
-
-		var startPointX = 50;
-		var startPointY = 100;
-		var endPointX = 50 + (angle * 1.1);
-		var endPointY = 5;
-		var quadPointX = 50;
-		var quadPointY = 50;
+		startPointX = 50;
+		startPointY = 100;
+		endPointX = 50 + (angle * 1.1);
+		endPointY = 5;
+		quadPointX = 50;
+		quadPointY = 50;
 	} else if (45 <= angle && angle < 90) {
-
-		var startPointX = 50;
-		var startPointY = 100;
-		var endPointX = 100;
-		var endPointY = ((angle - 45) * 1.1);
-		var quadPointX = 50;
-		var quadPointY = 50;
+		startPointX = 50;
+		startPointY = 100;
+		endPointX = 100;
+		endPointY = ((angle - 45) * 1.1);
+		quadPointX = 50;
+		quadPointY = 50;
 	} else if (90 <= angle && angle < 135) {
-
-		var startPointX = 50 - ((angle - 90) * 0.55);
-		var startPointY = 100;
-		var endPointX = 100;
-		var endPointY = ((angle - 45) * 1.1);
-		var quadPointX = 50;
-		var quadPointY = 50 - ((angle - 45) * 1.1);
-		console.log(quadPointY);
-	} else if (135 <= angle && angle < 180) {
-
-		var startPointX = 25;
-		var startPointY = 100;
-		var endPointX = 100 - ((angle - 135) * 1.1);
-		var endPointY = 100;
-		var quadPointX = 50;
-		var quadPointY = -49;
-	} else if (180 == angle) {
-
-		var startPointX = 50;
-		var startPointY = 0;
-		var endPointX = 50;
-		var endPointY = 100;
-		var quadPointX = 50;
-		var quadPointY = 50;
+		startPointX = 50 - ((angle - 90) * 0.55);
+		startPointY = 100;
+		endPointX = 100;
+		endPointY = ((angle - 45) * 1.1);
+		quadPointX = 50;
+		quadPointY = 50;// - ((angle - 45) * 1.1)
+	} else if (135 <= angle && angle <= 180) {
+		startPointX = 25;
+		startPointY = 100;
+		endPointX = 100 - ((angle - 135) * 1.1);
+		endPointY = 100;
+		quadPointX = 50;
+		quadPointY = 0;
 	} else if (180 < angle && angle < 225) {
-
-		var startPointX = 75;
-		var startPointY = 100;
-		var endPointX = 50 - ((angle - 180) * 1.1);
-		var endPointY = 100;
-		var quadPointX = 50;
-		var quadPointY = -49;
+		startPointX = 75;
+		startPointY = 100;
+		endPointX = 50 - ((angle - 180));
+		endPointY = 100;
+		quadPointX = 50;
+		quadPointY = 0;
 	} else if (225 <= angle && angle < 270) {
-
-		var startPointX = 75 - ((angle - 225) * 0.55);
-		var startPointY = 100;
-		var endPointX = 0;
-		var endPointY = 100 - ((angle - 225) * 1.1);
-		var quadPointX = 50;
-		var quadPointY = 50 - ((angle - 225) * 1.1);
+		startPointX = 75 - ((angle - 225) * 0.55);
+		startPointY = 100;
+		endPointX = 10;
+		endPointY = 100 - ((angle - 225));
+		quadPointX = 50;
+		quadPointY = 50;// - ((angle - 225) * 1.1)
 	} else if (270 <= angle && angle < 315) {
-		
-		var startPointX = 50;
-		var startPointY = 100;
-		var endPointX = 0;
-		var endPointY = ((angle - 270) * 1.1);
-		var quadPointX = 50;
-		var quadPointY = 50;
-
+		startPointX = 50;
+		startPointY = 100;
+		endPointX = 10;
+		endPointY = ((angle - 270) * 1.1);
+		quadPointX = 50;
+		quadPointY = 50;
 	} else if (315 <= angle && angle <= 360) {
-		
-		var startPointX = 50;
-		var startPointY = 100;
-		var endPointX = 0 + ((angle-315) * 1.1);
-		var endPointY = 5;
-		var quadPointX = 50;
-		var quadPointY = 50;
+		startPointX = 50;
+		startPointY = 100;
+		endPointX = 0 + ((angle - 315));
+		endPointY = 5;
+		quadPointX = 50;
+		quadPointY = 50;
 	}
 
 	ctx.strokeStyle = "rgb(12, 28, 44)";
@@ -171,7 +151,6 @@ function displayImage(angle) {
 	var arrowAngle = Math.atan2(quadPointX - endPointX, quadPointY - endPointY)
 			+ Math.PI;
 	var arrowWidth = 11;
-
 	ctx.beginPath();
 	ctx.moveTo(startPointX, startPointY);
 	ctx.quadraticCurveTo(quadPointX, quadPointY, endPointX, endPointY);
@@ -187,4 +166,7 @@ function displayImage(angle) {
 
 	ctx.stroke();
 	ctx.closePath();
+	angle = angle + 5;
+	if (angle >= 360)
+		angle = 0;
 }

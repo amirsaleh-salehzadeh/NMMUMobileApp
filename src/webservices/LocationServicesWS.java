@@ -214,11 +214,19 @@ public class LocationServicesWS {
 			@QueryParam("userName") String userName,
 			@QueryParam("address") String address,
 			@QueryParam("coordinate") String coordinate,
+			@QueryParam("description") String description,
+			@QueryParam("boundary") String boundary,
+			@QueryParam("plan") String plan,
+			@QueryParam("icon") String icon,
 			@QueryParam("parentId") long parentId) {
 		LocationENT ent = new LocationENT(locationId, userName,
 				new LocationTypeENT(locationType), address, coordinate,
 				locationName);
 		ent.setParentId(parentId);
+		ent.setDescription(description);
+		ent.setBoundary(boundary);
+		ent.setPlan(plan);
+		ent.setIcon(icon);
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {

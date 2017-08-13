@@ -12,16 +12,18 @@ function getLocationTypePanel() {
 			$.each(data, function(k, l) {
 				str += "<li id='" + l.locationID + "_" + l.gps + "_"
 						+ l.locationType.locationType
-						+ "' onclick='selectDestination(this, \"" + l.locationName
+						+ "' onclick='selectDestination(this, \""
+						+ l.locationType.locationType + " " + l.locationName
 						+ "\")' data-icon='false'>"
 						+ '<a href="#" class="resultsListViewContent">';
 				var src = "images/map-markers/building.png";
 				if (l.icon != null)
 					src = l.icon;
 				str += '<img src="' + src + '" class="listViewIcons"><h2>'
-						+ l.locationName + '</h2><p>';
+						+ l.locationType.locationType + " " + l.locationName
+						+ '</h2><p>';
 				var desc = "&nbsp;";
-				if(l.description != null)
+				if (l.description != null)
 					desc = l.description;
 				str += desc + '</p></a></li>';
 			});
@@ -36,101 +38,84 @@ function getLocationTypePanel() {
 
 }
 
-var childData;
-function getMyChild(select) {
-	if (childData == null)
-		childData = locationTypeJSONData;
-	else if (childData.children == null)
-		return;
-	var listAdd = "";
-	$.each(childData.children, function(k, l) {
-		listAdd = '<div data-role="collapsible" data-filtertext="'
-				+ l.locationType + '">';
-		listAdd += '<h3>' + l.locationType + '</h3>';
-		listAdd += '<ul data-role="listview" data-inset="false" id="'
-				+ l.locationTypeId + '" class="locationTypes"></ul></div>';
-	});
-
-	// $("#autocompleteDestination").listview("refresh");
-	// } else
-	$.each(childData.children, function(k, l) {
-		childData = l;
-		getMyChild(l.locationTypeId);
-	});
-}
-
 function selectDestination(destination, content) {
-	$("#destinationId").val($(destination).attr("id").split("_")[0]);
-	$("#destinationName").html(content);
-	$(".spinnerLoading").css('display', 'none');
-	// $("#locationInf").html($(destination).html());
-	$("#locationInf").html(content);
-	$("#locationInfoDiv").css('display', 'block');
-	$("#locationInfoDiv").animate({
-		bottom : "0"
-	}, 1500);
-	$("#zoomSettings").animate({
-		bottom : $("#locationInfoDiv").height()
-	}, 1500);
-	$("#to").val($(destination).attr("id").split("_")[1].replace(" ", ""));
-	var destPoint = getGoogleMapPosition($("#to").val());
-	if (markerDest != null)
-		markerDest.setMap(null);
-	markerDest = new google.maps.Marker({
-		position : destPoint,
-		map : map,
-		icon : 'images/icons/finish.png'
-	});
-	markerDest.addListener('click', function() {
-		// infowindowDestination.open(map, markerDest);
-		selectDestination(destination);
-	});
-
-	map.panTo(markerDest.getPosition());
+	if ($("#destinationNameHeader").length > 0)
+		if ($("#destinationNameHeader").html().indexOf(content) != -1) {
+			alert(content + " has been already selected as the Departure");
+			return;
+		}
+	var departure = false;
+	if ($("#searchPopupHeader").html().indexOf("rom") > 0)
+		departure = true;
+	var bounds = new google.maps.LatLngBounds();
+	if (departure) {
+		$("#from")
+				.val($(destination).attr("id").split("_")[1].replace(" ", ""));
+		$("#departureId").val($(destination).attr("id").split("_")[0]);
+		$("#departureDescriptionInput").val(content);
+		var departPoint = getGoogleMapPosition($("#from").val());
+		if (markerDepart != null)
+			markerDepart.setMap(null);
+		markerDepart = new google.maps.Marker({
+			position : departPoint,
+			map : map,
+			icon : 'images/map-markers/marker-green.png'
+		});
+		// markerDepart.addListener('click', function() {
+		// selectDestination(destination);
+		// });
+		// initiateNavigation();
+		bounds.extend(markerDest.getPosition());
+		bounds.extend(markerDepart.getPosition());
+		map.fitBounds(bounds);
+		getThePath();
+	} else {
+		$("#destinationName").html(content);
+		$(".spinnerLoading").css('display', 'none');
+		$("#locationInf").html(content);
+		showBottomPanel();
+		$("#to").val($(destination).attr("id").split("_")[1].replace(" ", ""));
+		$("#destinationId").val($(destination).attr("id").split("_")[0]);
+		var destPoint = getGoogleMapPosition($("#to").val());
+		if (markerDest != null)
+			markerDest.setMap(null);
+		markerDest = new google.maps.Marker({
+			position : destPoint,
+			map : map,
+			icon : 'images/map-markers/marker-orange.png'
+		});
+		markerDest.addListener('click', function() {
+			selectDestination(destination);
+		});
+		map.panTo(markerDest.getPosition());
+	}
 	$('#popupSearchResult').popup('close');
 	$('#map_canvas').toggleClass('off');
 }
 
-$("#destinationName").keyup(
-		function() {
-			$("#autocompleteContainer").show();
-			if ($(this).val() == '') {
-				$("ul:jqmData(role='listview')").children().addClass(
-						'ui-screen-hidden');
-			}
-		});
+function getDirectionFromCurrentLocation() {
+	$("#departureId").val("");
+	$("#departureDescriptionInput").val("Current Location");
+	findMyLocation();
+//	showBottomPanel();
+	$('#popupSearchResult').popup('close');
+	$('#map_canvas').toggleClass('off');
+	$("#locationInf").html('');
+	do {
+		$(".spinnerLoading").css('display', 'block');
+	} while ($("#from").val().length < 2);
+	$(".spinnerLoading").css('display', 'none');
+	// hideBottomPanel();
+	getThePath();
+}
 
-function getCampusMarkers(locationId) {
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-			+ locationId + "&userName=NMMU";
-	for ( var i = 0; i < markers.length; i++) {
-		markers[i].setMap(null);
-	}
-	$.ajax({
-		url : url,
-		cache : true,
-		async : true,
-		success : function(data) {
+function clearSearchBTN() {
+	$("#destinationName").html("Find a Place");
+	if ($("#locationInfoDiv").css('display') != 'none')
+		hideBottomPanel();
+}
 
-			$.each(data, function(k, l) {
-				var markerTMP = new google.maps.Marker({
-					position : {
-						lat : parseFloat(l.gps.split(",")[0]),
-						lng : parseFloat(l.gps.split(",")[1])
-					},
-					icon : 'images/map-markers/building.png',
-					title : l.locationName
-				});
-				google.maps.event.addListener(markerTMP, 'click', function() {
-					selectDestination();
-				});
-				markerTMP.setMap(map);
-				markers.push(markerTMP);
-			});
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-			errorMessagePopupOpen(thrownError);
-		}
-	});
-
+function searchFieldDivClearBTN() {
+	$("#searchField").val("");
+	$("#resultsListView").listview("refresh");
 }
