@@ -221,16 +221,16 @@ function initMap() {
 	        polygonOptions: polyOptions,
 	        map: map
 	    });
-
+	     	
 	    google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
 	        var newShape = e.overlay;
-	        
+	        //The getPolygonCoords function must be called here, because it is called right after the whole polygon is created
+	        alert(getPolygonCoords(newShape));
 	        newShape.type = e.type;
 	        
 	        if (e.type !== google.maps.drawing.OverlayType.MARKER) {
 	            // Switch back to non-drawing mode after drawing a shape.
 	            drawingManager.setDrawingMode(null);
-
 	            // Add an event listener that selects the newly-drawn shape when the user
 	            // mouses down on it.
 	            google.maps.event.addListener(newShape, 'click', function (e) {
@@ -258,16 +258,17 @@ function initMap() {
 	            google.maps.event.addListener(newShape, 'click', function (e) {
 	                setSelection(newShape);
 	            });
-	            setSelection(newShape);
+	           setSelection(newShape);
 	        }
 	    });
-
+	    
 	    // Clear the current selection when the drawing mode is changed, or when the
 	    // map is clicked.
 	    google.maps.event.addListener(drawingManager, 'drawingmode_changed', clearSelection);
 	    google.maps.event.addListener(map, 'click', clearSelection);
 	    google.maps.event.addDomListener(document.getElementById('delete-button'), 'click', deleteSelectedShape);
-	    
+	    //Disables drawing mode on startup so you have to click on toolbar first to draw shapes and create the colour palette
+	    drawingManager.setDrawingMode(null);
 	    buildColorPalette();
 }
 //google.maps.event.addDomListener(window, 'load', initialize);

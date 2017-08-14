@@ -118,3 +118,15 @@ function buildColorPalette () {
     }
     selectColor(colors[0]);
 }
+
+function getPolygonCoords(newShape) {
+	var len = newShape.getPath().getLength();
+    var htmlStr = "";
+    for (var i = 0 ; i < len ; i++) {
+         htmlStr = htmlStr + newShape.getPath().getAt(i).lat() + "," + newShape.getPath().getAt(i).lng();
+         if (i !== len-1)
+         { htmlStr = htmlStr + "_";}
+     }
+    //alert("The co-ordinates are: " + htmlStr);
+    return htmlStr;
+}  

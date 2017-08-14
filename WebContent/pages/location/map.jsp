@@ -39,10 +39,10 @@
 </style>
 <script type="text/javascript">
 	$(window).bind('load', function() {
-		$('#work-in-progress').fadeOut(2000);
+		$('#work-in-progress').fadeOut(1000);
 		// 				errorMessagePopupOpen('hi');
 		// 										arrivalMessagePopupOpen();
-		displayImage(110);
+// 		displayImage(110);
 
 	});
 </script>
