@@ -40,8 +40,8 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(1000);
-		// 				errorMessagePopupOpen('hi');
-		// 										arrivalMessagePopupOpen();
+// 						errorMessagePopupOpen('hi');
+// 												arrivalMessagePopupOpen();
 		// 		displayImage(110);
 
 	});
