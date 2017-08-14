@@ -41,7 +41,7 @@ function getLocationTypePanel() {
 function selectDestination(destination, content) {
 	if ($("#destinationNameHeader").length > 0)
 		if ($("#destinationNameHeader").html().indexOf(content) != -1) {
-			alert(content + " has been already selected as the Departure");
+			errorMessagePopupOpen(content + " has been already selected as the Departure");
 			return;
 		}
 	var departure = false;

@@ -11,13 +11,13 @@ window.addEventListener("resize", function() {
 }, false);
 
 /* iOS */
- $("input").bind("focus blur",function() {
- $(window).scrollTop(10);
- is_keyboard = $(window).scrollTop() > 0;
- $(window).scrollTop(0);
- updateViews();
- });
- 
+$("input").bind("focus blur", function() {
+	$(window).scrollTop(10);
+	is_keyboard = $(window).scrollTop() > 0;
+	$(window).scrollTop(0);
+	updateViews();
+});
+
 function errorMessagePopupOpen(content) {
 	$("#errorMessageContent").html(content).trigger("create");
 	$('#popupErrorMessage').popup();
@@ -48,11 +48,13 @@ function searchResultPopupOpen(headerText) {
 				"<span id='destinationNameHeader'>To "
 						+ $("#destinationName").html() + "</span><br/>"
 						+ headerText);
+		$("#searchField").attr("placeholder", "Departure");
 	} else {
 		$("#popupSearchResultCloseBTN").css("display", "block").trigger(
 				"create");
 		$("#departureButtonGroup").css("display", "none").trigger("create");
 		$("#searchPopupHeader").html(headerText);
+		$("#searchField").attr("placeholder", "Destination");
 	}
 	$('#popupSearchResult').css({
 		'height' : $(window).height() * 0.95
@@ -69,14 +71,16 @@ function searchResultPopupOpen(headerText) {
 	$('#popupSearchResult').popup('open').trigger('create');
 	if ($("#locationInfoDiv").css('display') != 'none')
 		hideBottomPanel();
-	$('#map_canvas').toggleClass('off');
+	$('#map_canvas').addClass('off');
 	$('#searchField').trigger("create");
 	$('#searchField').trigger("focus");
 }
+
 function updateViews() {
 	if (is_keyboard) {
 		$("#popupSearchResult").height(window.innerHeight - 30);
-
-	}else{$("#popupSearchResult").height(window.innerHeight - 30);}
+	} else {
+		$("#popupSearchResult").height(window.innerHeight - 30);
+	}
 
 }
