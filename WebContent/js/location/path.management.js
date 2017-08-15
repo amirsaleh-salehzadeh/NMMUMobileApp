@@ -226,6 +226,8 @@ function initMap() {
 	        var newShape = e.overlay;
 	        //The getPolygonCoords function must be called here, because it is called right after the whole polygon is created
 	        alert(getPolygonCoords(newShape));
+	        $("#boundary").val(getPolygonCoords(newShape));
+	        $("#insertAMarker").css("z-index", "initial");
 	        newShape.type = e.type;
 	        
 	        if (e.type !== google.maps.drawing.OverlayType.MARKER) {

@@ -111,6 +111,22 @@
     width: auto;
 }
 
+#imageEdit .ui-btn{
+	overflow: visible;
+	padding: .3em .1em;
+}
+/*
+#views {
+    display: block;
+    border: none;
+    visibility: visible;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    width: 400px;
+    height: 225px;
+}
+*/
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -154,7 +170,6 @@
 		type="hidden" name="markerCoordinate" id="markerCoordinate"> <input
 		type="hidden" name="markerId" id="markerId"> <input
 		type="hidden" id="pathLatLng">
-	<input type="hidden" name ="boundry" id="boundry">
 
 	<div class="ui-field-contain" id="locationsUnderAType">
 		<form>
@@ -199,7 +214,8 @@
 </div>
 <div data-role="popup" id="insertAMarker" data-position-to="window"
 	data-transition="turn"
-	style="background-color: #000000; width: 333px; padding: 7px 7px 7px 7px;">
+	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;
+	position: relative;"><!-- width: 333px; -->
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right"
 		onclick="$('#insertAMarker').popup('close'); ">Close</a>
@@ -207,6 +223,37 @@
 		<label for="markerName" id="markerLabel"></label> <input type="text"
 			placeholder="Location Name" name="markerName" id="markerName"
 			value="">
+	</div>
+	<div class="ui-block-solo">
+	<label for="locationDescription" id="locationDescription"></label>
+		<input type="text" placeholder="Location Description" name="locationDescription" 
+		id="locationDescription" value="">
+	</div>
+	<div class="ui-block-solo">
+		<input id="file" type="file" name="pic" accept="image/*"/>
+		<br>
+		<div class="ui-grid-c" id="imageEdit">
+    	<div class="ui-block-a">
+			<button id="cropbutton" type="button">Crop</button>
+		</div>
+    	<div class="ui-block-b">
+			<button id="scalebutton" type="button">Scale</button>
+		</div>
+   	 	<div class="ui-block-c">
+			<button id="rotatebutton" type="button">Rotate</button>
+		</div>
+		<div class="ui-block-d">
+			<button id="saveIcon" type="button">Save Icon</button>
+		</div>
+		</div>
+		<br>
+  		<div id="views">
+  		</div>
+	</div>
+	<input type="hidden" name ="boundary" id="boundary" value="">
+	<div class="ui-block-solo">
+		<input type="button" data-icon="plus" value="Add Boundary"
+		onclick="addPolygon()">
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
@@ -254,6 +301,8 @@
 			onclick="saveThePath()">Save</a>
 	</div>
 </div>
+<script src="js/jquery.Jcrop.min.js"></script>
+<script type="text/javascript" src="js/location/path.management.image.js"></script>
 <script type="text/javascript" src="js/location/path.navigation.polygon.js"></script>
 <script type="text/javascript" src="js/location/path.management.js"></script>
 <script type="text/javascript"
