@@ -26,7 +26,7 @@ function errorMessagePopupOpen(content) {
 		transition : "turn"
 	});
 	$('#popupErrorMessage').popup('open').trigger('create');
-	$('#map_canvas').toggleClass('off');
+	blurTrue();
 }
 
 function arrivalMessagePopupOpen() {
@@ -36,7 +36,7 @@ function arrivalMessagePopupOpen() {
 		transition : "turn"
 	});
 	$('#popupArrivalMessage').popup('open').trigger('create');
-	$('#map_canvas').toggleClass('off');
+	blurTrue();
 }
 
 function searchResultPopupOpen(headerText) {

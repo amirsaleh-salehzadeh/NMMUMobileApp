@@ -40,8 +40,7 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(1000);
-// 						errorMessagePopupOpen('hi');
-// 												arrivalMessagePopupOpen();
+
 		// 		displayImage(110);
 
 	});
@@ -294,12 +293,12 @@
 		<div data-role="popup" id="popupErrorMessage" class="ui-content"
 			data-position-to="window" data-transition="turn">
 			<a href="#" data-role="button" class="popupCloseBtn"
-				onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"></a>
+				onclick="$('#popupErrorMessage').popup('close');blurFalse();"></a>
 			<div id="errorMessageHeader" class="ui-block-solo">Error!</div>
 			<div id="errorMessageContent" class="ui-block-solo"></div>
 			<div class="ui-block-solo">
 				<a data-role="button" href="#"
-					onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"
+					onclick="$('#popupErrorMessage').popup('close');blurFalse();"
 					class="closePopupMessage"><img
 					src="images/icons/clearInput.png" alt=""
 					class="closeMessageButtonIcon" />Close</a>
@@ -313,12 +312,12 @@
 		<div data-role="popup" id="popupArrivalMessage" class="ui-content"
 			data-position-to="window" data-transition="turn">
 			<a href="#" data-role="button" class="popupCloseBtn"
-				onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"></a>
+				onclick="$('#popupArrivalMessage').popup('close');blurFalse();"></a>
 			<div id="arrivalMessageHeader" class="ui-block-solo">Header</div>
 			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
 			<div class="ui-block-solo">
 				<a data-role="button" href="#"
-					onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"
+					onclick="$('#popupArrivalMessage').popup('close');blurFalse();"
 					class="closePopupMessage"><img
 					src="images/icons/clearInput.png" alt=""
 					class="closeMessageButtonIcon" />Close</a>
@@ -332,7 +331,7 @@
 		<div data-role="popup" id="popupSearchResult" class="ui-content"
 			data-position-to="window" data-transition="turn">
 			<a href="#" data-role="none" class="popupCloseBtn"
-				onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"></a>
+				onclick="$('#popupSearchResult').popup('close');blurFalse();"></a>
 			<div class="ui-block-solo" id="searchPopupHeader"></div>
 			<div class="ui-block-solo" id="searchFieldDiv">
 				<input type="text" id="searchField" placeholder="Find a Place"
@@ -348,7 +347,7 @@
 					style="display: none;" id="departureButtonGroup">
 					<div class="ui-block-a">
 						<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
-							onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"
+							onclick="$('#popupSearchResult').popup('close');blurFalse();"
 							class="closePopupMessage"><img
 							src="images/icons/clearInput.png" alt=""
 							class="closeMessageButtonIcon" />Close</a>
@@ -364,7 +363,7 @@
 				<div class="ui-block-solo popupSearchResultCloseBTNContainer"
 					id="popupSearchResultCloseBTN">
 					<a data-role="button" href="#"
-						onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"
+						onclick="$('#popupSearchResult').popup('close');blurFalse();"
 						class="closePopupMessage"><img
 						src="images/icons/clearInput.png" alt=""
 						class="closeMessageButtonIcon" />Close</a>
