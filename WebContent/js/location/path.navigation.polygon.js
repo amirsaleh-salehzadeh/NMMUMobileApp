@@ -1,5 +1,5 @@
 function addPolygon () {
-	$("#insertAMarker").css("z-index", "-1");
+	$('#insertAMarker').popup('close');
 }	
 function drawPolygons () // this draws static polygon on map, this function is used in path.navigation.js but its commented out under function initimap
 {

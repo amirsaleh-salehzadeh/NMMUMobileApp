@@ -214,8 +214,7 @@
 </div>
 <div data-role="popup" id="insertAMarker" data-position-to="window"
 	data-transition="turn"
-	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;
-	position: relative;"><!-- width: 333px; -->
+	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;"><!-- width: 333px; -->
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right"
 		onclick="$('#insertAMarker').popup('close'); ">Close</a>
@@ -225,7 +224,7 @@
 			value="">
 	</div>
 	<div class="ui-block-solo">
-	<label for="locationDescription" id="locationDescription"></label>
+	<label for="locationDescription" id="DescriptionLabel"></label>
 		<input type="text" placeholder="Location Description" name="locationDescription" 
 		id="locationDescription" value="">
 	</div>
@@ -243,17 +242,18 @@
 			<button id="rotatebutton" type="button">Rotate</button>
 		</div>
 		<div class="ui-block-d">
-			<button id="saveIcon" type="button">Save Icon</button>
+			<button id="saveIcon" type="button">Save</button>
 		</div>
 		</div>
 		<br>
   		<div id="views">
   		</div>
 	</div>
+	<input type="hidden" name ="icon" id="icon" value="">
 	<input type="hidden" name ="boundary" id="boundary" value="">
 	<div class="ui-block-solo">
 		<input type="button" data-icon="plus" value="Add Boundary"
-		onclick="addPolygon()">
+		id="addBoundary"  onclick="addPolygon()">
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"

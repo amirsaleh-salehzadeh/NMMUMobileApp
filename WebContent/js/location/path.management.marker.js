@@ -31,7 +31,9 @@ function saveMarker() {
 			+ $("#markerCoordinate").val() + "&locationType="
 			+ $("#locationTypeId").val() + "&locationId="
 			+ $("#markerId").val() + "&userName=NMMU"
-			+ "&boundary=" + $("#boundary").val();
+			+ "&description=" + $("#locationDescription").val()
+			+ "&boundary=" + $("#boundary").val()
+			+ "&icon=" + $("#icon").val();
 	$.ajax({
 		url : url,
 		cache : false,

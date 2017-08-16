@@ -163,6 +163,7 @@ $("#rotatebutton").click(function(e) {
 });
 $("#saveIcon").click(function(e) {
 	  alert(getDataURL());
+	  $("#icon").val(getDataURL());
 	});
 
 $("#form").submit(function(e) {
