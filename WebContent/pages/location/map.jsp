@@ -40,8 +40,8 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(1000);
-// 						errorMessagePopupOpen('hi');
-// 												arrivalMessagePopupOpen();
+		// 						errorMessagePopupOpen('hi');
+		// 												arrivalMessagePopupOpen();
 		// 		displayImage(110);
 
 	});
@@ -331,9 +331,7 @@
 
 		<div data-role="popup" id="popupSearchResult" class="ui-content"
 			data-position-to="window" data-transition="turn">
-			<a href="#" data-role="none" class="popupCloseBtn"
-				onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"></a>
-			<div class="ui-block-solo" id="searchPopupHeader"></div>
+			<div class="ui-grid-a" id="searchPopupHeader"></div>
 			<div class="ui-block-solo" id="searchFieldDiv">
 				<input type="text" id="searchField" placeholder="Find a Place"
 					data-role="none"> <span onclick="searchFieldDivClearBTN();"></span>
@@ -365,7 +363,7 @@
 					id="popupSearchResultCloseBTN">
 					<a data-role="button" href="#"
 						onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"
-						class="closePopupMessage"><img
+						class="closePopupMessage" id="popupSearchResultCloseBTN"><img
 						src="images/icons/clearInput.png" alt=""
 						class="closeMessageButtonIcon" />Close</a>
 				</div>
