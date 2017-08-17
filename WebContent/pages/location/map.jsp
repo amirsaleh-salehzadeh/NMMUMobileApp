@@ -209,6 +209,11 @@
 				<input type="button" class="zoomBTN" id="zoomout"
 					onclick="zoomOutMap()">
 			</div>
+			<div class="ui-block-solo">
+<!-- 			<button id="mylocation" class="navbtn" onclick="">My&nbsp;location</button> -->
+			<input type="button" class="zoomBTN" id="mylocation"
+					onclick="findMyLocation()">
+			</div>
 		</div>
 
 
@@ -249,6 +254,11 @@
 			<div class="blurBlue"></div>
 			<div class="spinnerLoading" style="display: none;"></div>
 			<div id="LocationInfoContainer">
+			<div class="ui-grid-a">
+			<div class="ui-block-a"></div>
+						<div class="ui-block-b"></div>
+			
+			</div>
 				<div id="locationInf"></div>
 				<!-- WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
 				<button id="start" onclick="searchResultPopupOpen('From?');">
@@ -293,13 +303,13 @@
 
 		<div data-role="popup" id="popupErrorMessage" class="ui-content"
 			data-position-to="window" data-transition="turn">
-			<a href="#" data-role="button" class="popupCloseBtn"
-				onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"></a>
+<!-- 			<a href="#" data-role="button" class="popupCloseBtn" -->
+<!-- 				onclick="$('#popupErrorMessage').popup('close');blurFalse();"></a> -->
 			<div id="errorMessageHeader" class="ui-block-solo">Error!</div>
 			<div id="errorMessageContent" class="ui-block-solo"></div>
-			<div class="ui-block-solo">
+			<div class="ui-block-solo popupSearchResultCloseBTNContainer" id="closeErrorPopupMessage">
 				<a data-role="button" href="#"
-					onclick="$('#popupErrorMessage').popup('close');$('#map_canvas').toggleClass('off');"
+					onclick="$('#popupErrorMessage').popup('close');blurFalse();"
 					class="closePopupMessage"><img
 					src="images/icons/clearInput.png" alt=""
 					class="closeMessageButtonIcon" />Close</a>
@@ -312,13 +322,13 @@
 
 		<div data-role="popup" id="popupArrivalMessage" class="ui-content"
 			data-position-to="window" data-transition="turn">
-			<a href="#" data-role="button" class="popupCloseBtn"
-				onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"></a>
+<!-- 			<a href="#" data-role="button" class="popupCloseBtn" -->
+<!-- 				onclick="$('#popupArrivalMessage').popup('close');blurFalse();"></a> -->
 			<div id="arrivalMessageHeader" class="ui-block-solo">Header</div>
 			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
 			<div class="ui-block-solo">
 				<a data-role="button" href="#"
-					onclick="$('#popupArrivalMessage').popup('close');$('#map_canvas').toggleClass('off');"
+					onclick="$('#popupArrivalMessage').popup('close');blurFalse();"
 					class="closePopupMessage"><img
 					src="images/icons/clearInput.png" alt=""
 					class="closeMessageButtonIcon" />Close</a>
@@ -346,7 +356,7 @@
 					style="display: none;" id="departureButtonGroup">
 					<div class="ui-block-a">
 						<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
-							onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"
+							onclick="$('#popupSearchResult').popup('close');blurFalse();"
 							class="closePopupMessage"><img
 							src="images/icons/clearInput.png" alt=""
 							class="closeMessageButtonIcon" />Close</a>
@@ -360,10 +370,10 @@
 					</div>
 				</div>
 				<div class="ui-block-solo popupSearchResultCloseBTNContainer"
-					id="popupSearchResultCloseBTN">
-					<a data-role="button" href="#"
-						onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"
-						class="closePopupMessage" id="popupSearchResultCloseBTN"><img
+					id="destinationButtonGroup">
+					<a data-role="button" href="#" id="popupSearchResultCloseBTN"
+						onclick="$('#popupSearchResult').popup('close');blurFalse();"
+						class="closePopupMessage"><img
 						src="images/icons/clearInput.png" alt=""
 						class="closeMessageButtonIcon" />Close</a>
 				</div>

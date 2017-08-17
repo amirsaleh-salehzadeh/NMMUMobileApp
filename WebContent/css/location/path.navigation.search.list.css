@@ -178,3 +178,7 @@ div#searchFieldDiv {
 	height: 45px;
 		margin: 0 3%;
 }
+
+#closeErrorPopupMessage{
+	bottom: 22 !important;
+}

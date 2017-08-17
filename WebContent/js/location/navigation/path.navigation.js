@@ -64,8 +64,9 @@ function getThePath() {
 		cache : true,
 		async : true,
 		beforeSend : function() {
+			showBottomPanel();
 			$("#locationInf").html('');
-			$(".spinnerLoading").css('display', 'block');
+			$(".spinnerLoading").css('display', 'block').trigger("create");
 		},
 		success : function(data) {
 			var pathIds = "";
@@ -96,8 +97,11 @@ function getThePath() {
 			drawConstantPolyline();
 			hideBottomPanel();
 			showViewItems();
+			blurFalse();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
+			hideBottomPanel();
+			blurFalse();
 			errorMessagePopupOpen(thrownError);
 		}
 	});
