@@ -1,23 +1,25 @@
-#resultsListView {
-	margin: 0 !important;
-	background-color: transparent !important;
-}
-
 #resultsListView>li {
 	background-color: transparent !important;
 	border-color: rgb(248, 182, 36) !important;
+	max-height: 50px;
 }
 
-#resultsListView>li h2{
-	background-color: transparent !important;
-	border-color: rgb(248, 182, 36) !important;
-	margin: .22em 0em !important;
+#resultsListView>ul {
+	margin: 0 auto !important;
+	height: 3% auto !important;
 }
 
-#resultsListView>li p{
+#resultsListView>li h2 {
 	background-color: transparent !important;
 	border-color: rgb(248, 182, 36) !important;
-	margin: .22em 0em !important;
+	margin: 0 !important;
+	padding-top: 1px;
+}
+
+#resultsListView>li p {
+	background-color: transparent !important;
+	border-color: rgb(248, 182, 36) !important;
+	margin: 0 !important;
 }
 
 .resultsListViewContent {
@@ -26,20 +28,15 @@
 	color: rgb(248, 182, 36) !important;
 	max-height: 2em !important;
 	max-width: 100% !important;
-	padding-left: 3.25em !important;
+	padding-left: 3.33em !important;
 }
 
 .resultsListViewContent.ui-btn {
 	padding: 0;
-	border-color:  rgb(248, 182, 36) !important;
+	border-color: rgb(248, 182, 36) !important;
 	border-right: 0em !important;
 	border-left: 0em !important;
 	border-radius: 0em !important;
-}
-
-.resultsListViewContent.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
-	background: none !important;
-	background-image: none !important;
 }
 
 #searchBarDivTop {
@@ -88,7 +85,12 @@
 	min-height: 3em !important;
 	padding-left: 47px;
 	padding-right: 29px;
+<<<<<<< HEAD
 	border-color:  rgb(248, 182, 36) !important; font-size : 13pt;
+=======
+	border-color: rgb(248, 182, 36) !important;
+	font-size: 13pt;
+>>>>>>> Amir
 	font-weight: 200;
 	width: 100% !important;
 	font-size: 13pt;
@@ -96,6 +98,7 @@
 }
 
 .listViewIcons {
+<<<<<<< HEAD
 	margin: 7px 7px !important;
 	width: 24px;
 	height: 24px;
@@ -109,6 +112,12 @@
 
 .ui-page-theme-a .ui-body-inherit {
 	background-color: transparent !important;
+=======
+	margin: 0 auto !important;
+	width: 48px;
+	height: 48px;
+	padding-top: 1px;
+>>>>>>> Amir
 }
 
 #destinationName::-webkit-input-placeholder,#searchField::-webkit-input-placeholder
@@ -117,10 +126,17 @@
 	padding-left: 1em !important;
 }
 
+<<<<<<< HEAD
 div#destinationNameDiv span, div#searchFieldDiv span {
 	position: absolute !important;
 	display: block;
 	top: 2.2em;
+=======
+div#destinationNameDiv span,div#searchFieldDiv span {
+	position: absolute !important;
+	display: block;
+	top: 30%;
+>>>>>>> Amir
 	right: 5px;
 	width: 32px !important;
 	height: 32px !important;
@@ -132,14 +148,22 @@ div#destinationNameDiv span, div#searchFieldDiv span {
 }
 
 div#searchFieldDiv span {
+<<<<<<< HEAD
 	top: 2.5em !important;
+=======
+	top: 2.2em !important;
+>>>>>>> Amir
 }
 
 .locationTypes {
 	text-shadow: none !important;
 }
 
+<<<<<<< HEAD
 #searchPopupHeader{
+=======
+#searchPopupHeader {
+>>>>>>> Amir
 	width: 100%;
 	background-color: rgb(248, 182, 36);
 	text-align: center;
@@ -149,7 +173,12 @@ div#searchFieldDiv span {
 	min-height: 1.5em !important;
 	text-shadow: none !important;
 }
+<<<<<<< HEAD
 #searchPopupHeader span{
+=======
+
+#searchPopupHeader span {
+>>>>>>> Amir
 	width: 100%;
 	text-align: center;
 	color: rgba(8, 27, 44) !important;
@@ -157,4 +186,27 @@ div#searchFieldDiv span {
 	font-weight: bold;
 	min-height: 1.5em !important;
 	text-shadow: none !important;
+<<<<<<< HEAD
+=======
+}
+
+#resultsListViewDiv {
+	position: fixed;
+	bottom: 60px !important;
+	display: inline-block;
+	top: 83px !important;
+	margin: 3% !important;
+	left: 0 !important;
+	right: 0 !important;
+	overflow: auto !important;
+}
+
+.popupSearchResultCloseBTNContainer {
+	position: fixed !important;
+	bottom: 20px !important;
+	left: 0 !important;
+	right: 0 !important;
+	height: 45px;
+	margin: 0 3%;
+>>>>>>> Amir
 }

@@ -1,3 +1,23 @@
+var is_keyboard = false;
+var is_landscape = false;
+var initial_screen_size = window.innerHeight;
+
+/* Android */
+window.addEventListener("resize", function() {
+	is_keyboard = (window.innerHeight < initial_screen_size);
+	is_landscape = (screen.height < screen.width);
+
+	updateViews();
+}, false);
+
+/* iOS */
+$("input").bind("focus blur", function() {
+	$(window).scrollTop(10);
+	is_keyboard = $(window).scrollTop() > 0;
+	$(window).scrollTop(0);
+	updateViews();
+});
+
 function errorMessagePopupOpen(content) {
 	$("#errorMessageContent").html(content).trigger("create");
 	$('#popupErrorMessage').popup();
@@ -28,11 +48,19 @@ function searchResultPopupOpen(headerText) {
 				"<span id='destinationNameHeader'>To "
 						+ $("#destinationName").html() + "</span><br/>"
 						+ headerText);
+<<<<<<< HEAD
+=======
+		$("#searchField").attr("placeholder", "Departure");
+>>>>>>> Amir
 	} else {
 		$("#popupSearchResultCloseBTN").css("display", "block").trigger(
 				"create");
 		$("#departureButtonGroup").css("display", "none").trigger("create");
 		$("#searchPopupHeader").html(headerText);
+<<<<<<< HEAD
+=======
+		$("#searchField").attr("placeholder", "Destination");
+>>>>>>> Amir
 	}
 	$('#popupSearchResult').css({
 		'height' : $(window).height() * 0.95
@@ -49,7 +77,22 @@ function searchResultPopupOpen(headerText) {
 	$('#popupSearchResult').popup('open').trigger('create');
 	if ($("#locationInfoDiv").css('display') != 'none')
 		hideBottomPanel();
+<<<<<<< HEAD
 	$('#map_canvas').toggleClass('off');
 	$('#searchField').trigger("create");
 	$('#searchField').trigger("focus");
+=======
+	$('#map_canvas').addClass('off');
+	$('#searchField').trigger("create");
+	$('#searchField').trigger("focus");
+}
+
+function updateViews() {
+	if (is_keyboard) {
+		$("#popupSearchResult").height(window.innerHeight - 30);
+	} else {
+		$("#popupSearchResult").height(window.innerHeight - 30);
+	}
+
+>>>>>>> Amir
 }

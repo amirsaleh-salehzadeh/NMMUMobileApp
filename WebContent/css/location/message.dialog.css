@@ -23,14 +23,12 @@ ARRIVAL*/
 SEARCH RESULT*/
 #popupSearchResult {
 	background-color: rgba(8, 27, 44, .88) !important;
-	max-width: 90% !important;
-	max-height: 90% !important;
+	max-width: 96% !important;
+	max-height: 77% !important;
 	margin: 3% auto !important;
 	border: 1 solid !important;
 	border-color: rgb(248, 182, 36) !important;
 	border-radius: 0px 0px 11px 11px;
-	bottom: 3 !important;
-	top: 3px !important;
 	overflow: hidden !important;
 }
 
@@ -96,7 +94,6 @@ HEADER*/
 	margin: 7px auto;
 	background-color: rgba(248, 182, 36, 1) !important;
 	border: 1px solid;
-	bottom: 5;
 	color: rgba(8, 27, 44, 1) !important;
 	border-color: transparent !important;
 	border-radius: 7px !important;
@@ -119,7 +116,11 @@ HEADER*/
 	top: 0;
 }
 
+<<<<<<< HEAD
 #popupSearchResultCloseBTN, #popupSearchResultCloseBTNDual {
+=======
+#popupSearchResultCloseBTNDual {
+>>>>>>> Amir
 	bottom: 1;
 	right: 1;
 	left: 1;
@@ -146,19 +147,20 @@ HEADER*/
 	background-position: 1px 1px;
 	width: 24px !important;
 	height: 24px !important;
-	position: fixed !important;
-	display: block !important;
-	top: -5 !important;
-	right: -5 !important;
-	margin: 0 !important;
+	display: inline-block !important;
 	border: 5px double !important;
 	border-color: rgb(248, 182, 36) !important;
 	padding: 3px 3px !important;
-	box-shadow: none !important;
 	border-radius: 100% !important;
+<<<<<<< HEAD
 	z-index: 101 !important;
 }
 
 #departureButtonGroup{
 	margin: 3% auto !important;
+=======
+	position: fixed !important;
+	top: -8px;
+	right: -12px;
+>>>>>>> Amir
 }

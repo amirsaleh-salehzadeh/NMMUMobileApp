@@ -3,13 +3,18 @@
 <html>
 <head>
 <meta http-equiv="Cache-Control"
+<<<<<<< HEAD
 	content="public" />
+=======
+	content="no-cache, no-store, must-revalidate" />
+>>>>>>> Amir
 <!-- no-cache, no-store, must-revalidate -->
 <!-- <meta http-equiv="Pragma" content="public" /> -->
 <!-- <meta http-equiv="Expires" content="0" /> -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="icon" type="image/png" href="favicon.ico">
 <link rel="stylesheet"
 	href="css/themes/default/jquery.mobile-1.4.5.min.css">
 <script type="text/javascript"
@@ -22,7 +27,7 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <link rel="stylesheet"
-	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="css/location/path.navigation.css">
 <link rel="stylesheet" href="css/location/path.navigation.buttons.css">
 <link rel="stylesheet"
@@ -38,10 +43,17 @@
 </style>
 <script type="text/javascript">
 	$(window).bind('load', function() {
+<<<<<<< HEAD
 		$('#work-in-progress').fadeOut(2000);
 		// 				errorMessagePopupOpen('hi');
 		// 										arrivalMessagePopupOpen();
 		displayImage(110);
+=======
+		$('#work-in-progress').fadeOut(1000);
+// 						errorMessagePopupOpen('hi');
+// 												arrivalMessagePopupOpen();
+		// 		displayImage(110);
+>>>>>>> Amir
 
 	});
 </script>
@@ -187,8 +199,13 @@
 
 		<div id="zoomSettings">
 			<div id="visitorCounter">
+<<<<<<< HEAD
 				<a href="http://www.reliablecounter.com" target="_blank"> <img
 					src="http://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
+=======
+				<a href="https://www.reliablecounter.com" target="_blank"> <img
+					src="https://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
+>>>>>>> Amir
 					alt="" title="" border="0"></a>
 			</div>
 			<div class="ui-block-solo" style="display: none;">
@@ -337,19 +354,45 @@
 				<input type="text" id="searchField" placeholder="Find a Place"
 					data-role="none"> <span onclick="searchFieldDivClearBTN();"></span>
 			</div>
-			<div class="ui-block-solo">
+			<div class="ui-block-solo" id="resultsListViewDiv">
 				<ul data-role="listview" id="resultsListView" data-filter="true"
 					data-inset="true" data-input="#searchField"></ul>
 			</div>
+<<<<<<< HEAD
 			<div class="ui-grid-a ui-block-solo" style="display: none;"
 				id="departureButtonGroup">
 				<div class="ui-block-a">
 					<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
+=======
+			<div class="ui-block-solo">
+				<div
+					class="ui-grid-a ui-block-solo popupSearchResultCloseBTNContainer"
+					style="display: none;" id="departureButtonGroup">
+					<div class="ui-block-a">
+						<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
+							onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"
+							class="closePopupMessage"><img
+							src="images/icons/clearInput.png" alt=""
+							class="closeMessageButtonIcon" />Close</a>
+					</div>
+					<div class="ui-block-b">
+						<a data-role="button" href="#"
+							id="popupSearchResultCurrentLocationBTN"
+							onclick="getDirectionFromCurrentLocation();"
+							class="closePopupMessage"><img src="images/icons/target.png"
+							alt="" class="closeMessageButtonIcon" />My Location</a>
+					</div>
+				</div>
+				<div class="ui-block-solo popupSearchResultCloseBTNContainer"
+					id="popupSearchResultCloseBTN">
+					<a data-role="button" href="#"
+>>>>>>> Amir
 						onclick="$('#popupSearchResult').popup('close');$('#map_canvas').toggleClass('off');"
 						class="closePopupMessage"><img
 						src="images/icons/clearInput.png" alt=""
 						class="closeMessageButtonIcon" />Close</a>
 				</div>
+<<<<<<< HEAD
 				<div class="ui-block-b">
 					<a data-role="button" href="#"
 						id="popupSearchResultCurrentLocationBTN"
@@ -363,9 +406,10 @@
 				class="closePopupMessage" style="margin: 5% auto !important;"><img src="images/icons/clearInput.png"
 				alt="" class="closeMessageButtonIcon" />Close</a>
 
+=======
+			</div>
+>>>>>>> Amir
 		</div>
-
-
 	</div>
 </body>
 <script type="text/javascript"

@@ -41,7 +41,12 @@ function getLocationTypePanel() {
 function selectDestination(destination, content) {
 	if ($("#destinationNameHeader").length > 0)
 		if ($("#destinationNameHeader").html().indexOf(content) != -1) {
+<<<<<<< HEAD
 			alert(content + " has been already selected as the Departure");
+=======
+			errorMessagePopupOpen(content
+					+ " has been already selected as the Departure");
+>>>>>>> Amir
 			return;
 		}
 	var departure = false;
@@ -97,7 +102,11 @@ function getDirectionFromCurrentLocation() {
 	$("#departureId").val("");
 	$("#departureDescriptionInput").val("Current Location");
 	findMyLocation();
+<<<<<<< HEAD
 //	showBottomPanel();
+=======
+	// showBottomPanel();
+>>>>>>> Amir
 	$('#popupSearchResult').popup('close');
 	$('#map_canvas').toggleClass('off');
 	$("#locationInf").html('');
