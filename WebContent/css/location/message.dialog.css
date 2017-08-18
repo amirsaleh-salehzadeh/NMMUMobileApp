@@ -35,6 +35,10 @@ SEARCH RESULT*/
 	overflow: hidden !important;
 }
 
+#popupSearchResult-popup{
+	top: 0em !important;
+}
+
 .ui-popup-container,.ui-popup {
 	height: 98% !important;
 	width: 100% !important;
@@ -68,18 +72,19 @@ CONTENT
 ERROR
 HEADER*/
 #errorMessageHeader {
-	min-height: 2em;
+	height: 1.11em;
 	background-color: rgba(248, 0, 0, .88) !important;
 	text-shadow: none !important;
+	text-align: center;
 	font-size: 14pt;
 	font-weight: bold;
-	padding-top: .44em;
-	padding-left: 2.7em;
+	padding-top: 2.66em;
+	padding-bottom: .22em;
 	color: rgba(8, 27, 44, 1) !important;
 	background-image: url("../../images/icons/error.png");
-	background-size: 32px 32px;
+	background-size: 48px 48px;
 	background-repeat: no-repeat;
-	background-position: 3px;
+	background-position: 50% 3;
 }
 
 /* CONTENTS 
@@ -124,7 +129,7 @@ HEADER*/
 	position: absolute !important;
 	float: left;
 	left: 2;
-	top: 5;
+	top: 1;
 }
 
 #popupSearchResultCloseBTNDual {
@@ -132,9 +137,7 @@ HEADER*/
 	right: 1;
 	left: 1;
 	width: auto !important;
-	margin: 1% auto !important;
 	font-size: 10pt;
-	height: 24px !important;
 }
 
 #popupSearchResultCloseBTN {
@@ -142,9 +145,7 @@ HEADER*/
 	right: 1;
 	left: 1;
 	width: auto !important;
-	margin: 1% auto !important;
 	font-size: 10pt;
-	height: 24px !important;
 }
 
 #popupSearchResultCurrentLocationBTN {
@@ -152,8 +153,6 @@ HEADER*/
 	right: 1;
 	left: 1;
 	width: auto !important;
-	margin: 1% auto !important;
 	font-size: 10pt;
 	padding-left: 37px !important;
-	height: 24px !important;
 }

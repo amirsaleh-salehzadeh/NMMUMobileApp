@@ -31,29 +31,31 @@ function arrivalMessagePopupOpen() {
 }
 
 function searchResultPopupOpen(headerText) {
-	if (headerText.indexOf("rom") != -1) {
+	if (headerText.indexOf("tart") != -1) {
 		$("#departureButtonGroup").css("display", "block").trigger("create");
 		$("#destinationButtonGroup").css("display", "none")
 				.trigger("create");
-		$("#searchPopupHeader").html(
-				"<span id='destinationNameHeader'>To "
-						+ $("#destinationName").html() + "</span><br/>"
-						+ headerText);
+		$("#destinationDefVal").html(
+				headerText + "<br/><span id='destinationNameHeader'>To "
+						+ $("#destinationName").html() + "</span>"
+						);
 		$("#searchField").attr("placeholder", "Departure");
+		$("#searchPopupHeaderIcon").attr("src", "images/icons/departure.png");
 	} else {
 		$("#destinationButtonGroup").css("display", "block").trigger(
 				"create");
 		$("#departureButtonGroup").css("display", "none").trigger("create");
-		$("#searchPopupHeader").html(headerText);
+		$("#destinationDefVal").html(headerText);
 		$("#searchField").attr("placeholder", "Destination");
+		$("#searchPopupHeaderIcon").attr("src", "images/icons/destination.png");
 	}
-	$('#popupSearchResult').css({
-		'height' : $(window).height() * 0.95
-	});
-
-	$('#popupSearchResult').css({
-		'width' : $(window).width() * 0.98
-	});
+//	$('#popupSearchResult').css({
+//		'height' : $(window).height() * 0.95
+//	});
+//
+//	$('#popupSearchResult').css({
+//		'width' : $(window).width() * 0.98
+//	});
 	$('#popupSearchResult').popup().trigger('create');
 	$('#popupSearchResult').popup({
 		history : false,
@@ -65,13 +67,17 @@ function searchResultPopupOpen(headerText) {
 	$('#map_canvas').addClass('off');
 	$('#searchField').trigger("create");
 	$('#searchField').trigger("focus");
-	$("#searchField").bind("focus blur", function() {
-		$(window).scrollTop(10);
-		is_keyboard = $(window).scrollTop() > 0;
-		$(window).scrollTop(0);
-		updateViews();
-	});
 }
+
+//$("#searchField").bind("focus", function() {
+//	is_keyboard = true;
+//	updateViews();
+//});
+//
+//$("#searchField").bind("blur", function() {
+//	is_keyboard = false;
+//	updateViews();
+//});
 
 function updateViews() {
 	if (is_keyboard) {

@@ -35,8 +35,8 @@ function getLocationTypePanel() {
 			errorMessagePopupOpen(thrownError);
 		}
 	});
-
 }
+
 function selectDestination(destination, content) {
 	if ($("#destinationNameHeader").length > 0)
 		if ($("#destinationNameHeader").html() == "To " + content) {
@@ -45,7 +45,7 @@ function selectDestination(destination, content) {
 							{
 								afterclose : function(event, ui) {
 									errorMessagePopupOpen(content
-											+ " has been already selected as the Departure");
+											+ " has been already selected as destination");
 									$("#popupSearchResult").popup({
 										afterclose : function(event, ui) {
 										}
@@ -56,7 +56,7 @@ function selectDestination(destination, content) {
 			$('#popupSearchResult').popup('close');
 			$("#popupErrorMessage").popup({
 				afterclose : function(event, ui) {
-					searchResultPopupOpen('From?');
+					searchResultPopupOpen('Select Start Point');
 					$("#popupErrorMessage").popup({
 						afterclose : function(event, ui) {
 						}
@@ -66,7 +66,7 @@ function selectDestination(destination, content) {
 			return;
 		}
 	var departure = false;
-	if ($("#searchPopupHeader").html().indexOf("rom") > 0)
+	if ($("#destinationDefVal").html().indexOf("tart") > 0)
 		departure = true;
 	var bounds = new google.maps.LatLngBounds();
 	if (departure) {
@@ -82,10 +82,6 @@ function selectDestination(destination, content) {
 			map : map,
 			icon : 'images/map-markers/marker-green.png'
 		});
-		// markerDepart.addListener('click', function() {
-		// selectDestination(destination);
-		// });
-		// initiateNavigation();
 		bounds.extend(markerDest.getPosition());
 		bounds.extend(markerDepart.getPosition());
 		map.fitBounds(bounds);
@@ -95,14 +91,7 @@ function selectDestination(destination, content) {
 		$(".spinnerLoading").css('display', 'none');
 		$("#locationInf").html($(destination).html()).trigger("create");
 		$("#locationInf a").removeClass("resultsListViewContent");
-		// $("#locationInf a").addClass("bottomPanelLocationContent");
 		$("#locationInf a img").removeClass("listViewIcons");
-		// $("#locationInf a img").addClass("bottomPanelLocationIcon");
-		// $("#locationInf a p").removeClass("listViewIcons");
-		// $("#locationInf a p").addClass("bottomPanelLocationIcon");
-		// $("#locationInf a h2").removeClass("listViewIcons");
-		// $("#locationInf a h2").addClass("bottomPanelLocationIcon");
-		showBottomPanel();
 		$("#to").val($(destination).attr("id").split("_")[1].replace(" ", ""));
 		$("#destinationId").val($(destination).attr("id").split("_")[0]);
 		var destPoint = getGoogleMapPosition($("#to").val());
@@ -118,6 +107,7 @@ function selectDestination(destination, content) {
 		});
 		map.panTo(markerDest.getPosition());
 		blurFalse();
+		showBottomPanel();
 	}
 	$('#popupSearchResult').popup('close');
 }
@@ -126,14 +116,12 @@ function getDirectionFromCurrentLocation() {
 	$("#departureId").val("");
 	$("#departureDescriptionInput").val("Current Location");
 	findMyLocation();
-	// showBottomPanel();
-	// blurFalse();
+	$('#popupSearchResult').popup('close');
+	blurFalse();
 	$("#locationInf").html('');
 	do {
 		$(".spinnerLoading").css('display', 'block');
 	} while ($("#from").val().length < 2);
-	// $(".spinnerLoading").css('display', 'none');
-	// hideBottomPanel();
 	getThePath();
 }
 

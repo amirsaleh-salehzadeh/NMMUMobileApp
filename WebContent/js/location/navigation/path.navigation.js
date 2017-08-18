@@ -31,20 +31,20 @@ function getThePath() {
 	if ($("#from").val().length < 5)
 		findMyLocation();
 	var GPSCook = getCookie("TripPathGPSCookie");
-	if (GPSCook != "") {
-		if (markerDest != null)
-			markerDest.setMap(null);
-		markerDest = new google.maps.Marker({
-			position : getGoogleMapPosition(GPSCook.split("_")[GPSCook
-					.split("_").length - 1]),
-			map : map,
-			icon : 'images/map-markers/marker-orange.png'
-		});
-		resetWalking();
-		drawConstantPolyline();
-		showViewItems();
-		return;
-	}
+//	if (GPSCook != "") {
+//		if (markerDest != null)
+//			markerDest.setMap(null);
+//		markerDest = new google.maps.Marker({
+//			position : getGoogleMapPosition(GPSCook.split("_")[GPSCook
+//					.split("_").length - 1]),
+//			map : map,
+//			icon : 'images/map-markers/marker-orange.png'
+//		});
+//		resetWalking();
+//		drawConstantPolyline();
+//		showViewItems();
+//		return;
+//	}
 	var url = "REST/GetLocationWS/GetADirectionFromTo?departureId="
 			+ $("#departureId").val() + "&destinationId="
 			+ $("#destinationId").val() + "&from=" + $("#from").val() + "&to="
@@ -96,12 +96,13 @@ function getThePath() {
 			resetWalking();
 			drawConstantPolyline();
 			hideBottomPanel();
-			showViewItems();
+			setTimeout(showViewItems(), 1500);
 			blurFalse();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			hideBottomPanel();
 			blurFalse();
+			removeTrip();
 			errorMessagePopupOpen(thrownError);
 		}
 	});
@@ -148,9 +149,6 @@ function removeTheNextDestination() {
 			removeVarGPS + ",", ""), 1);
 	setCookie("TripPathLocationsCookie", getCookie("TripPathLocationsCookie")
 			.replace(removeVarNames + "_", ""), 1);
-	// $("#tripLocations").val(
-	// $("#tripLocations").val().replace(removeVarNames + ",", ""));
-	// setCookie('TripPathLocationsCookie', $("#tripLocations").val(), 1);
 	if (pathPolylineTrack != undefined)
 		pathPolylineTrack.setMap(null);
 	if (pathPolylineConstant != undefined)
@@ -214,12 +212,12 @@ function updatePolyLine(currentPos, altitude) {
 	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath,
 			nextPosition);
 	marker.setIcon(null);
-//	marker.setIcon({
-//		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-//		scale : 7,
-//		strokeWeight : 3,
-//		rotation : headingTo1st
-//	});
+	// marker.setIcon({
+	// path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+	// scale : 7,
+	// strokeWeight : 3,
+	// rotation : headingTo1st
+	// });
 	marker.setIcon('images/icons/target-old.png');
 	if (nextDestGPS.length > 1) {
 		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
@@ -265,7 +263,6 @@ function updatePolyLine(currentPos, altitude) {
 
 function resetWalking() {
 	if (walkingWatchID != undefined) {
-//		clearTimeout(walkingTimer);
 		navigator.geolocation.clearWatch(walkingWatchID);
 		walkingWatchID = null;
 	}
@@ -310,7 +307,7 @@ function removeTrip() {
 		pathPolylineConstant.setMap(null);
 	pathPolylineTrack = null;
 	pathPolylineConstant = null;
-//	clearTimeout(walkingTimer);
+	// clearTimeout(walkingTimer);
 	if (walkingWatchID != undefined) {
 		navigator.geolocation.clearWatch(walkingWatchID);
 		walkingWatchID = null;
@@ -326,7 +323,7 @@ function removeTrip() {
 	$("#to").val("");
 	$("#tripLocations").val("");
 	$("#destinationName").val("");
-	if(markerDepart != null)
+	if (markerDepart != null)
 		markerDepart.setMap(null);
 	if (markerDest != null)
 		markerDest.setMap(null);
