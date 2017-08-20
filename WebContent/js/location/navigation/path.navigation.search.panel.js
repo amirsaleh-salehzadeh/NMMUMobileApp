@@ -106,6 +106,7 @@ function selectDestination(destination, content) {
 			selectDestination(destination);
 		});
 		map.panTo(markerDest.getPosition());
+		map.setZoom(18);
 		blurFalse();
 		showBottomPanel();
 	}

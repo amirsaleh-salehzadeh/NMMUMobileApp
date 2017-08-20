@@ -31,6 +31,7 @@ function arrivalMessagePopupOpen() {
 }
 
 function searchResultPopupOpen(headerText) {
+	 searchFieldDivClearBTN();
 	if (headerText.indexOf("tart") != -1) {
 		$("#departureButtonGroup").css("display", "block").trigger("create");
 		$("#destinationButtonGroup").css("display", "none")

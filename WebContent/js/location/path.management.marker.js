@@ -30,7 +30,10 @@ function saveMarker() {
 			+ $("#markerName").val() + "&coordinate="
 			+ $("#markerCoordinate").val() + "&locationType="
 			+ $("#locationTypeId").val() + "&locationId="
-			+ $("#markerId").val() + "&userName=NMMU";
+			+ $("#markerId").val() + "&userName=NMMU"
+			+ "&description=" + $("#locationDescription").val()
+			+ "&boundary=" + $("#boundary").val()
+			+ "&icon=" + $("#icon").val();
 	$.ajax({
 		url : url,
 		cache : false,

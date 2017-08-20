@@ -357,14 +357,6 @@
 				<img src="images/icons/destination.png" alt=""
 					id="searchPopupHeaderIcon"><span id="destinationDefVal"></span>
 			</div>
-			<div class="ui-block-solo" id="searchFieldDiv">
-				<input type="text" id="searchField" placeholder="Find a Place"
-					data-role="none"> <span onclick="searchFieldDivClearBTN();"></span>
-			</div>
-			<div class="ui-block-solo" id="resultsListViewDiv">
-				<ul data-role="listview" id="resultsListView" data-filter="true"
-					data-inset="true" data-input="#searchField"></ul>
-			</div>
 			<div class="ui-block-solo">
 				<div
 					class="ui-grid-a ui-block-solo popupSearchResultCloseBTNContainer"
@@ -392,6 +384,14 @@
 						src="images/icons/clearInput.png" alt=""
 						class="closeMessageButtonIcon" />Close</a>
 				</div>
+			</div>
+			<div class="ui-block-solo" id="searchFieldDiv">
+				<input type="text" id="searchField" placeholder="Find a Place"
+					data-role="none"> <span onclick="searchFieldDivClearBTN();"></span>
+			</div>
+			<div class="ui-block-solo" id="resultsListViewDiv">
+				<ul data-role="listview" id="resultsListView" data-filter="true"
+					data-inset="true" data-input="#searchField"></ul>
 			</div>
 		</div>
 	</div>
