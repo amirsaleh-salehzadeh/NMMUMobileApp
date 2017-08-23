@@ -80,18 +80,18 @@ function getTripInfo() {
 			clearTimeout(id);
 		};
 }());
+var ctx = document.getElementById('directionCanvas').getContext('2d');
 
 // function drawCanvasDirection(){
 function displayImage(angle) {
-	var ctx = document.getElementById('directionCanvas').getContext('2d');
 	ctx.clearRect(0, 0, document.getElementById('directionCanvas').width,
 			document.getElementById('directionCanvas').height);
-	var startPointX, startPointY, endPointX, endPointY, quadPointX, quadPointY;
+	var startPointX = 0, startPointY = 0, endPointX = 0, endPointY = 0, quadPointX = 0, quadPointY = 0;
 	if (0 <= angle && angle < 45) {
 		startPointX = 50;
 		startPointY = 100;
 		endPointX = 50 + (angle * 1.1);
-		endPointY = 5;
+		endPointY = 10;
 		quadPointX = 50;
 		quadPointY = 50;
 	} else if (45 <= angle && angle < 90) {
@@ -133,14 +133,14 @@ function displayImage(angle) {
 		startPointX = 50;
 		startPointY = 100;
 		endPointX = 10;
-		endPointY = ((angle - 270) * 1.1);
+		endPointY = 50 - ((angle - 270) * 1.1);
 		quadPointX = 50;
 		quadPointY = 50;
 	} else if (315 <= angle && angle <= 360) {
 		startPointX = 50;
 		startPointY = 100;
-		endPointX = 0 + ((angle - 315));
-		endPointY = 5;
+		endPointX = ((angle - 315));
+		endPointY = 10;
 		quadPointX = 50;
 		quadPointY = 50;
 	}
@@ -166,7 +166,4 @@ function displayImage(angle) {
 
 	ctx.stroke();
 	ctx.closePath();
-	angle = angle + 5;
-	if (angle >= 360)
-		angle = 0;
 }
