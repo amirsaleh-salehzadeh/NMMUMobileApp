@@ -37,7 +37,7 @@ function saveMarker() {
 	$.ajax({
 		url : url,
 		cache : false,
-		async : false,
+		async : true,
 		success : function(data) {
 			marker = new google.maps.Marker({
 				position : {
@@ -48,8 +48,8 @@ function saveMarker() {
 				icon : refreshMap(data.locationType.locationTypeId, data.gps),
 				title : data.locationName
 			});
-			var bounds = new google.maps.LatLngBounds();
-			bounds.extend(marker.getPosition());
+//			var bounds = new google.maps.LatLngBounds();
+//			bounds.extend(marker.getPosition());
 			marker.addListener('click', function() {
 				if ($('[name="optionType"] :radio:checked').val() == "marker") {
 					addAMarker(data, data.gps);
@@ -63,6 +63,7 @@ function saveMarker() {
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
+			alert(2);
 		}
 	});
 	if (!$('#insertAMarker').parent().hasClass('ui-popup-hidden')) {

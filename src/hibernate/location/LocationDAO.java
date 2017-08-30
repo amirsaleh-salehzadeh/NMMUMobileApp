@@ -55,7 +55,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			long secLoc = 0;
 			String query = "";
 			query = "insert into location (country, address, post_box, gps, location_name, username, location_type, parent_id, description, boundary, plan, icon)"
-					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			if (ent.getLocationID() > 0)
 				query = "update location set country = ?, address = ?, post_box = ?, gps= ?, location_name = ?, username = ?, location_type = ? , parent_id = ? , description = ?, boundary = ? , plan = ?, icon = ? where location_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query,
@@ -405,6 +405,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 								rs.getInt("path_type_id"),
 								rs.getString("pt.path_type")),
 						rs.getLong("path_id"));
+				p.setPathRoute(rs.getString("path_route"));
 				res.add(p);
 			}
 			ps.close();
@@ -442,6 +443,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 								.getLong("destination_location_id"))),
 						rs.getDouble("distance"), new PathTypeENT(
 								rs.getInt("path_type")), rs.getLong("path_id"));
+				p.setPathRoute(rs.getString("path_route"));
 				res.add(p);
 			}
 			ps.close();
@@ -471,17 +473,18 @@ public class LocationDAO extends BaseHibernateDAO implements
 			path.setDeparture(getLocationENT(new LocationENT(path
 					.getDeparture().getLocationID())));
 			String query = "";
-			query = "insert into paths (destination_location_id, departure_location_id, distance, path_type)"
-					+ " values (?, ?, ?, ?)";
+			query = "insert into paths (destination_location_id, departure_location_id, distance, path_type, path_route)"
+					+ " values (?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setLong(1, path.getDestination().getLocationID());
 			ps.setLong(2, path.getDeparture().getLocationID());
 			double distance = calculateDistance(path.getDestination().getGps(),
-					path.getDeparture().getGps());
+					path.getDeparture().getGps(), path.getPathRoute());
 			distance = reEvaluateDistance(distance, path.getPathType()
 					.getPathTypeId());
 			ps.setDouble(3, distance);
 			ps.setInt(4, path.getPathType().getPathTypeId());
+			ps.setString(5, path.getPathRoute());
 			ps.execute();
 			ps.close();
 			query = "select path_id from paths order by path_id desc limit 1";
@@ -502,7 +505,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return distance;
 	}
 
-	private static double calculateDistance(String gps, String gps2) {
+	private static double calculateDistanceBetweenTwoPoints(String gps,
+			String gps2) {
 		final int R = 6371;
 		double latDistance = Math
 				.toRadians(Double.parseDouble(gps2.split(",")[0])
@@ -521,6 +525,34 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return outp;
 	}
 
+	private static double calculateDistance(String destination,
+			String departure, String pathRoute) {
+		double outp = 0;
+		if (pathRoute.length() > 1) {
+			String[] points = pathRoute.split("_");
+			if (points.length > 1) {
+				for (int i = 0; i < points.length; i++) {
+					if (i == 0)
+						outp += calculateDistanceBetweenTwoPoints(departure,
+								points[i]);
+					else
+						outp += calculateDistanceBetweenTwoPoints(
+								points[i - 1], points[i]);
+				}
+				outp += calculateDistanceBetweenTwoPoints(destination,
+						points[points.length - 1]);
+			} else {
+				outp += calculateDistanceBetweenTwoPoints(destination,
+						pathRoute);
+				outp += calculateDistanceBetweenTwoPoints(pathRoute,
+						destination);
+			}
+		} else {
+			outp = calculateDistanceBetweenTwoPoints(destination, departure);
+		}
+		return outp;
+	}
+
 	public LocationENT findClosestLocation(String GPSCoordinates,
 			String locationTypeIds) {
 		LocationDAO dao = new LocationDAO();
@@ -529,7 +561,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		int closest = -1;
 		double[] distances = new double[points.size()];
 		for (int i = 0; i < points.size(); i++) {
-			distances[i] = calculateDistance(points.get(i).getGps(),
+			distances[i] = calculateDistanceBetweenTwoPoints(points.get(i).getGps(),
 					GPSCoordinates);
 			if (closest == -1 || distances[i] < distances[closest]) {
 				closest = i;
@@ -656,6 +688,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 								.getLong("destination_location_id"))),
 						rs.getDouble("distance"), new PathTypeENT(
 								rs.getInt("path_type")), rs.getLong("path_id"));
+				ent.setPathRoute(rs.getString("path_route"));
 			}
 			ps.close();
 			conn.close();

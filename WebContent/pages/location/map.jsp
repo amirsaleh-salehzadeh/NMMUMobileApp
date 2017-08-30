@@ -50,11 +50,11 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(1000);
-		// 								errorMessagePopupOpen('hi');
+// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(110);
-		var myTimer = setInterval(test,60);
-
+// 		var myTimer = setInterval(test,60);
+// test(220);
 	});
 	var sdf = 0;
 	function test() {
@@ -330,7 +330,7 @@
 				id="closeErrorPopupMessage">
 				<a data-role="button" href="#"
 					onclick="$('#popupErrorMessage').popup('close');blurFalse();"
-					class="closePopupMessage"><img
+					class="closePopupMessage" id="popupErrorMessageCloseBTN"><img
 					src="images/icons/clearInput.png" alt=""
 					class="closeMessageButtonIcon" />Close</a>
 			</div>
@@ -349,7 +349,7 @@
 			<div class="ui-block-solo">
 				<a data-role="button" href="#"
 					onclick="$('#popupArrivalMessage').popup('close');blurFalse();"
-					class="closePopupMessage"><img
+					class="closePopupMessage" id="popupArrivalMessageCloseBTN"><img
 					src="images/icons/clearInput.png" alt=""
 					class="closeMessageButtonIcon" />Close</a>
 			</div>

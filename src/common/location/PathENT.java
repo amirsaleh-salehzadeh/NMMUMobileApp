@@ -6,6 +6,22 @@ public class PathENT {
 	double distance;
 	PathTypeENT pathType;
 	long pathId;
+	String pathRoute;
+	
+
+	/**
+	 * @return the pathRoute
+	 */
+	public String getPathRoute() {
+		return pathRoute;
+	}
+
+	/**
+	 * @param pathRoute the pathRoute to set
+	 */
+	public void setPathRoute(String pathRoute) {
+		this.pathRoute = pathRoute;
+	}
 
 	public PathENT() {
 	}

@@ -249,9 +249,11 @@ public class LocationServicesWS {
 	@Produces("application/json")
 	public String savePath(@QueryParam("fLocationId") long fLocationId,
 			@QueryParam("tLocationId") long tLocationId,
+			@QueryParam("pathRoute") String pathRoute,
 			@QueryParam("pathType") int pathType) {
 		PathENT ent = new PathENT(new LocationENT(fLocationId),
 				new LocationENT(tLocationId), new PathTypeENT(pathType));
+		ent.setPathRoute(pathRoute);
 		String json = "[]";
 		getLocationDAO().savePath(ent);
 		return json;

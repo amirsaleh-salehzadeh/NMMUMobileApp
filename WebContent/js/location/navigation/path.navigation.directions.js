@@ -81,11 +81,11 @@ function getTripInfo() {
 		};
 }());
 var ctx = document.getElementById('directionCanvas').getContext('2d');
-
+var canvas = document.getElementById('directionCanvas');
 // function drawCanvasDirection(){
 function displayImage(angle) {
-	ctx.clearRect(0, 0, document.getElementById('directionCanvas').width,
-			document.getElementById('directionCanvas').height);
+//	ctx.clearRect(0, 0, document.getElementById('directionCanvas').width,
+//			document.getElementById('directionCanvas').height);
 	var startPointX = 0, startPointY = 0, endPointX = 0, endPointY = 0, quadPointX = 0, quadPointY = 0;
 	if (0 <= angle && angle < 45) {
 		startPointX = 50;
@@ -144,26 +144,55 @@ function displayImage(angle) {
 		quadPointX = 50;
 		quadPointY = 50;
 	}
+	var pathstr = "M"+startPointX+","+startPointY+ " Q"+ quadPointX + ","+ quadPointY + ","+ quadPointX + ","+ quadPointY; 
 
-	ctx.strokeStyle = "rgb(12, 28, 44)";
-	ctx.lineWidth = 7;
-	ctx.lineCap = "round";
-	var arrowAngle = Math.atan2(quadPointX - endPointX, quadPointY - endPointY)
-			+ Math.PI;
-	var arrowWidth = 11;
-	ctx.beginPath();
-	ctx.moveTo(startPointX, startPointY);
-	ctx.quadraticCurveTo(quadPointX, quadPointY, endPointX, endPointY);
-	// ctx.lineTo(endPointX, endPointY);
+	var path = arrowline( canvas, pathstr, 4000, { stroke: 'black', 'stroke-width': 8, 'fill-opacity': 0 } );
+//	ctx.strokeStyle = "rgb(12, 28, 44)";
+//	ctx.lineWidth = 7;
+//	ctx.lineCap = "round";
+//	var arrowAngle = Math.atan2(quadPointX - endPointX, quadPointY - endPointY)
+//			+ Math.PI;
+//	var arrowWidth = 11;
+//	ctx.beginPath();
+//	ctx.moveTo(startPointX, startPointY);
+//	ctx.quadraticCurveTo(quadPointX, quadPointY, endPointX, endPointY);
+//	// ctx.lineTo(endPointX, endPointY);
+//
+//	ctx.moveTo(endPointX - (arrowWidth * Math.sin(arrowAngle - Math.PI / 6)),
+//			endPointY - (arrowWidth * Math.cos(arrowAngle - Math.PI / 6)));
+//
+//	ctx.lineTo(endPointX, endPointY);
+//
+//	ctx.lineTo(endPointX - (arrowWidth * Math.sin(arrowAngle + Math.PI / 6)),
+//			endPointY - (arrowWidth * Math.cos(arrowAngle + Math.PI / 6)));
+//
+//	ctx.stroke();
+//	ctx.closePath();
+}
 
-	ctx.moveTo(endPointX - (arrowWidth * Math.sin(arrowAngle - Math.PI / 6)),
-			endPointY - (arrowWidth * Math.cos(arrowAngle - Math.PI / 6)));
-
-	ctx.lineTo(endPointX, endPointY);
-
-	ctx.lineTo(endPointX - (arrowWidth * Math.sin(arrowAngle + Math.PI / 6)),
-			endPointY - (arrowWidth * Math.cos(arrowAngle + Math.PI / 6)));
-
-	ctx.stroke();
-	ctx.closePath();
+function arrowline( canvas, pathstr, duration, attr, callback )
+{    
+	ctx.clearRect(0, 0, document.getElementById('directionCanvas').width,
+			document.getElementById('directionCanvas').height);
+    var guide_path = canvas.path( pathstr ).attr( { stroke: "none", fill: "none" } );
+    var path = canvas.path( guide_path.getSubpath( 0, 1 ) ).attr( attr );
+    var total_length = guide_path.getTotalLength( guide_path );
+    var start_time = new Date().getTime();
+    var interval_length = 25;
+    
+    var interval_id = setInterval( function()
+        {
+            var elapsed_time = new Date().getTime() - start_time;
+            var this_length = elapsed_time / duration * total_length;
+            var subpathstr = guide_path.getSubpath( 0, this_length );
+            attr.path = subpathstr;
+            path.animate( attr, interval_length );
+                                       
+            if ( elapsed_time >= duration )
+            {
+                clearInterval( interval_id );
+                if ( callback != undefined ) callback();
+            }                                       
+        }, interval_length );  
+    return path;    
 }

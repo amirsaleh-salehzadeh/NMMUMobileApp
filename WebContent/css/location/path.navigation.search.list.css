@@ -207,16 +207,3 @@ div#searchFieldDiv {
 	overflow: auto !important;
 	z-index: 1;
 }
-
-.popupSearchResultCloseBTNContainer {
-	position: fixed !important;
-	top: 103px !important;
-	left: 0 !important;
-	right: 0 !important;
-	margin: 3 3%;
-	z-index: 3;
-}
-
-#closeErrorPopupMessage {
-	bottom: 22 !important;
-}
