@@ -159,10 +159,11 @@
 		return String;
 	}
 </script>
-<link href="css/location/path.management.css" rel="stylesheet">
+<link href="css/location/management/path.management.css" rel="stylesheet">
+<link href="css/location/management/path.management.toolbox.css" rel="stylesheet">
 </head>
 <div>
-	<input type="hidden" id="parentLocationId"> <input
+	<input type="hidden" id="parentLocationId" value="360"> <input
 		type='hidden' id='locationTypeId' value="0"> <input
 		type='hidden' id='locationTypeDefinition' value='def'> <input
 		type="hidden" name="destinationId" id="destinationId"><input
@@ -180,25 +181,22 @@
 
 	</div>
 </div>
-<div id="polygons">
-	<div id="panelColour">
-		<div id="color-palette"></div>
-		<div>
-			<button id="delete-button">Delete Selected Shape</button>
-		</div>
-	</div>
-</div>
 <div id="map_canvas"></div>
-<div id="locationTypeFields">
-	<div data-role="controlgroup" id="locationTypesContainer"
-		data-type="horizontal" data-enhance="false"></div>
-	<br />
-</div>
 <div id="createType"></div>
+
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
 	</ul>
 </div>
+
+<div class="ui-grid-a" id="topToolBox" >
+	<div class="ui-block-a">Building<img src="images/map-markers/building.png" width="48" height="48"/></div>
+	<div class="ui-block-b">Intersection<img src="images/map-markers/crossroad.png" width="48" height="48"></div>
+</div>
+
+<!-- SEARCH FEILD RIGHT SIDE -->
+
+
 <div id="searchFields" style="width: 85%;">
 	<fieldset data-role="controlgroup" data-type="horizontal"
 		name="optionType">
@@ -212,6 +210,9 @@
 			onclick="selectActionType();">
 	</fieldset>
 </div>
+
+
+
 <div data-role="popup" id="insertAMarker" data-position-to="window"
 	data-transition="turn"
 	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;">

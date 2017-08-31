@@ -1,0 +1,16 @@
+#topToolBox{
+	background-color: white;
+	color: black;
+	font-size: 12pt;
+}
+
+#topToolBox div{
+	border: 1px solid; 
+	border-color: black;
+	border-top: none;
+	border-bottom: none;
+	height: 100%;
+	text-align: center;
+	width: 50%;
+	cursor: pointer;
+}

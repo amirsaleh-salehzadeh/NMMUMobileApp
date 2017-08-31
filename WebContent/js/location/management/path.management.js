@@ -178,6 +178,8 @@ function initMap() {
 			.getElementById('createType'));
 	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
 			.getElementById('locationTypeFields'));
+	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+			.getElementById('topToolBox'));
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
@@ -196,108 +198,7 @@ function initMap() {
 		}
 	});
 
-	var polyOptions = {
-		strokeWeight : 0,
-		fillOpacity : 0.45,
-		editable : true,
-		draggable : false
-	};
-	// Creates a drawing manager attached to the map that allows the user to
-	// draw
-	// markers, lines, and shapes.
-	drawingManager = new google.maps.drawing.DrawingManager({
-		drawingMode : google.maps.drawing.OverlayType.POLYGON,
-		drawingControl : true,
-		drawingControlOptions : {
-			position : google.maps.ControlPosition.TOP_LEFT,
-			drawingModes : [ 'marker', 'circle', 'polygon', 'polyline',
-					'rectangle' ]
-		},
-		markerOptions : {
-			draggable : false
-		},
-		polylineOptions : {
-			editable : true,
-			draggable : false
-		},
-		rectangleOptions : polyOptions,
-		circleOptions : polyOptions,
-		polygonOptions : polyOptions,
-		map : map
-	});
-
-	google.maps.event
-			.addListener(
-					drawingManager,
-					'overlaycomplete',
-					function(e) {
-						var newShape = e.overlay;
-						// The getPolygonCoords function must be called here,
-						// because it is called right after the whole polygon is
-						// created
-						alert(getPolygonCoords(newShape));
-						$("#boundary").val(getPolygonCoords(newShape));
-						$('#insertAMarker').popup('open');
-						newShape.type = e.type;
-
-						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
-							// Switch back to non-drawing mode after drawing a
-							// shape.
-							drawingManager.setDrawingMode(null);
-							// Add an event listener that selects the
-							// newly-drawn shape when the user
-							// mouses down on it.
-							google.maps.event
-									.addListener(
-											newShape,
-											'click',
-											function(e) {
-												if (e.vertex !== undefined) {
-													if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
-														var path = newShape
-																.getPaths()
-																.getAt(e.path);
-														path.removeAt(e.vertex);
-														if (path.length < 3) {
-															newShape
-																	.setMap(null);
-														}
-													}
-													if (newShape.type === google.maps.drawing.OverlayType.POLYLINE) {
-														var path = newShape
-																.getPath();
-														path.removeAt(e.vertex);
-														if (path.length < 2) {
-															newShape
-																	.setMap(null);
-														}
-													}
-												}
-												setSelection(newShape);
-											});
-							setSelection(newShape);
-						} else {
-							google.maps.event.addListener(newShape, 'click',
-									function(e) {
-										setSelection(newShape);
-									});
-							setSelection(newShape);
-						}
-					});
-
-	// Clear the current selection when the drawing mode is changed, or when the
-	// map is clicked.
-	google.maps.event.addListener(drawingManager, 'drawingmode_changed',
-			clearSelection);
-	google.maps.event.addListener(map, 'click', clearSelection);
-	google.maps.event.addDomListener(document.getElementById('delete-button'),
-			'click', deleteSelectedShape);
-	// Disables drawing mode on startup so you have to click on toolbar first to
-	// draw shapes and create the colour palette
-	drawingManager.setDrawingMode(null);
-	buildColorPalette();
 }
-// google.maps.event.addDomListener(window, 'load', initialize);
 
 function selectActionType() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
