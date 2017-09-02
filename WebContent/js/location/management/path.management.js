@@ -263,6 +263,7 @@ function selectParent(field) {
 		$("#infoListView").listview();
 		$("#infoListView").listview("refresh");
 	}
+	getLocationSearchPanel();
 	getAllMarkers();
 	setLocationTypeCreate();
 }

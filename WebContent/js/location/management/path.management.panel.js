@@ -30,6 +30,7 @@ function getLocationTypePanel() {
 					$("#locationTypesContainer").controlgroup("refresh");
 					getMyChild(data.locationTypeId);
 					setLocationTypeCreate();
+					getLocationSearchPanel();
 					getAllMarkers();
 				}
 			});
@@ -71,4 +72,37 @@ function getMyChild(select) {
 		childData = l;
 		getMyChild(l.locationTypeId);
 	});
+}
+function getLocationSearchPanel() {
+
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
+			+ $("#parentLocationId").val() + "&locationTypeId=2&userName=NMMU";
+	$
+			.ajax({
+				url : url,
+				cache : false,
+				async : true,
+				success : function(data) {
+					var str = "";
+					$
+							.each(
+									data,
+									function(k, l) {
+										str += '<a href="#" id="'
+												+ l.locationID
+												+ "_"
+												+ l.gps
+												+ "_"
+												+ l.locationType.locationTypeId
+												+ '" data-mini="true" onclick="selectParent(this)" class="ui-btn parentLocationList">'
+												+ l.locationName + '</a>';
+									});
+					$('#parentLocationListView').html(str);
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+				}
+			});
+	$('#parentLocationListView').val();
 }
