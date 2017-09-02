@@ -75,9 +75,11 @@ function saveMarker() {
 
 function getAllMarkers() {
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-			+ $("#parentLocationId").val() + "&locationTypeId=2,3,5&userName=NMMU";
-	// var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-	// + $("#parentLocationId").val() + "&userName=NMMU";
+		+ $("#parentLocationId").val() + "&locationTypeId=3,5&userName=NMMU";
+		//"REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
+			//+ $("#parentLocationId").val() + "&locationTypeId=2,3,5&userName=NMMU";
+	 "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
+	 + $("#parentLocationId").val() + "&userName=NMMU";
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
 	}
@@ -87,23 +89,12 @@ function getAllMarkers() {
 				cache : false,
 				async : true,
 				success : function(data) {
-					var str = "";
 					$.each(data,
 									function(k, l) {
 										// if
 										// (parseInt(l.locationType.locationTypeId)
 										// >= parseInt($(
 										// "#locationTypeId").val()))
-										if (parseInt(l.locationType.locationTypeId) == 2)
-											str += '<a href="#" id="'
-													+ l.locationID
-													+ "_"
-													+ l.gps
-													+ "_"
-													+ l.locationType.locationTypeId
-													+ '" data-mini="true" onclick="selectParent(this)" class="ui-btn parentLocationList">'
-													+ l.locationName + '</a>';
-										else {
 											var pos = {
 												lat : parseFloat(l.gps
 														.split(",")[0]),
@@ -119,7 +110,6 @@ function getAllMarkers() {
 														animation : google.maps.Animation.DROP,
 														draggable : true,
 														title : l.locationName
-
 													});
 											google.maps.event
 													.addListener(
@@ -168,9 +158,9 @@ function getAllMarkers() {
 															});
 											marker.setPosition(pos);
 											markers.push(marker);
-										}
-									});
-					$('#parentLocationListView').html(str);
+					
+										});
+					
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);
