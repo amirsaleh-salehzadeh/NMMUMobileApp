@@ -197,3 +197,12 @@ function addAMarker(location, gps) {
 	}
 	openMarkerPopup(edit);
 }
+function addBuilding(){
+	$("#locationTypeId").val("3");
+	getLocationSearchPanel();
+	
+}
+function addIntersection(){
+	intersectionChoice();
+	
+}

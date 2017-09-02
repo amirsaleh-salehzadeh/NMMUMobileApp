@@ -30,7 +30,7 @@ function getLocationTypePanel() {
 					$("#locationTypesContainer").controlgroup("refresh");
 					getMyChild(data.locationTypeId);
 					setLocationTypeCreate();
-					getLocationSearchPanel();
+					
 					getAllMarkers();
 				}
 			});
@@ -104,5 +104,11 @@ function getLocationSearchPanel() {
 					alert(thrownError);
 				}
 			});
+	$('#parentLocationListView').val();
+}
+function intersectionChoice(){
+	var str='<a href="#" onclick="$("#locationTypeId").val("9") getLocationSearchPanel()"data-mini="true"class="ui-btn parentLocationList">Indoor Intersection</a>';
+		str+='<a href="#" onclick="$("#locationTypeId").val("5") getLocationSearchPanel()"data-mini="true"class="ui-btn parentLocationList">Outdoor Intersection</a>';
+	$('#parentLocationListView').html(str);
 	$('#parentLocationListView').val();
 }

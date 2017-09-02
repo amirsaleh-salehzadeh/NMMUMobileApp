@@ -190,8 +190,8 @@
 </div>
 
 <div class="ui-grid-a" id="topToolBox" >
-	<div class="ui-block-a">Building<img src="images/map-markers/building.png" width="48" height="48"/></div>
-	<div class="ui-block-b">Intersection<img src="images/map-markers/crossroad.png" width="48" height="48"></div>
+	<div class="ui-block-a" onclick="addBuilding()">Add Building<br><img src="images/map-markers/building.png" width="48" height="48"/></div>
+	<div class="ui-block-b"onclick="addIntersection()">Add Intersection<br><img src="images/map-markers/crossroad.png" width="48" height="48"></div>
 </div>
 
 <!-- SEARCH FEILD RIGHT SIDE -->
@@ -212,7 +212,7 @@
 </div>
 
 
-
+<!-- insert marker popup -->
 <div data-role="popup" id="insertAMarker" data-position-to="window"
 	data-transition="turn"
 	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;">
@@ -220,6 +220,9 @@
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right"
 		onclick="$('#insertAMarker').popup('close'); ">Close</a>
+		<div>
+		<label id="creationLabel"></label>
+		</div>
 	<div class="ui-block-solo">
 		<label for="markerName" id="markerLabel"></label> <input type="text"
 			placeholder="Location Name" name="markerName" id="markerName"
@@ -275,6 +278,7 @@
 			onclick="removeMarker()">Remove</a>
 	</div>
 </div>
+<!-- insert path popup -->
 <div data-role="popup" id="insertAPath" data-position-to="window"
 	data-transition="turn"
 	style="background-color: #000000; width: 333px; padding: 7px 7px 7px 7px;">

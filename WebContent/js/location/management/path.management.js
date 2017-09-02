@@ -241,7 +241,7 @@ function selectParent(field) {
 		if ($(this).html().indexOf($(field).html()) !== -1)
 			exist = true;
 	});
-	if (!exist) {
+	if (!exist || $("#locationTypeId").val("3")) {
 		$(".locationTypeNavBar option").each(
 				function() {
 					if ($(this).val() == $(field).attr("id").split("_")[2]) {
@@ -251,8 +251,8 @@ function selectParent(field) {
 					}
 				});
 		$("#parentLocationId").val($(field).attr("id").split("_")[0]);
-		$("#locationTypeId").val($(field).attr("id").split("_")[2]);
-		$("#infoListView").append(
+	//	$("#locationTypeId").val($(field).attr("id").split("_")[2]);
+		$("#infoListView").html(
 				"<li id='" + $("#locationTypeId").val() + "_"
 						+ $(field).attr("id").split("_")[0]
 						+ "' onclick='changeTheLocation(this);'>["
@@ -263,9 +263,11 @@ function selectParent(field) {
 		$("#infoListView").listview();
 		$("#infoListView").listview("refresh");
 	}
-	getLocationSearchPanel();
+//	getLocationSearchPanel();
 	getAllMarkers();
 	setLocationTypeCreate();
+
+
 }
 
 function createMyType(selectOpt) {
