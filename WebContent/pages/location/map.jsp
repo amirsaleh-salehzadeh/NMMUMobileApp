@@ -283,7 +283,7 @@
 		<!-- 		 SCANNER BUTTON -->
 
 
-		<div id="scannerBTNContainer" style="display: none;">
+		<div id="scannerBTNContainer" style="display: block;">
 			<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
 			<button class="navbtn" id="dualModeSelect" onclick="selectDualMode()">Scan</button>
 		</div>
