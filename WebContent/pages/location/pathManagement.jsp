@@ -86,32 +86,32 @@
 }
 
 #panelColour {
-    width: 250px;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    float: left;
-    margin: 10px;
+	width: 250px;
+	font-family: Arial, sans-serif;
+	font-size: 13px;
+	float: left;
+	margin: 10px;
 }
 
 #color-palette {
-    clear: both;
+	clear: both;
 }
 
 .color-button {
-    width: 14px;
-    height: 14px;
-    font-size: 0;
-    margin: 2px;
-    float: left;
-    cursor: pointer;
+	width: 14px;
+	height: 14px;
+	font-size: 0;
+	margin: 2px;
+	float: left;
+	cursor: pointer;
 }
 
 #delete-button {
-    margin-top: 5px;
-    width: auto;
+	margin-top: 5px;
+	width: auto;
 }
 
-#imageEdit .ui-btn{
+#imageEdit .ui-btn {
 	overflow: visible;
 	padding: .3em .1em;
 }
@@ -162,7 +162,7 @@
 <link href="css/location/path.management.css" rel="stylesheet">
 </head>
 <div>
-	<input type="hidden" id="parentLocationId" > <input
+	<input type="hidden" id="parentLocationId"> <input
 		type='hidden' id='locationTypeId' value="0"> <input
 		type='hidden' id='locationTypeDefinition' value='def'> <input
 		type="hidden" name="destinationId" id="destinationId"><input
@@ -184,7 +184,7 @@
 	<div id="panelColour">
 		<div id="color-palette"></div>
 		<div>
-     	  	<button id="delete-button">Delete Selected Shape</button>
+			<button id="delete-button">Delete Selected Shape</button>
 		</div>
 	</div>
 </div>
@@ -214,7 +214,8 @@
 </div>
 <div data-role="popup" id="insertAMarker" data-position-to="window"
 	data-transition="turn"
-	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;"><!-- width: 333px; -->
+	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;">
+	<!-- width: 333px; -->
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right"
 		onclick="$('#insertAMarker').popup('close'); ">Close</a>
@@ -224,36 +225,37 @@
 			value="">
 	</div>
 	<div class="ui-block-solo">
-	<label for="locationDescription" id="DescriptionLabel"></label>
-		<input type="text" placeholder="Location Description" name="locationDescription" 
-		id="locationDescription" value="">
+		<label for="locationDescription" id="DescriptionLabel"></label> <input
+			type="text" placeholder="Location Description"
+			name="locationDescription" id="locationDescription" value="">
 	</div>
 	<div class="ui-block-solo">
-		<input id="file" type="file" name="pic" accept="image/*"/>
-		<br>
+		<input id="file" type="file" name="pic" accept="image/*" /> <br>
 		<div class="ui-grid-c" id="imageEdit">
-    	<div class="ui-block-a">
-			<button id="cropbutton" type="button">Crop</button>
-		</div>
-    	<div class="ui-block-b">
-			<button id="scalebutton" type="button">Scale</button>
-		</div>
-   	 	<div class="ui-block-c">
-			<button id="rotatebutton" type="button">Rotate</button>
-		</div>
-		<div class="ui-block-d">
-			<button id="saveIcon" type="button">Save</button>
-		</div>
+			    
+			<div class="ui-block-a">
+				<button id="cropbutton" type="button">Crop</button>
+			</div>
+			    
+			<div class="ui-block-b">
+				<button id="scalebutton" type="button">Scale</button>
+			</div>
+			     
+			<div class="ui-block-c">
+				<button id="rotatebutton" type="button">Rotate</button>
+			</div>
+			<div class="ui-block-d">
+				<button id="saveIcon" type="button">Save</button>
+			</div>
 		</div>
 		<br>
-  		<div id="views">
-  		</div>
+		<div id="views"></div>
 	</div>
-	<input type="hidden" name ="icon" id="icon" value="">
-	<input type="hidden" name ="boundary" id="boundary" value="">
+	<input type="hidden" name="icon" id="icon" value=""> <input
+		type="hidden" name="boundary" id="boundary" value="">
 	<div class="ui-block-solo">
 		<input type="button" data-icon="plus" value="Add Boundary"
-		id="addBoundary"  onclick="addPolygon()">
+			id="addBoundary" onclick="addPolygon()">
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
@@ -302,14 +304,18 @@
 	</div>
 </div>
 <script src="js/jquery.Jcrop.min.js"></script>
-<script type="text/javascript" src="js/location/path.management.image.js"></script>
-<script type="text/javascript" src="js/location/path.navigation.polygon.js"></script>
-<script type="text/javascript" src="js/location/path.management.js"></script>
 <script type="text/javascript"
-	src="js/location/path.management.marker.js"></script>
-<script type="text/javascript" src="js/location/path.management.path.js"></script>
+	src="js/location/management/path.management.image.js"></script>
 <script type="text/javascript"
-	src="js/location/path.management.panel.js"></script>
+	src="js/location/management/path.navigation.polygon.js"></script>
+<script type="text/javascript"
+	src="js/location/management/path.management.js"></script>
+<script type="text/javascript"
+	src="js/location/management/path.management.marker.js"></script>
+<script type="text/javascript"
+	src="js/location/management/path.management.path.js"></script>
+<script type="text/javascript"
+	src="js/location/management/path.management.panel.js"></script>
 
 
 <script async defer

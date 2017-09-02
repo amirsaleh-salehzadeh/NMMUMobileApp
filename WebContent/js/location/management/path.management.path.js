@@ -13,6 +13,18 @@ function getAllPaths() {
 				pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps
 						.split(',')[0]),
 						parseFloat(l.departure.gps.split(',')[1])));
+				if (l.pathRoute.length > 0) {
+					var tm = l.pathRoute.split("_");
+					if (tm.length == 1)
+						pathCoor.push(new google.maps.LatLng(parseFloat(tm[0]
+								.split(',')[0]),
+								parseFloat(tm[0].split(',')[1])));
+					for ( var i = 0; i < tm.length; i++) {
+						pathCoor.push(new google.maps.LatLng(parseFloat(tm[i]
+								.split(',')[0]),
+								parseFloat(tm[i].split(',')[1])));
+					}
+				}
 				pathCoor.push(new google.maps.LatLng(
 						parseFloat(l.destination.gps.split(',')[0]),
 						parseFloat(l.destination.gps.split(',')[1])));
@@ -63,7 +75,7 @@ function saveThePath() {
 			$("#locationTypeId").val(5);
 			$("#markerId").val(0);
 			if (i < locationLatLngs.length - 1) {
-				saveMarker();
+				// saveMarker();
 				$("#destinationId").val($("#markerId").val());
 			} else {
 				$("#destinationId").val(des);
@@ -79,11 +91,12 @@ function saveThePath() {
 function saveAPath() {
 	var url = "REST/GetLocationWS/SavePath?fLocationId="
 			+ $("#departureId").val() + "&tLocationId="
-			+ $("#destinationId").val() + "&pathType=" + $("#pathType").val();
+			+ $("#destinationId").val() + "&pathType=" + $("#pathType").val()
+			+ "&pathRoute=" + $("#pathLatLng").val();
 	$.ajax({
 		url : url,
 		cache : false,
-		async : false,
+		async : true,
 		success : function(data) {
 			$("#departureId").val($("#destinationId").val());
 		},
@@ -122,7 +135,10 @@ var pathMarkers = [];
 function addAPathInnerConnection(event) {
 	var lat = event.latLng.lat();
 	var lng = event.latLng.lng();
-	$("#pathLatLng").val($("#pathLatLng").val() + "_" + lat + "," + lng);
+	if ($("#pathLatLng").val().length > 1)
+		$("#pathLatLng").val($("#pathLatLng").val() + "_" + lat + "," + lng);
+	else
+		$("#pathLatLng").val(lat + "," + lng);
 	updateConstantLine();
 	$("#locationTypeId").val(5);
 	var pathMarker = new google.maps.Marker({
@@ -181,7 +197,10 @@ var tmpPathCoor = [];
 function updateConstantLine() {
 	tmpPathCoor = [];
 	var nextDestGPS = $("#pathLatLng").val().split("_");
+	if ($("#pathLatLng").val() == "")
+		nextDestGPS = $("#markerCoordinate").val();
 	polylineConstantLength = 0;
+	tmpPathCoor.push(getGoogleMapPosition($("#markerCoordinate").val()));
 	for ( var i = 0; i < nextDestGPS.length; i++) {
 		tmpPathCoor.push(getGoogleMapPosition(nextDestGPS[i]));
 		lastOne = getGoogleMapPosition(nextDestGPS[i]);
@@ -235,9 +254,10 @@ function addAPath(location, gps) {
 		$("#departure").val(location.locationName);
 		$("#departureId").val(location.locationID);
 		$("#markerCoordinate").val(location.gps);
+		lastOne = getGoogleMapPosition(location.gps);
 		google.maps.event.clearInstanceListeners(map);
-		$("#pathLatLng").val(location.gps);
-		updateConstantLine();
+		// $("#pathLatLng").val(location.gps);
+		// updateConstantLine();
 		google.maps.event.addListener(map, "mousemove", function(event) {
 			updateMovingLine(event);
 		});
@@ -245,7 +265,7 @@ function addAPath(location, gps) {
 			addAPathInnerConnection(event);
 		});
 		return;
-	} else if ($("#destination").val() == "") {
+	} else if ($("#destinationId").val() == "") {
 		$("#destination").val(location.locationName);
 		$("#destinationId").val(location.locationID);
 		google.maps.event.clearInstanceListeners(map);
@@ -254,7 +274,7 @@ function addAPath(location, gps) {
 		$("#pathLatLng").val(
 				$("#pathLatLng").val().replace("_" + lastUnnecessaryMarkerGPS,
 						""));
-		$("#pathLatLng").val($("#pathLatLng").val() + "_" + location.gps);
+		// $("#pathLatLng").val($("#pathLatLng").val() + "_" + location.gps);
 		openPathCreationPopup();
 	}
 }

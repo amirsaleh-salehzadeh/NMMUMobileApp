@@ -50,11 +50,19 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(1000);
-// 								errorMessagePopupOpen('hi');
+// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(110);
-
+// 		var myTimer = setInterval(test,60);
+// test(220);
 	});
+	var sdf = 0;
+	function test() {
+		sdf = sdf + 1;
+		if (sdf >= 360)
+			sdf = 0;
+		displayImage(sdf);
+	}
 </script>
 <body>
 
@@ -231,12 +239,12 @@
 
 
 		<div id="directionShow"
-			style="background-color: transparent; left: 23px; top: 73px; position: absolute; display: none;">
+			style="background-color: transparent; right: 11px; top: 113px; position: absolute; display: block;">
 			<!-- 		changed position from left: 53px; top: 73px; <img alt="" -->
 			<!-- 			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span -->
 			<!-- 			id="navigationDesc" class="infoValue"> </span> -->
 			<canvas id="directionCanvas" width="111" height="111"
-				style="background-color: white;"></canvas>
+				style="background-color: transparent; margin: 0 auto;"></canvas>
 		</div>
 
 
@@ -322,7 +330,7 @@
 				id="closeErrorPopupMessage">
 				<a data-role="button" href="#"
 					onclick="$('#popupErrorMessage').popup('close');blurFalse();"
-					class="closePopupMessage"><img
+					class="closePopupMessage" id="popupErrorMessageCloseBTN"><img
 					src="images/icons/clearInput.png" alt=""
 					class="closeMessageButtonIcon" />Close</a>
 			</div>
@@ -341,7 +349,7 @@
 			<div class="ui-block-solo">
 				<a data-role="button" href="#"
 					onclick="$('#popupArrivalMessage').popup('close');blurFalse();"
-					class="closePopupMessage"><img
+					class="closePopupMessage" id="popupArrivalMessageCloseBTN"><img
 					src="images/icons/clearInput.png" alt=""
 					class="closeMessageButtonIcon" />Close</a>
 			</div>

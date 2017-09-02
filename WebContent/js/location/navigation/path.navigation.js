@@ -213,12 +213,8 @@ function updatePolyLine(currentPos, altitude) {
 			nextPosition);
 	marker.setIcon(null);
 	// marker.setIcon({
-	// path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-	// scale : 7,
-	// strokeWeight : 3,
-	// rotation : headingTo1st
-	// });
 	marker.setIcon('images/icons/target-old.png');
+	console.log(distanceToNextPosition);
 	if (nextDestGPS.length > 1) {
 		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
 		var headingTo2st = google.maps.geometry.spherical.computeHeading(
@@ -230,7 +226,7 @@ function updatePolyLine(currentPos, altitude) {
 		$("#navigationDesc").html(getDistanceLeft(distanceToNextPosition));
 		getAngleDirection(angleToNextDestination);
 	}
-	if (distanceToNextPosition <= 5) {
+	if (distanceToNextPosition <= 10) {
 		removeTheNextDestination();
 	}
 	distanceToDestination = polylineConstantLength + distanceToNextPosition;
