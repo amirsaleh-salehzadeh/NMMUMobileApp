@@ -191,7 +191,7 @@
 
 <div class="ui-grid-a" id="topToolBox" >
 	<div class="ui-block-a" onclick="addBuilding()">Add Building<br><img src="images/map-markers/building.png" width="48" height="48"/></div>
-	<div class="ui-block-b"onclick="addIntersection()">Add Intersection<br><img src="images/map-markers/crossroad.png" width="48" height="48"></div>
+	<div class="ui-block-b"onclick="addIntersection()">Add Outdoor Intersection<br><img src="images/map-markers/crossroad.png" width="48" height="48"></div>
 </div>
 
 <!-- SEARCH FEILD RIGHT SIDE -->

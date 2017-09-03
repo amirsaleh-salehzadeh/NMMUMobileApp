@@ -241,7 +241,8 @@ function selectParent(field) {
 		if ($(this).html().indexOf($(field).html()) !== -1)
 			exist = true;
 	});
-	if (!exist || $("#locationTypeId").val("3")) {
+	if (!exist || $("#locationTypeId").val("3")
+			|| $("#locationTypeId").val("5")) {
 		$(".locationTypeNavBar option").each(
 				function() {
 					if ($(this).val() == $(field).attr("id").split("_")[2]) {
@@ -251,22 +252,33 @@ function selectParent(field) {
 					}
 				});
 		$("#parentLocationId").val($(field).attr("id").split("_")[0]);
-	//	$("#locationTypeId").val($(field).attr("id").split("_")[2]);
-		$("#infoListView").html(
-				"<li id='" + $("#locationTypeId").val() + "_"
-						+ $(field).attr("id").split("_")[0]
-						+ "' onclick='changeTheLocation(this);'>["
-						+ $("#locationTypeDefinition").val() + "] "
-						+ $(field).html() + "</li>");
+		// $("#locationTypeId").val($(field).attr("id").split("_")[2]);
+		if ($("#locationTypeId").val() == 3) {
+			$("#infoListView").html(
+					"<li id='buildingAdd'> Adding Building on </li>"
+							+ "<li id='" + $("#locationTypeId").val() + "_"
+							+ $(field).attr("id").split("_")[0]
+							+ "' onclick='changeTheLocation(this);'>["
+							+ $("#locationTypeDefinition").val() + "] "
+							+ $(field).html() + "</li>");
+		} else {
+			$("#infoListView").html(
+					"<li id='intersectionAdd'> Adding Intersection on </li>"
+							+ "<li id='" + $("#locationTypeId").val() + "_"
+							+ $(field).attr("id").split("_")[0]
+							+ "' onclick='changeTheLocation(this);'>["
+							+ $("#locationTypeDefinition").val() + "] "
+							+ $(field).html() + "</li>");
+		}
+
 		$("#infoListView").listview();
-		getMyChild($(field).attr("id").split("_")[2]);
+		 getMyChild($(field).attr("id").split("_")[2]);
 		$("#infoListView").listview();
 		$("#infoListView").listview("refresh");
 	}
-//	getLocationSearchPanel();
+	// getLocationSearchPanel();
 	getAllMarkers();
 	setLocationTypeCreate();
-
 
 }
 

@@ -198,11 +198,18 @@ function addAMarker(location, gps) {
 	openMarkerPopup(edit);
 }
 function addBuilding(){
+	$("#parentLocationId").val("360");
+	$("#infoListView").html(null);
+	$("#infoListView").html("<li id='intersectionAdd'> Adding Building on" + "</li>");
 	$("#locationTypeId").val("3");
 	getLocationSearchPanel();
 	
 }
 function addIntersection(){
-	intersectionChoice();
-	
+	$("#parentLocationId").val("360");
+	$("#infoListView").html(null);
+	$("#infoListView").html("<li id='intersectionAdd'> Adding Intersection on" + "</li>");
+	$("#infoListView").listview();
+	$("#locationTypeId").val("5");
+	getLocationSearchPanel();
 }
