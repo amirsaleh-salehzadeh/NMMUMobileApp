@@ -50,11 +50,11 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(1000);
-// 										errorMessagePopupOpen('hi');
+		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(110);
-// 		var myTimer = setInterval(test,60);
-// test(220);
+		// 		var myTimer = setInterval(test,60);
+		// test(220);
 	});
 	var sdf = 0;
 	function test() {
@@ -210,6 +210,10 @@
 					src="https://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
 					alt="" title="" border="0"></a>
 			</div>
+			<div class="ui-block-solo">
+				<input type="button" class="zoomBTN" id="mapViewSelect" onclick="selectMapMode()"></input>
+				<input type="button" class="zoomBTN" id="dualModeSelect" onclick="selectDualMode()"></input>
+			</div>
 			<div class="ui-block-solo" style="display: none;">
 				<input disabled="disabled" type="text" id="visitorCounter"
 					placeholder="" value="">
@@ -291,10 +295,7 @@
 		<!-- 		 SCANNER BUTTON -->
 
 
-		<div id="scannerBTNContainer" style="display: none;">
-			<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button>
-			<button class="navbtn" id="dualModeSelect" onclick="selectDualMode()">Scan</button>
-		</div>
+
 
 
 

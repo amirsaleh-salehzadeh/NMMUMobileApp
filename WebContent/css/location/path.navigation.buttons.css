@@ -76,13 +76,7 @@ button {
 	padding-left: 0 !important;
 }
 
-#scannerBTNContainer {
-	display: block;
-	position: absolute;
-	z-index: 101;
-	margin-left: 7px;
-	background-color: transparent !important;
-}
+
 
 #mylocation {
 	background-image: url("../../images/icons/target.png") !important;
@@ -95,14 +89,14 @@ button {
 	background-image: url("../../images/icons/maps.png") !important;
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
-	border: none;
+	background-position: center;
 }
 
 #dualModeSelect {
-	background-image: url("../../images/icons/qrcodescan.png") !important;
+	background-image: url("../../images/icons/QRCodeIcon.png") !important;
 	background-repeat: no-repeat;
-	background-size: 48px 48px;
-	border: none;
+	background-size: 32px 32px;
+	background-position: center;
 }
 
 #btnToggleFullscreen {
