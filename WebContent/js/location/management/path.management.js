@@ -152,8 +152,9 @@ function initMap() {
 			color : "#a2daf2"
 		} ]
 	} ];
-	getLocationTypePanel();
+//	getLocationTypePanel();
 	getPathTypePanel();
+	getAllMarkers();
 	getAllPaths();
 	var myLatLng = {
 		lat : -33.5343803,
@@ -258,9 +259,8 @@ function selectParent(field) {
 					"<li id='buildingAdd'> Adding Building on </li>"
 							+ "<li id='" + $("#locationTypeId").val() + "_"
 							+ $(field).attr("id").split("_")[0]
-							+ "' onclick='changeTheLocation(this);'>["
-							+ $("#locationTypeDefinition").val() + "] "
-							+ $(field).html() + "</li>");
+							+ "' onclick='changeTheLocation(this);'>"
+							+ $(field).html() + " Campus</li>");
 		} else {
 			$("#infoListView").html(
 					"<li id='intersectionAdd'> Adding Intersection on </li>"
@@ -272,11 +272,11 @@ function selectParent(field) {
 		}
 
 		$("#infoListView").listview();
-		 getMyChild($(field).attr("id").split("_")[2]);
+//		 getMyChild($(field).attr("id").split("_")[2]);
 		$("#infoListView").listview();
 		$("#infoListView").listview("refresh");
 	}
-	// getLocationSearchPanel();
+	//getLocationSearchPanel();
 	getAllMarkers();
 	setLocationTypeCreate();
 
@@ -323,5 +323,6 @@ $(document).ready(
 					"min-height",
 					parseInt($(window).height())
 							- parseInt($(".jqm-header").css("height")) - 7);
+			getLocationSearchPanel();
 
 		});

@@ -1,8 +1,4 @@
-function initiMap() {
-	speed = 0;
-	heading = 0;
-
-	var styles = [ {
+var styles = [ {
 		featureType : "administrative",
 		elementType : "labels",
 		stylers : [ {
@@ -105,6 +101,115 @@ function initiMap() {
 			color : "#a2daf2"
 		} ]
 	} ];
+
+var sattelStyle = [ {
+	featureType : "administrative",
+	elementType : "labels",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "poi",
+	elementType : "labels",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "road",
+	elementType : "labels",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "transit.station",
+	elementType : "labels",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "water",
+	elementType : "labels",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "landscape.man_made",
+	elementType : "geometry",
+	stylers : [ {
+		color : "#efe6cc" // #f7f1df
+	} ]
+}, {
+	featureType : "landscape.natural",
+	elementType : "geometry",
+	stylers : [ {
+		color : "#d0e3b4"
+	} ]
+}, {
+	featureType : "landscape.natural.terrain",
+	elementType : "geometry",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "poi.business",
+	elementType : "all",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "poi.medical",
+	elementType : "geometry",
+	stylers : [ {
+		color : "#fbd3da"
+	} ]
+}, {
+	featureType : "poi.park",
+	elementType : "geometry",
+	stylers : [ {
+		color : "#bde6ab"
+	} ]
+}, {
+	featureType : "road",
+	elementType : "geometry.stroke",
+	stylers : [ {
+		visibility : "on"
+	} ]
+}, {
+	featureType : "road.highway",
+	elementType : "geometry.fill",
+	stylers : [ {
+		color : "#ffe15f"
+	} ]
+}, {
+	featureType : "road.highway",
+	elementType : "geometry.stroke",
+	stylers : [ {
+		color : "#efd151"
+	} ]
+}, {
+	featureType : "road.arterial",
+	elementType : "geometry.fill",
+	stylers : [ {
+		color : "#ffffff"
+	} ]
+}, {
+	featureType : "road.local",
+	elementType : "geometry.fill",
+	stylers : [ {
+		color : "black"
+	} ]
+}, {
+	featureType : "water",
+	elementType : "geometry",
+	stylers : [ {
+		color : "#a2daf2"
+	} ]
+} ];
+
+function initiMap() {
+	speed = 0;
+	heading = 0;
+
 	var styledMap = new google.maps.StyledMapType(styles, {
 		name : "Styled Map"
 	});
@@ -144,7 +249,7 @@ function initiMap() {
 		getThePath();
 	else
 		showViewItems();
-	// drawPolygons();
+	mapSattelView();
 }
 
 function zoomInMap() {
@@ -160,7 +265,7 @@ function zoomOutMap() {
 }
 
 function mapSattelView() {
-	map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+	map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
 	$("#satelliteView").fadeOut();
 	$("#mapViewIcon").fadeIn();
 }

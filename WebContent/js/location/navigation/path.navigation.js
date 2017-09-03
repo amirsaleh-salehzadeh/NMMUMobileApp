@@ -212,7 +212,6 @@ function updatePolyLine(currentPos, altitude) {
 	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath,
 			nextPosition);
 	marker.setIcon(null);
-	// marker.setIcon({
 	marker.setIcon('images/icons/target-old.png');
 	console.log(distanceToNextPosition);
 	if (nextDestGPS.length > 1) {
@@ -226,7 +225,7 @@ function updatePolyLine(currentPos, altitude) {
 		$("#navigationDesc").html(getDistanceLeft(distanceToNextPosition));
 		getAngleDirection(angleToNextDestination);
 	}
-	if (distanceToNextPosition <= 10) {
+	if (distanceToNextPosition <= 5) {
 		removeTheNextDestination();
 	}
 	distanceToDestination = polylineConstantLength + distanceToNextPosition;

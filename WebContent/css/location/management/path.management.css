@@ -8,12 +8,12 @@
 }
 
 .ui-icon-map-marker:after {
-	background-image: url("../../images/icons/marker.png");
+	background-image: url("../../../images/icons/marker.png");
 	background-size: 23px 23px;
 }
 
 .ui-icon-map-path:after {
-	background-image: url("../../images/icons/journey.png");
+	background-image: url("../../../images/icons/journey.png");
 	background-size: 23px 23px;
 }
 

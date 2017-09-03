@@ -96,7 +96,7 @@ function saveAPath() {
 	$.ajax({
 		url : url,
 		cache : false,
-		async : true,
+		async : false,
 		success : function(data) {
 			$("#departureId").val($("#destinationId").val());
 		},

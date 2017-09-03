@@ -83,32 +83,32 @@ public class LocationDAO extends BaseHibernateDAO implements
 			rs.close();
 			ps.close();
 			conn.close();
-			ent = getLocationENT(ent);
-			if (ent.getLocationType().getLocationTypeId() == 3) {
-				ent.setParentId(ent.getLocationID());
-				ent.setLocationID(0);
-				ent.setLocationName("Ground");
-				ent.setLocationType(new LocationTypeENT(4));
-				try {
-					ent = saveUpdateLocation(ent);
-				} catch (AMSException e) {
-					e.printStackTrace();
-				}
-				secLoc = ent.getLocationID();
-				savePath(new PathENT(new LocationENT(firstLoc),
-						new LocationENT(secLoc), 0, new PathTypeENT(5)));
-				ent.setParentId(ent.getLocationID());
-				ent.setLocationID(0);
-				ent.setLocationName("Entrance");
-				ent.setLocationType(new LocationTypeENT(10));
-				try {
-					ent = saveUpdateLocation(ent);
-				} catch (AMSException e) {
-					e.printStackTrace();
-				}
-				savePath(new PathENT(new LocationENT(secLoc), new LocationENT(
-						ent.getLocationID()), 0, new PathTypeENT(5)));
-			}
+//			ent = getLocationENT(ent);
+//			if (ent.getLocationType().getLocationTypeId() == 3) {
+//				ent.setParentId(ent.getLocationID());
+//				ent.setLocationID(0);
+//				ent.setLocationName("Ground");
+//				ent.setLocationType(new LocationTypeENT(4));
+//				try {
+//					ent = saveUpdateLocation(ent);
+//				} catch (AMSException e) {
+//					e.printStackTrace();
+//				}
+//				secLoc = ent.getLocationID();
+//				savePath(new PathENT(new LocationENT(firstLoc),
+//						new LocationENT(secLoc), 0, new PathTypeENT(5)));
+//				ent.setParentId(ent.getLocationID());
+//				ent.setLocationID(0);
+//				ent.setLocationName("Entrance");
+//				ent.setLocationType(new LocationTypeENT(10));
+//				try {
+//					ent = saveUpdateLocation(ent);
+//				} catch (AMSException e) {
+//					e.printStackTrace();
+//				}
+//				savePath(new PathENT(new LocationENT(secLoc), new LocationENT(
+//						ent.getLocationID()), 0, new PathTypeENT(5)));
+//			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

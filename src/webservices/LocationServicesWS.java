@@ -39,6 +39,8 @@ public class LocationServicesWS {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
+			if(parentLocationIds.equalsIgnoreCase("0"))
+				parentLocationIds = null;
 			json = mapper.writeValueAsString(getLocationDAO()
 					.getAllLocationsForUser(userName, locationTypeIds,
 							parentLocationIds));

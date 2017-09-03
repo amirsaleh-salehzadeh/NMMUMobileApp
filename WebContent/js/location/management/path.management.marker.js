@@ -25,7 +25,7 @@ function saveMarker() {
 		alert("Please select a name for the location");
 		return;
 	}
-	var url = "REST/GetLocationWS/SaveUpdateLocation?parentId="
+	var url = "REST/GetLocationWS/SaveUpdateLocation?address=&plan=&parentId="
 			+ $("#parentLocationId").val() + "&locationName="
 			+ $("#markerName").val() + "&coordinate="
 			+ $("#markerCoordinate").val() + "&locationType="
@@ -62,7 +62,6 @@ function saveMarker() {
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
-			alert(2);
 		}
 	});
 	if (!$('#insertAMarker').parent().hasClass('ui-popup-hidden')) {
@@ -74,12 +73,7 @@ function saveMarker() {
 }
 
 function getAllMarkers() {
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-		+ $("#parentLocationId").val() + "&locationTypeId=3,5&userName=NMMU";
-		//"REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-			//+ $("#parentLocationId").val() + "&locationTypeId=2,3,5&userName=NMMU";
-	 "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-	 + $("#parentLocationId").val() + "&userName=NMMU";
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId=0&locationTypeId=3,5&userName=NMMU";
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
 	}
@@ -198,18 +192,16 @@ function addAMarker(location, gps) {
 	openMarkerPopup(edit);
 }
 function addBuilding(){
-	$("#parentLocationId").val("360");
-	$("#infoListView").html(null);
-	$("#infoListView").html("<li id='intersectionAdd'> Adding Building on" + "</li>");
+//	$("#infoListView").html(null);
+//	$("#infoListView").html("<li id='intersectionAdd'> Adding Building on" + "</li>");
 	$("#locationTypeId").val("3");
-	getLocationSearchPanel();
+//	getLocationSearchPanel();
 	
 }
 function addIntersection(){
-	$("#parentLocationId").val("360");
-	$("#infoListView").html(null);
-	$("#infoListView").html("<li id='intersectionAdd'> Adding Intersection on" + "</li>");
-	$("#infoListView").listview();
+//	$("#infoListView").html(null);
+//	$("#infoListView").html("<li id='intersectionAdd'> Adding Intersection on" + "</li>");
+//	$("#infoListView").listview();
 	$("#locationTypeId").val("5");
-	getLocationSearchPanel();
+//	getLocationSearchPanel();
 }
