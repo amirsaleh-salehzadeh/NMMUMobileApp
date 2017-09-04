@@ -83,32 +83,32 @@ public class LocationDAO extends BaseHibernateDAO implements
 			rs.close();
 			ps.close();
 			conn.close();
-			ent = getLocationENT(ent);
-			if (ent.getLocationType().getLocationTypeId() == 3) {
-				ent.setParentId(ent.getLocationID());
-				ent.setLocationID(0);
-				ent.setLocationName("Ground");
-				ent.setLocationType(new LocationTypeENT(4));
-				try {
-					ent = saveUpdateLocation(ent);
-				} catch (AMSException e) {
-					e.printStackTrace();
-				}
-				secLoc = ent.getLocationID();
-				savePath(new PathENT(new LocationENT(firstLoc),
-						new LocationENT(secLoc), 0, new PathTypeENT(5)));
-				ent.setParentId(ent.getLocationID());
-				ent.setLocationID(0);
-				ent.setLocationName("Entrance");
-				ent.setLocationType(new LocationTypeENT(10));
-				try {
-					ent = saveUpdateLocation(ent);
-				} catch (AMSException e) {
-					e.printStackTrace();
-				}
-				savePath(new PathENT(new LocationENT(secLoc), new LocationENT(
-						ent.getLocationID()), 0, new PathTypeENT(5)));
-			}
+			// ent = getLocationENT(ent);
+			// if (ent.getLocationType().getLocationTypeId() == 3) {
+			// ent.setParentId(ent.getLocationID());
+			// ent.setLocationID(0);
+			// ent.setLocationName("Ground");
+			// ent.setLocationType(new LocationTypeENT(4));
+			// try {
+			// ent = saveUpdateLocation(ent);
+			// } catch (AMSException e) {
+			// e.printStackTrace();
+			// }
+			// secLoc = ent.getLocationID();
+			// savePath(new PathENT(new LocationENT(firstLoc),
+			// new LocationENT(secLoc), 0, new PathTypeENT(5)));
+			// ent.setParentId(ent.getLocationID());
+			// ent.setLocationID(0);
+			// ent.setLocationName("Entrance");
+			// ent.setLocationType(new LocationTypeENT(10));
+			// try {
+			// ent = saveUpdateLocation(ent);
+			// } catch (AMSException e) {
+			// e.printStackTrace();
+			// }
+			// savePath(new PathENT(new LocationENT(secLoc), new LocationENT(
+			// ent.getLocationID()), 0, new PathTypeENT(5)));
+			// }
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -561,8 +561,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 		int closest = -1;
 		double[] distances = new double[points.size()];
 		for (int i = 0; i < points.size(); i++) {
-			distances[i] = calculateDistanceBetweenTwoPoints(points.get(i).getGps(),
-					GPSCoordinates);
+			distances[i] = calculateDistanceBetweenTwoPoints(points.get(i)
+					.getGps(), GPSCoordinates);
 			if (closest == -1 || distances[i] < distances[closest]) {
 				closest = i;
 			}
@@ -586,7 +586,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 			graph = GraphMapThread.graphWalkaway;
 		else
 			graph = GraphMapThread.graphDirt;
-		// + System.currentTimeMillis());
 		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
 				graph, dep, dest);
 		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(graph,
@@ -818,8 +817,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
 			while (rs.next()) {
+				String locationType = rs.getString("locaTypeName");
+				locationType = measureLocationType(locationType);
 				qrent = new LocationLightENT(rs.getLong("location_id"),
-						rs.getString("locaTypeName"),
+						locationType,
 						rs.getString("location_name"), rs.getString("gps"),
 						null);
 				LocationLightENT tmp = getQRLocationENTTree(qrent,
@@ -850,6 +851,17 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return json;
 	}
 
+	private String measureLocationType(String locationType) {
+		String res = "";
+		if (locationType.equalsIgnoreCase("Area"))
+			res = "Campus";
+		if (locationType.equalsIgnoreCase("Building"))
+			res = "Building";
+		if (locationType.equalsIgnoreCase("Client"))
+			res = "University";
+		return res;
+	}
+
 	private LocationLightENT getQRLocationENTTree(LocationLightENT ent,
 			long parentId, String[] concatParents) {
 		if (parentId <= 0) {
@@ -867,8 +879,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				long tmpPID = rs.getLong("parent_id");
+				String locationType = rs.getString("locaTypeName");
+				locationType = measureLocationType(locationType);
 				ent = new LocationLightENT(rs.getLong("location_id"),
-						rs.getString("locaTypeName"),
+						locationType,
 						rs.getString("location_name"), "", null);
 				if (tmpPID > 0)
 					ent.setP(getQRLocationENTTree(ent, tmpPID, Arrays

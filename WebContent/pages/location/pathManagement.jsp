@@ -178,7 +178,6 @@
 			<div data-role="controlgroup" data-filter="true"
 				data-input="#parentLocation" id="parentLocationListView"></div>
 		</form>
-
 	</div>
 </div>
 <div id="map_canvas"></div>

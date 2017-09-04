@@ -5,7 +5,7 @@ function getLocationTypePanel() {
 			.ajax({
 				url : url,
 				cache : false,
-				async: true,
+				async : true,
 				success : function(data) {
 					locationTypeJSONData = data;
 					var str = "<select name='selectLocationType'  data-iconpos='noicon' data-role='nojs' class='locationTypeNavBar' onclick='createMyType(this);' id='NavBar"
@@ -28,10 +28,10 @@ function getLocationTypePanel() {
 					$("#NavBar" + data.locationType).selectmenu();
 					$("#NavBar" + data.locationType).selectmenu("refresh");
 					$("#locationTypesContainer").controlgroup("refresh");
-					getMyChild(data.locationTypeId);
-					setLocationTypeCreate();
-					
-					getAllMarkers();
+//					getMyChild(data.locationTypeId);
+//					setLocationTypeCreate();
+//
+//					getAllMarkers();
 				}
 			});
 }
@@ -73,10 +73,9 @@ function getMyChild(select) {
 		getMyChild(l.locationTypeId);
 	});
 }
-function getLocationSearchPanel() {
 
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-			+ $("#parentLocationId").val() + "&locationTypeId=2&userName=NMMU";
+function getLocationSearchPanel() {
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId=360&locationTypeId=2&userName=NMMU";
 	$
 			.ajax({
 				url : url,

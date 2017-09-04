@@ -345,7 +345,7 @@
 			data-position-to="window" data-transition="turn">
 			<!-- 			<a href="#" data-role="button" class="popupCloseBtn" -->
 			<!-- 				onclick="$('#popupArrivalMessage').popup('close');blurFalse();"></a> -->
-			<div id="arrivalMessageHeader" class="ui-block-solo">Header</div>
+			<div id="arrivalMessageHeader" class="ui-block-solo">You are at</div>
 			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
 			<div class="ui-block-solo">
 				<a data-role="button" href="#"
