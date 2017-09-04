@@ -14,11 +14,11 @@ function startScanner() {
 					var self = this;
 					self.scanner = new Instascan.Scanner({
 						video : document.getElementById('videoContent'),
-						scanPeriod : 1,
+						scanPeriod : 5,
 						continuous : true,
 						captureImage : false,
 						backgroundScan : false,
-						refractoryPeriod : 2000
+						refractoryPeriod : 1000
 					});
 					scanner = self.scanner;
 					self.scanner.addListener('scan', function(content, image) {
@@ -49,7 +49,7 @@ function startScanner() {
 										} else if (cameras.length > 0) {
 											self.activeCameraId = cameras[0].id;
 											self.scanner.start(cameras[0]);
-//											startAR();
+// startAR();
 										} else {
 											console.error('No cameras found.');
 										}
@@ -70,27 +70,24 @@ function startScanner() {
 }
 
 function getBCodeInfo(x) {
+	$("#arrivalMessageContent").html("");
 	$.ajax({
 				url : "REST/GetLocationWS/GetBarcodeForLocation?locationId="
 						+ x,
 				cache : true,
 				success : function(data) {
-					$("#barcodeDescription").css("display", "block");
-					$("#barcodeDescription").fadeIn(3000);
-					$.each(data,function(k, l) {
-								$("#barcodeDescription").html("");
-								$("#barcodeDescription").append(
+// $("#barcodeDescription").css("display", "block");
+// $("#barcodeDescription").fadeIn(3000);
+// $.each(data,function(k, l) {
+// $("#barcodeDescription").html("");
+								$("#arrivalMessageContent").append(
 												'<span class="heading">'
 														+ data['t']
 														+ ': </span><span class="locationText">'
 														+ data['n']
 														+ '</span><br>');
-//								var barcodePosition = getGoogleMapPosition(data['g']);
-								var barcodePosition = {
-										lat : parseFloat(data['g'].split(",")[0]),
-										lng : parseFloat(data['g'].split(",")[1])
-									};
-//								marker.setMap(null);
+								var barcodePosition = getGoogleMapPosition(data['g']);
+// marker.setMap(null);
 								marker.setPosition(barcodePosition);
 								map.panTo(barcodePosition);
 								map.setCenter(barcodePosition);
@@ -109,7 +106,7 @@ function getBCodeInfo(x) {
 									}
 										removeTheNextDestination();
 								}
-							});
+// });
 
 					return presentLocation(data['p']);
 				}
@@ -121,12 +118,15 @@ function getBCodeInfo(x) {
 
 }
 function presentLocation(x) {
-	$("#barcodeDescription").append(
+	arrivalMessagePopupOpen();
+	selectMapMode();
+	$("#arrivalMessageContent").append(
 			'<span class="heading">' + x['t']
 					+ ': </span><span class="locationText">' + x['n']
 					+ '</span><br>');
 	if (x.p != null)
 		presentLocation(x['p']);
+	
 }
 
 function hideInfoDiv() {
@@ -134,7 +134,8 @@ function hideInfoDiv() {
 }
 function getTheBarcodeAR(content) {
 	getBCodeInfo(content);
-	$("#barcodeDescription").css("display", "block").trigger('create');
-	$("#barcodeDescription").fadeIn(3000);
-	window.setInterval(hideInfoDiv, 5000);
+// arrivalMessagePopupOpen();
+// $("#barcodeDescription").css("display", "block").trigger('create');
+// $("#barcodeDescription").fadeIn(3000);
+// window.setInterval(hideInfoDiv, 5000);
 }
