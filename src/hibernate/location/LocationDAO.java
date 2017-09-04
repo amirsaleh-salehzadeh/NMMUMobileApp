@@ -607,8 +607,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 					source = target;
 					target = tmp;
 				}
-			res.add(new PathENT(getLocationENT(new LocationENT(source)),
-					getLocationENT(new LocationENT(target))));
+			PathENT path = new PathENT(getLocationENT(new LocationENT(source)),
+					getLocationENT(new LocationENT(target)));
+//			path.set
+			res.add(path);
 		}
 		return res;
 	}
