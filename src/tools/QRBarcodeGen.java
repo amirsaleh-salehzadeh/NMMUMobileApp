@@ -93,7 +93,7 @@ public class QRBarcodeGen {
 			}
 
 			// Add logo to QR code
-			BufferedImage logo = ImageIO.read(new File("c:/64.png"));
+			BufferedImage logo = ImageIO.read(new File("C:/64.png"));
 
 			// scale logo image and insert it to center of QR-code
 			double scale = calcScaleRate(image, logo);
