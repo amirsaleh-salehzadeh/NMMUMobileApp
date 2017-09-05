@@ -64,7 +64,7 @@ function getThePath() {
 		cache : true,
 		async : true,
 		beforeSend : function() {
-			showBottomPanel();
+	//		showBottomPanel();
 			$("#locationInf").html('');
 			$(".spinnerLoading").css('display', 'block').trigger("create");
 		},

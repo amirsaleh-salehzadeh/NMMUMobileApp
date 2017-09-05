@@ -108,7 +108,7 @@ function selectDestination(destination, content) {
 		map.panTo(markerDest.getPosition());
 		map.setZoom(18);
 		blurFalse();
-		showBottomPanel();
+	//	showBottomPanel();
 		getDirectionFromCurrentLocation();
 	}
 	$('#popupSearchResult').popup('close');
