@@ -83,78 +83,80 @@ function getAllMarkers() {
 				cache : false,
 				async : true,
 				success : function(data) {
-					$.each(data,
+					$
+							.each(
+									data,
 									function(k, l) {
-										// if
-										// (parseInt(l.locationType.locationTypeId)
-										// >= parseInt($(
-										// "#locationTypeId").val()))
-											var pos = {
-												lat : parseFloat(l.gps
-														.split(",")[0]),
-												lng : parseFloat(l.gps
-														.split(",")[1])
-											};
-											marker = new google.maps.Marker(
-													{
-														map : map,
-														icon : refreshMap(
-																l.locationType.locationTypeId,
-																l.gps),
-														animation : google.maps.Animation.DROP,
-														draggable : true,
-														title : l.locationName
-													});
-											google.maps.event
-													.addListener(
-															marker,
-															'click',
-															function(point) {
+										var pos = {
+											lat : parseFloat(l.gps.split(",")[0]),
+											lng : parseFloat(l.gps.split(",")[1])
+										};
+										marker = new google.maps.Marker(
+												{
+													map : map,
+													icon : refreshMap(
+															l.locationType.locationTypeId,
+															l.gps),
+													animation : google.maps.Animation.DROP,
+													draggable : true,
+													title : l.locationName
+												});
+										google.maps.event
+												.addListener(
+														marker,
+														'click',
+														function(point) {
 
-																if ($(
-																		'[name="optionType"] :radio:checked')
-																		.val() == "marker") {
-																	addAMarker(
-																			l,
-																			l.gps);
-																} else {
-																	addAPath(
-																			l,
-																			l.gps);
-																}
-																// map.setCenter(pos);
-																// map.setZoom(17);
-															});
-											marker.addListener(
-															'dragend',
-															function(point) {
-																if (confirm("Are you sure you want to move the marker?")) {
-																	$("#markerCoordinate")
-																			.val(point.latLng
-																							.lat()
-																							+ ","
-																							+ point.latLng
-																									.lng());
-																	$("#markerId")
-																			.val(l.locationID);
-																	$("#parentLocationId")
-																			.val(l.parentId);
-																	$("#markerName")
-																			.val(l.locationName);
-																	$("#locationTypeId")
-																			.val(l.locationType.locationTypeId);
-																	setLocationTypeCreate();
-																	saveMarker();
-																} else {
-																	this.setPosition(pos);
-																}
-																getAllPaths();
-															});
-											marker.setPosition(pos);
-											markers.push(marker);
-					
-										});
-					
+															if ($(
+																	'[name="optionType"] :radio:checked')
+																	.val() == "marker") {
+																addAMarker(l,
+																		l.gps);
+															} else {
+																addAPath(l,
+																		l.gps);
+															}
+														});
+										marker
+												.addListener(
+														'dragend',
+														function(point) {
+															if (confirm("Are you sure you want to move the marker?")) {
+																$(
+																		"#markerCoordinate")
+																		.val(
+																				point.latLng
+																						.lat()
+																						+ ","
+																						+ point.latLng
+																								.lng());
+																$("#markerId")
+																		.val(
+																				l.locationID);
+																$(
+																		"#parentLocationId")
+																		.val(
+																				l.parentId);
+																$("#markerName")
+																		.val(
+																				l.locationName);
+																$(
+																		"#locationTypeId")
+																		.val(
+																				l.locationType.locationTypeId);
+																setLocationTypeCreate();
+																saveMarker();
+															} else {
+																this
+																		.setPosition(pos);
+															}
+															getAllPaths();
+														});
+										marker.setPosition(pos);
+										markers.push(marker);
+
+									});
+
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);
@@ -191,17 +193,29 @@ function addAMarker(location, gps) {
 	}
 	openMarkerPopup(edit);
 }
-function addBuilding(){
-//	$("#infoListView").html(null);
-//	$("#infoListView").html("<li id='intersectionAdd'> Adding Building on" + "</li>");
-	$("#locationTypeId").val("3");
-//	getLocationSearchPanel();
-	
+function selectALocationTypeToAdd(locationTypeId) {
+	// $("#infoListView").html(null);
+	// $("#infoListView").html("<li id='intersectionAdd'> Adding Building on" +
+	// "</li>");
+	$("#locationTypeId").val(locationTypeId);
+	if (locationTypeId == 3) {
+		$("#locationTypeToAdd").html("Adding Building on");
+//		$("#mainBodyContents").css("cursor","url('images/map-markers/building.png'), auto");
+		map.setOptions({ draggableCursor : "url('images/map-markers/building.png'), auto" });
+
+	}
+	if (locationTypeId == 5){
+		map.setOptions({ draggableCursor : "url('images/map-markers/crossroad48.png'), auto" });
+		$("#locationTypeToAdd").html("Adding Intersection on");
+	}
+	// getLocationSearchPanel();
+
 }
-function addIntersection(){
-//	$("#infoListView").html(null);
-//	$("#infoListView").html("<li id='intersectionAdd'> Adding Intersection on" + "</li>");
-//	$("#infoListView").listview();
-	$("#locationTypeId").val("5");
-//	getLocationSearchPanel();
+function addIntersection() {
+	// $("#infoListView").html(null);
+	// $("#infoListView").html("<li id='intersectionAdd'> Adding Intersection
+	// on" + "</li>");
+	// $("#infoListView").listview();
+
+	// getLocationSearchPanel();
 }

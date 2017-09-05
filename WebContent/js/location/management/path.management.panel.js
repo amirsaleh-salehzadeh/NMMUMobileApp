@@ -1,3 +1,4 @@
+var locationTypeJSONData;
 function getLocationTypePanel() {
 	var url = "REST/GetLocationWS/GetAllLocationTypes";
 	$("#locationTypesContainer").controlgroup();
@@ -28,10 +29,10 @@ function getLocationTypePanel() {
 					$("#NavBar" + data.locationType).selectmenu();
 					$("#NavBar" + data.locationType).selectmenu("refresh");
 					$("#locationTypesContainer").controlgroup("refresh");
-//					getMyChild(data.locationTypeId);
-//					setLocationTypeCreate();
-//
-//					getAllMarkers();
+					// getMyChild(data.locationTypeId);
+					// setLocationTypeCreate();
+					//
+					// getAllMarkers();
 				}
 			});
 }
@@ -104,4 +105,50 @@ function getLocationSearchPanel() {
 				}
 			});
 	$('#parentLocationListView').val();
+}
+
+function selectParent(field) {
+	var exist = false;
+	// $("#infoListView li").each(function() {
+	// if ($(this).html().indexOf($(field).html()) !== -1)
+	// exist = true;
+	// });
+	// if (!exist || $("#locationTypeId").val("3")
+	// || $("#locationTypeId").val("5")) {
+	// $(".locationTypeNavBar option").each(
+	// function() {
+	// if ($(this).val() == $(field).attr("id").split("_")[2]) {
+	// $("#locationTypeId").val($(this).val());
+	// $("#locationTypeDefinition").val(
+	// $(this).html().replace(" ", ""));
+	// }
+	// });
+	$("#parentLocationId").val($(field).attr("id").split("_")[0]);
+	// $("#locationTypeId").val($(field).attr("id").split("_")[2]);
+	// if ($("#locationTypeId").val() == 3) {
+	// $("#infoListView").html(
+	// "<li > Adding Building on </li>"
+	// + "<li id='" + $("#locationTypeId").val() + "_"
+	// + $(field).attr("id").split("_")[0]
+	// + "' onclick='changeTheLocation(this);'>"
+	// + $(field).html() + " Campus</li>");
+	// } else {
+	// $("#infoListView").html(
+	// "<li > Adding Intersection on </li>"
+	// + "<li id='" + $("#locationTypeId").val() + "_"
+	// + $(field).attr("id").split("_")[0]
+	// + "' onclick='changeTheLocation(this);'>["
+	// + $("#locationTypeDefinition").val() + "] "
+	// + $(field).html() + "</li>");
+	// }
+	$("#parentDescriptionToAdd").html($(field).html() + " Campus");
+	$("#infoListView").listview();
+	// getMyChild($(field).attr("id").split("_")[2]);
+	$("#infoListView").listview();
+	$("#infoListView").listview("refresh");
+	// }
+	// getLocationSearchPanel();
+	// getAllMarkers();
+//	setLocationTypeCreate();
+
 }

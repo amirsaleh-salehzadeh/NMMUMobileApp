@@ -159,8 +159,10 @@
 		return String;
 	}
 </script>
-<link href="css/location/management/path.management.css" rel="stylesheet">
-<link href="css/location/management/path.management.toolbox.css" rel="stylesheet">
+<link href="css/location/management/path.management.css"
+	rel="stylesheet">
+<link href="css/location/management/path.management.toolbox.css"
+	rel="stylesheet">
 </head>
 <div>
 	<input type="hidden" id="parentLocationId" value="360"> <input
@@ -185,12 +187,22 @@
 
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
+		<li id="locationTypeToAdd">
+		</li>
+		<li id="parentDescriptionToAdd">
+		</li>
 	</ul>
 </div>
 
-<div class="ui-grid-a" id="topToolBox" >
-	<div class="ui-block-a" onclick="addBuilding()">Add Building<br><img src="images/map-markers/building.png" width="48" height="48"/></div>
-	<div class="ui-block-b"onclick="addIntersection()">Add Outdoor Intersection<br><img src="images/map-markers/crossroad.png" width="48" height="48"></div>
+<div class="ui-grid-a" id="topToolBox">
+	<div class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
+		Add Building<br>
+		<img src="images/map-markers/building.png" width="48" height="48" />
+	</div>
+	<div class="ui-block-b" onclick="selectALocationTypeToAdd(5)">
+		Add Intersection<br>
+		<img src="images/map-markers/crossroad.png" width="48" height="48">
+	</div>
 </div>
 
 <!-- SEARCH FEILD RIGHT SIDE -->
@@ -219,9 +231,9 @@
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right"
 		onclick="$('#insertAMarker').popup('close'); ">Close</a>
-		<div>
+	<div>
 		<label id="creationLabel"></label>
-		</div>
+	</div>
 	<div class="ui-block-solo">
 		<label for="markerName" id="markerLabel"></label> <input type="text"
 			placeholder="Location Name" name="markerName" id="markerName"

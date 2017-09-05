@@ -31,7 +31,7 @@ function refreshMap(locationTypeId, gpsStr) {
 		map.setCenter(gps);
 		map.setZoom(19);
 	} else if (locationTypeId == "5") {
-		icon += 'road.png';
+		icon += 'crossroad48.png';
 		map.setCenter(gps);
 		map.setZoom(15);
 	} else
@@ -198,20 +198,21 @@ function initMap() {
 			addAPath(null, lat + "," + lng);
 		}
 	});
-
+	map.setOptions({ draggableCursor : 'corsshair' });
 }
 
 function selectActionType() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
 		$("#locationTypeListViewDiv").css("display", "block");
 		$("#pathTypeListViewDiv").css("display", "none");
+		map.setOptions({ draggableCursor : 'corsshair' });
 	} else {
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
+		map.setOptions({ draggableCursor : "url('images/map-markers/road.png'), auto" });
 	}
 }
 
-var locationTypeJSONData;
 function changeTheLocation(li) {
 	$("#locationTypeId").val($(li).attr("id").split("_")[0]);
 	setLocationTypeCreate();
@@ -234,52 +235,6 @@ function setLocationTypeCreate() {
 		}
 	});
 	google.maps.event.trigger(map, 'resize');
-}
-
-function selectParent(field) {
-	var exist = false;
-	$("#infoListView li").each(function() {
-		if ($(this).html().indexOf($(field).html()) !== -1)
-			exist = true;
-	});
-	if (!exist || $("#locationTypeId").val("3")
-			|| $("#locationTypeId").val("5")) {
-		$(".locationTypeNavBar option").each(
-				function() {
-					if ($(this).val() == $(field).attr("id").split("_")[2]) {
-						$("#locationTypeId").val($(this).val());
-						$("#locationTypeDefinition").val(
-								$(this).html().replace(" ", ""));
-					}
-				});
-		$("#parentLocationId").val($(field).attr("id").split("_")[0]);
-		// $("#locationTypeId").val($(field).attr("id").split("_")[2]);
-		if ($("#locationTypeId").val() == 3) {
-			$("#infoListView").html(
-					"<li id='buildingAdd'> Adding Building on </li>"
-							+ "<li id='" + $("#locationTypeId").val() + "_"
-							+ $(field).attr("id").split("_")[0]
-							+ "' onclick='changeTheLocation(this);'>"
-							+ $(field).html() + " Campus</li>");
-		} else {
-			$("#infoListView").html(
-					"<li id='intersectionAdd'> Adding Intersection on </li>"
-							+ "<li id='" + $("#locationTypeId").val() + "_"
-							+ $(field).attr("id").split("_")[0]
-							+ "' onclick='changeTheLocation(this);'>["
-							+ $("#locationTypeDefinition").val() + "] "
-							+ $(field).html() + "</li>");
-		}
-
-		$("#infoListView").listview();
-//		 getMyChild($(field).attr("id").split("_")[2]);
-		$("#infoListView").listview();
-		$("#infoListView").listview("refresh");
-	}
-	//getLocationSearchPanel();
-	getAllMarkers();
-	setLocationTypeCreate();
-
 }
 
 function createMyType(selectOpt) {
