@@ -549,6 +549,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 		} else {
 			outp = calculateDistanceBetweenTwoPoints(destination, departure);
 		}
+		outp = (double) Double.parseDouble(new DecimalFormat(".##")
+				.format(outp));
 		return outp;
 	}
 
@@ -605,8 +607,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 					source = target;
 					target = tmp;
 				}
-			res.add(new PathENT(getLocationENT(new LocationENT(source)),
-					getLocationENT(new LocationENT(target))));
+//			res.add(new PathENT(getLocationENT(new LocationENT(source)),
+//					getLocationENT(new LocationENT(target))));
+			res.add(getAPath(new PathENT(new LocationENT(source),
+					new LocationENT(target))));
 		}
 		return res;
 	}
@@ -677,6 +681,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 			}
 			String query = "";
 			query = "select * from paths where path_id = " + ent.getPathId();
+			if (ent.getDeparture().getLocationID() > 0
+					&& ent.getDeparture().getLocationID() > 0)
+				query = "select * from paths where departure_location_id = "
+						+ ent.getDeparture().getLocationID()
+						+ " and destination_location_id = "
+						+ ent.getDestination().getLocationID();
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -819,9 +829,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 				String locationType = rs.getString("locaTypeName");
 				locationType = measureLocationType(locationType);
 				qrent = new LocationLightENT(rs.getLong("location_id"),
-						locationType,
-						rs.getString("location_name"), rs.getString("gps"),
-						null);
+						locationType, rs.getString("location_name"),
+						rs.getString("gps"), null);
 				LocationLightENT tmp = getQRLocationENTTree(qrent,
 						rs.getLong("parent_id"), concatParents);
 				qrent.setP(tmp);
@@ -881,8 +890,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				String locationType = rs.getString("locaTypeName");
 				locationType = measureLocationType(locationType);
 				ent = new LocationLightENT(rs.getLong("location_id"),
-						locationType,
-						rs.getString("location_name"), "", null);
+						locationType, rs.getString("location_name"), "", null);
 				if (tmpPID > 0)
 					ent.setP(getQRLocationENTTree(ent, tmpPID, Arrays
 							.copyOfRange(concatParents, 0,

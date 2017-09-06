@@ -282,10 +282,10 @@
 
 				</div>
 				<div id="locationInf"></div>
-				<!-- WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
+<!-- 				WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
 				<button id="start"
 					onclick="searchResultPopupOpen('Select Start Point?');">
-					<!-- WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
+<!-- 					WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
 					Get <br />Directions
 				</button>
 			</div>
@@ -372,7 +372,7 @@
 					style="display: none;" id="departureButtonGroup">
 					<div class="ui-block-a">
 						<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
-							onclick="$('#popupSearchResult').popup('close');blurFalse();showBottomPanel();"
+							onclick="$('#popupSearchResult').popup('close');blurFalse();"
 							class="closePopupMessage"><img
 							src="images/icons/clearInput.png" alt=""
 							class="closeMessageButtonIcon" />Close</a>

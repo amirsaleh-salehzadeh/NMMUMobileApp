@@ -109,7 +109,7 @@ function selectDestination(destination, content) {
 		map.setZoom(18);
 		blurFalse();
 		showBottomPanel();
-		getDirectionFromCurrentLocation();
+//		getDirectionFromCurrentLocation();
 	}
 	$('#popupSearchResult').popup('close');
 }

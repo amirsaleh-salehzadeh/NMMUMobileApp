@@ -178,3 +178,10 @@
 	overflow: auto;
 	bottom: 0;
 }
+.heading{
+	font-size:larger;
+	font-weight: bold;
+	padding-left: 5;
+	
+	
+}

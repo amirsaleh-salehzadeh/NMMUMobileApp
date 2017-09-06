@@ -11,8 +11,8 @@ public class GraphMapThread implements Runnable {
 	public static UndirectedGraph<Long, DefaultWeightedEdge> graphWalkaway;
 
 	public GraphMapThread() {
-		graphDirt	= LocationDAO.createGraph(1);
-		graphWalkaway	= LocationDAO.createGraph(2);
+		graphDirt	= LocationDAO.createGraph(0);
+		graphWalkaway	= LocationDAO.createGraph(1);
 	}
 
 	public void run() {
