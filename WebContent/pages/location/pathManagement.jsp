@@ -187,21 +187,19 @@
 
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
-		<li id="locationTypeToAdd">
-		</li>
-		<li id="parentDescriptionToAdd">
-		</li>
+		<li id="locationTypeToAdd"></li>
+		<li id="parentDescriptionToAdd"></li>
 	</ul>
 </div>
 
 <div class="ui-grid-a" id="topToolBox">
 	<div class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
-		Add Building<br>
-		<img src="images/map-markers/building.png" width="48" height="48" />
+		Add Building<br> <img src="images/map-markers/building.png"
+			width="48" height="48" />
 	</div>
 	<div class="ui-block-b" onclick="selectALocationTypeToAdd(5)">
-		Add Intersection<br>
-		<img src="images/map-markers/crossroad.png" width="48" height="48">
+		Add Intersection<br> <img src="images/map-markers/crossroad.png"
+			width="48" height="48">
 	</div>
 </div>
 
@@ -223,7 +221,9 @@
 </div>
 
 
-<!-- insert marker popup -->
+<!-- INSERT LOCATION POPUP -->
+
+
 <div data-role="popup" id="insertAMarker" data-position-to="window"
 	data-transition="turn"
 	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;">
@@ -274,22 +274,26 @@
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow save-icon ui-corner-all" id="submitRider"
+			class="ui-btn ui-shadow save-icon ui-corner-all"
 			onclick="saveMarker()">Save</a>
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow save-icon ui-corner-all" id="submitRider"
+			class="ui-btn ui-shadow save-icon ui-corner-all"
 			onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
 			Barcode</a>
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow cancel-icon ui-corner-all" id="submitRider"
+			class="ui-btn ui-shadow cancel-icon ui-corner-all"
 			onclick="removeMarker()">Remove</a>
 	</div>
 </div>
-<!-- insert path popup -->
+
+
+<!-- INSERT PATH POPUP -->
+
+
 <div data-role="popup" id="insertAPath" data-position-to="window"
 	data-transition="turn"
 	style="background-color: #000000; width: 333px; padding: 7px 7px 7px 7px;">
@@ -315,7 +319,7 @@
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow save-icon ui-corner-all" id="submitRider"
+			class="ui-btn ui-shadow save-icon ui-corner-all"
 			onclick="saveThePath()">Save</a>
 	</div>
 </div>

@@ -33,7 +33,6 @@ import common.location.LocationLST;
 import common.location.LocationTypeENT;
 import common.location.PathENT;
 import common.location.PathTypeENT;
-import common.security.RoleENT;
 import hibernate.config.BaseHibernateDAO;
 import hibernate.config.HibernateSessionFactory;
 import threads.GraphMapThread;

@@ -21,19 +21,19 @@ function refreshMap(locationTypeId, gpsStr) {
 	} else if (locationTypeId == "2") {
 		icon += 'marker-green.png';
 		map.setCenter(gps);
-		map.setZoom(7);
+//		map.setZoom(7);
 	} else if (locationTypeId == "3") {
 		icon += 'building.png';
 		map.setCenter(gps);
-		map.setZoom(15);
+//		map.setZoom(15);
 	} else if (locationTypeId == "4") {
 		icon += 'marker-pink.png';
 		map.setCenter(gps);
-		map.setZoom(19);
+//		map.setZoom(19);
 	} else if (locationTypeId == "5") {
 		icon += 'crossroad48.png';
 		map.setCenter(gps);
-		map.setZoom(15);
+//		map.setZoom(15);
 	} else
 		icon += 'marker-yellow.png';
 	return icon;
