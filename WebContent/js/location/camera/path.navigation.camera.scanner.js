@@ -124,8 +124,13 @@ function presentLocation(x) {
 			'<span class="heading">' + x['t']
 					+ ': </span><span class="locationText">' + x['n']
 					+ '</span><br>');
-	if (x.p != null)
+	if (x.p != null){
 		presentLocation(x['p']);
+		}else{
+			$("#arrivalMessageContent").html('<img src="/NMMUWebApp/WebContent/images/map-markers/buildingss.png">' 
+					
+					+ $("#arrivalMessageContent").html());
+		}
 	
 }
 
