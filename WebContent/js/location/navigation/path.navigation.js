@@ -64,7 +64,7 @@ function getThePath() {
 		cache : true,
 		async : true,
 		beforeSend : function() {
-			// showBottomPanel();
+			 showBottomPanel();
 			$("#locationInf").html('');
 			$(".spinnerLoading").css('display', 'block').trigger("create");
 		},
@@ -76,7 +76,7 @@ function getThePath() {
 				if (k == 0) {
 					pathIds = l.departure.locationID + ","
 							+ l.destination.locationID;
-					if (l.pathRoute.length > 0) {
+					if (l.pathRoute != null && l.pathRoute.length > 0) {
 						pathGPSs += l.departure.gps.replace(" ", "") + "_"
 								+ l.pathRoute + "_"
 								+ l.destination.gps.replace(" ", "");
@@ -88,13 +88,13 @@ function getThePath() {
 							+ l.destination.locationName;
 					$("#departureId").val(l.departure.locationID);
 				} else {
-					if (l.pathRoute.length > 0) {
+					if (l.pathRoute != null && l.pathRoute.length > 0) {
 						pathGPSs += l.pathRoute + "_"
 								+ l.destination.gps.replace(" ", "");
 					} else {
 						pathGPSs += "_" + l.destination.gps.replace(" ", "");
 					}
-					
+
 					pathLocations += "_" + l.destination.locationName;
 					$("#destinationDef").html(l.destination.locationName);
 				}

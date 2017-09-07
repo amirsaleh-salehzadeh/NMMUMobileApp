@@ -574,6 +574,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId) {
 		// if (graph == null)
+		System.out.println(" getShortestPath Start >>>> " + System.currentTimeMillis());
 		UndirectedGraph<Long, DefaultWeightedEdge> graph = null;
 		if (GraphMapThread.graphDirt == null
 				|| GraphMapThread.graphWalkaway == null) {
@@ -583,6 +584,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ta.setDaemon(true);
 			ta.start();
 		}
+		System.out.println(" getShortestPath Thread Done >>>> " + System.currentTimeMillis());
+
 		if (pathTypeId == 2)
 			graph = GraphMapThread.graphWalkaway;
 		else
@@ -612,6 +615,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			res.add(getAPath(new PathENT(new LocationENT(source),
 					new LocationENT(target))));
 		}
+		System.out.println(" getShortestPath End >>>> " + System.currentTimeMillis());
+
 		return res;
 	}
 

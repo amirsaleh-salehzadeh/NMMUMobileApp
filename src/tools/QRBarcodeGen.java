@@ -72,8 +72,6 @@ public class QRBarcodeGen {
 					BufferedImage.TYPE_INT_RGB);
 			image.createGraphics();
 			Graphics2D graphics = (Graphics2D) image.getGraphics();
-//			Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
-//			graphics.setFont(font);
 			graphics.setColor(Color.white);
 			graphics.fillRect(0, 0, matrixWidth, matrixWidth);
 			// Color mainColor = new Color(51, 102, 153);

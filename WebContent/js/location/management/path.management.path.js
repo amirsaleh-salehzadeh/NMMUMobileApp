@@ -13,7 +13,7 @@ function getAllPaths() {
 				pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps
 						.split(',')[0]),
 						parseFloat(l.departure.gps.split(',')[1])));
-				if (l.pathRoute.length > 0) {
+				if (l.pathRoute != null && l.pathRoute.length > 0) {
 					var tm = l.pathRoute.split("_");
 					if (tm.length == 1)
 						pathCoor.push(new google.maps.LatLng(parseFloat(tm[0]
