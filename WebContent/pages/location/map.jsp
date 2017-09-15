@@ -272,24 +272,24 @@
 		<!-- 	BOTTOM PANEL -->
 
 
-<!-- 		<div class="ui-block-solo" id="locationInfoDiv"> -->
-<!-- 			<div class="blurBlue"></div> -->
-<!-- 			<div class="spinnerLoading" style="display: none;"></div> -->
-<!-- 			<div id="LocationInfoContainer"> -->
-<!-- 				<div class="ui-grid-a"> -->
-<!-- 					<div class="ui-block-a"></div> -->
-<!-- 					<div class="ui-block-b"></div> -->
+		<div class="ui-block-solo" id="locationInfoDiv">
+			<div class="blurBlue"></div>
+			<div class="spinnerLoading" style="display: none;"></div>
+			<div id="LocationInfoContainer">
+				<div class="ui-grid-a">
+					<div class="ui-block-a"></div>
+					<div class="ui-block-b"></div>
 
-<!-- 				</div> -->
-<!-- 				<div id="locationInf"></div> -->
+				</div>
+				<div id="locationInf"></div>
 <!-- 				WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
-<!-- 				<button id="start" -->
-<!-- 					onclick="searchResultPopupOpen('Select Start Point?');"> -->
+				<button id="start"
+					onclick="searchResultPopupOpen('Select Start Point?');">
 <!-- 					WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
-<!-- 					Get <br />Directions -->
-<!-- 				</button> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
+					Get <br />Directions
+				</button>
+			</div>
+		</div>
 
 
 		<!-- 		 SCANNER BUTTON -->

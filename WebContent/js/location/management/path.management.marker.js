@@ -56,6 +56,32 @@ function saveMarker() {
 					addAPath(data, data.gps);
 				}
 			});
+			marker.addListener(
+					'dragend',
+					function(point) {
+						if (confirm("Are you sure you want to move the marker?")) {
+							$("#markerCoordinate")
+									.val(point.latLng
+													.lat()
+													+ ","
+													+ point.latLng
+															.lng());
+							$("#markerId")
+									.val(l.locationID);
+							$("#parentLocationId")
+									.val(l.parentId);
+							$("#markerName")
+									.val(l.locationName);
+							$("#locationTypeId")
+									.val(l.locationType.locationTypeId);
+							setLocationTypeCreate();
+							saveMarker();
+						} else {
+							this
+									.setPosition(pos);
+						}
+						getAllPaths();
+					});
 			markers.push(marker);
 			$("#markerId").val(data.locationID);
 		},
@@ -117,33 +143,24 @@ function getAllMarkers() {
 																		l.gps);
 															}
 														});
-										marker
-												.addListener(
+										marker.addListener(
 														'dragend',
 														function(point) {
 															if (confirm("Are you sure you want to move the marker?")) {
-																$(
-																		"#markerCoordinate")
-																		.val(
-																				point.latLng
+																$("#markerCoordinate")
+																		.val(point.latLng
 																						.lat()
 																						+ ","
 																						+ point.latLng
 																								.lng());
 																$("#markerId")
-																		.val(
-																				l.locationID);
-																$(
-																		"#parentLocationId")
-																		.val(
-																				l.parentId);
+																		.val(l.locationID);
+																$("#parentLocationId")
+																		.val(l.parentId);
 																$("#markerName")
-																		.val(
-																				l.locationName);
-																$(
-																		"#locationTypeId")
-																		.val(
-																				l.locationType.locationTypeId);
+																		.val(l.locationName);
+																$("#locationTypeId")
+																		.val(l.locationType.locationTypeId);
 																setLocationTypeCreate();
 																saveMarker();
 															} else {

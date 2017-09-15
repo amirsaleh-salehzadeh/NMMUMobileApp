@@ -31,20 +31,20 @@ function getThePath() {
 	if ($("#from").val().length < 5)
 		findMyLocation();
 	var GPSCook = getCookie("TripPathGPSCookie");
-//	if (GPSCook != "") {
-//		if (markerDest != null)
-//			markerDest.setMap(null);
-//		markerDest = new google.maps.Marker({
-//			position : getGoogleMapPosition(GPSCook.split("_")[GPSCook
-//					.split("_").length - 1]),
-//			map : map,
-//			icon : 'images/map-markers/marker-orange.png'
-//		});
-//		resetWalking();
-//		drawConstantPolyline();
-//		showViewItems();
-//		return;
-//	}
+	// if (GPSCook != "") {
+	// if (markerDest != null)
+	// markerDest.setMap(null);
+	// markerDest = new google.maps.Marker({
+	// position : getGoogleMapPosition(GPSCook.split("_")[GPSCook
+	// .split("_").length - 1]),
+	// map : map,
+	// icon : 'images/map-markers/marker-orange.png'
+	// });
+	// resetWalking();
+	// drawConstantPolyline();
+	// showViewItems();
+	// return;
+	// }
 	var url = "REST/GetLocationWS/GetADirectionFromTo?departureId="
 			+ $("#departureId").val() + "&destinationId="
 			+ $("#destinationId").val() + "&from=" + $("#from").val() + "&to="
@@ -64,7 +64,7 @@ function getThePath() {
 		cache : true,
 		async : true,
 		beforeSend : function() {
-	//		showBottomPanel();
+			 showBottomPanel();
 			$("#locationInf").html('');
 			$(".spinnerLoading").css('display', 'block').trigger("create");
 		},
@@ -76,13 +76,25 @@ function getThePath() {
 				if (k == 0) {
 					pathIds = l.departure.locationID + ","
 							+ l.destination.locationID;
-					pathGPSs += l.departure.gps.replace(" ", "") + "_"
-							+ l.destination.gps.replace(" ", "");
+					if (l.pathRoute != null && l.pathRoute.length > 0) {
+						pathGPSs += l.departure.gps.replace(" ", "") + "_"
+								+ l.pathRoute + "_"
+								+ l.destination.gps.replace(" ", "");
+					} else {
+						pathGPSs += l.departure.gps.replace(" ", "") + "_"
+								+ l.destination.gps.replace(" ", "");
+					}
 					pathLocations += l.departure.locationName + "_"
 							+ l.destination.locationName;
 					$("#departureId").val(l.departure.locationID);
 				} else {
-					pathGPSs += "_" + l.destination.gps.replace(" ", "");
+					if (l.pathRoute != null && l.pathRoute.length > 0) {
+						pathGPSs += l.pathRoute + "_"
+								+ l.destination.gps.replace(" ", "");
+					} else {
+						pathGPSs += "_" + l.destination.gps.replace(" ", "");
+					}
+
 					pathLocations += "_" + l.destination.locationName;
 					$("#destinationDef").html(l.destination.locationName);
 				}
