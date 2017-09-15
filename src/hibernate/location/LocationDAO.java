@@ -14,10 +14,6 @@ import java.util.List;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -34,7 +30,6 @@ import common.location.LocationTypeENT;
 import common.location.PathENT;
 import common.location.PathTypeENT;
 import hibernate.config.BaseHibernateDAO;
-import hibernate.config.HibernateSessionFactory;
 import threads.GraphMapThread;
 import tools.AMSException;
 import tools.QRBarcodeGen;
@@ -50,6 +45,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
+			LocationENT enttemp = new LocationENT();
+			if (ent.getLocationID() > 0)
+				enttemp = getLocationENT(ent);
+			if (enttemp.getIcon() != null && enttemp.getIcon().length() < 5)
+				enttemp.setIcon(null);
 			long firstLoc = 0;
 			long secLoc = 0;
 			String query = "";
@@ -68,9 +68,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps.setInt(7, ent.getLocationType().getLocationTypeId());
 			ps.setLong(8, ent.getParentId());
 			ps.setString(9, ent.getDescription());
-			ps.setString(10, ent.getBoundary());
-			ps.setString(11, ent.getPlan());
-			ps.setString(12, ent.getIcon());
+			ps.setString(10, enttemp.getBoundary());
+			ps.setString(11, enttemp.getPlan());
+			ps.setString(12, enttemp.getIcon());
 			if (ent.getLocationID() > 0)
 				ps.setLong(13, ent.getLocationID());
 			ps.executeUpdate();
@@ -179,7 +179,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 			String query = "";
 			query = "select l.*, lt.location_type as locaTypeName from location l "
 					+ " left join location_type lt on lt.location_type_id = l.location_type"
-					+ " where l.location_id = " + ent.getLocationID();
+					+ " where l.location_id = "
+					+ ent.getLocationID()
+					+ " or l.gps = '" + ent.getGps() + "'";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -189,6 +191,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 								rs.getString("locaTypeName")),
 						rs.getString("address"), rs.getString("gps"),
 						rs.getString("location_name"));
+				ent.setIcon(rs.getString("icon"));
 			}
 			rs.close();
 			ps.close();
@@ -223,22 +226,22 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	public ArrayList<DropDownENT> getAllCountrirs() {
 		ArrayList<DropDownENT> res = new ArrayList<DropDownENT>();
-		try {
-			Session s = getSession4Query();
-			s.beginTransaction();
-			List<CountryENT> dropdowns = getSession4Query().createQuery(
-					"from CountryENT").list();
-			for (CountryENT dropdown : dropdowns) {
-				res.add(new DropDownENT(dropdown.getCountryID() + "", dropdown
-						.getCountryName()
-						+ " ("
-						+ dropdown.getCountryCode()
-						+ ")", null));
-			}
-			s.close();
-		} catch (HibernateException ex) {
-			ex.printStackTrace();
-		}
+//		try {
+//			Session s = getSession4Query();
+//			s.beginTransaction();
+//			List<CountryENT> dropdowns = getSession4Query().createQuery(
+//					"from CountryENT").list();
+//			for (CountryENT dropdown : dropdowns) {
+//				res.add(new DropDownENT(dropdown.getCountryID() + "", dropdown
+//						.getCountryName()
+//						+ " ("
+//						+ dropdown.getCountryCode()
+//						+ ")", null));
+//			}
+//			s.close();
+//		} catch (HibernateException ex) {
+//			ex.printStackTrace();
+//		}
 		return res;
 	}
 
@@ -275,6 +278,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setDescription(rs.getString("description"));
 				ent.setIcon(rs.getString("icon"));
 				ent.setPlan(rs.getString("plan"));
+				ent.setCountry(rs.getInt("country"));
 				locationENTs.add(ent);
 			}
 			rs.close();
@@ -557,6 +561,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 	public LocationENT findClosestLocation(String GPSCoordinates,
 			String locationTypeIds) {
 		LocationDAO dao = new LocationDAO();
+		LocationENT ent = getLocationENT(new LocationENT(0, null, null, null,
+				GPSCoordinates, null));
+		if (ent.getLocationID() > 0)
+			return ent;
 		ArrayList<LocationENT> points = dao.getAllLocationsForUser("NMMU",
 				locationTypeIds, null);
 		int closest = -1;
@@ -574,7 +582,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId) {
 		// if (graph == null)
-		System.out.println(" getShortestPath Start >>>> " + System.currentTimeMillis());
+		// System.out.println(" getShortestPath Start >>>> "
+		// + System.currentTimeMillis());
 		UndirectedGraph<Long, DefaultWeightedEdge> graph = null;
 		if (GraphMapThread.graphDirt == null
 				|| GraphMapThread.graphWalkaway == null) {
@@ -584,7 +593,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ta.setDaemon(true);
 			ta.start();
 		}
-		System.out.println(" getShortestPath Thread Done >>>> " + System.currentTimeMillis());
+		// System.out.println(" getShortestPath Thread Done >>>> "
+		// + System.currentTimeMillis());
 
 		if (pathTypeId == 2)
 			graph = GraphMapThread.graphWalkaway;
@@ -600,29 +610,45 @@ public class LocationDAO extends BaseHibernateDAO implements
 		for (int i = 0; i < shortest_path.size(); i++) {
 			long source = graph.getEdgeSource(shortest_path.get(i));
 			long target = graph.getEdgeTarget(shortest_path.get(i));
+			PathENT tmpPath = getAPath(new PathENT(new LocationENT(source),
+					new LocationENT(target)));
+			LocationENT srcLoc = tmpPath.getDeparture();
+			LocationENT tarLoc = tmpPath.getDestination();
 			if (i == 0 && source != dep) {
 				long tmp = source;
 				source = target;
 				target = tmp;
+				LocationENT tmpLoc = srcLoc;
+				srcLoc = tarLoc;
+				tarLoc = tmpLoc;
 			} else if (i > 0)
 				if (source != res.get(i - 1).getDestination().getLocationID()) {
 					long tmp = source;
 					source = target;
 					target = tmp;
+					LocationENT tmpLoc = srcLoc;
+					srcLoc = tarLoc;
+					tarLoc = tmpLoc;
 				}
-//			res.add(new PathENT(getLocationENT(new LocationENT(source)),
-//					getLocationENT(new LocationENT(target))));
-			res.add(getAPath(new PathENT(new LocationENT(source),
-					new LocationENT(target))));
+			// System.out.println("src * " + source);
+			// System.out.println("tar * " + target);
+			// res.add(new PathENT(getLocationENT(new LocationENT(source)),
+			// getLocationENT(new LocationENT(target))));
+			tmpPath.setDestination(tarLoc);
+			tmpPath.setDeparture(srcLoc);
+			res.add(tmpPath);
 		}
-		System.out.println(" getShortestPath End >>>> " + System.currentTimeMillis());
+		// System.out.println(" getShortestPath End >>>> "
+		// + System.currentTimeMillis());
 
 		return res;
 	}
 
 	public static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
 			int pathTypeId) {
-		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
+		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = null;
+		// try {
+		g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
 				DefaultWeightedEdge.class);
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> points = dao.getAllLocationsForUser("NMMU",
@@ -647,33 +673,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 					g.setEdgeWeight(edg, ptz.get(j).getDistance());
 			}
 		}
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 		return g;
-	}
-
-	public static void main(String[] args) {
-		LocationDAO dao = new LocationDAO();
-		// ArrayList<LocationENT> ent = dao.getAllLocationsForUser("NMMU", 3,
-		// 0);
-		LocationENT search = new LocationENT();
-		// search.setLocationType(new LocationTypeENT(0, "Roo"));
-		// search.setLocationName("ot");
-		search.setUserName("NMMU");
-
-		LocationLST ls = new LocationLST();
-		ls.setSearchLocation(search);
-		try {
-			LocationLST searchs = dao.searchForLocations(ls);
-			for (int i = 0; i < searchs.getLocationENTs().size(); i++) {
-				System.out.println(searchs.getLocationENTs().get(i)
-						.getLocationName()
-						+ " "
-						+ searchs.getLocationENTs().get(i).getLocationType()
-								.getLocationType());
-			}
-		} catch (AMSException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 	}
 
 	public PathENT getAPath(PathENT ent) {
@@ -688,10 +691,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 			query = "select * from paths where path_id = " + ent.getPathId();
 			if (ent.getDeparture().getLocationID() > 0
 					&& ent.getDeparture().getLocationID() > 0)
-				query = "select * from paths where departure_location_id = "
+				query = "select * from paths where (departure_location_id = "
 						+ ent.getDeparture().getLocationID()
 						+ " and destination_location_id = "
-						+ ent.getDestination().getLocationID();
+						+ ent.getDestination().getLocationID()
+						+ ") or (destination_location_id = "
+						+ ent.getDeparture().getLocationID()
+						+ " and departure_location_id = "
+						+ ent.getDestination().getLocationID() + ")";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -947,18 +954,18 @@ public class LocationDAO extends BaseHibernateDAO implements
 	}
 
 	public LocationENT getLocation(LocationENT location) throws AMSException {
-		Query q = null;
-		try {
-			Session session = getSession();
-			q = session.createQuery("from LocationENT where locationName =:Id");
-			q.setString("Id", location.getLocationName());
-			location = (LocationENT) q.uniqueResult();
-			session.close();
-			HibernateSessionFactory.closeSession();
-		} catch (HibernateException ex) {
-			ex.printStackTrace();
-			location = null;
-		}
+//		Query q = null;
+//		try {
+//			Session session = getSession();
+//			q = session.createQuery("from LocationENT where locationName =:Id");
+//			q.setString("Id", location.getLocationName());
+//			location = (LocationENT) q.uniqueResult();
+//			session.close();
+//			HibernateSessionFactory.closeSession();
+//		} catch (HibernateException ex) {
+//			ex.printStackTrace();
+//			location = null;
+//		}
 		return location;
 	}
 
@@ -1061,4 +1068,64 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return ent;
 	}
 
+	private static void updateAllDescriptions() {
+		LocationDAO dao = new LocationDAO();
+		ArrayList<LocationENT> all = dao.getAllLocationsForUser("NMMU", "3,5",
+				null);
+		for (int i = 0; i < all.size(); i++) {
+			LocationENT ent = all.get(i);
+			String res = "";
+
+			// UPDATE DESCRIPTION
+
+			// String descString = ent.getDescription();
+			// System.out.println(descString);
+			// if (descString != null) {
+			// String[] tmpSentence = descString.split(" ");
+			// for (int j = 0; j < tmpSentence.length; j++) {
+			// if (tmpSentence[j].length() <= 1)
+			// continue;
+			// tmpSentence[j] = tmpSentence[j].toLowerCase();
+			// // .toUpperCase()
+			// if (j < tmpSentence.length)
+			// res += tmpSentence[j].substring(0, 1).toUpperCase()
+			// + tmpSentence[j].substring(1) + " ";
+			// }
+			// }
+
+			// UPDATE GPS
+			String descString = ent.getGps();
+			System.out.println(descString);
+			if (descString != null) {
+				String[] tmpSentence = descString.split(",");
+				// for (int j = 0; j < tmpSentence.length; j++) {
+				double x = Double.parseDouble(tmpSentence[0]);
+				double y = (double) Double.parseDouble(new DecimalFormat(
+						".#######").format(x));
+				res += y;
+				x = Double.parseDouble(tmpSentence[1]);
+				y = (double) Double.parseDouble(new DecimalFormat(".#######")
+						.format(x));
+				res += "," + y;
+				// }
+			}
+			System.out.println(res);
+			// ent.setDescription(res);
+			ent.setGps(res);
+			if (res.length() <= 1)
+				ent.setDescription(null);
+			if (ent.getIcon() != null && ent.getIcon().length() < 5)
+				ent.setIcon(null);
+			try {
+				dao.saveUpdateLocation(ent);
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		updateAllDescriptions();
+	}
 }

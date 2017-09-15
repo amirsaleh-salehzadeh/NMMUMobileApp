@@ -20,7 +20,7 @@ function getLocationTypePanel() {
 				if (l.icon != null)
 					src = l.icon;
 				str += '<img src="' + src + '" class="listViewIcons"><h2>'
-						+ l.locationType.locationType + " " + l.locationName
+						+ l.locationType.locationType + " " + l.locationName 
 						+ '</h2><p>';
 				var desc = "&nbsp;";
 				if (l.description != null)
@@ -56,7 +56,7 @@ function selectDestination(destination, content) {
 			$('#popupSearchResult').popup('close');
 			$("#popupErrorMessage").popup({
 				afterclose : function(event, ui) {
-					searchResultPopupOpen('Select Start Point');
+					searchResultPopupOpen('From');
 					$("#popupErrorMessage").popup({
 						afterclose : function(event, ui) {
 						}
@@ -66,7 +66,7 @@ function selectDestination(destination, content) {
 			return;
 		}
 	var departure = false;
-	if ($("#destinationDefVal").html().indexOf("tart") > 0)
+	if ($("#destinationDefVal").html().indexOf("From") > 0)
 		departure = true;
 	var bounds = new google.maps.LatLngBounds();
 	if (departure) {

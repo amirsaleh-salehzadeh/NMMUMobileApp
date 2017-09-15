@@ -211,6 +211,19 @@ function selectActionType() {
 		$("#pathTypeListViewDiv").css("display", "block");
 		map.setOptions({ draggableCursor : "url('images/map-markers/road.png'), auto" });
 	}
+	google.maps.event.addListener(map, "click", function(event) {
+		$("#departure").val("");
+		$("#departureId").val("");
+		$("#destination").val("");
+		$("#destinationId").val("");
+		var lat = event.latLng.lat();
+		var lng = event.latLng.lng();
+		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+			addAMarker(null, lat + "," + lng);
+		} else {
+			addAPath(null, lat + "," + lng);
+		}
+	});
 }
 
 function changeTheLocation(li) {

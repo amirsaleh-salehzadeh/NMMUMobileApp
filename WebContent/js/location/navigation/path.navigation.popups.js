@@ -35,13 +35,13 @@ function searchResultPopupOpen(headerText) {
 		$("#departureButtonGroup").css("display", "block").trigger("create");
 		$("#destinationButtonGroup").css("display", "none")
 				.trigger("create");
-		$("#destinationDefVal").html(
-				headerText + "<br/><span id='destinationNameHeader'>To "
-						+ $("#destinationName").html() + "</span>"
-						);
+//		$("#destinationDefVal").html(
+//				headerText + "<br/><span id='destinationNameHeader'>To "
+//						+ $("#destinationName").html() + "</span>"
+//						);
 		$("#searchField").attr("placeholder", "Departure");
 		$("#searchPopupHeaderIcon").attr("src", "images/icons/departure.png");
-		$("#destinationDefVal").css("cssText","color: #22b800 !important");
+		$("#destinationDefVal").css("cssText","background-color: #22b800 !important").trigger("create");
 		$("#popupSearchResult").css("cssText","border-color: #22b800 !important").trigger("create");
 	} else {
 		$("#destinationButtonGroup").css("display", "block").trigger(
@@ -50,9 +50,8 @@ function searchResultPopupOpen(headerText) {
 		$("#destinationDefVal").html(headerText);
 		$("#searchField").attr("placeholder", "Destination");
 		$("#searchPopupHeaderIcon").attr("src", "images/icons/destination.png");
-		$("#destinationDefVal").css("color","color: #0091FF !important");
+		$("#destinationDefVal").css("cssText","background-color: #0091FF !important").trigger("create");
 		$("#popupSearchResult").css("cssText","border-color: #0091FF !important").trigger("create");
-		
 	}
 	$('#popupSearchResult').popup().trigger('create');
 	$('#popupSearchResult').popup({

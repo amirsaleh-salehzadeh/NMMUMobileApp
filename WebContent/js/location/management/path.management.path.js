@@ -1,13 +1,14 @@
 function getAllPaths() {
 	var url = "REST/GetLocationWS/GetAllPathsForUser?userName=NMMU";
-	for ( var i = 0; i < paths.length; i++) {
-		paths[i].setMap(null);
-	}
+	
 	$.ajax({
 		url : url,
 		cache : false,
 		async : true,
 		success : function(data) {
+			for ( var i = 0; i < paths.length; i++) {
+				paths[i].setMap(null);
+			}
 			$.each(data, function(k, l) {
 				var pathCoor = [];
 				pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps
