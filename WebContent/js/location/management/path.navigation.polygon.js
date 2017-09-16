@@ -1,9 +1,8 @@
 function addPolygon () {
 	$('#insertAMarker').popup('close');
 }	
-function drawPolygons () // this draws static polygon on map, this function is used in path.navigation.js but its commented out under function initimap
+function drawPolygons (coordinates) // this draws static polygon on map, this function is used in path.navigation.js but its commented out under function initimap
 {
-	//map = new google.maps.Map(document.getElementById('map_canvas'), { });
 	// Define the LatLng coordinates for the polygon's path.
 	  var testCoords = [
 	    {lat: -34.008559, lng: 25.668914},
@@ -14,17 +13,47 @@ function drawPolygons () // this draws static polygon on map, this function is u
 	    {lat: -34.008607, lng: 25.668893},
 	    {lat: -34.008559, lng: 25.668914}
 	  ];
-
+	  
+	  /*
+	  function polyArray(path){
+		  var array = path.split(',');
+		  var path1 =new Array();
+		  for(var i=0;i<=array.length;i=i+2){
+		  var coordinates = new google.maps.LatLng(array[i],array[i+1]);
+		  path1.push(coordinates);
+		  };
+		  
+	  var triangleCoords = [
+	                        new google.maps.LatLng(25.774252, -80.190262),
+	                        new google.maps.LatLng(18.466465, -66.118292),
+	                        new google.maps.LatLng(32.321384, -64.75737)
+	                    ];
+	  var str = "a,b,c,d,e,f";
+	  */
+	  var array = coordinates.split("_");
+	  var CoordinatesArray = new Array();
+	  for(var i=0; i <= array.length-1; i++){
+		  var string = array[i];
+		  var pos = string.indexOf(",");
+		  var length = string.length;
+		  var Lat = string.slice(0,pos);
+		  var Lng = string.slice(pos+1,length);
+		  var LatLng = new google.maps.LatLng(Lat,Lng);
+		  CoordinatesArray.push(LatLng);
+	  };
+	  
+	  // drawPolygons($("#boundary").val());
+	                   
 	  // Construct the polygon.
-	  var testPolygon = new google.maps.Polygon({
-	    paths: testCoords,
-	    strokeColor: '#FF0000',
+	  var DRAWPolygon = new google.maps.Polygon({
+	    paths: CoordinatesArray,
+	    strokeColor: '#1E90FF',
 	   // strokeOpacity: 0.8,
 	    strokeWeight: 2,
-	    fillColor: '#FF0000',
+	    fillColor: '#1E90FF',
 	   // fillOpacity: 0.35
 	  });
-	  testPolygon.setMap(map);
+	  DRAWPolygon.setMap(map);
 }
 
 var drawingManager;
@@ -124,12 +153,15 @@ function buildColorPalette () {
 
 function getPolygonCoords(newShape) {
 	var len = newShape.getPath().getLength();
-    var htmlStr = "";
+    var coordinates = "";
     for (var i = 0 ; i < len ; i++) {
-         htmlStr = htmlStr + newShape.getPath().getAt(i).lat() + "," + newShape.getPath().getAt(i).lng();
+    	coordinates = coordinates + newShape.getPath().getAt(i).lat() + "," + newShape.getPath().getAt(i).lng();
          if (i !== len-1)
-         { htmlStr = htmlStr + "_";}
+         { coordinates = coordinates + "_";}
      }
-    //alert("The co-ordinates are: " + htmlStr);
-    return htmlStr;
+    alert("The co-ordinates are: " + coordinates);
+    return coordinates;
+    //var path = newShape.getPath().getArray();
+    //var path = "hello";
+    //return path;
 }  
