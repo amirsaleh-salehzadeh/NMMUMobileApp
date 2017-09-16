@@ -158,7 +158,18 @@
 				+ " second/s.";
 		return String;
 	}
+	$(function() {
+		var tree = new treefilter($("#my-tree"), {
+
+			// OPTIONS
+			searcher : $("input#my-search"),
+              expanded:true
+		});
+		
+	});
+	
 </script>
+<link rel="stylesheet" href="css/jquery.treefilter.css">
 <link href="css/location/management/path.management.css"
 	rel="stylesheet">
 <link href="css/location/management/path.management.toolbox.css"
@@ -184,6 +195,12 @@
 </div>
 <div id="map_canvas"></div>
 <div id="createType"></div>
+<div>
+	<ul id="my-tree">
+			
+		</li>
+		</ul>
+</div>
 
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
@@ -204,8 +221,6 @@
 </div>
 
 <!-- SEARCH FEILD RIGHT SIDE -->
-
-
 <div id="searchFields" style="width: 85%;">
 	<fieldset data-role="controlgroup" data-type="horizontal"
 		name="optionType">
@@ -219,8 +234,6 @@
 			onclick="selectActionType();">
 	</fieldset>
 </div>
-
-
 <!-- INSERT LOCATION POPUP -->
 
 
@@ -289,8 +302,6 @@
 			onclick="removeMarker()">Remove</a>
 	</div>
 </div>
-
-
 <!-- INSERT PATH POPUP -->
 
 
@@ -323,6 +334,7 @@
 			onclick="saveThePath()">Save</a>
 	</div>
 </div>
+
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.image.js"></script>
@@ -336,8 +348,7 @@
 	src="js/location/management/path.management.path.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.panel.js"></script>
-
-
+	<script src="js/jquery.treefilter-0.1.0.js"></script>
 <script async defer
 	src="https
 	://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
