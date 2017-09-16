@@ -31,7 +31,7 @@ function arrivalMessagePopupOpen() {
 }
 
 function searchResultPopupOpen(headerText) {
-	if (headerText.indexOf("tart") != -1) {
+	if (headerText.indexOf("From") != -1) {
 		$("#departureButtonGroup").css("display", "block").trigger("create");
 		$("#destinationButtonGroup").css("display", "none")
 				.trigger("create");

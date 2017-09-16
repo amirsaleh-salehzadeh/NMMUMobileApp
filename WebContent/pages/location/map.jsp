@@ -184,7 +184,7 @@
 			<div class="ui-block-solo" id="destinationNameDiv">
 				<a data-role="button" href="#" data-rel="popup" href="#"
 					data-transition="turn" id="destinationName"
-					onclick="searchResultPopupOpen('Destination');">Find a
+					onclick="searchResultPopupOpen('To');">Find a
 					Place</a> <span onclick="clearSearchBTN()"></span>
 			</div>
 
