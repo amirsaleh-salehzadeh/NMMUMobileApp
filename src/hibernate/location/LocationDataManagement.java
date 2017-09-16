@@ -90,7 +90,7 @@ public class LocationDataManagement {
 		}
 	}
 
-	private static void updateAllGPSParents() {
+	private static void updateAllGPSParents(String topLeft, String topRight, String bottomLeft, String BottomRight) {
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "3,5",
 				"360");

@@ -66,7 +66,7 @@ function selectDestination(destination, content) {
 			return;
 		}
 	var departure = false;
-	if ($("#destinationDefVal").html().indexOf("From") > 0)
+	if ($("#destinationDefVal").html().indexOf("rom") != -1)
 		departure = true;
 	var bounds = new google.maps.LatLngBounds();
 	if (departure) {

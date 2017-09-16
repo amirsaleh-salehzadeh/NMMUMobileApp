@@ -31,14 +31,14 @@ function arrivalMessagePopupOpen() {
 }
 
 function searchResultPopupOpen(headerText) {
-	if (headerText.indexOf("From") != -1) {
+	if (headerText.indexOf("rom") != -1) {
 		$("#departureButtonGroup").css("display", "block").trigger("create");
 		$("#destinationButtonGroup").css("display", "none")
 				.trigger("create");
-//		$("#destinationDefVal").html(
-//				headerText + "<br/><span id='destinationNameHeader'>To "
-//						+ $("#destinationName").html() + "</span>"
-//						);
+		$("#destinationDefVal").html(
+				headerText + "<br/><span id='destinationNameHeader' style='display: none;'>To "
+						+ $("#destinationName").html() + "</span>"
+						);
 		$("#searchField").attr("placeholder", "Departure");
 		$("#searchPopupHeaderIcon").attr("src", "images/icons/departure.png");
 		$("#destinationDefVal").css("cssText","background-color: #22b800 !important").trigger("create");
