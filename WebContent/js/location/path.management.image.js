@@ -152,19 +152,23 @@ function applyVflip() {
 
 $("#cropbutton").click(function(e) {
 	//alert("crop click");
-  applyCrop();
+	applyCrop();
 });
 $("#scalebutton").click(function(e) {
-  var scale = prompt("Scale Factor:", "1");
-  applyScale(scale);
+	var scale = prompt("Scale Factor:", "1");
+  	applyScale(scale);
 });
 $("#rotatebutton").click(function(e) {
-  applyRotate();
+	applyRotate();
 });
 $("#saveIcon").click(function(e) {
-	  alert(getDataURL());
-	  $("#icon").val(getDataURL());
-	});
+	alert(getDataURL());
+	$("#icon").val(getDataURL());
+});
+$("#savePlan").click(function(e) {
+	alert(getDataURL());
+	$("#plan").val(getDataURL());
+});
 
 $("#form").submit(function(e) {
   e.preventDefault();
@@ -187,4 +191,80 @@ $("#form").submit(function(e) {
     },
     complete: function(data) {}
   });
+});
+
+/*
+function demoUpload() {
+
+	var $uploadCrop;
+
+	function readFile(input) {
+			if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+				$('.upload-demo').addClass('ready');
+            	$uploadCrop.croppie('bind', {
+            		url: e.target.result
+            	}).then(function(){
+            		console.log('jQuery bind complete');
+            	});
+            	
+            };
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+        else {
+	        swal("Sorry - you're browser doesn't support the FileReader API");
+	    }
+	}
+
+	$uploadCrop = $('#upload-demo').croppie({
+		viewport: {
+			width: 100,
+			height: 100,
+			type: 'square'
+		}
+	});
+
+	$('#upload').on('change', function () { readFile(this); alert("Hi"); });
+	$('.upload-result').on('click', function (ev) {
+		$uploadCrop.croppie('result', {
+			type: 'canvas',
+			size: 'viewport'
+		}).then(function (resp) {
+			dataURL  = canvas.toDataURL();
+		});
+	});
+	
+}*/
+
+var basic = $('#main-cropper').croppie({
+    viewport: { width: 250, height: 250 },
+    boundary: { width: 300, height: 300 },
+    showZoomer: false,
+    url: 'images/NMMU_logo.png'
+});
+
+function readFile(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      $('#main-cropper').croppie('bind', {
+        url: e.target.result
+      });
+      $('.actionDone').toggle();
+      $('.actionUpload').toggle();
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+$('.actionUpload input').on('change', function () { readFile(this); });
+$('.actionDone').on('click', function(){
+  $('.actionDone').toggle();
+  $('.actionUpload').toggle();
+  dataURL  = canvas.toDataURL();
 });

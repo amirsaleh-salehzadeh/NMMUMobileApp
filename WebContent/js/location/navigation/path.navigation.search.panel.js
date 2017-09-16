@@ -37,16 +37,32 @@ function getLocationTypePanel() {
 	});
 
 }
-
 function selectDestination(destination, content) {
 	if ($("#destinationNameHeader").length > 0)
-		if ($("#destinationNameHeader").html().indexOf(content) != -1) {
-<<<<<<< HEAD
-			alert(content + " has been already selected as the Departure");
-=======
-			errorMessagePopupOpen(content
-					+ " has been already selected as the Departure");
->>>>>>> Amir
+		if ($("#destinationNameHeader").html() == "To " + content) {
+			$("#popupSearchResult")
+					.popup(
+							{
+								afterclose : function(event, ui) {
+									errorMessagePopupOpen(content
+											+ " has been already selected as the Departure");
+									$("#popupSearchResult").popup({
+										afterclose : function(event, ui) {
+										}
+									});
+								}
+							});
+			blurFalse();
+			$('#popupSearchResult').popup('close');
+			$("#popupErrorMessage").popup({
+				afterclose : function(event, ui) {
+					searchResultPopupOpen('From?');
+					$("#popupErrorMessage").popup({
+						afterclose : function(event, ui) {
+						}
+					});
+				}
+			});
 			return;
 		}
 	var departure = false;
@@ -77,7 +93,15 @@ function selectDestination(destination, content) {
 	} else {
 		$("#destinationName").html(content);
 		$(".spinnerLoading").css('display', 'none');
-		$("#locationInf").html(content);
+		$("#locationInf").html($(destination).html()).trigger("create");
+		$("#locationInf a").removeClass("resultsListViewContent");
+		// $("#locationInf a").addClass("bottomPanelLocationContent");
+		$("#locationInf a img").removeClass("listViewIcons");
+		// $("#locationInf a img").addClass("bottomPanelLocationIcon");
+		// $("#locationInf a p").removeClass("listViewIcons");
+		// $("#locationInf a p").addClass("bottomPanelLocationIcon");
+		// $("#locationInf a h2").removeClass("listViewIcons");
+		// $("#locationInf a h2").addClass("bottomPanelLocationIcon");
 		showBottomPanel();
 		$("#to").val($(destination).attr("id").split("_")[1].replace(" ", ""));
 		$("#destinationId").val($(destination).attr("id").split("_")[0]);
@@ -93,27 +117,22 @@ function selectDestination(destination, content) {
 			selectDestination(destination);
 		});
 		map.panTo(markerDest.getPosition());
+		blurFalse();
 	}
 	$('#popupSearchResult').popup('close');
-	$('#map_canvas').toggleClass('off');
 }
 
 function getDirectionFromCurrentLocation() {
 	$("#departureId").val("");
 	$("#departureDescriptionInput").val("Current Location");
 	findMyLocation();
-<<<<<<< HEAD
-//	showBottomPanel();
-=======
 	// showBottomPanel();
->>>>>>> Amir
-	$('#popupSearchResult').popup('close');
-	$('#map_canvas').toggleClass('off');
+	// blurFalse();
 	$("#locationInf").html('');
 	do {
 		$(".spinnerLoading").css('display', 'block');
 	} while ($("#from").val().length < 2);
-	$(".spinnerLoading").css('display', 'none');
+	// $(".spinnerLoading").css('display', 'none');
 	// hideBottomPanel();
 	getThePath();
 }
@@ -127,4 +146,14 @@ function clearSearchBTN() {
 function searchFieldDivClearBTN() {
 	$("#searchField").val("");
 	$("#resultsListView").listview("refresh");
+}
+function blurTrue() {
+	if (!($('#map_canvas').hasClass('off'))) {
+		$('#map_canvas').toggleClass('off');
+	}
+}
+function blurFalse() {
+	if ($('#map_canvas').hasClass('off')) {
+		$('#map_canvas').toggleClass('off');
+	}
 }

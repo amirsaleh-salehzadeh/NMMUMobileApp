@@ -33,6 +33,7 @@ function saveMarker() {
 			+ $("#markerId").val() + "&userName=NMMU"
 			+ "&description=" + $("#locationDescription").val()
 			+ "&boundary=" + $("#boundary").val()
+			+ "&plan=" + $("#plan").val()
 			+ "&icon=" + $("#icon").val();
 	$.ajax({
 		url : url,
@@ -101,6 +102,9 @@ function getAllMarkers() {
 											+ l.locationType.locationTypeId
 											+ '" data-mini="true" onclick="selectParent(this)" class="ui-btn parentLocationList">'
 											+ l.locationName + '</a>';
+								if (l.boundary != null)
+								{ drawPolygons(l.boundary); }
+								//alert(l.boundary);
 								var pos = {
 									lat : parseFloat(l.gps.split(",")[0]),
 									lng : parseFloat(l.gps.split(",")[1])

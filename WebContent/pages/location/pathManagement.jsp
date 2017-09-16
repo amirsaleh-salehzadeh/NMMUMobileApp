@@ -228,29 +228,54 @@
 		<input type="text" placeholder="Location Description" name="locationDescription" 
 		id="locationDescription" value="">
 	</div>
-	<div class="ui-block-solo">
+	<!--<div class="ui-block-solo">
+		
 		<input id="file" type="file" name="pic" accept="image/*"/>
 		<br>
-		<div class="ui-grid-c" id="imageEdit">
-    	<div class="ui-block-a">
-			<button id="cropbutton" type="button">Crop</button>
-		</div>
-    	<div class="ui-block-b">
-			<button id="scalebutton" type="button">Scale</button>
-		</div>
-   	 	<div class="ui-block-c">
-			<button id="rotatebutton" type="button">Rotate</button>
-		</div>
-		<div class="ui-block-d">
-			<button id="saveIcon" type="button">Save</button>
-		</div>
+		<div class="ui-grid-b" id="imageEdit">
+    		<div class="ui-block-a">
+				<button id="cropbutton" type="button">Crop</button>
+			</div>
+			<!-- 
+    		<div class="ui-block-b">
+				<button id="scalebutton" type="button">Scale</button>
+			</div>
+   	 		<div class="ui-block-c">
+				<button id="rotatebutton" type="button">Rotate</button>
+			</div> -->
+		
+		<!-- 
 		</div>
 		<br>
-  		<div id="views">
-  		</div>
+  		<div id="views"></div>
+  		<br>
+  		<div class="ui-grid-a">
+  			<div class="ui-block-a">
+				<button id="saveIcon" type="button">Save Icon</button>
+			</div>
+			<div class="ui-block-b">
+				<button id="savePlan" type="button">Save Plan</button>
+			</div>
+		</div>
+		    
+    </div>-->
+    <div class="ui-block-solo">
+		<div id="modal">
+      		<div id="main-cropper">
+      		</div>
+       		<a class="button actionUpload">
+        	<span>Upload</span>
+        	<input type="file" id="upload" value="Choose Image" accept="image/*">
+      		</a>
+      		<button class="actionDone">Done</button>
+      		<button class="actionCancel">Cancel</button>
+ 		</div>
 	</div>
+        
+	</br>
 	<input type="hidden" name ="icon" id="icon" value="">
-	<input type="hidden" name ="boundary" id="boundary" value="">
+	<input type="hidden" name ="plan" id="plan" value="">
+	<!-- <input type="text" name ="boundary" id="boundary" value=""> -->
 	<div class="ui-block-solo">
 		<input type="button" data-icon="plus" value="Add Boundary"
 		id="addBoundary"  onclick="addPolygon()">
@@ -301,6 +326,10 @@
 			onclick="saveThePath()">Save</a>
 	</div>
 </div>
+<script src="js/croppie.js"></script>
+<script src="js/leanModal.min.js"></script>  
+<link href="css/location/croppie.css" rel="stylesheet">
+
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript" src="js/location/path.management.image.js"></script>
 <script type="text/javascript" src="js/location/path.navigation.polygon.js"></script>

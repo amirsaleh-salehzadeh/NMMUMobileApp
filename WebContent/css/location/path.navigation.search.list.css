@@ -46,7 +46,7 @@
 	padding-top: 1.1em;
 	padding-bottom: 1.1em;
 	background-color: transparent !important;
-	margin-right: 1.1em !important;
+	top: 6.4em !important;
 }
 
 #destinationNameDiv {
@@ -74,50 +74,12 @@
 	font-weight: 200;
 }
 
-#searchField {
-	background-color: rgba(8, 27, 44, .77) !important;
-	color: rgb(248, 182, 36) !important;
-	background-image: url("../../images/icons/search.png");
-	background-repeat: no-repeat;
-	background-size: 32px 32px;
-	background-position: 9px 10px;
-	text-shadow: none;
-	min-height: 3em !important;
-	padding-left: 47px;
-	padding-right: 29px;
-<<<<<<< HEAD
-	border-color:  rgb(248, 182, 36) !important; font-size : 13pt;
-=======
-	border-color: rgb(248, 182, 36) !important;
-	font-size: 13pt;
->>>>>>> Amir
-	font-weight: 200;
-	width: 100% !important;
-	font-size: 13pt;
-	margin: 3px auto !important;
-}
-
 .listViewIcons {
-<<<<<<< HEAD
-	margin: 7px 7px !important;
-	width: 24px;
-	height: 24px;
-}
-
-#resultsListView {
-	overflow: auto !important;
-	max-height: 73% !important;
-	min-height: 222px !important;
-}
-
-.ui-page-theme-a .ui-body-inherit {
-	background-color: transparent !important;
-=======
 	margin: 0 auto !important;
 	width: 48px;
 	height: 48px;
 	padding-top: 1px;
->>>>>>> Amir
+	left: 3 !important;
 }
 
 #destinationName::-webkit-input-placeholder,#searchField::-webkit-input-placeholder
@@ -126,17 +88,10 @@
 	padding-left: 1em !important;
 }
 
-<<<<<<< HEAD
-div#destinationNameDiv span, div#searchFieldDiv span {
-	position: absolute !important;
-	display: block;
-	top: 2.2em;
-=======
 div#destinationNameDiv span,div#searchFieldDiv span {
 	position: absolute !important;
 	display: block;
 	top: 30%;
->>>>>>> Amir
 	right: 5px;
 	width: 32px !important;
 	height: 32px !important;
@@ -148,37 +103,54 @@ div#destinationNameDiv span,div#searchFieldDiv span {
 }
 
 div#searchFieldDiv span {
-<<<<<<< HEAD
-	top: 2.5em !important;
-=======
+	top: .2em !important;
+	z-index: 101 !important;
+}
+
+div#searchFieldDiv {
 	top: 2.2em !important;
->>>>>>> Amir
+	z-index: 101 !important;
+	position: absolute !important;
+	width: 100%;
+}
+
+#searchField {
+	background-color: rgba(8, 27, 44, .77) !important;
+	color: rgb(248, 182, 36) !important;
+	background-image: url("../../images/icons/search.png");
+	background-repeat: no-repeat;
+	background-size: 27px 27px;
+	background-position: 3px 5px;
+	text-shadow: none;
+	min-height: 2.2em !important;
+	padding-left: 37px;
+	padding-right: 29px;
+	border-color: transparent !important;
+	font-size: 13pt;
+	font-weight: 200;
+	width: 100% !important;
+	font-size: 13pt;
+	margin: 0 !important;
 }
 
 .locationTypes {
 	text-shadow: none !important;
 }
 
-<<<<<<< HEAD
-#searchPopupHeader{
-=======
 #searchPopupHeader {
->>>>>>> Amir
 	width: 100%;
 	background-color: rgb(248, 182, 36);
 	text-align: center;
 	color: rgba(8, 27, 44) !important;
 	font-size: 12pt;
 	font-weight: bold;
-	min-height: 1.5em !important;
+	min-height: 3.3em !important;
 	text-shadow: none !important;
+	top: 0em;
+	right: 0em;
 }
-<<<<<<< HEAD
-#searchPopupHeader span{
-=======
 
 #searchPopupHeader span {
->>>>>>> Amir
 	width: 100%;
 	text-align: center;
 	color: rgba(8, 27, 44) !important;
@@ -186,16 +158,13 @@ div#searchFieldDiv span {
 	font-weight: bold;
 	min-height: 1.5em !important;
 	text-shadow: none !important;
-<<<<<<< HEAD
-=======
 }
 
 #resultsListViewDiv {
 	position: fixed;
-	bottom: 60px !important;
-	display: inline-block;
-	top: 83px !important;
-	margin: 3% !important;
+	bottom: 47px !important;
+	top: 57px !important;
+	/* 	margin: 3% !important; */
 	left: 0 !important;
 	right: 0 !important;
 	overflow: auto !important;
@@ -203,10 +172,13 @@ div#searchFieldDiv span {
 
 .popupSearchResultCloseBTNContainer {
 	position: fixed !important;
-	bottom: 20px !important;
+	bottom: 0px !important;
 	left: 0 !important;
 	right: 0 !important;
 	height: 45px;
-	margin: 0 3%;
->>>>>>> Amir
+		margin: 0 3%;
+}
+
+#closeErrorPopupMessage{
+	bottom: 22 !important;
 }

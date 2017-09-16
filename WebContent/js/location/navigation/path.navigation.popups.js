@@ -6,17 +6,8 @@ var initial_screen_size = window.innerHeight;
 window.addEventListener("resize", function() {
 	is_keyboard = (window.innerHeight < initial_screen_size);
 	is_landscape = (screen.height < screen.width);
-
 	updateViews();
 }, false);
-
-/* iOS */
-$("input").bind("focus blur", function() {
-	$(window).scrollTop(10);
-	is_keyboard = $(window).scrollTop() > 0;
-	$(window).scrollTop(0);
-	updateViews();
-});
 
 function errorMessagePopupOpen(content) {
 	$("#errorMessageContent").html(content).trigger("create");
@@ -26,7 +17,7 @@ function errorMessagePopupOpen(content) {
 		transition : "turn"
 	});
 	$('#popupErrorMessage').popup('open').trigger('create');
-	$('#map_canvas').toggleClass('off');
+	blurTrue();
 }
 
 function arrivalMessagePopupOpen() {
@@ -36,31 +27,25 @@ function arrivalMessagePopupOpen() {
 		transition : "turn"
 	});
 	$('#popupArrivalMessage').popup('open').trigger('create');
-	$('#map_canvas').toggleClass('off');
+	blurTrue();
 }
 
 function searchResultPopupOpen(headerText) {
 	if (headerText.indexOf("rom") != -1) {
 		$("#departureButtonGroup").css("display", "block").trigger("create");
-		$("#popupSearchResultCloseBTN").css("display", "none")
+		$("#destinationButtonGroup").css("display", "none")
 				.trigger("create");
 		$("#searchPopupHeader").html(
 				"<span id='destinationNameHeader'>To "
 						+ $("#destinationName").html() + "</span><br/>"
 						+ headerText);
-<<<<<<< HEAD
-=======
 		$("#searchField").attr("placeholder", "Departure");
->>>>>>> Amir
 	} else {
-		$("#popupSearchResultCloseBTN").css("display", "block").trigger(
+		$("#destinationButtonGroup").css("display", "block").trigger(
 				"create");
 		$("#departureButtonGroup").css("display", "none").trigger("create");
 		$("#searchPopupHeader").html(headerText);
-<<<<<<< HEAD
-=======
 		$("#searchField").attr("placeholder", "Destination");
->>>>>>> Amir
 	}
 	$('#popupSearchResult').css({
 		'height' : $(window).height() * 0.95
@@ -77,14 +62,15 @@ function searchResultPopupOpen(headerText) {
 	$('#popupSearchResult').popup('open').trigger('create');
 	if ($("#locationInfoDiv").css('display') != 'none')
 		hideBottomPanel();
-<<<<<<< HEAD
-	$('#map_canvas').toggleClass('off');
-	$('#searchField').trigger("create");
-	$('#searchField').trigger("focus");
-=======
 	$('#map_canvas').addClass('off');
 	$('#searchField').trigger("create");
 	$('#searchField').trigger("focus");
+	$("#searchField").bind("focus blur", function() {
+		$(window).scrollTop(10);
+		is_keyboard = $(window).scrollTop() > 0;
+		$(window).scrollTop(0);
+		updateViews();
+	});
 }
 
 function updateViews() {
@@ -94,5 +80,4 @@ function updateViews() {
 		$("#popupSearchResult").height(window.innerHeight - 30);
 	}
 
->>>>>>> Amir
 }
