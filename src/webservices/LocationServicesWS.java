@@ -16,6 +16,7 @@ import javax.ws.rs.core.Application;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONException;
 
 import common.location.LocationENT;
 import common.location.LocationLST;
@@ -170,7 +171,7 @@ public class LocationServicesWS {
 	public String getADirectionFromTo(@QueryParam("from") String from,
 			@QueryParam("to") String to, @QueryParam("pathType") int pathType,
 			@QueryParam("destinationId") long destinationId,
-			@QueryParam("departureId") long departureId) {
+			@QueryParam("departureId") long departureId){
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
@@ -186,6 +187,8 @@ public class LocationServicesWS {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+//		throw new JSONException("test");
 		return json;
 	}
 	
@@ -196,7 +199,7 @@ public class LocationServicesWS {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			json = mapper.writeValueAsString(getLocationDAO().getLocationENTAncestors(getLocationDAO().findClosestLocation(from, "3").getLocationID()));
+			json = mapper.writeValueAsString(getLocationDAO().getLocationENTAncestors(getLocationDAO().findClosestLocation(from, "3,5").getLocationID()));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

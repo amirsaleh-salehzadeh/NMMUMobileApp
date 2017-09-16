@@ -172,16 +172,16 @@ div#searchFieldDiv {
 
 #destinationDefVal {
 	width: 100%;
-	background-color: rgb(8, 27, 44);
-	color: #0091FF !important;
+	background-color: #0091FF;
+	color: rgb(8, 27, 44) !important;
 	text-align: left;
 	text-shadow: none !important;
 	padding-left: 7px;
-	font-size: 13pt;
+	font-size: 18pt;
 	font-weight: bolder;
 	position: absolute;
-	line-height: .7;
 	padding-top: 9px;
+	height: 1.5em;
 }
 
 #destinationNameHeader {

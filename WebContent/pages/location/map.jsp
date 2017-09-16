@@ -184,7 +184,7 @@
 			<div class="ui-block-solo" id="destinationNameDiv">
 				<a data-role="button" href="#" data-rel="popup" href="#"
 					data-transition="turn" id="destinationName"
-					onclick="searchResultPopupOpen('Find a Building');">Find a
+					onclick="searchResultPopupOpen('To');">Find a
 					Place</a> <span onclick="clearSearchBTN()"></span>
 			</div>
 
@@ -284,7 +284,7 @@
 				<div id="locationInf"></div>
 <!-- 				WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
 				<button id="start"
-					onclick="searchResultPopupOpen('Select Start Point?');">
+					onclick="searchResultPopupOpen('FROM');">
 <!-- 					WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
 					Get <br />Directions
 				</button>

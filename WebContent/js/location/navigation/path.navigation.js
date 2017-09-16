@@ -63,6 +63,7 @@ function getThePath() {
 		url : url,
 		cache : true,
 		async : true,
+//		dataType: 'json',
 		beforeSend : function() {
 			 showBottomPanel();
 			$("#locationInf").html('');
@@ -86,7 +87,8 @@ function getThePath() {
 					}
 					pathLocations += l.departure.locationName + "_"
 							+ l.destination.locationName;
-					$("#departureId").val(l.departure.locationID);
+//					alert($("#departureId").val());
+//					$("#departureId").val(l.departure.locationID);
 				} else {
 					if (l.pathRoute != null && l.pathRoute.length > 0) {
 						pathGPSs += l.pathRoute + "_"
@@ -487,6 +489,6 @@ var successGetCurrentPosition = function(position) {
 
 $(document).ready(function() {
 	$('#destinationName').val("");
-	removeTrip();
+//	removeTrip();
 	getLocationTypePanel();
 });

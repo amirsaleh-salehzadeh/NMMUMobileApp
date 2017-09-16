@@ -74,6 +74,7 @@ function saveMarker() {
 									.val(l.locationName);
 							$("#locationTypeId")
 									.val(l.locationType.locationTypeId);
+							$("#locationDescription").val(l.description);
 							setLocationTypeCreate();
 							saveMarker();
 						} else {
@@ -161,7 +162,9 @@ function getAllMarkers() {
 																		.val(l.locationName);
 																$("#locationTypeId")
 																		.val(l.locationType.locationTypeId);
+																$("#locationDescription").val(l.description);
 																setLocationTypeCreate();
+																
 																saveMarker();
 															} else {
 																this
@@ -207,6 +210,9 @@ function addAMarker(location, gps) {
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(gps);
 		$("#markerLabel").html(location.locationType.locationType);
+		$("#locationDescription").val(location.description);
+		$("#locationTypeId").val(location.locationType.locationTypeId);
+
 	}
 	openMarkerPopup(edit);
 }
@@ -218,11 +224,11 @@ function selectALocationTypeToAdd(locationTypeId) {
 	if (locationTypeId == 3) {
 		$("#locationTypeToAdd").html("Adding Building on");
 //		$("#mainBodyContents").css("cursor","url('images/map-markers/building.png'), auto");
-		map.setOptions({ draggableCursor : "url('images/map-markers/building.png'), auto" });
+//		map.setOptions({ draggableCursor : "url('images/map-markers/building.png'), auto" });
 
 	}
 	if (locationTypeId == 5){
-		map.setOptions({ draggableCursor : "url('images/map-markers/crossroad48.png'), auto" });
+//		map.setOptions({ draggableCursor : "url('images/map-markers/crossroad48.png'), auto" });
 		$("#locationTypeToAdd").html("Adding Intersection on");
 	}
 	// getLocationSearchPanel();

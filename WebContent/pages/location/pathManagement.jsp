@@ -259,34 +259,34 @@
 			type="text" placeholder="Location Description"
 			name="locationDescription" id="locationDescription" value="">
 	</div>
-	<div class="ui-block-solo">
-		<input id="file" type="file" name="pic" accept="image/*" /> <br>
-		<div class="ui-grid-c" id="imageEdit">
-			    
-			<div class="ui-block-a">
-				<button id="cropbutton" type="button">Crop</button>
-			</div>
-			    
-			<div class="ui-block-b">
-				<button id="scalebutton" type="button">Scale</button>
-			</div>
-			     
-			<div class="ui-block-c">
-				<button id="rotatebutton" type="button">Rotate</button>
-			</div>
-			<div class="ui-block-d">
-				<button id="saveIcon" type="button">Save</button>
-			</div>
-		</div>
-		<br>
-		<div id="views"></div>
-	</div>
-	<input type="hidden" name="icon" id="icon" value=""> <input
-		type="hidden" name="boundary" id="boundary" value="">
-	<div class="ui-block-solo">
-		<input type="button" data-icon="plus" value="Add Boundary"
-			id="addBoundary" onclick="addPolygon()">
-	</div>
+<!-- 	<div class="ui-block-solo"> -->
+<!-- 		<input id="file" type="file" name="pic" accept="image/*" /> <br> -->
+<!-- 		<div class="ui-grid-c" id="imageEdit"> -->
+<!-- 			     -->
+<!-- 			<div class="ui-block-a"> -->
+<!-- 				<button id="cropbutton" type="button">Crop</button> -->
+<!-- 			</div> -->
+<!-- 			     -->
+<!-- 			<div class="ui-block-b"> -->
+<!-- 				<button id="scalebutton" type="button">Scale</button> -->
+<!-- 			</div> -->
+<!-- 			      -->
+<!-- 			<div class="ui-block-c"> -->
+<!-- 				<button id="rotatebutton" type="button">Rotate</button> -->
+<!-- 			</div> -->
+<!-- 			<div class="ui-block-d"> -->
+<!-- 				<button id="saveIcon" type="button">Save</button> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 		<br> -->
+<!-- 		<div id="views"></div> -->
+<!-- 	</div> -->
+<!-- 	<input type="hidden" name="icon" id="icon" value=""> <input -->
+<!-- 		type="hidden" name="boundary" id="boundary" value=""> -->
+<!-- 	<div class="ui-block-solo"> -->
+<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
+<!-- 			id="addBoundary" onclick="addPolygon()"> -->
+<!-- 	</div> -->
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all"
