@@ -49,6 +49,15 @@ public class LocationLightENT {
 		this.p = p;
 	}
 	
+	public LocationLightENT(LocationENT ent) {
+		super();
+		this.id = ent.getLocationID();
+		this.t = ent.getLocationType().getLocationType();
+		this.n = ent.getLocationName();
+		this.g = ent.getGps();
+		this.p = null;
+	}
+	
 	public LocationLightENT(long id) {
 		super();
 		this.id = id;

@@ -61,7 +61,7 @@ function getThePath() {
 	}
 	$.ajax({
 		url : url,
-		cache : true,
+		cache : false,
 		async : true,
 //		dataType: 'json',
 		beforeSend : function() {
@@ -75,30 +75,30 @@ function getThePath() {
 			var pathLocations = "";
 			$.each(data, function(k, l) {
 				if (k == 0) {
-					pathIds = l.departure.locationID + ","
-							+ l.destination.locationID;
+					pathIds = l.depL.id + ","
+							+ l.desL.id;
 					if (l.pathRoute != null && l.pathRoute.length > 0) {
-						pathGPSs += l.departure.gps.replace(" ", "") + "_"
+						pathGPSs += l.depL.g.replace(" ", "") + "_"
 								+ l.pathRoute + "_"
-								+ l.destination.gps.replace(" ", "");
+								+ l.desL.g.replace(" ", "");
 					} else {
-						pathGPSs += l.departure.gps.replace(" ", "") + "_"
-								+ l.destination.gps.replace(" ", "");
+						pathGPSs += l.depL.g.replace(" ", "") + "_"
+								+ l.desL.g.replace(" ", "");
 					}
-					pathLocations += l.departure.locationName + "_"
-							+ l.destination.locationName;
+					pathLocations += l.depL.n + "_"
+							+ l.desL.n;
 //					alert($("#departureId").val());
 //					$("#departureId").val(l.departure.locationID);
 				} else {
 					if (l.pathRoute != null && l.pathRoute.length > 0) {
 						pathGPSs += l.pathRoute + "_"
-								+ l.destination.gps.replace(" ", "");
+								+ l.desL.g.replace(" ", "");
 					} else {
-						pathGPSs += "_" + l.destination.gps.replace(" ", "");
+						pathGPSs += "_" + l.desL.g.replace(" ", "");
 					}
 
-					pathLocations += "_" + l.destination.locationName;
-					$("#destinationDef").html(l.destination.locationName);
+					pathLocations += "_" + l.desL.n;
+					$("#destinationDef").html(l.desL.n);
 				}
 			});
 			$("#departureId").val(pathIds.split(",")[0]);
@@ -176,6 +176,10 @@ function removeTheNextDestination() {
 function drawConstantPolyline() {
 	var tmpPathCoor = [];
 	var nextDestGPS = getCookie("TripPathGPSCookie").split("_");
+//	var nextDestGPS = '-34.0062553417948,25.675698928534985_-34.005976661151394,25.675971508026123_-34.00608357400282,25.675976872444153
+//	_-34.006080429509105,25.675708651542664_-34.00589234926734,25.675971508026123-34.00589175967349,25.675802528858185_-34.005894886512976,25.6755436802772_-34.005906218833715,25.67523255944252-34.00570937843394,25.673938393592834_-34.005747112515635,25.673983991146088_-34.00586974816534,25.67400813102722_-34.0058974590809,25.674163699150085_-34.00591062667588,25.674488246440887_-34.00591062667588,25.67479133605957_-34.00591377117589,25.674997866153717_-34.00591377117589,25.675193667411804_-34.00570257403919,25.673772778054058_-34.005804587915414,25.67309718579054_-34.00584322122067,25.67253317232405-34.005874071854905,25.67179748788476_-34.0058666036637,25.670880675315857_-34.0058666036637,25.670161843299866_-34.005829459229446,25.669662700966-34.00621575185557,25.669652476077886_-34.006499029623406,25.669625663175793_-34.00659239085749,25.669609517790377-34.006652725446514,25.66991239786148_-34.00711063803101,25.66958785057068_-34.00714208258141,25.66985171288252-34.00768253397159,25.669850707054138_-34.00833350367418,25.66977929724237_-34.008573217300516,25.669794380664825_-34.0088089002989,25.669789519160986_-34.00900192085222,25.66980879753828';
+
+	//	nextDestGPS = nextDestGPS.split("_");
 	polylineConstantLength = 0;
 	if (nextDestGPS.length > 1)
 		for ( var i = 0; i < nextDestGPS.length; i++) {
@@ -183,6 +187,7 @@ function drawConstantPolyline() {
 				polylineConstantLength += getDistance(nextDestGPS[i],
 						nextDestGPS[i + 1]);
 			tmpPathCoor.push(getGoogleMapPosition(nextDestGPS[i]));
+			console.log(getGoogleMapPosition(nextDestGPS[i]));
 		}
 	else
 		return;
@@ -489,6 +494,6 @@ var successGetCurrentPosition = function(position) {
 
 $(document).ready(function() {
 	$('#destinationName').val("");
-//	removeTrip();
+	removeTrip();
 	getLocationTypePanel();
 });

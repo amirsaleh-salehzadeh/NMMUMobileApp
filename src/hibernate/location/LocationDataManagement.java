@@ -1,13 +1,20 @@
 package hibernate.location;
 
+import hibernate.config.BaseHibernateDAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import tools.AMSException;
 
 import common.location.LocationENT;
+import common.location.PathENT;
 
-public class LocationDataManagement {
+public class LocationDataManagement extends BaseHibernateDAO {
 
 	private static void updateAllDescriptions() {
 		LocationDAO dao = new LocationDAO();
@@ -90,7 +97,8 @@ public class LocationDataManagement {
 		}
 	}
 
-	private static void updateAllGPSParents(String topLeft, String topRight, String bottomLeft, String BottomRight) {
+	private static void updateAllGPSParents(String topLeft, String topRight,
+			String bottomLeft, String BottomRight) {
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "3,5",
 				"360");
@@ -102,7 +110,48 @@ public class LocationDataManagement {
 		}
 	}
 
+	private void updateAPathLength(PathENT path) throws AMSException {
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();	
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "update paths set distance = " + path.getDistance()
+					+ " where path_id = " + path.getPathId();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
-		updateAllDescriptions();
+		LocationDAO dao = new LocationDAO();
+		LocationDataManagement daomng = new LocationDataManagement();
+		ArrayList<PathENT> paths = dao.getAllPaths("NMMU");
+		for (int i = 0; i < paths.size(); i++) {
+			PathENT p = paths.get(i);
+			if(p.getPathId() == 1910){
+				double dis = LocationDAO.calculateDistance(paths.get(i)
+						.getDeparture().getGps(), paths.get(i).getDestination()
+						.getGps(), paths.get(i).getPathRoute());
+				p.setDistance(dis);
+			}
+			
+//			if (paths.get(i).getDistance() != p.getDistance())
+//			if(p.getPathId() == 1910)
+//				System.out.println("before " + paths.get(i).getDistance()
+//						+ "  >> After: " + dis);
+//			try {
+//				daomng.updateAPathLength(p);
+//			} catch (AMSException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		}
 	}
 }
