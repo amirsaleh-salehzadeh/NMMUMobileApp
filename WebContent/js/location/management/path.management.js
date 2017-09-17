@@ -292,5 +292,13 @@ $(document).ready(
 					parseInt($(window).height())
 							- parseInt($(".jqm-header").css("height")) - 7);
 			getLocationSearchPanel();
+			getDecendentList();
+			$(function() {
+				var tree = new treefilter($("#my-tree"), {
 
+					// OPTIONS
+					searcher : $("input#my-search"),
+				});
+				
+			});
 		});

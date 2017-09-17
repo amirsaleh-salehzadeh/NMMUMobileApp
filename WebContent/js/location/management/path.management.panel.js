@@ -1,7 +1,9 @@
 var locationTypeJSONData;
+var arrLocationTypes=[];
+var arrLocationTypesTest=['Client_0_1','Area_1_2','Building_2_3','Level_3_4','Outdoor Intersection_2_5','Staircase_4_6','Room_4_7','Elevator_4_8','Indoor Intersection_4_9','Entrance_4_10'];
 function getLocationTypePanel() {
+	 
 	var url = "REST/GetLocationWS/GetAllLocationTypes";
-	$("#locationTypesContainer").controlgroup();
 	$
 			.ajax({
 				url : url,
@@ -9,31 +11,24 @@ function getLocationTypePanel() {
 				async : true,
 				success : function(data) {
 					locationTypeJSONData = data;
-					var str = "<select name='selectLocationType'  data-iconpos='noicon' data-role='nojs' class='locationTypeNavBar' onclick='createMyType(this);' id='NavBar"
-							+ data.locationType + "' data-enhance='false'>";
-					str += "<option value='" + data.locationTypeId + "'>"
-							+ data.locationType + "</option>";
+					var str = data.locationType+'_'+data.parent.locationTypeId+'_'+data.locationTypeId;
+					arrLocationTypes.push(str);						
+
 					if (data.children.length > 1)
 						$.each(data.children, function(k, l) {
-							str += "<option value='" + l.locationTypeId + "'>"
-									+ l.locationType + "</option>";
+							var str = data.locationType+'_'+data.parent.locationTypeId+'_'+data.locationTypeId;
+							arrLocationTypes.push(str);	
 						});
-					str += "</select>";
-					$("#locationTypeId").val(data.locationTypeId);
-					$("#locationTypeDefinition").val(data.locationType);
-					$("#locationTypesContainer").controlgroup("container")
-							.empty();
-					$("#locationTypesContainer").controlgroup("refresh");
-					$("#locationTypesContainer").controlgroup("container")
-							.append(str);
-					$("#NavBar" + data.locationType).selectmenu();
-					$("#NavBar" + data.locationType).selectmenu("refresh");
-					$("#locationTypesContainer").controlgroup("refresh");
-					// getMyChild(data.locationTypeId);
+				
+					 getMyChild(data.locationTypeId);
 					// setLocationTypeCreate();
 					//
 					// getAllMarkers();
-				}
+//					
+//						for (var i = 0; i < arrLocationTypesTest.length; i++) {
+						    //Do something
+						}
+			
 			});
 }
 
@@ -42,37 +37,23 @@ function getMyChild(select) {
 	if (childData == null)
 		childData = locationTypeJSONData;
 	else if (childData.children == null)
-		return;
-	var navbarId = "";
-	$("#locationTypeDefinition").val("");
-	var str = "";
+		return;	
 	$
 			.each(
 					childData.children,
 					function(k, l) {
-						if (str == "") {
-							navbarId = l.locationType;
-							str = "<select name='selectLocationType' data-iconpos='noicon' data-role='none' class='locationTypeNavBar' id='NavBar"
-									+ l.locationType
-									+ "' onclick='createMyType(this);'>";
+						 {
+							 var str = l.locationType+'_'+select+'_'+l.locationType.locationTypeId;
+								arrLocationTypes.push(str);	
 						}
-						str += "<option value='" + l.locationTypeId + "'> "
-								+ l.locationType + "</option>";
-					});
-	str += "</select>";
-	if ($("select#NavBar" + navbarId).length == 0) {
-		$("#locationTypesContainer").controlgroup("container").append(str);
-		$("#NavBar" + navbarId).selectmenu();
-		$("#NavBar" + navbarId + " > option").each(function() {
-			$("#NavBar" + navbarId).css("min-width", $(this).css("width"));
-		});
-		$("#locationTypesContainer").controlgroup("refresh");
-	}
+											});
+	
 	// } else
 	$.each(childData.children, function(k, l) {
 		childData = l;
 		getMyChild(l.locationTypeId);
 	});
+	
 }
 
 function getLocationSearchPanel() {
@@ -109,7 +90,7 @@ function getLocationSearchPanel() {
 }
 
 function selectParent(field) {
-	var exist = false;
+	//var exist = false;
 	// $("#infoListView li").each(function() {
 	// if ($(this).html().indexOf($(field).html()) !== -1)
 	// exist = true;
@@ -153,64 +134,71 @@ function selectParent(field) {
 	// setLocationTypeCreate();
 
 }
-function getDecendentList(field) {// gets all the children types and locations
+function getDecendentList() {// gets all the children types and locations
 									// for a location
-	var url = "REST/GetLocationWS/GetAllLocationTypes";
-	var str = "";
-	$.ajax({
-		url : url,
-		cache : false,
-		async : true,
-		success : function(data) {
-			alert(data.locationTypeId);
-			if(data.locationTypeId==$(field).attr("id").split("_")[0]){
-			$.each(data,
-					function(k, l) {
-				alert(l.locationTypeId);
-						
-							str += "<li><div>"+l.locationType+"</div>"
-									+ getChildLocations(
-											l.locationType.locationTypeId, $(
-													field).attr("id")
-													.split("_")[0]) + "</li>";
-						
-					});
-			}},
-		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-		}
-	});
-	//alert($(field).attr("id").split("_")[0]);
-	$('#' + $(field).attr("id"))
-			.html($('#' + $(field).attr("id")).html() + str);
-	$("#my-tree").val();
-}
-function getChildLocations(typeID, parentID) {// creates the string for the
-												// list items of the location
-												// type and returns it
-
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-			+ parentID+
-	"&locationTypeId=" + typeID + "&userName=NMMU";
+	
+	
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId=360&locationTypeId=2&userName=NMMU";
 	$
 			.ajax({
 				url : url,
 				cache : false,
 				async : true,
 				success : function(data) {
-					var str = "<ul>";
+					locationTypeJSONData = data;
+					var str = "";
 					$
 							.each(
 									data,
 									function(k, l) {
-										str += '<li onclick="getDecendentList(this)" id="'
-												+ l.locationType.locationTypeId
-												+ "_"
-												+ l.locationID
-												+ '"><div><a href="#" '
-												+ '" data-mini="true" class="ui-btn parentLocationList">'
-												+ l.locationName + '</a></div>';
+										alert(l.locationName+" "+l.locationID);
+										str="";
+										str += "<li><div>"+l.locationName+"</div>";
+										str+= getLocationDecendents(2,l.locationID);
+										$("#my-tree").html($("#my-tree").html()+str);
+									});
+					
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+				}
+			});
+//	$("#my-tree").html(str);
+//	$('#' + $(field).attr("id")).html($('#' + $(field).attr("id")).html() + str);
+//	$("#my-tree").html($("#my-tree").html());
+}
+function getLocationDecendents(typeId,locationId){
+	var str = "";
+	for (var i = 0; i < arrLocationTypesTest.length; i++) {
+		if(typeId==arrLocationTypesTest[i].split("_")[1]){
+		str+="<ul>";
+		str += "<li><div>"+arrLocationTypesTest[i].split("_")[0]+"</div>";
+		str+=getChildLocations(locationId, arrLocationTypesTest[i].split("_")[2]);
+		str+="</li></ul>";
+	 }
+	}
+  return str;
+}
+function getChildLocations(parentID, locationTypeID) {// creates the string for the
+												// list items of the location
+												// type and returns it
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="+parentID+"&locationTypeId="+locationTypeID+"&userName=NMMU";
+	var str = "<ul>";
+	$
+			.ajax({
+				url : url,
+				cache : false,
+				async : true,
+				success : function(data) {
+					
+					$
+							.each(
+									data,
+									function(k, l) {
+										//conlose.log(l.locationName);
+//										str += '<li><div>'+ l.locationName + '</div>';
+//										str += getLocationDecendents(l.locationType.locationTypeId,l.locationID);
 									});
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
@@ -218,6 +206,7 @@ function getChildLocations(typeID, parentID) {// creates the string for the
 					alert(thrownError);
 				}
 			});
+
 	str += "</ul>";
 	return str;
 }

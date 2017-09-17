@@ -197,11 +197,8 @@
 <div id="createType"></div>
 <div>
 	<ul id="my-tree">
-		<li id="2_369" onclick="getDecendentList(this)">
-			<div><a href="#" data-mini="true"  class="ui-btn parentLocationList">south</a></div>
-			
-		</li>
-		</ul>
+		
+	</ul>
 </div>
 
 <div id="infoDiv">
