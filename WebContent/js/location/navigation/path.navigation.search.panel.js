@@ -3,38 +3,57 @@ var markers = [];
 function getLocationTypePanel() {
 	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU"
 			+ "&locationType=Building&locationName=";
-	$.ajax({
-		url : url,
-		cache : true,
-		async : true,
-		success : function(data) {
-			var str = '';
-			$.each(data, function(k, l) {
-				str += "<li id='" + l.locationID + "_" + l.gps + "_"
-						+ l.locationType.locationType
-						+ "' onclick='selectDestination(this, \""
-						+ l.locationType.locationType + " " + l.locationName
-						+ "\")' data-icon='false'>"
-						+ '<a href="#" class="resultsListViewContent">';
-				var src = "images/map-markers/building.png";
-				if (l.icon != null)
-					src = l.icon;
-				str += '<img src="' + src + '" class="listViewIcons"><h2>'
-						+ l.locationType.locationType + " " + l.locationName 
-						+ '</h2><p>';
-				var desc = "&nbsp;";
-				if (l.description != null)
-					desc = l.description;
-				str += desc + '</p></a></li>';
+	$
+			.ajax({
+				url : url,
+				cache : true,
+				async : false,
+				success : function(data) {
+					var str = '';
+					$
+							.each(
+									data,
+									function(k, l) {
+										str += "<li id='"
+												+ l.locationID
+												+ "_"
+												+ l.gps
+												+ "_"
+												+ l.locationType.locationType
+												+ "' onclick='selectDestination(this, \""
+												+ l.locationType.locationType
+												+ " "
+												+ l.locationName
+												+ "\")' data-icon='false'>"
+												+ "<a href='#' class='resultsListViewContent'>";
+										var src = "images/map-markers/building.png";
+										if (l.icon != null)
+											src = l.icon;
+										str += "<img src='"
+												+ src
+												+ "' class='listViewIcons'><h2>"
+												+ l.locationType.locationType
+												+ " " + l.locationName
+												+ "</h2><p>";
+										var desc = "&nbsp;";
+										if (l.description != null)
+											desc = l.description;
+										str += desc
+												+ "</p>"
+												+ "<span style='color: rgba(8, 27, 44, 0); position: absolute; z-index: -1;'>"
+												+ l.parent.locationName
+												+ " Campus</span>"
+												+ "</a></li>";
+									});
+					$("ul#resultsListView").html(str);
+					$("ul#resultsListView").listview();
+					$("ul#resultsListView").listview('refresh').trigger(
+							'create');
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					errorMessagePopupOpen(thrownError);
+				}
 			});
-			$("ul#resultsListView").html(str);
-			$("ul#resultsListView").listview();
-			$("ul#resultsListView").listview('refresh').trigger('create');
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-			errorMessagePopupOpen(thrownError);
-		}
-	});
 }
 
 function selectDestination(destination, content) {
@@ -109,7 +128,7 @@ function selectDestination(destination, content) {
 		map.setZoom(18);
 		blurFalse();
 		showBottomPanel();
-//		getDirectionFromCurrentLocation();
+		// getDirectionFromCurrentLocation();
 	}
 	$('#popupSearchResult').popup('close');
 }

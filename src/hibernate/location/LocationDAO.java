@@ -50,9 +50,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 				enttemp = getLocationENT(ent);
 			if (enttemp.getIcon() != null && enttemp.getIcon().length() < 5)
 				enttemp.setIcon(null);
+			String query = "";
 			long firstLoc = 0;
 			long secLoc = 0;
-			String query = "";
 			query = "insert into location (country, address, post_box, gps, location_name, username, location_type, parent_id, description, boundary, plan, icon)"
 					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			if (ent.getLocationID() > 0)
@@ -133,13 +133,15 @@ public class LocationDAO extends BaseHibernateDAO implements
 						.getLocationType();
 			if (lst.getSearchLocation().getLocationName() != null)
 				location = lst.getSearchLocation().getLocationName();
-			query = "select l.*, lt.location_type as ltype from location l"
-					+ " inner join location_type lt on lt.location_type_id = l.location_type"
+			query = "select l.*, lp.location_name as parentName,  ltp.location_type as pltype , lt.location_type as ltype from location l"
+					+ " inner join location_type lt on lt.location_type_id = l.location_type" +
+					" left join location lp on l.parent_id = lp.location_id " +
+					" left join location_type ltp on ltp.location_type_id = lp.location_type"
 					+ " where l.username = '"
 					+ lst.getSearchLocation().getUserName() + "'"
 					+ " and (lt.location_type like '%" + locationTypeString
 					+ "%' and l.location_name like '%" + location + "%')";
-			query += " order by l.location_name asc";
+			query += " order by l.parent_id asc, l.location_name";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -151,6 +153,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 								rs.getString("ltype")),
 						rs.getString("address"), rs.getString("gps"),
 						rs.getString("location_name"));
+				LocationENT parenENT = new LocationENT();
+				parenENT.setLocationName(rs.getString("parentName"));
+				parenENT.setLocationType(new LocationTypeENT(0, rs.getString("pltype")));
+				ent.setParent(parenENT);
 				ent.setParentId(rs.getLong("parent_id"));
 				ent.setBoundary(rs.getString("boundary"));
 				ent.setIcon(rs.getString("icon"));
@@ -192,6 +198,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 						rs.getString("address"), rs.getString("gps"),
 						rs.getString("location_name"));
 				ent.setIcon(rs.getString("icon"));
+				ent.setParentId(rs.getLong("parent_id"));
 			}
 			rs.close();
 			ps.close();
@@ -261,7 +268,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			query += " where l.username = '" + username + "'";
 			if (parentLocationIds != null && parentLocationIds.length() >= 1)
 				query += " and l.parent_id in (" + parentLocationIds + ")";
-			else if (locationTypeIds != null && locationTypeIds.length() >= 1)
+			if (locationTypeIds != null && locationTypeIds.length() >= 1)
 				query += " and l.location_type in (" + locationTypeIds + ")";
 			query += " order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -567,14 +574,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 	}
 
 	public LocationENT findClosestLocation(String GPSCoordinates,
-			String locationTypeIds) {
+			String locationTypeIds, String parentIds) {
 		LocationDAO dao = new LocationDAO();
 		LocationENT ent = getLocationENT(new LocationENT(0, null, null, null,
-				GPSCoordinates, null));
+				GPSCoordinates, parentIds));
 		if (ent.getLocationID() > 0)
 			return ent;
 		ArrayList<LocationENT> points = dao.getAllLocationsForUser("NMMU",
-				locationTypeIds, null);
+				locationTypeIds, parentIds);
 		int closest = -1;
 		double[] distances = new double[points.size()];
 		for (int i = 0; i < points.size(); i++) {
@@ -961,22 +968,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 		}
 		return res;
-	}
-
-	public LocationENT getLocation(LocationENT location) throws AMSException {
-		// Query q = null;
-		// try {
-		// Session session = getSession();
-		// q = session.createQuery("from LocationENT where locationName =:Id");
-		// q.setString("Id", location.getLocationName());
-		// location = (LocationENT) q.uniqueResult();
-		// session.close();
-		// HibernateSessionFactory.closeSession();
-		// } catch (HibernateException ex) {
-		// ex.printStackTrace();
-		// location = null;
-		// }
-		return location;
 	}
 
 	public LocationENT getLocationENTAncestors(long locationId) {
