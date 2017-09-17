@@ -180,6 +180,7 @@ public class LocationServicesWS {
 			if(departureId <=0)
 				departureId =	getLocationDAO().findClosestLocation(from, "3,5").getLocationID();
 			json = mapper.writeValueAsString(getLocationDAO().getShortestPath(departureId, destinationId, pathType));
+			System.out.println(json);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

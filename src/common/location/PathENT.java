@@ -3,6 +3,8 @@ package common.location;
 public class PathENT {
 	LocationENT departure;
 	LocationENT destination;
+	LocationLightENT depL;
+	LocationLightENT desL;
 	double distance;
 	PathTypeENT pathType;
 	long pathId;
@@ -43,6 +45,44 @@ public class PathENT {
 		this.distance = distance;
 		this.pathType = pathType;
 		this.pathId = pathId;
+	}
+	
+	public PathENT(LocationLightENT departure, LocationLightENT destination,
+			double distance, PathTypeENT pathType, long pathId) {
+		super();
+		this.depL = departure;
+		this.desL = destination;
+		this.distance = distance;
+		this.pathType = pathType;
+		this.pathId = pathId;
+	}
+
+	/**
+	 * @return the depL
+	 */
+	public LocationLightENT getDepL() {
+		return depL;
+	}
+
+	/**
+	 * @param depL the depL to set
+	 */
+	public void setDepL(LocationLightENT depL) {
+		this.depL = depL;
+	}
+
+	/**
+	 * @return the desL
+	 */
+	public LocationLightENT getDesL() {
+		return desL;
+	}
+
+	/**
+	 * @param desL the desL to set
+	 */
+	public void setDesL(LocationLightENT desL) {
+		this.desL = desL;
 	}
 
 	public PathENT(long pathId) {

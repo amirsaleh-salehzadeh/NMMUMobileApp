@@ -1,43 +1,4 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
---
--- Host: postgrad.nmmu.ac.za
--- Generation Time: Sep 16, 2017 at 10:10 AM
--- Server version: 5.6.10
--- PHP Version: 7.0.9
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `nmmu_mobile`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `paths`
---
-
-CREATE TABLE `paths` (
-  `path_id` bigint(255) NOT NULL,
-  `destination_location_id` bigint(255) NOT NULL,
-  `departure_location_id` bigint(255) NOT NULL,
-  `distance` double DEFAULT NULL,
-  `path_type` int(11) NOT NULL,
-  `path_route` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `paths`
---
 
 INSERT INTO `paths` (`path_id`, `destination_location_id`, `departure_location_id`, `distance`, `path_type`, `path_route`) VALUES
 (1317, 978, 408, 38.78, 2, ''),
@@ -532,40 +493,4 @@ INSERT INTO `paths` (`path_id`, `destination_location_id`, `departure_location_i
 (1913, 424, 1260, 149.7, 2, '-34.00153428242988,25.674089922858343_-34.00134613934006,25.674099069181352'),
 (1914, 1276, 1238, 237.9, 2, '');
 
---
--- Indexes for dumped tables
---
 
---
--- Indexes for table `paths`
---
-ALTER TABLE `paths`
-  ADD PRIMARY KEY (`path_id`),
-  ADD KEY `destination_location_id` (`destination_location_id`),
-  ADD KEY `departure_location_id` (`departure_location_id`),
-  ADD KEY `path_type` (`path_type`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `paths`
---
-ALTER TABLE `paths`
-  MODIFY `path_id` bigint(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1915;
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `paths`
---
-ALTER TABLE `paths`
-  ADD CONSTRAINT `paths_ibfk_1` FOREIGN KEY (`destination_location_id`) REFERENCES `location` (`location_id`),
-  ADD CONSTRAINT `paths_ibfk_2` FOREIGN KEY (`departure_location_id`) REFERENCES `location` (`location_id`),
-  ADD CONSTRAINT `paths_ibfk_3` FOREIGN KEY (`path_type`) REFERENCES `path_type` (`path_type_id`);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -226,22 +226,22 @@ public class LocationDAO extends BaseHibernateDAO implements
 
 	public ArrayList<DropDownENT> getAllCountrirs() {
 		ArrayList<DropDownENT> res = new ArrayList<DropDownENT>();
-//		try {
-//			Session s = getSession4Query();
-//			s.beginTransaction();
-//			List<CountryENT> dropdowns = getSession4Query().createQuery(
-//					"from CountryENT").list();
-//			for (CountryENT dropdown : dropdowns) {
-//				res.add(new DropDownENT(dropdown.getCountryID() + "", dropdown
-//						.getCountryName()
-//						+ " ("
-//						+ dropdown.getCountryCode()
-//						+ ")", null));
-//			}
-//			s.close();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//		}
+		// try {
+		// Session s = getSession4Query();
+		// s.beginTransaction();
+		// List<CountryENT> dropdowns = getSession4Query().createQuery(
+		// "from CountryENT").list();
+		// for (CountryENT dropdown : dropdowns) {
+		// res.add(new DropDownENT(dropdown.getCountryID() + "", dropdown
+		// .getCountryName()
+		// + " ("
+		// + dropdown.getCountryCode()
+		// + ")", null));
+		// }
+		// s.close();
+		// } catch (HibernateException ex) {
+		// ex.printStackTrace();
+		// }
 		return res;
 	}
 
@@ -528,10 +528,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return outp;
 	}
 
-	private static double calculateDistance(String destination,
-			String departure, String pathRoute) {
+	public static double calculateDistance(String departure,
+			String destination, String pathRoute) {
 		double outp = 0;
-		if (pathRoute.length() > 1) {
+		if (pathRoute != null && pathRoute.length() > 1) {
 			String[] points = pathRoute.split("_");
 			if (points.length > 1) {
 				for (int i = 0; i < points.length; i++) {
@@ -545,7 +545,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				outp += calculateDistanceBetweenTwoPoints(destination,
 						points[points.length - 1]);
 			} else {
-				outp += calculateDistanceBetweenTwoPoints(destination,
+				outp += calculateDistanceBetweenTwoPoints(departure,
 						pathRoute);
 				outp += calculateDistanceBetweenTwoPoints(pathRoute,
 						destination);
@@ -556,6 +556,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 		outp = (double) Double.parseDouble(new DecimalFormat(".##")
 				.format(outp));
 		return outp;
+	}
+
+	public static void main(String[] args) {
+		LocationDAO dao = new LocationDAO();
+		ArrayList<PathENT> paths = dao.getAllPaths("NMMU");
+		for (int i = 0; i < paths.size(); i++) {
+			System.out.println(calculateDistance(paths.get(i).getDeparture().getGps(), paths.get(i).getDestination().getGps(), paths.get(i).getPathRoute()));
+		}
 	}
 
 	public LocationENT findClosestLocation(String GPSCoordinates,
@@ -612,21 +620,21 @@ public class LocationDAO extends BaseHibernateDAO implements
 			long target = graph.getEdgeTarget(shortest_path.get(i));
 			PathENT tmpPath = getAPath(new PathENT(new LocationENT(source),
 					new LocationENT(target)));
-			LocationENT srcLoc = tmpPath.getDeparture();
-			LocationENT tarLoc = tmpPath.getDestination();
+			LocationLightENT srcLoc = tmpPath.getDepL();
+			LocationLightENT tarLoc = tmpPath.getDesL();
 			if (i == 0 && source != dep) {
 				long tmp = source;
 				source = target;
 				target = tmp;
-				LocationENT tmpLoc = srcLoc;
+				LocationLightENT tmpLoc = srcLoc;
 				srcLoc = tarLoc;
 				tarLoc = tmpLoc;
 			} else if (i > 0)
-				if (source != res.get(i - 1).getDestination().getLocationID()) {
+				if (source != res.get(i - 1).getDesL().getId()) {
 					long tmp = source;
 					source = target;
 					target = tmp;
-					LocationENT tmpLoc = srcLoc;
+					LocationLightENT tmpLoc = srcLoc;
 					srcLoc = tarLoc;
 					tarLoc = tmpLoc;
 				}
@@ -634,8 +642,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			// System.out.println("tar * " + target);
 			// res.add(new PathENT(getLocationENT(new LocationENT(source)),
 			// getLocationENT(new LocationENT(target))));
-			tmpPath.setDestination(tarLoc);
-			tmpPath.setDeparture(srcLoc);
+			tmpPath.setDesL(tarLoc);
+			tmpPath.setDepL(srcLoc);
 			res.add(tmpPath);
 		}
 		// System.out.println(" getShortestPath End >>>> "
@@ -702,12 +710,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				ent = new PathENT(getLocationENT(new LocationENT(
-						rs.getLong("departure_location_id"))),
-						getLocationENT(new LocationENT(rs
-								.getLong("destination_location_id"))),
-						rs.getDouble("distance"), new PathTypeENT(
-								rs.getInt("path_type")), rs.getLong("path_id"));
+				LocationENT dep = getLocationENT(new LocationENT(
+						rs.getLong("departure_location_id")));
+				LocationENT des = getLocationENT(new LocationENT(
+						rs.getLong("destination_location_id")));
+				ent = new PathENT(new LocationLightENT(dep),
+						new LocationLightENT(des), rs.getDouble("distance"),
+						new PathTypeENT(rs.getInt("path_type")),
+						rs.getLong("path_id"));
 				ent.setPathRoute(rs.getString("path_route"));
 			}
 			ps.close();
@@ -954,18 +964,18 @@ public class LocationDAO extends BaseHibernateDAO implements
 	}
 
 	public LocationENT getLocation(LocationENT location) throws AMSException {
-//		Query q = null;
-//		try {
-//			Session session = getSession();
-//			q = session.createQuery("from LocationENT where locationName =:Id");
-//			q.setString("Id", location.getLocationName());
-//			location = (LocationENT) q.uniqueResult();
-//			session.close();
-//			HibernateSessionFactory.closeSession();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//			location = null;
-//		}
+		// Query q = null;
+		// try {
+		// Session session = getSession();
+		// q = session.createQuery("from LocationENT where locationName =:Id");
+		// q.setString("Id", location.getLocationName());
+		// location = (LocationENT) q.uniqueResult();
+		// session.close();
+		// HibernateSessionFactory.closeSession();
+		// } catch (HibernateException ex) {
+		// ex.printStackTrace();
+		// location = null;
+		// }
 		return location;
 	}
 
