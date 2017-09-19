@@ -330,7 +330,7 @@
 			<div class="ui-block-solo popupSearchResultCloseBTNContainer"
 				id="closeErrorPopupMessage">
 				<a data-role="button" href="#"
-					onclick="$('#popupErrorMessage').popup('close');blurFalse();"
+					onclick="closePopup();"
 					class="closePopupMessage" id="popupErrorMessageCloseBTN"><img
 					src="images/icons/clearInput.png" alt=""
 					class="closeMessageButtonIcon" />Close</a>
@@ -349,7 +349,7 @@
 			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
 			<div class="ui-block-solo">
 				<a data-role="button" href="#"
-					onclick="$('#popupArrivalMessage').popup('close');blurFalse();"
+					onclick="closePopup();"
 					class="closePopupMessage" id="popupArrivalMessageCloseBTN"><img
 					src="images/icons/clearInput.png" alt=""
 					class="closeMessageButtonIcon" />Close</a>
@@ -372,7 +372,7 @@
 					style="display: none;" id="departureButtonGroup">
 					<div class="ui-block-a">
 						<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
-							onclick="$('#popupSearchResult').popup('close');blurFalse();"
+							onclick="closePopup();"
 							class="closePopupMessage"><img
 							src="images/icons/clearInput.png" alt=""
 							class="closeMessageButtonIcon" />Close</a>
@@ -388,7 +388,7 @@
 				<div class="ui-block-solo popupSearchResultCloseBTNContainer"
 					id="destinationButtonGroup">
 					<a data-role="button" href="#" id="popupSearchResultCloseBTN"
-						onclick="$('#popupSearchResult').popup('close');blurFalse();"
+						onclick="closePopup();"
 						class="closePopupMessage"><img
 						src="images/icons/clearInput.png" alt=""
 						class="closeMessageButtonIcon" />Close</a>

@@ -183,8 +183,8 @@ function initMap() {
 	//		.getElementById('topToolBox'));
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
-	//map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
-	//		.getElementById('infoDiv'));
+	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+			.getElementById('infoDiv'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");

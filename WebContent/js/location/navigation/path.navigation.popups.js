@@ -1,6 +1,7 @@
 var is_keyboard = false;
 var is_landscape = false;
 var initial_screen_size = window.innerHeight;
+var popupopen;
 
 /* Android */
 window.addEventListener("resize", function() {
@@ -8,6 +9,31 @@ window.addEventListener("resize", function() {
 	is_landscape = (screen.height < screen.width);
 	updateViews();
 }, false);
+
+document.onkeydown = KeyPress;
+function KeyPress(e) {
+	var eventKeys = window.event ? event : e;
+	if ( popupopen == false){
+		if(eventKeys.keyCode == 27 ){
+			//alert("denied");
+			return false;
+			}	
+	}
+	else {
+		if(eventKeys.keyCode == 27 ){
+			//alert("close");
+			closePopup();
+			}
+	}
+}
+
+function closePopup(){
+	popupopen = false;
+	blurFalse();
+	$('#popupErrorMessage').popup('close');
+	$('#popupArrivalMessage').popup('close');
+	$('#popupSearchResult').popup('close');
+}
 
 function errorMessagePopupOpen(content) {
 	$("#errorMessageContent").html(content).trigger("create");
@@ -18,6 +44,7 @@ function errorMessagePopupOpen(content) {
 //	});
 	$('#popupErrorMessage').popup('open').trigger('create');
 	blurTrue();
+	popupopen = true;
 }
 
 function arrivalMessagePopupOpen() {
@@ -28,6 +55,7 @@ function arrivalMessagePopupOpen() {
 	});
 	$('#popupArrivalMessage').popup('open').trigger('create');
 	blurTrue();
+	popupopen = true;
 }
 
 function searchResultPopupOpen(headerText) {
@@ -65,6 +93,7 @@ function searchResultPopupOpen(headerText) {
 	$('#map_canvas').addClass('off');
 	$('#searchField').trigger("create");
 	$('#searchField').trigger("focus");
+	popupopen = true;
 }
 
 //$("#searchField").bind("focus", function() {

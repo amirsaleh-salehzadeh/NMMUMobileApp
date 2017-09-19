@@ -190,47 +190,27 @@
 		</form>
 	</div>
 </div>
+
+<div class="ui-grid-a" id="topToolBox" style="top: 0;">
+	<div class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
+		Add Building<br> <img src="images/map-markers/building.png"
+			width="48" height="48" />
+	</div>
+	<div class="ui-block-b" onclick="selectALocationTypeToAdd(5)">
+		Add Intersection<br> <img src="images/map-markers/crossroad.png"
+			width="48" height="48">
+	</div>
+</div>
+
+<div id="map_canvas"></div>
+<div id="createType"></div>
+
 <div id="infoDiv" class="ui-block-solo">
 	<ul data-role="listview" id="infoListView">
 		<li id="locationTypeToAdd"></li>
 		<li id="parentDescriptionToAdd"></li>
 	</ul>
 </div>
-
-<div class="ui-grid-a" id="topToolBox" style="top: 0;">
-	<div class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
-		Add Building<br> <img src="images/map-markers/building.png"
-			width="48" height="48" />
-	</div>
-	<div class="ui-block-b" onclick="selectALocationTypeToAdd(5)">
-		Add Intersection<br> <img src="images/map-markers/crossroad.png"
-			width="48" height="48">
-	</div>
-</div>
-
-<div class="ui-block-solo">
-	<input type="button" data-icon="plus" value="Add Boundary"
- 	id="addBoundary" onclick="addPolygon()">
-</div>
-
-<div id="map_canvas"></div>
-<div id="createType"></div>
-<!-- 
-<div class="ui-grid-a" id="topToolBox" style="top: 0;">
-	<div class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
-		Add Building<br> <img src="images/map-markers/building.png"
-			width="48" height="48" />
-	</div>
-	<div class="ui-block-b" onclick="selectALocationTypeToAdd(5)">
-		Add Intersection<br> <img src="images/map-markers/crossroad.png"
-			width="48" height="48">
-	</div>
-</div>
-
-<div class="ui-block-solo">
-	<input type="button" data-icon="plus" value="Add Boundary"
- 	id="addBoundary" onclick="addPolygon()">
-</div> -->
 
 <!-- SEARCH FEILD RIGHT SIDE -->
 
@@ -305,46 +285,19 @@
  
 	<div class="ui-block-solo">
 		<div id="modal">
-      		<div id="main-cropper">
+      		<span>Upload file for icon</span>
+      		<input type="file" id="upload" value="Choose Image" accept="image/*">
+<!--        		<a class="button actionUpload" href="#" onclick="callReadFile();"> -->
+<!--         	<span>Upload</span> -->
+<!--         	<input type="file" id="upload" value="Choose Image" accept="image/*"> -->
+<!--       		</a> -->
+			<div id="main-cropper">
       		</div>
-       		<a class="button actionUpload" href="#" onclick="callReadFile();">
-        	<span>Upload</span>
-        	<input type="file" id="upload" value="Choose Image" accept="image/*">
-      		</a>
-      		<input type="file" id="upload2" value="Choose Image" accept="image/*">
-      		<button class="actionDone">Done</button>
-      		<button class="actionCancel">Cancel</button>
+      		<button class="saveIcon" id="saveIcon">Save Icon</button>
+<!--       		<button class="actionCancel">Cancel</button> -->
  		</div>
 	</div>
 	</br>
-	<!-- 	<div class="ui-block-solo"> -->
-	<!-- 		<input id="file" type="file" name="pic" accept="image/*" /> <br> -->
-	<!-- 		<div class="ui-grid-c" id="imageEdit"> -->
-	<!-- 			     -->
-	<!-- 			<div class="ui-block-a"> -->
-	<!-- 				<button id="cropbutton" type="button">Crop</button> -->
-	<!-- 			</div> -->
-	<!-- 			     -->
-	<!-- 			<div class="ui-block-b"> -->
-	<!-- 				<button id="scalebutton" type="button">Scale</button> -->
-	<!-- 			</div> -->
-	<!-- 			      -->
-	<!-- 			<div class="ui-block-c"> -->
-	<!-- 				<button id="rotatebutton" type="button">Rotate</button> -->
-	<!-- 			</div> -->
-	<!-- 			<div class="ui-block-d"> -->
-	<!-- 				<button id="saveIcon" type="button">Save</button> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<br> -->
-	<!-- 		<div id="views"></div> -->
-	<!-- 	</div> -->
-	<!-- 	<input type="hidden" name="icon" id="icon" value=""> <input -->
-	<!-- 		type="hidden" name="boundary" id="boundary" value=""> -->
-	<!-- 	<div class="ui-block-solo"> -->
-	<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
-	<!-- 			id="addBoundary" onclick="addPolygon()"> -->
-	<!-- 	</div> -->
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all"

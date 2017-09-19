@@ -195,52 +195,53 @@ $("#form").submit(function(e) {
     complete: function(data) {}
   });
 });
+*/
 
-/*
-function demoUpload() {
-
-	var $uploadCrop;
-
-	function readFile(input) {
-			if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            
-            reader.onload = function (e) {
-				$('.upload-demo').addClass('ready');
-            	$uploadCrop.croppie('bind', {
-            		url: e.target.result
-            	}).then(function(){
-            		console.log('jQuery bind complete');
-            	});
-            	
-            };
-            
-            reader.readAsDataURL(input.files[0]);
-        }
-        else {
-	        swal("Sorry - you're browser doesn't support the FileReader API");
-	    }
-	}
-
-	$uploadCrop = $('#upload-demo').croppie({
-		viewport: {
-			width: 100,
-			height: 100,
-			type: 'square'
-		}
-	});
-
-	$('#upload').on('change', function () { readFile(this); alert("Hi"); });
-	$('.upload-result').on('click', function (ev) {
-		$uploadCrop.croppie('result', {
-			type: 'canvas',
-			size: 'viewport'
-		}).then(function (resp) {
-			dataURL  = canvas.toDataURL();
-		});
-	});
-	
-}*/
+//function demoUpload() {
+//
+//	var $uploadCrop;
+//
+//	function readFile(input) {
+//			if (input.files && input.files[0]) {
+//            var reader = new FileReader();
+//            
+//            reader.onload = function (e) {
+//				//$('.upload-demo').addClass('ready');
+//            	$uploadCrop.croppie('bind', {
+//            		url: e.target.result
+//            	}).then(function(){
+//            		console.log('jQuery bind complete');
+//            	});
+//            	
+//            };
+//            
+//            reader.readAsDataURL(input.files[0]);
+//        }
+//        else {
+//	        swal("Sorry - you're browser doesn't support the FileReader API");
+//	    }
+//	}
+//
+//	$uploadCrop = $('#main-cropper').croppie({
+//		viewport: {
+//			width: 100,
+//			height: 100,
+//			type: 'square'
+//		}
+//	});
+//
+//	$('#upload').on('change', function () { readFile(this); alert("Hi"); });
+//	$('#saveIcon').on('click', function (ev) {
+//		$uploadCrop.croppie('result', {
+//			type: 'canvas',
+//			size: 'viewport'
+//		}).then(function (resp) {
+//			dataURL  = canvas.toDataURL();
+//			alert(dataURL);
+//		});
+//	});
+//	
+//}
 
 var basic = $('#main-cropper').croppie({
     viewport: { width: 128, height: 128 },
@@ -257,8 +258,8 @@ function readFile(input) {
       $('#main-cropper').croppie('bind', {
         url: e.target.result
       });
-      $('.actionDone').toggle();
-      $('.actionUpload').toggle();
+      //$('.actionDone').toggle();
+      //$('.actionUpload').toggle();
     };
 
     reader.readAsDataURL(input.files[0]);
@@ -268,12 +269,33 @@ function readFile(input) {
   }
 }
 function callReadFile(){
-	alert("Hi");
+	//alert("Hi");
 }
-$('.actionUpload input').on('change', function () {readFile(this); });
-$("#upload2").change(function () { alert("hi2");readFile(this); });
-$('.actionDone').on('click', function(){
-  $('.actionDone').toggle();
-  $('.actionUpload').toggle();
-  dataURL  = canvas.toDataURL();
+
+//$('.actionUpload input').on('change', function () {readFile(this); });
+$("#upload").change(function () {readFile(this);});
+//$('#saveIcon').on('click', function(){
+//  $('.actionDone').toggle();
+//  $('.actionUpload').toggle();
+//  dataURL  = canvas.toDataURL();
+//});
+
+$('#saveIcon').on('click', function (ev) {
+	$('#main-cropper').croppie('result', {
+		type: 'canvas',
+		size: 'viewport'
+	}).then(function (canvas) {
+		dataURL  = canvas.toDataURL();
+		alert(dataURL);
+	});
 });
+
+//$('#saveIcon').on('click', function () {
+//	$('#main-cropper').croppie('result', {
+//		type: 'rawcanvas',
+//		format: 'png'
+//	}).then(function (canvas) 
+//			{dataURL = canvas.toDataURL();});
+//	alert(dataURL);
+//});
+
