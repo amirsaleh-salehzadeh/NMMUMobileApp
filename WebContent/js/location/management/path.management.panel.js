@@ -1,5 +1,5 @@
 var locationTypeJSONData;
-var arrLocationTypes=[];
+var arrAreas = ['South_369_2','North_371_2'];
 var arrLocationTypesTest=['Client_0_1','Area_1_2','Building_2_3','Level_3_4','Outdoor Intersection_2_5','Staircase_4_6','Room_4_7','Elevator_4_8','Indoor Intersection_4_9','Entrance_4_10'];
 function getLocationTypePanel() {
 	 
@@ -136,8 +136,6 @@ function selectParent(field) {
 }
 function getDecendentList() {// gets all the children types and locations
 									// for a location
-	
-	
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId=360&locationTypeId=2&userName=NMMU";
 	$
 			.ajax({
@@ -146,16 +144,21 @@ function getDecendentList() {// gets all the children types and locations
 				async : true,
 				success : function(data) {
 					locationTypeJSONData = data;
-					var str = "";
+					var strCampus = "";
 					$
 							.each(
 									data,
 									function(k, l) {
-										alert(l.locationName+" "+l.locationID);
-										str="";
-										str += "<li><div>"+l.locationName+"</div>";
-										str+= getLocationDecendents(2,l.locationID);
-										$("#my-tree").html($("#my-tree").html()+str);
+										strCampus= l.locationName +"_"+l.locationID+"_"+"2"   ;
+//										if(l.locationID=="369"){
+//										strCampus="";
+//										strCampus += "<li><div>"+l.locationName+"</div><ul>";
+//										strCampus+= getlocationDecendentType(2,l.locationID);
+//										strCampus+="</ul></li>";
+//										$("#my-tree").html($("#my-tree").html()+strCampus);
+//										}
+									//	console.log(strCampus);
+										arrAreas.push(strCampus);
 									});
 					
 				},
@@ -164,91 +167,71 @@ function getDecendentList() {// gets all the children types and locations
 					alert(thrownError);
 				}
 			});
-//	$("#my-tree").html(str);
-//	$('#' + $(field).attr("id")).html($('#' + $(field).attr("id")).html() + str);
-//	$("#my-tree").html($("#my-tree").html());
+//	alert("Before Initite");
+	initiateTreeItems();
+//	alert("After Initite");
+
 }
-function getLocationDecendents(typeId,locationId){
+function initiateTreeItems(){
+	
+	for (var i = 0; i < arrAreas.length; i++){
+	console.log(arrAreas[i]);
+	var strCampus="";
+	strCampus += "<li><div>"+arrAreas[i].split("_")[0]+"</div><ul>";
+	strCampus+= getlocationDecendentType("2",arrAreas[i].split("_")[1]);
+	alert(getlocationDecendentType(2,arrAreas[i].split("_")[1]));
+	strCampus+="</ul></li>";
+	$("#my-tree").html($("#my-tree").html()+strCampus);
+	}
+	
+	
+}
+
+function getlocationDecendentType(locationTypeId,locationId){
 	var str = "";
-	for (var i = 0; i < arrLocationTypesTest.length; i++) {
-		if(typeId==arrLocationTypesTest[i].split("_")[1]){
-		str+="<ul>";
-		str += "<li><div>"+arrLocationTypesTest[i].split("_")[0]+"</div>";
-		str+=getChildLocations(locationId, arrLocationTypesTest[i].split("_")[2]);
-		str+="</li></ul>";
-	 }
+	for (var i = 0; i < arrLocationTypesTest.length; i++){
+		if(locationTypeId==arrLocationTypesTest[i].split("_")[1]){
+			alert(arrLocationTypesTest[i].split("_")[0]);
+		str += "<li><div>"+arrLocationTypesTest[i].split("_")[0]+"</div><ul>";
+//		console.log(arrLocationTypesTest[i].split("_")[2]);
+//		console.log(arrLocationTypesTest[i].split("_")[0]);
+//		getChildLocations(locationId, arrLocationTypesTest[i].split("_")[2]);
+		str +="</ul></li>";
 	}
   return str;
-}
-function getChildLocations(parentID, locationTypeID) {// creates the string for the
-												// list items of the location
-												// type and returns it
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="+parentID+"&locationTypeId="+locationTypeID+"&userName=NMMU";
-	var str = "<ul>";
-	$
-			.ajax({
-				url : url,
-				cache : false,
-				async : true,
-				success : function(data) {
-					
-					$
-							.each(
-									data,
-									function(k, l) {
-										//conlose.log(l.locationName);
-//										str += '<li><div>'+ l.locationName + '</div>';
-//										str += getLocationDecendents(l.locationType.locationTypeId,l.locationID);
-									});
-				},
-				error : function(xhr, ajaxOptions, thrownError) {
-					alert(xhr.status);
-					alert(thrownError);
-				}
-			});
-
-	str += "</ul>";
-	return str;
+  }
 }
 
-function checkChilden(typeID, parentID) {// checks if location has types
-											// under it and locations of those
-											// types
-	var check = true;
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-			+ parentID+
-	"&locationTypeId=" + typeID + "&userName=NMMU";
-	$.ajax({
-		url : url,
-		cache : false,
-		async : true,
-		success : function(data) {
-			if (data == null || data == "") {
-				check = false;
-			}
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-		}
-	});
-	var url = "REST/GetLocationWS/GetAllLocationTypesForUser?parentId="
-			+ parentID+
-	"&locationTypeId=" + typeID;
-	$.ajax({
-		url : url,
-		cache : false,
-		async : true,
-		success : function(data) {
-			if (data == null || data == "") {
-				check = false;
-			}
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-		}
-	});
+//function getChildLocations(parentID, locationTypeID) {// creates the string for the
+//												// list items of the location
+//												// type and returns it
+//	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId=369&locationTypeId=3&userName=NMMU";
+//	var locations="";
+//	$.ajax({
+//				url : url,
+//				cache : false,
+//				async : true,
+//				success : function(data) {
+//					console.log("Starts");
+//					$
+//							.each(
+//									data,
+//									function(k, l) {
+////										if(l.locationType.locationTypeId=="3"){
+//										console.log(l.locationName);	
+//										locations += '<li><div>'+ l.locationName + '</div><ul>';
+//										//locations += getlocationDecendentType(l.locationType.locationTypeId,l.locationID);
+//										locations+='</ul></li>';
+//									
+//										});
+//					},
+//				error : function(xhr, ajaxOptions, thrownError) {
+//					alert(xhr.status);
+//					alert(thrownError);
+//				
+//			     }
+//			});
+//			
+//	return locations;
+//}
 
-	return check;
-}

@@ -50,6 +50,8 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(1000);
+		 browserCheck();
+		  iOSCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(110);
@@ -62,6 +64,29 @@
 		if (sdf >= 360)
 			sdf = 0;
 		displayImage(sdf);
+	}
+function browserCheck(){
+	
+		var isFirefox = typeof InstallTrigger !== 'undefined';
+		// Safari 3.0+ "[object HTMLElementConstructor]" 
+		var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+		// Chrome 1+
+		var isChrome = !!window.chrome && !!window.chrome.webstore;
+
+		if((!isFirefox)&&(!isSafari)&&(!isChrome)){
+			errorMessagePopupOpen("For the best performance please use either Google Chrome, Firefox or Safari browsers.");
+		}
+	}
+	function iOSCheck(){
+		
+		  // determine OS
+		 var platform = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;		
+		  
+		  if(platform == "iOS"){
+			  $('#mapViewSelect').css('display','none');
+			  $('#dualModeSelect').css('display','none');
+		  }
+		 
 	}
 </script>
 <body>

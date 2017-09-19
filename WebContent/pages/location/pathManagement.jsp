@@ -158,16 +158,6 @@
 				+ " second/s.";
 		return String;
 	}
-	$(function() {
-		var tree = new treefilter($("#my-tree"), {
-
-			// OPTIONS
-			searcher : $("input#my-search"),
-              expanded:true
-		});
-		
-	});
-	
 </script>
 <link rel="stylesheet" href="css/jquery.treefilter.css">
 <link href="css/location/management/path.management.css"
@@ -197,10 +187,8 @@
 <div id="createType"></div>
 <div>
 	<ul id="my-tree">
-		
 	</ul>
 </div>
-
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
 		<li id="locationTypeToAdd"></li>
