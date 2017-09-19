@@ -184,8 +184,8 @@
 			<div class="ui-block-solo" id="destinationNameDiv">
 				<a data-role="button" href="#" data-rel="popup" href="#"
 					data-transition="turn" id="destinationName"
-					onclick="searchResultPopupOpen('To');">Find a
-					Place</a> <span onclick="clearSearchBTN()"></span>
+					onclick="searchResultPopupOpen('To');">Find a Place</a> <span
+					onclick="clearSearchBTN()"></span>
 			</div>
 
 		</div>
@@ -211,8 +211,9 @@
 					alt="" title="" border="0"></a>
 			</div>
 			<div class="ui-block-solo">
-				<input type="button" class="zoomBTN" id="mapViewSelect" onclick="selectMapMode()"></input>
-				<input type="button" class="zoomBTN" id="dualModeSelect" onclick="selectDualMode()"></input>
+				<input type="button" class="zoomBTN" id="mapViewSelect"
+					onclick="selectMapMode()"></input> <input type="button"
+					class="zoomBTN" id="dualModeSelect" onclick="selectDualMode()"></input>
 			</div>
 			<div class="ui-block-solo" style="display: none;">
 				<input disabled="disabled" type="text" id="visitorCounter"
@@ -282,10 +283,9 @@
 
 				</div>
 				<div id="locationInf"></div>
-<!-- 				WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
-				<button id="start"
-					onclick="searchResultPopupOpen('FROM');">
-<!-- 					WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
+				<!-- 				WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
+				<button id="start" onclick="searchResultPopupOpen('FROM');">
+					<!-- 					WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
 					Get <br />Directions
 				</button>
 			</div>
@@ -399,8 +399,13 @@
 					data-role="none"> <span onclick="searchFieldDivClearBTN();"></span>
 			</div>
 			<div class="ui-block-solo" id="resultsListViewDiv">
-				<ul data-role="listview" id="resultsListView" data-filter="true"
-					data-inset="true" data-input="#searchField"></ul>
+				<!-- 				<ul data-role="listview" id="resultsListView" data-filter="true" -->
+				<!-- 					data-inset="true" data-input="#searchField"></ul> -->
+				<div data-role="content">
+					<div data-role="collapsible-set" id="resultsListViewContentDiv"
+						data-input="#searchField" data-filter="true"
+						data-collapsed="false"></div>
+				</div>
 			</div>
 		</div>
 	</div>

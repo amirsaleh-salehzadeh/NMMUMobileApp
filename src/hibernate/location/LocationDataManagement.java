@@ -105,7 +105,7 @@ public class LocationDataManagement extends BaseHibernateDAO {
 			String bottomRight, String BottomLeft) {
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "3,5",
-				"0,360");
+				"");
 		double latTL = Double.parseDouble(topLeft.split(",")[0]);
 		double lngTL = Double.parseDouble(topLeft.split(",")[1]);
 		double latBL = Double.parseDouble(BottomLeft.split(",")[0]);
@@ -123,7 +123,7 @@ public class LocationDataManagement extends BaseHibernateDAO {
 			double lng = Double.parseDouble(gps[1]);
 			if (lat < latTL && lng > lngTL && lat < latTR && lng < lngTR
 					&& lat > latBL && lng > lngBL && lat > latBR && lng < lngBR) {
-				ent.setParentId(370);
+				ent.setParentId(367);
 				System.out.println(ent.getLocationName() + " "
 						+ ent.getLocationID());
 				try {
@@ -171,8 +171,8 @@ public class LocationDataManagement extends BaseHibernateDAO {
 		// "-33.966208,25.619162", "-33.966277,25.616377");
 
 		// Missionvale
-		// updateAllGPSParents("-33.870589,25.549132", "-33.870016,25.555359",
-		// "-33.874217,25.556063", "-33.875109,25.549600");
+		 updateAllGPSParents("-33.870589,25.549132", "-33.870016,25.555359",
+		 "-33.874217,25.556063", "-33.875109,25.549600");
 
 		// George Campus
 		// updateAllGPSParents("-33.9438158,22.5002528",
@@ -205,6 +205,6 @@ public class LocationDataManagement extends BaseHibernateDAO {
 		// }
 		// }
 
-		updateAllDescriptions();
+//		updateAllDescriptions();
 	}
 }

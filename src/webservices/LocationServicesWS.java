@@ -66,19 +66,21 @@ public class LocationServicesWS {
 		try {
 			LocationENT search = new LocationENT();
 			search.setLocationName(locationName);
-			search.setUserName(userName);
 			search.setLocationType(new LocationTypeENT(0, locationType));
 			search.setUserName(userName);
-			LocationLST ls = new LocationLST();
-			ls.setSearchLocation(search);
-			try {
+			search.setLocationID(360);
+//			LocationLST ls = new LocationLST();
+//			ls.setSearchLocation(search);
+//			try {
+//				json = mapper.writeValueAsString(getLocationDAO()
+//						.searchForLocations(ls).getLocationENTs());
 				json = mapper.writeValueAsString(getLocationDAO()
-						.searchForLocations(ls).getLocationENTs());
+						.getLocationWithChildren(search));
 				System.out.println(json);
-			} catch (AMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			} catch (AMSException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -195,6 +197,7 @@ public class LocationServicesWS {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println(json);
 		return json;
 	}
 

@@ -54,5 +54,7 @@ public interface LocationDAOInterface {
 	
 	public LocationENT getLocationENTAncestors(long locationId);
 	
+	public LocationENT getLocationWithChildren(LocationENT parent);
+	
 	
 }

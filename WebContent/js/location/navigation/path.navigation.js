@@ -109,13 +109,11 @@ function getThePath() {
 					setCookie('TripPathIdsCookie', pathIds, 1);
 					setCookie('TripPathGPSCookie', pathGPSs, 1);
 					setCookie('TripPathLocationsCookie', pathLocations, 1);
-					blurFalse();
 					if (dataLength == 0) {
-						hideBottomPanel();
-						blurFalse();
-						removeTrip();
+//						removeTrip();
 						errorMessagePopupOpen("There is no routes for this enquiry");
 					}else{
+						blurFalse();
 						resetWalking();
 						drawConstantPolyline();
 						hideBottomPanel();
