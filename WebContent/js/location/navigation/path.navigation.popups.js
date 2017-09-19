@@ -11,11 +11,11 @@ window.addEventListener("resize", function() {
 
 function errorMessagePopupOpen(content) {
 	$("#errorMessageContent").html(content).trigger("create");
-	$('#popupErrorMessage').popup();
-	$('#popupErrorMessage').popup({
-		history : false,
-		transition : "turn"
-	});
+//	$('#popupErrorMessage').popup();
+//	$('#popupErrorMessage').popup({
+//		history : false,
+//		transition : "turn"
+//	});
 	$('#popupErrorMessage').popup('open').trigger('create');
 	blurTrue();
 }
