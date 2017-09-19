@@ -159,6 +159,7 @@
 		return String;
 	}
 </script>
+<link href="css/location/croppie.css" rel="stylesheet">
 <link href="css/location/management/path.management.css"
 	rel="stylesheet">
 <link href="css/location/management/path.management.toolbox.css"
@@ -182,17 +183,14 @@
 		</form>
 	</div>
 </div>
-<div id="map_canvas"></div>
-<div id="createType"></div>
-
-<div id="infoDiv">
+<div id="infoDiv" class="ui-block-solo">
 	<ul data-role="listview" id="infoListView">
 		<li id="locationTypeToAdd"></li>
 		<li id="parentDescriptionToAdd"></li>
 	</ul>
 </div>
 
-<div class="ui-grid-a" id="topToolBox">
+<div class="ui-grid-a" id="topToolBox" style="top: 0;">
 	<div class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
 		Add Building<br> <img src="images/map-markers/building.png"
 			width="48" height="48" />
@@ -202,6 +200,30 @@
 			width="48" height="48">
 	</div>
 </div>
+
+<div class="ui-block-solo">
+	<input type="button" data-icon="plus" value="Add Boundary"
+ 	id="addBoundary" onclick="addPolygon()">
+</div>
+
+<div id="map_canvas"></div>
+<div id="createType"></div>
+<!-- 
+<div class="ui-grid-a" id="topToolBox" style="top: 0;">
+	<div class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
+		Add Building<br> <img src="images/map-markers/building.png"
+			width="48" height="48" />
+	</div>
+	<div class="ui-block-b" onclick="selectALocationTypeToAdd(5)">
+		Add Intersection<br> <img src="images/map-markers/crossroad.png"
+			width="48" height="48">
+	</div>
+</div>
+
+<div class="ui-block-solo">
+	<input type="button" data-icon="plus" value="Add Boundary"
+ 	id="addBoundary" onclick="addPolygon()">
+</div> -->
 
 <!-- SEARCH FEILD RIGHT SIDE -->
 
@@ -272,6 +294,21 @@
 <!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
 <!-- 			id="addBoundary" onclick="addPolygon()"> -->
 <!-- 	</div> -->
+ 
+	<div class="ui-block-solo">
+		<div id="modal">
+      		<div id="main-cropper">
+      		</div>
+       		<a class="button actionUpload" href="#" onclick="callReadFile();">
+        	<span>Upload</span>
+        	<input type="file" id="upload" value="Choose Image" accept="image/*">
+      		</a>
+      		<input type="file" id="upload2" value="Choose Image" accept="image/*">
+      		<button class="actionDone">Done</button>
+      		<button class="actionCancel">Cancel</button>
+ 		</div>
+	</div>
+	</br>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all"
@@ -323,6 +360,8 @@
 			onclick="saveThePath()">Save</a>
 	</div>
 </div>
+<script src="js/croppie.js"></script>
+<script src="js/leanModal.min.js"></script>  
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.image.js"></script>

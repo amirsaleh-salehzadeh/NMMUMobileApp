@@ -1,11 +1,14 @@
+/*
 var crop_max_width = 400;
 var crop_max_height = 400;
 var jcrop_api;
 var canvas;
 var context;
 var image;
+*/
 var dataURL;
 
+/*
 var prefsize;
 
 $("#file").change(function() {
@@ -240,8 +243,8 @@ function demoUpload() {
 }*/
 
 var basic = $('#main-cropper').croppie({
-    viewport: { width: 250, height: 250 },
-    boundary: { width: 300, height: 300 },
+    viewport: { width: 128, height: 128 },
+    boundary: { width: 250, height: 250 },
     showZoomer: false,
     url: 'images/NMMU_logo.png'
 });
@@ -260,9 +263,15 @@ function readFile(input) {
 
     reader.readAsDataURL(input.files[0]);
   }
+  else {
+      swal("Sorry - you're browser doesn't support the FileReader API");
+  }
 }
-
-$('.actionUpload input').on('change', function () { readFile(this); });
+function callReadFile(){
+	alert("Hi");
+}
+$('.actionUpload input').on('change', function () {readFile(this); });
+$("#upload2").change(function () { alert("hi2");readFile(this); });
 $('.actionDone').on('click', function(){
   $('.actionDone').toggle();
   $('.actionUpload').toggle();

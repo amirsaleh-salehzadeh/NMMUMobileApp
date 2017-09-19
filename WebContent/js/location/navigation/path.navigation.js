@@ -354,6 +354,7 @@ var errorHandler = function(errorObj) {
 };
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+	
 	infoWindow.setPosition(pos);
 	infoWindow
 			.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
@@ -492,3 +493,20 @@ $(document).ready(function() {
 //	removeTrip();
 	getLocationTypePanel();
 });
+
+function errorMessagePopupOpen(content) {
+	$("#errorMessageContent").html(content).trigger("create");
+	$('#popupErrorMessage').popup();
+	$('#popupErrorMessage').popup({history: false, transition:"turn"});
+	$('#popupErrorMessage').popup('open').trigger('create');
+//	$('#popupErrorMessage').trigger('updatelayout');
+//	$('#map_canvas').toggleClass('off');
+}
+/*
+function arrivalMessagePopupOpen() {
+	$('#popupArrivalMessage').popup().trigger('create');
+	$('#popupArrivalMessage').popup({history: false, transition:"turn"});
+	$('#popupArrivalMessage').popup('open').trigger('create');
+//	$('#popupErrorMessage').trigger('updatelayout');
+	$('#map_canvas').toggleClass('off');
+}*/
