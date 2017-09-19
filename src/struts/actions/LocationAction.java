@@ -90,13 +90,13 @@ public class LocationAction extends Action {
 			return mapping.findForward("locationEdit");
 		}
 		locationENT.setLocationID(locationId);
-		try {
+//		try {
 			request.setAttribute("locationENT", getLocationDAO()
-					.getLocation(locationENT));
-		} catch (AMSException e) {
-			error = e.getMessage();
-			e.printStackTrace();
-		}
+					.getLocationENT(locationENT));
+//		} catch (AMSException e) {
+//			error = e.getMessage();
+//			e.printStackTrace();
+//		}
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("locationEdit");

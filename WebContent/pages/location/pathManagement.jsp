@@ -115,6 +115,13 @@
 	overflow: visible;
 	padding: .3em .1em;
 }
+
+#locationDescription {
+	overflow-y: scroll;
+	max-height: 100px;
+	min-width: 333px;
+	resize: none;
+}
 /*
 #views {
     display: block;
@@ -262,9 +269,10 @@
 			value="">
 	</div>
 	<div class="ui-block-solo">
-		<label for="locationDescription" id="DescriptionLabel"></label> <input
-			type="text" placeholder="Location Description"
-			name="locationDescription" id="locationDescription" value="">
+		<label for="locationDescription" id="DescriptionLabel"></label>
+		<textarea type="text" placeholder="Location Description"
+			name="locationDescription" id="locationDescription" value="" rows="5"
+			cols="17"></textarea>
 	</div>
 <!-- 	<div class="ui-block-solo"> -->
 <!-- 		<input id="file" type="file" name="pic" accept="image/*" /> <br> -->
@@ -309,6 +317,34 @@
  		</div>
 	</div>
 	</br>
+	<!-- 	<div class="ui-block-solo"> -->
+	<!-- 		<input id="file" type="file" name="pic" accept="image/*" /> <br> -->
+	<!-- 		<div class="ui-grid-c" id="imageEdit"> -->
+	<!-- 			     -->
+	<!-- 			<div class="ui-block-a"> -->
+	<!-- 				<button id="cropbutton" type="button">Crop</button> -->
+	<!-- 			</div> -->
+	<!-- 			     -->
+	<!-- 			<div class="ui-block-b"> -->
+	<!-- 				<button id="scalebutton" type="button">Scale</button> -->
+	<!-- 			</div> -->
+	<!-- 			      -->
+	<!-- 			<div class="ui-block-c"> -->
+	<!-- 				<button id="rotatebutton" type="button">Rotate</button> -->
+	<!-- 			</div> -->
+	<!-- 			<div class="ui-block-d"> -->
+	<!-- 				<button id="saveIcon" type="button">Save</button> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 		<br> -->
+	<!-- 		<div id="views"></div> -->
+	<!-- 	</div> -->
+	<!-- 	<input type="hidden" name="icon" id="icon" value=""> <input -->
+	<!-- 		type="hidden" name="boundary" id="boundary" value=""> -->
+	<!-- 	<div class="ui-block-solo"> -->
+	<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
+	<!-- 			id="addBoundary" onclick="addPolygon()"> -->
+	<!-- 	</div> -->
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all"

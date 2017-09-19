@@ -40,7 +40,7 @@ public class LocationServicesWS {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			if(parentLocationIds.equalsIgnoreCase("0"))
+			if (parentLocationIds.equalsIgnoreCase("0"))
 				parentLocationIds = null;
 			json = mapper.writeValueAsString(getLocationDAO()
 					.getAllLocationsForUser(userName, locationTypeIds,
@@ -66,19 +66,21 @@ public class LocationServicesWS {
 		try {
 			LocationENT search = new LocationENT();
 			search.setLocationName(locationName);
-			search.setUserName(userName);
 			search.setLocationType(new LocationTypeENT(0, locationType));
 			search.setUserName(userName);
-			LocationLST ls = new LocationLST();
-			ls.setSearchLocation(search);
-			try {
+			search.setLocationID(360);
+//			LocationLST ls = new LocationLST();
+//			ls.setSearchLocation(search);
+//			try {
+//				json = mapper.writeValueAsString(getLocationDAO()
+//						.searchForLocations(ls).getLocationENTs());
 				json = mapper.writeValueAsString(getLocationDAO()
-						.searchForLocations(ls).getLocationENTs());
+						.getLocationWithChildren(search));
 				System.out.println(json);
-			} catch (AMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			} catch (AMSException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -171,15 +173,23 @@ public class LocationServicesWS {
 	public String getADirectionFromTo(@QueryParam("from") String from,
 			@QueryParam("to") String to, @QueryParam("pathType") int pathType,
 			@QueryParam("destinationId") long destinationId,
-			@QueryParam("departureId") long departureId){
+			@QueryParam("departureId") long departureId) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			if(destinationId <=0)//building and external intersection
-				destinationId =	getLocationDAO().findClosestLocation(to, "3,5").getLocationID();
-			if(departureId <=0)
-				departureId =	getLocationDAO().findClosestLocation(from, "3,5").getLocationID();
-			json = mapper.writeValueAsString(getLocationDAO().getShortestPath(departureId, destinationId, pathType));
+			LocationENT destENT = new LocationENT();
+			if (destinationId <= 0) {
+				destENT = getLocationDAO().findClosestLocation(to, "3,5", null);
+				destinationId = destENT.getLocationID();
+			}
+				// building and external intersection
+			if (departureId <= 0){
+				destENT = getLocationDAO().getLocationENT(new LocationENT(destinationId));
+				departureId = getLocationDAO().findClosestLocation(from, "3,5", destENT.getParentId()+"")
+						.getLocationID();
+			}
+			json = mapper.writeValueAsString(getLocationDAO().getShortestPath(
+					departureId, destinationId, pathType));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -187,11 +197,10 @@ public class LocationServicesWS {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-//		throw new JSONException("test");
+		System.out.println(json);
 		return json;
 	}
-	
+
 	@GET
 	@Path("/FindClosestBuilding")
 	@Produces("application/json")
@@ -199,7 +208,10 @@ public class LocationServicesWS {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			json = mapper.writeValueAsString(getLocationDAO().getLocationENTAncestors(getLocationDAO().findClosestLocation(from, "3,5").getLocationID()));
+			json = mapper.writeValueAsString(getLocationDAO()
+					.getLocationENTAncestors(
+							getLocationDAO().findClosestLocation(from, "3,5", null)
+									.getLocationID()));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -221,8 +233,7 @@ public class LocationServicesWS {
 			@QueryParam("coordinate") String coordinate,
 			@QueryParam("description") String description,
 			@QueryParam("boundary") String boundary,
-			@QueryParam("plan") String plan,
-			@QueryParam("icon") String icon,
+			@QueryParam("plan") String plan, @QueryParam("icon") String icon,
 			@QueryParam("parentId") long parentId) {
 		LocationENT ent = new LocationENT(locationId, userName,
 				new LocationTypeENT(locationType), address, coordinate,
