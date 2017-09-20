@@ -65,12 +65,6 @@ function arrivalMessagePopupOpen() {
 
 function searchResultPopupOpen(headerText) {
 	if (headerText.indexOf("ROM") != -1) {
-		$("li").each(function() {
-			var id = $(this).attr("id") + "";
-			if (id.indexOf($("#from").val()) >= 0) {
-				$(this).css("color","#ddd").trigger("create");
-			}
-		});
 		$("#departureButtonGroup").css("display", "block").trigger("create");
 		$("#destinationButtonGroup").css("display", "none").trigger("create");
 		$("#destinationDefVal")

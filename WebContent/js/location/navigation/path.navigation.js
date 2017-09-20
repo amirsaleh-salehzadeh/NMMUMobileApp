@@ -60,25 +60,24 @@ function getThePath() {
 		});
 	}
 	var dataLength = 0;
-	$.ajax(
-			{
-				url : url,
-				cache : true,
-				async : false,
-				// dataType: 'json',
-				beforeSend : function() {
-					blurTrue();
-					showBottomPanel();
-					$("#locationInf").html('');
-					$(".spinnerLoading").css('display', 'block').trigger(
-							"create");
-				},
-				success : function(data) {
-					var pathIds = "";
-					var pathGPSs = "";
-					var pathLocations = "";
-					dataLength = data.length;
-					$.each(data, function(k, l) {
+	$.ajax({
+		url : url,
+		cache : true,
+		async : false,
+		// dataType: 'json',
+		beforeSend : function() {
+			blurTrue();
+			showBottomPanel();
+			$("#locationInf").html('');
+			$(".spinnerLoading").css('display', 'block').trigger("create");
+		},
+		success : function(data) {
+			var pathIds = "";
+			var pathGPSs = "";
+			var pathLocations = "";
+			dataLength = data.length;
+			$.each(data,
+					function(k, l) {
 						if (k == 0) {
 							pathIds = l.depL.id + "," + l.desL.id;
 							if (l.pathRoute != null && l.pathRoute.length > 0) {
@@ -104,29 +103,35 @@ function getThePath() {
 							$("#destinationDef").html(l.desL.n);
 						}
 					});
-					$("#departureId").val(pathIds.split(",")[0]);
-					$("#destinationId").val(
-							pathIds.split(",")[pathIds.split(",").length - 1]);
-					setCookie('TripPathIdsCookie', pathIds, 1);
-					setCookie('TripPathGPSCookie', pathGPSs, 1);
-					setCookie('TripPathLocationsCookie', pathLocations, 1);
-					if (dataLength == 0) {
-						errorMessagePopupOpen("There is no routes for this enquiry");
-					} else {
-						blurFalse();
-						resetWalking();
-						drawConstantPolyline();
-						hideBottomPanel();
-						setTimeout(showViewItems(), 1500);
-					}
-				},
-				error : function(xhr, ajaxOptions, thrownError) {
-					hideBottomPanel();
-					blurFalse();
-					removeTrip();
-					errorMessagePopupOpen(thrownError);
-				}
-			});
+			$("#departureId").val(pathIds.split(",")[0]);
+			$("#destinationId").val(
+					pathIds.split(",")[pathIds.split(",").length - 1]);
+			setCookie('TripPathIdsCookie', pathIds, 1);
+			setCookie('TripPathGPSCookie', pathGPSs, 1);
+			setCookie('TripPathLocationsCookie', pathLocations, 1);
+			if (dataLength == 0) {
+				errorMessagePopupOpen("There is no routes for this enquiry");
+			} else {
+				blurFalse();
+				resetWalking();
+				drawConstantPolyline();
+				hideBottomPanel();
+				setTimeout(showViewItems(), 1500);
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			hideBottomPanel();
+			blurFalse();
+			removeTrip();
+			errorMessagePopupOpen(thrownError);
+		}
+	});
+	if (markerDest != null && marker != null) {
+		var bounds = new google.maps.LatLngBounds();
+		bounds.extend(markerDest.getPosition());
+		bounds.extend(marker.getPosition());
+		map.fitBounds(bounds);
+	}
 }
 
 function removeTheNextDestination() {
@@ -370,14 +375,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	errorMessagePopupOpen(browserHasGeolocation ? 'Error: The Geolocation service failed.'
 			: 'Error: Your browser doesn\'t support geolocation.');
 	infoWindow.open(map);
-}
-
-function initiateNavigation() {
-	var bounds = new google.maps.LatLngBounds();
-	bounds.extend(markerDest.getPosition());
-	bounds.extend(marker.getPosition());
-	map.fitBounds(bounds);
-	getThePath();
 }
 
 function isFullScreen() {
