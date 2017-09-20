@@ -27,15 +27,25 @@ function KeyPress(e) {
 function closePopup() {
 	popupopen = false;
 	hideBottomPanel();
-	blurFalse();
 	$('#popupErrorMessage').css("display", "none");
 	$('#popupArrivalMessage').popup('close');
 	$('#popupSearchResult').popup('close');
+	blurFalse();
 }
 
 function errorMessagePopupOpen(content) {
-	$("#errorMessageContent").html(content);
 	blurTrue();
+	// if (whereToGoAfterwards != null || whereToGoAfterwards == undefined) {
+	// $("#popupErrorMessageCloseBTN").click(function() {
+	// closePopup();
+	// searchResultPopupOpen('FROM');
+	// }).trigger('create');
+	// }else{
+	// $("#popupErrorMessageCloseBTN").click(function() {
+	// closePopup();
+	// }).trigger('create');
+	// }
+	$("#errorMessageContent").html(content);
 	popupopen = true;
 	hideBottomPanel();
 	$('#popupErrorMessage').css("height", $(window).height());
@@ -55,6 +65,12 @@ function arrivalMessagePopupOpen() {
 
 function searchResultPopupOpen(headerText) {
 	if (headerText.indexOf("ROM") != -1) {
+		$("li").each(function() {
+			var id = $(this).attr("id") + "";
+			if (id.indexOf($("#from").val()) >= 0) {
+				$(this).css("color","#ddd").trigger("create");
+			}
+		});
 		$("#departureButtonGroup").css("display", "block").trigger("create");
 		$("#destinationButtonGroup").css("display", "none").trigger("create");
 		$("#destinationDefVal")
@@ -69,6 +85,8 @@ function searchResultPopupOpen(headerText) {
 		$("#popupSearchResult").css("cssText",
 				"border-color: #22b800 !important").trigger("create");
 	} else {
+		if (markerDest != null)
+			markerDest.setMap(null);
 		$("#destinationButtonGroup").css("display", "block").trigger("create");
 		$("#departureButtonGroup").css("display", "none").trigger("create");
 		$("#destinationDefVal").html(headerText);
@@ -79,6 +97,8 @@ function searchResultPopupOpen(headerText) {
 		$("#popupSearchResult").css("cssText",
 				"border-color: #0091FF !important").trigger("create");
 	}
+	if (markerDepart != null)
+		markerDepart.setMap(null);
 	$('#popupSearchResult').popup().trigger('create');
 	$('#popupSearchResult').popup({
 		history : false,
