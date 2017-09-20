@@ -205,8 +205,8 @@ div#searchFieldDiv {
 #resultsListViewDiv {
 	position: fixed;
 	bottom: 0px !important;
-	top: 97px !important;
-	left: 0 !important;
+	top: 106px !important;
+	left: 7px !important;
 	right: 0 !important;
 	overflow: auto !important;
 	z-index: 1;

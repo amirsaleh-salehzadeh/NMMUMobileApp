@@ -955,7 +955,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			while (rs.next()) {
 				concatParents = rs.getString("res").split(",");
 			}
-			query = "select l.location_name, l.location_id, l.parent_id, lt.location_type as locaTypeName, l.gps from location l "
+			query = "select l.location_name, l.location_id, l.parent_id, lt.location_type as locaTypeName, l.gps, l.icon from location l "
 					+ " left join location_type lt on lt.location_type_id = l.location_type"
 					+ " where l.location_id = " + locationId;
 			ps = conn.prepareStatement(query);
@@ -966,6 +966,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				qrent = new LocationLightENT(rs.getLong("location_id"),
 						locationType, rs.getString("location_name"),
 						rs.getString("gps"), null);
+				qrent.setI(rs.getString("icon"));
 				LocationLightENT tmp = getQRLocationENTTree(qrent,
 						rs.getLong("parent_id"), concatParents);
 				qrent.setP(tmp);
