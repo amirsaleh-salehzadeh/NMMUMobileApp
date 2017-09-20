@@ -59,11 +59,12 @@ function getThePath() {
 			icon : 'images/map-markers/marker-orange.png'
 		});
 	}
-	$
-			.ajax({
+	var dataLength = 0;
+	$.ajax(
+			{
 				url : url,
 				cache : true,
-				async : true,
+				async : false,
 				// dataType: 'json',
 				beforeSend : function() {
 					blurTrue();
@@ -76,7 +77,7 @@ function getThePath() {
 					var pathIds = "";
 					var pathGPSs = "";
 					var pathLocations = "";
-					var dataLength = data.length;
+					dataLength = data.length;
 					$.each(data, function(k, l) {
 						if (k == 0) {
 							pathIds = l.depL.id + "," + l.desL.id;
@@ -110,9 +111,8 @@ function getThePath() {
 					setCookie('TripPathGPSCookie', pathGPSs, 1);
 					setCookie('TripPathLocationsCookie', pathLocations, 1);
 					if (dataLength == 0) {
-//						removeTrip();
 						errorMessagePopupOpen("There is no routes for this enquiry");
-					}else{
+					} else {
 						blurFalse();
 						resetWalking();
 						drawConstantPolyline();
@@ -362,6 +362,7 @@ var errorHandler = function(errorObj) {
 };
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+
 	infoWindow.setPosition(pos);
 	infoWindow
 			.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'

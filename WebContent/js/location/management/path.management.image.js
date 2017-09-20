@@ -1,11 +1,14 @@
+/*
 var crop_max_width = 400;
 var crop_max_height = 400;
 var jcrop_api;
 var canvas;
 var context;
 var image;
+*/
 var dataURL;
 
+/*
 var prefsize;
 
 $("#file").change(function() {
@@ -152,19 +155,23 @@ function applyVflip() {
 
 $("#cropbutton").click(function(e) {
 	//alert("crop click");
-  applyCrop();
+	applyCrop();
 });
 $("#scalebutton").click(function(e) {
-  var scale = prompt("Scale Factor:", "1");
-  applyScale(scale);
+	var scale = prompt("Scale Factor:", "1");
+  	applyScale(scale);
 });
 $("#rotatebutton").click(function(e) {
-  applyRotate();
+	applyRotate();
 });
 $("#saveIcon").click(function(e) {
-	  alert(getDataURL());
-	  $("#icon").val(getDataURL());
-	});
+	alert(getDataURL());
+	$("#icon").val(getDataURL());
+});
+$("#savePlan").click(function(e) {
+	alert(getDataURL());
+	$("#plan").val(getDataURL());
+});
 
 $("#form").submit(function(e) {
   e.preventDefault();
@@ -188,3 +195,107 @@ $("#form").submit(function(e) {
     complete: function(data) {}
   });
 });
+*/
+
+//function demoUpload() {
+//
+//	var $uploadCrop;
+//
+//	function readFile(input) {
+//			if (input.files && input.files[0]) {
+//            var reader = new FileReader();
+//            
+//            reader.onload = function (e) {
+//				//$('.upload-demo').addClass('ready');
+//            	$uploadCrop.croppie('bind', {
+//            		url: e.target.result
+//            	}).then(function(){
+//            		console.log('jQuery bind complete');
+//            	});
+//            	
+//            };
+//            
+//            reader.readAsDataURL(input.files[0]);
+//        }
+//        else {
+//	        swal("Sorry - you're browser doesn't support the FileReader API");
+//	    }
+//	}
+//
+//	$uploadCrop = $('#main-cropper').croppie({
+//		viewport: {
+//			width: 100,
+//			height: 100,
+//			type: 'square'
+//		}
+//	});
+//
+//	$('#upload').on('change', function () { readFile(this); alert("Hi"); });
+//	$('#saveIcon').on('click', function (ev) {
+//		$uploadCrop.croppie('result', {
+//			type: 'canvas',
+//			size: 'viewport'
+//		}).then(function (resp) {
+//			dataURL  = canvas.toDataURL();
+//			alert(dataURL);
+//		});
+//	});
+//	
+//}
+
+var basic = $('#main-cropper').croppie({
+    viewport: { width: 128, height: 128 },
+    boundary: { width: 250, height: 250 },
+    showZoomer: false,
+    url: 'images/NMMU_logo.png'
+});
+
+function readFile(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      $('#main-cropper').croppie('bind', {
+        url: e.target.result
+      });
+      //$('.actionDone').toggle();
+      //$('.actionUpload').toggle();
+    };
+
+    reader.readAsDataURL(input.files[0]);
+  }
+  else {
+      swal("Sorry - you're browser doesn't support the FileReader API");
+  }
+}
+function callReadFile(){
+	//alert("Hi");
+}
+
+//$('.actionUpload input').on('change', function () {readFile(this); });
+$("#upload").change(function () {readFile(this);});
+//$('#saveIcon').on('click', function(){
+//  $('.actionDone').toggle();
+//  $('.actionUpload').toggle();
+//  dataURL  = canvas.toDataURL();
+//});
+
+$('#saveIcon').on('click', function (ev) {
+	$('#main-cropper').croppie('result', {
+		type: 'canvas',
+		size: 'viewport'
+	}).then(function (canvas) {
+		dataURL  = canvas.toDataURL();
+		alert(dataURL);
+	});
+});
+
+//$('#saveIcon').on('click', function () {
+//	$('#main-cropper').croppie('result', {
+//		type: 'rawcanvas',
+//		format: 'png'
+//	}).then(function (canvas) 
+//			{dataURL = canvas.toDataURL();});
+//	alert(dataURL);
+//});
+

@@ -49,13 +49,14 @@ function startScanner() {
 										} else if (cameras.length > 0) {
 											self.activeCameraId = cameras[0].id;
 											self.scanner.start(cameras[0]);
-// startAR();
+											// startAR();
 										} else {
 											console.error('No cameras found.');
 										}
-									}).catch(function (e) {
-										 console.error(e);
-									 });
+									})
+					 .catch(function (e) {
+					 console.error(e);
+					 });
 				},
 				methods : {
 					formatName : function(name) {
@@ -71,49 +72,45 @@ function startScanner() {
 
 function getBCodeInfo(x) {
 	$("#arrivalMessageContent").html("");
-	$.ajax({
+	$
+			.ajax({
 				url : "REST/GetLocationWS/GetBarcodeForLocation?locationId="
 						+ x,
 				cache : true,
 				success : function(data) {
-// $("#barcodeDescription").css("display", "block");
-// $("#barcodeDescription").fadeIn(3000);
-// $.each(data,function(k, l) {
-// $("#barcodeDescription").html("");
-								$("#arrivalMessageContent").append(
-												'<span class="heading">'
-														+ data['t']
-														+ ': </span><span class="locationText">'
-														+ data['n']
-														+ '</span><br>');
-								var barcodePosition = getGoogleMapPosition(data['g']);
-// marker.setMap(null);
-								marker.setPosition(barcodePosition);
-								map.panTo(barcodePosition);
-								map.setCenter(barcodePosition);
-								if (data['id'] == x && getCookie("TripPathGPSCookie") != "") {
-									var nextDestId = getCookie("TripPathIdsCookie").split(
-											"_");
-									var tmpStr = "";
-									for ( var int = 0; int < nextDestId.length; int++) {
-										if (x == nextDestId[int]) {
-											if (int == 0)
-												tmpStr = nextDestId[int];
-											else
-												tmpStr += ","
-														+ nextDestGPS[int];
-										}
-									}
-										removeTheNextDestination();
-								}
-// });
-
+					var stringIMG = '';
+					if (data['i'] != null && data['i'].length > 0)
+						stringIMG = '<img src="' + data['i'] + '" width="66" heigh="66"/>';
+					else
+						stringIMG = '<img src="images/map-markers/building.png"/></br>';
+					$("#arrivalMessageContent").append(
+							stringIMG + '<span class="heading">' + data['t']
+									+ ': </span><span class="locationText">'
+									+ data['n'] + '</span><br>');
+					var barcodePosition = getGoogleMapPosition(data['g']);
+					marker.setPosition(barcodePosition);
+					map.panTo(barcodePosition);
+					map.setCenter(barcodePosition);
+					if (data['id'] == x && getCookie("TripPathGPSCookie") != "") {
+						var nextDestId = getCookie("TripPathIdsCookie").split(
+								"_");
+						var tmpStr = "";
+						for ( var int = 0; int < nextDestId.length; int++) {
+							if (x == nextDestId[int]) {
+								if (int == 0)
+									tmpStr = nextDestId[int];
+								else
+									tmpStr += "," + nextDestGPS[int];
+							}
+						}
+						removeTheNextDestination();
+					}
 					return presentLocation(data['p']);
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
 				}
-	,error: function (xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
-      }
 			});
 
 }
@@ -124,14 +121,8 @@ function presentLocation(x) {
 			'<span class="heading">' + x['t']
 					+ ': </span><span class="locationText">' + x['n']
 					+ '</span><br>');
-	if (x.p != null){
+	if (x.p != null)
 		presentLocation(x['p']);
-		}else{
-			$("#arrivalMessageContent").html('<img src="/NMMUWebApp/WebContent/images/map-markers/buildingss.png">' 
-					
-					+ $("#arrivalMessageContent").html());
-		}
-	
 }
 
 function hideInfoDiv() {
@@ -139,8 +130,8 @@ function hideInfoDiv() {
 }
 function getTheBarcodeAR(content) {
 	getBCodeInfo(content);
-// arrivalMessagePopupOpen();
-// $("#barcodeDescription").css("display", "block").trigger('create');
-// $("#barcodeDescription").fadeIn(3000);
-// window.setInterval(hideInfoDiv, 5000);
+	// arrivalMessagePopupOpen();
+	// $("#barcodeDescription").css("display", "block").trigger('create');
+	// $("#barcodeDescription").fadeIn(3000);
+	// window.setInterval(hideInfoDiv, 5000);
 }

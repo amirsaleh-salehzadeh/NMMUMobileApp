@@ -5,24 +5,25 @@
 <meta http-equiv="Cache-Control"
 	content="no-cache, no-store, must-revalidate" />
 <!-- no-cache, no-store, must-revalidate -->
-<meta http-equiv="Pragma" content="public" />
+<!-- <meta http-equiv="Pragma" content="public" /> -->
 <meta http-equiv="Expires" content="0" />
 <title>Find It | Nelson Mandela University</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="icon" type="image/png" href="favicon.ico">
-<link rel="stylesheet"
-	href="css/themes/default/jquery.mobile-1.4.5.min.css">
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="js/location/camera/scanner/adapter.min.js"></script>
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
 <script type="text/javascript"
 	src="js/location/camera/scanner/instascan.min.js"></script>
-<link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css">
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<link rel="icon" type="image/png" href="favicon.ico">
+<link rel="stylesheet"
+	href="css/themes/default/jquery.mobile-1.4.5.min.css">
+<!-- <link rel="stylesheet" href="css/jquery-mobile/jqm-demos.css"> -->
 <link rel="stylesheet"
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="css/location/path.navigation.css">
@@ -50,8 +51,8 @@
 <script type="text/javascript">
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(1000);
-		 browserCheck();
-		  iOSCheck();
+		browserCheck();
+		iOSCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(110);
@@ -65,28 +66,34 @@
 			sdf = 0;
 		displayImage(sdf);
 	}
-function browserCheck(){
-	
+	function browserCheck() {
+
 		var isFirefox = typeof InstallTrigger !== 'undefined';
 		// Safari 3.0+ "[object HTMLElementConstructor]" 
-		var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+		var isSafari = /constructor/i.test(window.HTMLElement)
+				|| (function(p) {
+					return p.toString() === "[object SafariRemoteNotification]";
+				})
+						(!window['safari']
+								|| (typeof safari !== 'undefined' && safari.pushNotification));
 		// Chrome 1+
 		var isChrome = !!window.chrome && !!window.chrome.webstore;
 
-		if((!isFirefox)&&(!isSafari)&&(!isChrome)){
-			errorMessagePopupOpen("For the best performance please use either Google Chrome, Firefox or Safari browsers.");
+		if ((!isFirefox) && (!isSafari) && (!isChrome)) {
+			errorMessagePopupOpen("For a better performance please use either Google Chrome, Firefox or Safari web browsers.");
 		}
 	}
-	function iOSCheck(){
-		
-		  // determine OS
-		 var platform = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;		
-		  
-		  if(platform == "iOS"){
-			  $('#mapViewSelect').css('display','none');
-			  $('#dualModeSelect').css('display','none');
-		  }
-		 
+	function iOSCheck() {
+
+		// determine OS
+		var platform = /iPad|iPhone|iPod/.test(navigator.userAgent)
+				&& !window.MSStream;
+
+		if (platform == "iOS") {
+			$('#mapViewSelect').css('display', 'none');
+			$('#dualModeSelect').css('display', 'none');
+		}
+
 	}
 </script>
 <body>
@@ -208,9 +215,8 @@ function browserCheck(){
 		<div id="searchBarDivTop">
 			<div class="ui-block-solo" id="destinationNameDiv">
 				<a data-role="button" href="#" data-rel="popup" href="#"
-					data-transition="turn" id="destinationName"
-					onclick="searchResultPopupOpen('To');">Find a Place</a> <span
-					onclick="clearSearchBTN()"></span>
+					id="destinationName" onclick="searchResultPopupOpen('To');">Find
+					a Place</a> <span onclick="clearSearchBTN()"></span>
 			</div>
 
 		</div>
@@ -343,50 +349,11 @@ function browserCheck(){
 		<!-- 	</div> -->
 
 
-		<!-- 	ERROR POPUP -->
-
-
-		<div data-role="popup" id="popupErrorMessage" class="ui-content"
-			data-position-to="window" data-transition="turn">
-			<!-- 			<a href="#" data-role="button" class="popupCloseBtn" -->
-			<!-- 				onclick="$('#popupErrorMessage').popup('close');blurFalse();"></a> -->
-			<div id="errorMessageHeader" class="ui-block-solo">Error!</div>
-			<div id="errorMessageContent" class="ui-block-solo"></div>
-			<div class="ui-block-solo popupSearchResultCloseBTNContainer"
-				id="closeErrorPopupMessage">
-				<a data-role="button" href="#"
-					onclick="$('#popupErrorMessage').popup('close');blurFalse();"
-					class="closePopupMessage" id="popupErrorMessageCloseBTN"><img
-					src="images/icons/clearInput.png" alt=""
-					class="closeMessageButtonIcon" />Close</a>
-			</div>
-		</div>
-
-
-		<!-- 	ARRIVAL POPUP -->
-
-
-		<div data-role="popup" id="popupArrivalMessage" class="ui-content"
-			data-position-to="window" data-transition="turn">
-			<!-- 			<a href="#" data-role="button" class="popupCloseBtn" -->
-			<!-- 				onclick="$('#popupArrivalMessage').popup('close');blurFalse();"></a> -->
-			<div id="arrivalMessageHeader" class="ui-block-solo">You are at</div>
-			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
-			<div class="ui-block-solo">
-				<a data-role="button" href="#"
-					onclick="$('#popupArrivalMessage').popup('close');blurFalse();"
-					class="closePopupMessage" id="popupArrivalMessageCloseBTN"><img
-					src="images/icons/clearInput.png" alt=""
-					class="closeMessageButtonIcon" />Close</a>
-			</div>
-		</div>
-
-
 		<!-- SEARCH VIEW POPUP -->
 
 
 		<div data-role="popup" id="popupSearchResult" class="ui-content"
-			data-position-to="window" data-transition="turn">
+			data-position-to="window">
 			<div class="ui-grid-a" id="searchPopupHeader">
 				<img src="images/icons/destination.png" alt=""
 					id="searchPopupHeaderIcon"><span id="destinationDefVal"></span>
@@ -397,8 +364,7 @@ function browserCheck(){
 					style="display: none;" id="departureButtonGroup">
 					<div class="ui-block-a">
 						<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
-							onclick="$('#popupSearchResult').popup('close');blurFalse();"
-							class="closePopupMessage"><img
+							onclick="closePopup();" class="closePopupMessage"><img
 							src="images/icons/clearInput.png" alt=""
 							class="closeMessageButtonIcon" />Close</a>
 					</div>
@@ -413,8 +379,7 @@ function browserCheck(){
 				<div class="ui-block-solo popupSearchResultCloseBTNContainer"
 					id="destinationButtonGroup">
 					<a data-role="button" href="#" id="popupSearchResultCloseBTN"
-						onclick="$('#popupSearchResult').popup('close');blurFalse();"
-						class="closePopupMessage"><img
+						onclick="closePopup();" class="closePopupMessage"><img
 						src="images/icons/clearInput.png" alt=""
 						class="closeMessageButtonIcon" />Close</a>
 				</div>
@@ -424,13 +389,45 @@ function browserCheck(){
 					data-role="none"> <span onclick="searchFieldDivClearBTN();"></span>
 			</div>
 			<div class="ui-block-solo" id="resultsListViewDiv">
-				<!-- 				<ul data-role="listview" id="resultsListView" data-filter="true" -->
-				<!-- 					data-inset="true" data-input="#searchField"></ul> -->
 				<div data-role="content">
 					<div data-role="collapsible-set" id="resultsListViewContentDiv"
 						data-input="#searchField" data-filter="true"
 						data-collapsed="false"></div>
 				</div>
+			</div>
+		</div>
+
+
+		<!-- 	ERROR POPUP -->
+
+
+		<div id="popupErrorMessage" class="ui-content" style="display: none;">
+			<div id="errorMessageHeader" class="ui-block-solo">Error!</div>
+			<div id="errorMessageContent" class="ui-block-solo"></div>
+			<div class="ui-block-solo popupSearchResultCloseBTNContainer"
+				id="closeErrorPopupMessage">
+				<a data-role="button" href="#" onclick="closePopup();"
+					class="closePopupMessage" id="popupErrorMessageCloseBTN"><img
+					src="images/icons/clearInput.png" alt=""
+					class="closeMessageButtonIcon" />Close</a>
+			</div>
+		</div>
+
+
+		<!-- 	ARRIVAL POPUP -->
+
+
+		<div data-role="popup" id="popupArrivalMessage" class="ui-content"
+			data-position-to="window">
+			<!-- 			<a href="#" data-role="button" class="popupCloseBtn" -->
+			<!-- 				onclick="$('#popupArrivalMessage').popup('close');blurFalse();"></a> -->
+			<div id="arrivalMessageHeader" class="ui-block-solo">You are at</div>
+			<div id="arrivalMessageContent" class="ui-block-solo">Content</div>
+			<div class="ui-block-solo">
+				<a data-role="button" href="#" onclick="closePopup();"
+					class="closePopupMessage" id="popupArrivalMessageCloseBTN"><img
+					src="images/icons/clearInput.png" alt=""
+					class="closeMessageButtonIcon" />Close</a>
 			</div>
 		</div>
 	</div>
@@ -443,10 +440,10 @@ function browserCheck(){
 	src="js/location/camera/path.navigation.camera.ar.js"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.js"></script>
-<script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.directions.js"></script>
-<script src="js/location/navigation/path.navigation.search.panel.js"></script>
+<script type="text/javascript"
+	src="js/location/navigation/path.navigation.search.panel.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.js"></script>
 <script type="text/javascript"

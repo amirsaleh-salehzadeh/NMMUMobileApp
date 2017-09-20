@@ -146,7 +146,7 @@ function selectDestination(destination, content) {
 			$('#popupSearchResult').popup('close');
 			$("#popupErrorMessage").popup({
 				afterclose : function(event, ui) {
-					searchResultPopupOpen('From');
+					searchResultPopupOpen('FROM');
 					$("#popupErrorMessage").popup({
 						afterclose : function(event, ui) {
 						}
