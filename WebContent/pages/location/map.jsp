@@ -364,7 +364,7 @@
 					style="display: none;" id="departureButtonGroup">
 					<div class="ui-block-a">
 						<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
-							onclick="showBottomPanel();$('#popupSearchResult').popup('close');blureFalse();" class="closePopupMessage"><img
+							onclick="closePopup();showBottomPanel();" class="closePopupMessage"><img
 							src="images/icons/clearInput.png" alt=""
 							class="closeMessageButtonIcon" />Close</a>
 					</div>

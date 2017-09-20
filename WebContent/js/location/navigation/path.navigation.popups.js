@@ -79,8 +79,6 @@ function searchResultPopupOpen(headerText) {
 		$("#popupSearchResult").css("cssText",
 				"border-color: #22b800 !important").trigger("create");
 	} else {
-		if (markerDest != null)
-			markerDest.setMap(null);
 		$("#destinationButtonGroup").css("display", "block").trigger("create");
 		$("#departureButtonGroup").css("display", "none").trigger("create");
 		$("#destinationDefVal").html(headerText);

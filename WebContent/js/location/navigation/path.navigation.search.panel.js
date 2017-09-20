@@ -124,6 +124,8 @@ function clearSearchBTN() {
 	$("#destinationName").html("Find a Place");
 	if ($("#locationInfoDiv").css('display') != 'none')
 		hideBottomPanel();
+	if (markerDest != null)
+		markerDest.setMap(null);
 }
 
 function searchFieldDivClearBTN() {
