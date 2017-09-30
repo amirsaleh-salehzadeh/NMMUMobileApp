@@ -16,7 +16,7 @@ function getLocationTypePanel() {
 					"class" : "parentCollapsibleLV"
 				});
 				var title = $("<h3/>", {
-					text : l.locationName + " Campus" 
+					text : l.locationName + " Campus"
 				}).appendTo(col);
 				var list_items = '';
 				$.each(children, function(x, y) {
@@ -41,7 +41,7 @@ function getLocationTypePanel() {
 				var list = $("<ul/>", {
 					"data-role" : "listview",
 					"id" : "listview" + l.locationID,
-//					"data-inset" : true,
+					// "data-inset" : true,
 					"data-input" : "#searchField",
 					"data-filter" : true
 				});
@@ -49,76 +49,6 @@ function getLocationTypePanel() {
 				$(list).appendTo(col).trigger("create");
 				$("#resultsListViewContentDiv").append(col).collapsibleset()
 						.trigger("create");
-				// var strP = "";
-				// var str = "";
-				// if ($("li#" +
-				// l.parent.locationID).length <= 0) {
-				// strP = "<li data-role='collapsible'
-				// data-shadow='false'
-				// id='"
-				// + l.parent.locationID
-				// + "' data-inset='false'>";
-				// strP += "<h2>"
-				// + l.parent.locationName
-				// + "&nbsp; Campus" + "</h2>";
-				// strP += "<ul data-role='listview' id=
-				// '"
-				// + l.parent.locationID
-				// + "' ></ul></li>";
-				//
-				// }
-				// str = "<li id='"
-				// + l.locationID
-				// + "_"
-				// + l.gps
-				// + "_"
-				// + l.locationType.locationType
-				// + "' onclick='selectDestination(this,
-				// \""
-				// + l.locationType.locationType
-				// + " "
-				// + l.locationName
-				// + "\")' data-icon='false'>"
-				// + "<a href='#'
-				// class='resultsListViewContent'>";
-				// var src =
-				// "images/map-markers/building.png";
-				// if (l.icon != null)
-				// src = l.icon;
-				// str += "<img src='"
-				// + src
-				// + "' class='listViewIcons'><h2>"
-				// + l.locationType.locationType
-				// + " " + l.locationName
-				// + "</h2><p>";
-				// var desc = "&nbsp;";
-				// if (l.description != null)
-				// desc = l.description;
-				// str += desc
-				// + "</p>"
-				// + "<span style='color: rgba(8, 27,
-				// 44, 0); position:
-				// absolute; z-index: -1;'>"
-				// + l.parent.locationName
-				// + " Campus</span>"
-				// + "</a></li>";
-				//										
-				// if (strP.length > 0){
-				// $("ul#resultsListViewDiv").listview();
-				// $("ul#resultsListViewDiv")
-				// .append(strP).trigger(
-				// "create");
-				// $("ul#" +
-				// l.parent.locationID).listview();
-				// }
-				// $("ul#" +
-				// l.parent.locationID).append(str);
-				// $("ul#" +
-				// l.parent.locationID).append(str).trigger('create');
-				// $("ul#resultsListViewDiv").listview('refresh');
-				// $("ul#" +
-				// l.parent.locationID).listview("refresh");
-				// });
 			});
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -128,33 +58,6 @@ function getLocationTypePanel() {
 }
 
 function selectDestination(destination, content) {
-	if ($("#destinationNameHeader").length > 0)
-		if ($("#destinationNameHeader").html() == "To " + content) {
-			$("#popupSearchResult")
-					.popup(
-							{
-								afterclose : function(event, ui) {
-									errorMessagePopupOpen(content
-											+ " has been already selected as destination");
-									$("#popupSearchResult").popup({
-										afterclose : function(event, ui) {
-										}
-									});
-								}
-							});
-			blurFalse();
-			$('#popupSearchResult').popup('close');
-			$("#popupErrorMessage").popup({
-				afterclose : function(event, ui) {
-					searchResultPopupOpen('FROM');
-					$("#popupErrorMessage").popup({
-						afterclose : function(event, ui) {
-						}
-					});
-				}
-			});
-			return;
-		}
 	var departure = false;
 	if ($("#destinationDefVal").html().indexOf("ROM") != -1)
 		departure = true;
@@ -221,6 +124,8 @@ function clearSearchBTN() {
 	$("#destinationName").html("Find a Place");
 	if ($("#locationInfoDiv").css('display') != 'none')
 		hideBottomPanel();
+	if (markerDest != null)
+		markerDest.setMap(null);
 }
 
 function searchFieldDivClearBTN() {
