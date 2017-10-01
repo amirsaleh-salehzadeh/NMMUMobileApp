@@ -13,7 +13,8 @@ function getLocationTypePanel() {
 				var col = $("<div/>", {
 					"data-role" : "collapsible",
 					"data-collapsed" : true,
-					"class" : "parentCollapsibleLV"
+					"class" : "parentCollapsibleLV",
+					"data-icon" : false
 				});
 				var title = $("<h3/>", {
 					text : l.locationName + " Campus"
@@ -43,7 +44,8 @@ function getLocationTypePanel() {
 					"id" : "listview" + l.locationID,
 					// "data-inset" : true,
 					"data-input" : "#searchField",
-					"data-filter" : true
+					"data-filter" : true,
+					"data-icon" : false
 				});
 				$(list).append(list_items);
 				$(list).appendTo(col).trigger("create");

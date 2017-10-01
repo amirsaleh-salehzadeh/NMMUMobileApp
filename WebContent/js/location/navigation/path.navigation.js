@@ -110,7 +110,8 @@ function getThePath() {
 			setCookie('TripPathGPSCookie', pathGPSs, 1);
 			setCookie('TripPathLocationsCookie', pathLocations, 1);
 			if (dataLength == 0) {
-				errorMessagePopupOpen("There is no routes for this enquiry");
+				errorMessagePopupOpen("Unfortunately, there is no routes for this enquiry in the system. " +
+						"<br/>We recorded your enquiry to update our database in the shortest possible time.");
 			} else {
 				blurFalse();
 				resetWalking();

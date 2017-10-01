@@ -69,18 +69,18 @@ public class LocationServicesWS {
 			search.setLocationType(new LocationTypeENT(0, locationType));
 			search.setUserName(userName);
 			search.setLocationID(360);
-//			LocationLST ls = new LocationLST();
-//			ls.setSearchLocation(search);
-//			try {
-//				json = mapper.writeValueAsString(getLocationDAO()
-//						.searchForLocations(ls).getLocationENTs());
-				json = mapper.writeValueAsString(getLocationDAO()
-						.getLocationWithChildren(search));
-				System.out.println(json);
-//			} catch (AMSException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			// LocationLST ls = new LocationLST();
+			// ls.setSearchLocation(search);
+			// try {
+			// json = mapper.writeValueAsString(getLocationDAO()
+			// .searchForLocations(ls).getLocationENTs());
+			json = mapper.writeValueAsString(getLocationDAO()
+					.getLocationWithChildren(search));
+			System.out.println(json);
+			// } catch (AMSException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -182,14 +182,19 @@ public class LocationServicesWS {
 				destENT = getLocationDAO().findClosestLocation(to, "3,5", null);
 				destinationId = destENT.getLocationID();
 			}
-				// building and external intersection
-			if (departureId <= 0){
-				destENT = getLocationDAO().getLocationENT(new LocationENT(destinationId));
-				departureId = getLocationDAO().findClosestLocation(from, "3,5", destENT.getParentId()+"")
-						.getLocationID();
+			// building and external intersection
+			if (departureId <= 0) {
+				destENT = getLocationDAO().getLocationENT(
+						new LocationENT(destinationId));
+				departureId = getLocationDAO().findClosestLocation(from, "3,5",
+						destENT.getParentId() + "").getLocationID();
 			}
-			json = mapper.writeValueAsString(getLocationDAO().getShortestPath(
-					departureId, destinationId, pathType));
+			ArrayList<PathENT> res = getLocationDAO().getShortestPath(
+					departureId, destinationId, pathType);
+			if (res.size() == 0)
+				getLocationDAO().saveTrip(departureId, destinationId);
+				json = mapper.writeValueAsString(res);
+
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -210,8 +215,8 @@ public class LocationServicesWS {
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
 					.getLocationENTAncestors(
-							getLocationDAO().findClosestLocation(from, "3,5", null)
-									.getLocationID()));
+							getLocationDAO().findClosestLocation(from, "3,5",
+									null).getLocationID()));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
