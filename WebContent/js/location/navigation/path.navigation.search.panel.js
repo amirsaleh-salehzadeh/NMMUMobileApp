@@ -5,7 +5,7 @@ function getLocationTypePanel() {
 	$.ajax({
 		url : url,
 		cache : true,
-		async : false,
+		async : true,
 		success : function(data) {
 			// $.each(data, function(p, z) {
 			$.each(data.childrenENT, function(k, l) {
@@ -37,7 +37,7 @@ function getLocationTypePanel() {
 					var desc = "&nbsp;";
 					if (y.description != null)
 						desc = y.description;
-					list_items += desc + "</p></a></li>";
+					list_items += desc + ", " + l.locationName + " Campus</p></a></li>";
 				});
 				var list = $("<ul/>", {
 					"data-role" : "listview",
@@ -112,7 +112,7 @@ function selectDestination(destination, content) {
 function getDirectionFromCurrentLocation() {
 	$("#departureId").val("");
 	$("#departureDescriptionInput").val("Current Location");
-	findMyLocation();
+//	findMyLocation();
 	$('#popupSearchResult').popup('close');
 	blurFalse();
 	$("#locationInf").html('');

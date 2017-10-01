@@ -2,11 +2,13 @@ button {
 	cursor: pointer;
 }
 
-#zoomSettings {
+#menuItems {
 	padding: 7px 4px 7px 4px;
 	display: block;
 	position: absolute;
-/* 	bottom: 11; */
+	z-index: 100 !important;
+	left: .33em !important;
+	/* 	bottom: 11; */
 }
 
 .zoomBTN {
@@ -22,6 +24,15 @@ button {
 	display: inline-block;
 	background-color: rgba(8, 27, 44, .77);
 	padding: 10px 10px 10px 10px;
+}
+
+#menuLeftSideBTN {
+	background-image: url("../../images/icons/menu.png") !important;
+	background-repeat: no-repeat;
+	background-size: 32px 32px;
+	background-position: center;
+	top: .33em;
+	left: .33em !important;
 }
 
 #zoomin {
@@ -75,8 +86,6 @@ button {
 	z-index: 102;
 	padding-left: 0 !important;
 }
-
-
 
 #mylocation {
 	background-image: url("../../images/icons/target.png") !important;

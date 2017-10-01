@@ -2,13 +2,13 @@
 	position: absolute;
 	display: block;
 	max-width: 100%;
-	left: .43em;
-	top: .43em;
-	right: .43em !important;
+	left: 3.45em;
+	/* 	top: .33em; */
+	right: 0 !important;
 	min-height: 48px;
 	text-align: left;
-	margin: 7px auto !important;
-	background-color: rgba(8, 27, 44, .77);
+	/* 	margin: 7px auto !important; */
+	background-color: rgba(8, 27, 44, 1);
 	border: 2px solid #081B2C !important;
 	-webkit-border-radius: 7px !important;
 	-moz-border-radius: 7px !important;
@@ -20,6 +20,7 @@
 	text-shadow: none;
 	padding-left: .22em;
 	color: rgb(248, 182, 36) !important;
+	z-index: 90 !important;
 }
 
 .descriptionInput {
@@ -29,10 +30,10 @@
 	min-height: 1em !important;
 	border: 1px solid rgb(248, 182, 36) !important;
 	padding-left: 33px !important;
-	margin-left: 13px;
+	/* 	margin-left: 13px; */
 	margin-top: 3px;
 	border-radius: 7px;
-	width: 90%;
+	width: 100%;
 	float: right;
 	display: block;
 	background-color: transparent !important;
@@ -57,7 +58,7 @@
 	background-image: url("../../images/icons/startBlue.png") !important;
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
-	background-color: rgb(8, 27, 44) !important;
+	background-color: rgb(34, 184, 0) !important;
 	background-position: 45% 22% !important;
 	border: none;
 	width: 64px !important;
@@ -69,8 +70,8 @@
 	top: 0;
 	right: 0;
 	margin: 0 auto;
-	color: rgb(248, 182, 36) !important;
-	font-size: 9px;
+	color: rgb(8, 27, 44) !important;
+	font-size: 10px;
 	text-decoration: none;
 	text-shadow: none !important;
 	text-transform: uppercase;
@@ -79,6 +80,9 @@
 	padding-left: 0 !important;
 	padding-right: 0 !important;
 	z-index: 102;
+/* 	-webkit-box-shadow: 0 0 1px 2px rgb(58, 55, 88) inset; */
+/* 	-moz-box-shadow: 0 0 1px 2px rgb(58, 55, 88) inset; */
+/* 	box-shadow: 0 0 1px 2px rgb(58, 55, 88) inset; */
 }
 
 #locationInfoDiv {
@@ -112,9 +116,9 @@
 	min-height: 33px !important;
 	display: block !important;
 	text-align: left !important;
-	top: 0 !important;
+	top: -1 !important;
 	left: 0 !important;
-	right: 64px !important;
+	right: 51px !important;
 }
 
 #locationInf a {
@@ -122,7 +126,7 @@
 	text-shadow: none !important;
 	color: rgb(8, 27, 44) !important;
 	max-height: 100% !important;
-	padding-top: 3px !important;
+	padding-top: 0px !important;
 	padding-left: .22em !important;
 	display: block !important;
 	position: relative !important;
@@ -142,7 +146,7 @@
 	margin: 0 auto !important;
 	width: 51px;
 	height: 51px;
-	padding-top: 1px;
+	/* 	padding-top: 1px; */
 	padding-right: 3px;
 	left: 7px !important;
 	float: left;
@@ -153,11 +157,11 @@
 	border-color: rgb(248, 182, 36) !important;
 	color: rgb(248, 182, 36) !important;
 	margin: 0 !important;
-	padding: 5px 0px 5px 0px;
+	padding: 3px 0px 3px 0px;
 	margin-left: 55px !important;
 	display: block;
 	font-size: 11pt;
-	top: 0;
+	top: -1;
 	white-space: pre-wrap;
 	line-height: 1;
 }
@@ -173,15 +177,13 @@
 	padding-top: 3px;
 	max-height: 100%;
 	white-space: pre-wrap;
-	text-align: left;
-	line-height: 1;
+	/* 	line-height: 1; */
 	overflow: auto;
-	bottom: 0;
+	bottom: 0.3em;
 }
-.heading{
-	font-size:larger;
+
+.heading {
+	font-size: larger;
 	font-weight: bold;
 	padding-left: 5;
-	
-	
 }

@@ -1,6 +1,5 @@
 function getAllPaths() {
 	var url = "REST/GetLocationWS/GetAllPathsForUser?userName=NMMU";
-	
 	$.ajax({
 		url : url,
 		cache : false,

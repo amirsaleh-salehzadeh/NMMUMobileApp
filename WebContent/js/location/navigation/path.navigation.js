@@ -118,6 +118,7 @@ function getThePath() {
 				drawConstantPolyline();
 				hideBottomPanel();
 				setTimeout(showViewItems(), 1500);
+				getTripInfo();
 			}
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
@@ -256,8 +257,6 @@ function updatePolyLine(currentPos, altitude) {
 	if (distanceToNextPosition <= 5) {
 		removeTheNextDestination();
 	}
-	distanceToDestination = polylineConstantLength + distanceToNextPosition;
-	getTripInfo();
 	if (pathPolylineTrack == null) {
 		var lineSymbol = {
 			path : 'M 0,-1 0,1',
@@ -273,7 +272,7 @@ function updatePolyLine(currentPos, altitude) {
 			} ],
 			strokeColor : 'white',
 			strokeOpacity : 0,
-			strokeWeight : 3,
+			strokeWeight : 0,
 			map : map
 		});
 		paths.push(pathPolylineTrack);
@@ -440,8 +439,8 @@ var successTrackingHandler = function(position) {
 		speed = Math.round(speed);
 	}
 	altitude = position.coords.altitude;
-	if (getCookie("TripPathGPSCookie").length > 5)
-		updatePolyLine(currentPos, altitude);
+//	if (getCookie("TripPathGPSCookie").length > 5)
+//		updatePolyLine(currentPos, altitude);
 	if (marker == null) {
 		marker = new google.maps.Marker({
 			map : map
@@ -498,4 +497,5 @@ $(document).ready(function() {
 	$('#destinationName').val("");
 	removeTrip();
 	getLocationTypePanel();
+	showHideLeftSideMenu();
 });

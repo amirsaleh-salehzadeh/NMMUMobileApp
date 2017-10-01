@@ -1,106 +1,106 @@
 var styles = [ {
-		featureType : "administrative",
-		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "poi",
-		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "road",
-		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "transit.station",
-		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "water",
-		elementType : "labels",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "landscape.man_made",
-		elementType : "geometry",
-		stylers : [ {
-			color : "#efe6cc" // #f7f1df
-		} ]
-	}, {
-		featureType : "landscape.natural",
-		elementType : "geometry",
-		stylers : [ {
-			color : "#d0e3b4"
-		} ]
-	}, {
-		featureType : "landscape.natural.terrain",
-		elementType : "geometry",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "poi.business",
-		elementType : "all",
-		stylers : [ {
-			visibility : "off"
-		} ]
-	}, {
-		featureType : "poi.medical",
-		elementType : "geometry",
-		stylers : [ {
-			color : "#fbd3da"
-		} ]
-	}, {
-		featureType : "poi.park",
-		elementType : "geometry",
-		stylers : [ {
-			color : "#bde6ab"
-		} ]
-	}, {
-		featureType : "road",
-		elementType : "geometry.stroke",
-		stylers : [ {
-			visibility : "on"
-		} ]
-	}, {
-		featureType : "road.highway",
-		elementType : "geometry.fill",
-		stylers : [ {
-			color : "#ffe15f"
-		} ]
-	}, {
-		featureType : "road.highway",
-		elementType : "geometry.stroke",
-		stylers : [ {
-			color : "#efd151"
-		} ]
-	}, {
-		featureType : "road.arterial",
-		elementType : "geometry.fill",
-		stylers : [ {
-			color : "#ffffff"
-		} ]
-	}, {
-		featureType : "road.local",
-		elementType : "geometry.fill",
-		stylers : [ {
-			color : "black"
-		} ]
-	}, {
-		featureType : "water",
-		elementType : "geometry",
-		stylers : [ {
-			color : "#a2daf2"
-		} ]
-	} ];
+	featureType : "administrative",
+	elementType : "labels",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "poi",
+	elementType : "labels",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "road",
+	elementType : "labels",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "transit.station",
+	elementType : "labels",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "water",
+	elementType : "labels",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "landscape.man_made",
+	elementType : "geometry",
+	stylers : [ {
+		color : "#efe6cc" // #f7f1df
+	} ]
+}, {
+	featureType : "landscape.natural",
+	elementType : "geometry",
+	stylers : [ {
+		color : "#d0e3b4"
+	} ]
+}, {
+	featureType : "landscape.natural.terrain",
+	elementType : "geometry",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "poi.business",
+	elementType : "all",
+	stylers : [ {
+		visibility : "off"
+	} ]
+}, {
+	featureType : "poi.medical",
+	elementType : "geometry",
+	stylers : [ {
+		color : "#fbd3da"
+	} ]
+}, {
+	featureType : "poi.park",
+	elementType : "geometry",
+	stylers : [ {
+		color : "#bde6ab"
+	} ]
+}, {
+	featureType : "road",
+	elementType : "geometry.stroke",
+	stylers : [ {
+		visibility : "on"
+	} ]
+}, {
+	featureType : "road.highway",
+	elementType : "geometry.fill",
+	stylers : [ {
+		color : "#ffe15f"
+	} ]
+}, {
+	featureType : "road.highway",
+	elementType : "geometry.stroke",
+	stylers : [ {
+		color : "#efd151"
+	} ]
+}, {
+	featureType : "road.arterial",
+	elementType : "geometry.fill",
+	stylers : [ {
+		color : "#ffffff"
+	} ]
+}, {
+	featureType : "road.local",
+	elementType : "geometry.fill",
+	stylers : [ {
+		color : "black"
+	} ]
+}, {
+	featureType : "water",
+	elementType : "geometry",
+	stylers : [ {
+		color : "#a2daf2"
+	} ]
+} ];
 
 var sattelStyle = [ {
 	featureType : "administrative",
@@ -234,17 +234,19 @@ function initiMap() {
 	map.mapTypes.set('map_style', styledMap);
 	map.setMapTypeId('map_style');
 	input = document.getElementById('to');
-	map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document
-			.getElementById('zoomSettings'));
+//	map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document
+//			.getElementById('zoomSettings'));
+	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+			.getElementById('menuBTNLeftSideDiv'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('searchBarDivTop'));
-	map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document
-			.getElementById('scannerBTNContainer'));
+	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+			.getElementById('menuItems'));
 	map.setMapTypeId('map_style');
 	findMyLocation();
 	$("#mapViewIcon").fadeOut();
 	selectMapMode();
-//	getLocationTypePanel();
+	// getLocationTypePanel();
 	if (getCookie("TripPathGPSCookie") != "")
 		getThePath();
 	else
@@ -268,12 +270,14 @@ function mapSattelView() {
 	map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
 	$("#satelliteView").fadeOut();
 	$("#mapViewIcon").fadeIn();
+	showHideLeftSideMenu();
 }
 
 function mapMapView() {
 	map.setMapTypeId('map_style');
 	$("#satelliteView").fadeIn();
 	$("#mapViewIcon").fadeOut();
+	showHideLeftSideMenu();
 }
 
 function selectDualMode() {
@@ -289,7 +293,8 @@ function selectDualMode() {
 	$('#mapViewSelect').fadeIn();
 	stopCamera();
 	startCamera();
-	findMyLocation();
+//	findMyLocation();
+	showHideLeftSideMenu();
 }
 
 // TO SELECT MAP MODE OR AR MODE
@@ -300,7 +305,9 @@ function selectMapMode() {
 	$('#mapViewSelect').fadeOut();
 	$('#dualModeSelect').fadeIn();
 	stopCamera();
-	findMyLocation();
+//	findMyLocation();
+	showHideLeftSideMenu();
+	showHideLeftSideMenu();
 }
 
 function showViewItems() {
@@ -315,12 +322,20 @@ function showViewItems() {
 	}
 }
 
+function showHideLeftSideMenu() {
+	if ($("#menuItems").css("display") == "none")
+		$("#menuItems").fadeIn();
+	else
+		$("#menuItems").fadeOut();
+}
+
 function hideBottomPanel() {
 	$("#locationInfoDiv").animate({
 		bottom : "-=" + $("#locationInfoDiv").height()
 	}, 1500);
 	setTimeout(function() {
-//		$("#locationInfoDiv").css('bottom','-' + $("#locationInfoDiv").height()).trigger("create");
+		// $("#locationInfoDiv").css('bottom','-' +
+		// $("#locationInfoDiv").height()).trigger("create");
 		$("#locationInfoDiv").css('display', 'none');
 	}, 1500);
 }

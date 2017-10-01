@@ -191,18 +191,18 @@
 
 
 		<div id="barcodeDescription" class="ui-block-solo">
-			<div class="ui-grid-a ui-block-solo">
-				<div class="ui-block-a" style="width: 7%">
-					<img alt="" src="images/icons/normalSpeed.png"
-						id="walkingImageInfoBox">
-				</div>
-				<div class="ui-block-b" style="width: 93%">
+			<div class="ui-block-solo" style="left: 3.45em">
+<!-- 				<div class="ui-block-a" style="width: 7%"> -->
+<!-- 					<img alt="" src="images/icons/normalSpeed.png" -->
+<!-- 						id="walkingImageInfoBox"> -->
+<!-- 				</div> -->
+<!-- 				<div class="ui-block-b" style="width: 100%"> -->
 					<input type="text" class="descriptionInput"
 						id="departureDescriptionInput" value="Current Location"
 						data-role="none" disabled="disabled"> <input type="text"
 						data-role="none" class="descriptionInput" disabled="disabled"
 						id="destinationDescriptionInput">
-				</div>
+<!-- 				</div> -->
 			</div>
 			<span id="distanceLeftInf"></span>
 			<!-- 				<span id="arrivalTimeInf">15':14"</span> -->
@@ -222,51 +222,47 @@
 		</div>
 
 
-		<!-- 		MAP VIEW MODE -->
-
-
-		<!-- 		<div id="viewMapType"> -->
-		<!-- 			<input type="button" class="zoomBTN" id="satelliteView" -->
-		<!-- 				onclick="mapSattelView()"> <input type="button" -->
-		<!-- 				class="zoomBTN" id="mapViewIcon" onclick="mapMapView()"> -->
-		<!-- 		</div> -->
-
-
 		<!-- 		ZOOM SETTINGS -->
 
 
 		<div id="zoomSettings">
-			<div id="visitorCounter">
-				<a href="https://www.reliablecounter.com" target="_blank"> <img
-					src="https://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
-					alt="" title="" border="0"></a>
+			<div id="menuBTNLeftSideDiv" class="ui-block-solo">
+				<input type="button" class="zoomBTN" id="menuLeftSideBTN"
+					onclick="showHideLeftSideMenu()">
 			</div>
-			<div class="ui-block-solo">
-				<input type="button" class="zoomBTN" id="mapViewSelect"
-					onclick="selectMapMode()"></input> <input type="button"
-					class="zoomBTN" id="dualModeSelect" onclick="selectDualMode()"></input>
-			</div>
-			<div class="ui-block-solo" style="display: none;">
-				<input disabled="disabled" type="text" id="visitorCounter"
-					placeholder="" value="">
-			</div>
-			<div class="ui-block-solo">
-				<input type="button" class="zoomBTN" id="satelliteView"
-					onclick="mapSattelView()"> <input type="button"
-					class="zoomBTN" id="mapViewIcon" onclick="mapMapView()">
-			</div>
-			<div class="ui-block-solo">
-				<input type="button" class="zoomBTN" id="zoomin"
-					onclick="zoomInMap()">
-			</div>
-			<div class="ui-block-solo">
-				<input type="button" class="zoomBTN" id="zoomout"
-					onclick="zoomOutMap()">
-			</div>
-			<div class="ui-block-solo">
-				<!-- 			<button id="mylocation" class="navbtn" onclick="">My&nbsp;location</button> -->
-				<input type="button" class="zoomBTN" id="mylocation"
-					onclick="findMyLocation()">
+			<div id="menuItems" style="left: .33em !important;">
+				<div id="visitorCounter">
+					<a href="https://www.reliablecounter.com" target="_blank"> <img
+						src="https://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
+						alt="" title="" border="0"></a>
+				</div>
+				<div class="ui-block-solo">
+					<input type="button" class="zoomBTN" id="mapViewSelect"
+						onclick="selectMapMode()"></input> <input type="button"
+						class="zoomBTN" id="dualModeSelect" onclick="selectDualMode()"></input>
+				</div>
+				<div class="ui-block-solo" style="display: none;">
+					<input disabled="disabled" type="text" id="visitorCounter"
+						placeholder="" value="">
+				</div>
+				<div class="ui-block-solo">
+					<input type="button" class="zoomBTN" id="satelliteView"
+						onclick="mapSattelView()"> <input type="button"
+						class="zoomBTN" id="mapViewIcon" onclick="mapMapView()">
+				</div>
+				<div class="ui-block-solo">
+					<input type="button" class="zoomBTN" id="zoomin"
+						onclick="zoomInMap()">
+				</div>
+				<div class="ui-block-solo">
+					<input type="button" class="zoomBTN" id="zoomout"
+						onclick="zoomOutMap()">
+				</div>
+				<div class="ui-block-solo">
+					<!-- 			<button id="mylocation" class="navbtn" onclick="">My&nbsp;location</button> -->
+					<input type="button" class="zoomBTN" id="mylocation"
+						onclick="findMyLocation(); showHideLeftSideMenu();">
+				</div>
 			</div>
 		</div>
 
@@ -315,38 +311,12 @@
 				</div>
 				<div id="locationInf"></div>
 				<!-- 				WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
-				<button id="start" onclick="searchResultPopupOpen('FROM');">
+				<button id="start" onclick="searchResultPopupOpen('FROM');" data-role="none">
 					<!-- 					WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
 					Get <br />Directions
 				</button>
 			</div>
 		</div>
-
-
-		<!-- 		 SCANNER BUTTON -->
-
-
-
-
-
-
-		<!-- 		BOTTOM PANEL -->
-		<!-- 	<div class="ui-grid-c ui-block-solo" id="dashboardPanel"> -->
-		<!-- 			QR OR MAP MODE -->
-		<!-- 		<div class="ui-block-a"> -->
-		<!-- 			<div class="navbtnsdiv"> -->
-		<!-- 				<button class="navbtn" id="mapViewSelect" onclick="selectMapMode()">MAP</button> -->
-		<!-- 				<button type="button" class="navbtn" id="dualModeSelect" -->
-		<!-- 					onclick="selectDualMode()">Scan</button> -->
-		<!-- 			</div> -->
-		<!-- 		</div> -->
-		<!-- 				    MY CURRENT LOCATION -->
-		<!-- 		<div class="ui-block-c"> -->
-		<!-- 			<div class="navbtnsdiv"> -->
-		<!-- 				<button id="mylocation" class="navbtn" onclick="findMyLocation()">My&nbsp;location</button> -->
-		<!-- 			</div> -->
-		<!-- 		</div> -->
-		<!-- 	</div> -->
 
 
 		<!-- SEARCH VIEW POPUP -->
@@ -364,7 +334,8 @@
 					style="display: none;" id="departureButtonGroup">
 					<div class="ui-block-a">
 						<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
-							onclick="closePopup();showBottomPanel();" class="closePopupMessage"><img
+							onclick="closePopup();showBottomPanel();"
+							class="closePopupMessage"><img
 							src="images/icons/clearInput.png" alt=""
 							class="closeMessageButtonIcon" />Close</a>
 					</div>
