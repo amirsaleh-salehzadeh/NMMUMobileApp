@@ -99,6 +99,7 @@
 }
 
 .croppie-container .cr-slider-wrap {
+	display: none;
     width: 75%;
     margin: 15px auto;
     text-align: center;
@@ -309,3 +310,9 @@ button input[type="file"], .button input[type="file"] {
   opacity: 0;
 }
 */
+
+/* Sweet alert modifications */
+#sweet-alert {
+    width: auto;
+    max-width: 85%;
+}

@@ -6,7 +6,6 @@ var canvas;
 var context;
 var image;
 */
-var dataURL;
 
 /*
 var prefsize;
@@ -14,10 +13,6 @@ var prefsize;
 $("#file").change(function() {
   loadImage(this);
 });
-
-function getDataURL(){
-	return dataURL;
-}
 
 function loadImage(input) {
   if (input.files && input.files[0]) {
@@ -243,10 +238,17 @@ $("#form").submit(function(e) {
 //	
 //}
 
+var dataURL;
+function getDataURL(){
+	return dataURL;
+}
+
 var basic = $('#main-cropper').croppie({
-    viewport: { width: 128, height: 128 },
-    boundary: { width: 250, height: 250 },
-    showZoomer: false,
+	viewport: { width: 128, height: 128 },
+	boundary: { width: 320, height: 285 },
+	showZoomer: false
+});
+basic.croppie('bind', {
     url: 'images/NMMU_logo.png'
 });
 
@@ -280,15 +282,15 @@ $("#upload").change(function () {readFile(this);});
 //  dataURL  = canvas.toDataURL();
 //});
 
-$('#saveIcon').on('click', function (ev) {
-	$('#main-cropper').croppie('result', {
-		type: 'canvas',
-		size: 'viewport'
-	}).then(function (canvas) {
-		dataURL  = canvas.toDataURL();
-		alert(dataURL);
-	});
-});
+//$('#saveIcon').on('click', function (ev) {
+//	$('#main-cropper').croppie('result', {
+//		type: 'canvas',
+//		size: 'viewport'
+//	}).then(function (canvas) {
+//		dataURL: canvas.toDataURL();
+//		alert(dataURL);
+//	});
+//});
 
 //$('#saveIcon').on('click', function () {
 //	$('#main-cropper').croppie('result', {
@@ -299,3 +301,27 @@ $('#saveIcon').on('click', function (ev) {
 //	alert(dataURL);
 //});
 
+$('#saveIcon').on('click', function (ev) {
+	$('#main-cropper').croppie('result', {
+		type: 'canvas',
+		size: 'viewport'
+	}).then(function (resp) {
+		$("#iconCropDiv").append("<canvas id=\"myCanvas\">");
+		$("#iconCropDiv").append("<img id=\"croppedIcon\" src=\"\" alt=\"\"/>");
+		this.picture = $("#croppedIcon");
+		this.picture.attr('src', resp);
+		var canvas = document.getElementById("myCanvas");
+	    var ctx = canvas.getContext("2d");
+	    var img = document.getElementById("croppedIcon");
+	    ctx.drawImage(img, 10, 10);
+	    dataURL = canvas.toDataURL();
+	    //alert(dataURL);
+	    $("#icon").val(dataURL);
+	    $("#iconCropDiv").empty(); // clears div
+	});
+});
+
+$("#savePlan").click(function(e) {
+	//alert(getDataURL());
+	$("#plan").val(getDataURL());
+});

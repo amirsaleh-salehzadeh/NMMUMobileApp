@@ -166,11 +166,10 @@
 		return String;
 	}
 </script>
-<<<<<<< HEAD
+
 <link rel="stylesheet" href="css/jquery.treefilter.css">
-=======
 <link href="css/location/croppie.css" rel="stylesheet">
->>>>>>> origin/V0-Rudolf
+
 <link href="css/location/management/path.management.css"
 	rel="stylesheet">
 <link href="css/location/management/path.management.toolbox.css"
@@ -194,21 +193,6 @@
 		</form>
 	</div>
 </div>
-<<<<<<< HEAD
-<div id="map_canvas"></div>
-<div id="createType"></div>
-<div>
-	<ul id="my-tree">
-	</ul>
-</div>
-<div id="infoDiv">
-	<ul data-role="listview" id="infoListView">
-		<li id="locationTypeToAdd"></li>
-		<li id="parentDescriptionToAdd"></li>
-	</ul>
-</div>
-=======
->>>>>>> origin/V0-Rudolf
 
 <div class="ui-grid-a" id="topToolBox" style="top: 0;">
 	<div class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
@@ -297,22 +281,31 @@
 <!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
 <!-- 			id="addBoundary" onclick="addPolygon()"> -->
 <!-- 	</div> -->
- 
+ 	<input type="hidden" name="icon" id="icon" value="">
+	<input type="hidden" name="boundary" id="boundary" value="">
 	<div class="ui-block-solo">
 		<div id="modal">
       		<span>Upload file for icon</span>
       		<input type="file" id="upload" value="Choose Image" accept="image/*">
-<!--        		<a class="button actionUpload" href="#" onclick="callReadFile();"> -->
+<!--        		<a class="button actionUpload"> -->
 <!--         	<span>Upload</span> -->
 <!--         	<input type="file" id="upload" value="Choose Image" accept="image/*"> -->
 <!--       		</a> -->
 			<div id="main-cropper">
+      		<span>Use the scroll wheel of your mouse to resize the image</span>
       		</div>
+      		<div id="iconCropDiv"></div>
+      		</br>
       		<button class="saveIcon" id="saveIcon">Save Icon</button>
+<!--       		<button id="savePlan" type="button">Save Plan</button> -->
 <!--       		<button class="actionCancel">Cancel</button> -->
  		</div>
 	</div>
-	</br>
+<!-- 	<div class="ui-block-solo"> -->
+<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
+<!-- 		id="addBoundary" onclick="addPolygon()"> -->
+<!-- 	</div> -->
+	
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all"
@@ -362,12 +355,10 @@
 			onclick="saveThePath()">Save</a>
 	</div>
 </div>
-<<<<<<< HEAD
 
-=======
 <script src="js/croppie.js"></script>
-<script src="js/leanModal.min.js"></script>  
->>>>>>> origin/V0-Rudolf
+<script src="js/leanModal.min.js"></script>
+
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.image.js"></script>
