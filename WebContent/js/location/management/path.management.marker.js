@@ -5,6 +5,7 @@ function removeMarker() {
 		$.ajax({
 			url : url,
 			cache : false,
+			beforeSend: function () { ShowLoadingScreen();},
 			success : function(data) {
 				$('#insertAMarker').popup('close');
 				if (data.errorMSG != null) {
@@ -13,6 +14,7 @@ function removeMarker() {
 				}
 				getAllMarkers();
 			},
+			complete: function () { HideLoadingScreen();},
 			error : function(xhr, ajaxOptions, thrownError) {
 				alert(xhr.status);
 				alert(thrownError);
@@ -37,6 +39,7 @@ function saveMarker() {
 		url : url,
 		cache : false,
 		async : true,
+		 beforeSend: function () { ShowLoadingScreen();},
 		success : function(data) {
 			marker = new google.maps.Marker({
 				position : {
@@ -78,18 +81,20 @@ function saveMarker() {
 							setLocationTypeCreate();
 							saveMarker();
 						} else {
-							this
-									.setPosition(pos);
+							this.setPosition(pos);
 						}
+						
 						getAllPaths();
 					});
 			markers.push(marker);
 			$("#markerId").val(data.locationID);
 		},
+		complete: function () { HideLoadingScreen();},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
-		}
+		},
+		
 	});
 	if (!$('#insertAMarker').parent().hasClass('ui-popup-hidden')) {
 		$('#insertAMarker').popup('close');

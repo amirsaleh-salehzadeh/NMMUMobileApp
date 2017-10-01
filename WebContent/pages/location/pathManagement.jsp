@@ -165,12 +165,13 @@
 				+ " second/s.";
 		return String;
 	}
-</script>
-<<<<<<< HEAD
+	
+	
+	</script>
 <link rel="stylesheet" href="css/jquery.treefilter.css">
-=======
+
 <link href="css/location/croppie.css" rel="stylesheet">
->>>>>>> origin/V0-Rudolf
+
 <link href="css/location/management/path.management.css"
 	rel="stylesheet">
 <link href="css/location/management/path.management.toolbox.css"
@@ -194,21 +195,16 @@
 		</form>
 	</div>
 </div>
-<<<<<<< HEAD
-<div id="map_canvas"></div>
+
+<div id="map_canvas"></div><div id="loadingOverlay"><div class="markerLoading" style="display: none;"></div></div>
 <div id="createType"></div>
-<div>
-	<ul id="my-tree">
-	</ul>
-</div>
+
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
 		<li id="locationTypeToAdd"></li>
 		<li id="parentDescriptionToAdd"></li>
 	</ul>
 </div>
-=======
->>>>>>> origin/V0-Rudolf
 
 <div class="ui-grid-a" id="topToolBox" style="top: 0;">
 	<div class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
@@ -362,12 +358,8 @@
 			onclick="saveThePath()">Save</a>
 	</div>
 </div>
-<<<<<<< HEAD
-
-=======
 <script src="js/croppie.js"></script>
 <script src="js/leanModal.min.js"></script>  
->>>>>>> origin/V0-Rudolf
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.image.js"></script>

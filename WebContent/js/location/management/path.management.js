@@ -293,6 +293,14 @@ $(document).ready(
 							- parseInt($(".jqm-header").css("height")) - 7);
 			getLocationSearchPanel();
 			getDecendentList();
-			
-			
 		});
+function ShowLoadingScreen(){
+	
+	$("#loadingOverlay").css("display","block");
+	$(".markerLoading").css('display', 'block').trigger("create");
+}
+function HideLoadingScreen(){
+	
+	$("#loadingOverlay").css("display","none");
+	$(".markerLoading").css('display', 'none');
+}
