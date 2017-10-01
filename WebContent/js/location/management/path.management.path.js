@@ -4,6 +4,7 @@ function getAllPaths() {
 		url : url,
 		cache : false,
 		async : true,
+		beforeSend: function () { ShowLoadingScreen();},
 		success : function(data) {
 			for ( var i = 0; i < paths.length; i++) {
 				paths[i].setMap(null);
@@ -55,6 +56,7 @@ function getAllPaths() {
 				paths.push(pathPolyline);
 			});
 		},
+		complete: function () { HideLoadingScreen();},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
@@ -100,6 +102,7 @@ function saveAPath() {
 		success : function(data) {
 			$("#departureId").val($("#destinationId").val());
 		},
+		
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
@@ -124,7 +127,7 @@ function removePath(id) {
 			error : function(xhr, ajaxOptions, thrownError) {
 				alert(xhr.status);
 				alert(thrownError);
-			}
+			},
 		});
 	} else {
 		return;
