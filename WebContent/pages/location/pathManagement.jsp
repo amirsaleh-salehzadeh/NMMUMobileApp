@@ -369,7 +369,6 @@
 
 <script src="js/croppie.js"></script>
 <script src="js/leanModal.min.js"></script>
-
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.image.js"></script>
