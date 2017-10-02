@@ -165,11 +165,8 @@
 				+ " second/s.";
 		return String;
 	}
-	
-	
-	</script>
+</script>
 <link rel="stylesheet" href="css/jquery.treefilter.css">
-
 <link href="css/location/croppie.css" rel="stylesheet">
 
 <link href="css/location/management/path.management.css"
@@ -195,8 +192,10 @@
 		</form>
 	</div>
 </div>
-
-<div id="map_canvas"></div><div id="loadingOverlay"><div class="markerLoading" style="display: none;"></div></div>
+<div id="map_canvas"></div>
+<div id="loadingOverlay">
+	<div class="markerLoading" style="display: none;"></div>
+</div>
 <div id="createType"></div>
 
 <div id="infoDiv">
@@ -265,50 +264,59 @@
 			name="locationDescription" id="locationDescription" value="" rows="5"
 			cols="17"></textarea>
 	</div>
-<!-- 	<div class="ui-block-solo"> -->
-<!-- 		<input id="file" type="file" name="pic" accept="image/*" /> <br> -->
-<!-- 		<div class="ui-grid-c" id="imageEdit"> -->
-<!-- 			     -->
-<!-- 			<div class="ui-block-a"> -->
-<!-- 				<button id="cropbutton" type="button">Crop</button> -->
-<!-- 			</div> -->
-<!-- 			     -->
-<!-- 			<div class="ui-block-b"> -->
-<!-- 				<button id="scalebutton" type="button">Scale</button> -->
-<!-- 			</div> -->
-<!-- 			      -->
-<!-- 			<div class="ui-block-c"> -->
-<!-- 				<button id="rotatebutton" type="button">Rotate</button> -->
-<!-- 			</div> -->
-<!-- 			<div class="ui-block-d"> -->
-<!-- 				<button id="saveIcon" type="button">Save</button> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<br> -->
-<!-- 		<div id="views"></div> -->
-<!-- 	</div> -->
-<!-- 	<input type="hidden" name="icon" id="icon" value=""> <input -->
-<!-- 		type="hidden" name="boundary" id="boundary" value=""> -->
-<!-- 	<div class="ui-block-solo"> -->
-<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
-<!-- 			id="addBoundary" onclick="addPolygon()"> -->
-<!-- 	</div> -->
- 
+	<!-- 	<div class="ui-block-solo"> -->
+	<!-- 		<input id="file" type="file" name="pic" accept="image/*" /> <br> -->
+	<!-- 		<div class="ui-grid-c" id="imageEdit"> -->
+	<!-- 			     -->
+	<!-- 			<div class="ui-block-a"> -->
+	<!-- 				<button id="cropbutton" type="button">Crop</button> -->
+	<!-- 			</div> -->
+	<!-- 			     -->
+	<!-- 			<div class="ui-block-b"> -->
+	<!-- 				<button id="scalebutton" type="button">Scale</button> -->
+	<!-- 			</div> -->
+	<!-- 			      -->
+	<!-- 			<div class="ui-block-c"> -->
+	<!-- 				<button id="rotatebutton" type="button">Rotate</button> -->
+	<!-- 			</div> -->
+	<!-- 			<div class="ui-block-d"> -->
+	<!-- 				<button id="saveIcon" type="button">Save</button> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 		<br> -->
+	<!-- 		<div id="views"></div> -->
+	<!-- 	</div> -->
+	<!-- 	<input type="hidden" name="icon" id="icon" value=""> <input -->
+	<!-- 		type="hidden" name="boundary" id="boundary" value=""> -->
+	<!-- 	<div class="ui-block-solo"> -->
+	<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
+	<!-- 			id="addBoundary" onclick="addPolygon()"> -->
+	<!-- 	</div> -->
+	<input type="hidden" name="icon" id="icon" value=""> <input
+		type="hidden" name="boundary" id="boundary" value="">
 	<div class="ui-block-solo">
 		<div id="modal">
-      		<span>Upload file for icon</span>
-      		<input type="file" id="upload" value="Choose Image" accept="image/*">
-<!--        		<a class="button actionUpload" href="#" onclick="callReadFile();"> -->
-<!--         	<span>Upload</span> -->
-<!--         	<input type="file" id="upload" value="Choose Image" accept="image/*"> -->
-<!--       		</a> -->
+			<span>Upload file for icon</span> <input type="file" id="upload"
+				value="Choose Image" accept="image/*">
+			<!--        		<a class="button actionUpload"> -->
+			<!--         	<span>Upload</span> -->
+			<!--         	<input type="file" id="upload" value="Choose Image" accept="image/*"> -->
+			<!--       		</a> -->
 			<div id="main-cropper">
-      		</div>
-      		<button class="saveIcon" id="saveIcon">Save Icon</button>
-<!--       		<button class="actionCancel">Cancel</button> -->
- 		</div>
+				<span>Use the scroll wheel of your mouse to resize the image</span>
+			</div>
+			<div id="iconCropDiv"></div>
+			</br>
+			<button class="saveIcon" id="saveIcon">Save Icon</button>
+			<!--       		<button id="savePlan" type="button">Save Plan</button> -->
+			<!--       		<button class="actionCancel">Cancel</button> -->
+		</div>
 	</div>
-	</br>
+	<!-- 	<div class="ui-block-solo"> -->
+	<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
+	<!-- 		id="addBoundary" onclick="addPolygon()"> -->
+	<!-- 	</div> -->
+
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all"
@@ -358,8 +366,10 @@
 			onclick="saveThePath()">Save</a>
 	</div>
 </div>
+
 <script src="js/croppie.js"></script>
-<script src="js/leanModal.min.js"></script>  
+<script src="js/leanModal.min.js"></script>
+
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.image.js"></script>
@@ -373,7 +383,7 @@
 	src="js/location/management/path.management.path.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.panel.js"></script>
-	<script src="js/jquery.treefilter-0.1.0.js"></script>
+<script src="js/jquery.treefilter-0.1.0.js"></script>
 <script async defer
 	src="https
 	://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
