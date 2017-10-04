@@ -31,11 +31,6 @@
 	padding-bottom: 12px;
 }
 
-#locationTypeFields {
-	/* 	padding-left: 22em; */
-	
-}
-
 #infoDiv {
 	position: absolute;
 	display: inline;
@@ -192,10 +187,6 @@
 		</form>
 	</div>
 </div>
-
-
-
-
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
 		<li id="locationTypeToAdd"></li>

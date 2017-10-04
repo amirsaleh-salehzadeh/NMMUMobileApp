@@ -25,16 +25,16 @@
 <script src="js/dataTables.bootstrap.min.js"></script>
 <script src="js/dataTables.select.min.js"></script>
 </head>
-<body dir="ltr" bgcolor="#00457c" style="background-color: #00457c;">
+<body dir="ltr" style="background-color: rgba(8, 27, 44, 1);">
 	<div data-role="page" class="jqm-demos jqm-home">
 		<div data-role="header" class="jqm-header">
 			<h2>
-				<img src="images/NMMU_logo.png" alt="NMMU Web Application">
+				<img src="images/MandelaUniversity_logo_B.png" alt="NMMU Web Application" >
 			</h2>
 			<a href="#"
 				class="menu-icon jqm-navmenu-link ui-btn ui-corner-all ui-btn-left"></a>
-				<a href="#rightpanel"
-				class="menu-icon ui-btn ui-corner-all ui-btn-right"></a>
+<!-- 				<a href="#rightpanel" -->
+<!-- 				class="menu-icon ui-btn ui-corner-all ui-btn-right"></a> -->
 		</div>
 		<div role="main" id="mainBodyContents" class="jqm-content">
 			<tiles:insert attribute="body" />

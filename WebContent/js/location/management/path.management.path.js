@@ -5,7 +5,7 @@ function getAllPaths(loadingContent) {
 		cache : false,
 		async : true,
 		beforeSend : function() {
-			ShowLoadingScreen(loadingContent);
+			ShowLoadingScreen("Fetching paths");
 		},
 		success : function(data) {
 			if (paths != null)
@@ -75,22 +75,22 @@ function saveThePath() {
 	var loadingContent = "Saving Path";
 	var des = $("#destinationId").val();
 	var locationLatLngs = $("#pathLatLng").val().split("_");
-	if (locationLatLngs.length <= 2) {
+//	if (locationLatLngs.length <= 2) {
 		saveAPath();
-	} else
-		for ( var i = 1; i < locationLatLngs.length; i++) {
-			$("#markerName").val("Intersection");
-			$("#markerCoordinate").val(locationLatLngs[i]);
-			$("#locationTypeId").val(5);
-			$("#markerId").val(0);
-			if (i < locationLatLngs.length - 1) {
-				// saveMarker();
-				$("#destinationId").val($("#markerId").val());
-			} else {
-				$("#destinationId").val(des);
-			}
-			saveAPath();
-		}
+//	} else
+//		for ( var i = 1; i < locationLatLngs.length; i++) {
+//			$("#markerName").val("Intersection");
+//			$("#markerCoordinate").val(locationLatLngs[i]);
+//			$("#locationTypeId").val(5);
+//			$("#markerId").val(0);
+//			if (i < locationLatLngs.length - 1) {
+//				// saveMarker();
+//				$("#destinationId").val($("#markerId").val());
+//			} else {
+//				$("#destinationId").val(des);
+//			}
+//			saveAPath();
+//		}
 	$('#insertAPath').popup('close');
 	cancelADrawnPath();
 	getAllPaths(loadingContent);
@@ -105,11 +105,10 @@ function saveAPath() {
 	$.ajax({
 		url : url,
 		cache : false,
-		async : false,
+		async : true,
 		success : function(data) {
 			$("#departureId").val($("#destinationId").val());
 		},
-
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);

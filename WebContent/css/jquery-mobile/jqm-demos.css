@@ -3,7 +3,7 @@
 /* Header 00457c*/
 
 .jqm-demos .jqm-header {
-	background: #000;
+	background: rgba(8, 27, 44, 1);
 	border-top: 4px solid #011d49;
 	border-bottom-color: #eee;
 }
@@ -335,9 +335,6 @@
 		font-size: 1.2em;
 		margin-top: -.625em;
 	}
-	.jqm-demos .jqm-navmenu-link {
-		display: none;
-	}
 	.jqm-demos .jqm-search-link {
 		right: 3%;
 	}
@@ -378,10 +375,10 @@
 		margin-bottom: 3em;
 	}
 	.jqm-demos .jqm-content {
-		width: 67%;
+		width: 100%;
 		padding-top: 2em;
-		padding-left: 5%;
-		padding-right: 3%;
+/* 		padding-left: 5%; */
+/* 		padding-right: 3%; */
 		float: right;
 	}
     .jqm-demos .jqm-content.jqm-fullwidth {

@@ -21,19 +21,19 @@ function refreshMap(locationTypeId, gpsStr) {
 	} else if (locationTypeId == "2") {
 		icon += 'marker-green.png';
 		map.setCenter(gps);
-//		map.setZoom(7);
+		// map.setZoom(7);
 	} else if (locationTypeId == "3") {
 		icon += 'building.png';
 		map.setCenter(gps);
-//		map.setZoom(15);
+		// map.setZoom(15);
 	} else if (locationTypeId == "4") {
 		icon += 'marker-pink.png';
 		map.setCenter(gps);
-//		map.setZoom(19);
+		// map.setZoom(19);
 	} else if (locationTypeId == "5") {
 		icon += 'crossroad48.png';
 		map.setCenter(gps);
-//		map.setZoom(15);
+		// map.setZoom(15);
 	} else
 		icon += 'marker-yellow.png';
 	return icon;
@@ -152,7 +152,7 @@ function initMap() {
 			color : "#a2daf2"
 		} ]
 	} ];
-//	getLocationTypePanel();
+	// getLocationTypePanel();
 	getPathTypePanel();
 	getAllMarkers();
 	getAllPaths();
@@ -178,9 +178,9 @@ function initMap() {
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('createType'));
 	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
-			.getElementById('locationTypeFields'));
-	//map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
-	//		.getElementById('topToolBox'));
+			.getElementById('topToolBox'));
+	// map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+	// .getElementById('topToolBox'));
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
@@ -198,7 +198,9 @@ function initMap() {
 			addAPath(null, lat + "," + lng);
 		}
 	});
-	map.setOptions({ draggableCursor : 'corsshair' });
+	map.setOptions({
+		draggableCursor : 'corsshair'
+	});
 }
 
 function selectActionType() {
@@ -206,12 +208,16 @@ function selectActionType() {
 		$("#topToolBox").css("display", "block");
 		$("#locationTypeListViewDiv").css("display", "block");
 		$("#pathTypeListViewDiv").css("display", "none");
-		map.setOptions({ draggableCursor : 'corsshair' });
+		map.setOptions({
+			draggableCursor : 'corsshair'
+		});
 	} else {
 		$("#topToolBox").css("display", "none");
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
-		map.setOptions({ draggableCursor : "url('images/map-markers/road.png'), auto" });
+		map.setOptions({
+			draggableCursor : "url('images/map-markers/road.png'), auto"
+		});
 	}
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
@@ -226,20 +232,6 @@ function selectActionType() {
 			addAPath(null, lat + "," + lng);
 		}
 	});
-}
-
-function changeTheLocation(li) {
-	$("#locationTypeId").val($(li).attr("id").split("_")[0]);
-	setLocationTypeCreate();
-	$("#parentLocationId").val($(li).attr("id").split("_")[1]);
-	var remove = false;
-	$("#infoListView li").each(function() {
-		if (remove)
-			$(this).remove();
-		if ($(this).attr("id") == $(li).attr("id"))
-			remove = true;
-	});
-	getAllMarkers();
 }
 
 function setLocationTypeCreate() {
@@ -297,16 +289,18 @@ $(document).ready(
 			getLocationSearchPanel();
 			getDecendentList();
 		});
-function ShowLoadingScreen(loadingContent){
-	if (loadingContent==null){loadingContent="Please Wait"}
-	$("#loadingOverlay").css("display","block");
-	$("#loadingContent").css("display","block");
+function ShowLoadingScreen(loadingContent) {
+	if (loadingContent == null) {
+		loadingContent = "Please Wait";
+	}
+	$("#loadingOverlay").css("display", "block");
+	$("#loadingContent").css("display", "block");
 	$(".markerLoading").css('display', 'block').trigger("create");
-	$("#loadingContent").html("Loading. . ."+ "</br>" + loadingContent);
+	$("#loadingContent").html("Loading. . ." + "</br>" + loadingContent);
 }
-function HideLoadingScreen(){
-	
-	$("#loadingOverlay").css("display","none");
+function HideLoadingScreen() {
+
+	$("#loadingOverlay").css("display", "none");
 	$(".markerLoading").css('display', 'none');
-	$("#loadingContent").css("display","none");
+	$("#loadingContent").css("display", "none");
 }
