@@ -192,11 +192,9 @@
 		</form>
 	</div>
 </div>
-<div id="map_canvas"></div>
-<div id="loadingOverlay">
-	<div class="markerLoading" style="display: none;"></div>
-</div>
-<div id="createType"></div>
+
+
+
 
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
@@ -206,18 +204,22 @@
 </div>
 
 <div class="ui-grid-a" id="topToolBox" style="top: 0;">
-	<div class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
+	<div style="top: 0;" class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
 		Add Building<br> <img src="images/map-markers/building.png"
 			width="48" height="48" />
 	</div>
-	<div class="ui-block-b" onclick="selectALocationTypeToAdd(5)">
+	<div style="top: 0;" class="ui-block-b" onclick="selectALocationTypeToAdd(5)">
 		Add Intersection<br> <img src="images/map-markers/crossroad.png"
 			width="48" height="48">
 	</div>
 </div>
 
-<div id="map_canvas"></div>
 <div id="createType"></div>
+<div id="map_canvas"></div>
+<div id="loadingOverlay">
+	<div class="markerLoading" style="display: none;"></div>
+	<span id="loadingContent" style="display: none;"></span>
+</div>
 
 <div id="infoDiv" class="ui-block-solo">
 	<ul data-role="listview" id="infoListView">

@@ -203,10 +203,12 @@ function initMap() {
 
 function selectActionType() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
+		$("#topToolBox").css("display", "block");
 		$("#locationTypeListViewDiv").css("display", "block");
 		$("#pathTypeListViewDiv").css("display", "none");
 		map.setOptions({ draggableCursor : 'corsshair' });
 	} else {
+		$("#topToolBox").css("display", "none");
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
 		map.setOptions({ draggableCursor : "url('images/map-markers/road.png'), auto" });
@@ -295,13 +297,16 @@ $(document).ready(
 			getLocationSearchPanel();
 			getDecendentList();
 		});
-function ShowLoadingScreen(){
-	
+function ShowLoadingScreen(loadingContent){
+	if (loadingContent==null){loadingContent="Please Wait"}
 	$("#loadingOverlay").css("display","block");
+	$("#loadingContent").css("display","block");
 	$(".markerLoading").css('display', 'block').trigger("create");
+	$("#loadingContent").html("Loading. . ."+ "</br>" + loadingContent);
 }
 function HideLoadingScreen(){
 	
 	$("#loadingOverlay").css("display","none");
 	$(".markerLoading").css('display', 'none');
+	$("#loadingContent").css("display","none");
 }

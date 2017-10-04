@@ -1,11 +1,11 @@
-function getAllPaths() {
+function getAllPaths(loadingContent) {
 	var url = "REST/GetLocationWS/GetAllPathsForUser?userName=NMMU";
 	$.ajax({
 		url : url,
 		cache : false,
 		async : true,
 		beforeSend : function() {
-			ShowLoadingScreen();
+			ShowLoadingScreen(loadingContent);
 		},
 		success : function(data) {
 			if (paths != null)
@@ -72,6 +72,7 @@ function getAllPaths() {
 
 // SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH INCLUDES MANY POINTS
 function saveThePath() {
+	var loadingContent = "Saving Path";
 	var des = $("#destinationId").val();
 	var locationLatLngs = $("#pathLatLng").val().split("_");
 	if (locationLatLngs.length <= 2) {
@@ -92,7 +93,7 @@ function saveThePath() {
 		}
 	$('#insertAPath').popup('close');
 	cancelADrawnPath();
-	getAllPaths();
+	getAllPaths(loadingContent);
 }
 
 // SAVE A PATH BETWEEN TWO POINTS
@@ -119,6 +120,8 @@ function saveAPath() {
 
 // REMOVE A PATH
 function removePath(id) {
+	var loadingContent = "Removing Path";
+	
 	if (confirm('Are you sure you want to remove this path?')) {
 		var url = "REST/GetLocationWS/RemoveAPath?pathId=" + id;
 		$.ajax({
@@ -129,7 +132,7 @@ function removePath(id) {
 					alert(data.errorMSG);
 					return;
 				}
-				getAllPaths();
+				getAllPaths(loadingContent);
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				alert(xhr.status);

@@ -1,11 +1,16 @@
 function removeMarker() {
 	var url = "REST/GetLocationWS/RemoveALocation?locationId="
 			+ $("#markerId").val();
+	var loadingContent;
+	 if ($("#locationTypeId").val() == 3){
+		 loadingContent= "Removing Building";
+	 }else{
+		 loadingContent="Removing Intersection" ;}
 	if (confirm('Are you sure you want to remove this location?'))
 		$.ajax({
 			url : url,
 			cache : false,
-			beforeSend: function () { ShowLoadingScreen();},
+			beforeSend: function () { ShowLoadingScreen(loadingContent);},
 			success : function(data) {
 				$('#insertAMarker').popup('close');
 				if (data.errorMSG != null) {
@@ -24,6 +29,11 @@ function removeMarker() {
 }
 
 function saveMarker() {
+	var loadingContent;
+	 if ($("#locationTypeId").val() == 3){
+		 loadingContent= "Saving Building";
+	 }else{
+		 loadingContent="Saving Intersection" ;}
 	if ($("#markerName").val() == "") {
 		alert("Please select a name for the location");
 		return;
@@ -40,7 +50,7 @@ function saveMarker() {
 		url : url,
 		cache : false,
 		async : true,
-		 beforeSend: function () { ShowLoadingScreen();},
+		 beforeSend: function () { ShowLoadingScreen(loadingContent);},
 		success : function(data) {
 			marker = new google.maps.Marker({
 				position : {
