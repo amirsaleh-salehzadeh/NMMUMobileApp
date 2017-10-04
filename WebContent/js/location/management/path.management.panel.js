@@ -84,7 +84,7 @@ function getLocationSearchPanel() {
 				error : function(xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);
 					alert(thrownError);
-				}
+					alert("getLocationSearchPanel");				}
 			});
 	$('#parentLocationListView').val();
 }
@@ -165,6 +165,7 @@ function getDecendentList() {// gets all the children types and locations
 				error : function(xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);
 					alert(thrownError);
+					alert("getDecendentList");
 				}
 			});
 //	alert("Before Initite");
@@ -179,7 +180,7 @@ function initiateTreeItems(){
 	var strCampus="";
 	strCampus += "<li><div>"+arrAreas[i].split("_")[0]+"</div><ul>";
 	strCampus+= getlocationDecendentType("2",arrAreas[i].split("_")[1]);
-	alert(getlocationDecendentType(2,arrAreas[i].split("_")[1]));
+//	alert(getlocationDecendentType(2,arrAreas[i].split("_")[1]));
 	strCampus+="</ul></li>";
 	$("#my-tree").html($("#my-tree").html()+strCampus);
 	}
@@ -190,8 +191,8 @@ function initiateTreeItems(){
 function getlocationDecendentType(locationTypeId,locationId){
 	var str = "";
 	for (var i = 0; i < arrLocationTypesTest.length; i++){
-		if(locationTypeId==arrLocationTypesTest[i].split("_")[1]){
-			alert(arrLocationTypesTest[i].split("_")[0]);
+//		if(locationTypeId==arrLocationTypesTest[i].split("_")[1]){
+//			alert(arrLocationTypesTest[i].split("_")[0]);
 		str += "<li><div>"+arrLocationTypesTest[i].split("_")[0]+"</div><ul>";
 //		console.log(arrLocationTypesTest[i].split("_")[2]);
 //		console.log(arrLocationTypesTest[i].split("_")[0]);

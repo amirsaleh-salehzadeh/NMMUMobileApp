@@ -30,11 +30,11 @@ function closePopup() {
 	$('#popupErrorMessage').css("display", "none");
 	$('#popupArrivalMessage').popup('close');
 	$('#popupSearchResult').popup('close');
-	blurFalse();
+//	blurFalse();
 }
 
 function errorMessagePopupOpen(content) {
-	blurTrue();
+//	blurTrue();
 	// if (whereToGoAfterwards != null || whereToGoAfterwards == undefined) {
 	// $("#popupErrorMessageCloseBTN").click(function() {
 	// closePopup();
@@ -59,7 +59,7 @@ function arrivalMessagePopupOpen() {
 		transition : "turn"
 	});
 	$('#popupArrivalMessage').popup('open').trigger('create');
-	blurTrue();
+//	blurTrue();
 	popupopen = true;
 }
 
@@ -98,9 +98,9 @@ function searchResultPopupOpen(headerText) {
 	});
 	$('#popupSearchResult').popup('open').trigger('create');
 	searchFieldDivClearBTN();
-	if ($("#locationInfoDiv").css('display') != 'none')
+//	if ($("#locationInfoDiv").css('display') != 'none')
 		hideBottomPanel();
-	$('#map_canvas').addClass('off');
+//	$('#map_canvas').addClass('off');
 	$('#searchField').trigger("create");
 	$('#searchField').trigger("focus");
 	popupopen = true;

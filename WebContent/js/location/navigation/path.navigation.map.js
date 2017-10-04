@@ -323,6 +323,7 @@ function showViewItems() {
 }
 
 function showHideLeftSideMenu() {
+//	$("#start").css('display', 'block');
 	if ($("#menuItems").css("display") == "none")
 		$("#menuItems").fadeIn();
 	else
@@ -341,8 +342,9 @@ function hideBottomPanel() {
 }
 
 function showBottomPanel() {
-	$("#locationInfoDiv").css('bottom', '-' + $("#locationInfoDiv").height());
+	$("#start").css('display', 'block');
 	$("#locationInfoDiv").css('display', 'block').trigger("create");
+	$("#locationInfoDiv").css('bottom', '-' + $("#locationInfoDiv").height());
 	$("#locationInfoDiv").animate({
 		bottom : "0"
 	}, 1500);

@@ -186,8 +186,9 @@ public class LocationServicesWS {
 			if (departureId <= 0) {
 				destENT = getLocationDAO().getLocationENT(
 						new LocationENT(destinationId));
-				departureId = getLocationDAO().findClosestLocation(from, "3,5",
-						destENT.getParentId() + "").getLocationID();
+//				departureId = getLocationDAO().findClosestLocation(from, "3,5",
+//						destENT.getParentId() + "").getLocationID();
+				departureId = getLocationDAO().findClosestLocation(from, "3,5",null).getLocationID();
 			}
 			ArrayList<PathENT> res = getLocationDAO().getShortestPath(
 					departureId, destinationId, pathType);

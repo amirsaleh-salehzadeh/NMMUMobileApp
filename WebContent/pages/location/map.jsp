@@ -2,11 +2,12 @@
 	pageEncoding="ISO-8859-1"%>
 <html>
 <head>
-<meta http-equiv="Cache-Control"
-	content="no-cache, no-store, must-revalidate" />
+<!-- <meta http-equiv="Cache-Control" -->
+<!-- 	content="no-cache, no-store, must-revalidate" /> -->
 <!-- no-cache, no-store, must-revalidate -->
-<!-- <meta http-equiv="Pragma" content="public" /> -->
-<meta http-equiv="Expires" content="0" />
+<meta http-equiv="Pragma" content="public" />
+<!-- <meta http-equiv="Expires" content="0" /> -->
+<meta http-equiv="Cache-control" content="public">
 <title>Find It | Nelson Mandela University</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
@@ -38,15 +39,15 @@
 <link rel="stylesheet" href="css/location/loading.nmu.css">
 <link rel="stylesheet" href="css/location/message.dialog.css">
 <style type="text/css">
-.scrollable {
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
-}
+/* .scrollable { */
+/* 	overflow-y: scroll; */
+/* 	-webkit-overflow-scrolling: touch; */
+/* } */
 
-/* iOS specific fix, don't use it on Android devices */
-.scrollable>* {
-	-webkit-transform: translateZ(0px);
-}
+/* /* iOS specific fix, don't use it on Android devices */ */
+/* .scrollable>* { */
+/* 	-webkit-transform: translateZ(0px); */
+/* } */
 </style>
 <script type="text/javascript">
 	$(window).bind('load', function() {

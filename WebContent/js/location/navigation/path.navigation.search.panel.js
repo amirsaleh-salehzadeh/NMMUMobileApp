@@ -5,7 +5,7 @@ function getLocationTypePanel() {
 	$.ajax({
 		url : url,
 		cache : true,
-		async : true,
+		async : false,
 		success : function(data) {
 			// $.each(data, function(p, z) {
 			$.each(data.childrenENT, function(k, l) {
@@ -63,6 +63,7 @@ function selectDestination(destination, content) {
 	var departure = false;
 	if ($("#destinationDefVal").html().indexOf("ROM") != -1)
 		departure = true;
+	$('#popupSearchResult').popup('close');
 	var bounds = new google.maps.LatLngBounds();
 	if (departure) {
 		$("#from")
@@ -102,11 +103,10 @@ function selectDestination(destination, content) {
 		});
 		map.panTo(markerDest.getPosition());
 		map.setZoom(18);
-		blurFalse();
+//		blurFalse();
 		showBottomPanel();
 		// getDirectionFromCurrentLocation();
 	}
-	$('#popupSearchResult').popup('close');
 }
 
 function getDirectionFromCurrentLocation() {
@@ -114,11 +114,11 @@ function getDirectionFromCurrentLocation() {
 	$("#departureDescriptionInput").val("Current Location");
 //	findMyLocation();
 	$('#popupSearchResult').popup('close');
-	blurFalse();
+//	blurFalse();
 	$("#locationInf").html('');
-	do {
-		$(".spinnerLoading").css('display', 'block');
-	} while ($("#from").val().length < 2);
+//	do {
+//		$(".spinnerLoading").css('display', 'block');
+//	} while ($("#from").val().length < 2);
 	getThePath();
 }
 
@@ -135,12 +135,14 @@ function searchFieldDivClearBTN() {
 	$("#resultsListView").listview("refresh");
 }
 function blurTrue() {
-	if (!($('#map_canvas').hasClass('off'))) {
-		$('#map_canvas').toggleClass('off');
-	}
+//	return;
+//	if (!($('#map_canvas').hasClass('off'))) {
+//		$('#map_canvas').toggleClass('off');
+//	}
 }
 function blurFalse() {
-	if ($('#map_canvas').hasClass('off')) {
-		$('#map_canvas').toggleClass('off');
-	}
+//	return;
+//	if ($('#map_canvas').hasClass('off')) {
+//		$('#map_canvas').toggleClass('off');
+//	}
 }

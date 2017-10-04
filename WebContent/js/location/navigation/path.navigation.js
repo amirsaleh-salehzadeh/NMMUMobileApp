@@ -63,13 +63,14 @@ function getThePath() {
 	$.ajax({
 		url : url,
 		cache : true,
-		async : false,
+		async : true,
 		// dataType: 'json',
 		beforeSend : function() {
-			blurTrue();
+//			blurTrue();
 			showBottomPanel();
 			$("#locationInf").html('');
 			$(".spinnerLoading").css('display', 'block').trigger("create");
+			$("#start").css('display', 'none');
 		},
 		success : function(data) {
 			var pathIds = "";
@@ -113,7 +114,7 @@ function getThePath() {
 				errorMessagePopupOpen("Unfortunately, there is no routes for this enquiry in the system. " +
 						"<br/>We recorded your enquiry to update our database in the shortest possible time.");
 			} else {
-				blurFalse();
+//				blurFalse();
 				resetWalking();
 				drawConstantPolyline();
 				hideBottomPanel();
@@ -123,7 +124,7 @@ function getThePath() {
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			hideBottomPanel();
-			blurFalse();
+//			blurFalse();
 			removeTrip();
 			errorMessagePopupOpen(thrownError);
 		}
@@ -407,7 +408,7 @@ function exitFullScreen() {
 
 function toggleFullScreen(element) {
 	if (isFullScreen()) {
-		$('#btnToggleFullscreen').toggleClass('off');
+		$('#btnToggleFullscreen').toggleClass("off");
 		exitFullScreen();
 	} else {
 		$('#btnToggleFullscreen').toggleClass('off');

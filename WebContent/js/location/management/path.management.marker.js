@@ -18,6 +18,7 @@ function removeMarker() {
 			error : function(xhr, ajaxOptions, thrownError) {
 				alert(xhr.status);
 				alert(thrownError);
+				alert("getAllMarkers");
 			}
 		});
 }
@@ -93,6 +94,7 @@ function saveMarker() {
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
+			alert("saveMarker");
 		},
 		
 	});
@@ -186,6 +188,7 @@ function getAllMarkers() {
 				error : function(xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);
 					alert(thrownError);
+					alert("getAllMarkers");
 				}
 			});
 }

@@ -4,11 +4,14 @@ function getAllPaths() {
 		url : url,
 		cache : false,
 		async : true,
-		beforeSend: function () { ShowLoadingScreen();},
+		beforeSend : function() {
+			ShowLoadingScreen();
+		},
 		success : function(data) {
-			for ( var i = 0; i < paths.length; i++) {
-				paths[i].setMap(null);
-			}
+			if (paths != null)
+				for ( var i = 0; i < paths.length; i++) {
+					paths[i].setMap(null);
+				}
 			$.each(data, function(k, l) {
 				var pathCoor = [];
 				pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps
@@ -56,10 +59,13 @@ function getAllPaths() {
 				paths.push(pathPolyline);
 			});
 		},
-		complete: function () { HideLoadingScreen();},
+		complete : function() {
+			HideLoadingScreen();
+		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
+			alert("getAllPaths");
 		}
 	});
 }
@@ -102,10 +108,11 @@ function saveAPath() {
 		success : function(data) {
 			$("#departureId").val($("#destinationId").val());
 		},
-		
+
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
+			alert("savePath");
 		}
 	});
 }
@@ -127,6 +134,7 @@ function removePath(id) {
 			error : function(xhr, ajaxOptions, thrownError) {
 				alert(xhr.status);
 				alert(thrownError);
+				alert("removePath");
 			},
 		});
 	} else {
