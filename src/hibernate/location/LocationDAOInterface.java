@@ -33,7 +33,7 @@ public interface LocationDAOInterface {
 
 	public ArrayList<PathENT> getAllPaths(String username);
 
-	public void savePath(PathENT path);
+	public PathENT savePath(PathENT path);
 
 	public LocationENT findClosestLocation(String GPSCoordinates, String locationTypeIds, String parentIds);
 

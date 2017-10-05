@@ -13,50 +13,7 @@ function getAllPaths(loadingContent) {
 					paths[i].setMap(null);
 				}
 			$.each(data, function(k, l) {
-				var pathCoor = [];
-				pathCoor.push(new google.maps.LatLng(parseFloat(l.departure.gps
-						.split(',')[0]),
-						parseFloat(l.departure.gps.split(',')[1])));
-				if (l.pathRoute != null && l.pathRoute.length > 0) {
-					var tm = l.pathRoute.split("_");
-					if (tm.length == 1)
-						pathCoor.push(new google.maps.LatLng(parseFloat(tm[0]
-								.split(',')[0]),
-								parseFloat(tm[0].split(',')[1])));
-					for ( var i = 0; i < tm.length; i++) {
-						pathCoor.push(new google.maps.LatLng(parseFloat(tm[i]
-								.split(',')[0]),
-								parseFloat(tm[i].split(',')[1])));
-					}
-				}
-				pathCoor.push(new google.maps.LatLng(
-						parseFloat(l.destination.gps.split(',')[0]),
-						parseFloat(l.destination.gps.split(',')[1])));
-				var color = '#FF0000';
-				if (l.pathType.pathTypeId == "1")
-					color = '#ffb400';
-				if (l.pathType.pathTypeId == "2")
-					color = '#0ec605';
-				if (l.pathType.pathTypeId == "3")
-					color = '#3359fc';
-				if (l.pathType.pathTypeId == "4")
-					color = '#000000';
-				if (l.pathType.pathTypeId == "5")
-					color = '#ffffff';
-				if (l.pathType.pathTypeId == "6")
-					color = '#fc33f0';
-				var pathPolyline = new google.maps.Polyline({
-					path : pathCoor,
-					geodesic : true,
-					strokeColor : color,
-					strokeOpacity : 1.0,
-					strokeWeight : 2
-				});
-				pathPolyline.addListener('click', function() {
-					removePath(l.pathId);
-				});
-				pathPolyline.setMap(map);
-				paths.push(pathPolyline);
+				addAPathToMap(l);
 			});
 		},
 		complete : function() {
@@ -70,30 +27,77 @@ function getAllPaths(loadingContent) {
 	});
 }
 
+function addAPathToMap(l) {
+	var pathCoor = [];
+	pathCoor.push(new google.maps.LatLng(
+			parseFloat(l.departure.gps.split(',')[0]),
+			parseFloat(l.departure.gps.split(',')[1])));
+	if (l.pathRoute != null && l.pathRoute.length > 0) {
+		var tm = l.pathRoute.split("_");
+		if (tm.length == 1)
+			pathCoor.push(new google.maps.LatLng(
+					parseFloat(tm[0].split(',')[0]), parseFloat(tm[0]
+							.split(',')[1])));
+		for ( var i = 0; i < tm.length; i++) {
+			pathCoor.push(new google.maps.LatLng(
+					parseFloat(tm[i].split(',')[0]), parseFloat(tm[i]
+							.split(',')[1])));
+		}
+	}
+	pathCoor.push(new google.maps.LatLng(parseFloat(l.destination.gps
+			.split(',')[0]), parseFloat(l.destination.gps.split(',')[1])));
+	var color = '#FF0000';
+	if (l.pathType.pathTypeId == "1")
+		color = '#ffb400';
+	if (l.pathType.pathTypeId == "2")
+		color = '#0ec605';
+	if (l.pathType.pathTypeId == "3")
+		color = '#3359fc';
+	if (l.pathType.pathTypeId == "4")
+		color = '#000000';
+	if (l.pathType.pathTypeId == "5")
+		color = '#ffffff';
+	if (l.pathType.pathTypeId == "6")
+		color = '#fc33f0';
+	var pathPolyline = new google.maps.Polyline({
+		path : pathCoor,
+		geodesic : true,
+		strokeColor : color,
+		strokeOpacity : 1.0,
+		strokeWeight : 2
+	});
+	pathPolyline.id = l.pathId;
+	pathPolyline.addListener('click', function() {
+		removePath(l.pathId);
+	});
+	pathPolyline.setMap(map);
+	paths.push(pathPolyline);
+}
+
 // SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH INCLUDES MANY POINTS
 function saveThePath() {
-	var loadingContent = "Saving Path";
-	var des = $("#destinationId").val();
-	var locationLatLngs = $("#pathLatLng").val().split("_");
-//	if (locationLatLngs.length <= 2) {
-		saveAPath();
-//	} else
-//		for ( var i = 1; i < locationLatLngs.length; i++) {
-//			$("#markerName").val("Intersection");
-//			$("#markerCoordinate").val(locationLatLngs[i]);
-//			$("#locationTypeId").val(5);
-//			$("#markerId").val(0);
-//			if (i < locationLatLngs.length - 1) {
-//				// saveMarker();
-//				$("#destinationId").val($("#markerId").val());
-//			} else {
-//				$("#destinationId").val(des);
-//			}
-//			saveAPath();
-//		}
+//	var loadingContent = "Saving Path";
+//	var des = $("#destinationId").val();
+//	var locationLatLngs = $("#pathLatLng").val().split("_");
+	// if (locationLatLngs.length <= 2) {
 	$('#insertAPath').popup('close');
+	saveAPath();
+	// } else
+	// for ( var i = 1; i < locationLatLngs.length; i++) {
+	// $("#markerName").val("Intersection");
+	// $("#markerCoordinate").val(locationLatLngs[i]);
+	// $("#locationTypeId").val(5);
+	// $("#markerId").val(0);
+	// if (i < locationLatLngs.length - 1) {
+	// // saveMarker();
+	// $("#destinationId").val($("#markerId").val());
+	// } else {
+	// $("#destinationId").val(des);
+	// }
+	// saveAPath();
+	// }
 	cancelADrawnPath();
-	getAllPaths(loadingContent);
+	// getAllPaths(loadingContent);
 }
 
 // SAVE A PATH BETWEEN TWO POINTS
@@ -106,8 +110,15 @@ function saveAPath() {
 		url : url,
 		cache : false,
 		async : true,
+		beforeSend : function() {
+			ShowLoadingScreen("Saving the path");
+		},
 		success : function(data) {
+			addAPathToMap(data);
 			$("#departureId").val($("#destinationId").val());
+		},
+		complete : function() {
+			HideLoadingScreen();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
@@ -119,25 +130,35 @@ function saveAPath() {
 
 // REMOVE A PATH
 function removePath(id) {
-	var loadingContent = "Removing Path";
-	
+	// var loadingContent = "Removing Path";
 	if (confirm('Are you sure you want to remove this path?')) {
 		var url = "REST/GetLocationWS/RemoveAPath?pathId=" + id;
 		$.ajax({
 			url : url,
 			cache : false,
+			async : true,
+			beforeSend : function() {
+				ShowLoadingScreen("Removing the path");
+			},
 			success : function(data) {
 				if (data.errorMSG != null) {
 					alert(data.errorMSG);
 					return;
 				}
-				getAllPaths(loadingContent);
+				for ( var i = 0; i < paths.length; i++) {
+					if (paths[i].id == id)
+						paths[i].setMap(null);
+				}
+				// getAllPaths(loadingContent);
+			},
+			complete : function() {
+				HideLoadingScreen();
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				alert(xhr.status);
 				alert(thrownError);
 				alert("removePath");
-			},
+			}
 		});
 	} else {
 		return;
@@ -202,6 +223,7 @@ function updateMovingLine(event) {
 		paths.push(movingLine);
 	} else
 		movingLine.setPath(tmpPathCoor);
+	
 	movingLine.setMap(null);
 	movingLine.setMap(map);
 }
@@ -277,6 +299,7 @@ function addAPath(location, gps) {
 		google.maps.event.addListener(map, "click", function(event) {
 			addAPathInnerConnection(event);
 		});
+		$("#pathLatLng").val(location.gps);
 		return;
 	} else if ($("#destinationId").val() == "") {
 		$("#destination").val(location.locationName);

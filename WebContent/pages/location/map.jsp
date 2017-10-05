@@ -44,7 +44,9 @@
 /* 	-webkit-overflow-scrolling: touch; */
 /* } */
 
-/* /* iOS specific fix, don't use it on Android devices */ */
+/* /* iOS specific fix, don't use it on Android devices */
+*
+/
 /* .scrollable>* { */
 /* 	-webkit-transform: translateZ(0px); */
 /* } */
@@ -56,7 +58,7 @@
 		iOSCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
-		// 		displayImage(110);
+		displayImage(110);
 		// 		var myTimer = setInterval(test,60);
 		// test(220);
 	});
@@ -193,17 +195,17 @@
 
 		<div id="barcodeDescription" class="ui-block-solo">
 			<div class="ui-block-solo" style="left: 3.45em">
-<!-- 				<div class="ui-block-a" style="width: 7%"> -->
-<!-- 					<img alt="" src="images/icons/normalSpeed.png" -->
-<!-- 						id="walkingImageInfoBox"> -->
-<!-- 				</div> -->
-<!-- 				<div class="ui-block-b" style="width: 100%"> -->
-					<input type="text" class="descriptionInput"
-						id="departureDescriptionInput" value="Current Location"
-						data-role="none" disabled="disabled"> <input type="text"
-						data-role="none" class="descriptionInput" disabled="disabled"
-						id="destinationDescriptionInput">
-<!-- 				</div> -->
+				<!-- 				<div class="ui-block-a" style="width: 7%"> -->
+				<!-- 					<img alt="" src="images/icons/normalSpeed.png" -->
+				<!-- 						id="walkingImageInfoBox"> -->
+				<!-- 				</div> -->
+				<!-- 				<div class="ui-block-b" style="width: 100%"> -->
+				<input type="text" class="descriptionInput"
+					id="departureDescriptionInput" value="Current Location"
+					data-role="none" disabled="disabled"> <input type="text"
+					data-role="none" class="descriptionInput" disabled="disabled"
+					id="destinationDescriptionInput">
+				<!-- 				</div> -->
 			</div>
 			<span id="distanceLeftInf"></span>
 			<!-- 				<span id="arrivalTimeInf">15':14"</span> -->
@@ -312,7 +314,8 @@
 				</div>
 				<div id="locationInf"></div>
 				<!-- 				WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
-				<button id="start" onclick="searchResultPopupOpen('FROM');" data-role="none">
+				<button id="start" onclick="searchResultPopupOpen('FROM');"
+					data-role="none">
 					<!-- 					WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
 					Get <br />Directions
 				</button>

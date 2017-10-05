@@ -21,7 +21,7 @@ function removeMarker() {
 					alert(data.errorMSG);
 					return;
 				}
-				getAllMarkers();
+				deleteMarker($("#markerId").val());
 			},
 			complete : function() {
 				HideLoadingScreen();
@@ -32,6 +32,16 @@ function removeMarker() {
 				alert("getAllMarkers");
 			}
 		});
+}
+
+function deleteMarker(id) {
+	for ( var i = 0; i < markers.length; i++) {
+		if (markers[i].id == id) {
+			markers[i].setMap(null);
+			markers.splice(i, 1);
+			return;
+		}
+	}
 }
 
 function saveMarker() {
@@ -78,7 +88,6 @@ function saveMarker() {
 		$('#insertAMarker').popup("destroy");
 		return -1;
 	}
-	;
 }
 
 function getAllMarkers() {
@@ -88,10 +97,16 @@ function getAllMarkers() {
 		url : url,
 		cache : false,
 		async : true,
+		beforeSend : function() {
+			ShowLoadingScreen(loadingContent);
+		},
 		success : function(data) {
 			$.each(data, function(k, l) {
 				addMarker(l);
 			});
+		},
+		complete : function() {
+			HideLoadingScreen();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
@@ -113,6 +128,7 @@ function addMarker(l) {
 		draggable : true,
 		title : l.locationName
 	});
+	marker.id = l.locationID;
 	google.maps.event.addListener(marker, 'click', function(point) {
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			addAMarker(l, l.gps);

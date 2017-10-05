@@ -277,7 +277,16 @@ public class LocationServicesWS {
 				new LocationENT(tLocationId), new PathTypeENT(pathType));
 		ent.setPathRoute(pathRoute);
 		String json = "[]";
-		getLocationDAO().savePath(ent);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			json = mapper.writeValueAsString(getLocationDAO().savePath(ent));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return json;
 	}
 

@@ -553,7 +553,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public void savePath(PathENT path) {
+	public PathENT savePath(PathENT path) {
 		try {
 			Connection conn = null;
 			try {
@@ -590,6 +590,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return path;
 	}
 
 	private double reEvaluateDistance(double distance, int pathTypeId) {
