@@ -186,15 +186,20 @@ public class LocationServicesWS {
 			if (departureId <= 0) {
 				destENT = getLocationDAO().getLocationENT(
 						new LocationENT(destinationId));
-//				departureId = getLocationDAO().findClosestLocation(from, "3,5",
-//						destENT.getParentId() + "").getLocationID();
-				departureId = getLocationDAO().findClosestLocation(from, "3,5",null).getLocationID();
+				// departureId = getLocationDAO().findClosestLocation(from,
+				// "3,5",
+				// destENT.getParentId() + "").getLocationID();
+				String parentId = destENT.getParentId() + "";
+				if(destENT.getParentId() == 369 || destENT.getParentId() == 371)
+					parentId = "369,371";
+				departureId = getLocationDAO().findClosestLocation(from, "3,5",
+						parentId).getLocationID();
 			}
 			ArrayList<PathENT> res = getLocationDAO().getShortestPath(
 					departureId, destinationId, pathType);
 			if (res.size() == 0)
 				getLocationDAO().saveTrip(departureId, destinationId);
-				json = mapper.writeValueAsString(res);
+			json = mapper.writeValueAsString(res);
 
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();

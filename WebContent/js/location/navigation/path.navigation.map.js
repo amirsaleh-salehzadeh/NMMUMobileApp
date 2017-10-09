@@ -238,8 +238,8 @@ function initiMap() {
 //			.getElementById('zoomSettings'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('menuBTNLeftSideDiv'));
-	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
-			.getElementById('searchBarDivTop'));
+//	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+//			.getElementById('searchBarDivTop'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('menuItems'));
 	map.setMapTypeId('map_style');

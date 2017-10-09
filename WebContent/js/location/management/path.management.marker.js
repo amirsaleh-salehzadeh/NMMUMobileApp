@@ -151,7 +151,7 @@ function addMarker(l) {
 		} else {
 			this.setPosition(pos);
 		}
-		getAllPaths();
+//		getAllPaths();
 	});
 	marker.setPosition(pos);
 	markers.push(marker);

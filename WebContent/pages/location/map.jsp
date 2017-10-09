@@ -58,7 +58,7 @@
 		iOSCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
-		displayImage(110);
+// 		displayImage(110);
 		// 		var myTimer = setInterval(test,60);
 		// test(220);
 	});
@@ -233,7 +233,7 @@
 				<input type="button" class="zoomBTN" id="menuLeftSideBTN"
 					onclick="showHideLeftSideMenu()">
 			</div>
-			<div id="menuItems" style="left: .33em !important;">
+			<div id="menuItems">
 				<div id="visitorCounter">
 					<a href="https://www.reliablecounter.com" target="_blank"> <img
 						src="https://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"

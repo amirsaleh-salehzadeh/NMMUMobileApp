@@ -8,6 +8,7 @@ button {
 	position: absolute;
 	z-index: 100 !important;
 	left: .33em !important;
+	padding-top: 6.2em;
 	/* 	bottom: 11; */
 }
 
