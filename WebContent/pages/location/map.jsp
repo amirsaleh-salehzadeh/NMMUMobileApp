@@ -269,9 +269,9 @@
 		<!-- 		PANEL NAVIGATION BOTTOM -->
 
 
-		<div id="barcodeDescription" >
+		<div id="barcodeDescription">
 			<div class="ui-block-solo">
-				<div style="display: inline-block;">
+				<div style="display: inline-block; right: 48;">
 					<span id="distanceLeftInf"></span> <span id="arrivalTimeInf">15':14"</span>
 					<div class="ui-block-solo" style="display: inline;">
 						<span id="departureDescriptionSpan"></span><br> <img
@@ -279,8 +279,10 @@
 						<span id="destinationDescriptionSpan"></span>
 					</div>
 				</div>
-				<div style="display: inline-block; right: 0; width: 48px;" onclick="removeTrip()">
-					<div >
+				<div
+					style="display: inline-block; right: 0; top: -6; width: 48px; position: absolute;"
+					onclick="removeTrip()">
+					<div>
 						<img alt="#" src="images/icons/clearInput.png">
 					</div>
 				</div>
