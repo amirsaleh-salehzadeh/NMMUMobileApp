@@ -58,9 +58,9 @@
 		iOSCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
-				displayImage(266);
-// 				var myTimer = setInterval(test,60);
-// 		test();
+// 		displayImage(266);
+						var myTimer = setInterval(test,60);
+		// 		test();
 	});
 	var sdf = 0;
 	function test() {
@@ -205,7 +205,9 @@
 
 		<div id="barcodeDescription" class="ui-block-solo">
 			<div class="ui-grid-a">
-				<div class="ui-block-a">
+				<div class="ui-block-a" style="width: 87% !important; right: 0;">
+					<span id="distanceLeftInf"></span>
+					<span id="arrivalTimeInf">15':14"</span>
 					<div class="ui-block-solo" style="display: inline;">
 						<!-- 				<div class="ui-block-a" style="width: 7%"> -->
 						<!-- 					<img alt="" src="images/icons/normalSpeed.png" -->
@@ -215,21 +217,17 @@
 						<!-- 				<input type="hidden" class="descriptionInput" -->
 						<!-- 					id="departureDescriptionInput" value="Current Location" -->
 						<!-- 					data-role="none" disabled="disabled"> -->
-						<img alt="Dest" src="images/icons/finish.png" width="32" height="32"> <span
-							id="departureDescriptionSpan"></span>
+						<span id="departureDescriptionSpan"></span><br> <img
+							alt="Dest" src="images/icons/finish.png" width="32" height="32">
 						<!-- 				<input type="hidden" -->
 						<!-- 					data-role="none" class="descriptionInput" disabled="disabled" -->
 						<!-- 					id="destinationDescriptionInput"> -->
 						<span id="destinationDescriptionSpan"></span>
 						<!-- 				</div> -->
 					</div>
-					<div class="ui-block-solo" id="tripMetricsInfo">
-						<span id="distanceLeftInf"></span>
-					</div>
 				</div>
-				<div class="ui-block-b" style="max-width: 88 !important; right: 0; position: absolute;">
-				
-				
+				<div class="ui-block-b" style="width: 13% !important; right: 0;">
+
 					<!-- 				DIRECTION SHOW -->
 
 
@@ -239,7 +237,20 @@
 							style="background-color: transparent; margin: 0 auto;"></canvas>
 					</div>
 				</div>
-				<!-- 				<span id="arrivalTimeInf">15':14"</span> -->
+			</div>
+			<div class="ui-block-solo ui-grid-b" id="tripTypeBar">
+				<div class="ui-block-a">
+					<img alt="" src="images/icons/dirtroad.png"
+						style="width: 32px; height: 32px; vertical-align: middle;">
+				</div>
+				<div class="ui-block-b">
+					<img alt="" src="images/icons/normalSpeed.png"
+						style="width: 32px; height: 32px; vertical-align: middle;">
+				</div>
+				<div class="ui-block-c">
+					<img alt="" src="images/icons/wheelchair.png"
+						style="width: 32px; height: 32px; vertical-align: middle;">
+				</div>
 			</div>
 		</div>
 

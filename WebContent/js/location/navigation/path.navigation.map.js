@@ -251,7 +251,7 @@ function initiMap() {
 		getThePath();
 	else
 		showViewItems();
-	mapSattelView();
+//	mapSattelView();
 }
 
 function zoomInMap() {
@@ -319,10 +319,10 @@ function showViewItems() {
 		$("#searchBarDivTop").fadeIn();
 	} else {
 		$("#barcodeDescription").fadeIn();
-		$("#mapView").css("top", $("#barcodeDescription").css("height"));
+		$("#mapView").css("bottom", $("#barcodeDescription").css("height"));
 		$("#currentLocationShow").fadeIn();
 		$("#searchBarDivTop").fadeOut();
-		$("#mapView").css("bottom", $("#currentLocationShow").height - 22);
+		$("#mapView").css("top", $("#currentLocationShow").height - 22);
 	}
 }
 
