@@ -289,7 +289,7 @@
 			</div>
 			<div class="ui-block-solo ui-grid-b" id="tripTypeBar">
 				<div class="ui-block-a">
-					<img alt="" src="images/icons/dirtroad.png"
+					<img alt="" src="images/icons/grass.png"
 						style="width: 32px; height: 32px; vertical-align: middle;">
 				</div>
 				<div class="ui-block-b">
