@@ -58,8 +58,8 @@
 		iOSCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
-// 		displayImage(266);
-						var myTimer = setInterval(test,60);
+		// 		displayImage(266);
+		var myTimer = setInterval(test, 60);
 		// 		test();
 	});
 	var sdf = 0;
@@ -140,30 +140,6 @@
 		data-role="page" class="scrollable">
 
 
-		<!-- 	SELECT PATH POPUP -->
-
-
-		<div data-role="popup" id="popupPathType" style="display: none;">
-			<a href="#" data-rel="back"
-				class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-			<div class="ui-block-a">
-				<label for="dirtroad" class="popupPathItem"
-					style="width: 100%; text-align: center;"> <input
-					type="radio" name="radio-choice-path-type" id="dirtroad" value="0"
-					checked="checked">Shortest Path (This path may contain
-					unsmooth walkways) <img alt="" src="images/icons/fastSpeed.png"
-					style="width: 32px; height: 32px; vertical-align: middle;">
-				</label> <br /> <label for="walking" class="popupPathItem"
-					style="width: 100%; text-align: center;">Normal Path <input
-					type="radio" name="radio-choice-path-type" id="walking" value="1">
-					<img alt="" src="images/icons/normalSpeed.png"
-					style="width: 32px; height: 32px; vertical-align: middle;">
-				</label> <a data-role="button" href="#" onclick="getThePath()">Navigate
-					Me</a>
-			</div>
-		</div>
-
-
 		<!-- 		MAP -->
 
 
@@ -182,15 +158,6 @@
 			id="destinationId" placeholder="DestinationId">
 
 
-		<!-- 		FULL SCREEN -->
-
-
-		<div class="ui-block-solo" style="float: right; display: none;"
-			id="viewFullScreen">
-			<a href="#" data-role="button" id="btnToggleFullscreen" alt=""
-				onclick="toggleFullScreen()"></a>
-		</div>
-
 
 		<!-- 		CAMERA PANEL SMALL -->
 
@@ -200,59 +167,22 @@
 		</div>
 
 
-		<!-- 		PANEL TOP -->
+		<!-- 		CURRENT LOCATION SHOW -->
 
 
-		<div id="barcodeDescription" class="ui-block-solo">
-			<div class="ui-grid-a">
-				<div class="ui-block-a" style="width: 87% !important; right: 0;">
-					<span id="distanceLeftInf"></span>
-					<span id="arrivalTimeInf">15':14"</span>
-					<div class="ui-block-solo" style="display: inline;">
-						<!-- 				<div class="ui-block-a" style="width: 7%"> -->
-						<!-- 					<img alt="" src="images/icons/normalSpeed.png" -->
-						<!-- 						id="walkingImageInfoBox"> -->
-						<!-- 				</div> -->
-						<!-- 				<div class="ui-block-b" style="width: 100%"> -->
-						<!-- 				<input type="hidden" class="descriptionInput" -->
-						<!-- 					id="departureDescriptionInput" value="Current Location" -->
-						<!-- 					data-role="none" disabled="disabled"> -->
-						<span id="departureDescriptionSpan"></span><br> <img
-							alt="Dest" src="images/icons/finish.png" width="32" height="32">
-						<!-- 				<input type="hidden" -->
-						<!-- 					data-role="none" class="descriptionInput" disabled="disabled" -->
-						<!-- 					id="destinationDescriptionInput"> -->
-						<span id="destinationDescriptionSpan"></span>
-						<!-- 				</div> -->
-					</div>
-				</div>
-				<div class="ui-block-b" style="width: 13% !important; right: 0;">
-
-					<!-- 				DIRECTION SHOW -->
-
-
-					<div id="directionShow"
-						style="background-color: transparent; display: inline-block;">
-						<canvas id="directionCanvas" width="88" height="88"
-							style="background-color: transparent; margin: 0 auto;"></canvas>
-					</div>
+		<div class="ui-grid-a ui-block-solo" id="currentLocationShow">
+			<div class="ui-block-a" style="width: 33%">
+				<div id="directionShow">
+					<canvas id="directionCanvas" width="100%" height="100%"
+						style="background-color: transparent; margin: 0 auto;"></canvas>
 				</div>
 			</div>
-			<div class="ui-block-solo ui-grid-b" id="tripTypeBar">
-				<div class="ui-block-a">
-					<img alt="" src="images/icons/dirtroad.png"
-						style="width: 32px; height: 32px; vertical-align: middle;">
-				</div>
-				<div class="ui-block-b">
-					<img alt="" src="images/icons/normalSpeed.png"
-						style="width: 32px; height: 32px; vertical-align: middle;">
-				</div>
-				<div class="ui-block-c">
-					<img alt="" src="images/icons/wheelchair.png"
-						style="width: 32px; height: 32px; vertical-align: middle;">
-				</div>
+			<div class="ui-block-b" id="currentLocationInfoContainer"
+				style="width: 67%">
+				<span id="currentLocationInf"></span>
 			</div>
 		</div>
+
 
 
 		<!-- 	SEARCH BUTTON -->
@@ -313,23 +243,6 @@
 		</div>
 
 
-		<!-- 		CURRENT LOCATION SHOW -->
-
-
-		<div class="ui-grid-a ui-block-solo" id="currentLocationShow">
-			<div class="ui-block-a" id="currentLocationButtonContainer"
-				onclick="removeTrip()">
-				<div class="ui-block-solo">
-					<button id="remove" data-role="none"></button>
-				</div>
-				<div class="ui-block-solo">Stop</div>
-			</div>
-			<div class="ui-block-b" id="currentLocationInfoContainer">
-				<span id="currentLocationInf"></span>
-			</div>
-		</div>
-
-
 		<!-- 	BOTTOM PANEL -->
 
 
@@ -349,6 +262,42 @@
 					<!-- 					WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
 					Get <br />Directions
 				</button>
+			</div>
+		</div>
+
+
+		<!-- 		PANEL NAVIGATION BOTTOM -->
+
+
+		<div id="barcodeDescription" >
+			<div class="ui-block-solo">
+				<div style="display: inline-block;">
+					<span id="distanceLeftInf"></span> <span id="arrivalTimeInf">15':14"</span>
+					<div class="ui-block-solo" style="display: inline;">
+						<span id="departureDescriptionSpan"></span><br> <img
+							alt="Dest" src="images/icons/finish.png" width="32" height="32">
+						<span id="destinationDescriptionSpan"></span>
+					</div>
+				</div>
+				<div style="display: inline-block; right: 0; width: 48px;" onclick="removeTrip()">
+					<div >
+						<img alt="#" src="images/icons/clearInput.png">
+					</div>
+				</div>
+			</div>
+			<div class="ui-block-solo ui-grid-b" id="tripTypeBar">
+				<div class="ui-block-a">
+					<img alt="" src="images/icons/dirtroad.png"
+						style="width: 32px; height: 32px; vertical-align: middle;">
+				</div>
+				<div class="ui-block-b">
+					<img alt="" src="images/icons/normalSpeed.png"
+						style="width: 32px; height: 32px; vertical-align: middle;">
+				</div>
+				<div class="ui-block-c">
+					<img alt="" src="images/icons/wheelchair.png"
+						style="width: 32px; height: 32px; vertical-align: middle;">
+				</div>
 			</div>
 		</div>
 

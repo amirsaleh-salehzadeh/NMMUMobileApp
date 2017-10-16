@@ -319,11 +319,12 @@ function showViewItems() {
 		$("#searchBarDivTop").fadeIn();
 	} else {
 		$("#barcodeDescription").fadeIn();
-		$("#mapView").css("bottom", $("#barcodeDescription").css("height"));
 		$("#currentLocationShow").fadeIn();
 		$("#searchBarDivTop").fadeOut();
-		$("#mapView").css("top", $("#currentLocationShow").height - 22);
+		$("#mapView").css("top", $("#currentLocationShow").css("height"));
+		$("#mapView").css("bottom", $("#barcodeDescription").height);
 	}
+	google.maps.event.trigger(map, "resize");
 }
 
 function showHideLeftSideMenu() {

@@ -408,16 +408,6 @@ function exitFullScreen() {
 		document.webkitExitFullscreen();
 }
 
-function toggleFullScreen(element) {
-	if (isFullScreen()) {
-		$('#btnToggleFullscreen').toggleClass("off");
-		exitFullScreen();
-	} else {
-		$('#btnToggleFullscreen').toggleClass('off');
-		requestFullScreen(element || document.documentElement);
-	}
-}
-
 function animateCircle(line) {
 	var count = 0;
 	window.setInterval(function() {
