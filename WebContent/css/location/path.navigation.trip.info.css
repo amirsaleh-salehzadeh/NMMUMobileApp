@@ -2,17 +2,12 @@
 	position: absolute;
 	display: block;
 	max-width: 100%;
-	left: 3.45em;
-	/* 	top: .33em; */
+	left: 0;
 	right: 0 !important;
 	min-height: 48px;
 	text-align: left;
-	/* 	margin: 7px auto !important; */
 	background-color: rgba(8, 27, 44, 1);
 	border: 2px solid #081B2C !important;
-	-webkit-border-radius: 7px !important;
-	-moz-border-radius: 7px !important;
-	border-radius: 7px !important;
 	z-index: 10;
 	font-weight: bold;
 	font-size: 10pt;
@@ -21,6 +16,7 @@
 	padding-left: .22em;
 	color: rgb(248, 182, 36) !important;
 	z-index: 90 !important;
+	min-height: 88 !important;
 }
 
 .descriptionInput {
@@ -45,6 +41,25 @@
 	background-repeat: no-repeat !important;
 	background-size: 27px 27px !important;
 	background-position: 2px 2px !important;
+}
+
+#departureDescriptionSpan,#destinationDescriptionSpan {
+	font-size: 14pt;
+	font-weight: bold;
+	display: table-cell;
+    vertical-align: middle;
+}
+
+#tripMetricsInfo {
+	border: 1px solid rgb(248, 182, 36) !important;
+	border-bottom: none !important;
+	border-left: none !important;
+	border-right: none !important;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 88;
+	display: block;
 }
 
 #destinationDescriptionInput {
@@ -80,9 +95,9 @@
 	padding-left: 0 !important;
 	padding-right: 0 !important;
 	z-index: 102;
-/* 	-webkit-box-shadow: 0 0 1px 2px rgb(58, 55, 88) inset; */
-/* 	-moz-box-shadow: 0 0 1px 2px rgb(58, 55, 88) inset; */
-/* 	box-shadow: 0 0 1px 2px rgb(58, 55, 88) inset; */
+	/* 	-webkit-box-shadow: 0 0 1px 2px rgb(58, 55, 88) inset; */
+	/* 	-moz-box-shadow: 0 0 1px 2px rgb(58, 55, 88) inset; */
+	/* 	box-shadow: 0 0 1px 2px rgb(58, 55, 88) inset; */
 }
 
 #locationInfoDiv {

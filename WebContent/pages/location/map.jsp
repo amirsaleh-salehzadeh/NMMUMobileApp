@@ -58,9 +58,9 @@
 		iOSCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
-// 		displayImage(110);
-		// 		var myTimer = setInterval(test,60);
-		// test(220);
+				displayImage(266);
+// 				var myTimer = setInterval(test,60);
+// 		test();
 	});
 	var sdf = 0;
 	function test() {
@@ -70,7 +70,17 @@
 		displayImage(sdf);
 	}
 	function browserCheck() {
+		// 		var ua = navigator.userAgent;
 
+		// 	    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua))
+		// 	       alert(1);
+
+		// 	    else if(/Chrome/i.test(ua))
+		// 	    	alert(2);
+
+		// 	    else
+		// 	    	errorMessagePopupOpen("For a better performance please use either Google Chrome, Firefox or Safari web browsers.");
+		// 	    return;
 		var isFirefox = typeof InstallTrigger !== 'undefined';
 		// Safari 3.0+ "[object HTMLElementConstructor]" 
 		var isSafari = /constructor/i.test(window.HTMLElement)
@@ -194,21 +204,43 @@
 
 
 		<div id="barcodeDescription" class="ui-block-solo">
-			<div class="ui-block-solo" style="left: 3.45em">
-				<!-- 				<div class="ui-block-a" style="width: 7%"> -->
-				<!-- 					<img alt="" src="images/icons/normalSpeed.png" -->
-				<!-- 						id="walkingImageInfoBox"> -->
-				<!-- 				</div> -->
-				<!-- 				<div class="ui-block-b" style="width: 100%"> -->
-				<input type="text" class="descriptionInput"
-					id="departureDescriptionInput" value="Current Location"
-					data-role="none" disabled="disabled"> <input type="text"
-					data-role="none" class="descriptionInput" disabled="disabled"
-					id="destinationDescriptionInput">
-				<!-- 				</div> -->
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<div class="ui-block-solo" style="display: inline;">
+						<!-- 				<div class="ui-block-a" style="width: 7%"> -->
+						<!-- 					<img alt="" src="images/icons/normalSpeed.png" -->
+						<!-- 						id="walkingImageInfoBox"> -->
+						<!-- 				</div> -->
+						<!-- 				<div class="ui-block-b" style="width: 100%"> -->
+						<!-- 				<input type="hidden" class="descriptionInput" -->
+						<!-- 					id="departureDescriptionInput" value="Current Location" -->
+						<!-- 					data-role="none" disabled="disabled"> -->
+						<img alt="Dest" src="images/icons/finish.png" width="32" height="32"> <span
+							id="departureDescriptionSpan"></span>
+						<!-- 				<input type="hidden" -->
+						<!-- 					data-role="none" class="descriptionInput" disabled="disabled" -->
+						<!-- 					id="destinationDescriptionInput"> -->
+						<span id="destinationDescriptionSpan"></span>
+						<!-- 				</div> -->
+					</div>
+					<div class="ui-block-solo" id="tripMetricsInfo">
+						<span id="distanceLeftInf"></span>
+					</div>
+				</div>
+				<div class="ui-block-b" style="max-width: 88 !important; right: 0; position: absolute;">
+				
+				
+					<!-- 				DIRECTION SHOW -->
+
+
+					<div id="directionShow"
+						style="background-color: transparent; display: inline-block;">
+						<canvas id="directionCanvas" width="88" height="88"
+							style="background-color: transparent; margin: 0 auto;"></canvas>
+					</div>
+				</div>
+				<!-- 				<span id="arrivalTimeInf">15':14"</span> -->
 			</div>
-			<span id="distanceLeftInf"></span>
-			<!-- 				<span id="arrivalTimeInf">15':14"</span> -->
 		</div>
 
 
@@ -267,19 +299,6 @@
 						onclick="findMyLocation(); showHideLeftSideMenu();">
 				</div>
 			</div>
-		</div>
-
-
-		<!-- 				DIRECTION SHOW -->
-
-
-		<div id="directionShow"
-			style="background-color: transparent; right: 11px; top: 113px; position: absolute; display: block;">
-			<!-- 		changed position from left: 53px; top: 73px; <img alt="" -->
-			<!-- 			src="images/icons/anim/arrow2.gif" id="arrowDirId"> <br /> <span -->
-			<!-- 			id="navigationDesc" class="infoValue"> </span> -->
-			<canvas id="directionCanvas" width="111" height="111"
-				style="background-color: transparent; margin: 0 auto;"></canvas>
 		</div>
 
 

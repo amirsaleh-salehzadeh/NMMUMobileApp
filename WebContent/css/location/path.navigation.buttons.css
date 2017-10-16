@@ -33,7 +33,7 @@ button {
 	background-size: 32px 32px;
 	background-position: center;
 	top: .33em;
-	left: .33em !important;
+	left: 0 !important;
 }
 
 #zoomin {

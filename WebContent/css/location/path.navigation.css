@@ -164,28 +164,6 @@
 	padding: 7px 4px 7px 4px;
 }
 
-#currentLocationShow {
-	width: 50%;
-	height: 2em;
-	display: table;
-	z-index: 10;
-	background-color: black;
-	opacity: 0.77;
-	position: absolute;
-	margin: 0 auto;
-	color: white;
-	text-decoration: none;
-	text-align: center;
-	right: 0;
-	left: 0;
-	bottom: 15%;
-	border: 3px solid #d1dcdf !important;
-	-webkit-border-radius: 22px !important;
-	-moz-border-radius: 22px !important;
-	border-radius: 22px !important;
-	right: 0;
-}
-
 .dashboardShow {
 	display: block;
 	min-width: 100%; /* 15% */

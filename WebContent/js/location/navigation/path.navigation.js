@@ -31,20 +31,21 @@ function getThePath() {
 	if ($("#from").val().length < 5)
 		findMyLocation();
 	var GPSCook = getCookie("TripPathGPSCookie");
-	// if (GPSCook != "") {
-	// if (markerDest != null)
-	// markerDest.setMap(null);
-	// markerDest = new google.maps.Marker({
-	// position : getGoogleMapPosition(GPSCook.split("_")[GPSCook
-	// .split("_").length - 1]),
-	// map : map,
-	// icon : 'images/map-markers/marker-orange.png'
-	// });
-	// resetWalking();
-	// drawConstantPolyline();
-	// showViewItems();
-	// return;
-	// }
+	if (GPSCook != "") {
+		if (markerDest != null)
+			markerDest.setMap(null);
+		markerDest = new google.maps.Marker({
+			position : getGoogleMapPosition(GPSCook.split("_")[GPSCook
+					.split("_").length - 1]),
+			map : map,
+			icon : 'images/map-markers/marker-orange.png'
+		});
+		resetWalking();
+		drawConstantPolyline();
+		showViewItems();
+		getTripInfo();
+		return;
+	}
 	var url = "REST/GetLocationWS/GetADirectionFromTo?departureId="
 			+ $("#departureId").val() + "&destinationId="
 			+ $("#destinationId").val() + "&from=" + $("#from").val() + "&to="
@@ -60,25 +61,26 @@ function getThePath() {
 		});
 	}
 	var dataLength = 0;
-	$.ajax({
-		url : url,
-		cache : true,
-		async : true,
-		// dataType: 'json',
-		beforeSend : function() {
-//			blurTrue();
-			showBottomPanel();
-			$("#locationInf").html('');
-			$(".spinnerLoading").css('display', 'block').trigger("create");
-			$("#start").css('display', 'none');
-		},
-		success : function(data) {
-			var pathIds = "";
-			var pathGPSs = "";
-			var pathLocations = "";
-			dataLength = data.length;
-			$.each(data,
-					function(k, l) {
+	$
+			.ajax({
+				url : url,
+				cache : true,
+				async : true,
+				// dataType: 'json',
+				beforeSend : function() {
+					// blurTrue();
+					showBottomPanel();
+					$("#locationInf").html('');
+					$(".spinnerLoading").css('display', 'block').trigger(
+							"create");
+					$("#start").css('display', 'none');
+				},
+				success : function(data) {
+					var pathIds = "";
+					var pathGPSs = "";
+					var pathLocations = "";
+					dataLength = data.length;
+					$.each(data, function(k, l) {
 						if (k == 0) {
 							pathIds = l.depL.id + "," + l.desL.id;
 							if (l.pathRoute != null && l.pathRoute.length > 0) {
@@ -104,31 +106,31 @@ function getThePath() {
 							$("#destinationDef").html(l.desL.n);
 						}
 					});
-			$("#departureId").val(pathIds.split(",")[0]);
-			$("#destinationId").val(
-					pathIds.split(",")[pathIds.split(",").length - 1]);
-			setCookie('TripPathIdsCookie', pathIds, 1);
-			setCookie('TripPathGPSCookie', pathGPSs, 1);
-			setCookie('TripPathLocationsCookie', pathLocations, 1);
-			if (dataLength == 0) {
-				errorMessagePopupOpen("Unfortunately, there is no routes for this enquiry in the system. " +
-						"<br/>We recorded your enquiry to update our database in the shortest possible time.");
-			} else {
-//				blurFalse();
-				resetWalking();
-				drawConstantPolyline();
-				hideBottomPanel();
-				setTimeout(showViewItems(), 1500);
-				getTripInfo();
-			}
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-			hideBottomPanel();
-//			blurFalse();
-			removeTrip();
-			errorMessagePopupOpen(thrownError);
-		}
-	});
+					$("#departureId").val(pathIds.split(",")[0]);
+					$("#destinationId").val(
+							pathIds.split(",")[pathIds.split(",").length - 1]);
+					setCookie('TripPathIdsCookie', pathIds, 1);
+					setCookie('TripPathGPSCookie', pathGPSs, 1);
+					setCookie('TripPathLocationsCookie', pathLocations, 1);
+					if (dataLength == 0) {
+						errorMessagePopupOpen("Unfortunately, there is no routes for this enquiry in the system. "
+								+ "<br/>We recorded your enquiry to update our database in the shortest possible time.");
+					} else {
+						// blurFalse();
+						resetWalking();
+						drawConstantPolyline();
+						hideBottomPanel();
+						setTimeout(showViewItems(), 1500);
+						getTripInfo();
+					}
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					hideBottomPanel();
+					// blurFalse();
+					removeTrip();
+					errorMessagePopupOpen(thrownError);
+				}
+			});
 	if (markerDest != null && marker != null) {
 		var bounds = new google.maps.LatLngBounds();
 		bounds.extend(markerDest.getPosition());
@@ -440,8 +442,8 @@ var successTrackingHandler = function(position) {
 		speed = Math.round(speed);
 	}
 	altitude = position.coords.altitude;
-//	if (getCookie("TripPathGPSCookie").length > 5)
-//		updatePolyLine(currentPos, altitude);
+	// if (getCookie("TripPathGPSCookie").length > 5)
+	// updatePolyLine(currentPos, altitude);
 	if (marker == null) {
 		marker = new google.maps.Marker({
 			map : map
@@ -496,7 +498,7 @@ var successGetCurrentPosition = function(position) {
 
 $(document).ready(function() {
 	$('#destinationName').val("");
-	removeTrip();
+//	removeTrip();
 	getLocationTypePanel();
 	showHideLeftSideMenu();
 });

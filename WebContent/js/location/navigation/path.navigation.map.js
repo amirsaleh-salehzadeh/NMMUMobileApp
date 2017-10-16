@@ -234,12 +234,12 @@ function initiMap() {
 	map.mapTypes.set('map_style', styledMap);
 	map.setMapTypeId('map_style');
 	input = document.getElementById('to');
-//	map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document
-//			.getElementById('zoomSettings'));
+	// map.controls[google.maps.ControlPosition.LEFT_CENTER].push(document
+	// .getElementById('zoomSettings'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('menuBTNLeftSideDiv'));
-//	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
-//			.getElementById('searchBarDivTop'));
+	// map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
+	// .getElementById('searchBarDivTop'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('menuItems'));
 	map.setMapTypeId('map_style');
@@ -293,7 +293,7 @@ function selectDualMode() {
 	$('#mapViewSelect').fadeIn();
 	stopCamera();
 	startCamera();
-//	findMyLocation();
+	// findMyLocation();
 	showHideLeftSideMenu();
 }
 
@@ -305,7 +305,7 @@ function selectMapMode() {
 	$('#mapViewSelect').fadeOut();
 	$('#dualModeSelect').fadeIn();
 	stopCamera();
-//	findMyLocation();
+	// findMyLocation();
 	showHideLeftSideMenu();
 	showHideLeftSideMenu();
 }
@@ -314,16 +314,20 @@ function showViewItems() {
 	if (getCookie("TripPathGPSCookie") == "") {
 		$("#barcodeDescription").fadeOut();
 		$("#currentLocationShow").fadeOut();
+		$("#mapView").css("top", 0);
+		$("#mapView").css("bottom", 0);
 		$("#searchBarDivTop").fadeIn();
 	} else {
 		$("#barcodeDescription").fadeIn();
+		$("#mapView").css("top", $("#barcodeDescription").css("height"));
 		$("#currentLocationShow").fadeIn();
 		$("#searchBarDivTop").fadeOut();
+		$("#mapView").css("bottom", $("#currentLocationShow").height - 22);
 	}
 }
 
 function showHideLeftSideMenu() {
-//	$("#start").css('display', 'block');
+	// $("#start").css('display', 'block');
 	if ($("#menuItems").css("display") == "none")
 		$("#menuItems").fadeIn();
 	else
