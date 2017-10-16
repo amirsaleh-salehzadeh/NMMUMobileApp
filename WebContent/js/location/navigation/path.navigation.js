@@ -433,7 +433,7 @@ var successTrackingHandler = function(position) {
 	}
 	altitude = position.coords.altitude;
 	// if (getCookie("TripPathGPSCookie").length > 5)
-	// updatePolyLine(currentPos, altitude);
+	 updatePolyLine(currentPos, altitude);
 	if (marker == null) {
 		marker = new google.maps.Marker({
 			map : map

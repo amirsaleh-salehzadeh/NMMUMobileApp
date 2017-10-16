@@ -59,7 +59,7 @@
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(266);
-		var myTimer = setInterval(test, 60);
+// 		var myTimer = setInterval(test, 60);
 		// 		test();
 	});
 	var sdf = 0;
