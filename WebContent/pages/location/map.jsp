@@ -73,9 +73,13 @@
 		var ua = navigator.userAgent;
 var platform=null;
 var browser=null;
+
 		if (/Android/i.test(ua)){platform="Android";}
 		if (/Chrome/i.test(ua)){browser="Chrome";}
-		if (/CriOS/i.test(ua)){browser="Chrome";platform="iOS";}else if(/iOS/i.test(ua)){platform="iOS";}
+		if (/CriOS/i.test(ua)){browser="Chrome";platform="iOS";}
+		if(/iOS/i.test(ua)){platform="iOS";}
+	// if iOS not picking up comment out the above line and uncomment the bottom one 
+	//if(/iPad|iPhone|iPod/i.test(ua)){platform="iOS";}
 		if ((/Safari/i.test(ua))&&!(Chrome/Chromium/i.test(ua))){browser="Safari";}
 		if (/rv/i.test(ua)){browser="Firefox";}
 
