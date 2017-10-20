@@ -75,9 +75,11 @@ var platform=null;
 var browser=null;
 
 		if (/Android/i.test(ua)){platform="Android";}
-		if ( /Safari/i.test(ua)){browser="Safari";}
+	// there is no way to be 100% sure of safari as all/most browsers use "Safari"in their userAgent strings
+	//if ( /Safari/i.test(ua)){browser="Safari";}
 		if (/Chrome/i.test(ua)){browser="Chrome";}
 		if (/CriOS/i.test(ua)){browser="Chrome";platform="iOS";}
+	
 		if(/iOS/i.test(ua)){platform="iOS";}
 	// if iOS not picking up comment out the above line and uncomment the bottom one 
 	//if(/iPad|iPhone|iPod/i.test(ua)){platform="iOS";}
