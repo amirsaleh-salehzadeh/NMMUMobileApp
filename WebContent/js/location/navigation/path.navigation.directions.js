@@ -94,6 +94,8 @@ var ctx;
 function displayImage(angle) {
 	ctx = document.getElementById('directionCanvas').getContext('2d');
 	var canvas = document.getElementById('directionCanvas');
+	canvas.width= $("#directionShow").width();
+	canvas.height=$("#directionShow").height();
 	ctx.clearRect(0, 0, document.getElementById('directionCanvas').width,
 			document.getElementById('directionCanvas').height);
 	var startPointX = 0, startPointY = 0, endPointX = 0, endPointY = 0, quadPointX = 0, quadPointY = 0;

@@ -39,17 +39,15 @@
 <link rel="stylesheet" href="css/location/loading.nmu.css">
 <link rel="stylesheet" href="css/location/message.dialog.css">
 <style type="text/css">
-/* .scrollable { */
-/* 	overflow-y: scroll; */
-/* 	-webkit-overflow-scrolling: touch; */
-/* } */
+.scrollable {
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
 
 /* /* iOS specific fix, don't use it on Android devices */
-*
-/
-/* .scrollable>* { */
-/* 	-webkit-transform: translateZ(0px); */
-/* } */
+.scrollable>* {
+	-webkit-transform: translateZ(0px);
+}
 </style>
 <script type="text/javascript">
 	$(window).bind('load', function() {
@@ -59,7 +57,7 @@
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(266);
-// 		var myTimer = setInterval(test, 60);
+		var myTimer = setInterval(test, 60);
 		// 		test();
 	});
 	var sdf = 0;
@@ -136,7 +134,8 @@
 	<!-- 		PAGE CONTENT -->
 
 
-	<div id="pageContents" style="max-width: 100%; max-height: 100%;"
+	<div id="pageContents"
+		style="max-width: 100%; max-height: 100%; overflow: hidden;"
 		data-role="page" class="scrollable">
 
 
@@ -176,6 +175,7 @@
 					<canvas id="directionCanvas" width="100%" height="100%"
 						style="background-color: transparent; margin: 0 auto;"></canvas>
 				</div>
+				<div id="distanceToNextPoint">110 m</div>
 			</div>
 			<div class="ui-block-b" id="currentLocationInfoContainer"
 				style="width: 67%">
@@ -272,7 +272,7 @@
 		<div id="barcodeDescription">
 			<div class="ui-block-solo">
 				<div style="display: inline-block; right: 48;">
-					<span id="distanceLeftInf"></span> <span id="arrivalTimeInf">15':14"</span>
+					<span id="distanceLeftInf"></span> <span id="arrivalTieInf">4':14"</span>
 					<div class="ui-block-solo" style="display: inline;">
 						<span id="departureDescriptionSpan"></span><br> <img
 							alt="Dest" src="images/icons/finish.png" width="32" height="32">

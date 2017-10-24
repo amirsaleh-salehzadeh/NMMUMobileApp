@@ -36,8 +36,22 @@
 }
 
 #directionShow {
+	position: absolute;
 	background-color: rgba(8, 27, 44, 1);
 	display: block;
 	height: 100%;
-	width: 100%;
+	width: 33%;
+}
+
+#distanceToNextPoint{
+	position: absolute;
+	font-size: 120%;
+	font-weight: bold;
+	color: rgb(248, 182, 36);
+	max-height: 33px;
+	max-width: 70px;
+	background-color: rgba(8, 27, 44, .4);
+	z-index: 110;
+	top: 40%;
+	left: 9%;
 }
