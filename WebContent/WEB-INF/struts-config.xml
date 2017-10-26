@@ -25,6 +25,8 @@
 			<forward name="pathManagement" path="/pages/location/pathManagement.jsp" />
 			<forward name="cameraNavigation" path="/pages/location/cameraNavigation.jsp" />
 			<forward name="gridJson" path="/pages/json.jsp" />
+			<forward name="login" path="/login.html" />
+			<forward name="register" path="/pages/user/register.html" />
 		</action>
 		<action path="/user" type="struts.actions.UserAction">
 			<set-property property="cancellable" value="true" />
@@ -34,6 +36,7 @@
 			<forward name="userRole" path="/pages/user/userRole.jsp" />
 			<forward name="userGroup" path="/pages/user/userGroup.jsp" />
 			<forward name="gridJson" path="/pages/json.jsp" />
+			
 		</action>
 		<action path="/newsfeed" type="struts.actions.NEWSFeedAction">
 			<set-property property="cancellable" value="true" />
