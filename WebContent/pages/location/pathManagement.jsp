@@ -283,7 +283,7 @@
 <!-- 	</div> -->
  	<input type="hidden" name="icon" id="icon" value="">
 	<input type="hidden" name="boundary" id="boundary" value="">
-	<div class="ui-block-solo">
+	<div class="ui-block-solo" id="IconDiv">
 		<div id="modal">
       		<span>Upload file for icon</span>
       		<input type="file" id="upload" value="Choose Image" accept="image/*">
@@ -296,15 +296,17 @@
       		</div>
       		<div id="iconCropDiv"></div>
       		</br>
+<!--       		<img id="croppedIcon" src="" alt="" /> -->
+<!--       		<input type="text" name="ic" id="ic" value=""> -->
       		<button class="saveIcon" id="saveIcon">Save Icon</button>
 <!--       		<button id="savePlan" type="button">Save Plan</button> -->
 <!--       		<button class="actionCancel">Cancel</button> -->
  		</div>
 	</div>
-<!-- 	<div class="ui-block-solo"> -->
-<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
-<!-- 		id="addBoundary" onclick="addPolygon()"> -->
-<!-- 	</div> -->
+	<div class="ui-block-solo">
+		<input type="button" data-icon="plus" value="Add Boundary"
+		id="addBoundary" onclick="addPolygon()">
+	</div>
 	
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"

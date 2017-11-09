@@ -153,3 +153,9 @@ select.locationTypeNavBar  {
 	cursor: pointer;
 	color: white;
 }
+
+#IconDiv {
+	width: auto;
+	/*height: 360;*/
+	height: auto;
+}
