@@ -35,14 +35,14 @@ public interface LocationDAOInterface {
 
 	public PathENT savePath(PathENT path);
 
-	public LocationENT findClosestLocation(String GPSCoordinates, String locationTypeIds, String parentIds);
+	public LocationENT findClosestLocation(String GPSCoordinates, String locationTypeIds, String parentIds, String clientName);
 
 	public PathENT getAPath(PathENT ent);
 
 	public long saveTrip(long deptLocationId, long destLocationId);
 
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
-			int pathTypeId);
+			int pathTypeId, String clientName, int areaId);
 
 	public void deleteTrip(long tripId);
 

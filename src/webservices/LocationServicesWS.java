@@ -58,7 +58,7 @@ public class LocationServicesWS {
 	@GET
 	@Path("/SearchForALocation")
 	@Produces("application/json")
-	public String searchForALocation(@QueryParam("userName") String userName,
+	public String searchForALocation(@QueryParam("clientName") String clientName,
 			@QueryParam("locationType") String locationType,
 			@QueryParam("locationName") String locationName) {
 		ObjectMapper mapper = new ObjectMapper();
@@ -67,7 +67,7 @@ public class LocationServicesWS {
 			LocationENT search = new LocationENT();
 			search.setLocationName(locationName);
 			search.setLocationType(new LocationTypeENT(0, locationType));
-			search.setUserName(userName);
+			search.setClientName(clientName);
 			search.setLocationID(360);
 			// LocationLST ls = new LocationLST();
 			// ls.setSearchLocation(search);
@@ -170,33 +170,32 @@ public class LocationServicesWS {
 	@GET
 	@Path("/GetADirectionFromTo")
 	@Produces("application/json")
-	public String getADirectionFromTo(@QueryParam("from") String from,
+	public String getADirectionFromTo(@QueryParam("clientName") String clientName,
+			@QueryParam("from") String from,
 			@QueryParam("to") String to, @QueryParam("pathType") int pathType,
 			@QueryParam("destinationId") long destinationId,
-			@QueryParam("departureId") long departureId) {
+			@QueryParam("departureId") long departureId
+			) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
 			LocationENT destENT = new LocationENT();
 			if (destinationId <= 0) {
-				destENT = getLocationDAO().findClosestLocation(to, "3,5", null);
+				destENT = getLocationDAO().findClosestLocation(to, "11", null, "NMMU");
 				destinationId = destENT.getLocationID();
 			}
 			// building and external intersection
 			if (departureId <= 0) {
 				destENT = getLocationDAO().getLocationENT(
 						new LocationENT(destinationId));
-				// departureId = getLocationDAO().findClosestLocation(from,
-				// "3,5",
-				// destENT.getParentId() + "").getLocationID();
 				String parentId = destENT.getParentId() + "";
 				if(destENT.getParentId() == 369 || destENT.getParentId() == 371)
 					parentId = "369,371";
-				departureId = getLocationDAO().findClosestLocation(from, "3,5",
-						parentId).getLocationID();
+				departureId = getLocationDAO().findClosestLocation(from, "11",
+						parentId, "NMMU").getLocationID();
 			}
 			ArrayList<PathENT> res = getLocationDAO().getShortestPath(
-					departureId, destinationId, pathType);
+					departureId, destinationId, pathType, clientName,pathType);
 			if (res.size() == 0)
 				getLocationDAO().saveTrip(departureId, destinationId);
 			json = mapper.writeValueAsString(res);
@@ -222,7 +221,7 @@ public class LocationServicesWS {
 			json = mapper.writeValueAsString(getLocationDAO()
 					.getLocationENTAncestors(
 							getLocationDAO().findClosestLocation(from, "3,5",
-									null).getLocationID()));
+									null, "NMMU").getLocationID()));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

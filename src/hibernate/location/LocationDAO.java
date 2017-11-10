@@ -29,8 +29,8 @@ import common.location.LocationLST;
 import common.location.LocationTypeENT;
 import common.location.PathENT;
 import common.location.PathTypeENT;
+import graph.management.GraphGenerator;
 import hibernate.config.BaseHibernateDAO;
-import threads.GraphMapThread;
 import tools.AMSException;
 import tools.QRBarcodeGen;
 
@@ -53,10 +53,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 			String query = "";
 			long firstLoc = 0;
 			long secLoc = 0;
-			query = "insert into location (country, address, post_box, gps, location_name, username, location_type, parent_id, description, boundary, plan, icon)"
+			query = "insert into location (country, address, post_box, gps, location_name, client_name, location_type, parent_id, description, boundary, plan, icon)"
 					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			if (ent.getLocationID() > 0)
-				query = "update location set country = ?, address = ?, post_box = ?, gps= ?, location_name = ?, username = ?, location_type = ? , parent_id = ? , description = ?, boundary = ? , plan = ?, icon = ? where location_id = ?";
+				query = "update location set country = ?, address = ?, post_box = ?, gps= ?, location_name = ?, client_name = ?, location_type = ? , parent_id = ? , description = ?, boundary = ? , plan = ?, icon = ? where location_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, ent.getCountry());
@@ -64,7 +64,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps.setString(3, ent.getPostBox());
 			ps.setString(4, ent.getGps());
 			ps.setString(5, ent.getLocationName());
-			ps.setString(6, ent.getUserName());
+			ps.setString(6, ent.getClientName());
 			ps.setInt(7, ent.getLocationType().getLocationTypeId());
 			ps.setLong(8, ent.getParentId());
 			ps.setString(9, ent.getDescription());
@@ -137,8 +137,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 					+ " inner join location_type lt on lt.location_type_id = l.location_type"
 					+ " left join location lp on l.parent_id = lp.location_id "
 					+ " left join location_type ltp on ltp.location_type_id = lp.location_type"
-					+ " where l.username = '"
-					+ lst.getSearchLocation().getUserName()
+					+ " where l.client_name = '"
+					+ lst.getSearchLocation().getClientName()
 					+ "'"
 					+ " and (lt.location_type like '%"
 					+ locationTypeString
@@ -150,7 +150,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				// locationENTs.add(getLocationENTAncestors(rs
 				// .getLong("location_id")));
 				LocationENT ent = new LocationENT(rs.getInt("location_id"),
-						rs.getString("username"), new LocationTypeENT(
+						rs.getString("client_name"), new LocationTypeENT(
 								rs.getInt("location_type"),
 								rs.getString("ltype")),
 						rs.getString("address"), rs.getString("gps"),
@@ -196,7 +196,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				ent = new LocationENT(rs.getLong("location_id"),
-						rs.getString("username"), new LocationTypeENT(
+						rs.getString("client_name"), new LocationTypeENT(
 								rs.getInt("location_type"),
 								rs.getString("locaTypeName")),
 						rs.getString("address"), rs.getString("gps"),
@@ -269,7 +269,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			String query = "";
 			query = "select l.*, lt.location_type as locaName from location l "
 					+ " left join location_type lt on lt.location_type_id = l.location_type";
-			query += " where l.username = '" + username + "'";
+			query += " where l.client_name = '" + username + "'";
 			if (parentLocationIds != null && parentLocationIds.length() >= 1)
 				query += " and l.parent_id in (" + parentLocationIds + ")";
 			if (locationTypeIds != null && locationTypeIds.length() >= 1)
@@ -279,7 +279,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				LocationENT ent = new LocationENT(rs.getLong("location_id"),
-						rs.getString("username"), new LocationTypeENT(
+						rs.getString("client_name"), new LocationTypeENT(
 								rs.getInt("location_type"),
 								rs.getString("locaName")),
 						rs.getString("address"), rs.getString("post_box"),
@@ -372,13 +372,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 			String query = "";
 			query = "select l.*, lt.location_type_id, lt.location_type ltname from location l"
 					+ " left join location_type lt on lt. location_type_id = l.location_type"
-					+ " where l.location_id = " + parent.getLocationID()
+					+ " where l.location_id = "
+					+ parent.getLocationID()
 					+ " and l.location_type != 5 order by l.location_id asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				ent = new LocationENT(rs.getLong("location_id"),
-						rs.getString("username"), new LocationTypeENT(
+						rs.getString("client_name"), new LocationTypeENT(
 								rs.getInt("location_type_id"),
 								rs.getString("ltname")),
 						rs.getString("address"), rs.getString("gps"),
@@ -395,26 +396,26 @@ public class LocationDAO extends BaseHibernateDAO implements
 		}
 		return ent;
 	}
-	
+
 	private ArrayList<LocationENT> getLocationENTTree(LocationENT ent) {
 		ArrayList<LocationENT> res = new ArrayList<LocationENT>();
-//		if (ent.getLocationType().getLocationTypeId() >= 3)
-//			return null;
+		// if (ent.getLocationType().getLocationTypeId() >= 3)
+		// return null;
 		try {
 			Connection conn = null;
 			conn = getConnection();
 			String query = "";
 			query = "select l.*, lt.location_type ltname from location l"
 					+ " left join location_type lt on lt. location_type_id = l.location_type"
-					+ " where l.location_type != 5 and l.parent_id = " + ent.getLocationID()
-					+ " order by l.location_id asc";
+					+ " where l.location_type != 5 and l.parent_id = "
+					+ ent.getLocationID() + " order by l.location_id asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			boolean end = false;
 			while (rs.next()) {
 				end = true;
 				ent = new LocationENT(rs.getLong("location_id"),
-						rs.getString("username"), new LocationTypeENT(
+						rs.getString("client_name"), new LocationTypeENT(
 								rs.getInt("location_type"),
 								rs.getString("ltname")),
 						rs.getString("address"), rs.getString("gps"),
@@ -423,8 +424,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setParentId(rs.getLong("parent_id"));
 				ent.setDescription(rs.getString("description"));
 				ent.setChildrenENT(getLocationENTTree(ent));
-//				if (rs.getInt("location_type_id") > 3)
-//					break;
+				// if (rs.getInt("location_type_id") > 3)
+				// break;
 				res.add(ent);
 			}
 			ps.close();
@@ -486,7 +487,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			String query = "Select p.*, pt.* from paths p "
 					+ "inner join location lf on lf.location_id = p.destination_location_id "
 					+ " left join path_type pt on pt.path_type_id = p.path_type"
-					+ " where lf.username = '" + username + "'";
+					+ " where lf.client_name = '" + username + "'";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -648,24 +649,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return outp;
 	}
 
-	public static void main(String[] args) {
-		LocationDAO dao = new LocationDAO();
-		ArrayList<PathENT> paths = dao.getAllPaths("NMMU");
-		for (int i = 0; i < paths.size(); i++) {
-			System.out.println(calculateDistance(paths.get(i).getDeparture()
-					.getGps(), paths.get(i).getDestination().getGps(), paths
-					.get(i).getPathRoute()));
-		}
-	}
-
 	public LocationENT findClosestLocation(String GPSCoordinates,
-			String locationTypeIds, String parentIds) {
+			String locationTypeIds, String parentIds, String clientName) {
 		LocationDAO dao = new LocationDAO();
 		LocationENT ent = getLocationENT(new LocationENT(0, null, null, null,
 				GPSCoordinates, parentIds));
 		if (ent.getLocationID() > 0)
 			return ent;
-		ArrayList<LocationENT> points = dao.getAllLocationsForUser("NMMU",
+		ArrayList<LocationENT> points = dao.getAllLocationsForUser(clientName,
 				locationTypeIds, parentIds);
 		int closest = -1;
 		double[] distances = new double[points.size()];
@@ -680,26 +671,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 	}
 
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
-			int pathTypeId) {
-		// if (graph == null)
-		// System.out.println(" getShortestPath Start >>>> "
-		// + System.currentTimeMillis());
+			int pathTypeId, String clientName, int areaId) {
 		UndirectedGraph<Long, DefaultWeightedEdge> graph = null;
-		if (GraphMapThread.graphDirt == null
-				|| GraphMapThread.graphWalkaway == null) {
-			GraphMapThread gmt = new GraphMapThread();
-			Thread ta = new Thread(gmt);
-			ta.setName("GraphMapThread");
-			ta.setDaemon(true);
-			ta.start();
-		}
-		// System.out.println(" getShortestPath Thread Done >>>> "
-		// + System.currentTimeMillis());
-
-		if (pathTypeId == 2)
-			graph = GraphMapThread.graphWalkaway;
-		else
-			graph = GraphMapThread.graphDirt;
+		GraphGenerator g = new GraphGenerator();
+		if (g.fetchGraph(clientName, areaId, pathTypeId) == null)
+			g.generateGraph(clientName, areaId, pathTypeId);
+		graph = g.fetchGraph(clientName, areaId, pathTypeId);
 		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
 				graph, dep, dest);
 		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(graph,
@@ -767,13 +744,13 @@ public class LocationDAO extends BaseHibernateDAO implements
 	}
 
 	public static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
-			int pathTypeId) {
+			int pathTypeId, String clientName) {
 		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = null;
 		// try {
 		g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
 				DefaultWeightedEdge.class);
 		LocationDAO dao = new LocationDAO();
-		ArrayList<LocationENT> points = dao.getAllLocationsForUser("NMMU",
+		ArrayList<LocationENT> points = dao.getAllLocationsForUser(clientName,
 				"3,5", null);
 		for (int i = 0; i < points.size(); i++) {
 			long depTMP = points.get(i).getLocationID();
@@ -982,10 +959,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 		try {
 			qrent.setI(QRBarcodeGen.createQrCode(locationId + "", 666, "png"));
 			json = mapper.writeValueAsString(qrent);
-			// QRBarcodeGen barcodeGen = new QRBarcodeGen();
-			// json = "{\"image\":\""
-			// + QRBarcodeGen.createQrCode(locationId+"", 666, "png") + "\"}";
-			System.out.println(json);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -1111,7 +1084,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			while (rs.next()) {
 				long tmpPID = rs.getLong("parent_id");
 				res = new LocationENT(rs.getInt("location_id"),
-						rs.getString("username"), new LocationTypeENT(
+						rs.getString("client_name"), new LocationTypeENT(
 								rs.getInt("location_type"),
 								rs.getString("ltype")),
 						rs.getString("address"), rs.getString("gps"),
@@ -1150,7 +1123,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			while (rs.next()) {
 				long tmpPID = rs.getLong("parent_id");
 				ent = new LocationENT(rs.getInt("location_id"),
-						rs.getString("username"), new LocationTypeENT(
+						rs.getString("client_name"), new LocationTypeENT(
 								rs.getInt("location_type"),
 								rs.getString("ltype")),
 						rs.getString("address"), rs.getString("gps"),

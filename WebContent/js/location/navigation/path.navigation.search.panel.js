@@ -1,7 +1,7 @@
 var locationTypeJSONData;
 var markers = [];
 function getLocationTypePanel() {
-	var url = "REST/GetLocationWS/SearchForALocation?userName=NMMU&locationType=Building&locationName=";
+	var url = "REST/GetLocationWS/SearchForALocation?clientName=NMMU&locationType=Building&locationName=";
 	$.ajax({
 		url : url,
 		cache : true,

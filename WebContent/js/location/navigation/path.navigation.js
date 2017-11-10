@@ -46,7 +46,7 @@ function getThePath() {
 		getTripInfo();
 		return;
 	}
-	var url = "REST/GetLocationWS/GetADirectionFromTo?departureId="
+	var url = "REST/GetLocationWS/GetADirectionFromTo?clientName=NMMU&departureId="
 			+ $("#departureId").val() + "&destinationId="
 			+ $("#destinationId").val() + "&from=" + $("#from").val() + "&to="
 			+ $("#to").val() + "&pathType=1";

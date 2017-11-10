@@ -180,7 +180,7 @@ public class LocationAction extends Action {
 		else
 			locationENT.setLocationName("");
 		locationENT.setGps(request.getParameter("Gps"));
-		locationENT.setUserName(request.getParameter("userName"));
+		locationENT.setClientName(request.getParameter("userName"));
 		//locationENT.setLocationType(request.getParameter("locationType"));
 		locationENT.setParentId(Integer.parseInt(request.getParameter("parentId")));
 		return locationENT;

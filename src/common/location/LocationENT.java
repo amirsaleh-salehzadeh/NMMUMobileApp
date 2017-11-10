@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class LocationENT {
 
 	private long locationID;
-	private String userName;
+	private String clientName;
 	private int country = 0;
 	public LocationTypeENT locationType;
 	private String address = "";
@@ -34,14 +34,14 @@ public class LocationENT {
 	public ArrayList<LocationENT> childrenENT = new ArrayList<LocationENT>();
 	private LocationENT parent;
 
-	public LocationENT(long locationID, String userName, int country,
+	public LocationENT(long locationID, String clientName, int country,
 			LocationTypeENT locationType, String address, String postBox,
 			String gps, String locationName, String icon, String plan,
 			String boundary, String description, long parentId,
 			ArrayList<LocationENT> childrenENT, LocationENT parent) {
 		super();
 		this.locationID = locationID;
-		this.userName = userName;
+		this.clientName = clientName;
 		this.country = country;
 		this.locationType = locationType;
 		this.address = address;
@@ -127,13 +127,13 @@ public class LocationENT {
 		this.parent = parent;
 	}
 
-	public LocationENT(long locationID, String userName,
+	public LocationENT(long locationID, String clientName,
 			LocationTypeENT locationType, String address, String postBox,
 			String gps, String locationName, long parentId,
 			ArrayList<LocationENT> childrenENT) {
 		super();
 		this.locationID = locationID;
-		this.userName = userName;
+		this.clientName = clientName;
 		this.locationType = locationType;
 		this.address = address;
 		this.postBox = postBox;
@@ -166,7 +166,7 @@ public class LocationENT {
 		this.childrenENT = childrenENT;
 	}
 
-	public LocationENT(long locationID, String userName, int country,
+	public LocationENT(long locationID, String clientName, int country,
 			LocationTypeENT locationType, String address, String postBox,
 			String gps, String locationName) {
 		super();
@@ -177,7 +177,7 @@ public class LocationENT {
 		if (country == 0)
 			country = 200;
 		this.locationID = locationID;
-		this.userName = userName;
+		this.clientName = clientName;
 		this.country = country;
 		this.locationType = locationType;
 		this.address = address;
@@ -189,7 +189,7 @@ public class LocationENT {
 	public LocationENT() {
 	}
 
-	public LocationENT(long locationID, String userName,
+	public LocationENT(long locationID, String clientName,
 			LocationTypeENT locationType, String address, String gps,
 			String locationName) {
 		super();
@@ -200,16 +200,16 @@ public class LocationENT {
 		if (country == 0)
 			country = 200;
 		this.locationID = locationID;
-		this.userName = userName;
+		this.clientName = clientName;
 		this.locationType = locationType;
 		this.address = address;
 		this.gps = gps;
 		this.locationName = locationName;
 	}
 
-	public LocationENT(String userName) {
+	public LocationENT(String clientName) {
 		super();
-		this.userName = userName;
+		this.clientName = clientName;
 	}
 
 	public LocationENT(long locationID) {
@@ -225,10 +225,10 @@ public class LocationENT {
 		this.locationType = locationType;
 	}
 
-	public LocationENT(long locationID, String userName) {
+	public LocationENT(long locationID, String clientName) {
 		super();
 		this.locationID = locationID;
-		this.userName = userName;
+		this.clientName = clientName;
 	}
 
 	public long getLocationID() {
@@ -239,12 +239,12 @@ public class LocationENT {
 		this.locationID = locationID;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getClientName() {
+		return clientName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
 	}
 
 	public int getCountry() {
