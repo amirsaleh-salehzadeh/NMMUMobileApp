@@ -287,20 +287,21 @@
 					</div>
 				</div>
 			</div>
-<!-- 			<div class="ui-block-solo ui-grid-b" id="tripTypeBar" onclick="toast('Hi');"> -->
-<!-- 				<div class="ui-block-a"> -->
-<!-- 					<img alt="" src="images/icons/grass.png" -->
-<!-- 						style="width: 32px; height: 32px; vertical-align: middle;"> -->
-<!-- 				</div> -->
-<!-- 				<div class="ui-block-b"> -->
-<!-- 					<img alt="" src="images/icons/normalSpeed.png" -->
-<!-- 						style="width: 32px; height: 32px; vertical-align: middle;"> -->
-<!-- 				</div> -->
-<!-- 				<div class="ui-block-c"> -->
-<!-- 					<img alt="" src="images/icons/wheelchair.png" -->
-<!-- 						style="width: 32px; height: 32px; vertical-align: middle;"> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
+			<div class="ui-block-solo ui-grid-b" id="tripTypeBar" onclick="toast('Under Construction');">
+				<div class="ui-block-a">
+					<img alt="" src="images/icons/grass.png"
+						style="width: 32px; height: 32px; vertical-align: middle;">
+				</div>
+				<div class="ui-block-b">
+					<img alt="" src="images/icons/normalSpeed.png"
+						style="width: 32px; height: 32px; vertical-align: middle;">
+				</div>
+				<div class="ui-block-c">
+					<img alt="" src="images/icons/wheelchair.png"
+						style="width: 32px; height: 32px; vertical-align: middle;">
+				</div>
+				<div style="position: absolute; min-height: 100%; min-width: 100%; background-color: rgba(0,0,0,0.5)"></div>
+			</div>
 		</div>
 
 

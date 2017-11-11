@@ -12,7 +12,7 @@ function toast(msg) {
 		display : "block",
 		opacity : 0.66,
 		position : "fixed",
-		"background-color": "black",
+		"background-color": "rgb(8, 27, 44)",
 		padding : "7px",
 		"text-align" : "center",
 		width : "270px",
