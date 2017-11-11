@@ -205,6 +205,15 @@
 	</div>
 </div>
 
+<div id="polygons">
+	<div id="panelColour">
+		<div id="color-palette"></div>
+		<div>
+     	  	<button id="delete-button">Delete Selected Shape</button>
+		</div>
+	</div>
+</div>
+
 <div id="map_canvas"></div>
 <div id="createType"></div>
 
@@ -253,34 +262,6 @@
 			name="locationDescription" id="locationDescription" value="" rows="5"
 			cols="17"></textarea>
 	</div>
-<!-- 	<div class="ui-block-solo"> -->
-<!-- 		<input id="file" type="file" name="pic" accept="image/*" /> <br> -->
-<!-- 		<div class="ui-grid-c" id="imageEdit"> -->
-<!-- 			     -->
-<!-- 			<div class="ui-block-a"> -->
-<!-- 				<button id="cropbutton" type="button">Crop</button> -->
-<!-- 			</div> -->
-<!-- 			     -->
-<!-- 			<div class="ui-block-b"> -->
-<!-- 				<button id="scalebutton" type="button">Scale</button> -->
-<!-- 			</div> -->
-<!-- 			      -->
-<!-- 			<div class="ui-block-c"> -->
-<!-- 				<button id="rotatebutton" type="button">Rotate</button> -->
-<!-- 			</div> -->
-<!-- 			<div class="ui-block-d"> -->
-<!-- 				<button id="saveIcon" type="button">Save</button> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<br> -->
-<!-- 		<div id="views"></div> -->
-<!-- 	</div> -->
-<!-- 	<input type="hidden" name="icon" id="icon" value=""> <input -->
-<!-- 		type="hidden" name="boundary" id="boundary" value=""> -->
-<!-- 	<div class="ui-block-solo"> -->
-<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
-<!-- 			id="addBoundary" onclick="addPolygon()"> -->
-<!-- 	</div> -->
  	<input type="hidden" name="icon" id="icon" value="">
 	<input type="hidden" name="boundary" id="boundary" value="">
 	<div class="ui-block-solo" id="IconDiv">
@@ -291,14 +272,10 @@
 <!--         	<span>Upload</span> -->
 <!--         	<input type="file" id="upload" value="Choose Image" accept="image/*"> -->
 <!--       		</a> -->
-			<div id="main-cropper">
-      		<span>Use the scroll wheel of your mouse to resize the image</span>
-      		</div>
+			<div id="main-cropper"></div>
       		<div id="iconCropDiv"></div>
       		</br>
-<!--       		<img id="croppedIcon" src="" alt="" /> -->
-<!--       		<input type="text" name="ic" id="ic" value=""> -->
-      		<button class="saveIcon" id="saveIcon">Save Icon</button>
+      		<button class="cropIcon" id="cropIcon">Crop Icon</button>
 <!--       		<button id="savePlan" type="button">Save Plan</button> -->
 <!--       		<button class="actionCancel">Cancel</button> -->
  		</div>

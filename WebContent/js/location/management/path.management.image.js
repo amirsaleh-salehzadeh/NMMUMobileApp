@@ -1,263 +1,36 @@
-/*
-var crop_max_width = 400;
-var crop_max_height = 400;
-var jcrop_api;
-var canvas;
-var context;
-var image;
-*/
-
-/*
-var prefsize;
-
-$("#file").change(function() {
-  loadImage(this);
-});
-
-function loadImage(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    canvas = null;
-    reader.onload = function(e) {
-      image = new Image();
-      image.onload = validateImage;
-      image.src = e.target.result;
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
+var dataURI;
+function getDataURI(){
+	return dataURI;
 }
 
-function dataURLtoBlob(dataURL) {
-  var BASE64_MARKER = ';base64,';
-  if (dataURL.indexOf(BASE64_MARKER) == -1) {
-    var parts = dataURL.split(',');
-    var contentType = parts[0].split(':')[1];
-    var raw = decodeURIComponent(parts[1]);
+////var basic = $('#main-cropper').croppie({
+//var basic = $('#iconCropDiv').croppie({
+//	viewport: { width: 128, height: 128 },
+//	boundary: { width: 200, height: 200 },
+//	showZoomer: false
+//});
+//basic.croppie('bind', {
+//    url: 'images/NMMU_logo.png'
+//});
 
-    return new Blob([raw], {
-      type: contentType
-    });
-  }
-  var parts = dataURL.split(BASE64_MARKER);
-  var contentType = parts[0].split(':')[1];
-  var raw = window.atob(parts[1]);
-  var rawLength = raw.length;
-  var uInt8Array = new Uint8Array(rawLength);
-  for (var i = 0; i < rawLength; ++i) {
-    uInt8Array[i] = raw.charCodeAt(i);
-  }
-
-  return new Blob([uInt8Array], {
-    type: contentType
-  });
+function createCroppie() {
+	$("#main-cropper").append("<span>Use the scroll wheel of your mouse to resize the image</span>");
+	var basic = $('#main-cropper').croppie({
+		viewport: { width: 128, height: 128 },
+		boundary: { width: 200, height: 200 },
+		showZoomer: false
+	});
+	basic.croppie('bind', {
+	    url: 'images/NMMU_logo.png'
+	});
 }
-
-function validateImage() {
-	//alert("validate");
-  if (canvas != null) {
-    image = new Image();
-    image.onload = restartJcrop;
-    image.src = canvas.toDataURL('image/png');
-  } else restartJcrop();
-}
-
-function restartJcrop() {
-	//alert("restart jcrop");
-  if (jcrop_api != null) {
-    jcrop_api.destroy();
-  }
-  $("#views").empty();
-  $("#views").append("<canvas id=\"canvas\">");
-  canvas = $("#canvas")[0];
-  context = canvas.getContext("2d");
-  canvas.width = image.width;
-  canvas.height = image.height;
-  context.drawImage(image, 0, 0);
-  //alert("1");
-  $("#canvas").Jcrop({
-    onSelect: selectcanvas,
-    onRelease: clearcanvas,
-    boxWidth: crop_max_width,
-    boxHeight: crop_max_height
-  }, function() {
-    jcrop_api = this;
-  });
-  //alert("2");
-  clearcanvas();
-}
-
-function clearcanvas() {
-	//alert("clear canvas");
-  prefsize = {
-    x: 0,
-    y: 0,
-    w: canvas.width,
-    h: canvas.height,
-  };
-  dataURL = canvas.toDataURL();
-}
-
-function selectcanvas(coords) {
-  prefsize = {
-    x: Math.round(coords.x),
-    y: Math.round(coords.y),
-    w: Math.round(coords.w),
-    h: Math.round(coords.h)
-  };
-}
-
-function applyCrop() {
-	//alert("crop");
-  canvas.width = prefsize.w;
-  canvas.height = prefsize.h;
-  context.drawImage(image, prefsize.x, prefsize.y, prefsize.w, prefsize.h, 0, 0, canvas.width, canvas.height);
-  validateImage();
-}
-
-function applyScale(scale) {
-  if (scale == 1) return;
-  canvas.width = canvas.width * scale;
-  canvas.height = canvas.height * scale;
-  context.drawImage(image, 0, 0, canvas.width, canvas.height);
-  validateImage();
-}
-
-function applyRotate() {
-  canvas.width = image.height;
-  canvas.height = image.width;
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.translate(image.height / 2, image.width / 2);
-  context.rotate(Math.PI / 2);
-  context.drawImage(image, -image.width / 2, -image.height / 2);
-  validateImage();
-}
-
-function applyHflip() {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.translate(image.width, 0);
-  context.scale(-1, 1);
-  context.drawImage(image, 0, 0);
-  validateImage();
-}
-
-function applyVflip() {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.translate(0, image.height);
-  context.scale(1, -1);
-  context.drawImage(image, 0, 0);
-  validateImage();
-}
-
-$("#cropbutton").click(function(e) {
-	//alert("crop click");
-	applyCrop();
-});
-$("#scalebutton").click(function(e) {
-	var scale = prompt("Scale Factor:", "1");
-  	applyScale(scale);
-});
-$("#rotatebutton").click(function(e) {
-	applyRotate();
-});
-$("#saveIcon").click(function(e) {
-	alert(getDataURL());
-	$("#icon").val(getDataURL());
-});
-$("#savePlan").click(function(e) {
-	alert(getDataURL());
-	$("#plan").val(getDataURL());
-});
-
-$("#form").submit(function(e) {
-  e.preventDefault();
-  formData = new FormData($(this)[0]);
-  var blob = dataURLtoBlob(canvas.toDataURL('image/png'));
-  //---Add file blob to the form data
-  formData.append("cropped_image[]", blob);
-  $.ajax({
-    url: "whatever.php",
-    type: "POST",
-    data: formData,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function(data) {
-      alert("Success");
-    },
-    error: function(data) {
-      alert("Error");
-    },
-    complete: function(data) {}
-  });
-});
-*/
-
-//function demoUpload() {
-//
-//	var $uploadCrop;
-//
-//	function readFile(input) {
-//			if (input.files && input.files[0]) {
-//            var reader = new FileReader();
-//            
-//            reader.onload = function (e) {
-//				//$('.upload-demo').addClass('ready');
-//            	$uploadCrop.croppie('bind', {
-//            		url: e.target.result
-//            	}).then(function(){
-//            		console.log('jQuery bind complete');
-//            	});
-//            	
-//            };
-//            
-//            reader.readAsDataURL(input.files[0]);
-//        }
-//        else {
-//	        swal("Sorry - you're browser doesn't support the FileReader API");
-//	    }
-//	}
-//
-//	$uploadCrop = $('#main-cropper').croppie({
-//		viewport: {
-//			width: 100,
-//			height: 100,
-//			type: 'square'
-//		}
-//	});
-//
-//	$('#upload').on('change', function () { readFile(this); alert("Hi"); });
-//	$('#saveIcon').on('click', function (ev) {
-//		$uploadCrop.croppie('result', {
-//			type: 'canvas',
-//			size: 'viewport'
-//		}).then(function (resp) {
-//			dataURL  = canvas.toDataURL();
-//			alert(dataURL);
-//		});
-//	});
-//	
-//}
-
-var dataURL;
-function getDataURL(){
-	return dataURL;
-}
-
-var basic = $('#main-cropper').croppie({
-	viewport: { width: 128, height: 128 },
-	boundary: { width: 200, height: 200 },
-	showZoomer: false
-});
-basic.croppie('bind', {
-    url: 'images/NMMU_logo.png'
-});
 
 function readFile(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
 
     reader.onload = function (e) {
-      $('#main-cropper').croppie('bind', {
+    	$('#main-cropper').croppie('bind', {
         url: e.target.result
       });
       //$('.actionDone').toggle();
@@ -275,59 +48,40 @@ function callReadFile(){
 }
 
 //$('.actionUpload input').on('change', function () {readFile(this); });
-$("#upload").change(function () {readFile(this);});
-//$('#saveIcon').on('click', function(){
-//  $('.actionDone').toggle();
-//  $('.actionUpload').toggle();
-//  dataURL  = canvas.toDataURL();
-//});
 
-//$('#saveIcon').on('click', function (ev) {
-//	$('#main-cropper').croppie('result', {
-//		type: 'canvas',
-//		size: 'viewport'
-//	}).then(function (canvas) {
-//		dataURL: canvas.toDataURL();
-//		alert(dataURL);
+$("#upload").change(function () {
+	$("#main-cropper").empty();
+	$("#iconCropDiv").empty();
+	createCroppie();
+	readFile(this);
+	});
+
+//$('#upload').on('click', function () {
+//	createCroppie();
+//	$("#iconCropDiv").empty();
+//	readFile(this);
 //	});
-//});
 
-//$('#saveIcon').on('click', function () {
-//	$('#main-cropper').croppie('result', {
-//		type: 'rawcanvas',
-//		format: 'png'
-//	}).then(function (canvas) 
-//			{dataURL = canvas.toDataURL();});
-//	alert(dataURL);
-//});
-
-$('#saveIcon').on('click', function (ev) {
+$('#cropIcon').on('click', function (ev) {
 	$('#main-cropper').croppie('result', {
 		type: 'canvas',
 		size: 'viewport',
 		format: 'png'
 	}).then(function (resp) {
+		$("#iconCropDiv").append("<span>The Cropped Icon</span><br>");
 		$("#iconCropDiv").append("<img id=\"croppedIcon\" src=\"\" alt=\"\"/>");
 		this.picture = $("#croppedIcon");
 		this.picture.attr('src', resp);
 		var img = document.getElementById("croppedIcon");
 		var x = document.getElementById("croppedIcon").src;
-//		$("#iconCropDiv").empty();
-//		alert(x);
-//		$("#iconCropDiv").empty();
-//		$("#iconCropDiv").append("<canvas id=\"myCanvas\" width=\"128\" height=\"128\"></canvas>");
-//		var canvas = document.getElementById("myCanvas");
-//	    var ctx = canvas.getContext("2d");
-//	    ctx.drawImage(img, 0, 0);
-//	    dataURL = canvas.toDataURL();
-//	    alert(dataURL);
+		dataURI = x;
 	    $("#icon").val(x);
-	    $("#ic").val(x);
-	    $("#iconCropDiv").empty(); // clears div
 	});
+	$("#main-cropper").empty();
+	alert("The Icon has been cropped");
 });
 
-$("#savePlan").click(function(e) {
-	//alert(getDataURL());
-	$("#plan").val(getDataURL());
-});
+//$("#savePlan").click(function(e) {
+//	//alert(getDataURL());
+//	$("#plan").val(getDataURI());
+//});

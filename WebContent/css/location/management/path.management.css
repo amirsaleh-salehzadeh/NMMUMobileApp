@@ -159,3 +159,7 @@ select.locationTypeNavBar  {
 	/*height: 360;*/
 	height: auto;
 }
+
+#InfoWindow {
+	color: black;
+}
