@@ -70,7 +70,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps.setString(9, ent.getDescription());
 			ps.setString(10, enttemp.getBoundary());
 			ps.setString(11, enttemp.getPlan());
-			ps.setString(12, enttemp.getIcon());
+			ps.setString(12, ent.getIcon());
 			if (ent.getLocationID() > 0)
 				ps.setLong(13, ent.getLocationID());
 			ps.executeUpdate();

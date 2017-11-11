@@ -245,7 +245,7 @@ function getDataURL(){
 
 var basic = $('#main-cropper').croppie({
 	viewport: { width: 128, height: 128 },
-	boundary: { width: 320, height: 285 },
+	boundary: { width: 200, height: 200 },
 	showZoomer: false
 });
 basic.croppie('bind', {
@@ -304,19 +304,25 @@ $("#upload").change(function () {readFile(this);});
 $('#saveIcon').on('click', function (ev) {
 	$('#main-cropper').croppie('result', {
 		type: 'canvas',
-		size: 'viewport'
+		size: 'viewport',
+		format: 'png'
 	}).then(function (resp) {
-		$("#iconCropDiv").append("<canvas id=\"myCanvas\">");
 		$("#iconCropDiv").append("<img id=\"croppedIcon\" src=\"\" alt=\"\"/>");
 		this.picture = $("#croppedIcon");
 		this.picture.attr('src', resp);
-		var canvas = document.getElementById("myCanvas");
-	    var ctx = canvas.getContext("2d");
-	    var img = document.getElementById("croppedIcon");
-	    ctx.drawImage(img, 10, 10);
-	    dataURL = canvas.toDataURL();
-	    //alert(dataURL);
-	    $("#icon").val(dataURL);
+		var img = document.getElementById("croppedIcon");
+		var x = document.getElementById("croppedIcon").src;
+//		$("#iconCropDiv").empty();
+//		alert(x);
+//		$("#iconCropDiv").empty();
+//		$("#iconCropDiv").append("<canvas id=\"myCanvas\" width=\"128\" height=\"128\"></canvas>");
+//		var canvas = document.getElementById("myCanvas");
+//	    var ctx = canvas.getContext("2d");
+//	    ctx.drawImage(img, 0, 0);
+//	    dataURL = canvas.toDataURL();
+//	    alert(dataURL);
+	    $("#icon").val(x);
+	    $("#ic").val(x);
 	    $("#iconCropDiv").empty(); // clears div
 	});
 });
