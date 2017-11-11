@@ -1,0 +1,28 @@
+.login{
+	background-color: rgba(8, 27, 44, 1);
+}
+
+div #loginContents{
+	 position: absolute;
+   top:5;
+    left: 0;
+    right: 0;
+
+    margin: auto;
+	display:inline-block;
+	 border: 3px solid #ffb501;
+	width:293px;
+	color: #ffb501;
+	
+}
+input{
+	margin :15px;
+	padding:5px;
+}
+
+.ui-btn{
+	color:rgba(8, 27, 44, 1);
+	background-color: #ffb501;
+	margin :15px;
+	padding:5px;
+}
