@@ -153,6 +153,7 @@ select.locationTypeNavBar  {
 	cursor: pointer;
 	color: white;
 }
+
 #loadingOverlay{
 	display: none;
   background: #363636;
@@ -202,4 +203,14 @@ select.locationTypeNavBar  {
 	font-size:10pt;
 	top:55%;
 	left:50%;
+}
+
+#IconDiv {
+	width: auto;
+	/*height: 360;*/
+	height: auto;
+}
+
+#InfoWindow {
+	color: black;
 }
