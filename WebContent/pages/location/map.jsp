@@ -68,43 +68,33 @@
 		displayImage(sdf);
 	}
 	function browserCheck() {
-		// 		var ua = navigator.userAgent;
+		var ua = navigator.userAgent;
+var platform=null;
+var browser=null;
 
-		// 	    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua))
-		// 	       alert(1);
+		if (/Android/i.test(ua)){platform="Android";}
+	// there is no way to be 100% sure of safari as all/most browsers use "Safari"in their userAgent strings
+	//if ( /Safari/i.test(ua)){browser="Safari";}
+		if (/Chrome/i.test(ua)){browser="Chrome";}
+		if (/CriOS/i.test(ua)){browser="Chrome";platform="iOS";}
+	
+		if(/iOS/i.test(ua)){platform="iOS";}
+	// if iOS not picking up comment out the above line and uncomment the bottom one 
+	//if(/iPad|iPhone|iPod/i.test(ua)){platform="iOS";}
+		
+		if (/rv/i.test(ua)){browser="Firefox";}
 
-		// 	    else if(/Chrome/i.test(ua))
-		// 	    	alert(2);
-
-		// 	    else
-		// 	    	errorMessagePopupOpen("For a better performance please use either Google Chrome, Firefox or Safari web browsers.");
-		// 	    return;
-		var isFirefox = typeof InstallTrigger !== 'undefined';
-		// Safari 3.0+ "[object HTMLElementConstructor]" 
-		var isSafari = /constructor/i.test(window.HTMLElement)
-				|| (function(p) {
-					return p.toString() === "[object SafariRemoteNotification]";
-				})
-						(!window['safari']
-								|| (typeof safari !== 'undefined' && safari.pushNotification));
-		// Chrome 1+
-		var isChrome = !!window.chrome && !!window.chrome.webstore;
-
-		if ((!isFirefox) && (!isSafari) && (!isChrome)) {
-			errorMessagePopupOpen("For a better performance please use either Google Chrome, Firefox or Safari web browsers.");
-		}
-	}
-	function iOSCheck() {
-
-		// determine OS
-		var platform = /iPad|iPhone|iPod/.test(navigator.userAgent)
-				&& !window.MSStream;
-
-		if (platform == "iOS") {
-			$('#mapViewSelect').css('display', 'none');
+		if(platform==null){platform = "desktop";}
+		alert(platform);
+		alert(browser);
+		
+		if (platform == "iOS"||platform=="desktop") {
+		//	$('#mapViewSelect').css('display', 'none');
 			$('#dualModeSelect').css('display', 'none');
 		}
-
+		if (browser==null){
+		errorMessagePopupOpen("For better performance please use either Google Chrome, Firefox or Safari web browsers.");
+		}
 	}
 </script>
 <body>
