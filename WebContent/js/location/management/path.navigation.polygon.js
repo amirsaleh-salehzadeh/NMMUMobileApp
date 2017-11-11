@@ -63,6 +63,14 @@ var colors =['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082','#FFFFFF', '#
 var selectedColor;
 var colorButtons = {};
 
+function setDrawingMode () {
+	drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+}
+
+function removeDrawingMode () {
+	drawingManager.setDrawingMode(null);
+}
+
 function clearSelection () {
     if (selectedShape) {
         if (selectedShape.type !== 'marker') {
@@ -159,9 +167,35 @@ function getPolygonCoords(newShape) {
          if (i !== len-1)
          { coordinates = coordinates + "_";}
      }
-    alert("The co-ordinates are: " + coordinates);
+//    alert("The co-ordinates are: " + coordinates);
     return coordinates;
     //var path = newShape.getPath().getArray();
     //var path = "hello";
     //return path;
 }  
+
+function showArrays(newShape, LatLng) {
+    // Since this polygon has only one path, we can call getPath() to return the
+    // MVCArray of LatLngs.
+    var vertices = newShape.getPath();
+
+    var contentString = '<div id="InfoWindow">' + '<b>Polygon Co-Ordinates</b><br>' +
+    'Clicked location: <br>' + LatLng.lat() + ',' + LatLng.lng() + '<br>';
+
+    // Iterate over the vertices.
+    for (var i =0; i < vertices.getLength(); i++) {
+      var xy = vertices.getAt(i);
+      contentString += '<br>' + 'Coordinate ' + i + ':<br>' + xy.lat() + ',' +
+          xy.lng();
+    }
+    
+    contentString += '</div>';
+    
+    // Replace the info window's content and position.
+    var infoWindow = new google.maps.InfoWindow;
+    infoWindow.setContent(contentString);
+    //var LatLng = new google.maps.LatLng(-34.008559,25.668914);
+    infoWindow.setPosition(LatLng);
+
+    infoWindow.open(map);
+  }

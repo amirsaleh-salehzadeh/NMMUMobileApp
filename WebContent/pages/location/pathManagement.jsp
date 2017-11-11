@@ -205,6 +205,19 @@
 	</div>
 </div>
 
+<<<<<<< HEAD
+=======
+<div id="polygons">
+	<div id="panelColour">
+		<div id="color-palette"></div>
+		<div>
+     	  	<button id="delete-button">Delete Selected Shape</button>
+		</div>
+	</div>
+</div>
+
+<div id="map_canvas"></div>
+>>>>>>> Rudolf-V0.1
 <div id="createType"></div>
 <div id="map_canvas"></div>
 <div id="loadingOverlay">
@@ -257,6 +270,7 @@
 			name="locationDescription" id="locationDescription" value="" rows="5"
 			cols="17"></textarea>
 	</div>
+<<<<<<< HEAD
 	<!-- 	<div class="ui-block-solo"> -->
 	<!-- 		<input id="file" type="file" name="pic" accept="image/*" /> <br> -->
 	<!-- 		<div class="ui-grid-c" id="imageEdit"> -->
@@ -310,6 +324,31 @@
 	<!-- 		id="addBoundary" onclick="addPolygon()"> -->
 	<!-- 	</div> -->
 
+=======
+ 	<input type="hidden" name="icon" id="icon" value="">
+	<input type="hidden" name="boundary" id="boundary" value="">
+	<div class="ui-block-solo" id="IconDiv">
+		<div id="modal">
+      		<span>Upload file for icon</span>
+      		<input type="file" id="upload" value="Choose Image" accept="image/*">
+<!--        		<a class="button actionUpload"> -->
+<!--         	<span>Upload</span> -->
+<!--         	<input type="file" id="upload" value="Choose Image" accept="image/*"> -->
+<!--       		</a> -->
+			<div id="main-cropper"></div>
+      		<div id="iconCropDiv"></div>
+      		</br>
+      		<button class="cropIcon" id="cropIcon">Crop Icon</button>
+<!--       		<button id="savePlan" type="button">Save Plan</button> -->
+<!--       		<button class="actionCancel">Cancel</button> -->
+ 		</div>
+	</div>
+	<div class="ui-block-solo">
+		<input type="button" data-icon="plus" value="Add Boundary"
+		id="addBoundary" onclick="addPolygon()">
+	</div>
+	
+>>>>>>> Rudolf-V0.1
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all"
