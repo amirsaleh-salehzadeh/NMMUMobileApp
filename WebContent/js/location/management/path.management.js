@@ -198,12 +198,10 @@ function initMap() {
 			addAPath(null, lat + "," + lng);
 		}
 	});
-<<<<<<< HEAD
+
 	map.setOptions({
 		draggableCursor : 'corsshair'
 	});
-=======
-	map.setOptions({ draggableCursor : 'corsshair' });
 	
 	var polyOptions = {
 	        strokeWeight: 0,
@@ -285,7 +283,7 @@ function initMap() {
 	    //Disables drawing mode on startup so you have to click on toolbar first to draw shapes and create the colour palette
 	    drawingManager.setDrawingMode(null);
 	    buildColorPalette();
->>>>>>> Rudolf-V0.1
+
 }
 
 function selectActionType() {

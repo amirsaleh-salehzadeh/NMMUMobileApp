@@ -205,8 +205,6 @@
 	</div>
 </div>
 
-<<<<<<< HEAD
-=======
 <div id="polygons">
 	<div id="panelColour">
 		<div id="color-palette"></div>
@@ -217,7 +215,7 @@
 </div>
 
 <div id="map_canvas"></div>
->>>>>>> Rudolf-V0.1
+
 <div id="createType"></div>
 <div id="map_canvas"></div>
 <div id="loadingOverlay">
@@ -270,61 +268,7 @@
 			name="locationDescription" id="locationDescription" value="" rows="5"
 			cols="17"></textarea>
 	</div>
-<<<<<<< HEAD
-	<!-- 	<div class="ui-block-solo"> -->
-	<!-- 		<input id="file" type="file" name="pic" accept="image/*" /> <br> -->
-	<!-- 		<div class="ui-grid-c" id="imageEdit"> -->
-	<!-- 			     -->
-	<!-- 			<div class="ui-block-a"> -->
-	<!-- 				<button id="cropbutton" type="button">Crop</button> -->
-	<!-- 			</div> -->
-	<!-- 			     -->
-	<!-- 			<div class="ui-block-b"> -->
-	<!-- 				<button id="scalebutton" type="button">Scale</button> -->
-	<!-- 			</div> -->
-	<!-- 			      -->
-	<!-- 			<div class="ui-block-c"> -->
-	<!-- 				<button id="rotatebutton" type="button">Rotate</button> -->
-	<!-- 			</div> -->
-	<!-- 			<div class="ui-block-d"> -->
-	<!-- 				<button id="saveIcon" type="button">Save</button> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<br> -->
-	<!-- 		<div id="views"></div> -->
-	<!-- 	</div> -->
-	<!-- 	<input type="hidden" name="icon" id="icon" value=""> <input -->
-	<!-- 		type="hidden" name="boundary" id="boundary" value=""> -->
-	<!-- 	<div class="ui-block-solo"> -->
-	<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
-	<!-- 			id="addBoundary" onclick="addPolygon()"> -->
-	<!-- 	</div> -->
-	<input type="hidden" name="icon" id="icon" value=""> <input
-		type="hidden" name="boundary" id="boundary" value="">
-	<div class="ui-block-solo">
-		<div id="modal">
-			<span>Upload file for icon</span> <input type="file" id="upload"
-				value="Choose Image" accept="image/*">
-			<!--        		<a class="button actionUpload"> -->
-			<!--         	<span>Upload</span> -->
-			<!--         	<input type="file" id="upload" value="Choose Image" accept="image/*"> -->
-			<!--       		</a> -->
-			<div id="main-cropper">
-				<span>Use the scroll wheel of your mouse to resize the image</span>
-			</div>
-			<div id="iconCropDiv"></div>
-			</br>
-			<button class="saveIcon" id="saveIcon">Save Icon</button>
-			<!--       		<button id="savePlan" type="button">Save Plan</button> -->
-			<!--       		<button class="actionCancel">Cancel</button> -->
-		</div>
-	</div>
-	<!-- 	<div class="ui-block-solo"> -->
-	<!-- 		<input type="button" data-icon="plus" value="Add Boundary" -->
-	<!-- 		id="addBoundary" onclick="addPolygon()"> -->
-	<!-- 	</div> -->
 
-=======
  	<input type="hidden" name="icon" id="icon" value="">
 	<input type="hidden" name="boundary" id="boundary" value="">
 	<div class="ui-block-solo" id="IconDiv">
@@ -348,7 +292,6 @@
 		id="addBoundary" onclick="addPolygon()">
 	</div>
 	
->>>>>>> Rudolf-V0.1
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all"
