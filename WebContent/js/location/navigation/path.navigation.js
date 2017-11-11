@@ -5,6 +5,24 @@ var distanceToNextPosition, distanceToDestination, angleToNextDestination;
 var paths = [];
 var ajaxCallSearch;
 
+function toast(msg) {
+	$(
+			"<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h3>"
+					+ msg + "</h3></div>").css({
+		display : "block",
+		opacity : 0.66,
+		position : "fixed",
+		"background-color": "black",
+		padding : "7px",
+		"text-align" : "center",
+		width : "270px",
+		left : ($(window).width() - 284) / 2,
+		top : $(window).height() / 2
+	}).appendTo($.mobile.pageContainer).delay(2500).fadeOut(1000, function() {
+		$(this).remove();
+	});
+}
+
 // KEY PRESS
 
 function KeyPress(e) {
