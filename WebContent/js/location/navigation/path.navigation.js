@@ -1,4 +1,4 @@
-var map, marker, infoWindow, markerDest, markerDepart;
+var map, marker, markerDest, markerDepart;
 var pathPolylineConstant, pathPolylineTrack, polylineConstantLength;
 var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID, altitude;
 var distanceToNextPosition, distanceToDestination, angleToNextDestination;
@@ -7,13 +7,14 @@ var ajaxCallSearch;
 
 function toast(msg) {
 	$(
-			"<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h3>"
+			"<div class='ui-loader ui-body-e ui-corner-all'><h3>"
 					+ msg + "</h3></div>").css({
 		display : "block",
-		opacity : 0.66,
+		opacity : 0.77,
 		position : "fixed",
 		"background-color": "rgb(8, 27, 44)",
 		padding : "7px",
+		color: "rgb(248, 182, 36)",
 		"text-align" : "center",
 		width : "270px",
 		left : ($(window).width() - 284) / 2,
@@ -86,7 +87,6 @@ function getThePath() {
 				async : true,
 				// dataType: 'json',
 				beforeSend : function() {
-					// blurTrue();
 					showBottomPanel();
 					$("#locationInf").html('');
 					$(".spinnerLoading").css('display', 'block').trigger(
@@ -110,8 +110,6 @@ function getThePath() {
 										+ l.desL.g.replace(" ", "");
 							}
 							pathLocations += l.depL.n + "_" + l.desL.n;
-							// alert($("#departureId").val());
-							// $("#departureId").val(l.departure.locationID);
 						} else {
 							if (l.pathRoute != null && l.pathRoute.length > 0) {
 								pathGPSs += l.pathRoute + "_"
@@ -218,7 +216,6 @@ function drawConstantPolyline() {
 				polylineConstantLength += getDistance(nextDestGPS[i],
 						nextDestGPS[i + 1]);
 			tmpPathCoor.push(getGoogleMapPosition(nextDestGPS[i]));
-			console.log(getGoogleMapPosition(nextDestGPS[i]));
 		}
 	else
 		return;
@@ -320,7 +317,7 @@ function findMyLocation() {
 					maximumAge : 1000
 				});
 	} else {
-		handleLocationError(false, infoWindow, map.getCenter());
+		handleLocationError(false, map.getCenter());
 	}
 }
 
@@ -335,7 +332,7 @@ function walkToDestination() {
 					enableHighAccuracy : true
 				});
 	} else {
-		handleLocationError(false, infoWindow, map.getCenter());
+		handleLocationError(false, map.getCenter());
 	}
 }
 
@@ -387,15 +384,9 @@ var errorHandler = function(errorObj) {
 
 };
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-
-	infoWindow.setPosition(pos);
-	infoWindow
-			.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.'
-					: 'Error: Your browser doesn\'t support geolocation.');
+function handleLocationError(browserHasGeolocation, pos) {
 	errorMessagePopupOpen(browserHasGeolocation ? 'Error: The Geolocation service failed.'
 			: 'Error: Your browser doesn\'t support geolocation.');
-	infoWindow.open(map);
 }
 
 function isFullScreen() {

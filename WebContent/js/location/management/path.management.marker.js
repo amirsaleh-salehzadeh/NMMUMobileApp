@@ -55,23 +55,31 @@ function saveMarker() {
 		alert("Please select a name for the location");
 		return;
 	}
-	var url = "REST/GetLocationWS/SaveUpdateLocation?address=&plan=&parentId="
-			+ $("#parentLocationId").val() + "&locationName="
-			+ $("#markerName").val() + "&coordinate="
-			+ $("#markerCoordinate").val() + "&locationType="
-			+ $("#locationTypeId").val() + "&locationId="
-			+ $("#markerId").val() + "&userName=NMMU" + "&description="
-			+ $("#locationDescription").val() + "&boundary="
-			+ $("#boundary").val() + "&icon=" + $("#icon").val();
+	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$.ajax({
 		url : url,
 		cache : false,
-		async : true,
+		async : false,
+		dataType : 'text',
+		type : 'POST',
+		data : {
+			icon : $("#icon").val(),
+			locationName : $("#markerName").val(),
+			parentId : $("#parentLocationId").val(),
+			coordinate : $("#markerCoordinate").val(),
+			locationType : $("#locationTypeId").val(),
+			locationId : $("#markerId").val(),
+			description : $("#locationDescription").val(),
+			address : "",
+			plan : "",
+			boundary : $("#boundary").val(),
+			userName : "NMMU"
+		},
 		beforeSend : function() {
 			ShowLoadingScreen(loadingContent);
 		},
 		success : function(data) {
-			addMarker(data);
+			 addMarker(data);
 			$("#markerId").val(data.locationID);
 		},
 		complete : function() {
@@ -80,6 +88,8 @@ function saveMarker() {
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
+			alert(ajaxOptions);
+			HideLoadingScreen();
 			alert("saveMarker");
 		},
 	});
@@ -151,7 +161,6 @@ function addMarker(l) {
 		} else {
 			this.setPosition(pos);
 		}
-//		getAllPaths();
 	});
 	marker.setPosition(pos);
 	markers.push(marker);
@@ -177,6 +186,9 @@ function openMarkerPopup(edit) {
 function addAMarker(location, gps) {
 	gps = gps.replace(" ", "");
 	var edit = true;
+	$("#upload").val("");
+//	$("#main-cropper").empty();
+//	$("#iconCropDiv").empty();
 	if (location == null) {
 		edit = false;
 		$("#markerId").val("");
@@ -186,6 +198,9 @@ function addAMarker(location, gps) {
 		$("#markerId").val(location.locationID);
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(gps);
+		$("#croppedIcon").attr("src", location.icon);
+		$("#icon").val(location.icon);
+		$("#parentLocationId").val(location.parentId);
 		$("#markerLabel").html(location.locationType.locationType);
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);

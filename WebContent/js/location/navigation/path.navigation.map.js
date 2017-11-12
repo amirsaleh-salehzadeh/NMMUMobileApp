@@ -247,10 +247,6 @@ function initiMap() {
 	$("#mapViewIcon").fadeOut();
 	selectMapMode();
 	// getLocationTypePanel();
-	if (getCookie("TripPathGPSCookie") != "")
-		getThePath();
-	else
-		showViewItems();
 //	mapSattelView();
 }
 
@@ -322,7 +318,7 @@ function showViewItems() {
 		$("#currentLocationShow").fadeIn();
 		$("#searchBarDivTop").fadeOut();
 		$("#mapView").css("top", $("#currentLocationShow").css("height"));
-		$("#mapView").css("bottom", $("#barcodeDescription").height);
+		$("#mapView").css("bottom", $("#barcodeDescription").css("height"));
 	}
 	google.maps.event.trigger(map, "resize");
 }

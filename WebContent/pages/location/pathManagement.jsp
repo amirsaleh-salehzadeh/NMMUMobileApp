@@ -195,11 +195,13 @@
 </div>
 
 <div class="ui-grid-a" id="topToolBox" style="top: 0;">
-	<div style="top: 0;" class="ui-block-a" onclick="selectALocationTypeToAdd(3)">
+	<div style="top: 0;" class="ui-block-a"
+		onclick="selectALocationTypeToAdd(3)">
 		Add Building<br> <img src="images/map-markers/building.png"
 			width="48" height="48" />
 	</div>
-	<div style="top: 0;" class="ui-block-b" onclick="selectALocationTypeToAdd(5)">
+	<div style="top: 0;" class="ui-block-b"
+		onclick="selectALocationTypeToAdd(5)">
 		Add Intersection<br> <img src="images/map-markers/crossroad.png"
 			width="48" height="48">
 	</div>
@@ -209,7 +211,7 @@
 	<div id="panelColour">
 		<div id="color-palette"></div>
 		<div>
-     	  	<button id="delete-button">Delete Selected Shape</button>
+			<button id="delete-button">Delete Selected Shape</button>
 		</div>
 	</div>
 </div>
@@ -269,29 +271,25 @@
 			cols="17"></textarea>
 	</div>
 
- 	<input type="hidden" name="icon" id="icon" value="">
-	<input type="hidden" name="boundary" id="boundary" value="">
+	<input type="hidden" name="icon" id="icon" value=""> <input
+		type="hidden" name="boundary" id="boundary" value="">
 	<div class="ui-block-solo" id="IconDiv">
 		<div id="modal">
-      		<span>Upload file for icon</span>
-      		<input type="file" id="upload" value="Choose Image" accept="image/*">
-<!--        		<a class="button actionUpload"> -->
-<!--         	<span>Upload</span> -->
-<!--         	<input type="file" id="upload" value="Choose Image" accept="image/*"> -->
-<!--       		</a> -->
+			<span>Upload file for icon</span> <input type="file" id="upload"
+				value="Choose Image" accept="image/*">
 			<div id="main-cropper"></div>
-      		<div id="iconCropDiv"></div>
-      		</br>
-      		<button class="cropIcon" id="cropIcon">Crop Icon</button>
-<!--       		<button id="savePlan" type="button">Save Plan</button> -->
-<!--       		<button class="actionCancel">Cancel</button> -->
- 		</div>
+			<div id="iconCropDiv">
+				<img id="croppedIcon" src="" alt="" />
+			</div>
+			</br>
+			<button class="cropIcon" id="cropIcon">Crop Icon</button>
+		</div>
 	</div>
 	<div class="ui-block-solo">
 		<input type="button" data-icon="plus" value="Add Boundary"
-		id="addBoundary" onclick="addPolygon()">
+			id="addBoundary" onclick="addPolygon()">
 	</div>
-	
+
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon ui-corner-all"

@@ -7,11 +7,16 @@ import hibernate.security.SecurityDAOInterface;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -232,19 +237,21 @@ public class LocationServicesWS {
 		return json;
 	}
 
-	@GET
+	@POST
 	@Path("/SaveUpdateLocation")
 	@Produces("application/json")
-	public String saveUpdateLocation(@QueryParam("locationId") long locationId,
-			@QueryParam("locationType") int locationType,
-			@QueryParam("locationName") String locationName,
-			@QueryParam("userName") String userName,
-			@QueryParam("address") String address,
-			@QueryParam("coordinate") String coordinate,
-			@QueryParam("description") String description,
-			@QueryParam("boundary") String boundary,
-			@QueryParam("plan") String plan, @QueryParam("icon") String icon,
-			@QueryParam("parentId") long parentId) {
+	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})
+	public String saveUpdateLocation(@FormParam("icon") String icon,
+			@FormParam("locationId") long locationId,
+			@FormParam("locationType") int locationType,
+			@FormParam("locationName") String locationName,
+			@FormParam("userName") String userName,
+			@FormParam("address") String address,
+			@FormParam("coordinate") String coordinate,
+			@FormParam("description") String description,
+			@FormParam("boundary") String boundary,
+			@FormParam("plan") String plan, 
+			@FormParam("parentId") long parentId) {
 		LocationENT ent = new LocationENT(locationId, userName,
 				new LocationTypeENT(locationType), address, coordinate,
 				locationName);
@@ -269,6 +276,34 @@ public class LocationServicesWS {
 		}
 		return json;
 	}
+	
+//	@POST
+//	@Path("/SaveUpdateLocation")
+//	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})
+//	public String saveUpdateLocation(@FormParam("icon") String icon) {
+//		LocationENT ent = new LocationENT();
+////		ent.setParentId(parentId);
+////		ent.setDescription(description);
+////		ent.setBoundary(boundary);
+////		ent.setPlan(plan);
+//		ent.setIcon(icon);
+//		ObjectMapper mapper = new ObjectMapper();
+//		String json = "";
+//		try {
+////			json = mapper.writeValueAsString(getLocationDAO()
+////					.saveUpdateLocation(ent));
+//			json = mapper.writeValueAsString(ent);
+////		} catch (AMSException e) {
+////			e.printStackTrace();
+//		} catch (JsonGenerationException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return json;
+//	}
 
 	@GET
 	@Path("/SavePath")

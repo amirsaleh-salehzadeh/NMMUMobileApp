@@ -53,12 +53,15 @@
 	$(window).bind('load', function() {
 		$('#work-in-progress').fadeOut(1000);
 		browserCheck();
-		iOSCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(266);
 		var myTimer = setInterval(test, 60);
 		// 		test();
+		if (getCookie("TripPathGPSCookie") != "")
+			getThePath();
+		else
+			showViewItems();
 	});
 	var sdf = 0;
 	function test() {
@@ -69,31 +72,41 @@
 	}
 	function browserCheck() {
 		var ua = navigator.userAgent;
-var platform=null;
-var browser=null;
+		var platform = null;
+		var browser = null;
 
-		if (/Android/i.test(ua)){platform="Android";}
-	// there is no way to be 100% sure of safari as all/most browsers use "Safari"in their userAgent strings
-	//if ( /Safari/i.test(ua)){browser="Safari";}
-		if (/Chrome/i.test(ua)){browser="Chrome";}
-		if (/CriOS/i.test(ua)){browser="Chrome";platform="iOS";}
-	
-		if(/iOS/i.test(ua)){platform="iOS";}
-	// if iOS not picking up comment out the above line and uncomment the bottom one 
-	//if(/iPad|iPhone|iPod/i.test(ua)){platform="iOS";}
-		
-		if (/rv/i.test(ua)){browser="Firefox";}
+		if (/Android/i.test(ua)) {
+			platform = "Android";
+		}
+		// there is no way to be 100% sure of safari as all/most browsers use "Safari"in their userAgent strings
+		//if ( /Safari/i.test(ua)){browser="Safari";}
+		if (/Chrome/i.test(ua)) {
+			browser = "Chrome";
+		}
+		if (/CriOS/i.test(ua)) {
+			browser = "Chrome";
+			platform = "iOS";
+		}
 
-		if(platform==null){platform = "desktop";}
-		alert(platform);
-		alert(browser);
-		
-		if (platform == "iOS"||platform=="desktop") {
-		//	$('#mapViewSelect').css('display', 'none');
+		if (/iOS/i.test(ua)) {
+			platform = "iOS";
+		}
+		// if iOS not picking up comment out the above line and uncomment the bottom one 
+		//if(/iPad|iPhone|iPod/i.test(ua)){platform="iOS";}
+
+		if (/rv/i.test(ua)) {
+			browser = "Firefox";
+		}
+
+		if (platform == null) {
+			platform = "desktop";
+		}
+
+		if (platform == "iOS" || platform == "desktop") {
 			$('#dualModeSelect').css('display', 'none');
 		}
-		if (browser==null){
-		errorMessagePopupOpen("For better performance please use either Google Chrome, Firefox or Safari web browsers.");
+		if (browser == null) {
+			errorMessagePopupOpen("For better performance please use either Google Chrome, Firefox or Safari web browsers.");
 		}
 	}
 </script>
@@ -277,7 +290,8 @@ var browser=null;
 					</div>
 				</div>
 			</div>
-			<div class="ui-block-solo ui-grid-b" id="tripTypeBar" onclick="toast('Under Construction');">
+			<div class="ui-block-solo ui-grid-b" id="tripTypeBar"
+				onclick="toast('Under Construction');">
 				<div class="ui-block-a">
 					<img alt="" src="images/icons/grass.png"
 						style="width: 32px; height: 32px; vertical-align: middle;">
@@ -290,7 +304,8 @@ var browser=null;
 					<img alt="" src="images/icons/wheelchair.png"
 						style="width: 32px; height: 32px; vertical-align: middle;">
 				</div>
-				<div style="position: absolute; min-height: 100%; min-width: 100%; background-color: rgba(0,0,0,0.5)"></div>
+				<div
+					style="position: absolute; min-height: 100%; min-width: 100%; background-color: rgba(0, 0, 0, 0.5)"></div>
 			</div>
 		</div>
 
