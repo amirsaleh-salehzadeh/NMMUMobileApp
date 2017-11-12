@@ -111,7 +111,7 @@ function getThePath() {
 							pathLocations += l.depL.n + "_" + l.desL.n;
 						} else {
 							if (l.pathRoute != null && l.pathRoute.length > 0) {
-								pathGPSs += l.pathRoute + "_"
+								pathGPSs += "_" + l.pathRoute + "_"
 										+ l.desL.g.replace(" ", "");
 							} else {
 								pathGPSs += "_" + l.desL.g.replace(" ", "");
@@ -250,6 +250,7 @@ function updatePolyLine(currentPos, altitude) {
 			parseFloat(currentPos.lng));
 	var tmpPathCoor = [];
 	var nextDestGPS = getCookie("TripPathGPSCookie").split("_");
+	////////////////////////////////////////////////////////////////////////////////////////
 	var nextPosition = getGoogleMapPosition(nextDestGPS[0]);
 	tmpPathCoor.push(pointPath);
 	tmpPathCoor.push(nextPosition);

@@ -45,7 +45,6 @@ function deleteMarker(id) {
 }
 
 function saveMarker() {
-	$('#cropIcon').trigger("click");
 	var loadingContent;
 	if ($("#locationTypeId").val() == 3) {
 		loadingContent = "Saving Building";
@@ -82,8 +81,8 @@ function saveMarker() {
 		success : function(data) {
 			data = JSON.parse(data);
 			$("#markerId").val(data.locationID);
-			console.log(data.gps);
 			addMarker(data);
+			toast('Saved Successfully');
 		},
 		complete : function() {
 			HideLoadingScreen();
