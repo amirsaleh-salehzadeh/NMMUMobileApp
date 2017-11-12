@@ -41,12 +41,10 @@ public class GraphGenerator {
 		FileInputStream fileIn;
 		UndirectedGraph<Long, DefaultWeightedEdge> obj = null;
 		try {
-			String fileLocation = "c:\\theFirstCompassGraphFiles\\";
+			String fileLocation = "c:\\theFirstCompassGraphFiles\\"
+					+ clientName + "-" + areaId + "-" + pathTypeId + ".ser";
 			File f = new File(fileLocation);
 			if (!f.exists()) {
-				f.createNewFile();
-				fileLocation += 
-						clientName + "-" + areaId + "-" + pathTypeId + ".ser";
 				f.createNewFile();
 				generateGraph(clientName, areaId, pathTypeId);
 			}
