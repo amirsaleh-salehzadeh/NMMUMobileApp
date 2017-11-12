@@ -47,7 +47,8 @@ $('#cropIcon').on(
 			$('#main-cropper').croppie('result', {
 				type : 'canvas',
 				size : 'viewport',
-				format : 'png'
+//				format : 'png'
+				format : 'jpeg'
 			}).then(
 					function(resp) {
 						$("#croppedIcon").attr('src', resp);
