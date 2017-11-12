@@ -1,16 +1,17 @@
 function getAngleDirection(angle) {
 	if (angle < 0)
 		angle = 360 + angle;
+	return parseFloat(angle);
 	// var arrowGif = document.getElementById("arrowDirId");
 	// arrowGif.style.webkitTransform = "rotate(" + angle + "deg)";
 	// arrowGif.style.MozTransform = "rotate(" + angle + "deg)";
 	// arrowGif.style.transform = "rotate(" + angle + "deg)";
-	if (parseFloat(-10) <= angle && angle <= parseFloat(10))
-		return "keep going straight on the same direction";
-	else if (angle < parseFloat(-10))
-		return "turn left";
-	else if (angle > parseFloat(10))
-		return "turn right";
+//	if (parseFloat(-10) <= angle && angle <= parseFloat(10))
+//		return "keep going straight on the same direction";
+//	else if (angle < parseFloat(-10))
+//		return "turn left";
+//	else if (angle > parseFloat(10))
+//		return "turn right";
 
 }
 

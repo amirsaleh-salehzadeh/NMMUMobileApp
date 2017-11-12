@@ -710,12 +710,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 	public static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
 			int pathTypeId, String clientName) {
 		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = null;
-		// try {
 		g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
 				DefaultWeightedEdge.class);
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> points = dao.getAllLocationsForUser(clientName,
-				"3,5", null);
+				"11,3,5", null);
 		for (int i = 0; i < points.size(); i++) {
 			long depTMP = points.get(i).getLocationID();
 			if (!g.containsVertex(depTMP))
@@ -736,9 +735,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 					g.setEdgeWeight(edg, ptz.get(j).getDistance());
 			}
 		}
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
 		return g;
 	}
 

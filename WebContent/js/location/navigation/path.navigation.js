@@ -260,17 +260,14 @@ function updatePolyLine(currentPos, altitude) {
 			nextPosition);
 	marker.setIcon(null);
 	marker.setIcon('images/icons/target-old.png');
-	console.log(distanceToNextPosition);
 	if (nextDestGPS.length > 1) {
-		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
+		var secondNextPosition = getGoogleMapPosition(nextDestGPS[0]);
 		var headingTo2st = google.maps.geometry.spherical.computeHeading(
 				nextPosition, secondNextPosition);
 		angleToNextDestination = headingTo2st - headingTo1st;
-		console.log("headingTo1st " + headingTo1st);
-		console.log("headingTo2st " + headingTo2st);
 		heading = angleToNextDestination;
-		$("#navigationDesc").html(getDistanceLeft(distanceToNextPosition));
-		getAngleDirection(angleToNextDestination);
+		$("#distanceToNextPoint").html(getDistanceLeft(distanceToNextPosition));
+		displayImage(getAngleDirection(angleToNextDestination));
 	}
 	if (distanceToNextPosition <= 5) {
 		removeTheNextDestination();

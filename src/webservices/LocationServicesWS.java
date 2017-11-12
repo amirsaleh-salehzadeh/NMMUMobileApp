@@ -186,7 +186,7 @@ public class LocationServicesWS {
 		try {
 			LocationENT destENT = new LocationENT();
 			if (destinationId <= 0) {
-				destENT = getLocationDAO().findClosestLocation(to, "11", null, "NMMU");
+				destENT = getLocationDAO().findClosestLocation(to, "11,3,5", null, "NMMU");
 				destinationId = destENT.getLocationID();
 			}
 			// building and external intersection
@@ -196,7 +196,7 @@ public class LocationServicesWS {
 				String parentId = destENT.getParentId() + "";
 				if(destENT.getParentId() == 369 || destENT.getParentId() == 371)
 					parentId = "369,371";
-				departureId = getLocationDAO().findClosestLocation(from, "11",
+				departureId = getLocationDAO().findClosestLocation(from, "11,3,5",
 						parentId, "NMMU").getLocationID();
 			}
 			ArrayList<PathENT> res = getLocationDAO().getShortestPath(
