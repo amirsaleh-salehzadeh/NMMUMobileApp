@@ -51,6 +51,7 @@ function drawPolygons (coordinates) // this draws static polygon on map, this fu
 	   // strokeOpacity: 0.8,
 	    strokeWeight: 2,
 	    fillColor: '#1E90FF',
+	    editable: true
 	   // fillOpacity: 0.35
 	  });
 	  DRAWPolygon.setMap(map);

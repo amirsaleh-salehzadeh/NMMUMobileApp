@@ -130,6 +130,9 @@ function getAllMarkers() {
 }
 
 function addMarker(l) {
+	if(l.boundary != null){
+		drawPolygons(l.boundary);
+	}
 	var gps = l.gps;
 	var pos = {
 		lat : parseFloat(gps.split(",")[0]),

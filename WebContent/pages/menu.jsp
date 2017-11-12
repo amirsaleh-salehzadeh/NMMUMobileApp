@@ -12,7 +12,7 @@ body {
 	id='errorMessage'>
 	<h1>Sorry, what was incorrect. Please try again.</h1>
 </div>
-<ul class="jqm-list ui-alt-icon ui-nodisc-icon ui-panel-closed">
+<ul class="jqm-list ui-alt-icon ui-nodisc-icon">
 	<li data-filtertext="demos homepage" data-icon="home"><a
 		href="t_newsfeed.do?reqCode=newsFeedList">Home</a></li>
 	<li data-role="collapsible" data-enhanced="true"

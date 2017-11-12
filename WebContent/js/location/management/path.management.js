@@ -254,6 +254,7 @@ function initMap() {
 	        //The getPolygonCoords function must be called here, because it is called right after the whole polygon is created
 	        //alert(getPolygonCoords(newShape));
 	        $("#boundary").val(getPolygonCoords(newShape));
+	        alert("The boundary has been saved.");
 	        $('#insertAMarker').popup('open');
 	        newShape.type = e.type;
 	        if (e.type !== google.maps.drawing.OverlayType.MARKER) {
