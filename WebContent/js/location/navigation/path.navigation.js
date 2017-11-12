@@ -85,7 +85,6 @@ function getThePath() {
 				url : url,
 				cache : true,
 				async : true,
-				// dataType: 'json',
 				beforeSend : function() {
 					showBottomPanel();
 					$("#locationInf").html('');

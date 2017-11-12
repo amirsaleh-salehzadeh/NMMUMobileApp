@@ -45,14 +45,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
-			LocationENT enttemp = new LocationENT();
-			if (ent.getLocationID() > 0)
-				enttemp = getLocationENT(ent);
-			if (enttemp.getIcon() != null && enttemp.getIcon().length() < 5)
-				enttemp.setIcon(null);
 			String query = "";
-			long firstLoc = 0;
-			long secLoc = 0;
 			query = "insert into location (country, address, post_box, gps, location_name, client_name, location_type, parent_id, description, boundary, plan, icon)"
 					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			if (ent.getLocationID() > 0)
@@ -68,8 +61,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps.setInt(7, ent.getLocationType().getLocationTypeId());
 			ps.setLong(8, ent.getParentId());
 			ps.setString(9, ent.getDescription());
-			ps.setString(10, enttemp.getBoundary());
-			ps.setString(11, enttemp.getPlan());
+			ps.setString(10, ent.getBoundary());
+			ps.setString(11, ent.getPlan());
 			ps.setString(12, ent.getIcon());
 			if (ent.getLocationID() > 0)
 				ps.setLong(13, ent.getLocationID());
@@ -77,37 +70,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ResultSet rs = ps.getGeneratedKeys();
 			if (rs.next()) {
 				ent.setLocationID(rs.getLong(1));
-				firstLoc = rs.getLong(1);
 			}
 			rs.close();
 			ps.close();
 			conn.close();
-			// ent = getLocationENT(ent);
-			// if (ent.getLocationType().getLocationTypeId() == 3) {
-			// ent.setParentId(ent.getLocationID());
-			// ent.setLocationID(0);
-			// ent.setLocationName("Ground");
-			// ent.setLocationType(new LocationTypeENT(4));
-			// try {
-			// ent = saveUpdateLocation(ent);
-			// } catch (AMSException e) {
-			// e.printStackTrace();
-			// }
-			// secLoc = ent.getLocationID();
-			// savePath(new PathENT(new LocationENT(firstLoc),
-			// new LocationENT(secLoc), 0, new PathTypeENT(5)));
-			// ent.setParentId(ent.getLocationID());
-			// ent.setLocationID(0);
-			// ent.setLocationName("Entrance");
-			// ent.setLocationType(new LocationTypeENT(10));
-			// try {
-			// ent = saveUpdateLocation(ent);
-			// } catch (AMSException e) {
-			// e.printStackTrace();
-			// }
-			// savePath(new PathENT(new LocationENT(secLoc), new LocationENT(
-			// ent.getLocationID()), 0, new PathTypeENT(5)));
-			// }
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -147,8 +113,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				// locationENTs.add(getLocationENTAncestors(rs
-				// .getLong("location_id")));
 				LocationENT ent = new LocationENT(rs.getInt("location_id"),
 						rs.getString("client_name"), new LocationTypeENT(
 								rs.getInt("location_type"),

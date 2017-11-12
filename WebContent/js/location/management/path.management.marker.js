@@ -45,6 +45,7 @@ function deleteMarker(id) {
 }
 
 function saveMarker() {
+	$('#cropIcon').trigger("click");
 	var loadingContent;
 	if ($("#locationTypeId").val() == 3) {
 		loadingContent = "Saving Building";
@@ -79,8 +80,10 @@ function saveMarker() {
 			ShowLoadingScreen(loadingContent);
 		},
 		success : function(data) {
-			 addMarker(data);
+			data = JSON.parse(data);
 			$("#markerId").val(data.locationID);
+			console.log(data.gps);
+			addMarker(data);
 		},
 		complete : function() {
 			HideLoadingScreen();
@@ -127,9 +130,10 @@ function getAllMarkers() {
 }
 
 function addMarker(l) {
+	var gps = l.gps;
 	var pos = {
-		lat : parseFloat(l.gps.split(",")[0]),
-		lng : parseFloat(l.gps.split(",")[1])
+		lat : parseFloat(gps.split(",")[0]),
+		lng : parseFloat(gps.split(",")[1])
 	};
 	marker = new google.maps.Marker({
 		map : map,
@@ -187,8 +191,9 @@ function addAMarker(location, gps) {
 	gps = gps.replace(" ", "");
 	var edit = true;
 	$("#upload").val("");
-//	$("#main-cropper").empty();
+	$("#main-cropper").empty();
 //	$("#iconCropDiv").empty();
+	
 	if (location == null) {
 		edit = false;
 		$("#markerId").val("");

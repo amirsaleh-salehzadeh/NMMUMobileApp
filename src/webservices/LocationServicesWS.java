@@ -277,34 +277,6 @@ public class LocationServicesWS {
 		return json;
 	}
 	
-//	@POST
-//	@Path("/SaveUpdateLocation")
-//	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED})
-//	public String saveUpdateLocation(@FormParam("icon") String icon) {
-//		LocationENT ent = new LocationENT();
-////		ent.setParentId(parentId);
-////		ent.setDescription(description);
-////		ent.setBoundary(boundary);
-////		ent.setPlan(plan);
-//		ent.setIcon(icon);
-//		ObjectMapper mapper = new ObjectMapper();
-//		String json = "";
-//		try {
-////			json = mapper.writeValueAsString(getLocationDAO()
-////					.saveUpdateLocation(ent));
-//			json = mapper.writeValueAsString(ent);
-////		} catch (AMSException e) {
-////			e.printStackTrace();
-//		} catch (JsonGenerationException e) {
-//			e.printStackTrace();
-//		} catch (JsonMappingException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return json;
-//	}
-
 	@GET
 	@Path("/SavePath")
 	@Produces("application/json")
