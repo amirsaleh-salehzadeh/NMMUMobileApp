@@ -1,5 +1,9 @@
 @CHARSET "ISO-8859-1";
-
+#mainMenu{
+	position: absolute;
+	background-color: rgba(8, 27, 44, 1);
+	
+}
 .jqm-home {
 	background: #00457c;
 	color: white;

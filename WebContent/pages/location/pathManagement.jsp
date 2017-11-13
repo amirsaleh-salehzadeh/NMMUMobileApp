@@ -346,7 +346,7 @@
 <script type="text/javascript"
 	src="js/location/management/path.management.image.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.navigation.polygon.js"></script>
+	src="js/location/management/path.management.polygon.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.js"></script>
 <script type="text/javascript"
