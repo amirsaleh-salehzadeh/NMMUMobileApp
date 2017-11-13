@@ -17,23 +17,17 @@ function drawPolygons(coordinates)
 		  CoordinatesArray.push(LatLng);
 	  };
 	  
-	  // drawPolygons($("#boundary").val());
-	                   
-	  // Construct the polygon.
 	  var DRAWPolygon = new google.maps.Polygon({
 	    paths: CoordinatesArray,
 	    strokeColor: '#1E90FF',
-	   // strokeOpacity: 0.8,
 	    strokeWeight: 2,
 	    fillColor: '#1E90FF',
-	   // fillOpacity: 0.35
 	  });
 	  DRAWPolygon.setMap(map);
 }
 
 var drawingManager;
 var selectedShape;
-//var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
 var colors =['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082','#FFFFFF', '#C0C0C0', '#808080', '#000000', '#FF0000','#800000','#FFFF00','#808000','#00FF00','#008000','#00FFFF','#008080','#0000FF','#000080','#FF00FF','#800080'];
 var selectedColor;
 var colorButtons = {};
@@ -144,9 +138,6 @@ function getPolygonCoords(newShape) {
      }
 //    alert("The co-ordinates are: " + coordinates);
     return coordinates;
-    //var path = newShape.getPath().getArray();
-    //var path = "hello";
-    //return path;
 }  
 
 function showArrays(newShape, LatLng) {
