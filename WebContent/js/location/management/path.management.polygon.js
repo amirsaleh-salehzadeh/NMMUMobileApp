@@ -1,35 +1,10 @@
 function addPolygon () {
 	$('#insertAMarker').popup('close');
-}	
-function drawPolygons (coordinates) // this draws static polygon on map, this function is used in path.navigation.js but its commented out under function initimap
+}
+
+//this draws static polygon on map, this function is used in path.navigation.js but its commented out under function initimap
+function drawPolygons(coordinates) 
 {
-	// Define the LatLng coordinates for the polygon's path.
-	  var testCoords = [
-	    {lat: -34.008559, lng: 25.668914},
-	    {lat: -34.008552, lng: 25.669260},
-	    {lat: -34.008672, lng: 25.669276},
-	    {lat: -34.008794, lng: 25.669281},
-	    {lat: -34.008791, lng: 25.668887},
-	    {lat: -34.008607, lng: 25.668893},
-	    {lat: -34.008559, lng: 25.668914}
-	  ];
-	  
-	  /*
-	  function polyArray(path){
-		  var array = path.split(',');
-		  var path1 =new Array();
-		  for(var i=0;i<=array.length;i=i+2){
-		  var coordinates = new google.maps.LatLng(array[i],array[i+1]);
-		  path1.push(coordinates);
-		  };
-		  
-	  var triangleCoords = [
-	                        new google.maps.LatLng(25.774252, -80.190262),
-	                        new google.maps.LatLng(18.466465, -66.118292),
-	                        new google.maps.LatLng(32.321384, -64.75737)
-	                    ];
-	  var str = "a,b,c,d,e,f";
-	  */
 	  var array = coordinates.split("_");
 	  var CoordinatesArray = new Array();
 	  for(var i=0; i <= array.length-1; i++){

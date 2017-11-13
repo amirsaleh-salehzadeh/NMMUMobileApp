@@ -111,7 +111,7 @@ function getThePath() {
 							pathLocations += l.depL.n + "_" + l.desL.n;
 						} else {
 							if (l.pathRoute != null && l.pathRoute.length > 0) {
-								pathGPSs += l.pathRoute + "_"
+								pathGPSs += "_" + l.pathRoute + "_"
 										+ l.desL.g.replace(" ", "");
 							} else {
 								pathGPSs += "_" + l.desL.g.replace(" ", "");
@@ -250,6 +250,7 @@ function updatePolyLine(currentPos, altitude) {
 			parseFloat(currentPos.lng));
 	var tmpPathCoor = [];
 	var nextDestGPS = getCookie("TripPathGPSCookie").split("_");
+	////////////////////////////////////////////////////////////////////////////////////////
 	var nextPosition = getGoogleMapPosition(nextDestGPS[0]);
 	tmpPathCoor.push(pointPath);
 	tmpPathCoor.push(nextPosition);
@@ -259,17 +260,14 @@ function updatePolyLine(currentPos, altitude) {
 			nextPosition);
 	marker.setIcon(null);
 	marker.setIcon('images/icons/target-old.png');
-	console.log(distanceToNextPosition);
 	if (nextDestGPS.length > 1) {
-		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
+		var secondNextPosition = getGoogleMapPosition(nextDestGPS[0]);
 		var headingTo2st = google.maps.geometry.spherical.computeHeading(
 				nextPosition, secondNextPosition);
 		angleToNextDestination = headingTo2st - headingTo1st;
-		console.log("headingTo1st " + headingTo1st);
-		console.log("headingTo2st " + headingTo2st);
 		heading = angleToNextDestination;
-		$("#navigationDesc").html(getDistanceLeft(distanceToNextPosition));
-		getAngleDirection(angleToNextDestination);
+		$("#distanceToNextPoint").html(getDistanceLeft(distanceToNextPosition));
+		displayImage(getAngleDirection(angleToNextDestination));
 	}
 	if (distanceToNextPosition <= 5) {
 		removeTheNextDestination();

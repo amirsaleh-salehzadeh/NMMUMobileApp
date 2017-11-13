@@ -45,7 +45,6 @@ function deleteMarker(id) {
 }
 
 function saveMarker() {
-	$('#cropIcon').trigger("click");
 	var loadingContent;
 	if ($("#locationTypeId").val() == 3) {
 		loadingContent = "Saving Building";
@@ -82,8 +81,8 @@ function saveMarker() {
 		success : function(data) {
 			data = JSON.parse(data);
 			$("#markerId").val(data.locationID);
-			console.log(data.gps);
 			addMarker(data);
+			toast('Saved Successfully');
 		},
 		complete : function() {
 			HideLoadingScreen();
@@ -130,6 +129,7 @@ function getAllMarkers() {
 }
 
 function addMarker(l) {
+<<<<<<< HEAD
 	if(l.boundary != null){
 		drawPolygons(l.boundary);
 	}
@@ -138,6 +138,11 @@ function addMarker(l) {
 		lat : parseFloat(gps.split(",")[0]),
 		lng : parseFloat(gps.split(",")[1])
 	};
+=======
+	if (l.boundary != null && l.boundary.length > 2) {
+		drawPolygons(l.boundary);
+	}
+>>>>>>> Version-0.3
 	marker = new google.maps.Marker({
 		map : map,
 		icon : refreshMap(l.locationType.locationTypeId, l.gps),
@@ -145,6 +150,11 @@ function addMarker(l) {
 		draggable : true,
 		title : l.locationName
 	});
+	var pos = {
+		lat : parseFloat(l.gps.split(",")[0]),
+		lng : parseFloat(l.gps.split(",")[1])
+	};
+
 	marker.id = l.locationID;
 	google.maps.event.addListener(marker, 'click', function(point) {
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
@@ -163,7 +173,6 @@ function addMarker(l) {
 			$("#locationTypeId").val(l.locationType.locationTypeId);
 			$("#locationDescription").val(l.description);
 			setLocationTypeCreate();
-
 			saveMarker();
 		} else {
 			this.setPosition(pos);
@@ -195,8 +204,8 @@ function addAMarker(location, gps) {
 	var edit = true;
 	$("#upload").val("");
 	$("#main-cropper").empty();
-//	$("#iconCropDiv").empty();
-	
+	// $("#iconCropDiv").empty();
+
 	if (location == null) {
 		edit = false;
 		$("#markerId").val("");

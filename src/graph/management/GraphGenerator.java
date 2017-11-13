@@ -35,18 +35,24 @@ public class GraphGenerator {
 		}
 	}
 
-
 	public UndirectedGraph<Long, DefaultWeightedEdge> fetchGraph(
 			String clientName, int areaId, int pathTypeId) {
 		// LocationDAO.createGraph(1);
-        FileInputStream fileIn;
-        UndirectedGraph<Long, DefaultWeightedEdge> obj = null;
+		FileInputStream fileIn;
+		UndirectedGraph<Long, DefaultWeightedEdge> obj = null;
 		try {
-			fileIn = new FileInputStream(
-					"c:\\theFirstCompassGraphFiles\\" + clientName + "-" + areaId
-					+ "-" + pathTypeId + ".ser");
+			String fileLocation = "c:\\theFirstCompassGraphFiles\\"
+					+ clientName + "-" + areaId + "-" + pathTypeId + ".ser";
+			File f = new File(fileLocation);
+			if (!f.exists()) {
+				f.createNewFile();
+				generateGraph(clientName, areaId, pathTypeId);
+			}
+			fileIn = new FileInputStream(fileLocation);
+
 			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-			obj = (UndirectedGraph<Long, DefaultWeightedEdge>) objectIn.readObject();
+			obj = (UndirectedGraph<Long, DefaultWeightedEdge>) objectIn
+					.readObject();
 			objectIn.close();
 			objectIn.close();
 		} catch (FileNotFoundException e) {

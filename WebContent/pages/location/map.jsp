@@ -56,7 +56,7 @@
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(266);
-		var myTimer = setInterval(test, 60);
+		// 		var myTimer = setInterval(test, 60);
 		// 		test();
 		if (getCookie("TripPathGPSCookie") != "")
 			getThePath();
@@ -102,9 +102,9 @@
 			platform = "desktop";
 		}
 
-		if (platform == "iOS" || platform == "desktop") {
+// 		if (platform == "iOS" || platform == "desktop") {
 			$('#dualModeSelect').css('display', 'none');
-		}
+// 		}
 		if (browser == null) {
 			errorMessagePopupOpen("For better performance please use either Google Chrome, Firefox or Safari web browsers.");
 		}
