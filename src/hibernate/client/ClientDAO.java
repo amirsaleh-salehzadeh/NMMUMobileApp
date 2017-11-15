@@ -15,22 +15,22 @@ import common.user.UserPassword;
 import hibernate.config.BaseHibernateDAO;
 import tools.AMSException;
 
-public class ClientDAO extends BaseHibernateDAO {//implements ClientDAOInterface {
+public class ClientDAO extends BaseHibernateDAO implements ClientDAOInterface{//implements ClientDAOInterface {
 
-//	public static void main(String[] args) {
-//		ClientDAO cdao = new ClientDAO();
-//		try {
-//			ArrayList<DropDownENT> clientENTs = cdao.getClientsDropDown();
-//			System.out.println("");
-//		} catch (AMSException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	public ArrayList<ClientENT> getAllClients(String searchKey)
-//			throws AMSException {
-//		ArrayList<ClientENT> clientENTs = new ArrayList<ClientENT>();
+	public static void main(String[] args) {
+		ClientDAO cdao = new ClientDAO();
+		try {
+			ArrayList<DropDownENT> clientENTs = cdao.getClientsDropDown();
+			System.out.println("");
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<ClientENT> getAllClients(String searchKey)
+			throws AMSException {
+		ArrayList<ClientENT> clientENTs = new ArrayList<ClientENT>();
 //		Query q = null;
 //		try {
 //			q = getSession().createQuery(
@@ -40,13 +40,13 @@ public class ClientDAO extends BaseHibernateDAO {//implements ClientDAOInterface
 //		} catch (HibernateException ex) {
 //			ex.printStackTrace();
 //		}
-//		return clientENTs;
-//	}
+		return clientENTs;
+	}
 
-//	public ClientENT getClient(int clientID) throws AMSException {
-//		// TODO Auto-generated method stub
+	public ClientENT getClient(int clientID) throws AMSException {
+		// TODO Auto-generated method stub
 //		Query q = null;
-//		ClientENT clientENT = new ClientENT();
+		ClientENT clientENT = new ClientENT();
 //		try {
 //			q = getSession().createQuery(
 //					"from ClientENT where clientID = :searchKey").setParameter(
@@ -55,12 +55,12 @@ public class ClientDAO extends BaseHibernateDAO {//implements ClientDAOInterface
 //		} catch (HibernateException ex) {
 //			ex.printStackTrace();
 //		}
-//		return clientENT;
-//	}
-//
-//	public ArrayList<DropDownENT> getClientsDropDown() throws AMSException {
+		return clientENT;
+	}
+
+	public ArrayList<DropDownENT> getClientsDropDown() throws AMSException {
 //		Query q = null;
-//		ArrayList<DropDownENT> res = new ArrayList<DropDownENT>();
+		ArrayList<DropDownENT> res = new ArrayList<DropDownENT>();
 //		try {
 //			Session s = getSession4Query();
 //			s.beginTransaction();
@@ -74,7 +74,7 @@ public class ClientDAO extends BaseHibernateDAO {//implements ClientDAOInterface
 //		} catch (HibernateException ex) {
 //			ex.printStackTrace();
 //		}
-//		return res;
-//	}
+		return res;
+	}
 
 }

@@ -4,7 +4,9 @@ import hibernate.client.ClientDAO;
 import hibernate.client.ClientDAOInterface;
 import hibernate.location.LocationDAO;
 import hibernate.location.LocationDAOInterface;
+import hibernate.security.SecurityDAO;
 import hibernate.security.SecurityDAOInterface;
+import hibernate.user.UserDAO;
 import hibernate.user.UserDAOInterface;
 
 public class NMMUMobileDAOManager {
