@@ -1,6 +1,6 @@
 var map, marker, markerDest, markerDepart;
 var pathPolylineConstant, pathPolylineTrack, polylineConstantLength;
-var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID, altitude;
+var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID, altitude, isLocationAvailable;
 var distanceToNextPosition, distanceToDestination, angleToNextDestination;
 var paths = [];
 var ajaxCallSearch;
@@ -130,8 +130,6 @@ function getThePath() {
 							pathIds.split(",")[pathIds.split(",").length - 1]);
 					setCookie('TripPathIdsCookie', pathIds, 1);
 					setCookie('TripPathGPSCookie', pathGPSs, 1);
-					setCookie('TripPathDotsCookie',
-							createNavigationPoints(pathGPSs), 1);
 					setCookie('TripPathLocationsCookie', pathLocations, 1);
 					if (dataLength == 0) {
 						errorMessagePopupOpen("Unfortunately, there is no routes for this enquiry in the system. "
@@ -160,10 +158,8 @@ function getThePath() {
 	}
 }
 
-function removeTheNextDestination() {
-	var tripIds = getCookie("TripPathIdsCookie").split(",");
+function getNextPosition() {
 	var tripGPSs = getCookie("TripPathGPSCookie").split("_");
-	var tripLocations = getCookie("TripPathLocationsCookie").split("_");
 	var closestDest = 0;
 	var closestId = 0;
 	var curGPS = marker.getPosition();
@@ -173,32 +169,38 @@ function removeTheNextDestination() {
 					tripGPSs[int]);
 			if (int == 0)
 				closestDest = dist;
+			if (dist > 5)
+				continue;
 			if (dist < closestDest) {
 				closestDest = dist;
 				closestId = int;
 			}
 		}
+	return closestId;
+}
+
+function removeTheNextDestination(closestId) {
+	var tripIds = getCookie("TripPathIdsCookie").split(",");
+	var tripGPSs = getCookie("TripPathGPSCookie").split("_");
+	var tripLocations = getCookie("TripPathLocationsCookie").split("_");
 	var removeVarGPS = "";
 	var removeVarIDS = "";
 	var removeVarNames = "";
 	if (tripGPSs.length > 1)
-		for ( var int = 0; int < tripGPSs.length; int++) {
-			if (int == 0) {
-				removeVarGPS = tripGPSs[int];
-				removeVarIDS = tripIds[int];
-				removeVarNames = tripLocations[int];
+		for ( var int = closestId; int < tripGPSs.length - 1; int++) {
+			if (int == closestId) {
+				removeVarGPS = tripGPSs[int + 1];
+				removeVarIDS = tripIds[int + 1];
+				removeVarNames = tripLocations[int + 1];
 			} else {
-				removeVarGPS += "_" + tripGPSs[int];
-				removeVarIDS += "," + tripIds[int];
-				removeVarNames += "_" + tripLocations[int];
+				removeVarGPS += "_" + tripGPSs[int + 1];
+				removeVarIDS += "," + tripIds[int + 1];
+				removeVarNames += "_" + tripLocations[int + 1];
 			}
-			if (int == closestId)
-				break;
 		}
 	setCookie("TripPathIdsCookie", getCookie("TripPathIdsCookie").replace(
 			removeVarIDS + ",", ""), 1);
-	setCookie("TripPathGPSCookie", getCookie("TripPathGPSCookie").replace(
-			removeVarGPS + ",", ""), 1);
+	setCookie("TripPathGPSCookie", removeVarGPS, 1);
 	setCookie("TripPathLocationsCookie", getCookie("TripPathLocationsCookie")
 			.replace(removeVarNames + "_", ""), 1);
 	if (pathPolylineTrack != undefined)
@@ -213,10 +215,20 @@ function removeTheNextDestination() {
 
 function drawConstantPolyline() {
 	var tmpPathCoor = [];
+	// var nextDestGPS =
+	// createNavigationPoints(getCookie("TripPathGPSCookie")).split("_");
 	var nextDestGPS = getCookie("TripPathGPSCookie").split("_");
 	polylineConstantLength = 0;
 	if (nextDestGPS.length > 1)
 		for ( var i = 0; i < nextDestGPS.length; i++) {
+			// var markerT = new google.maps.Marker({
+			// position: getGoogleMapPosition(nextDestGPS[i]),
+			// map: map,
+			// icon: {
+			// path : google.maps.SymbolPath.CIRCLE,
+			// scale : 2
+			// }
+			// });
 			if (i < nextDestGPS.length - 1)
 				polylineConstantLength += getDistance(nextDestGPS[i],
 						nextDestGPS[i + 1]);
@@ -257,26 +269,28 @@ function updatePolyLine(currentPos, altitude) {
 	var tmpPathCoor = [];
 	var nextDestGPS = getCookie("TripPathGPSCookie").split("_");
 	// //////////////////////////////////////////////////////////////////////////////////////
-	var nextPosition = getGoogleMapPosition(nextDestGPS[0]);
-	tmpPathCoor.push(pointPath);
-	tmpPathCoor.push(nextPosition);
+	var nextPoitionIndex = getNextPosition();
+	var nextPosition = getGoogleMapPosition(nextDestGPS[nextPoitionIndex]);
 	distanceToNextPosition = google.maps.geometry.spherical
 			.computeDistanceBetween(pointPath, nextPosition);
+	if (nextPoitionIndex > 0 || distanceToNextPosition < 5) {
+		removeTheNextDestination(nextPoitionIndex);
+	}
+	tmpPathCoor.push(pointPath);
+	tmpPathCoor.push(nextPosition);
+
 	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath,
 			nextPosition);
 	marker.setIcon(null);
 	marker.setIcon('images/icons/target-old.png');
 	if (nextDestGPS.length > 1) {
-		var secondNextPosition = getGoogleMapPosition(nextDestGPS[0]);
+		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
 		var headingTo2st = google.maps.geometry.spherical.computeHeading(
 				nextPosition, secondNextPosition);
 		angleToNextDestination = headingTo2st - headingTo1st;
 		heading = angleToNextDestination;
 		$("#distanceToNextPoint").html(getDistanceLeft(distanceToNextPosition));
 		displayImage(getAngleDirection(angleToNextDestination));
-	}
-	if (distanceToNextPosition <= 5) {
-		removeTheNextDestination();
 	}
 	if (pathPolylineTrack == null) {
 		var lineSymbol = {
@@ -313,30 +327,33 @@ function resetWalking() {
 }
 
 function findMyLocation() {
-	if (navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(successGetCurrentPosition,
-				errorHandler, {
-					enableHighAccuracy : true,
-					maximumAge : 1000
-				});
-	} else {
-		handleLocationError(false, map.getCenter());
-	}
+	if (isLocationAvailable == null || isLocationAvailable == true)
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(successGetCurrentPosition,
+					errorHandler, {
+						enableHighAccuracy : true,
+						maximumAge : 1000
+					});
+		} else {
+			handleLocationError(false, map.getCenter());
+		}
 }
 
 function walkToDestination() {
+
 	if (walkingWatchID != undefined) {
 		navigator.geolocation.clearWatch(walkingWatchID);
 		walkingWatchID = null;
 	}
-	if (navigator.geolocation) {
-		walkingWatchID = navigator.geolocation.watchPosition(
-				successTrackingHandler, errorHandler, {
-					enableHighAccuracy : true
-				});
-	} else {
-		handleLocationError(false, map.getCenter());
-	}
+	if (isLocationAvailable == null || isLocationAvailable == true)
+		if (navigator.geolocation) {
+			walkingWatchID = navigator.geolocation.watchPosition(
+					successTrackingHandler, errorHandler, {
+						enableHighAccuracy : true
+					});
+		} else {
+			handleLocationError(false, map.getCenter());
+		}
 }
 
 function removeTrip() {
@@ -383,13 +400,15 @@ var myLatLng = {
 };
 
 var errorHandler = function(errorObj) {
-	errorMessagePopupOpen(errorObj.code + ": " + errorObj.message);
 
+	errorMessagePopupOpen(errorObj.code + ": " + errorObj.message);
+	isLocationAvailable = false;
 };
 
 function handleLocationError(browserHasGeolocation, pos) {
 	errorMessagePopupOpen(browserHasGeolocation ? 'Error: The Geolocation service failed.'
 			: 'Error: Your browser doesn\'t support geolocation.');
+	isLocationAvailable = false;
 }
 
 function isFullScreen() {
@@ -431,6 +450,7 @@ function animateCircle(line) {
 }
 
 var successTrackingHandler = function(position) {
+	isLocationAvailable = true;
 	var currentPos = {
 		lat : position.coords.latitude,
 		lng : position.coords.longitude
@@ -439,10 +459,11 @@ var successTrackingHandler = function(position) {
 	if (position.coords.heading != null) {
 		heading = position.coords.heading;
 	}
-	if (position.coords.speed != null) {
-		speed = position.coords.speed * 3.6;
-		speed = Math.round(speed);
-	}
+	// if (position.coords.speed != null) {
+	// speed = position.coords.speed;
+	// if (speed != null)
+	// speed = Math.round(speed);
+	// }
 	altitude = position.coords.altitude;
 	// if (getCookie("TripPathGPSCookie").length > 5)
 	updatePolyLine(currentPos, altitude);
@@ -462,6 +483,7 @@ var successTrackingHandler = function(position) {
 };
 
 var successGetCurrentPosition = function(position) {
+	isLocationAvailable = true;
 	var currentPos = {
 		lat : position.coords.latitude,
 		lng : position.coords.longitude
@@ -499,7 +521,6 @@ var successGetCurrentPosition = function(position) {
 };
 
 function createNavigationPoints(generalPathString) {
-	return "";
 	var tmp = "-34.0090019,25.6698088;-34.0092903,25.6694859;-34.0093029,25.6687217;"
 			+ "-34.0092751750833,25.6693196296691;34.0092751750833,25.669158697128296;"
 			+ "-34.00927831945874,25.668933391571045;-34.0094381,25.6687188;-34.0094874,25.6682917"
@@ -511,11 +532,19 @@ function createNavigationPoints(generalPathString) {
 		var y1 = parseFloat(tmp[i].split(",")[1]);
 		var x2 = parseFloat(tmp[i + 1].split(",")[0]);
 		var y2 = parseFloat(tmp[i + 1].split(",")[1]);
-		var m = (y2 - y1) / (x2 - x1);
-		var p1 = getGoogleMapPosition(tmp[i]);
-		var p2 = getGoogleMapPosition(tmp[i+1]);
-		var length = getGoogleMapPosition()
+		var xaxis = (x2 - x1);
+		var yaxis = (y2 - y1);
+		var m = yaxis / xaxis;
+		var length = getDistance(tmp[i], tmp[i + 1]);
+		var noOfPoints = Math.round(length / 5);
+		var xd = xaxis / noOfPoints;
+		for ( var j = 0; j < noOfPoints - 1; j++) {
+			var newX = (j * xd);
+			var newPoint = (x1 + newX) + "," + (m * newX + y1);
+			stringOfResZ += newPoint + "_";
+		}
 	}
+	stringOfResZ = stringOfResZ.substring(0, stringOfResZ.length - 1);
 	return stringOfResZ;
 }
 

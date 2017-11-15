@@ -2,12 +2,12 @@
 	pageEncoding="ISO-8859-1"%>
 <html>
 <head>
-<!-- <meta http-equiv="Cache-Control" -->
-<!-- 	content="no-cache, no-store, must-revalidate" /> -->
+<meta http-equiv="Cache-Control"
+	content="no-cache, no-store, must-revalidate" />
 <!-- no-cache, no-store, must-revalidate -->
 <meta http-equiv="Pragma" content="public" />
-<!-- <meta http-equiv="Expires" content="0" /> -->
-<meta http-equiv="Cache-control" content="public">
+<meta http-equiv="Expires" content="0" />
+<!-- <meta http-equiv="Cache-control" content="public"> -->
 <title>Find It | Nelson Mandela University</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
@@ -51,7 +51,6 @@
 </style>
 <script type="text/javascript">
 	$(window).bind('load', function() {
-		$('#work-in-progress').fadeOut(1000);
 		browserCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
@@ -275,7 +274,8 @@
 		<div id="barcodeDescription">
 			<div class="ui-block-solo">
 				<div style="display: inline-block; right: 48;">
-					<span id="distanceLeftInf"></span> <span id="arrivalTieInf">4':14"</span>
+					<span id="distanceLeftInf"></span> 
+<!-- 					<span id="arrivalTimeInf">4':14"</span> -->
 					<div class="ui-block-solo" style="display: inline;">
 						<span id="departureDescriptionSpan"></span><br> <img
 							alt="Dest" src="images/icons/finish.png" width="32" height="32">

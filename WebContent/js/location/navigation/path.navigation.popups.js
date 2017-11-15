@@ -65,7 +65,7 @@ function arrivalMessagePopupOpen() {
 
 function searchResultPopupOpen(headerText) {
 	if (headerText.indexOf("ROM") != -1) {
-		if (navigator.geolocation) {
+		if (isLocationAvailable) {
 			$("#departureButtonGroup").css("display", "block")
 					.trigger("create");
 			$("#destinationButtonGroup").css("display", "none").trigger(

@@ -59,7 +59,7 @@ function saveMarker() {
 	$.ajax({
 		url : url,
 		cache : false,
-		async : false,
+		async : true,
 		dataType : 'text',
 		type : 'POST',
 		data : {

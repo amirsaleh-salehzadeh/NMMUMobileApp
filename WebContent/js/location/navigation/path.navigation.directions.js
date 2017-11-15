@@ -30,7 +30,7 @@ function getTimeLeft(distance) {
 	var Hours = 0;
 	var Minutes = 0;
 	var Seconds = 0;
-	if (speed == undefined)
+	if (speed == undefined || speed == null)
 		speed = 0.001;
 	if (speed > 0) {
 		var TotalTime = (distance / 1000) / speed;
@@ -55,7 +55,7 @@ function getTripInfo() {
 	else
 		distanceToDestination = polylineConstantLength;
 	$("#distanceLeftInf").html(getDistanceLeft(distanceToDestination));
-	$("#arrivalTimeInf").html(getTimeLeft(distanceToDestination));
+//	$("#arrivalTimeInf").html(getTimeLeft(distanceToDestination));
 }
 
 //(function() {

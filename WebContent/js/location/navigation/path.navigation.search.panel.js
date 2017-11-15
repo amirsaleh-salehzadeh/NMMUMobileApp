@@ -5,7 +5,7 @@ function getLocationTypePanel() {
 	$.ajax({
 		url : url,
 		cache : true,
-		async : false,
+		async : true,
 		success : function(data) {
 			// $.each(data, function(p, z) {
 			$.each(data.childrenENT, function(k, l) {
@@ -54,7 +54,10 @@ function getLocationTypePanel() {
 			});
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			errorMessagePopupOpen(thrownError);
+			errorMessagePopupOpen(ajaxOptions + ": " + thrownError);
+		},
+		complete : function (xhr, txtStatus){
+			$('#work-in-progress').fadeOut(1000);
 		}
 	});
 }
