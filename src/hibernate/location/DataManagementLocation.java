@@ -17,7 +17,7 @@ import tools.AMSException;
 import common.location.LocationENT;
 import common.location.PathENT;
 
-public class LocationDataManagement extends BaseHibernateDAO {
+public class DataManagementLocation extends BaseHibernateDAO {
 
 	private static void updateAllDescriptions() {
 		LocationDAO dao = new LocationDAO();
@@ -63,7 +63,7 @@ public class LocationDataManagement extends BaseHibernateDAO {
 
 	private static void updateAllGPS() {
 		LocationDAO dao = new LocationDAO();
-		ArrayList<LocationENT> all = dao.getAllLocationsForUser("NMMU", "3,5",
+		ArrayList<LocationENT> all = dao.getAllLocationsForUser("NMMU", "",
 				"");
 		for (int i = 0; i < all.size(); i++) {
 			LocationENT ent = all.get(i);
@@ -155,6 +155,7 @@ public class LocationDataManagement extends BaseHibernateDAO {
 	}
 
 	public static void main(String[] args) {
+		updateAllGPS();
 		// updateAllDescriptions();
 
 		// NORTH CAMPUS NMMU
@@ -171,8 +172,8 @@ public class LocationDataManagement extends BaseHibernateDAO {
 		// "-33.966208,25.619162", "-33.966277,25.616377");
 
 		// Missionvale
-		 updateAllGPSParents("-33.870589,25.549132", "-33.870016,25.555359",
-		 "-33.874217,25.556063", "-33.875109,25.549600");
+		// updateAllGPSParents("-33.870589,25.549132", "-33.870016,25.555359",
+		// "-33.874217,25.556063", "-33.875109,25.549600");
 
 		// George Campus
 		// updateAllGPSParents("-33.9438158,22.5002528",

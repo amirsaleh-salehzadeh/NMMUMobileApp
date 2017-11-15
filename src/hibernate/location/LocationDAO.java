@@ -693,10 +693,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 				}
 			if (resPathRoute.length() > 0)
 				tmpPath.setPathRoute(resPathRoute);
-			// System.out.println("src * " + source);
-			// System.out.println("tar * " + target);
-			// res.add(new PathENT(getLocationENT(new LocationENT(source)),
-			// getLocationENT(new LocationENT(target))));
 			tmpPath.setDesL(tarLoc);
 			tmpPath.setDepL(srcLoc);
 			res.add(tmpPath);

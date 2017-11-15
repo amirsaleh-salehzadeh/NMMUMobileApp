@@ -7,14 +7,14 @@ var ajaxCallSearch;
 
 function toast(msg) {
 	$(
-			"<div class='ui-loader ui-body-e ui-corner-all'><h3>"
-					+ msg + "</h3></div>").css({
+			"<div class='ui-loader ui-body-e ui-corner-all'><h3>" + msg
+					+ "</h3></div>").css({
 		display : "block",
 		opacity : 0.77,
 		position : "fixed",
-		"background-color": "rgb(8, 27, 44)",
+		"background-color" : "rgb(8, 27, 44)",
 		padding : "7px",
-		color: "rgb(248, 182, 36)",
+		color : "rgb(248, 182, 36)",
 		"text-align" : "center",
 		width : "270px",
 		left : ($(window).width() - 284) / 2,
@@ -66,8 +66,12 @@ function getThePath() {
 		return;
 	}
 	var url = "REST/GetLocationWS/GetADirectionFromTo?clientName=NMMU&departureId="
-			+ $("#departureId").val() + "&destinationId="
-			+ $("#destinationId").val() + "&from=" + $("#from").val() + "&to="
+			+ $("#departureId").val()
+			+ "&destinationId="
+			+ $("#destinationId").val()
+			+ "&from="
+			+ $("#from").val()
+			+ "&to="
 			+ $("#to").val() + "&pathType=1";
 	if ($("#to").val().length > 2) {
 		var destPoint = getGoogleMapPosition($("#to").val());
@@ -126,6 +130,8 @@ function getThePath() {
 							pathIds.split(",")[pathIds.split(",").length - 1]);
 					setCookie('TripPathIdsCookie', pathIds, 1);
 					setCookie('TripPathGPSCookie', pathGPSs, 1);
+					setCookie('TripPathDotsCookie',
+							createNavigationPoints(pathGPSs), 1);
 					setCookie('TripPathLocationsCookie', pathLocations, 1);
 					if (dataLength == 0) {
 						errorMessagePopupOpen("Unfortunately, there is no routes for this enquiry in the system. "
@@ -250,7 +256,7 @@ function updatePolyLine(currentPos, altitude) {
 			parseFloat(currentPos.lng));
 	var tmpPathCoor = [];
 	var nextDestGPS = getCookie("TripPathGPSCookie").split("_");
-	////////////////////////////////////////////////////////////////////////////////////////
+	// //////////////////////////////////////////////////////////////////////////////////////
 	var nextPosition = getGoogleMapPosition(nextDestGPS[0]);
 	tmpPathCoor.push(pointPath);
 	tmpPathCoor.push(nextPosition);
@@ -439,7 +445,7 @@ var successTrackingHandler = function(position) {
 	}
 	altitude = position.coords.altitude;
 	// if (getCookie("TripPathGPSCookie").length > 5)
-	 updatePolyLine(currentPos, altitude);
+	updatePolyLine(currentPos, altitude);
 	if (marker == null) {
 		marker = new google.maps.Marker({
 			map : map
@@ -492,9 +498,29 @@ var successGetCurrentPosition = function(position) {
 	map.setCenter(currentPos);
 };
 
+function createNavigationPoints(generalPathString) {
+	return "";
+	var tmp = "-34.0090019,25.6698088;-34.0092903,25.6694859;-34.0093029,25.6687217;"
+			+ "-34.0092751750833,25.6693196296691;34.0092751750833,25.669158697128296;"
+			+ "-34.00927831945874,25.668933391571045;-34.0094381,25.6687188;-34.0094874,25.6682917"
+					.split(";");
+	tmp = generalPathString.split("_");
+	var stringOfResZ = "";
+	for ( var i = 0; i < tmp.length - 2; i++) {
+		var x1 = parseFloat(tmp[i].split(",")[0]);
+		var y1 = parseFloat(tmp[i].split(",")[1]);
+		var x2 = parseFloat(tmp[i + 1].split(",")[0]);
+		var y2 = parseFloat(tmp[i + 1].split(",")[1]);
+		var m = (y2 - y1) / (x2 - x1);
+		var p1 = getGoogleMapPosition(tmp[i]);
+		var p2 = getGoogleMapPosition(tmp[i+1]);
+		var length = getGoogleMapPosition()
+	}
+	return stringOfResZ;
+}
+
 $(document).ready(function() {
 	$('#destinationName').val("");
-//	removeTrip();
 	getLocationTypePanel();
 	showHideLeftSideMenu();
 });
