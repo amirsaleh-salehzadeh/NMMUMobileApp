@@ -53,9 +53,6 @@ public class LocationAction extends Action {
 		} else if (reqCode.equalsIgnoreCase("cameraNavigation")) {
 			af = mapping.findForward(reqCode);
 		}
-		if (reqCode.equalsIgnoreCase("login")) {
-			af = mapping.findForward(reqCode);
-		}
 		if (reqCode.equalsIgnoreCase("locationManagement")) {
 			return locationManagement(request, mapping);
 		} else if (reqCode.equals("locationEdit")) {
@@ -64,9 +61,7 @@ public class LocationAction extends Action {
 			return saveUpdateLocation(request, mapping);
 		}
 		
-		if (reqCode.equalsIgnoreCase("register")){
-			af = mapping.findForward(reqCode);
-		}
+		
 		return af;
 	}
 

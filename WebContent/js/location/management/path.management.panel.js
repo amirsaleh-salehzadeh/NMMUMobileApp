@@ -143,13 +143,8 @@ function getlocationDecendentType(locationTypeId, locationId) {
 	var str = "";
 	for ( var i = 0; i < arrLocationTypesTest.length; i++) {
 		if (locationTypeId == arrLocationTypesTest[i].split("_")[1]) {
-			// alert(arrLocationTypesTest[i].split("_")[0]);
 			str += "<li><div>" + arrLocationTypesTest[i].split("_")[0]
 					+ "</div><ul>";
-			// console.log(arrLocationTypesTest[i].split("_")[2]);
-			// console.log(arrLocationTypesTest[i].split("_")[0]);
-			// getChildLocations(locationId,
-			// arrLocationTypesTest[i].split("_")[2]);
 			str += "</ul></li>";
 		}
 		return str;

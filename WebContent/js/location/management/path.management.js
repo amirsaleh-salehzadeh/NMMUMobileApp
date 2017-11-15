@@ -174,7 +174,7 @@ function initMap() {
 	} ];
 	// getLocationTypePanel();
 	getPathTypePanel();
-	getAllMarkers();
+	getAllMarkers("360","2");
 	getAllPaths();
 	var myLatLng = {
 		lat : -33.5343803,

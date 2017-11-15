@@ -33,6 +33,7 @@
 			<forward name="locationEdit" path="page.location" />
 			<forward name="mapView" path="page.location" />
 			<forward name="pathManagement" path="page.location" />
+			<forward name="register" path="page.location" />
 		</action>
 
 	</action-mappings>

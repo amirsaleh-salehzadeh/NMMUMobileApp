@@ -102,8 +102,8 @@ function saveMarker() {
 	}
 }
 
-function getAllMarkers() {
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId=0&locationTypeId=3,5&userName=NMMU";
+function getAllMarkers(parentId, locationTypeIds) {
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="+parentId+"&locationTypeId="+locationTypeIds+"&userName=NMMU";
 	setMapOnAllMarkers(null);
 	$.ajax({
 		url : url,
@@ -130,7 +130,7 @@ function getAllMarkers() {
 
 function addMarker(l) {
 	if (l.boundary != null && l.boundary.length > 2) {
-		drawPolygons(l.boundary);
+		drawPolygons(l.boundary, l);
 	}
 	marker = new google.maps.Marker({
 		map : map,

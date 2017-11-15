@@ -14,26 +14,26 @@ public class NMMUMobileDAOManager {
 	static ClientDAOInterface _clientDAOInterface ;
 	static LocationDAOInterface _locationDAOInterface ;
 	
-//	public static UserDAOInterface getUserDAOInterface(){
-//		if (_userDAOInterface == null) {
-//			_userDAOInterface = new UserDAO();
-//		}
-//		return _userDAOInterface; 
-//	}
+	public static UserDAOInterface getUserDAOInterface(){
+		if (_userDAOInterface == null) {
+			_userDAOInterface = new UserDAO();
+		}
+		return _userDAOInterface; 
+	}
 	
-//	public static SecurityDAOInterface getSecuirtyDAOInterface(){
-//		if (_securityDAOInterface == null) {
-//			_securityDAOInterface = new SecurityDAO();
-//		}
-//		return _securityDAOInterface; 
-//	}
+	public static SecurityDAOInterface getSecuirtyDAOInterface(){
+		if (_securityDAOInterface == null) {
+			_securityDAOInterface = new SecurityDAO();
+		}
+		return _securityDAOInterface; 
+	}
 	
-//	public static ClientDAOInterface getClientDAOInterface(){
-//		if (_clientDAOInterface == null) {
-//			_clientDAOInterface = new ClientDAO();
-//		}
-//		return _clientDAOInterface; 
-//	}
+	public static ClientDAOInterface getClientDAOInterface(){
+		if (_clientDAOInterface == null) {
+			_clientDAOInterface = new ClientDAO();
+		}
+		return _clientDAOInterface; 
+	}
 	
 	public static LocationDAOInterface getLocationDAOInterface(){
 		if (_locationDAOInterface == null) {
