@@ -80,12 +80,16 @@
 	border-color: white;
 }
 
+#BoundaryEdit{
+	background-color: transparent;
+}
+
 #panelColour {
-	width: 250px;
+	/*width: 250px;*/
 	font-family: Arial, sans-serif;
 	font-size: 13px;
-	float: left;
-	margin: 10px;
+	/*float: left;*/
+	/*margin: 10px;*/
 }
 
 #color-palette {
@@ -101,9 +105,19 @@
 	cursor: pointer;
 }
 
+#hand-button {
+	margin-top: 5px;
+	width: 250px;
+}
+
+#drawing-button {
+	margin-top: 5px;
+	width: 250px;
+}
+
 #delete-button {
 	margin-top: 5px;
-	width: auto;
+	width: 250px;
 }
 
 #imageEdit .ui-btn {
@@ -207,12 +221,35 @@
 	</div>
 </div>
 
-<div id="polygons">
-	<div id="panelColour">
-		<div id="color-palette"></div>
-		<div>
+<div data-role="collapsible" id="BoundaryEdit" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-content-theme="false">
+<!-- 	<div id="panelColour"> -->
+<!-- 		<div id="color-palette"></div> -->
+<!-- 		<div> -->
+<!-- 		<button id="delete-button">Delete Selected Shape</button> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+	<h1>Boundary Toolbar</h1>
+<!-- 	<span>Boundary Edit Controls</span> -->
+	<div class="ui-grid-b">
+    <div class="ui-block-a">
+			<span>Boundary Edit Controls</span>
+			<button id="hand-button" onclick="removeDrawingMode()">Free Select Mode</button>
+			<button id="drawing-button" onclick="setDrawingMode()">Select Drawing Mode</button>
 			<button id="delete-button">Delete Selected Shape</button>
+	</div>
+    <div class="ui-block-b">
+		<span>Boundary Styling</span>
+		<br>
+		<div id="panelColour">
+			<span>Select A Colour</span>
+			<div id="color-palette"></div>
 		</div>
+		<br>
+		
+	</div>
+    <div class="ui-block-c">
+		<span>Boundary Edit Points</span>
+	</div>
 	</div>
 </div>
 
@@ -246,9 +283,8 @@
 			onclick="selectActionType();">
 	</fieldset>
 </div>
+
 <!-- INSERT LOCATION POPUP -->
-
-
 <div data-role="popup" id="insertAMarker" data-position-to="window"
 	data-transition="turn"
 	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;">
@@ -307,9 +343,8 @@
 			onclick="removeMarker()">Remove</a>
 	</div>
 </div>
+
 <!-- INSERT PATH POPUP -->
-
-
 <div data-role="popup" id="insertAPath" data-position-to="window"
 	data-transition="turn"
 	style="background-color: #000000; width: 333px; padding: 7px 7px 7px 7px;">

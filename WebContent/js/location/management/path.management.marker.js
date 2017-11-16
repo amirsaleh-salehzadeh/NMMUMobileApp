@@ -129,20 +129,9 @@ function getAllMarkers() {
 }
 
 function addMarker(l) {
-<<<<<<< HEAD
-	if(l.boundary != null){
-		drawPolygons(l.boundary);
-	}
-	var gps = l.gps;
-	var pos = {
-		lat : parseFloat(gps.split(",")[0]),
-		lng : parseFloat(gps.split(",")[1])
-	};
-=======
 	if (l.boundary != null && l.boundary.length > 2) {
 		drawPolygons(l.boundary);
 	}
->>>>>>> Version-0.3
 	marker = new google.maps.Marker({
 		map : map,
 		icon : refreshMap(l.locationType.locationTypeId, l.gps),
@@ -221,6 +210,7 @@ function addAMarker(location, gps) {
 		$("#markerLabel").html(location.locationType.locationType);
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
+		$("#boundary").val(location.boundary);
 	}
 	openMarkerPopup(edit);
 }
