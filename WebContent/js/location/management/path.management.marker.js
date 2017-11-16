@@ -55,7 +55,7 @@ function saveMarker() {
 		alert("Please select a name for the location");
 		return;
 	}
-	$("#locationTypeId").val(("#locationType").val());
+	$("#locationTypeId").val($("#locationType").val());
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$.ajax({
 		url : url,

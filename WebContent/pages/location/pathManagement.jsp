@@ -313,7 +313,7 @@
 		<label for="locationType" id="markerLabel"></label>
 		<div class="ui-field-contain">
 			<select
-				name="markerLabel" id="markerLabel" data-mini="true">
+				name="locationType" id="locationType" data-mini="true">
 				<option value="3">Building</option>
 				<option value="5">Intersection</option>
 				<option value="11">Entrance</option>
