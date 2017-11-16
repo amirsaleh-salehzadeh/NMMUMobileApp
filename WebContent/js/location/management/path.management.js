@@ -183,7 +183,7 @@ function initMap() {
 
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		zoom : 7,
-		fullscreenControl : true,
+		fullscreenControl : false,
 		streetViewControl : false,
 		scrollwheel : true,
 		gestureHandling : 'greedy'
@@ -205,6 +205,8 @@ function initMap() {
 			.getElementById('locationsUnderAType'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('infoDiv'));
+	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
+			.getElementById('SettingsMenuBtn'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");
