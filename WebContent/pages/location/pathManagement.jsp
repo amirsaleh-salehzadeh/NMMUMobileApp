@@ -193,14 +193,17 @@
 		type="hidden" name="markerId" id="markerId"> <input
 		type="hidden" id="pathLatLng">
 
-	<div class="ui-field-contain" id="locationsUnderAType">
-		<form>
-			    <input data-type="search" id="parentLocation">
-			<div data-role="controlgroup" data-filter="true"
-				data-input="#parentLocation" id="parentLocationListView"></div>
-		</form>
-	</div>
+<!-- 	<div class="ui-field-contain" id="locationsUnderAType"> -->
+<!-- 		<form> -->
+<!-- 			    <input data-type="search" id="parentLocation"> -->
+<!-- 			<div data-role="controlgroup" data-filter="true" -->
+<!-- 				data-input="#parentLocation" id="parentLocationListView"></div> -->
+<!-- 		</form> -->
+<!-- 	</div> -->
 </div>
+
+
+
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
 		<li id="locationTypeToAdd"></li>

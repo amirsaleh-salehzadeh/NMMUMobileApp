@@ -258,6 +258,10 @@ function initMap() {
 	        newShape.type = e.type;
 	        //The getPolygonCoords function must be called here, because it is called right after the whole polygon is created
 	        //alert(getPolygonCoords(newShape));
+	        google.maps.event.addListener(newShape, "mouseup", function(event){
+		    	$("#boundary").val(getPolygonCoords(newShape));
+//		    	alert(newShape.getPath().getArray());
+		    });
 	        $("#boundary").val(getPolygonCoords(newShape));
 	        alert("The boundary has been saved.");
 	        //$('#insertAMarker').popup('open');

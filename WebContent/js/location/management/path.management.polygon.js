@@ -1,4 +1,4 @@
-  function addPolygon () {
+  	function addPolygon () {
 		$('#insertAMarker').popup('close');
 	}	
 	function drawPolygons (coordinates)
@@ -65,6 +65,17 @@
 	    }
 	    
 	    selectedShape = shape;
+//	    alert(shape.getPath().getArray());
+//	    alert(selectedShape.getPath().getArray());
+//	    google.maps.event.addListener(selectedShape, "mouseup", function(event){
+//	    	//$("#boundary").val(overlay.getPath().getArray());
+//	    	alert(selectedShape.getPath().getArray());
+//	    });
+//	    google.maps.event.addListener(shape, "mouseup", function(event){
+//	    	//$("#boundary").val(overlay.getPath().getArray());
+//	    	alert(shape.getPath().getArray());
+//	    });
+	    
 //	    var Lat = shape.getPath().getAt(0).lat();
 //	    var Lng = shape.getPath().getAt(0).lng(); 
 //	    showBoundaryEdit(shape,Lat,Lng);
