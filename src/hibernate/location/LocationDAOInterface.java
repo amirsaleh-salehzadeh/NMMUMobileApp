@@ -31,8 +31,6 @@ public interface LocationDAOInterface {
 
 	public LocationTypeENT getAllLocationTypeChildren(LocationTypeENT parent);
 
-	public ArrayList<PathENT> getAllPaths(String username);
-
 	public PathENT savePath(PathENT path);
 
 	public LocationENT findClosestLocation(String GPSCoordinates, String locationTypeIds, String parentIds, String clientName);

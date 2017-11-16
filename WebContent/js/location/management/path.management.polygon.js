@@ -1,9 +1,10 @@
 var polygons = [];
 function addPolygon() {
-	$('#insertAMarker').popup('close');
+//	$('#insertAMarker').popup('close');
 }
 
 var longpress = false;
+var start;
 function drawPolygons(location) {
 	var array = location.boundary.split("_");
 	var CoordinatesArray = new Array();
@@ -22,18 +23,22 @@ function drawPolygons(location) {
 		strokeColor : '#1E90FF',
 		strokeWeight : 2,
 		fillColor : '#1E90FF',
+		title : location.locationName + " " + location.locationType.locationType
 	});
 	DRAWPolygon.setMap(map);
 	DRAWPolygon.id = location.locationID;
 	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
 		if (longpress) {
+			$("#parentLocationId").val(location.locationID);
+			$("#parentDescriptionToAdd").html(location.locationName + " Campus");
 			getAllMarkers(location.locationID+"","3,5,11");
+			getAllPaths();
 		} else {
 			addAMarker(location, location.gps);
 		}
 	});
+	
 	google.maps.event.addListener(DRAWPolygon, 'mousedown', function(event) {
-
 		start = new Date().getTime();
 	});
 	google.maps.event.addListener(DRAWPolygon, 'mouseup', function(event) {

@@ -56,6 +56,18 @@
 	width: 100%;
 }
 
+.labels {
+	color: red;
+	background-color: white;
+	font-family: "Lucida Grande", "Arial", sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	text-align: center;
+	width: 65px;
+	border: 2px solid black;
+	white-space: nowrap;
+}
+
 .locationTypeNavBar {
 	display: block;
 	min-height: 3em;
@@ -131,6 +143,14 @@
 	min-width: 333px;
 	resize: none;
 }
+
+.ui-panel {
+	/*background-color: #fff;
+    top: 100;
+    box-shadow: none;*/
+	width: 400px;
+}
+
 /*
 #views {
     display: block;
@@ -174,6 +194,9 @@
 				+ " second/s.";
 		return String;
 	}
+	function showHideSettingsMenu() {
+		$("#openLocationEditMenu").trigger("click");
+	}
 </script>
 <link rel="stylesheet" href="css/jquery.treefilter.css">
 <link href="css/location/croppie.css" rel="stylesheet">
@@ -202,8 +225,6 @@
 	<!-- 	</div> -->
 </div>
 
-
-
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
 		<li id="locationTypeToAdd"></li>
@@ -224,45 +245,109 @@
 	</div>
 </div>
 
-<div data-role="collapsible" id="BoundaryEdit"
-	data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
-	data-content-theme="false">
-	<!-- 	<div id="panelColour"> -->
-	<!-- 		<div id="color-palette"></div> -->
-	<!-- 		<div> -->
-	<!-- 		<button id="delete-button">Delete Selected Shape</button> -->
-	<!-- 		</div> -->
-	<!-- 	</div> -->
-	<h1>Boundary Toolbar</h1>
-	<!-- 	<span>Boundary Edit Controls</span> -->
-	<div class="ui-grid-b">
-		    
-		<div class="ui-block-a">
-			<span>Boundary Edit Controls</span>
-			<button id="hand-button" onclick="removeDrawingMode()">Free
-				Select Mode</button>
-			<button id="drawing-button" onclick="setDrawingMode()">Select
-				Drawing Mode</button>
-			<button id="delete-button">Delete Selected Shape</button>
+<div id="SettingsMenuBtn">
+	<a href="#MenuPanel"
+		class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-bars"
+		id="openLocationEditMenu">Settings</a>
+</div>
+<div id="SettingsMenu">
+	<div data-role="panel" id="MenuPanel" data-position="right"
+		data-display="overlay" data-theme="a"
+		class="ui-panel ui-panel-position-right ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open"
+		data-dismissible="false" data-swipe-close="false">
+		<div>
+			<label id="creationLabel"></label>
 		</div>
-		    
-		<div class="ui-block-b">
-			<span>Boundary Styling</span> <br>
-			<div id="panelColour">
-				<span>Select A Colour</span>
-				<div id="color-palette"></div>
+		<div class="ui-block-solo">
+			<label for="markerName" id="markerLabel"></label> <input type="text"
+				placeholder="Location Name" name="markerName" id="markerName"
+				value="">
+		</div>
+		<div class="ui-block-solo">
+			<label for="locationType" id="markerLabel"></label>
+			<div class="ui-field-contain">
+				<select name="locationType" id="locationType" data-mini="true">
+					<option value="3">Building</option>
+					<option value="5">Intersection</option>
+					<option value="11">Entrance</option>
+				</select>
 			</div>
-			<br>
-
 		</div>
-		    
-		<div class="ui-block-c">
-			<span>Boundary Edit Points</span>
+		<div class="ui-block-solo">
+			<label for="locationDescription" id="DescriptionLabel"></label>
+			<textarea type="text" placeholder="Location Description"
+				name="locationDescription" id="locationDescription" value=""
+				rows="5" cols="17"></textarea>
 		</div>
+		<input type="hidden" name="icon" id="icon" value=""> <input
+			type="hidden" name="boundary" id="boundary" value="">
+		<div data-role="collapsible" id="IconCollapsible"
+			data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
+			data-content-theme="false">
+			<h1>Icon</h1>
+			<div class="ui-block-solo" id="IconDiv">
+				<div id="modal">
+					<span>Upload file for icon</span> <input type="file" id="upload"
+						value="Choose Image" accept="image/*">
+					<div id="main-cropper"></div>
+					<div id="iconCropDiv">
+						<img id="croppedIcon" src="" alt="" />
+					</div>
+					</br>
+					<button class="cropIcon" id="cropIcon">Crop Icon</button>
+				</div>
+			</div>
+		</div>
+		<div data-role="collapsible" id="BoundaryEdit"
+			data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
+			data-content-theme="false">
+			<h1>Boundary</h1>
+			<div class="ui-block-solo">
+				<input type="button" data-icon="plus" value="Add Boundary"
+					id="addBoundary" onclick="addPolygon()">
+			</div>
+			<div class="ui-grid-solo">
+				<span>Boundary Edit Controls</span>
+				<button id="hand-button" onclick="removeDrawingMode()">Free
+					Select Mode</button>
+				<button id="drawing-button" onclick="setDrawingMode()">Select
+					Drawing Mode</button>
+				<button id="delete-button">Delete Selected Boundary</button>
+			</div>
+			    
+			<div class="ui-grid-solo">
+				<span>Boundary Styling</span>
+				<div id="panelColour">
+					<span>Select A Colour</span>
+					<div id="color-palette"></div>
+				</div>
+			</div>
+			    
+			<div class="ui-grid-solo">
+				<!--  For later work	<span>Boundary Edit Points</span> -->
+			</div>
+		</div>
+		<div class="ui-block-solo">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="ui-btn ui-shadow save-icon ui-corner-all"
+				onclick="saveMarker()">Save</a>
+		</div>
+		<div class="ui-block-solo">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="ui-btn ui-shadow save-icon ui-corner-all"
+				onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
+				Barcode</a>
+		</div>
+		<div class="ui-block-solo">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="ui-btn ui-shadow cancel-icon ui-corner-all"
+				onclick="removeMarker()">Remove</a>
+		</div>
+		<a href="#" data-rel="close"
+			class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline"
+			id="closeLocationEditMenu">Close Settings</a>
 	</div>
 </div>
-
-<div id="map_canvas"></div>
 
 <div id="createType"></div>
 <div id="map_canvas"></div>
@@ -294,75 +379,13 @@
 </div>
 
 <!-- INSERT LOCATION POPUP -->
-<div data-role="popup" id="insertAMarker" data-position-to="window"
-	data-transition="turn"
-	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;">
-	<!-- width: 333px; -->
-	<a href="#" data-role="button" data-theme="a" data-icon="delete"
-		data-iconpos="notext" class="ui-btn-right"
-		onclick="$('#insertAMarker').popup('close'); ">Close</a>
-	<div>
-		<label id="creationLabel"></label>
-	</div>
-	<div class="ui-block-solo">
-		<label for="markerName" id="markerLabel"></label> <input type="text"
-			placeholder="Location Name" name="markerName" id="markerName"
-			value="">
-	</div>
-	<div class="ui-block-solo">
-		<label for="locationType" id="markerLabel"></label>
-		<div class="ui-field-contain">
-			<select
-				name="locationType" id="locationType" data-mini="true">
-				<option value="3">Building</option>
-				<option value="5">Intersection</option>
-				<option value="11">Entrance</option>
-			</select>
-		</div>
-	</div>
-	<div class="ui-block-solo">
-		<label for="locationDescription" id="DescriptionLabel"></label>
-		<textarea type="text" placeholder="Location Description"
-			name="locationDescription" id="locationDescription" value="" rows="5"
-			cols="17"></textarea>
-	</div>
-
-	<input type="hidden" name="icon" id="icon" value=""> <input
-		type="hidden" name="boundary" id="boundary" value="">
-	<div class="ui-block-solo" id="IconDiv">
-		<div id="modal">
-			<span>Upload file for icon</span> <input type="file" id="upload"
-				value="Choose Image" accept="image/*">
-			<div id="main-cropper"></div>
-			<div id="iconCropDiv">
-				<img id="croppedIcon" src="" alt="" />
-			</div>
-			</br>
-			<button class="cropIcon" id="cropIcon">Crop Icon</button>
-		</div>
-	</div>
-	<div class="ui-block-solo">
-		<input type="button" data-icon="plus" value="Add Boundary"
-			id="addBoundary" onclick="addPolygon()">
-	</div>
-
-	<div class="ui-block-solo">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow save-icon ui-corner-all"
-			onclick="saveMarker()">Save</a>
-	</div>
-	<div class="ui-block-solo">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow save-icon ui-corner-all"
-			onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
-			Barcode</a>
-	</div>
-	<div class="ui-block-solo">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow cancel-icon ui-corner-all"
-			onclick="removeMarker()">Remove</a>
-	</div>
-</div>
+<!-- <div data-role="popup" id="insertAMarker" data-position-to="window" -->
+<!-- 	data-transition="turn" -->
+<!-- 	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;"> -->
+<!-- 	<a href="#" data-role="button" data-theme="a" data-icon="delete" -->
+<!-- 		data-iconpos="notext" class="ui-btn-right" -->
+<!-- 		onclick="$('#insertAMarker').popup('close'); ">Close</a> -->
+<!-- </div> -->
 
 <!-- INSERT PATH POPUP -->
 <div data-role="popup" id="insertAPath" data-position-to="window"

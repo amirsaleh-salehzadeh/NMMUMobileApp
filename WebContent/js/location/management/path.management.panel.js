@@ -102,14 +102,6 @@ function getDecendentList() {// gets all the children types and locations
 			var strCampus = "";
 			$.each(data, function(k, l) {
 				strCampus = l.locationName + "_" + l.locationID + "_" + "2";
-				// if(l.locationID=="369"){
-				// strCampus="";
-				// strCampus += "<li><div>"+l.locationName+"</div><ul>";
-				// strCampus+= getlocationDecendentType(2,l.locationID);
-				// strCampus+="</ul></li>";
-				// $("#my-tree").html($("#my-tree").html()+strCampus);
-				// }
-				// console.log(strCampus);
 				arrAreas.push(strCampus);
 			});
 

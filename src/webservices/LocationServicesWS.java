@@ -153,24 +153,6 @@ public class LocationServicesWS {
 		return json;
 	}
 
-	@GET
-	@Path("/GetAllPathsForUser")
-	@Produces("application/json")
-	public String getAllPathsForUser(@QueryParam("userName") String userName) {
-		ObjectMapper mapper = new ObjectMapper();
-		String json = "";
-		try {
-			json = mapper.writeValueAsString(getLocationDAO().getAllPaths(
-					userName));
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return json;
-	}
 
 	@GET
 	@Path("/GetADirectionFromTo")

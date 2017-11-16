@@ -1,5 +1,6 @@
-function getAllPaths(loadingContent) {
-	var url = "REST/GetLocationWS/GetAllPathsForUser?userName=NMMU";
+function getAllPaths() {
+	var url = "REST/GetRouteWS/GetRoutesForUserAndParent?userName=NMMU&parentId="
+			+ $("#parentLocationId").val();
 	$.ajax({
 		url : url,
 		cache : false,
@@ -130,7 +131,6 @@ function removePath(id) {
 					if (paths[i].id == id)
 						paths[i].setMap(null);
 				}
-				// getAllPaths(loadingContent);
 			},
 			complete : function() {
 				HideLoadingScreen();
@@ -204,7 +204,7 @@ function updateMovingLine(event) {
 		paths.push(movingLine);
 	} else
 		movingLine.setPath(tmpPathCoor);
-	
+
 	movingLine.setMap(null);
 	movingLine.setMap(map);
 }

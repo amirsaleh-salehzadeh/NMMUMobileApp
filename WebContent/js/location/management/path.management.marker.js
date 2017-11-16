@@ -16,7 +16,7 @@ function removeMarker() {
 				ShowLoadingScreen(loadingContent);
 			},
 			success : function(data) {
-				$('#insertAMarker').popup('close');
+				// $('#insertAMarker').popup('close');
 				if (data.errorMSG != null) {
 					alert(data.errorMSG);
 					return;
@@ -96,15 +96,17 @@ function saveMarker() {
 			alert("saveMarker");
 		},
 	});
-	if (!$('#insertAMarker').parent().hasClass('ui-popup-hidden')) {
-		$('#insertAMarker').popup('close');
-		$('#insertAMarker').popup("destroy");
-		return -1;
-	}
+	// if (!$('#insertAMarker').parent().hasClass('ui-popup-hidden')) {
+	// $('#insertAMarker').popup('close');
+	// $('#insertAMarker').popup("destroy");
+	// return -1;
+	// }
 }
 
 function getAllMarkers(parentId, locationTypeIds) {
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="+parentId+"&locationTypeId="+locationTypeIds+"&userName=NMMU";
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
+			+ parentId + "&locationTypeId=" + locationTypeIds
+			+ "&userName=NMMU";
 	setMapOnAllMarkers(null);
 	setMapOnAllpoligons(null);
 	$.ajax({
@@ -139,6 +141,12 @@ function addMarker(l) {
 		icon : refreshMap(l.locationType.locationTypeId, l.gps),
 		animation : google.maps.Animation.DROP,
 		draggable : true,
+		labelContent : l.locationName + " " + l.locationType.locationType,
+		labelAnchor : new google.maps.Point(30, 20),
+		labelClass : "labels", // the CSS class for the label
+		labelStyle : {
+			opacity : 1.0
+		},
 		title : l.locationName
 	});
 	var pos = {
@@ -202,6 +210,8 @@ function addAMarker(location, gps) {
 		$("#markerId").val("");
 		$("#markerName").val("");
 		$("#markerCoordinate").val(gps);
+		$("#markerLabel").html("");
+		$("#locationDescription").val("");
 	} else {
 		$("#markerId").val(location.locationID);
 		$("#markerName").val(location.locationName);
@@ -213,7 +223,8 @@ function addAMarker(location, gps) {
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
 	}
-	openMarkerPopup(edit);
+	showHideSettingsMenu();
+	// openMarkerPopup(edit);
 }
 
 function selectALocationTypeToAdd(locationTypeId) {

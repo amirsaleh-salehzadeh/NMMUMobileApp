@@ -175,7 +175,7 @@ function initMap() {
 //	 getLocationTypePanel();
 	getPathTypePanel();
 	getAllMarkers("360","2");
-	getAllPaths();
+	$("#parentLocationId").val("360");
 	var myLatLng = {
 		lat : -33.5343803,
 		lng : 24.2683424
@@ -183,7 +183,7 @@ function initMap() {
 
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		zoom : 7,
-		fullscreenControl : true,
+		fullscreenControl : false,
 		streetViewControl : false,
 		scrollwheel : true,
 		gestureHandling : 'greedy'
@@ -205,6 +205,8 @@ function initMap() {
 			.getElementById('locationsUnderAType'));
 	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
 			.getElementById('infoDiv'));
+	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
+			.getElementById('SettingsMenuBtn'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");
@@ -262,7 +264,7 @@ function initMap() {
 					function(e) {
 						var newShape = e.overlay;
 						$("#boundary").val(getPolygonCoords(newShape));
-						$('#insertAMarker').popup('open');
+//						$('#insertAMarker').popup('open');
 						newShape.type = e.type;
 						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
 							drawingManager.setDrawingMode(null);
@@ -358,15 +360,6 @@ function setLocationTypeCreate() {
 		}
 	});
 	google.maps.event.trigger(map, 'resize');
-}
-
-function createMyType(selectOpt) {
-	$("#locationTypeId").val($(selectOpt).val());
-	if ($(selectOpt).html().indexOf("Area") > -1)
-		$("#parentLocationId").val(360);
-	else
-		$("#parentLocationId").val(0);
-	setLocationTypeCreate();
 }
 
 function getPathTypePanel() {
