@@ -76,28 +76,9 @@ function addAPathToMap(l) {
 
 // SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH INCLUDES MANY POINTS
 function saveThePath() {
-//	var loadingContent = "Saving Path";
-//	var des = $("#destinationId").val();
-//	var locationLatLngs = $("#pathLatLng").val().split("_");
-	// if (locationLatLngs.length <= 2) {
 	$('#insertAPath').popup('close');
 	saveAPath();
-	// } else
-	// for ( var i = 1; i < locationLatLngs.length; i++) {
-	// $("#markerName").val("Intersection");
-	// $("#markerCoordinate").val(locationLatLngs[i]);
-	// $("#locationTypeId").val(5);
-	// $("#markerId").val(0);
-	// if (i < locationLatLngs.length - 1) {
-	// // saveMarker();
-	// $("#destinationId").val($("#markerId").val());
-	// } else {
-	// $("#destinationId").val(des);
-	// }
-	// saveAPath();
-	// }
 	cancelADrawnPath();
-	// getAllPaths(loadingContent);
 }
 
 // SAVE A PATH BETWEEN TWO POINTS

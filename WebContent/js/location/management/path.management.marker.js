@@ -55,6 +55,7 @@ function saveMarker() {
 		alert("Please select a name for the location");
 		return;
 	}
+	$("#locationTypeId").val(("#locationType").val());
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$.ajax({
 		url : url,
@@ -105,6 +106,7 @@ function saveMarker() {
 function getAllMarkers(parentId, locationTypeIds) {
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="+parentId+"&locationTypeId="+locationTypeIds+"&userName=NMMU";
 	setMapOnAllMarkers(null);
+	setMapOnAllpoligons(null);
 	$.ajax({
 		url : url,
 		cache : false,
@@ -130,7 +132,7 @@ function getAllMarkers(parentId, locationTypeIds) {
 
 function addMarker(l) {
 	if (l.boundary != null && l.boundary.length > 2) {
-		drawPolygons(l.boundary);
+		drawPolygons(l);
 	}
 	marker = new google.maps.Marker({
 		map : map,

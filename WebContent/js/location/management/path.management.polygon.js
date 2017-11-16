@@ -1,8 +1,11 @@
+var polygons = [];
 function addPolygon() {
 	$('#insertAMarker').popup('close');
 }
-function drawPolygons(coordinates) {
-	var array = coordinates.split("_");
+
+var longpress = false;
+function drawPolygons(location) {
+	var array = location.boundary.split("_");
 	var CoordinatesArray = new Array();
 	for ( var i = 0; i <= array.length - 1; i++) {
 		var string = array[i];
@@ -14,23 +17,46 @@ function drawPolygons(coordinates) {
 		CoordinatesArray.push(LatLng);
 	}
 	;
-
-	// drawPolygons($("#boundary").val());
-
-	// Construct the polygon.
 	var DRAWPolygon = new google.maps.Polygon({
 		paths : CoordinatesArray,
 		strokeColor : '#1E90FF',
-		// strokeOpacity: 0.8,
 		strokeWeight : 2,
 		fillColor : '#1E90FF',
-	// fillOpacity: 0.35,
-	// editable: true
 	});
 	DRAWPolygon.setMap(map);
-	google.maps.event.addListener(DRAWPolygon, 'click', function() {
-		setSelection(DRAWPolygon);
+	DRAWPolygon.id = location.locationID;
+	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
+		if (longpress) {
+			getAllMarkers(location.locationID+"","3,5,11");
+		} else {
+			addAMarker(location, location.gps);
+		}
 	});
+	google.maps.event.addListener(DRAWPolygon, 'mousedown', function(event) {
+
+		start = new Date().getTime();
+	});
+	google.maps.event.addListener(DRAWPolygon, 'mouseup', function(event) {
+		end = new Date().getTime();
+		longpress = (end - start < 500) ? false : true;
+	});
+	polygons.push(DRAWPolygon);
+}
+
+function deletePolygon(id) {
+	for ( var i = 0; i < polygons.length; i++) {
+		if (polygons[i].id == id) {
+			polygons[i].setMap(null);
+			polygons.splice(i, 1);
+			return;
+		}
+	}
+}
+
+function setMapOnAllpoligons(map) {
+	for ( var i = 0; i < polygons.length; i++) {
+		polygons[i].setMap(map);
+	}
 }
 
 var drawingManager;
@@ -68,9 +94,6 @@ function setSelection(shape) {
 	}
 
 	selectedShape = shape;
-	// var Lat = shape.getPath().getAt(0).lat();
-	// var Lng = shape.getPath().getAt(0).lng();
-	// showBoundaryEdit(shape,Lat,Lng);
 }
 
 function deleteSelectedShape() {
@@ -86,10 +109,6 @@ function selectColor(color) {
 	selectedColor = color;
 	for ( var i = 0; i < colors.length; ++i) {
 		var currColor = colors[i];
-		// colorButtons[currColor].style.border = currColor == color ? '2px
-		// solid #789' : '2px solid #fff';
-		// colorButtons[currColor].style.border = currColor == color ? '2px
-		// solid #fff' : '2px solid #333';
 		colorButtons[currColor].style.border = '2px solid #fff';
 	}
 

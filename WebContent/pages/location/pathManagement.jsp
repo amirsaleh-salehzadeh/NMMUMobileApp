@@ -80,7 +80,7 @@
 	border-color: white;
 }
 
-#BoundaryEdit{
+#BoundaryEdit {
 	background-color: transparent;
 }
 
@@ -193,14 +193,17 @@
 		type="hidden" name="markerId" id="markerId"> <input
 		type="hidden" id="pathLatLng">
 
-	<div class="ui-field-contain" id="locationsUnderAType">
-		<form>
-			    <input data-type="search" id="parentLocation">
-			<div data-role="controlgroup" data-filter="true"
-				data-input="#parentLocation" id="parentLocationListView"></div>
-		</form>
-	</div>
+	<!-- 	<div class="ui-field-contain" id="locationsUnderAType"> -->
+	<!-- 		<form> -->
+	<!-- 			    <input data-type="search" id="parentLocation"> -->
+	<!-- 			<div data-role="controlgroup" data-filter="true" -->
+	<!-- 				data-input="#parentLocation" id="parentLocationListView"></div> -->
+	<!-- 		</form> -->
+	<!-- 	</div> -->
 </div>
+
+
+
 <div id="infoDiv">
 	<ul data-role="listview" id="infoListView">
 		<li id="locationTypeToAdd"></li>
@@ -221,35 +224,41 @@
 	</div>
 </div>
 
-<div data-role="collapsible" id="BoundaryEdit" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-content-theme="false">
-<!-- 	<div id="panelColour"> -->
-<!-- 		<div id="color-palette"></div> -->
-<!-- 		<div> -->
-<!-- 		<button id="delete-button">Delete Selected Shape</button> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
+<div data-role="collapsible" id="BoundaryEdit"
+	data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
+	data-content-theme="false">
+	<!-- 	<div id="panelColour"> -->
+	<!-- 		<div id="color-palette"></div> -->
+	<!-- 		<div> -->
+	<!-- 		<button id="delete-button">Delete Selected Shape</button> -->
+	<!-- 		</div> -->
+	<!-- 	</div> -->
 	<h1>Boundary Toolbar</h1>
-<!-- 	<span>Boundary Edit Controls</span> -->
+	<!-- 	<span>Boundary Edit Controls</span> -->
 	<div class="ui-grid-b">
-    <div class="ui-block-a">
+		    
+		<div class="ui-block-a">
 			<span>Boundary Edit Controls</span>
-			<button id="hand-button" onclick="removeDrawingMode()">Free Select Mode</button>
-			<button id="drawing-button" onclick="setDrawingMode()">Select Drawing Mode</button>
+			<button id="hand-button" onclick="removeDrawingMode()">Free
+				Select Mode</button>
+			<button id="drawing-button" onclick="setDrawingMode()">Select
+				Drawing Mode</button>
 			<button id="delete-button">Delete Selected Shape</button>
-	</div>
-    <div class="ui-block-b">
-		<span>Boundary Styling</span>
-		<br>
-		<div id="panelColour">
-			<span>Select A Colour</span>
-			<div id="color-palette"></div>
 		</div>
-		<br>
-		
-	</div>
-    <div class="ui-block-c">
-		<span>Boundary Edit Points</span>
-	</div>
+		    
+		<div class="ui-block-b">
+			<span>Boundary Styling</span> <br>
+			<div id="panelColour">
+				<span>Select A Colour</span>
+				<div id="color-palette"></div>
+			</div>
+			<br>
+
+		</div>
+		    
+		<div class="ui-block-c">
+			<span>Boundary Edit Points</span>
+		</div>
 	</div>
 </div>
 
@@ -299,6 +308,17 @@
 		<label for="markerName" id="markerLabel"></label> <input type="text"
 			placeholder="Location Name" name="markerName" id="markerName"
 			value="">
+	</div>
+	<div class="ui-block-solo">
+		<label for="locationType" id="markerLabel"></label>
+		<div class="ui-field-contain">
+			<select
+				name="markerLabel" id="markerLabel" data-mini="true">
+				<option value="3">Building</option>
+				<option value="5">Intersection</option>
+				<option value="11">Entrance</option>
+			</select>
+		</div>
 	</div>
 	<div class="ui-block-solo">
 		<label for="locationDescription" id="DescriptionLabel"></label>
