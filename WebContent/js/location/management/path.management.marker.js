@@ -130,7 +130,7 @@ function getAllMarkers(parentId, locationTypeIds) {
 
 function addMarker(l) {
 	if (l.boundary != null && l.boundary.length > 2) {
-		drawPolygons(l.boundary, l);
+		drawPolygons(l.boundary);
 	}
 	marker = new google.maps.Marker({
 		map : map,
