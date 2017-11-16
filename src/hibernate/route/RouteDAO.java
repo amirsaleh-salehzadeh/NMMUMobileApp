@@ -37,15 +37,16 @@ import tools.QRBarcodeGen;
 
 public class RouteDAO extends BaseHibernateDAO implements RouteDAOInterface {
 
-	public ArrayList<PathENT> getRoutesForUserAndParent(String username, long parentId) {
+	public ArrayList<PathENT> getRoutesForUserAndParent(String username,
+			long parentId) {
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
+		Connection conn = null;
 		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
+			conn = getConnection();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		try {
 			String query = "Select p.*, pt.* from paths p "
 					+ "inner join location lf on lf.location_id = p.destination_location_id "
 					+ " left join path_type pt on pt.path_type_id = p.path_type"
@@ -55,13 +56,13 @@ public class RouteDAO extends BaseHibernateDAO implements RouteDAOInterface {
 			ResultSet rs = ps.executeQuery();
 			LocationDAO ldao = new LocationDAO();
 			while (rs.next()) {
-				PathENT p = new PathENT(ldao.getLocationENT(new LocationENT(rs
-						.getLong("departure_location_id"))),
-						ldao.getLocationENT(new LocationENT(rs
-								.getLong("destination_location_id"))),
-						rs.getDouble("distance"), new PathTypeENT(
-								rs.getInt("path_type_id"),
-								rs.getString("pt.path_type")),
+				PathENT p = new PathENT(ldao.getLocationENT(
+						new LocationENT(rs.getLong("departure_location_id")),
+						conn), ldao.getLocationENT(
+						new LocationENT(rs.getLong("destination_location_id")),
+						conn), rs.getDouble("distance"),
+						new PathTypeENT(rs.getInt("path_type_id"), rs
+								.getString("pt.path_type")),
 						rs.getLong("path_id"));
 				p.setPathRoute(rs.getString("path_route"));
 				res.add(p);

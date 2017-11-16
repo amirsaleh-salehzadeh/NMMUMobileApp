@@ -1,4 +1,3 @@
-var polygons = [];
 function addPolygon() {
 //	$('#insertAMarker').popup('close');
 }
@@ -31,8 +30,10 @@ function drawPolygons(location) {
 		if (longpress) {
 			$("#parentLocationId").val(location.locationID);
 			$("#parentDescriptionToAdd").html(location.locationName + " Campus");
-			getAllMarkers(location.locationID+"","3,5,11");
+			$("#grandParentDescriptionToAdd").html("NMMU");
+			$("#grandParentDescriptionToAdd").attr("onclick","getAllMarkers(\"360\",\"2\")");
 			getAllPaths();
+			getAllMarkers(location.locationID+"","3,5,11");
 		} else {
 			addAMarker(location, location.gps);
 		}

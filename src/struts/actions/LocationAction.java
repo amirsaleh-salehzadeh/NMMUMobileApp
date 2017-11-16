@@ -60,8 +60,7 @@ public class LocationAction extends Action {
 		} else if (reqCode.equals("saveUpdateLocation")) {
 			return saveUpdateLocation(request, mapping);
 		}
-		
-		
+
 		return af;
 	}
 
@@ -92,13 +91,13 @@ public class LocationAction extends Action {
 			return mapping.findForward("locationEdit");
 		}
 		locationENT.setLocationID(locationId);
-//		try {
-			request.setAttribute("locationENT", getLocationDAO()
-					.getLocationENT(locationENT));
-//		} catch (AMSException e) {
-//			error = e.getMessage();
-//			e.printStackTrace();
-//		}
+		// try {
+		request.setAttribute("locationENT",
+				getLocationDAO().getLocationENT(locationENT, null));
+		// } catch (AMSException e) {
+		// error = e.getMessage();
+		// e.printStackTrace();
+		// }
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("locationEdit");
@@ -106,31 +105,31 @@ public class LocationAction extends Action {
 
 	private ActionForward locationManagement(HttpServletRequest request,
 			ActionMapping mapping) {
-//		try {
-			createMenusForLocation(request);
-			LocationLST locationLST = getLocationLST(request);
-			request.setAttribute("locationLST", locationLST);
-			ObjectMapper mapper = new ObjectMapper();
-			String json = "";
-			try {
-				json = mapper.writeValueAsString(locationLST.getLocationENTs());
-			} catch (JsonGenerationException e) {
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			json = AMSUtililies.prepareTheJSONStringForDataTable(
-					locationLST.getCurrentPage(), locationLST.getTotalItems(), json,
-					"locationID", success, error);
-			request.setAttribute("json", json);
-			if (request.getParameter("reqCodeGrid") != null
-					&& request.getParameter("reqCodeGrid").equals("gridJson"))
-				return mapping.findForward("gridJson");
-//		} catch (AMSException e) {
-//			e.printStackTrace();
-//		}
+		// try {
+		createMenusForLocation(request);
+		LocationLST locationLST = getLocationLST(request);
+		request.setAttribute("locationLST", locationLST);
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(locationLST.getLocationENTs());
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		json = AMSUtililies.prepareTheJSONStringForDataTable(
+				locationLST.getCurrentPage(), locationLST.getTotalItems(),
+				json, "locationID", success, error);
+		request.setAttribute("json", json);
+		if (request.getParameter("reqCodeGrid") != null
+				&& request.getParameter("reqCodeGrid").equals("gridJson"))
+			return mapping.findForward("gridJson");
+		// } catch (AMSException e) {
+		// e.printStackTrace();
+		// }
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("locationManagement");
@@ -158,17 +157,19 @@ public class LocationAction extends Action {
 		if (request.getParameter("Address") != null)
 			Address = request.getParameter("Address");
 		if (request.getParameter("locationTypeId") != null)
-			locationTypeId = Integer.parseInt(request.getParameter("locationTypeId"));
+			locationTypeId = Integer.parseInt(request
+					.getParameter("locationTypeId"));
 		LocationTypeENT locationTypeENT = new LocationTypeENT(locationTypeId);
-		LocationENT locationENT = new LocationENT(0, search,locationTypeENT  , Address, Gps, search);
-		LocationLST locationLST = new LocationLST(locationENT, pageNo, pageSize, true,
-				"location_name");
-//		try {
-//			locationLST = null;//getLocationDAO().getLocationLST(locationLST);
-//		} catch (AMSException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		LocationENT locationENT = new LocationENT(0, search, locationTypeENT,
+				Address, Gps, search);
+		LocationLST locationLST = new LocationLST(locationENT, pageNo,
+				pageSize, true, "location_name");
+		// try {
+		// locationLST = null;//getLocationDAO().getLocationLST(locationLST);
+		// } catch (AMSException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 		return locationLST;
 	}
 
@@ -183,19 +184,22 @@ public class LocationAction extends Action {
 			locationENT.setLocationName("");
 		locationENT.setGps(request.getParameter("Gps"));
 		locationENT.setClientName(request.getParameter("userName"));
-		//locationENT.setLocationType(request.getParameter("locationType"));
-		locationENT.setParentId(Integer.parseInt(request.getParameter("parentId")));
+		// locationENT.setLocationType(request.getParameter("locationType"));
+		locationENT.setParentId(Integer.parseInt(request
+				.getParameter("parentId")));
 		return locationENT;
 	}
+
 	private void createMenusForLocation(HttpServletRequest request) {
 		List<PopupENT> popupEnts = new ArrayList<PopupENT>();
-		popupEnts.add(new PopupENT("hide-filters", "displaySearch();", "Show/Hide Search",
-				"#"));
+		popupEnts.add(new PopupENT("hide-filters", "displaySearch();",
+				"Show/Hide Search", "#"));
 		popupEnts.add(new PopupENT("new-item",
 				"callAnAction(\"location.do?reqCode=locationEdit\");",
 				"New Group", "#"));
-		popupEnts.add(new PopupENT("delete-item", "deleteSelectedItems(\"deleteLocation\");",
-				"Delete Selected", "#"));
+		popupEnts.add(new PopupENT("delete-item",
+				"deleteSelectedItems(\"deleteLocation\");", "Delete Selected",
+				"#"));
 		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
 		popupGridEnts
 				.add(new PopupENT(
@@ -206,7 +210,7 @@ public class LocationAction extends Action {
 				"deleteAnItem(REPLACEME, \"deleteLocation\");", "Remove", "#")); //
 		request.setAttribute("settingMenuItem", popupEnts);
 		request.setAttribute("gridMenuItem", popupGridEnts);
-	} 
+	}
 
 	private void setAllPathTypes(HttpServletRequest request) {
 		request.setAttribute("pathTypes", getLocationDAO().getAllPathTypes());

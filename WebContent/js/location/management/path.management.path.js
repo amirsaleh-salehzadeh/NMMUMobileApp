@@ -1,4 +1,7 @@
 function getAllPaths() {
+	for ( var i = 0; i < paths.length; i++) {
+			paths[i].setMap(null);
+	}
 	var url = "REST/GetRouteWS/GetRoutesForUserAndParent?userName=NMMU&parentId="
 			+ $("#parentLocationId").val();
 	$.ajax({

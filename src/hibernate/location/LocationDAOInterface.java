@@ -1,6 +1,7 @@
 package hibernate.location;
 
 import java.util.ArrayList;
+import java.sql.Connection;
 
 import common.DropDownENT;
 import common.location.LocationENT;
@@ -17,7 +18,7 @@ public interface LocationDAOInterface {
 
 	public LocationLST searchForLocations(LocationLST lst) throws AMSException;
 
-	public LocationENT getLocationENT(LocationENT ent);
+	public LocationENT getLocationENT(LocationENT ent, Connection conn);
 
 	public ArrayList<LocationENT> getAllLocationsForUser(String username, String locationTypeIds, String parentLocationIds);
 

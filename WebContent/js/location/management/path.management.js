@@ -1,6 +1,7 @@
 var map, marker, infoWindow;
 var markers = [];
 var paths = [];
+var polygons = [];
 function toast(msg) {
 	$(
 			"<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h3>"
@@ -50,7 +51,7 @@ function refreshMap(locationTypeId, gpsStr) {
 //		icon += 'crossroad48.png';
 		icon = {
 			path : google.maps.SymbolPath.CIRCLE,
-			scale : 2
+			scale : 4
 		};
 		map.setCenter(gps);
 		// map.setZoom(15);

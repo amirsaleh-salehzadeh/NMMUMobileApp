@@ -96,11 +96,6 @@ function saveMarker() {
 			alert("saveMarker");
 		},
 	});
-	// if (!$('#insertAMarker').parent().hasClass('ui-popup-hidden')) {
-	// $('#insertAMarker').popup('close');
-	// $('#insertAMarker').popup("destroy");
-	// return -1;
-	// }
 }
 
 function getAllMarkers(parentId, locationTypeIds) {
@@ -187,26 +182,13 @@ function setMapOnAllMarkers(map) {
 	}
 }
 
-function openMarkerPopup(edit) {
-	if (!edit
-			&& (parseInt($("#locationTypeId").val()) <= 1 || $(
-					"#parentLocationId").val() == "0")) {
-		alert("Please select the marker type (at the top menu) and parent location (at the right side menu) first.");
-		return;
-	}
-	$('#insertAMarker').popup().trigger('create');
-	$('#insertAMarker').popup('open').trigger('create');
-}
-
 function addAMarker(location, gps) {
 	gps = gps.replace(" ", "");
-	var edit = true;
 	$("#upload").val("");
 	$("#main-cropper").empty();
 	// $("#iconCropDiv").empty();
 
 	if (location == null) {
-		edit = false;
 		$("#markerId").val("");
 		$("#markerName").val("");
 		$("#markerCoordinate").val(gps);
@@ -229,10 +211,10 @@ function addAMarker(location, gps) {
 
 function selectALocationTypeToAdd(locationTypeId) {
 	$("#locationTypeId").val(locationTypeId);
-	if (locationTypeId == 3) {
-		$("#locationTypeToAdd").html("Adding Building on");
-	}
-	if (locationTypeId == 5) {
-		$("#locationTypeToAdd").html("Adding Intersection on");
-	}
+//	if (locationTypeId == 3) {
+//		$("#locationTypeToAdd").html("Adding Building on");
+//	}
+//	if (locationTypeId == 5) {
+//		$("#locationTypeToAdd").html("Adding Intersection on");
+//	}
 }

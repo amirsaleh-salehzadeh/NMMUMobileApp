@@ -142,14 +142,16 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return lst;
 	}
 
-	public LocationENT getLocationENT(LocationENT ent) {
+	public LocationENT getLocationENT(LocationENT ent, Connection conn) {
 		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
+			boolean isNewCon = false;
+			if (conn == null)
+				try {
+					conn = getConnection();
+					isNewCon = true;
+				} catch (AMSException e) {
+					e.printStackTrace();
+				}
 			String query = "";
 			query = "select l.*, lt.location_type as locaTypeName from location l "
 					+ " left join location_type lt on lt.location_type_id = l.location_type"
@@ -170,7 +172,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			}
 			rs.close();
 			ps.close();
-			conn.close();
+			if (isNewCon)
+				conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -254,6 +257,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setIcon(rs.getString("icon"));
 				ent.setPlan(rs.getString("plan"));
 				ent.setCountry(rs.getInt("country"));
+				ent.setParent(getLocationENT(
+						new LocationENT(rs.getLong("parent_id")), conn));
 				locationENTs.add(ent);
 			}
 			rs.close();
@@ -461,9 +466,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				PathENT p = new PathENT(getLocationENT(new LocationENT(
-						rs.getLong("departure_location_id"))),
+						rs.getLong("departure_location_id")), conn),
 						getLocationENT(new LocationENT(rs
-								.getLong("destination_location_id"))),
+								.getLong("destination_location_id")), conn),
 						rs.getDouble("distance"), new PathTypeENT(
 								rs.getInt("path_type")), rs.getLong("path_id"));
 				p.setPathRoute(rs.getString("path_route"));
@@ -492,9 +497,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 				e.printStackTrace();
 			}
 			path.setDestination(getLocationENT(new LocationENT(path
-					.getDestination().getLocationID())));
+					.getDestination().getLocationID()), conn));
 			path.setDeparture(getLocationENT(new LocationENT(path
-					.getDeparture().getLocationID())));
+					.getDeparture().getLocationID()), conn));
 			String query = "";
 			query = "insert into paths (destination_location_id, departure_location_id, distance, path_type, path_route)"
 					+ " values (?, ?, ?, ?, ?)";
@@ -582,7 +587,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			String locationTypeIds, String parentIds, String clientName) {
 		LocationDAO dao = new LocationDAO();
 		LocationENT ent = getLocationENT(new LocationENT(0, null, null, null,
-				GPSCoordinates, parentIds));
+				GPSCoordinates, parentIds), null);
 		if (ent.getLocationID() > 0)
 			return ent;
 		ArrayList<LocationENT> points = dao.getAllLocationsForUser(clientName,
@@ -723,9 +728,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				LocationENT dep = getLocationENT(new LocationENT(
-						rs.getLong("departure_location_id")));
+						rs.getLong("departure_location_id")), conn);
 				LocationENT des = getLocationENT(new LocationENT(
-						rs.getLong("destination_location_id")));
+						rs.getLong("destination_location_id")), conn);
 				ent = new PathENT(new LocationLightENT(dep),
 						new LocationLightENT(des), rs.getDouble("distance"),
 						new PathTypeENT(rs.getInt("path_type")),
@@ -825,9 +830,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				res = new PathENT(getLocationENT(new LocationENT(
-						rs.getLong("departure_location_id"))),
+						rs.getLong("departure_location_id")), conn),
 						getLocationENT(new LocationENT(rs
-								.getLong("destination_location_id"))));
+								.getLong("destination_location_id")), conn));
 			}
 			ps.close();
 			conn.close();
