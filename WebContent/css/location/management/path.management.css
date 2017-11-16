@@ -1,5 +1,12 @@
 @CHARSET "ISO-8859-1";
 
+ul{
+	
+	background-color: rgba(8, 27, 44, 1);
+	    -webkit-padding-start: 25px;
+	    margin :0;
+}
+
 .inlineIcon {
 	display: inline-block;
 	position: relative;
@@ -25,7 +32,7 @@
 /*  left panel of parent locations info */
 #infoDiv {
 	left: 20px;
-	background-color: #00457c;
+	background-color: rgba(8, 27, 44, 1);
 	border-color: white;
 	border: thick 4pt;
 }
@@ -39,12 +46,12 @@
 	background-color: transparent;
 	font-size: 12pt;
 	cursor: pointer;
-	color: white;
+	color: rgb(248, 182, 36);
 }
 
 /* right side panel */
 #parentLocationListView {
-	background-color: #00457c;
+	background-color: rgba(8, 27, 44, 1);
 	border-radius: 11px;
 	width: 100%;
 	position: absolute;
@@ -68,7 +75,7 @@
 	padding-left: .33em;
 	font-size: 14pt;
 	cursor: pointer;
-	color: white !important;
+	color: rgb(248, 182, 36) !important;
 }
 
 /* top panel */

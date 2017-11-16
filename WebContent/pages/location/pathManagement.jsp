@@ -161,9 +161,8 @@
 		return String;
 	}
 </script>
-<link rel="stylesheet" href="css/jquery.treefilter.css">
-<link href="css/location/croppie.css" rel="stylesheet">
 
+<link href="css/location/croppie.css" rel="stylesheet">
 <link href="css/location/management/path.management.css"
 	rel="stylesheet">
 <link href="css/location/management/path.management.toolbox.css"
@@ -355,7 +354,6 @@
 	src="js/location/management/path.management.path.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.panel.js"></script>
-<script src="js/jquery.treefilter-0.1.0.js"></script>
 <script async defer
 	src="https
 	://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
