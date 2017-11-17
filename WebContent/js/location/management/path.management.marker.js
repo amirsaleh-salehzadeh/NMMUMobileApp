@@ -16,7 +16,6 @@ function removeMarker() {
 				ShowLoadingScreen(loadingContent);
 			},
 			success : function(data) {
-				// $('#insertAMarker').popup('close');
 				if (data.errorMSG != null) {
 					alert(data.errorMSG);
 					return;
@@ -102,6 +101,8 @@ function getAllMarkers(parentId, locationTypeIds) {
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=" + locationTypeIds
 			+ "&userName=NMMU";
+//	if(parentid == "360")
+//		$()
 	setMapOnAllMarkers(null);
 	setMapOnAllpoligons(null);
 	$.ajax({
@@ -109,7 +110,7 @@ function getAllMarkers(parentId, locationTypeIds) {
 		cache : false,
 		async : true,
 		beforeSend : function() {
-			ShowLoadingScreen(loadingContent);
+			ShowLoadingScreen("Fetching locations");
 		},
 		success : function(data) {
 			$.each(data, function(k, l) {

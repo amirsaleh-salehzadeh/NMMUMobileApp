@@ -35,8 +35,10 @@ function refreshMap(locationTypeId, gpsStr) {
 	var icon = 'images/map-markers/';
 	if (locationTypeId == "1") {
 		icon += 'marker-blue.png';
+	} else if (locationTypeId == "11") {
+		icon += 'exit.png';
 	} else if (locationTypeId == "2") {
-		icon += 'marker-green.png';
+		icon += 'area.png';
 		map.setCenter(gps);
 		// map.setZoom(7);
 	} else if (locationTypeId == "3") {
@@ -48,7 +50,7 @@ function refreshMap(locationTypeId, gpsStr) {
 		map.setCenter(gps);
 		// map.setZoom(19);
 	} else if (locationTypeId == "5") {
-//		icon += 'crossroad48.png';
+		// icon += 'crossroad48.png';
 		icon = {
 			path : google.maps.SymbolPath.CIRCLE,
 			scale : 4
@@ -173,9 +175,9 @@ function initMap() {
 			color : "#a2daf2"
 		} ]
 	} ];
-//	 getLocationTypePanel();
+	// getLocationTypePanel();
 	getPathTypePanel();
-	getAllMarkers("360","2");
+	getAllMarkers("360", "2");
 	$("#parentLocationId").val("360");
 	var myLatLng = {
 		lat : -33.5343803,
@@ -265,7 +267,7 @@ function initMap() {
 					function(e) {
 						var newShape = e.overlay;
 						$("#boundary").val(getPolygonCoords(newShape));
-//						$('#insertAMarker').popup('open');
+						// $('#insertAMarker').popup('open');
 						newShape.type = e.type;
 						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
 							drawingManager.setDrawingMode(null);

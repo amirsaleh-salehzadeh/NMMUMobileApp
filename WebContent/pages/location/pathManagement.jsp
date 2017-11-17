@@ -7,12 +7,13 @@
 <html>
 <head>
 <style type="text/css">
-#addBoundary{
-border-radius:0;
-	color:rgb(248, 182, 36)!important;
-	background-color:rgba(8, 27, 44, 1) !important;
-	text-shadow:none !important;
+#addBoundary {
+	border-radius: 0;
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+	text-shadow: none !important;
 }
+
 .inlineIcon {
 	display: inline-block;
 	position: relative;
@@ -257,14 +258,15 @@ border-radius:0;
 			<label id="creationLabel"></label>
 		</div>
 		<div class="ui-block-solo">
-			<label for="markerName" id="markerLabel"></label> <input class="pathMenu"type="text"
-				placeholder="Location Name" name="markerName" id="markerName"
-				value="">
+			<label for="markerName" id="markerLabel"></label> <input
+				class="pathMenu" type="text" placeholder="Location Name"
+				name="markerName" id="markerName" value="">
 		</div>
 		<div class="ui-block-solo">
 			<label for="locationType" id="markerLabel"></label>
 			<div class="ui-field-contain">
-				<select  name="locationType" id="locationType" data-mini="true">
+				<select name="locationType" id="locationType" data-mini="true">
+					<option value="2">Area</option>
 					<option value="3">Building</option>
 					<option value="5">Intersection</option>
 					<option value="11">Entrance</option>
@@ -273,11 +275,11 @@ border-radius:0;
 		</div>
 		<div class="ui-block-solo">
 			<label for="locationDescription" id="DescriptionLabel"></label>
-			<textarea class="pathMenu" type="text" placeholder="Location Description"
-				name="locationDescription" id="locationDescription" value=""
-				rows="5" cols="17"></textarea>
+			<textarea class="pathMenu" type="text"
+				placeholder="Location Description" name="locationDescription"
+				id="locationDescription" value="" rows="5" cols="17"></textarea>
 		</div>
-		<input  type="hidden" name="icon" id="icon" value=""> <input
+		<input type="hidden" name="icon" id="icon" value=""> <input
 			type="hidden" name="boundary" id="boundary" value="">
 		<div class="pathMenu" data-role="collapsible" id="IconCollapsible"
 			data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
@@ -285,8 +287,8 @@ border-radius:0;
 			<h1 class="pathMenu">Icon</h1>
 			<div class="ui-block-solo" id="IconDiv">
 				<div id="modal" class="pathMenu">
-					<span>Upload file for icon</span> <input class="pathMenu" type="file" id="upload"
-						value="Choose Image" accept="image/*">
+					<span>Upload file for icon</span> <input class="pathMenu"
+						type="file" id="upload" value="Choose Image" accept="image/*">
 					<div id="main-cropper"></div>
 					<div id="iconCropDiv">
 						<img id="croppedIcon" src="" alt="" />
@@ -301,16 +303,17 @@ border-radius:0;
 			data-content-theme="false">
 			<h1 class="pathMenu">Boundary</h1>
 			<div class="ui-block-solo ">
-				<input class="pathMenu" type="button" data-icon="plus" value="Add Boundary"
-					id="addBoundary" onclick="addPolygon()">
+				<input class="pathMenu" type="button" data-icon="plus"
+					value="Add Boundary" id="addBoundary" onclick="addPolygon()">
 			</div>
 			<div class="ui-grid-solo">
 				<span class="pathMenu">Boundary Edit Controls</span>
-				<button class="pathMenu" id="hand-button" onclick="removeDrawingMode()">Free
-					Select Mode</button>
-				<button class="pathMenu" id="drawing-button" onclick="setDrawingMode()">Select
-					Drawing Mode</button>
-				<button class="pathMenu" id="delete-button">Delete Selected Boundary</button>
+				<button class="pathMenu" id="hand-button"
+					onclick="removeDrawingMode()">Free Select Mode</button>
+				<button class="pathMenu" id="drawing-button"
+					onclick="setDrawingMode()">Select Drawing Mode</button>
+				<button class="pathMenu" id="delete-button">Delete Selected
+					Boundary</button>
 			</div>
 			    
 			<div class="ui-grid-solo">
@@ -327,8 +330,7 @@ border-radius:0;
 		</div>
 		<div class="ui-block-solo">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class=" pathMenu ui-btn ui-shadow save-icon "
-				onclick="saveMarker()">Save</a>
+				class=" pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
 		</div>
 		<div class="ui-block-solo">
 			<a style="cursor: pointer;" data-role="button" href="#"
@@ -356,8 +358,8 @@ border-radius:0;
 
 <div id="infoDiv" class="ui-block-solo">
 	<ul data-role="listview" id="infoListView">
-<!-- 		<li id="locationTypeToAdd" ></li> -->
-		<li id="grandParentDescriptionToAdd" ></li>
+		<!-- 		<li id="locationTypeToAdd" ></li> -->
+		<li id="grandParentDescriptionToAdd"></li>
 		<li id="parentDescriptionToAdd"></li>
 	</ul>
 </div>
@@ -412,8 +414,7 @@ border-radius:0;
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow save-icon "
-			onclick="saveThePath()">Save</a>
+			class="ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
 	</div>
 </div>
 
