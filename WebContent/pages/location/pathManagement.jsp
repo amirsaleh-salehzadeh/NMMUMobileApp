@@ -61,23 +61,22 @@
 <input type="hidden" id="pathLatLng">
 <div id="topToolBox" class="ui-block-solo">
 	<a href="#menuPanel"
-		class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-location"
+		class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
 		id="openLocationEditMenu">CAMPUS INFO</a>
 	<!-- SEARCH FEILD RIGHT SIDE -->
 	<fieldset data-role="controlgroup" data-type="horizontal"
 		name="optionType" id="locPathModeRadiobtn">
-		<label for="marker"><span
-			class="ui-icon-map-marker inlineIcon">CAMPUS</span></label> <input
+		<label for="marker" class="ui-icon-map-marker"><span
+			class="inlineIcon">CAMPUS</span></label> <input
 			type="radio" name="radio-choice" id="marker" value="marker"
 			checked="checked" onclick="selectActionType();"> <label
-			for="path"><span
-			class="ui-alt-icon ui-icon-map-path inlineIcon">PATH</span></label> <input
+			for="path" class="ui-icon-map-path" ><span
+			class="ui-alt-icon inlineIcon">PATH</span></label> <input
 			type="radio" name="radio-choice" id="path" value="path"
-			onclick="selectActionType();">
+			onclick="selectActionType();" >
 	</fieldset>
 	<div id="infoDiv" class="ui-block-solo">
 		<ul data-role="listview" id="infoListView">
-			<!-- 		<li id="locationTypeToAdd" ></li> -->
 			<li id="grandParentDescriptionToAdd">Nelson Mandela University</li>
 			<li id="parentDescriptionToAdd">Campus</li>
 		</ul>
