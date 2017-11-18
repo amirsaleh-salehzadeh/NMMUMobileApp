@@ -6,171 +6,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<style type="text/css">
-#addBoundary {
-	border-radius: 0;
-	color: rgb(248, 182, 36) !important;
-	background-color: rgba(8, 27, 44, 1) !important;
-	text-shadow: none !important;
-}
-
-.inlineIcon {
-	display: inline-block;
-	position: relative;
-	vertical-align: middle;
-	width: auto !important;
-}
-
-.ui-icon-map-marker:after {
-	background-image: url("images/icons/marker.png");
-	background-size: 23px 23px;
-	border-radius: 0;
-}
-
-.ui-icon-map-path:after {
-	background-image: url("images/icons/journey.png");
-	background-size: 23px 23px;
-	border-radius: 0;
-}
-
-#searchFields {
-	margin: 0 0 0 0;
-	padding-bottom: 12px;
-}
-
-#infoDiv {
-	position: absolute;
-	display: inline;
-	border: thick 4pt;
-	border-color: black;
-	font-size: 16pt;
-	font-weight: bold;
-	margin: 1em;
-	background-color: #9b221f;
-	font-size: 12pt;
-	cursor: pointer;
-}
-
-#infoDivTitle {
-	display: inline-block;
-	opacity: 1 !important;
-}
-
-#parentLocationListView {
-	position: absolute;
-	z-index: 100;
-	background-color: white;
-	width: 100%;
-}
-
-.labels {
-	color: red;
-	background-color: white;
-	font-family: "Lucida Grande", "Arial", sans-serif;
-	font-size: 10px;
-	font-weight: bold;
-	text-align: center;
-	width: 65px;
-	border: 2px solid black;
-	white-space: nowrap;
-}
-
-.locationTypeNavBar {
-	display: block;
-	min-height: 3em;
-	font-size: 16pt;
-}
-
-.locationTypeNavBar select {
-	display: block;
-	background: url('images/map-markers/marker-blue.png') no-repeat left
-		100% 100% #FEFEFE;
-	background-size: 66px 66px;
-}
-
-.locationTypeNavBar option {
-	display: block;
-	background-color: black !important;
-	color: white;
-	border-width: 6px;
-	border: 2px #fff;
-	border-bottom: thin;
-	min-height: .7em;
-	border-color: white;
-}
-
-#BoundaryEdit {
-	background-color: transparent;
-}
-
-#panelColour {
-	/*width: 250px;*/
-	font-family: Arial, sans-serif;
-	font-size: 13px;
-	/*float: left;*/
-	/*margin: 10px;*/
-}
-
-#color-palette {
-	clear: both;
-}
-
-.color-button {
-	width: 14px;
-	height: 14px;
-	font-size: 0;
-	margin: 2px;
-	float: left;
-	cursor: pointer;
-}
-
-#hand-button {
-	margin-top: 5px;
-	width: 250px;
-}
-
-#drawing-button {
-	margin-top: 5px;
-	width: 250px;
-}
-
-#delete-button {
-	margin-top: 5px;
-	width: 250px;
-}
-
-#imageEdit .ui-btn {
-	overflow: visible;
-	padding: .3em .1em;
-}
-
-#locationDescription {
-	overflow-y: scroll;
-	max-height: 100px;
-	min-width: 333px;
-	resize: none;
-}
-
-.ui-panel {
-	/*background-color: #fff;
-    top: 100;
-    box-shadow: none;*/
-	width: 400px;
-}
-
-/*
-#views {
-    display: block;
-    border: none;
-    visibility: visible;
-    margin: 0px;
-    padding: 0px;
-    position: relative;
-    width: 400px;
-    height: 225px;
-}
-*/
-</style>
 <script type="text/javascript">
 	$(document).ready(function() {
 		// 		selectRightPanelVal();
@@ -211,172 +46,142 @@
 	rel="stylesheet">
 <link href="css/location/management/path.management.toolbox.css"
 	rel="stylesheet">
+<link href="css/location/management/path.management.location.edit.css"
+	rel="stylesheet">
+<link href="css/location/management/path.management.polygon.css"
+	rel="stylesheet">
 </head>
-<div>
-	<input type="hidden" id="parentLocationId" value="360"> <input
-		type='hidden' id='locationTypeId' value="0"> <input
-		type='hidden' id='locationTypeDefinition' value='def'> <input
-		type="hidden" name="destinationId" id="destinationId"><input
-		type="hidden" name="departureId" id="departureId"><input
-		type="hidden" name="markerCoordinate" id="markerCoordinate"> <input
-		type="hidden" name="markerId" id="markerId"> <input
-		type="hidden" id="pathLatLng">
-
-	<!-- 	<div class="ui-field-contain" id="locationsUnderAType"> -->
-	<!-- 		<form> -->
-	<!-- 			    <input data-type="search" id="parentLocation"> -->
-	<!-- 			<div data-role="controlgroup" data-filter="true" -->
-	<!-- 				data-input="#parentLocation" id="parentLocationListView"></div> -->
-	<!-- 		</form> -->
-	<!-- 	</div> -->
-</div>
-
-<div class="ui-grid-a" id="topToolBox" style="top: 0;">
-	<div style="top: 0;" class="ui-block-a"
-		onclick="selectALocationTypeToAdd(3)">
-		Add Building<br> <img src="images/map-markers/building.png"
-			width="48" height="48" />
+<input type="hidden" id="parentLocationId" value="360">
+<input type='hidden' id='locationTypeId' value="0">
+<input type='hidden' id='locationTypeDefinition' value='def'>
+<input type="hidden" name="destinationId" id="destinationId">
+<input type="hidden" name="departureId" id="departureId">
+<input type="hidden" name="markerCoordinate" id="markerCoordinate">
+<input type="hidden" name="markerId" id="markerId">
+<input type="hidden" id="pathLatLng">
+<div id="topToolBox" class="ui-block-solo">
+	<a href="#menuPanel"
+		class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-location"
+		id="openLocationEditMenu">CAMPUS INFO</a>
+	<!-- SEARCH FEILD RIGHT SIDE -->
+	<fieldset data-role="controlgroup" data-type="horizontal"
+		name="optionType" id="locPathModeRadiobtn">
+		<label for="marker"><span
+			class="ui-icon-map-marker inlineIcon">CAMPUS</span></label> <input
+			type="radio" name="radio-choice" id="marker" value="marker"
+			checked="checked" onclick="selectActionType();"> <label
+			for="path"><span
+			class="ui-alt-icon ui-icon-map-path inlineIcon">PATH</span></label> <input
+			type="radio" name="radio-choice" id="path" value="path"
+			onclick="selectActionType();">
+	</fieldset>
+	<div id="infoDiv" class="ui-block-solo">
+		<ul data-role="listview" id="infoListView">
+			<!-- 		<li id="locationTypeToAdd" ></li> -->
+			<li id="grandParentDescriptionToAdd">Nelson Mandela University</li>
+			<li id="parentDescriptionToAdd">Campus</li>
+		</ul>
 	</div>
-	<div style="top: 0;" class="ui-block-b"
-		onclick="selectALocationTypeToAdd(5)">
-		Add Intersection<br> <img src="images/map-markers/crossroad.png"
-			width="48" height="48">
+</div>
+<div data-role="panel" id="menuPanel" data-position="right"
+	data-display="overlay" data-theme="a"
+	class="ui-panel ui-panel-position-right ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open"
+	data-dismissible="false" data-swipe-close="false">
+	<div class="ui-block-solo">
+		<label for="markerName" id="markerLabel">Campus</label> <input
+			class="pathMenu" type="text" placeholder="Location Name"
+			name="markerName" id="markerName" value="">
 	</div>
-</div>
-
-<div id="SettingsMenuBtn">
-	<a id="btnHeading" href="#MenuPanel"
-		class="ui-btn ui-shadow ui-btn-inline ui-btn-icon-left ui-icon-bars"
-		id="openLocationEditMenu">Settings</a>
-</div>
-<div id="SettingsMenu">
-	<div data-role="panel" id="MenuPanel" data-position="right"
-		data-display="overlay" data-theme="a"
-		class="ui-panel ui-panel-position-right ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open"
-		data-dismissible="false" data-swipe-close="false">
-		<div>
-			<label id="creationLabel"></label>
+	<div class="ui-block-solo">
+		<label for="locationType" id="markerLabel"></label>
+		<div class="ui-field-contain">
+			<select name="locationType" id="locationType" data-mini="true">
+				<option value="2">Area</option>
+				<option value="3">Building</option>
+				<option value="5">Intersection</option>
+				<option value="11">Entrance</option>
+			</select>
 		</div>
-		<div class="ui-block-solo">
-			<label for="markerName" id="markerLabel"></label> <input
-				class="pathMenu" type="text" placeholder="Location Name"
-				name="markerName" id="markerName" value="">
-		</div>
-		<div class="ui-block-solo">
-			<label for="locationType" id="markerLabel"></label>
-			<div class="ui-field-contain">
-				<select name="locationType" id="locationType" data-mini="true">
-					<option value="2">Area</option>
-					<option value="3">Building</option>
-					<option value="5">Intersection</option>
-					<option value="11">Entrance</option>
-				</select>
-			</div>
-		</div>
-		<div class="ui-block-solo">
-			<label for="locationDescription" id="DescriptionLabel"></label>
-			<textarea class="pathMenu" type="text"
-				placeholder="Location Description" name="locationDescription"
-				id="locationDescription" value="" rows="5" cols="17"></textarea>
-		</div>
-		<input type="hidden" name="icon" id="icon" value=""> <input
-			type="hidden" name="boundary" id="boundary" value="">
-		<div class="pathMenu" data-role="collapsible" id="IconCollapsible"
-			data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
-			data-content-theme="false">
-			<h1 class="pathMenu">Icon</h1>
-			<div class="ui-block-solo" id="IconDiv">
-				<div id="modal" class="pathMenu">
-					<span>Upload file for icon</span> <input class="pathMenu"
-						type="file" id="upload" value="Choose Image" accept="image/*">
-					<div id="main-cropper"></div>
-					<div id="iconCropDiv">
-						<img id="croppedIcon" src="" alt="" />
-					</div>
-					</br>
-					<button class="cropIcon pathMenu" id="cropIcon">Crop Icon</button>
+	</div>
+	<div class="ui-block-solo">
+		<label for="locationDescription" id="DescriptionLabel"></label>
+		<textarea class="pathMenu" type="text"
+			placeholder="Location Description" name="locationDescription"
+			id="locationDescription" value="" rows="5" cols="17"></textarea>
+	</div>
+	<input type="hidden" name="icon" id="icon" value=""> <input
+		type="hidden" name="boundary" id="boundary" value="">
+	<div class="pathMenu" data-role="collapsible" id="IconCollapsible"
+		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
+		data-content-theme="false">
+		<h1 class="pathMenu">Icon</h1>
+		<div class="ui-block-solo" id="IconDiv">
+			<div id="modal" class="pathMenu">
+				<span>Upload file for icon</span> <input class="pathMenu"
+					type="file" id="upload" value="Choose Image" accept="image/*">
+				<div id="main-cropper"></div>
+				<div id="iconCropDiv">
+					<img id="croppedIcon" src="" alt="" />
 				</div>
+				</br>
+				<button class="cropIcon pathMenu" id="cropIcon">Crop Icon</button>
 			</div>
 		</div>
-		<div class="pathMenu" data-role="collapsible" id="BoundaryEdit"
-			data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
-			data-content-theme="false">
-			<h1 class="pathMenu">Boundary</h1>
-			<div class="ui-block-solo ">
-				<input class="pathMenu" type="button" data-icon="plus"
-					value="Add Boundary" id="addBoundary" onclick="addPolygon()">
-			</div>
-			<div class="ui-grid-solo">
-				<span class="pathMenu">Boundary Edit Controls</span>
-				<button class="pathMenu" id="hand-button"
-					onclick="removeDrawingMode()">Free Select Mode</button>
-				<button class="pathMenu" id="drawing-button"
-					onclick="setDrawingMode()">Select Drawing Mode</button>
-				<button class="pathMenu" id="delete-button">Delete Selected
-					Boundary</button>
-			</div>
-			    
-			<div class="ui-grid-solo">
-				<span>Boundary Styling</span>
-				<div id="panelColour">
-					<span>Select A Colour</span>
-					<div id="color-palette"></div>
-				</div>
-			</div>
-			    
-			<div class="ui-grid-solo">
-				<!--  For later work	<span>Boundary Edit Points</span> -->
-			</div>
-		</div>
-		<div class="ui-block-solo">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class=" pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
-		</div>
-		<div class="ui-block-solo">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow save-icon "
-				onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
-				Barcode</a>
-		</div>
-		<div class="ui-block-solo">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow cancel-icon "
-				onclick="removeMarker()">Remove</a>
-		</div>
-		<a href="#" data-rel="close"
-			class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline"
-			id="closeLocationEditMenu">Close Settings</a>
 	</div>
+	<div class="pathMenu" data-role="collapsible" id="BoundaryEdit"
+		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
+		data-content-theme="false">
+		<h1 class="pathMenu">Boundary</h1>
+		<div class="ui-block-solo ">
+			<input class="pathMenu" type="button" data-icon="plus"
+				value="Add Boundary" id="addBoundary" onclick="addPolygon()">
+		</div>
+		<div class="ui-grid-solo">
+			<span class="pathMenu">Boundary Edit Controls</span>
+			<button class="pathMenu" id="hand-button"
+				onclick="removeDrawingMode()">Free Select Mode</button>
+			<button class="pathMenu" id="drawing-button"
+				onclick="setDrawingMode()">Select Drawing Mode</button>
+			<button class="pathMenu" id="delete-button">Delete Selected
+				Boundary</button>
+		</div>
+		    
+		<div class="ui-grid-solo">
+			<span>Boundary Styling</span>
+			<div id="panelColour">
+				<span>Select A Colour</span>
+				<div id="color-palette"></div>
+			</div>
+		</div>
+		    
+		<div class="ui-grid-solo">
+			<!--  For later work	<span>Boundary Edit Points</span> -->
+		</div>
+	</div>
+	<div class="ui-block-solo">
+		<a style="cursor: pointer;" data-role="button" href="#"
+			class=" pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+	</div>
+	<div class="ui-block-solo">
+		<a style="cursor: pointer;" data-role="button" href="#"
+			class="pathMenu ui-btn ui-shadow save-icon "
+			onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
+			Barcode</a>
+	</div>
+	<div class="ui-block-solo">
+		<a style="cursor: pointer;" data-role="button" href="#"
+			class="pathMenu ui-btn ui-shadow cancel-icon "
+			onclick="removeMarker()">Remove</a>
+	</div>
+	<a href="#" data-rel="close"
+		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline"
+		id="closeLocationEditMenu">Close Settings</a>
 </div>
 
-<div id="createType"></div>
 <div id="map_canvas"></div>
 <div id="loadingOverlay">
 	<div class="markerLoading" style="display: none;"></div>
 	<span id="loadingContent" style="display: none;"></span>
-</div>
-
-<div id="infoDiv" class="ui-block-solo">
-	<ul data-role="listview" id="infoListView">
-		<!-- 		<li id="locationTypeToAdd" ></li> -->
-		<li id="grandParentDescriptionToAdd"></li>
-		<li id="parentDescriptionToAdd"></li>
-	</ul>
-</div>
-
-<!-- SEARCH FEILD RIGHT SIDE -->
-<div id="searchFields" style="width: 85%;">
-	<fieldset data-role="controlgroup" data-type="horizontal"
-		name="optionType">
-		<label for="marker"><span
-			class="ui-alt-icon ui-icon-map-marker ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-		<input type="radio" name="radio-choice" id="marker" value="marker"
-			checked="checked" onclick="selectActionType();"> <label
-			for="path"><span
-			class="ui-alt-icon ui-icon-map-path ui-btn-icon-notext inlineIcon NoDisk"></span></label>
-		<input type="radio" name="radio-choice" id="path" value="path"
-			onclick="selectActionType();">
-	</fieldset>
 </div>
 
 <!-- INSERT LOCATION POPUP -->

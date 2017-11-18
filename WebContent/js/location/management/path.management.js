@@ -196,20 +196,8 @@ function initMap() {
 	}));
 	map.setMapTypeId('mystyle');
 	map.setCenter(myLatLng);
-	map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(document
-			.getElementById('searchFields'));
-	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
-			.getElementById('createType'));
-	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
-			.getElementById('topToolBox'));
-	// map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
-	// .getElementById('topToolBox'));
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
-	map.controls[google.maps.ControlPosition.LEFT_TOP].push(document
-			.getElementById('infoDiv'));
-	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document
-			.getElementById('SettingsMenuBtn'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");
@@ -326,14 +314,12 @@ function initMap() {
 
 function selectActionType() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		$("#topToolBox").css("display", "block");
 		$("#locationTypeListViewDiv").css("display", "block");
 		$("#pathTypeListViewDiv").css("display", "none");
 		map.setOptions({
 			draggableCursor : 'corsshair'
 		});
 	} else {
-		$("#topToolBox").css("display", "none");
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
 		map.setOptions({
@@ -353,16 +339,6 @@ function selectActionType() {
 			addAPath(null, lat + "," + lng);
 		}
 	});
-}
-
-function setLocationTypeCreate() {
-	$(".locationTypeNavBar option").each(function() {
-		if ($(this).val() == $("#locationTypeId").val()) {
-			$("#locationTypeDefinition").val($(this).html().replace(" ", ""));
-			$("#createType").html($(this).html().replace(" ", ""));
-		}
-	});
-	google.maps.event.trigger(map, 'resize');
 }
 
 function getPathTypePanel() {

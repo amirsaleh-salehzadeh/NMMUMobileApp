@@ -1,12 +1,21 @@
 @CHARSET "ISO-8859-1";
-#mainMenu{
+
+#mainMenu {
 	position: absolute;
 	background-color: rgba(8, 27, 44, 1);
 	width: 20%;
-	margin:0 !important;
-	padding-right:3px;
-	 border-radius:0;
+	margin: 0 !important;
+	padding-right: 3px;
+	border-radius: 0;
 }
+
+#btnHeading {
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+	border: 0;
+	text-shadow: none;
+}
+
 .jqm-home {
 	background: #383c40;
 	color: white;
@@ -67,8 +76,8 @@ input {
 	padding-top: .33em;
 	padding-bottom: .33em;
 	margin: 0px;
-	color:white;
-	background-color:black;
+	color: white;
+	background-color: black;
 }
 
 /*
@@ -208,92 +217,89 @@ input {
 /*
  * MENU CONTENTS
  */
- [class*=ui-block-]>.ui-btn{
-  border-radius:0;
-	color:rgb(248, 182, 36)!important;
-	background-color:rgba(8, 27, 44, 1) !important;
-	text-shadow:none !important;
- }
- .ui-collapsible-inset .ui-collapsible-heading .ui-btn{
-	-webkit-border-radius:.0 !important;
-	border-radius:0;
-	color:rgb(248, 182, 36)!important;
-	background-color:rgba(8, 27, 44, 1) !important;
-	text-shadow:none !important;
+[class*=ui-block-]>.ui-btn {
+	border-radius: 0;
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+	text-shadow: none !important;
 }
-#pathMenu{
-	-webkit-border-radius:.0 !important;
-	border-radius:0;
-	color:rgb(248, 182, 36)!important;
-	background-color:rgba(8, 27, 44, 1) !important;
-	text-shadow:none !important;
-	}
-	
-.pathMenu{
-	-webkit-border-radius:.0 !important;
-	 border-radius:0;
-	color:rgb(248, 182, 36)!important;
-	background-color:rgba(8, 27, 44, 1) !important;
-	text-shadow:none !important;
-	}
-#locationType-button{
-	 border-radius:0;
-	color:rgb(248, 182, 36)!important;
-	background-color:rgba(8, 27, 44, 1) !important;
-	text-shadow:none;
-	}
-#locationType{
-	 border-radius:0;
-	color:rgb(248, 182, 36)!important;
-	background-color:rgba(8, 27, 44, 1) !important;
-	text-shadow:none;
-	}
-	
-@media ( min-width : 60em) {
 
-	h3.collapsible-heading{
-margin:0;
+.ui-collapsible-inset .ui-collapsible-heading .ui-btn {
+	-webkit-border-radius: .0 !important;
+	border-radius: 0;
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+	text-shadow: none !important;
 }
-#liOption{
-    padding:0 !important;
-	background-color: rgba(8, 27, 44, 1);
-	border:0;
+
+#pathMenu {
+	-webkit-border-radius: .0 !important;
+	border-radius: 0;
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+	text-shadow: none !important;
+}
+
+.pathMenu {
+	-webkit-border-radius: .0 !important;
+	border-radius: 0;
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+	text-shadow: none !important;
+}
+
+#locationType-button {
+	border-radius: 0;
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+	text-shadow: none;
+}
+
+#locationType {
+	border-radius: 0;
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+	text-shadow: none;
+}
+
+@media ( min-width : 60em) {
+	h3.collapsible-heading {
+		margin: 0;
 	}
-  #liMenu{
-	padding:0 !important;
-	background-color: rgba(8, 27, 44, 1);
-	border:0;
-	list-style-type: none;
+	#liOption {
+		padding: 0 !important;
+		background-color: rgba(8, 27, 44, 1);
+		border: 0;
 	}
-	#ulMenu{
-	background-color: rgba(8, 27, 44, 1);
+	#liMenu {
+		padding: 0 !important;
+		background-color: rgba(8, 27, 44, 1);
+		border: 0;
+		list-style-type: none;
+	}
+	#ulMenu {
+		background-color: rgba(8, 27, 44, 1);
 	}
 	#divMenu {
-		padding:0 !important;
-	background-color: rgba(8, 27, 44, 1);
-	border:0;
+		padding: 0 !important;
+		background-color: rgba(8, 27, 44, 1);
+		border: 0;
 	}
-	#btnHeading{
-	color:rgb(248, 182, 36)!important;
-	background-color:rgba(8, 27, 44, 1) !important;
-	border:0;
-	text-shadow:none;
+	#btnMenu {
+		color: rgb(248, 182, 36) !important;
+		background-color: rgba(8, 27, 44, 1) !important;
+		display: -webkit-flex; /* Safari */
+		-webkit-flex-wrap: wrap; /* Safari 6.1+ */
+		display: flex;
+		flex-wrap: wrap;
 	}
-	#btnMenu{
-	color:rgb(248, 182, 36)!important;
-	background-color:rgba(8, 27, 44, 1) !important;
-	display: -webkit-flex; /* Safari */
-    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
-    display: flex;   
-    flex-wrap: wrap;
+	div	.ui-collapsible-content .ui-body-inherit {
+		background-color: rgba(8, 27, 44, 1);
 	}
-div	.ui-collapsible-content .ui-body-inherit{
-	background-color: rgba(8, 27, 44, 1);
-}
 	.jqm-list,.jqm-navmenu-panel {
 		background-color: rgba(8, 27, 44, 1);
 		bottom: 0px;
-		margin:0;
+		margin: 0;
 	}
 	.jqm-demos .jqm-navmenu-panel .ui-panel-inner {
 		margin-top: 0px;
@@ -322,12 +328,12 @@ div	.ui-collapsible-content .ui-body-inherit{
 
 /*	right panel */
 @media ( max-width : 60em) {
-  #liMenu{
-	padding:0 !important;
+	#liMenu {
+		padding: 0 !important;
 	}
-	.ui-listview>li h3{
-	margin:0 !important;
-	padding:0 !important;
+	.ui-listview>li h3 {
+		margin: 0 !important;
+		padding: 0 !important;
 	}
 	.ui-page-theme-a .ui-body-inherit {
 		background-color: transparent;
@@ -368,7 +374,7 @@ div	.ui-collapsible-content .ui-body-inherit{
 	color: white;
 	background-color: black;
 	font-family: 'Open Sans', sans-serif;
-	font-weight: 300;	
+	font-weight: 300;
 }
 
 .ui-input-text input,.ui-input-search input {
@@ -380,10 +386,9 @@ div	.ui-collapsible-content .ui-body-inherit{
 path management 
 drop down menu
 */
-input#select{
+input#select {
 	background-color: black;
-	color:white;
-	
+	color: white;
 }
 
 /*

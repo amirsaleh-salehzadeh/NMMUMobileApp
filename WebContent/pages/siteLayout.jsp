@@ -34,7 +34,7 @@
 	}
 </script>
 </head>
-<body dir="ltr" style="background-color: rgba(8, 27, 44, 1);">
+<body dir="ltr" style="background-color: rgb(8, 27, 44);">
 	<div data-role="page" class="jqm-demos jqm-home">
 		<div data-role="header" class="jqm-header">
 			<h2>

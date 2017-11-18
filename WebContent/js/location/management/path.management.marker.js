@@ -167,7 +167,6 @@ function addMarker(l) {
 			$("#markerName").val(l.locationName);
 			$("#locationTypeId").val(l.locationType.locationTypeId);
 			$("#locationDescription").val(l.description);
-			setLocationTypeCreate();
 			saveMarker();
 		} else {
 			this.setPosition(pos);
@@ -188,12 +187,10 @@ function addAMarker(location, gps) {
 	$("#upload").val("");
 	$("#main-cropper").empty();
 	// $("#iconCropDiv").empty();
-
 	if (location == null) {
 		$("#markerId").val("");
 		$("#markerName").val("");
 		$("#markerCoordinate").val(gps);
-		$("#markerLabel").html("");
 		$("#locationDescription").val("");
 	} else {
 		$("#markerId").val(location.locationID);
@@ -207,15 +204,4 @@ function addAMarker(location, gps) {
 		$("#locationTypeId").val(location.locationType.locationTypeId);
 	}
 	showHideSettingsMenu();
-	// openMarkerPopup(edit);
-}
-
-function selectALocationTypeToAdd(locationTypeId) {
-	$("#locationTypeId").val(locationTypeId);
-//	if (locationTypeId == 3) {
-//		$("#locationTypeToAdd").html("Adding Building on");
-//	}
-//	if (locationTypeId == 5) {
-//		$("#locationTypeToAdd").html("Adding Intersection on");
-//	}
 }

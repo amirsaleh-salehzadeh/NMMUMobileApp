@@ -1,0 +1,92 @@
+#addBoundary {
+	border-radius: 0;
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+	text-shadow: none !important;
+}
+
+.inlineIcon {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	width: auto !important;
+}
+
+
+#parentLocationListView {
+	position: absolute;
+	z-index: 100;
+	background-color: white;
+	width: 100%;
+}
+
+.labels {
+	color: red;
+	background-color: white;
+	font-family: "Lucida Grande", "Arial", sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	text-align: center;
+	width: 65px;
+	border: 2px solid black;
+	white-space: nowrap;
+}
+
+#BoundaryEdit {
+	background-color: transparent;
+}
+
+#panelColour {
+	/*width: 250px;*/
+	font-family: Arial, sans-serif;
+	font-size: 13px;
+	/*float: left;*/
+	/*margin: 10px;*/
+}
+
+#color-palette {
+	clear: both;
+}
+
+.color-button {
+	width: 14px;
+	height: 14px;
+	font-size: 0;
+	margin: 2px;
+	float: left;
+	cursor: pointer;
+}
+
+#hand-button {
+	margin-top: 5px;
+	width: 250px;
+}
+
+#drawing-button {
+	margin-top: 5px;
+	width: 250px;
+}
+
+#delete-button {
+	margin-top: 5px;
+	width: 250px;
+}
+
+#imageEdit .ui-btn {
+	overflow: visible;
+	padding: .3em .1em;
+}
+
+#locationDescription {
+	overflow-y: scroll;
+	max-height: 100px;
+	min-width: 333px;
+	resize: none;
+}
+
+.ui-panel {
+	/*background-color: #fff;
+    top: 100;
+    box-shadow: none;*/
+	width: 400px;
+}
