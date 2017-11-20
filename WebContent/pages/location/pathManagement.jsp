@@ -111,7 +111,7 @@
 	<div class="pathMenu ui-block-solo"
 		onclick="$('#editIconPopup').popup('open');">
 		<img src="images/icons/image.png" id="editIconIcon" width="48"
-			height="48" />
+			height="48" style="cursor: pointer;"/>
 	</div>
 	<div class="pathMenu" data-role="collapsible" id="BoundaryEdit"
 		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
