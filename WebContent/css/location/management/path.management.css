@@ -1,75 +1,19 @@
 @CHARSET "ISO-8859-1";
 
-#menuPanel,#menuPanel>div .ui-panel-inner {
-	background-color: rgb(8, 27, 44);
-	position: absolute !important;
-	top: 5.5em !important;
-	right: 0 !important;
-	max-width: 20% !important;
-	position: absolute !important;
-}
-
-/* right side panel */
-#parentLocationListView {
-	background-color: rgba(8, 27, 44, 1);
-	border-radius: 11px;
-	width: 100%;
-	position: absolute;
-	display: block;
-	max-height: 333px;
+#menuPanel {
+	background-color: rgba(8, 27, 44, 1) !important;
+	top: 150px !important;
+	max-width: 20%;
 	overflow: auto;
-	box-sizing: border-box;
+	height: 100%;
+}
+#map_canvas,#mapView {
+	width: 100%;
+	display: block;
+	height: 100%;
+	overflow: hidden;
 }
 
-#parentLocationListView .parentLocationList {
-	text-shadow: none;
-	text-decoration: none !important;
-	background: transparent;
-	min-height: .66em;
-	border-color: white;
-	border-top: 0em;
-	border-left: 0em;
-	border-right: 0em;
-	margin: 0;
-	padding: .33em 0;
-	padding-left: .33em;
-	font-size: 14pt;
-	cursor: pointer;
-	color: rgb(248, 182, 36) !important;
-}
-
-/* top panel */
-#locationTypeFields {
-	/* 	padding-left: 22em; */
-	
-}
-
-.NavBarSelectIcon {
-	display: none;
-	position: absolute;
-}
-
-#locationTypesContainer .ui-btn {
-	background: url("../../images/MarkerPictures/Campus.png");
-	background-repeat: no-repeat;
-	background-position: right;
-	padding-right: 50;
-	color: white !important;
-	text-shadow: none !important;
-}
-
-.ui-controlgroup {
-	margin: 0 !important;
-}
-
-#locationTypesContainer { 
-	text-shadow: none;
-	background-color: #00457c;
-	cursor: pointer;
-	color: white !important;
-}
-
-/* creation indicator  */
 #loadingOverlay {
 	display: none;
 	background: #363636;
@@ -103,29 +47,8 @@
 
 100%
 {
--webkit-transform
-
-
-:
-
- 
-
-scale
-
-
-(1
-.0
-
-
-);
-opacity
-
-
-:
-
- 
-
-0;
+-webkit-transform:scale (1.0);
+opacity:0;
 }
 }
 @
@@ -133,47 +56,11 @@ keyframes sk-scaleout { 0% {
 	-webkit-transform: scale(0);
 	transform: scale(0);
 }
-
 100%
-{
--webkit-transform
-
-
-:
-
- 
-
-scale
-
-
-(1
-.0
-
-
-);
-transform
-
-
-:
-
- 
-
-scale
-
-
-(1
-.0
-
-
-);
-opacity
-
-
-:
-
- 
-
-0;
+{-webkit-transform: scale (1.0);
+transform: scale
+(1.0);
+opacity:0;
 }
 }
 #loadingContent {

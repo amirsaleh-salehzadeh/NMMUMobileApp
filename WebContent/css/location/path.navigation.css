@@ -19,7 +19,7 @@
 	z-index: 100;
 }
 
-#map_canvas,#mapView {
+#map_canvas {
 	width: 100%;
 	display: block;
 	height: 100%;

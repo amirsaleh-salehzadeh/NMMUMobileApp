@@ -97,12 +97,11 @@ function saveMarker() {
 	});
 }
 
+var str = "";
 function getAllMarkers(parentId, locationTypeIds) {
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=" + locationTypeIds
 			+ "&userName=NMMU";
-//	if(parentid == "360")
-//		$()
 	setMapOnAllMarkers(null);
 	setMapOnAllpoligons(null);
 	$.ajax({
@@ -113,7 +112,13 @@ function getAllMarkers(parentId, locationTypeIds) {
 			ShowLoadingScreen("Fetching locations");
 		},
 		success : function(data) {
+			str = "";
 			$.each(data, function(k, l) {
+				if (k == 0) {
+					// str = "<li>" + l.parent.locationName + " " +
+					// l.locationType.locationType +"</li>" + str;
+					getMarkerInfo(l);
+				}
 				addMarker(l);
 			});
 		},
@@ -126,6 +131,21 @@ function getAllMarkers(parentId, locationTypeIds) {
 			alert("getAllMarkers");
 		}
 	});
+}
+
+function getMarkerInfo(location) {
+	do {
+		if (location.parent.parentId > 0) {
+			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
+					+ "\",\"\")'> > " + location.parent.locationName + " "
+					+ location.parent.locationType.locationType + "</li>" + str;
+		} else
+			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
+					+ "\",\"\")'>" + location.parent.locationName + "</li>"
+					+ str;
+		location = location.parent;
+	} while (location.parent != null);
+	$("#infoListView").html(str).trigger("create").listview("refresh");
 }
 
 function addMarker(l) {
@@ -192,16 +212,22 @@ function addAMarker(location, gps) {
 		$("#markerName").val("");
 		$("#markerCoordinate").val(gps);
 		$("#locationDescription").val("");
+		$("#openLocationEditMenu")
+				.html(
+						"<img width='24' height='24' src='images/icons/add.png' class=''>NEW")
+				.trigger("create");
 	} else {
 		$("#markerId").val(location.locationID);
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(gps);
 		$("#croppedIcon").attr("src", location.icon);
 		$("#icon").val(location.icon);
+		$("#editIconIcon").attr("src",location.icon);
 		$("#parentLocationId").val(location.parentId);
 		$("#markerLabel").html(location.locationType.locationType);
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
+		$("#openLocationEditMenu").html("<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT").trigger("create");
 	}
 	showHideSettingsMenu();
 }

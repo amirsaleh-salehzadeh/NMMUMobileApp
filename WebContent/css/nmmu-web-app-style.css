@@ -1,5 +1,7 @@
 @CHARSET "ISO-8859-1";
-
+body{
+	overflow: hidden;
+}
 #mainMenu {
 	position: absolute;
 	background-color: rgba(8, 27, 44, 1);
@@ -17,15 +19,15 @@
 }
 
 .jqm-home {
-	background: #383c40;
+	background: rgba(8, 27, 44, 1);
 	color: white;
 	min-height: 100%;
 }
 
-input {
-	font-size: 10pt;
-	line-height: 1em;
-}
+/* input { */
+/* 	font-size: 10pt; */
+/* 	line-height: 1em; */
+/* } */
 
 #searchFilters {
 	background-color: #383c40;
@@ -86,6 +88,7 @@ input {
 .save-icon {
 	background-image: url("../images/icons/save.png");
 	background-repeat: no-repeat;
+	background-size: 24px 24px;
 	background-position: left 2px center;
 	padding-left: 5px;
 	text-align: right;
@@ -225,22 +228,6 @@ input {
 }
 
 .ui-collapsible-inset .ui-collapsible-heading .ui-btn {
-	-webkit-border-radius: .0 !important;
-	border-radius: 0;
-	color: rgb(248, 182, 36) !important;
-	background-color: rgba(8, 27, 44, 1) !important;
-	text-shadow: none !important;
-}
-
-#pathMenu {
-	-webkit-border-radius: .0 !important;
-	border-radius: 0;
-	color: rgb(248, 182, 36) !important;
-	background-color: rgba(8, 27, 44, 1) !important;
-	text-shadow: none !important;
-}
-
-.pathMenu {
 	-webkit-border-radius: .0 !important;
 	border-radius: 0;
 	color: rgb(248, 182, 36) !important;

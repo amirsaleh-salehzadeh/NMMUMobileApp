@@ -169,6 +169,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 						rs.getString("location_name"));
 				ent.setIcon(rs.getString("icon"));
 				ent.setParentId(rs.getLong("parent_id"));
+				if (rs.getLong("parent_id") > 0)
+					ent.setParent(getLocationENT(
+							new LocationENT(rs.getLong("parent_id")), conn));
 			}
 			rs.close();
 			ps.close();
@@ -465,12 +468,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				PathENT p = new PathENT(getLocationENT(new LocationENT(
-						rs.getLong("departure_location_id")), conn),
-						getLocationENT(new LocationENT(rs
-								.getLong("destination_location_id")), conn),
-						rs.getDouble("distance"), new PathTypeENT(
-								rs.getInt("path_type")), rs.getLong("path_id"));
+				PathENT p = new PathENT(getLocationENT(
+						new LocationENT(rs.getLong("departure_location_id")),
+						conn), getLocationENT(
+						new LocationENT(rs.getLong("destination_location_id")),
+						conn), rs.getDouble("distance"), new PathTypeENT(
+						rs.getInt("path_type")), rs.getLong("path_id"));
 				p.setPathRoute(rs.getString("path_route"));
 				res.add(p);
 			}
@@ -727,10 +730,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				LocationENT dep = getLocationENT(new LocationENT(
-						rs.getLong("departure_location_id")), conn);
-				LocationENT des = getLocationENT(new LocationENT(
-						rs.getLong("destination_location_id")), conn);
+				LocationENT dep = getLocationENT(
+						new LocationENT(rs.getLong("departure_location_id")),
+						conn);
+				LocationENT des = getLocationENT(
+						new LocationENT(rs.getLong("destination_location_id")),
+						conn);
 				ent = new PathENT(new LocationLightENT(dep),
 						new LocationLightENT(des), rs.getDouble("distance"),
 						new PathTypeENT(rs.getInt("path_type")),
@@ -829,10 +834,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				res = new PathENT(getLocationENT(new LocationENT(
-						rs.getLong("departure_location_id")), conn),
-						getLocationENT(new LocationENT(rs
-								.getLong("destination_location_id")), conn));
+				res = new PathENT(getLocationENT(
+						new LocationENT(rs.getLong("departure_location_id")),
+						conn), getLocationENT(
+						new LocationENT(rs.getLong("destination_location_id")),
+						conn));
 			}
 			ps.close();
 			conn.close();

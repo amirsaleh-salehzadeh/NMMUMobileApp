@@ -34,7 +34,7 @@
 	}
 </script>
 </head>
-<body dir="ltr" style="background-color: rgb(8, 27, 44);">
+<body dir="ltr">
 	<div data-role="page" class="jqm-demos jqm-home">
 		<div data-role="header" class="jqm-header">
 			<h2>
@@ -47,7 +47,7 @@
 			<!-- 				<a href="#rightpanel" -->
 			<!-- 				class="menu-icon ui-btn ui-corner-all ui-btn-right"></a> -->
 		</div>
-		<div role="main" id="mainBodyContents" class="jqm-content">
+		<div data-role="content" id="mainBodyContents" class="jqm-content">
 			<tiles:insert attribute="body" />
 		</div>
 		<div id="mainMenu" style="display: none;">

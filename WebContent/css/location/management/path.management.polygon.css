@@ -76,17 +76,3 @@
 	overflow: visible;
 	padding: .3em .1em;
 }
-
-#locationDescription {
-	overflow-y: scroll;
-	max-height: 100px;
-	min-width: 333px;
-	resize: none;
-}
-
-.ui-panel {
-	/*background-color: #fff;
-    top: 100;
-    box-shadow: none;*/
-	width: 400px;
-}

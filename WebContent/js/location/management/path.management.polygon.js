@@ -33,7 +33,7 @@ function drawPolygons(location) {
 			$("#grandParentDescriptionToAdd").html("NMMU");
 			$("#grandParentDescriptionToAdd").attr("onclick","getAllMarkers(\"360\",\"2\")");
 			getAllPaths();
-			getAllMarkers(location.locationID+"","3,5,11");
+			getAllMarkers(location.locationID+"","");
 		} else {
 			addAMarker(location, location.gps);
 		}

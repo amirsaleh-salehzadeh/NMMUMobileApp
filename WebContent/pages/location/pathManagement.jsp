@@ -59,40 +59,39 @@
 <input type="hidden" name="markerCoordinate" id="markerCoordinate">
 <input type="hidden" name="markerId" id="markerId">
 <input type="hidden" id="pathLatLng">
-<div id="topToolBox" class="ui-block-solo">
-	<a href="#menuPanel"
-		class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
-		id="openLocationEditMenu">CAMPUS INFO</a>
-	<!-- SEARCH FEILD RIGHT SIDE -->
-	<fieldset data-role="controlgroup" data-type="horizontal"
-		name="optionType" id="locPathModeRadiobtn">
-		<label for="marker" class="ui-icon-map-marker"><span
-			class="inlineIcon">CAMPUS</span></label> <input
-			type="radio" name="radio-choice" id="marker" value="marker"
-			checked="checked" onclick="selectActionType();"> <label
-			for="path" class="ui-icon-map-path" ><span
-			class="ui-alt-icon inlineIcon">PATH</span></label> <input
-			type="radio" name="radio-choice" id="path" value="path"
-			onclick="selectActionType();" >
-	</fieldset>
-	<div id="infoDiv" class="ui-block-solo">
-		<ul data-role="listview" id="infoListView">
-			<li id="grandParentDescriptionToAdd">Nelson Mandela University</li>
-			<li id="parentDescriptionToAdd">Campus</li>
-		</ul>
-	</div>
+<!-- <div id="topToolBox" class="ui-block-solo"> -->
+<a href="#menuPanel" data-mini="true" data-role="button"
+	class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
+	id="openLocationEditMenu"><img width='24' height='24'
+	src='images/icons/add.png' class=''>NEW</a>
+<!-- SEARCH FEILD RIGHT SIDE -->
+<fieldset data-role="controlgroup" data-mini="true"
+	data-type="horizontal" name="optionType" id="locPathModeRadiobtn">
+	<label for="marker" class="ui-icon-map-marker"><span
+		class="inlineIcon">CAMPUS</span></label> <input type="radio"
+		name="radio-choice" id="marker" value="marker" checked="checked"
+		onclick="selectActionType();"> <label for="path"
+		class="ui-icon-map-path"><span class="ui-alt-icon inlineIcon">PATH</span></label>
+	<input type="radio" name="radio-choice" id="path" value="path"
+		onclick="selectActionType();">
+</fieldset>
+<div id="infoDiv" class="ui-block-solo">
+	<ul data-role="listview" id="infoListView">
+	</ul>
 </div>
+<!-- </div> -->
 <div data-role="panel" id="menuPanel" data-position="right"
-	data-display="overlay" data-theme="a"
-	class="ui-panel ui-panel-position-right ui-panel-display-overlay ui-body-a ui-panel-animate ui-panel-open"
+	data-display="overlay"
+	class="ui-panel ui-panel-position-right ui-panel-display-overlay 
+	ui-panel-animate ui-panel-open"
 	data-dismissible="false" data-swipe-close="false">
 	<div class="ui-block-solo">
-		<label for="markerName" id="markerLabel">Campus</label> <input
-			class="pathMenu" type="text" placeholder="Location Name"
+		<label for="markerName" class="formLabel" id="markerLabel">Campus</label>
+		<input class="pathMenu" type="text" placeholder="Label"
 			name="markerName" id="markerName" value="">
 	</div>
 	<div class="ui-block-solo">
-		<label for="locationType" id="markerLabel"></label>
+		<label for="locationType"></label>
 		<div class="ui-field-contain">
 			<select name="locationType" id="locationType" data-mini="true">
 				<option value="2">Area</option>
@@ -104,28 +103,15 @@
 	</div>
 	<div class="ui-block-solo">
 		<label for="locationDescription" id="DescriptionLabel"></label>
-		<textarea class="pathMenu" type="text"
-			placeholder="Location Description" name="locationDescription"
-			id="locationDescription" value="" rows="5" cols="17"></textarea>
+		<textarea class="pathMenu" type="text" placeholder="Description"
+			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
 	</div>
 	<input type="hidden" name="icon" id="icon" value=""> <input
 		type="hidden" name="boundary" id="boundary" value="">
-	<div class="pathMenu" data-role="collapsible" id="IconCollapsible"
-		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
-		data-content-theme="false">
-		<h1 class="pathMenu">Icon</h1>
-		<div class="ui-block-solo" id="IconDiv">
-			<div id="modal" class="pathMenu">
-				<span>Upload file for icon</span> <input class="pathMenu"
-					type="file" id="upload" value="Choose Image" accept="image/*">
-				<div id="main-cropper"></div>
-				<div id="iconCropDiv">
-					<img id="croppedIcon" src="" alt="" />
-				</div>
-				</br>
-				<button class="cropIcon pathMenu" id="cropIcon">Crop Icon</button>
-			</div>
-		</div>
+	<div class="pathMenu ui-block-solo"
+		onclick="$('#editIconPopup').popup('open');">
+		<img src="images/icons/image.png" id="editIconIcon" width="48"
+			height="48" />
 	</div>
 	<div class="pathMenu" data-role="collapsible" id="BoundaryEdit"
 		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
@@ -159,7 +145,7 @@
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
-			class=" pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+			class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
@@ -183,14 +169,28 @@
 	<span id="loadingContent" style="display: none;"></span>
 </div>
 
-<!-- INSERT LOCATION POPUP -->
-<!-- <div data-role="popup" id="insertAMarker" data-position-to="window" -->
-<!-- 	data-transition="turn" -->
-<!-- 	style="background-color: #000000; width: 100%; padding: 7px 7px 7px 7px;"> -->
-<!-- 	<a href="#" data-role="button" data-theme="a" data-icon="delete" -->
-<!-- 		data-iconpos="notext" class="ui-btn-right" -->
-<!-- 		onclick="$('#insertAMarker').popup('close'); ">Close</a> -->
-<!-- </div> -->
+<!-- EDIT ICON POPUP -->
+<div data-role="popup" id="editIconPopup" data-position-to="window"
+	data-transition="turn" style="width: 100%; padding: 7px 7px 7px 7px;">
+	<a href="#" data-role="button" data-theme="a" data-icon="delete"
+		data-iconpos="notext" class="ui-btn-right"
+		onclick="$('#editIconPopup').popup('close'); ">Close</a>
+	<div class="pathMenu" id="IconCollapsible">
+		<h1 class="pathMenu">Icon</h1>
+		<div class="ui-block-solo" id="IconDiv">
+			<div id="modal" class="pathMenu">
+				<span>Upload file for icon</span> <input class="pathMenu"
+					type="file" id="upload" value="Choose Image" accept="image/*">
+				<div id="main-cropper"></div>
+				<div id="iconCropDiv">
+					<img id="croppedIcon" src="" alt="" />
+				</div>
+				</br>
+				<button class="cropIcon pathMenu" id="cropIcon">Crop Icon</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- INSERT PATH POPUP -->
 <div data-role="popup" id="insertAPath" data-position-to="window"

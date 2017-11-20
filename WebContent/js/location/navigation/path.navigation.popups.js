@@ -34,17 +34,6 @@ function closePopup() {
 }
 
 function errorMessagePopupOpen(content) {
-	// blurTrue();
-	// if (whereToGoAfterwards != null || whereToGoAfterwards == undefined) {
-	// $("#popupErrorMessageCloseBTN").click(function() {
-	// closePopup();
-	// searchResultPopupOpen('FROM');
-	// }).trigger('create');
-	// }else{
-	// $("#popupErrorMessageCloseBTN").click(function() {
-	// closePopup();
-	// }).trigger('create');
-	// }
 	$("#errorMessageContent").html(content);
 	popupopen = true;
 	hideBottomPanel();
@@ -59,7 +48,6 @@ function arrivalMessagePopupOpen() {
 		transition : "turn"
 	});
 	$('#popupArrivalMessage').popup('open').trigger('create');
-	// blurTrue();
 	popupopen = true;
 }
 

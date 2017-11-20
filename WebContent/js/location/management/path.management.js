@@ -175,9 +175,8 @@ function initMap() {
 			color : "#a2daf2"
 		} ]
 	} ];
-	// getLocationTypePanel();
 	getPathTypePanel();
-	getAllMarkers("360", "2");
+	getAllMarkers("360", "");
 	$("#parentLocationId").val("360");
 	var myLatLng = {
 		lat : -33.5343803,
@@ -255,7 +254,6 @@ function initMap() {
 					function(e) {
 						var newShape = e.overlay;
 						$("#boundary").val(getPolygonCoords(newShape));
-						// $('#insertAMarker').popup('open');
 						newShape.type = e.type;
 						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
 							drawingManager.setDrawingMode(null);
@@ -367,17 +365,18 @@ function getPathTypePanel() {
 	});
 }
 
-$(document).ready(
-		function() {
-			$("#map_canvas").css("min-width",
-					parseInt($("#mainBodyContents").css("width")));
-			$("#map_canvas").css(
-					"min-height",
-					parseInt($(window).height())
-							- parseInt($(".jqm-header").css("height")) - 7);
-			getLocationSearchPanel();
-			getDecendentList();
-		});
+$(document)
+		.ready(
+				function() {
+					$("#map_canvas").css("min-width",
+							parseInt($("#mainBodyContents").css("width")));
+					$("#map_canvas").css(
+							"min-height",
+							parseInt($(window).height())
+									- parseInt($(".jqm-header").height())
+									- parseInt($("#locPathModeRadiobtn")
+											.height()) - 3);
+				});
 function ShowLoadingScreen(loadingContent) {
 	if (loadingContent == null) {
 		loadingContent = "Please Wait";
