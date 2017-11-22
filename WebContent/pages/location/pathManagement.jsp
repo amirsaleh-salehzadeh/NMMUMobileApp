@@ -109,39 +109,14 @@
 	<input type="hidden" name="icon" id="icon" value=""> <input
 		type="hidden" name="boundary" id="boundary" value="">
 	<div class="pathMenu ui-block-solo"
-		onclick="$('#editIconPopup').popup('open');">
-		<img src="images/icons/image.png" id="editIconIcon" width="48"
-			height="48" style="cursor: pointer;"/>
+		onclick="$('#editBoundaryPopup').popup('open');" id="locationIcon">
+		<img src="images/icons/polygon.png" id="editIconIcon" width="48"
+			height="48" style="cursor: pointer;" /> Edit Boundary
 	</div>
-	<div class="pathMenu" data-role="collapsible" id="BoundaryEdit"
-		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
-		data-content-theme="false">
-		<h1 class="pathMenu">Boundary</h1>
-		<div class="ui-block-solo ">
-			<input class="pathMenu" type="button" data-icon="plus"
-				value="Add Boundary" id="addBoundary" onclick="addPolygon()">
-		</div>
-		<div class="ui-grid-solo">
-			<span class="pathMenu">Boundary Edit Controls</span>
-			<button class="pathMenu" id="hand-button"
-				onclick="removeDrawingMode()">Free Select Mode</button>
-			<button class="pathMenu" id="drawing-button"
-				onclick="setDrawingMode()">Select Drawing Mode</button>
-			<button class="pathMenu" id="delete-button">Delete Selected
-				Boundary</button>
-		</div>
-		    
-		<div class="ui-grid-solo">
-			<span>Boundary Styling</span>
-			<div id="panelColour">
-				<span>Select A Colour</span>
-				<div id="color-palette"></div>
-			</div>
-		</div>
-		    
-		<div class="ui-grid-solo">
-			<!--  For later work	<span>Boundary Edit Points</span> -->
-		</div>
+	<div class="pathMenu ui-block-solo"
+		onclick="$('#editIconPopup').popup('open');" id="locationIcon">
+		<img src="images/icons/image.png" id="editIconIcon" width="48"
+			height="48" style="cursor: pointer;" /> Edit Icon
 	</div>
 	<div class="ui-block-solo">
 		<a style="cursor: pointer;" data-role="button" href="#"
@@ -173,7 +148,7 @@
 <div data-role="popup" id="editIconPopup" data-position-to="window"
 	data-transition="turn" style="width: 100%; padding: 7px 7px 7px 7px;">
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
-		data-iconpos="notext" class="ui-btn-right"
+		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
 		onclick="$('#editIconPopup').popup('close'); ">Close</a>
 	<div class="pathMenu" id="IconCollapsible">
 		<h1 class="pathMenu">Icon</h1>
@@ -189,6 +164,37 @@
 				<button class="cropIcon pathMenu" id="cropIcon">Crop Icon</button>
 			</div>
 		</div>
+	</div>
+</div>
+
+
+
+<div data-role="popup" id="editBoundaryPopup" data-position-to="window"
+	data-transition="turn" style="width: 100%; padding: 7px 7px 7px 7px;">
+	<a href="#" data-role="button" data-theme="a" data-icon="delete"
+		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
+		onclick="$('#editBoundaryPopup').popup('close'); ">Close</a>
+	<h1 class="pathMenu">Boundary</h1>
+	<div class="ui-grid-solo">
+		<span class="pathMenu">Boundary Edit Controls</span>
+		<button class="pathMenu" id="hand-button"
+			onclick="removeDrawingMode()">Free Select Mode</button>
+		<button class="pathMenu" id="drawing-button"
+			onclick="setDrawingMode()">Select Drawing Mode</button>
+		<button class="pathMenu" id="delete-button">Delete Selected
+			Boundary</button>
+	</div>
+	    
+	<div class="ui-grid-solo">
+		<span>Boundary Styling</span>
+		<div id="panelColour">
+			<span>Select A Colour</span>
+			<div id="color-palette"></div>
+		</div>
+	</div>
+	    
+	<div class="ui-grid-solo">
+		<!-- 		 For later work	<span>Boundary Edit Points</span> -->
 	</div>
 </div>
 

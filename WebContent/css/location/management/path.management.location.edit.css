@@ -1,14 +1,23 @@
 .pathMenu,.formLabel {
 	-webkit-border-radius: .0 !important;
-	border-radius: 0;
+	border-radius: 3 !important;
 	color: rgb(248, 182, 36) !important;
 	background-color: rgba(8, 27, 44, 1) !important;
 	text-shadow: none !important;
 	border-color: rgb(248, 182, 36) !important;
 }
+
 .pathMenu {
 	font-size: 11pt !important;
 }
+
+#locationIcon {
+	border: thick;
+	border-width: 1px !important;
+	border-color: white;
+	cursor: pointer;
+}
+
 .ui-input-text {
 	border-color: rgb(248, 182, 36) !important;
 	border-width: 2px;
@@ -22,4 +31,24 @@
 	max-height: 100px;
 	resize: none;
 	overflow: hidden;
+}
+
+.ui-popup {
+	background-color: rgba(8, 27, 44, 1) !important;
+	border-color: rgb(248, 182, 36) !important;
+}
+
+.closeMessageButtonIcon {
+	width: 22px;
+	height: 22px;
+	background-color: red !important;
+	border: 3px double !important;
+	border-color: rgb(248, 182, 36) !important;
+	border-radius: 100% !important;
+	padding: 1px 1px !important;
+	box-shadow: none !important;
+	position: absolute !important;
+	float: right !important;
+	right: 4;
+	top: 1;
 }

@@ -1,7 +1,3 @@
-function addPolygon() {
-//	$('#insertAMarker').popup('close');
-}
-
 var longpress = false;
 var start;
 function drawPolygons(location) {

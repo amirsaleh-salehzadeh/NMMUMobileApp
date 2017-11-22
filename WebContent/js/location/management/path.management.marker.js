@@ -222,12 +222,20 @@ function addAMarker(location, gps) {
 		$("#markerCoordinate").val(gps);
 		$("#croppedIcon").attr("src", location.icon);
 		$("#icon").val(location.icon);
-		$("#editIconIcon").attr("src",location.icon);
+		var icn = location.icon;
+		if (icn != null && icn.length > 5)
+			$("#editIconIcon").attr("src", location.icon);
+		else
+			$("#editIconIcon").attr("src", "images/icons/image.png");
 		$("#parentLocationId").val(location.parentId);
 		$("#markerLabel").html(location.locationType.locationType);
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
-		$("#openLocationEditMenu").html("<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT").trigger("create");
+		$("#openLocationEditMenu")
+				.html(
+						"<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
+				.trigger("create");
 	}
+	getLocationTypePanel();
 	showHideSettingsMenu();
 }

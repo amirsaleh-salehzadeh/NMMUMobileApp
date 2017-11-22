@@ -321,7 +321,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent = new LocationTypeENT(rs.getInt("location_type_id"),
 						rs.getString("location_type"), new LocationTypeENT(
 								rs.getInt("parent_id")));
-				ArrayList<LocationTypeENT> tmp = getLocationTypeTree(ent);
+				ArrayList<LocationTypeENT> tmp = getLocationTypeTree(ent, conn);
 				ent.setChildren(tmp);
 			}
 			ps.close();
@@ -412,13 +412,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	private ArrayList<LocationTypeENT> getLocationTypeTree(LocationTypeENT ent) {
+	private ArrayList<LocationTypeENT> getLocationTypeTree(LocationTypeENT ent,
+			Connection conn) {
 		ArrayList<LocationTypeENT> res = new ArrayList<LocationTypeENT>();
 		if (ent.getLocationTypeId() >= 3)
 			return null;
 		try {
-			Connection conn = null;
-			conn = getConnection();
+			if (conn == null)
+				conn = getConnection();
 			String query = "";
 			query = "select lt.* from location_type lt"
 					+ " where lt.parent_id = " + ent.getLocationTypeId()
@@ -430,13 +431,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 				end = true;
 				ent = new LocationTypeENT(rs.getInt("location_type_id"),
 						rs.getString("location_type"), null, null);
-				ent.setChildren(getLocationTypeTree(ent));
-				if (rs.getInt("location_type_id") > 3)
-					break;
+				ent.setChildren(getLocationTypeTree(ent, conn));
 				res.add(ent);
 			}
 			ps.close();
-			conn.close();
+//			conn.close();
 			if (!end)
 				return null;
 		} catch (SQLException e) {
