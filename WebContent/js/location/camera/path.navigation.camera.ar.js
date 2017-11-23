@@ -1,7 +1,7 @@
 DEBUG = true;
 function startAR() {
 	var video = document.getElementById('videoContent');
-	var canvas = document.createElement('canvas'); 
+	var canvas = document.createElement('canvas');
 	canvas.width = $("#cameraView").css('width');
 	canvas.height = $("#cameraView").css('height');
 	canvas.id = "ARPres";
@@ -11,17 +11,18 @@ function startAR() {
 	debugCanvas.height = 240;
 	debugCanvas.id = 'debugCanvas';
 	document.getElementById('cameraView').appendChild(debugCanvas);
-	var raster = new NyARRgbRaster_Canvas2D(canvas); 
-	var param = new FLARParam($("#cameraView").css('width'), $("#cameraView").css('height')); 
-	var resultMat = new NyARTransMatResult(); 
-	var detector = new FLARMultiIdMarkerDetector(param, 80); 
+	var raster = new NyARRgbRaster_Canvas2D(canvas);
+	var param = new FLARParam($("#cameraView").css('width'), $("#cameraView")
+			.css('height'));
+	var resultMat = new NyARTransMatResult();
+	var detector = new FLARMultiIdMarkerDetector(param, 80);
 	detector.setContinueMode(true);
 	var glCanvas = document.createElement('canvas');
 	glCanvas.width = $("#cameraView").css('width');
 	glCanvas.height = $("#cameraView").css('height');
 	glCanvas.style.zIndex = 20001;
 	glCanvas.id = "ARPresGL";
-//	document.body.appendChild(glCanvas);
+	// document.body.appendChild(glCanvas);
 	document.getElementById('cameraView').appendChild(glCanvas);
 
 	var display = new Magi.Scene(glCanvas);
@@ -51,7 +52,8 @@ function startAR() {
 		if (video.currentTime == lastTime)
 			return;
 		lastTime = video.currentTime;
-		ctx.drawImage(video, 0, 0, $("#cameraView").css('width'), $("#cameraView").css('height')); // draw video to canvas
+		ctx.drawImage(video, 0, 0, $("#cameraView").css('width'), $(
+				"#cameraView").css('height')); // draw video to canvas
 		var dt = new Date().getTime();
 		canvas.changed = true;
 		videoTex.material.textures.Texture0.changed = true;

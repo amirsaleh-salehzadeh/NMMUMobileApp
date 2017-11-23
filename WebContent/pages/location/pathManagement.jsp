@@ -37,6 +37,7 @@
 		return String;
 	}
 	function showHideSettingsMenu() {
+		selectThisLocationType(null);
 		$("#openLocationEditMenu").trigger("click");
 	}
 </script>
@@ -101,7 +102,7 @@
 			name="markerName" id="markerName" value="">
 	</div>
 	<div class="ui-block-solo editlocationFormRow">
-		<label for="locationDescription" class="editlocationFormRow"
+		<label for="locationDescription"
 			id="DescriptionLabel">Description</label>
 		<textarea type="text" placeholder="Description"
 			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
