@@ -42,7 +42,7 @@ function refreshMap(locationTypeId, gpsStr) {
 		map.setCenter(gps);
 		// map.setZoom(7);
 	} else if (locationTypeId == "3") {
-		icon += 'building.png';
+		icon += 'buildingss.png';
 		map.setCenter(gps);
 		// map.setZoom(15);
 	} else if (locationTypeId == "4") {

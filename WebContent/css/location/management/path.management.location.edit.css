@@ -1,14 +1,25 @@
-.pathMenu,.formLabel {
+.editlocationFormRow {
 	-webkit-border-radius: .0 !important;
 	border-radius: 3 !important;
 	color: rgb(248, 182, 36) !important;
 	background-color: rgba(8, 27, 44, 1) !important;
 	text-shadow: none !important;
+	border: 1px solid !important;
 	border-color: rgb(248, 182, 36) !important;
+	font-weight: bold !important;
+	display: block;
+	margin-bottom: 3px;
+	padding: 3px;
 }
 
 .pathMenu {
 	font-size: 11pt !important;
+	font-weight: normal !important;
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+		text-shadow: none !important;
+	border: 1px solid !important;
+	border-color: rgb(248, 182, 36) !important;
 }
 
 #locationIcon {
@@ -51,4 +62,18 @@
 	float: right !important;
 	right: 4;
 	top: 1;
+}
+
+.locationTypeSelecIcons>img {
+	border: 1px solid !important;
+	border-color: rgba(248, 182, 36, .33) !important;
+	margin: 2px;
+	padding: 3px;
+}
+
+.locationTypeSelecIconSelected>img {
+	border: 3px solid !important;
+	border-color: rgb(248, 182, 36) !important;
+	margin: 2px;
+	padding: 3px;
 }

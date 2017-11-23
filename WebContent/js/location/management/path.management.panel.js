@@ -25,16 +25,27 @@ function getLocationTypeDropDown(obj) {
 	if (obj == null)
 		obj = JSON.parse(getCookie('TripPathIdsCookie'));
 	var locationData = "";
-	$(obj).each(function(k, l) {
-		if (l.parent.locationTypeId == $("#parentLocationTypeId").val()) {
-			locationData += "<option value='" + l.locationTypeId + "'>"
-			+ l.locationType + "</option>";
-		}else
-			obj = l;
-	});
-	if(locationData.length>0){
+	$(obj)
+			.each(
+					function(k, l) {
+						if (l.parent.locationTypeId == $(
+								"#parentLocationTypeId").val()) {
+							locationData += '<a href="#" type="radio" onClick="selectThisLocationType(this)" class="locationTypeSelecIcons" name="locationType" value="'
+									+ l.locationTypeId
+									+ '" id="locationTypeId'
+									+ l.locationTypeId
+									+ '"><img title= "'
+									+ l.locationType
+									+ '" src="'
+									+ getLocationTypeImage(l.locationTypeId)
+									+ '" width="48px" height="48px" /></a>';
+						} else
+							obj = l;
+					});
+	if (locationData.length > 0) {
 		$("#locationType").html(locationData);
-		$("#locationType").selectmenu("refresh").trigger("create");
+		$("#locationType").controlgroup("refresh").trigger("create");
+		$("#locationType").controlgroup("option", "type", "horizontal");
 	}
 	if (obj.children != null)
 		getLocationTypeDropDown(obj.children);
@@ -49,12 +60,61 @@ function getParentLocationTypeId(obj, id) {
 	$(obj).each(function(k, l) {
 		if (l.locationTypeId == id) {
 			$("#parentLocationTypeId").val(l.parent.locationTypeId);
-//			return;
-		}else
+			// return;
+		} else
 			obj = l;
 	});
 	if (obj.children != null)
 		getParentLocationTypeId(obj.children, id);
 	else
 		return;
+}
+
+function getLocationTypeName(obj, id) {
+	if (obj == null)
+		obj = JSON.parse(getCookie('TripPathIdsCookie'));
+	$(obj).each(function(k, l) {
+		if (l.locationTypeId == id) {
+			$("#locationTypeLabel").html(l.locationType);
+			return;
+		} else
+			obj = l;
+	});
+	if (obj.children != null)
+		getLocationTypeName(obj.children, id);
+	else
+		return "";
+}
+
+function selectThisLocationType(ltype) {
+	if (ltype != null)
+		$("#locationTypeId").val($(ltype).attr("value"));
+	$(".locationTypeSelecIcons").each(
+			function() {
+				if ($(this).hasClass("locationTypeSelecIconSelected"))
+					$(this).removeClass("locationTypeSelecIconSelected");
+				if ($(this).attr("value") == $("#locationTypeId").val())
+					$(this).addClass("locationTypeSelecIconSelected").trigger(
+							"create");
+			});
+	getLocationTypeName(null, $("#locationTypeId").val());
+}
+
+function getLocationTypeImage(locationTypeId) {
+	var icon = 'images/map-markers/';
+	if (locationTypeId == "1") {
+		icon += 'marker-blue.png';
+	} else if (locationTypeId == "11") {
+		icon += 'door.png';
+	} else if (locationTypeId == "2") {
+		icon += 'area.png';
+	} else if (locationTypeId == "3") {
+		icon += 'building.png';
+	} else if (locationTypeId == "4") {
+		icon += 'marker-pink.png';
+	} else if (locationTypeId == "5") {
+		icon += 'marker-green.png';
+	} else
+		icon += 'marker-yellow.png';
+	return icon;
 }

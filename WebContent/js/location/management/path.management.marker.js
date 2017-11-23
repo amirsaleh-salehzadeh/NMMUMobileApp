@@ -227,12 +227,12 @@ function addAMarker(location, gps) {
 		else
 			$("#editIconIcon").attr("src", "images/icons/image.png");
 		$("#parentLocationId").val(location.parentId);
-		$("#markerLabel").html(location.locationType.locationType);
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
 		$("#openLocationEditMenu")
 				.html("<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
 				.trigger("create");
 	}
+	selectThisLocationType(null);
 	showHideSettingsMenu();
 }

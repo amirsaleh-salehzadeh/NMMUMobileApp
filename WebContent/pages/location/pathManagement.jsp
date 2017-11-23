@@ -86,54 +86,55 @@
 	class="ui-panel ui-panel-position-right ui-panel-display-overlay 
 	ui-panel-animate ui-panel-open"
 	data-dismissible="false" data-swipe-close="false">
-	<div class="ui-block-solo">
-		<label for="markerName" class="formLabel" id="markerLabel">Campus</label>
+	<input type="hidden" name="icon" id="icon" value=""> <input
+		type="hidden" name="boundary" id="boundary" value="">
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="locationType" id="locationTypeLabel"></label>
+		<div class="ui-field-contain">
+			<div data-role="controlgroup" name="locationType" id="locationType"
+				data-mini="true"></div>
+		</div>
+	</div>
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="markerName" id="markerLabel">Label</label>
 		<input class="pathMenu" type="text" placeholder="Label"
 			name="markerName" id="markerName" value="">
 	</div>
-	<div class="ui-block-solo">
-		<label for="locationType"></label>
-		<div class="ui-field-contain">
-			<select name="locationType" id="locationType" data-mini="true">
-<!-- 				<option value="2">Area</option> -->
-<!-- 				<option value="3">Building</option> -->
-<!-- 				<option value="5">Intersection</option> -->
-<!-- 				<option value="11">Entrance</option> -->
-			</select>
-		</div>
-	</div>
-	<div class="ui-block-solo">
-		<label for="locationDescription" id="DescriptionLabel"></label>
-		<textarea class="pathMenu" type="text" placeholder="Description"
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="locationDescription" class="editlocationFormRow"
+			id="DescriptionLabel">Description</label>
+		<textarea type="text" placeholder="Description"
 			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
 	</div>
-	<input type="hidden" name="icon" id="icon" value=""> <input
-		type="hidden" name="boundary" id="boundary" value="">
-	<div class="pathMenu ui-block-solo"
-		onclick="$('#editBoundaryPopup').popup('open');" >
+	<div class="ui-block-solo editlocationFormRow"
+		onclick="$('#editBoundaryPopup').popup('open');">
 		<img src="images/icons/polygon.png" id="editBoundaryIcon" width="48"
-			height="48" style="cursor: pointer;" /> Edit Boundary
+			height="48" style="cursor: pointer;" />Edit Boundary
+
 	</div>
-	<div class="pathMenu ui-block-solo"
+	<div class="ui-block-solo editlocationFormRow"
 		onclick="$('#editIconPopup').popup('open');" id="locationIcon">
 		<img src="images/icons/image.png" id="editIconIcon" width="48"
-			height="48" style="cursor: pointer;" /> Edit Icon
+			height="48" style="cursor: pointer;" />Edit Thumbnail
 	</div>
-	<div class="ui-block-solo">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+	<div class="ui-grid-b editlocationFormRow">
+		<div class="ui-block-a">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+		</div>
+		<div class="ui-block-b">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow save-icon "
+				onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
+				Barcode</a>
+		</div>
+		<div class="ui-block-c">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="removeMarker()">Remove</a>
+		</div>
 	</div>
-	<div class="ui-block-solo">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="pathMenu ui-btn ui-shadow save-icon "
-			onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
-			Barcode</a>
-	</div>
-	<div class="ui-block-solo">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="pathMenu ui-btn ui-shadow cancel-icon "
-			onclick="removeMarker()">Remove</a>
-	</div>
+
 	<a href="#" data-rel="close"
 		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline"
 		id="closeLocationEditMenu">Close Settings</a>

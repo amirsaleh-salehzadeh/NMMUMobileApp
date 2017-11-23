@@ -235,18 +235,15 @@ body{
 	text-shadow: none !important;
 }
 
-#locationType-button {
-	border-radius: 0;
-	color: rgb(248, 182, 36) !important;
-	background-color: rgba(8, 27, 44, 1) !important;
-	text-shadow: none;
-}
 
 #locationType {
 	border-radius: 0;
 	color: rgb(248, 182, 36) !important;
 	background-color: rgba(8, 27, 44, 1) !important;
 	text-shadow: none;
+	max-width: 100%;
+	white-space: nowrap;
+    overflow-x: scroll;
 }
 
 @media ( min-width : 60em) {
