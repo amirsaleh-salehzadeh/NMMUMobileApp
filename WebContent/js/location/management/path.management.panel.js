@@ -76,6 +76,7 @@ function getLocationTypeName(obj, id) {
 	$(obj).each(function(k, l) {
 		if (l.locationTypeId == id) {
 			$("#locationTypeLabel").html(l.locationType);
+			$("#modeSelection_locationText").html(l.locationType.toUpperCase()).trigger("create");
 			return;
 		} else
 			obj = l;

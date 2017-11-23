@@ -117,6 +117,7 @@ function getAllMarkers(parentId) {
 					getMarkerInfo(l);
 					getParentLocationTypeId(null,l.locationType.locationTypeId);
 					getLocationTypeDropDown(null);
+					selectThisLocationType(null);
 				}
 				addMarker(l);
 			});

@@ -15,6 +15,12 @@
 				alert('Selected Name=' + $(this).attr('value'));
 			});
 		});
+		$("#menuPanel").on("panelbeforeopen", function(event, ui) {
+			selectThisLocationType(null);
+		});
+		$("#menuPanel").on("panelbeforeclose", function(event, ui) {
+			alert("c");
+		});
 	});
 	// DST 
 	//Distance in Metres
@@ -37,7 +43,6 @@
 		return String;
 	}
 	function showHideSettingsMenu() {
-		selectThisLocationType(null);
 		$("#openLocationEditMenu").trigger("click");
 	}
 </script>
@@ -65,16 +70,17 @@
 <a href="#menuPanel" data-mini="true" data-role="button"
 	class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
 	id="openLocationEditMenu"><img width='24' height='24'
-	src='images/icons/add.png' class=''>NEW</a>
+	src='images/icons/add.png' onclick="selectThisLocationType(null);">NEW</a>
 <!-- SEARCH FEILD RIGHT SIDE -->
 <fieldset data-role="controlgroup" data-mini="true"
 	data-type="horizontal" name="optionType" id="locPathModeRadiobtn">
 	<label for="marker" class="ui-icon-map-marker"><span
-		class="inlineIcon">CAMPUS</span></label> <input type="radio"
-		name="radio-choice" id="marker" value="marker" checked="checked"
-		onclick="selectActionType();"> <label for="path"
-		class="ui-icon-map-path"><span class="ui-alt-icon inlineIcon">PATH</span></label>
-	<input type="radio" name="radio-choice" id="path" value="path"
+		class="inlineIcon" id="modeSelection_locationText">CAMPUS</span></label> <input
+		type="radio" name="radio-choice" id="marker" value="marker"
+		checked="checked" onclick="selectActionType();"> <label
+		for="path" class="ui-icon-map-path"><span
+		class="ui-alt-icon inlineIcon">PATH</span></label> <input type="radio"
+		name="radio-choice" id="path" value="path"
 		onclick="selectActionType();">
 </fieldset>
 <div id="infoDiv" class="ui-block-solo">
@@ -97,13 +103,12 @@
 		</div>
 	</div>
 	<div class="ui-block-solo editlocationFormRow">
-		<label for="markerName" id="markerLabel">Label</label>
-		<input class="pathMenu" type="text" placeholder="Label"
-			name="markerName" id="markerName" value="">
+		<label for="markerName" id="markerLabel">Label</label> <input
+			class="pathMenu" type="text" placeholder="Label" name="markerName"
+			id="markerName" value="">
 	</div>
-	<div class="ui-block-solo editlocationFormRow">
-		<label for="locationDescription"
-			id="DescriptionLabel">Description</label>
+	<div class="ui-block-solo editlocationFormRow pathMenu">
+		<label for="locationDescription" id="DescriptionLabel">Description</label>
 		<textarea type="text" placeholder="Description"
 			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
 	</div>
