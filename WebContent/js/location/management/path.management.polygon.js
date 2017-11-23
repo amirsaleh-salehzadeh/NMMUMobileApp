@@ -26,10 +26,8 @@ function drawPolygons(location) {
 		if (longpress) {
 			$("#parentLocationId").val(location.locationID);
 			$("#parentDescriptionToAdd").html(location.locationName + " Campus");
-			$("#grandParentDescriptionToAdd").html("NMMU");
-			$("#grandParentDescriptionToAdd").attr("onclick","getAllMarkers(\"360\",\"2\")");
 			getAllPaths();
-			getAllMarkers(location.locationID+"","");
+			getAllMarkers(location.locationID+"");
 		} else {
 			addAMarker(location, location.gps);
 		}

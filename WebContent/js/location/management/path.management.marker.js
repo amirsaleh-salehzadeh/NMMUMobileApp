@@ -98,10 +98,9 @@ function saveMarker() {
 }
 
 var str = "";
-function getAllMarkers(parentId, locationTypeIds) {
+function getAllMarkers(parentId) {
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-			+ parentId + "&locationTypeId=" + locationTypeIds
-			+ "&userName=NMMU";
+			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllMarkers(null);
 	setMapOnAllpoligons(null);
 	$.ajax({
@@ -115,9 +114,9 @@ function getAllMarkers(parentId, locationTypeIds) {
 			str = "";
 			$.each(data, function(k, l) {
 				if (k == 0) {
-					// str = "<li>" + l.parent.locationName + " " +
-					// l.locationType.locationType +"</li>" + str;
 					getMarkerInfo(l);
+					getParentLocationTypeId(null,l.locationType.locationTypeId);
+					getLocationTypeDropDown(null);
 				}
 				addMarker(l);
 			});
@@ -137,11 +136,11 @@ function getMarkerInfo(location) {
 	do {
 		if (location.parent.parentId > 0) {
 			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
-					+ "\",\"\")'> > " + location.parent.locationName + " "
+					+ "\",)'> > " + location.parent.locationName + " "
 					+ location.parent.locationType.locationType + "</li>" + str;
 		} else
 			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
-					+ "\",\"\")'>" + location.parent.locationName + "</li>"
+					+ "\")'>" + location.parent.locationName + "</li>"
 					+ str;
 		location = location.parent;
 	} while (location.parent != null);
@@ -178,6 +177,7 @@ function addMarker(l) {
 			addAPath(l, l.gps);
 		}
 	});
+	$("#locationTypeId").val(l.locationType.locationTypeId);
 	marker.addListener('dragend', function(point) {
 		if (confirm("Are you sure you want to move the marker?")) {
 			$("#markerCoordinate").val(
@@ -203,18 +203,17 @@ function setMapOnAllMarkers(map) {
 }
 
 function addAMarker(location, gps) {
-	gps = gps.replace(" ", "");
 	$("#upload").val("");
 	$("#main-cropper").empty();
 	// $("#iconCropDiv").empty();
 	if (location == null) {
+		gps = gps.replace(" ", "");
 		$("#markerId").val("");
 		$("#markerName").val("");
 		$("#markerCoordinate").val(gps);
 		$("#locationDescription").val("");
 		$("#openLocationEditMenu")
-				.html(
-						"<img width='24' height='24' src='images/icons/add.png' class=''>NEW")
+				.html("<img width='24' height='24' src='images/icons/add.png' class=''>NEW")
 				.trigger("create");
 	} else {
 		$("#markerId").val(location.locationID);
@@ -232,10 +231,8 @@ function addAMarker(location, gps) {
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
 		$("#openLocationEditMenu")
-				.html(
-						"<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
+				.html("<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
 				.trigger("create");
 	}
-	getLocationTypePanel();
 	showHideSettingsMenu();
 }

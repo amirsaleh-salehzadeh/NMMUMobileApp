@@ -16,22 +16,45 @@ function getAllLocationTypes() {
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
-			alert("getLocationTypePanel");
+			alert("getAllLocationTypes");
 		}
 	});
 }
 
-function getLocationTypePanel() {
+function getLocationTypeDropDown(obj) {
+	if (obj == null)
+		obj = JSON.parse(getCookie('TripPathIdsCookie'));
 	var locationData = "";
-	var obj = JSON.parse(getCookie('TripPathIdsCookie'));
-	if (obj != null && obj.children != null
-			&& obj.locationTypeId == $("#locationTypeId").val()) {
-		$(obj.children).each(
-				function(k, l) {
-					locationData += "<option value='" + l.locationTypeId + "'>"
-							+ l.locationType + "</option>";
-				});
-		// if (locationData.length > 0)
-		$("#locationType").html(locationData).trigger("create");
+	$(obj).each(function(k, l) {
+		if (l.parent.locationTypeId == $("#parentLocationTypeId").val()) {
+			locationData += "<option value='" + l.locationTypeId + "'>"
+			+ l.locationType + "</option>";
+		}else
+			obj = l;
+	});
+	if(locationData.length>0){
+		$("#locationType").html(locationData);
+		$("#locationType").selectmenu("refresh").trigger("create");
 	}
+	if (obj.children != null)
+		getLocationTypeDropDown(obj.children);
+	else
+		return;
+}
+
+function getParentLocationTypeId(obj, id) {
+	if (obj == null)
+		obj = JSON.parse(getCookie('TripPathIdsCookie'));
+	var locationData = "";
+	$(obj).each(function(k, l) {
+		if (l.locationTypeId == id) {
+			$("#parentLocationTypeId").val(l.parent.locationTypeId);
+//			return;
+		}else
+			obj = l;
+	});
+	if (obj.children != null)
+		getParentLocationTypeId(obj.children, id);
+	else
+		return;
 }

@@ -105,7 +105,7 @@ public class LocationServicesWS {
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
-					.getAllLocationTypeChildren(new LocationTypeENT(2)));
+					.getAllLocationTypeChildren(new LocationTypeENT(1)));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

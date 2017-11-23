@@ -53,6 +53,7 @@
 </head>
 <input type="hidden" id="parentLocationId" value="360">
 <input type='hidden' id='locationTypeId' value="0">
+<input type='hidden' id='parentLocationTypeId' value="0">
 <input type='hidden' id='locationTypeDefinition' value='def'>
 <input type="hidden" name="destinationId" id="destinationId">
 <input type="hidden" name="departureId" id="departureId">
@@ -94,10 +95,10 @@
 		<label for="locationType"></label>
 		<div class="ui-field-contain">
 			<select name="locationType" id="locationType" data-mini="true">
-				<option value="2">Area</option>
-				<option value="3">Building</option>
-				<option value="5">Intersection</option>
-				<option value="11">Entrance</option>
+<!-- 				<option value="2">Area</option> -->
+<!-- 				<option value="3">Building</option> -->
+<!-- 				<option value="5">Intersection</option> -->
+<!-- 				<option value="11">Entrance</option> -->
 			</select>
 		</div>
 	</div>
@@ -109,8 +110,8 @@
 	<input type="hidden" name="icon" id="icon" value=""> <input
 		type="hidden" name="boundary" id="boundary" value="">
 	<div class="pathMenu ui-block-solo"
-		onclick="$('#editBoundaryPopup').popup('open');" id="locationIcon">
-		<img src="images/icons/polygon.png" id="editIconIcon" width="48"
+		onclick="$('#editBoundaryPopup').popup('open');" >
+		<img src="images/icons/polygon.png" id="editBoundaryIcon" width="48"
 			height="48" style="cursor: pointer;" /> Edit Boundary
 	</div>
 	<div class="pathMenu ui-block-solo"

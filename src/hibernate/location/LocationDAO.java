@@ -430,12 +430,13 @@ public class LocationDAO extends BaseHibernateDAO implements
 			while (rs.next()) {
 				end = true;
 				ent = new LocationTypeENT(rs.getInt("location_type_id"),
-						rs.getString("location_type"), null, null);
+						rs.getString("location_type"), new LocationTypeENT(
+								rs.getInt("parent_id")), null);
 				ent.setChildren(getLocationTypeTree(ent, conn));
 				res.add(ent);
 			}
 			ps.close();
-//			conn.close();
+			// conn.close();
 			if (!end)
 				return null;
 		} catch (SQLException e) {

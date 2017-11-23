@@ -176,7 +176,7 @@ function initMap() {
 		} ]
 	} ];
 	getPathTypePanel();
-	getAllMarkers("360", "");
+	getAllMarkers("360");
 	$("#parentLocationId").val("360");
 	var myLatLng = {
 		lat : -33.5343803,
@@ -372,12 +372,14 @@ $(document)
 					$("#map_canvas").css("min-width",
 							parseInt($("#mainBodyContents").css("width")));
 					$("#map_canvas").css(
-							"min-height",
+							"height",
 							parseInt($(window).height())
 									- parseInt($(".jqm-header").height())
 									- parseInt($("#locPathModeRadiobtn")
 											.height()) - 3);
+//					$(".jqm-demos").css("max-height",$(window).height());
 				});
+
 function ShowLoadingScreen(loadingContent) {
 	if (loadingContent == null) {
 		loadingContent = "Please Wait";
