@@ -108,6 +108,7 @@ ul#infoListView {
 
 ul#infoListView li {
 	float: left;
+	padding: .7em 0em 0em .2em !important;
 }
 
 ul#infoListView li a {
