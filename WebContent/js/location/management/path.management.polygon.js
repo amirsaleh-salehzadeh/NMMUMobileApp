@@ -176,33 +176,3 @@ function getPolygonCoords(shape) {
 	}
 	return coordinates;
 }
-
-function showBoundaryEdit(shape, Lat, Lng) {
-	// Since this polygon has only one path, we can call getPath() to return the
-	// MVCArray of LatLngs.
-	var vertices = shape.getPath();
-
-	var contentString = '<div id="InfoWindow"><b>This boundary belongs to the following building</b><br>'
-			+ $("#markerName").val() + '<br>';
-
-	// Iterate over the vertices.
-	for ( var i = 0; i < vertices.getLength(); i++) {
-		var xy = vertices.getAt(i);
-		contentString += '<br>' + 'Coordinate ' + i + ':<br>' + xy.lat() + ','
-				+ xy.lng();
-	}
-
-	// var div = document.createElement("div");
-	// div.innerHTML = contentString;
-	// div.appendChild();
-
-	contentString = contentString
-			+ '<div id="color-palette"></div><br><button id="delete-button">Delete Selected Shape</button></div>';
-
-	// Replace the info window's content and position.
-	var infoWindow = new google.maps.InfoWindow;
-	infoWindow.setContent(contentString);
-	var LatLng = new google.maps.LatLng(Lat, Lng);
-	infoWindow.setPosition(LatLng);
-	infoWindow.open(map);
-}

@@ -187,16 +187,18 @@ function initMap() {
 		zoom : 7,
 		fullscreenControl : false,
 		streetViewControl : false,
+		mapTypeControl : false,
 		scrollwheel : true,
 		gestureHandling : 'greedy'
 	});
 	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
 		name : 'My Style'
 	}));
-	map.setMapTypeId('mystyle');
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
+	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+			.getElementById('editBoundaryPopup'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");
@@ -221,94 +223,72 @@ function initMap() {
 		editable : true,
 		draggable : false
 	};
-	// Creates a drawing manager attached to the map that allows the user to
-	// draw
-	// markers, lines, and shapes.
-	drawingManager = new google.maps.drawing.DrawingManager({
-		drawingMode : google.maps.drawing.OverlayType.POLYGON,
-		drawingControl : true,
-		drawingControlOptions : {
-			style : google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-			position : google.maps.ControlPosition.TOP_CENTER,
-			// drawingModes: ['marker', 'circle', 'polygon', 'polyline',
-			// 'rectangle']
-			drawingModes : [ 'polygon' ]
-		},
-		markerOptions : {
-			draggable : false
-		},
-		polylineOptions : {
-			editable : true,
-			draggable : false
-		},
-		rectangleOptions : polyOptions,
-		circleOptions : polyOptions,
-		polygonOptions : polyOptions,
-		map : map
-	});
-
-	google.maps.event
-			.addListener(
-					drawingManager,
-					'overlaycomplete',
-					function(e) {
-						var newShape = e.overlay;
-						$("#boundary").val(getPolygonCoords(newShape));
-						newShape.type = e.type;
-						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
-							drawingManager.setDrawingMode(null);
-							google.maps.event
-									.addListener(
-											newShape,
-											'click',
-											function(e) {
-												if (e.vertex !== undefined) {
-													if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
-														var path = newShape
-																.getPaths()
-																.getAt(e.path);
-														path.removeAt(e.vertex);
-														if (path.length < 3) {
-															newShape
-																	.setMap(null);
-														}
-													}
-													if (newShape.type === google.maps.drawing.OverlayType.POLYLINE) {
-														var path = newShape
-																.getPath();
-														path.removeAt(e.vertex);
-														if (path.length < 2) {
-															newShape
-																	.setMap(null);
-														}
-													}
-												}
-												setSelection(newShape);
-												showArrays(newShape, e.latLng);
-											});
-							setSelection(newShape);
-						} else {
-							google.maps.event.addListener(newShape, 'click',
-									function(e) {
-										setSelection(newShape);
-									});
-							setSelection(newShape);
-						}
-					});
+//	drawingManager = new google.maps.drawing.DrawingManager({
+//		drawingMode : google.maps.drawing.OverlayType.POLYGON,
+//		drawingControl : true,
+//		drawingControlOptions : {
+//			style : google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+//			position : google.maps.ControlPosition.TOP_CENTER,
+//			// drawingModes: ['marker', 'circle', 'polygon', 'polyline',
+//			// 'rectangle']
+//			drawingModes : [ 'polygon' ]
+//		},
+//		rectangleOptions : polyOptions,
+//		map : map
+//	});
+//
+//	google.maps.event
+//			.addListener(
+//					drawingManager,
+//					'overlaycomplete',
+//					function(e) {
+//						var newShape = e.overlay;
+//						$("#boundary").val(getPolygonCoords(newShape));
+//						newShape.type = e.type;
+//						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
+//							drawingManager.setDrawingMode(null);
+//							google.maps.event
+//									.addListener(
+//											newShape,
+//											'click',
+//											function(e) {
+//												if (e.vertex !== undefined) {
+//													if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
+//														var path = newShape
+//																.getPaths()
+//																.getAt(e.path);
+//														path.removeAt(e.vertex);
+//														if (path.length < 3) {
+//															newShape
+//																	.setMap(null);
+//														}
+//													}
+//												}
+//												setSelection(newShape);
+//												showArrays(newShape, e.latLng);
+//											});
+//							setSelection(newShape);
+//						} else {
+//							google.maps.event.addListener(newShape, 'click',
+//									function(e) {
+//										setSelection(newShape);
+//									});
+//							setSelection(newShape);
+//						}
+//					});
 
 	// Clear the current selection when the drawing mode is changed, or when the
 	// map is clicked.
-	google.maps.event.addListener(drawingManager, 'drawingmode_changed',
-			clearSelection);
-	google.maps.event.addListener(map, 'click', clearSelection);
-	google.maps.event.addDomListener(document.getElementById('delete-button'),
-			'click', deleteSelectedShape);
+//	google.maps.event.addListener(drawingManager, 'drawingmode_changed',
+//			clearSelection);
+//	google.maps.event.addListener(map, 'click', clearSelection);
+	// google.maps.event.addDomListener(document.getElementById('delete-button'),
+	// 'click', deleteSelectedShape);
 	// Disables drawing mode on startup so you have to click on toolbar first to
 	// draw shapes and create the colour palette
-	drawingManager.setDrawingMode(null);
+//	drawingManager.setDrawingMode(null);
 	buildColorPalette();
 	getAllLocationTypes();
-
 }
 
 function selectActionType() {
@@ -321,9 +301,9 @@ function selectActionType() {
 	} else {
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
-		map.setOptions({
-			draggableCursor : "url('images/map-markers/road.png'), auto"
-		});
+		// map.setOptions({
+		// draggableCursor : "url('images/map-markers/road.png'), auto"
+		// });
 	}
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
@@ -377,7 +357,7 @@ $(document)
 									- parseInt($(".jqm-header").height())
 									- parseInt($("#locPathModeRadiobtn")
 											.height()) - 3);
-//					$(".jqm-demos").css("max-height",$(window).height());
+					// $(".jqm-demos").css("max-height",$(window).height());
 				});
 
 function ShowLoadingScreen(loadingContent) {

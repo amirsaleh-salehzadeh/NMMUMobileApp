@@ -54,7 +54,7 @@ function saveMarker() {
 		alert("Please select a name for the location");
 		return;
 	}
-	$("#locationTypeId").val($("#locationType").val());
+//	$("#locationTypeId").val($("#locationType").val());
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$.ajax({
 		url : url,
@@ -67,7 +67,7 @@ function saveMarker() {
 			locationName : $("#markerName").val(),
 			parentId : $("#parentLocationId").val(),
 			coordinate : $("#markerCoordinate").val(),
-			locationTypeId : parseInt($("#locationTypeId").val()),
+			locationTypeId : $("#locationTypeId").val(),
 			locationId : $("#markerId").val(),
 			description : $("#locationDescription").val(),
 			address : "",
@@ -99,7 +99,7 @@ function saveMarker() {
 
 var str = "";
 function getAllMarkers(parentId) {
-	
+	$("#closeLocationEditMenu").trigger("click");
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllMarkers(null);
@@ -174,14 +174,15 @@ function addMarker(l) {
 
 	marker.id = l.locationID;
 	google.maps.event.addListener(marker, 'click', function(point) {
+		$("#locationTypeId").val(l.locationType.locationTypeId);
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			addAMarker(l, l.gps);
 		} else {
 			addAPath(l, l.gps);
 		}
 	});
-	$("#locationTypeId").val(l.locationType.locationTypeId);
 	marker.addListener('dragend', function(point) {
+		$("#locationTypeId").val(l.locationType.locationTypeId);
 		if (confirm("Are you sure you want to move the marker?")) {
 			$("#markerCoordinate").val(
 					point.latLng.lat() + "," + point.latLng.lng());

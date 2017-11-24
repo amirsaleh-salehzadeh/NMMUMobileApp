@@ -1,10 +1,17 @@
+#editBoundaryPopup {
+	min-width: 100%;
+	background-color: rgba(8, 27, 44, 1) !important;
+	right: 0;
+	left: 0 !important;
+	margin: 0 !important;
+}
+
 .inlineIcon {
 	display: inline-block;
 	position: relative;
 	vertical-align: middle;
 	width: auto !important;
 }
-
 
 #parentLocationListView {
 	position: absolute;
@@ -25,18 +32,6 @@
 	white-space: nowrap;
 }
 
-#panelColour {
-	/*width: 250px;*/
-	font-family: Arial, sans-serif;
-	font-size: 13px;
-	/*float: left;*/
-	/*margin: 10px;*/
-}
-
-#color-palette {
-	clear: both;
-}
-
 .color-button {
 	width: 14px;
 	height: 14px;
@@ -44,24 +39,4 @@
 	margin: 2px;
 	float: left;
 	cursor: pointer;
-}
-
-#hand-button {
-	margin-top: 5px;
-	width: 250px;
-}
-
-#drawing-button {
-	margin-top: 5px;
-	width: 250px;
-}
-
-#delete-button {
-	margin-top: 5px;
-	width: 250px;
-}
-
-#imageEdit .ui-btn {
-	overflow: visible;
-	padding: .3em .1em;
 }

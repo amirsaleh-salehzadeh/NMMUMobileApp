@@ -7,44 +7,43 @@
 <html>
 <head>
 <script type="text/javascript">
-	$(document).ready(function() {
-		// 		selectRightPanelVal();
-		$("#rightpanel").trigger("updatelayout");
-		$(".liLocationLV").each(function() {
-			$(this).bind('onclick', function(e) {
-				alert('Selected Name=' + $(this).attr('value'));
-			});
-		});
-		$("#menuPanel").on("panelbeforeopen", function(event, ui) {
-			selectThisLocationType(null);
-			$(this).css("top",parseInt($(".jqm-header").height())
-					+ parseInt($("#locPathModeRadiobtn")
-							.height()) + 3);
-		});
-		// 		$("#menuPanel").on("panelbeforeclose", function(event, ui) {
-		// 			alert("c");
-		// 		});
-	});
-	// DST 
-	//Distance in Metres
-	//Speed in KMH
-	//Time in Hours minutes seconds
-	function getTime(distance, speed) {
-		var TotalTime = (distance / 1000) / speed;
-		var Hours = floor(TotalTime);
-		var Minutes = floor((TotalTime - Hours) * 60);
-		var Seconds = round((TotalTime - Hours - Minutes) * 60);
-		var Kilometres = floor(distance / 1000);
-		var Metres = round(distance - (Kilometres * 1000));
-		var String = "You are "
-				+ Kilometres
-				+ " kilometer/s and "
-				+ Metres
-				+ " meter/s away from the destination. You will be there in about "
-				+ Hours + " hour/s " + Minutes + " minute/s and " + Seconds
-				+ " second/s.";
-		return String;
-	}
+	$(document)
+			.ready(
+					function() {
+						// 		selectRightPanelVal();
+						$("#rightpanel").trigger("updatelayout");
+						$(".liLocationLV")
+								.each(
+										function() {
+											$(this)
+													.bind(
+															'onclick',
+															function(e) {
+																alert('Selected Name='
+																		+ $(
+																				this)
+																				.attr(
+																						'value'));
+															});
+										});
+						$("#menuPanel")
+								.on(
+										"panelbeforeopen",
+										function(event, ui) {
+											selectThisLocationType(null);
+											$(this)
+													.css(
+															"top",
+															parseInt($(
+																	".jqm-header")
+																	.height())
+																	+ parseInt($(
+																			"#locPathModeRadiobtn")
+																			.height())
+																	+ 3);
+											$("#markerName").focus();
+										});
+					});
 	function showHideSettingsMenu() {
 		$("#openLocationEditMenu").trigger("click");
 
@@ -150,13 +149,27 @@
 		id="closeLocationEditMenu">Close Settings</a>
 </div>
 
+
+<!-- MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP  -->
+
+
 <div id="map_canvas"></div>
+
+
+<!-- LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING  -->
+
+
 <div id="loadingOverlay">
 	<div class="markerLoading" style="display: none;"></div>
 	<span id="loadingContent" style="display: none;"></span>
 </div>
 
-<!-- EDIT ICON POPUP -->
+
+
+<!-- EDIT ICON POPUP EDIT ICON POPUP EDIT ICON POPUP EDIT ICON POPUP EDIT ICON POPUP EDIT ICON POPUP EDIT ICON POPUP -->
+
+
+
 <div data-role="popup" id="editIconPopup" data-position-to="window"
 	data-transition="turn" style="width: 100%; padding: 7px 7px 7px 7px;">
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
@@ -180,37 +193,32 @@
 </div>
 
 
+<!-- EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP  -->
 
-<div data-role="popup" id="editBoundaryPopup" data-position-to="window"
-	data-transition="turn" style="width: 100%; padding: 7px 7px 7px 7px;">
-	<a href="#" data-role="button" data-theme="a" data-icon="delete"
-		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
-		onclick="$('#editBoundaryPopup').popup('close'); ">Close</a>
-	<h1 class="pathMenu">Boundary</h1>
-	<div class="ui-grid-solo">
-		<span class="pathMenu">Boundary Edit Controls</span>
-		<button class="pathMenu" id="hand-button"
-			onclick="removeDrawingMode()">Free Select Mode</button>
-		<button class="pathMenu" id="drawing-button"
-			onclick="setDrawingMode()">Select Drawing Mode</button>
-		<button class="pathMenu" id="delete-button">Delete Selected
-			Boundary</button>
+
+<div id="editBoundaryPopup" class="ui-grid-a">
+	<div class="ui-block-a " style="width: inherit; padding: 2px;">
+		<img alt="" src="images/icons/maps.png" width="48" height="48" />
 	</div>
-	    
-	<div class="ui-grid-solo">
-		<span>Boundary Styling</span>
-		<div id="panelColour">
-			<span>Select A Colour</span>
-			<div id="color-palette"></div>
-		</div>
-	</div>
-	    
-	<div class="ui-grid-solo">
+	<div class="ui-block-b">
+		<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
+			height="48" title="Free Select Mode" onclick="removeDrawingMode()"><img
+			src='images/icons/polygon-select.png' width="48" height="48"
+			class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
+		<img src='images/icons/delete-icon.png' width="48" height="48"
+			class="pathMenu" title="Delete Boundary" onclick="setDrawingMode()" />
+		<span title="Drawing Mode">Select A Colour</span>
+		<div id="color-palette"></div>
 		<!-- 		 For later work	<span>Boundary Edit Points</span> -->
 	</div>
 </div>
 
-<!-- INSERT PATH POPUP -->
+
+
+<!-- INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP -->
+
+
+
 <div data-role="popup" id="insertAPath" data-position-to="window"
 	data-transition="turn"
 	style="background-color: #000000; width: 333px; padding: 7px 7px 7px 7px;">

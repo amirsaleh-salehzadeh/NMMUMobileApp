@@ -228,7 +228,7 @@ public class LocationServicesWS {
 			MediaType.APPLICATION_FORM_URLENCODED })
 	public String saveUpdateLocation(@FormParam("icon") String icon,
 			@FormParam("locationId") long locationId,
-			@FormParam("locationTypeId") int locationTypeId,
+			@FormParam("locationTypeId") String locationTypeId,
 			@FormParam("locationName") String locationName,
 			@FormParam("userName") String userName,
 			@FormParam("address") String address,
@@ -237,7 +237,7 @@ public class LocationServicesWS {
 			@FormParam("boundary") String boundary,
 			@FormParam("plan") String plan, @FormParam("parentId") long parentId) {
 		LocationENT ent = new LocationENT(locationId, userName,
-				new LocationTypeENT(locationTypeId), address, coordinate,
+				new LocationTypeENT(Integer.parseInt(locationTypeId)), address, coordinate,
 				locationName);
 		ent.setParentId(parentId);
 		ent.setDescription(description);
