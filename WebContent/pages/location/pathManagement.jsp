@@ -11,6 +11,7 @@
 			.ready(
 					function() {
 						// 		selectRightPanelVal();
+						$("#editBoundaryPopup").css("display", "none");
 						$("#rightpanel").trigger("updatelayout");
 						$(".liLocationLV")
 								.each(
@@ -26,7 +27,7 @@
 																						'value'));
 															});
 										});
-						$("#menuPanel")
+						$("#locationEditPanel")
 								.on(
 										"panelbeforeopen",
 										function(event, ui) {
@@ -40,13 +41,20 @@
 																	+ parseInt($(
 																			"#locPathModeRadiobtn")
 																			.height())
-																	+ 3);
+																	+ 7);
 											$("#markerName").focus();
 										});
 					});
 	function showHideSettingsMenu() {
 		$("#openLocationEditMenu").trigger("click");
 
+	}
+
+	function showHideMainBoundary() {
+		if ($("#editBoundaryPopup").css("display") == "none")
+			$("#editBoundaryPopup").css("display", "block");
+		else
+			$("#editBoundaryPopup").css("display", "none");
 	}
 </script>
 
@@ -69,8 +77,16 @@
 <input type="hidden" name="markerCoordinate" id="markerCoordinate">
 <input type="hidden" name="markerId" id="markerId">
 <input type="hidden" id="pathLatLng">
-<!-- <div id="topToolBox" class="ui-block-solo"> -->
-<a href="#menuPanel" data-mini="true" data-role="button"
+
+
+<div class="ui-block-solo" id="mapSatelViewIcon"
+	style="width: inherit; padding: 3px; margin: 2px;"
+	onclick="mapSattelView();">
+	<img alt="" src="images/icons/satellite.png" width="32" height="32"
+		id="mapSatelViewImage" />
+</div>
+
+<a href="#locationEditPanel" data-mini="true" data-role="button"
 	class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
 	id="openLocationEditMenu"><img width='24' height='24'
 	src='images/icons/add.png'>NEW</a>
@@ -90,11 +106,17 @@
 	<ul data-role="listview" id="infoListView">
 	</ul>
 </div>
-<!-- </div> -->
-<div data-role="panel" id="menuPanel" data-position="right"
+
+
+
+<!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
+
+
+
+<div data-role="panel" id="locationEditPanel" data-position="right"
 	data-display="overlay"
 	class="ui-panel ui-panel-position-right ui-panel-display-overlay 
-	ui-panel-animate ui-panel-open"
+	ui-panel-animate ui-panel-open rightSidePanel"
 	data-dismissible="false" data-swipe-close="false">
 	<input type="hidden" name="icon" id="icon" value=""> <input
 		type="hidden" name="boundary" id="boundary" value="">
@@ -116,7 +138,7 @@
 			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
 	</div>
 	<div class="ui-block-solo editlocationFormRow"
-		onclick="$('#editBoundaryPopup').popup('open');">
+		onclick="showHideMainBoundary();">
 		<img src="images/icons/polygon.png" id="editBoundaryIcon" width="48"
 			height="48" style="cursor: pointer;" />Edit Boundary
 
@@ -138,6 +160,67 @@
 				Barcode</a>
 		</div>
 		<div class="ui-block-c">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="removeMarker()">Remove</a>
+		</div>
+	</div>
+
+	<a href="#" data-rel="close"
+		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline"
+		id="closeLocationEditMenu">Close Settings</a>
+</div>
+
+
+
+<!-- INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP -->
+
+
+
+<div data-role="panel" id="pathEditPanel" data-position="right"
+	data-display="overlay"
+	class="ui-panel ui-panel-position-right ui-panel-display-overlay 
+	ui-panel-animate ui-panel-open rightSidePanel"
+	data-dismissible="false" data-swipe-close="false">
+	
+	<div class="ui-block-solo">
+		<input type="text" placeholder="From" name="departure" id="departure"
+			value="">
+	</div>
+	<div class="ui-block-solo">
+		<input type="text" placeholder="To" name="destination"
+			id="destination" value="">
+	</div>
+	<div class="ui-field-contain">
+		    <label for="pathType">Path Type</label> <select name="pathType"
+			id="pathType">
+			<logic:iterate id="pathTIteration" name="pathTypes"
+				type="common.location.PathTypeENT">
+				<option value="<%=pathTIteration.getPathTypeId()%>"><%=pathTIteration.getPathType()%></option>
+			</logic:iterate>
+		</select>
+	</div>
+	<div class="ui-block-solo">
+		<a style="cursor: pointer;" data-role="button" href="#"
+			class="ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
+	</div>
+	
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="markerName" id="markerLabel">Label</label> <input
+			class="pathMenu" type="text" placeholder="Label" name="markerName"
+			id="markerName" value="">
+	</div>
+	<div class="ui-block-solo editlocationFormRow pathMenu">
+		<label for="locationDescription" id="DescriptionLabel">Description</label>
+		<textarea type="text" placeholder="Description"
+			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
+	</div>
+	<div class="ui-grid-a editlocationFormRow">
+		<div class="ui-block-a">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+		</div>
+		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow cancel-icon "
 				onclick="removeMarker()">Remove</a>
@@ -177,7 +260,7 @@
 		onclick="$('#editIconPopup').popup('close'); ">Close</a>
 	<div class="pathMenu" id="IconCollapsible">
 		<h1 class="pathMenu">Icon</h1>
-		<div class="ui-block-solo" id="IconDiv">
+		<div class="ui-block-solo" id="iconDiv">
 			<div id="modal" class="pathMenu">
 				<span>Upload file for icon</span> <input class="pathMenu"
 					type="file" id="upload" value="Choose Image" accept="image/*">
@@ -197,60 +280,24 @@
 
 
 <div id="editBoundaryPopup" class="ui-grid-a">
-	<div class="ui-block-a " style="width: inherit; padding: 2px;">
-		<img alt="" src="images/icons/maps.png" width="48" height="48" />
-	</div>
-	<div class="ui-block-b">
-		<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
-			height="48" title="Free Select Mode" onclick="removeDrawingMode()"><img
-			src='images/icons/polygon-select.png' width="48" height="48"
-			class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
-		<img src='images/icons/delete-icon.png' width="48" height="48"
-			class="pathMenu" title="Delete Boundary" onclick="setDrawingMode()" />
-		<span title="Drawing Mode">Select A Colour</span>
-		<div id="color-palette"></div>
-		<!-- 		 For later work	<span>Boundary Edit Points</span> -->
-	</div>
+	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
+		height="48" title="Free Select Mode" onclick="removeDrawingMode()"><img
+		src='images/icons/polygon-select.png' width="48" height="48"
+		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" /> <img
+		src='images/icons/delete-icon.png' width="48" height="48"
+		class="pathMenu" title="Delete Boundary" onclick="setDrawingMode()" />
+	<span id="selectBoundaryColor" title="Select A Colour" onclick="selectColor()"></span>
+	<div id="color-palette"></div>
+	<!-- 		 For later work	<span>Boundary Edit Points</span> -->
 </div>
 
 
-
-<!-- INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP -->
-
-
-
-<div data-role="popup" id="insertAPath" data-position-to="window"
-	data-transition="turn"
-	style="background-color: #000000; width: 333px; padding: 7px 7px 7px 7px;">
-	<a href="#" data-role="button" data-theme="a" data-icon="delete"
-		data-iconpos="notext" class="ui-btn-right"
-		onclick="$('#insertAPath').popup('close');">Close</a>
-	<div class="ui-block-solo">
-		<input type="text" placeholder="From" name="departure" id="departure"
-			value="">
-	</div>
-	<div class="ui-block-solo">
-		<input type="text" placeholder="To" name="destination"
-			id="destination" value="">
-	</div>
-	<div class="ui-field-contain">
-		    <label for="pathType">Path Type</label> <select name="pathType"
-			id="pathType">
-			<logic:iterate id="pathTIteration" name="pathTypes"
-				type="common.location.PathTypeENT">
-				<option value="<%=pathTIteration.getPathTypeId()%>"><%=pathTIteration.getPathType()%></option>
-			</logic:iterate>
-		</select>
-	</div>
-	<div class="ui-block-solo">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
-	</div>
-</div>
 
 <script src="js/croppie.js"></script>
 <script src="js/leanModal.min.js"></script>
 <script src="js/jquery.Jcrop.min.js"></script>
+<script type="text/javascript"
+	src="js/location/management/path.management.map.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.image.js"></script>
 <script type="text/javascript"

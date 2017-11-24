@@ -18,21 +18,23 @@ function drawPolygons(location) {
 		strokeColor : '#1E90FF',
 		strokeWeight : 2,
 		fillColor : '#1E90FF',
-		title : location.locationName + " " + location.locationType.locationType
+		title : location.locationName + " "
+				+ location.locationType.locationType
 	});
 	DRAWPolygon.setMap(map);
 	DRAWPolygon.id = location.locationID;
 	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
 		if (longpress) {
 			$("#parentLocationId").val(location.locationID);
-			$("#parentDescriptionToAdd").html(location.locationName + " Campus");
+			$("#parentDescriptionToAdd")
+					.html(location.locationName + " Campus");
 			getAllPaths();
-			getAllMarkers(location.locationID+"");
+			getAllMarkers(location.locationID + "");
 		} else {
 			addAMarker(location, location.gps);
 		}
 	});
-	
+
 	google.maps.event.addListener(DRAWPolygon, 'mousedown', function(event) {
 		start = new Date().getTime();
 	});
@@ -106,6 +108,7 @@ function deleteSelectedShape() {
 }
 
 function selectColor(color) {
+	return;
 	selectedColor = color;
 	for ( var i = 0; i < colors.length; ++i) {
 		var currColor = colors[i];
