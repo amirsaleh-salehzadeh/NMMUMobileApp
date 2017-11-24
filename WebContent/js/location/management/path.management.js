@@ -48,6 +48,7 @@ function selectActionType() {
 	} else {
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
+		$("#pathEditPanelBTN").trigger("click");
 		// map.setOptions({
 		// draggableCursor : "url('images/map-markers/road.png'), auto"
 		// });

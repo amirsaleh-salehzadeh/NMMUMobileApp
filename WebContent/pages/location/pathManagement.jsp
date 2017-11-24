@@ -27,7 +27,7 @@
 																						'value'));
 															});
 										});
-						$("#locationEditPanel")
+						$(".rightSidePanel")
 								.on(
 										"panelbeforeopen",
 										function(event, ui) {
@@ -90,6 +90,8 @@
 	class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
 	id="openLocationEditMenu"><img width='24' height='24'
 	src='images/icons/add.png'>NEW</a>
+<a href="#pathEditPanel" data-role="button" style="display: none;"
+	id="pathEditPanelBTN"></a>
 <!-- SEARCH FEILD RIGHT SIDE -->
 <fieldset data-role="controlgroup" data-mini="true"
 	data-type="horizontal" name="optionType" id="locPathModeRadiobtn">
@@ -148,26 +150,22 @@
 		<img src="images/icons/image.png" id="editIconIcon" width="48"
 			height="48" style="cursor: pointer;" />Edit Thumbnail
 	</div>
-	<div class="ui-grid-b editlocationFormRow">
+	<div class="ui-grid-a editlocationFormRow">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
 		</div>
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow save-icon "
-				onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
-				Barcode</a>
-		</div>
-		<div class="ui-block-c">
-			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow cancel-icon "
 				onclick="removeMarker()">Remove</a>
 		</div>
 	</div>
-
-	<a href="#" data-rel="close"
-		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline"
+	<a style="cursor: pointer;" data-role="button" href="#"
+		class="pathMenu ui-btn ui-shadow save-icon editlocationFormRow"
+		onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
+		Barcode</a> <a href="#" data-rel="close"
+		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow"
 		id="closeLocationEditMenu">Close Settings</a>
 </div>
 
@@ -182,7 +180,7 @@
 	class="ui-panel ui-panel-position-right ui-panel-display-overlay 
 	ui-panel-animate ui-panel-open rightSidePanel"
 	data-dismissible="false" data-swipe-close="false">
-	
+
 	<div class="ui-block-solo">
 		<input type="text" placeholder="From" name="departure" id="departure"
 			value="">
@@ -204,7 +202,7 @@
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
 	</div>
-	
+
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="markerName" id="markerLabel">Label</label> <input
 			class="pathMenu" type="text" placeholder="Label" name="markerName"
@@ -286,7 +284,8 @@
 		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" /> <img
 		src='images/icons/delete-icon.png' width="48" height="48"
 		class="pathMenu" title="Delete Boundary" onclick="setDrawingMode()" />
-	<span id="selectBoundaryColor" title="Select A Colour" onclick="selectColor()"></span>
+	<span id="selectBoundaryColor" title="Select A Colour"
+		onclick="selectColor()"></span>
 	<div id="color-palette"></div>
 	<!-- 		 For later work	<span>Boundary Edit Points</span> -->
 </div>
