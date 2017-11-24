@@ -17,10 +17,13 @@
 		});
 		$("#menuPanel").on("panelbeforeopen", function(event, ui) {
 			selectThisLocationType(null);
+			$(this).css("top",parseInt($(".jqm-header").height())
+					+ parseInt($("#locPathModeRadiobtn")
+							.height()) + 3);
 		});
-		$("#menuPanel").on("panelbeforeclose", function(event, ui) {
-			alert("c");
-		});
+		// 		$("#menuPanel").on("panelbeforeclose", function(event, ui) {
+		// 			alert("c");
+		// 		});
 	});
 	// DST 
 	//Distance in Metres
@@ -44,6 +47,7 @@
 	}
 	function showHideSettingsMenu() {
 		$("#openLocationEditMenu").trigger("click");
+
 	}
 </script>
 
@@ -70,7 +74,7 @@
 <a href="#menuPanel" data-mini="true" data-role="button"
 	class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
 	id="openLocationEditMenu"><img width='24' height='24'
-	src='images/icons/add.png' onclick="selectThisLocationType(null);">NEW</a>
+	src='images/icons/add.png'>NEW</a>
 <!-- SEARCH FEILD RIGHT SIDE -->
 <fieldset data-role="controlgroup" data-mini="true"
 	data-type="horizontal" name="optionType" id="locPathModeRadiobtn">

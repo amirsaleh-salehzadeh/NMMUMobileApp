@@ -158,7 +158,8 @@ function addAPathInnerConnection(event) {
 	else
 		$("#pathLatLng").val(lat + "," + lng);
 	updateConstantLine();
-	$("#locationTypeId").val(5);
+	$("#locationTypeId").val(5);////////////////////////////////this line is unnecessary
+	
 	var pathMarker = new google.maps.Marker({
 		position : {
 			lat : lat,

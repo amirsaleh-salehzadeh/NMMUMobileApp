@@ -67,7 +67,7 @@ function saveMarker() {
 			locationName : $("#markerName").val(),
 			parentId : $("#parentLocationId").val(),
 			coordinate : $("#markerCoordinate").val(),
-			locationType : $("#locationTypeId").val(),
+			locationTypeId : parseInt($("#locationTypeId").val()),
 			locationId : $("#markerId").val(),
 			description : $("#locationDescription").val(),
 			address : "",
@@ -99,6 +99,7 @@ function saveMarker() {
 
 var str = "";
 function getAllMarkers(parentId) {
+	
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllMarkers(null);
@@ -117,7 +118,8 @@ function getAllMarkers(parentId) {
 					getMarkerInfo(l);
 					getParentLocationTypeId(null,l.locationType.locationTypeId);
 					getLocationTypeDropDown(null);
-					selectThisLocationType(null);
+					$("#panelMenu").panel();
+					$("#panelMenu").panel( "close" );
 				}
 				addMarker(l);
 			});
@@ -234,6 +236,5 @@ function addAMarker(location, gps) {
 				.html("<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
 				.trigger("create");
 	}
-	selectThisLocationType(null);
 	showHideSettingsMenu();
 }

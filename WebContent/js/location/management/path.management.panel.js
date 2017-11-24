@@ -73,14 +73,16 @@ function getParentLocationTypeId(obj, id) {
 function getLocationTypeName(obj, id) {
 	if (obj == null)
 		obj = JSON.parse(getCookie('TripPathIdsCookie'));
-	$(obj).each(function(k, l) {
-		if (l.locationTypeId == id) {
-			$("#locationTypeLabel").html(l.locationType);
-			$("#modeSelection_locationText").html(l.locationType.toUpperCase()).trigger("create");
-			return;
-		} else
-			obj = l;
-	});
+	$(obj).each(
+			function(k, l) {
+				if (l.locationTypeId == id) {
+					$("#locationTypeLabel").html(l.locationType);
+					$("#modeSelection_locationText").html(
+							l.locationType.toUpperCase()).trigger("create");
+					return;
+				} else
+					obj = l;
+			});
 	if (obj.children != null)
 		getLocationTypeName(obj.children, id);
 	else
@@ -94,9 +96,10 @@ function selectThisLocationType(ltype) {
 			function() {
 				if ($(this).hasClass("locationTypeSelecIconSelected"))
 					$(this).removeClass("locationTypeSelecIconSelected");
-				if ($(this).attr("value") == $("#locationTypeId").val())
+				if ($(this).attr("value") == $("#locationTypeId").val()) {
 					$(this).addClass("locationTypeSelecIconSelected").trigger(
 							"create");
+				}
 			});
 	getLocationTypeName(null, $("#locationTypeId").val());
 }
