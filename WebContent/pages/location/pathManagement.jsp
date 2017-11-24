@@ -150,6 +150,13 @@
 		<img src="images/icons/image.png" id="editIconIcon" width="48"
 			height="48" style="cursor: pointer;" />Edit Thumbnail
 	</div>
+
+	<!-- 	<div class="ui-block-solo editlocationFormRow" -->
+	<!-- 		onclick="" id="calendarIcon"> -->
+	<!-- 		<img src="images/icons/calendar.png" id="editIconIcon" width="48" -->
+	<!-- 			height="48" style="cursor: pointer;" />Schedule Access  -->
+	<!-- 	</div> -->
+
 	<div class="ui-grid-a editlocationFormRow">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
@@ -181,16 +188,18 @@
 	ui-panel-animate ui-panel-open rightSidePanel"
 	data-dismissible="false" data-swipe-close="false">
 
-	<div class="ui-block-solo">
-		<input type="text" placeholder="From" name="departure" id="departure"
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="departure">From</label> <input type="text"
+			placeholder="From" class="pathMenu" name="departure" id="departure"
 			value="">
 	</div>
-	<div class="ui-block-solo">
-		<input type="text" placeholder="To" name="destination"
-			id="destination" value="">
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="destination">To</label> <input type="text"
+			placeholder="To" class="pathMenu" name="destination" id="destination"
+			value="">
 	</div>
-	<div class="ui-field-contain">
-		    <label for="pathType">Path Type</label> <select name="pathType"
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="pathType">Path Type</label> <select name="pathType"
 			id="pathType">
 			<logic:iterate id="pathTIteration" name="pathTypes"
 				type="common.location.PathTypeENT">
@@ -198,11 +207,6 @@
 			</logic:iterate>
 		</select>
 	</div>
-	<div class="ui-block-solo">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
-	</div>
-
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="markerName" id="markerLabel">Label</label> <input
 			class="pathMenu" type="text" placeholder="Label" name="markerName"
@@ -216,7 +220,7 @@
 	<div class="ui-grid-a editlocationFormRow">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
 		</div>
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
@@ -226,7 +230,7 @@
 	</div>
 
 	<a href="#" data-rel="close"
-		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline"
+		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow"
 		id="closeLocationEditMenu">Close Settings</a>
 </div>
 
