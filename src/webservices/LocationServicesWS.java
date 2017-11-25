@@ -262,30 +262,6 @@ public class LocationServicesWS {
 	}
 
 	@GET
-	@Path("/SavePath")
-	@Produces("application/json")
-	public String savePath(@QueryParam("fLocationId") long fLocationId,
-			@QueryParam("tLocationId") long tLocationId,
-			@QueryParam("pathRoute") String pathRoute,
-			@QueryParam("pathType") int pathType) {
-		PathENT ent = new PathENT(new LocationENT(fLocationId),
-				new LocationENT(tLocationId), new PathTypeENT(pathType));
-		ent.setPathRoute(pathRoute);
-		String json = "[]";
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			json = mapper.writeValueAsString(getLocationDAO().savePath(ent));
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return json;
-	}
-
-	@GET
 	@Path("/GetAPath")
 	@Produces("application/json")
 	public String getAPath(@QueryParam("pathId") long pathId) {

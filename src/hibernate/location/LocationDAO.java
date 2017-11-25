@@ -5,10 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -22,7 +20,6 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import com.mysql.jdbc.Statement;
 
 import common.DropDownENT;
-import common.location.CountryENT;
 import common.location.LocationENT;
 import common.location.LocationLightENT;
 import common.location.LocationLST;
@@ -31,6 +28,7 @@ import common.location.PathENT;
 import common.location.PathTypeENT;
 import graph.management.GraphGenerator;
 import hibernate.config.BaseHibernateDAO;
+import hibernate.route.PathDAO;
 import tools.AMSException;
 import tools.QRBarcodeGen;
 
@@ -491,101 +489,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public PathENT savePath(PathENT path) {
-		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-			path.setDestination(getLocationENT(new LocationENT(path
-					.getDestination().getLocationID()), conn));
-			path.setDeparture(getLocationENT(new LocationENT(path
-					.getDeparture().getLocationID()), conn));
-			String query = "";
-			query = "insert into paths (destination_location_id, departure_location_id, distance, path_type, path_route)"
-					+ " values (?, ?, ?, ?, ?)";
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setLong(1, path.getDestination().getLocationID());
-			ps.setLong(2, path.getDeparture().getLocationID());
-			double distance = calculateDistance(path.getDestination().getGps(),
-					path.getDeparture().getGps(), path.getPathRoute());
-			distance = reEvaluateDistance(distance, path.getPathType()
-					.getPathTypeId());
-			ps.setDouble(3, distance);
-			ps.setInt(4, path.getPathType().getPathTypeId());
-			ps.setString(5, path.getPathRoute());
-			ps.execute();
-			ps.close();
-			query = "select path_id from paths order by path_id desc limit 1";
-			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next())
-				path.setPathId(rs.getLong("path_id"));
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return path;
-	}
-
-	private double reEvaluateDistance(double distance, int pathTypeId) {
-		if (pathTypeId == 6)// stairways
-			distance += 2.00;
-		return distance;
-	}
-
-	private static double calculateDistanceBetweenTwoPoints(String gps,
-			String gps2) {
-		final int R = 6371;
-		double latDistance = Math
-				.toRadians(Double.parseDouble(gps2.split(",")[0])
-						- Double.parseDouble(gps.split(",")[0]));
-		double lonDistance = Math
-				.toRadians(Double.parseDouble(gps2.split(",")[1])
-						- Double.parseDouble(gps.split(",")[1]));
-		double a = Math.sin(latDistance / 2)
-				* Math.sin(latDistance / 2)
-				+ Math.cos(Math.toRadians(Double.parseDouble(gps.split(",")[0])))
-				* Math.cos(Math.toRadians(Double.parseDouble(gps2.split(",")[0])))
-				* Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		double outp = (double) Double.parseDouble(new DecimalFormat(".##")
-				.format(R * c * 1000));
-		return outp;
-	}
-
-	public static double calculateDistance(String departure,
-			String destination, String pathRoute) {
-		double outp = 0;
-		if (pathRoute != null && pathRoute.length() > 1) {
-			String[] points = pathRoute.split("_");
-			if (points.length > 1) {
-				for (int i = 0; i < points.length; i++) {
-					if (i == 0)
-						outp += calculateDistanceBetweenTwoPoints(departure,
-								points[i]);
-					else
-						outp += calculateDistanceBetweenTwoPoints(
-								points[i - 1], points[i]);
-				}
-				outp += calculateDistanceBetweenTwoPoints(destination,
-						points[points.length - 1]);
-			} else {
-				outp += calculateDistanceBetweenTwoPoints(departure, pathRoute);
-				outp += calculateDistanceBetweenTwoPoints(pathRoute,
-						destination);
-			}
-		} else {
-			outp = calculateDistanceBetweenTwoPoints(destination, departure);
-		}
-		outp = (double) Double.parseDouble(new DecimalFormat(".##")
-				.format(outp));
-		return outp;
-	}
-
 	public LocationENT findClosestLocation(String GPSCoordinates,
 			String locationTypeIds, String parentIds, String clientName) {
 		LocationDAO dao = new LocationDAO();
@@ -598,7 +501,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		int closest = -1;
 		double[] distances = new double[points.size()];
 		for (int i = 0; i < points.size(); i++) {
-			distances[i] = calculateDistanceBetweenTwoPoints(points.get(i)
+			distances[i] = PathDAO.calculateDistanceBetweenTwoPoints(points.get(i)
 					.getGps(), GPSCoordinates);
 			if (closest == -1 || distances[i] < distances[closest]) {
 				closest = i;

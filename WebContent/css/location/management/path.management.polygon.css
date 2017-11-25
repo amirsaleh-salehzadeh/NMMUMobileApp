@@ -1,4 +1,4 @@
-#editBoundaryPopup {
+.toolBar {
 	min-width: 100%;
 	background-color: rgba(8, 27, 44, .7) !important;
 	right: 0;
@@ -6,7 +6,7 @@
 	margin: 0 !important;
 }
 
-#editBoundaryPopup>img {
+.toolBar>img {
 	background-color: rgba(8, 27, 44, 1) !important;
 	max-width: 32px;
 	max-height: 32px;

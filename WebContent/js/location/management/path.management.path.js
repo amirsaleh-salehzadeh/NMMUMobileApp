@@ -1,8 +1,9 @@
 function getAllPaths() {
-	for ( var i = 0; i < paths.length; i++) {
+	if (paths != null)
+		for ( var i = 0; i < paths.length; i++) {
 			paths[i].setMap(null);
-	}
-	var url = "REST/GetRouteWS/GetRoutesForUserAndParent?userName=NMMU&parentId="
+		}
+	var url = "REST/GetPathWS/GetRoutesForUserAndParent?userName=NMMU&parentId="
 			+ $("#parentLocationId").val();
 	$.ajax({
 		url : url,
@@ -12,12 +13,8 @@ function getAllPaths() {
 			ShowLoadingScreen("Fetching paths");
 		},
 		success : function(data) {
-			if (paths != null)
-				for ( var i = 0; i < paths.length; i++) {
-					paths[i].setMap(null);
-				}
 			$.each(data, function(k, l) {
-				addAPathToMap(l);
+				drawApath(l);
 			});
 		},
 		complete : function() {
@@ -31,7 +28,29 @@ function getAllPaths() {
 	});
 }
 
-function addAPathToMap(l) {
+function setPathTypeButtonIcon() {
+	
+	$(".pathTypeIcon").each(function(){
+		var pathTypeId = $(this).attr("alt");
+		if(pathTypeId = "1")
+			$(this).attr("src","images/icons/pathType/grass.png");
+		if (pathTypeId == "1"){
+			$(this).attr("src","images/icons/pathType/normalSpeed.png");
+		}else if (pathTypeId == "2"){
+			$(this).attr("src","images/icons/pathType/wheelchair.png");
+		}else if (pathTypeId == "3")
+			$(this).attr("src","images/icons/pathType/cursor-pointer.png");
+		else if (pathTypeId == "4")
+			$(this).attr("src","images/icons/pathType/cursor-pointer.png");
+		else if (pathTypeId == "5")
+			$(this).attr("src","images/icons/pathType/cursor-pointer.png");
+		else (pathTypeId == "6"){
+			$(this).attr("src","images/icons/pathType/cursor-pointer.png");
+		}
+	});
+}
+
+function drawApath(l) {
 	var pathCoor = [];
 	pathCoor.push(new google.maps.LatLng(
 			parseFloat(l.departure.gps.split(',')[0]),
@@ -51,18 +70,20 @@ function addAPathToMap(l) {
 	pathCoor.push(new google.maps.LatLng(parseFloat(l.destination.gps
 			.split(',')[0]), parseFloat(l.destination.gps.split(',')[1])));
 	var color = '#FF0000';
-	if (l.pathType.pathTypeId == "1")
+	if (l.pathType.pathTypeId == "1"){
 		color = '#ffb400';
-	if (l.pathType.pathTypeId == "2")
+	}else if (l.pathType.pathTypeId == "2"){
 		color = '#0ec605';
-	if (l.pathType.pathTypeId == "3")
+	}else if (l.pathType.pathTypeId == "3")
 		color = '#3359fc';
-	if (l.pathType.pathTypeId == "4")
+	else if (l.pathType.pathTypeId == "4")
 		color = '#000000';
-	if (l.pathType.pathTypeId == "5")
+	else if (l.pathType.pathTypeId == "5")
 		color = '#ffffff';
-	if (l.pathType.pathTypeId == "6")
+	else (l.pathType.pathTypeId == "6"){
 		color = '#fc33f0';
+	}
+	var pathWidthStroke = Math.round(parseFloat(l.width)*parseFloat($("#pathWidth").val()));
 	var pathPolyline = new google.maps.Polyline({
 		path : pathCoor,
 		geodesic : true,
@@ -87,7 +108,7 @@ function saveThePath() {
 
 // SAVE A PATH BETWEEN TWO POINTS
 function saveAPath() {
-	var url = "REST/GetLocationWS/SavePath?fLocationId="
+	var url = "REST/GetPathWS/SavePath?fLocationId="
 			+ $("#departureId").val() + "&tLocationId="
 			+ $("#destinationId").val() + "&pathType=" + $("#pathType").val()
 			+ "&pathRoute=" + $("#pathLatLng").val();
@@ -99,7 +120,7 @@ function saveAPath() {
 			ShowLoadingScreen("Saving the path");
 		},
 		success : function(data) {
-			addAPathToMap(data);
+			drawApath(data);
 			$("#departureId").val($("#destinationId").val());
 		},
 		complete : function() {
@@ -159,7 +180,7 @@ function addAPathInnerConnection(event) {
 		$("#pathLatLng").val(lat + "," + lng);
 	updateConstantLine();
 	$("#locationTypeId").val(5);////////////////////////////////this line is unnecessary
-	
+
 	var pathMarker = new google.maps.Marker({
 		position : {
 			lat : lat,
@@ -180,37 +201,59 @@ $(document).keyup(function(e) {
 });
 
 var movingLine, pathPolylineConstant, lastOne;
+var pathWidthScale = 0;
 function updateMovingLine(event) {
 	var pointPath = event.latLng;
+	pathDrawingCircle.setCenter(pointPath);
 	var tmpPathCoor = [];
 	tmpPathCoor.push(pointPath);
 	tmpPathCoor.push(lastOne);
-	var lineSymbol = {
-		path : 'M 0,-1 0,1',
-		strokeOpacity : 1,
-		scale : 4
-	};
+	if (overlay.getProjection() != undefined) {
+		var point1 = overlay.getProjection().fromLatLngToDivPixel(
+				pathDrawingCircle.getBounds().getNorthEast());
+		var point2 = overlay.getProjection().fromLatLngToDivPixel(
+				pathDrawingCircle.getBounds().getCenter());
+		pathWidthScale = Math.round(Math.sqrt(Math.pow(point1.x - point2.x, 2)
+				+ Math.pow(point1.y - point2.y, 2))) * 2;
+	}
+	if (pathWidthScale <= 0)
+		pathWidthScale = 1;
+	if(pathWidthScale > 33)
+		pathWidthScale = 33;
+//	var lineSymbol = {
+//		path : 'M 0,-1 0,1',
+//		strokeOpacity : 1,
+//		strokeWeight: pathWidthScale
+//	};
+
 	if (movingLine == null) {
 		movingLine = new google.maps.Polyline({
 			path : tmpPathCoor,
-			icons : [ {
-				icon : lineSymbol,
-				offset : '0',
-				repeat : '20px'
-			} ],
-			strokeColor : 'blue',
-			strokeOpacity : 0,
+//			icons : [ {
+//				icon : lineSymbol,
+//				offset : '0',
+//				repeat : '20px'
+//			} ],
+			strokeColor : 'green',
+			strokeOpacity : .66,
+//			strokeWeight: pathWidthScale,
 			map : map
 		});
 		google.maps.event.addListener(movingLine, "click", function(event) {
 			addAPathInnerConnection(event);
 		});
+		google.maps.event.addListener(movingLine, "mousemove", function(event) {
+			updateMovingLine(event);
+		});
 		paths.push(movingLine);
 	} else
 		movingLine.setPath(tmpPathCoor);
-
+	movingLine.setOptions({
+		strokeWeight : pathWidthScale
+	});
 	movingLine.setMap(null);
 	movingLine.setMap(map);
+	$("#pathLength").html(movingLine.inKm());
 }
 
 var tmpPathCoor = [];
@@ -232,9 +275,9 @@ function updateConstantLine() {
 	if (pathPolylineConstant == null)
 		pathPolylineConstant = new google.maps.Polyline({
 			path : tmpPathCoor,
-			strokeColor : 'black',
-			strokeOpacity : 1.0,
-			strokeWeight : 2
+			strokeColor : 'grey',
+			strokeOpacity : .5,
+			strokeWeight : pathWidthScale
 		});
 	else
 		pathPolylineConstant.setPath(tmpPathCoor);
@@ -262,8 +305,10 @@ function cancelADrawnPath() {
 	$("#destinationId").val("");
 	$("#markerId").val("");
 	$("#pathLatLng").val("");
+	pathDrawingCircle.setMap(null);
 }
 
+var pathDrawingCircle, overlay;
 function addAPath(location, gps) {
 	gps = gps.replace(" ", "");
 	if (location == null) {
@@ -278,10 +323,31 @@ function addAPath(location, gps) {
 		google.maps.event.clearInstanceListeners(map);
 		// $("#pathLatLng").val(location.gps);
 		// updateConstantLine();
+		pathDrawingCircle = new google.maps.Circle({
+			strokeColor : '#00FF00',
+			strokeOpacity : 0.3,
+			strokeWeight : 2,
+			fillColor : '#00FF00',
+			fillOpacity : 0.35,
+			map : map,
+			radius : parseFloat($("#pathWidth").val()) / 2
+		});
+		overlay = new google.maps.OverlayView();
+		overlay.draw = function() {
+		};
+		overlay.setMap(map);
 		google.maps.event.addListener(map, "mousemove", function(event) {
 			updateMovingLine(event);
 		});
+		google.maps.event.addListener(pathDrawingCircle, "mousemove", function(
+				event) {
+			updateMovingLine(event);
+		});
 		google.maps.event.addListener(map, "click", function(event) {
+			addAPathInnerConnection(event);
+		});
+		google.maps.event.addListener(pathDrawingCircle, "click", function(
+				event) {
 			addAPathInnerConnection(event);
 		});
 		$("#pathLatLng").val(location.gps);
@@ -295,7 +361,8 @@ function addAPath(location, gps) {
 		$("#pathLatLng").val(
 				$("#pathLatLng").val().replace("_" + lastUnnecessaryMarkerGPS,
 						""));
+		pathDrawingCircle.setMap(null);
 		// $("#pathLatLng").val($("#pathLatLng").val() + "_" + location.gps);
-		openPathCreationPopup();
+//		openPathCreationPopup();
 	}
 }

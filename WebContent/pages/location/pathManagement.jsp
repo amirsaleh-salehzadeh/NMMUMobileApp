@@ -187,7 +187,16 @@
 	class="ui-panel ui-panel-position-right ui-panel-display-overlay 
 	ui-panel-animate ui-panel-open rightSidePanel"
 	data-dismissible="false" data-swipe-close="false">
-
+	<div class="ui-block-solo ui-grid-a editlocationFormRow"
+		style="white-space: nowrap;">
+		<label for="pathWidth">Path Width</label>
+		<div class="ui-block-a">
+			<input class="pathMenu" type="number" placeholder="Label"
+				name="pathWidth" id="pathWidth" value="5">
+		</div>
+		<div class="ui-block-b"
+			style="vertical-align: middle; margin: 10 auto !important;">(meters)</div>
+	</div>
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="departure">From</label> <input type="text"
 			placeholder="From" class="pathMenu" name="departure" id="departure"
@@ -199,23 +208,17 @@
 			value="">
 	</div>
 	<div class="ui-block-solo editlocationFormRow">
-		<label for="pathType">Path Type</label> <select name="pathType"
-			id="pathType">
-			<logic:iterate id="pathTIteration" name="pathTypes"
-				type="common.location.PathTypeENT">
-				<option value="<%=pathTIteration.getPathTypeId()%>"><%=pathTIteration.getPathType()%></option>
-			</logic:iterate>
-		</select>
+		<label for="pathType">Path Length</label> <span id="pathLength">223m</span>
 	</div>
 	<div class="ui-block-solo editlocationFormRow">
-		<label for="markerName" id="markerLabel">Label</label> <input
-			class="pathMenu" type="text" placeholder="Label" name="markerName"
-			id="markerName" value="">
+		<label for="pathName">Label</label> <input class="pathMenu"
+			type="text" placeholder="Label" name="pathName" id="pathName"
+			value="">
 	</div>
 	<div class="ui-block-solo editlocationFormRow pathMenu">
-		<label for="locationDescription" id="DescriptionLabel">Description</label>
-		<textarea type="text" placeholder="Description"
-			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
+		<label for="pathDescription" id="DescriptionLabel">Description</label>
+		<textarea type="text" placeholder="Description" name="pathDescription"
+			id="pathDescription" value="" rows="5"></textarea>
 	</div>
 	<div class="ui-grid-a editlocationFormRow">
 		<div class="ui-block-a">
@@ -235,13 +238,17 @@
 </div>
 
 
+
 <!-- MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP  -->
+
 
 
 <div id="map_canvas"></div>
 
 
+
 <!-- LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING  -->
+
 
 
 <div id="loadingOverlay">
@@ -278,10 +285,12 @@
 </div>
 
 
+
 <!-- EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP  -->
 
 
-<div id="editBoundaryPopup" class="ui-grid-a">
+
+<div id="editBoundaryPopup" class="ui-grid-a toolBar">
 	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
 		height="48" title="Free Select Mode" onclick="removeDrawingMode()"><img
 		src='images/icons/polygon-select.png' width="48" height="48"
@@ -296,11 +305,34 @@
 
 
 
+<!-- PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP vPATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP -->
+
+
+
+<div id="pathTypePopup" class="ui-grid-solo toolBar">
+	<!-- <div class="ui-block-solo editlocationFormRow"> -->
+	<!-- 		<label for="pathType" style="display: inline-block !important;">Path Type</label> -->
+	<logic:iterate id="pathTIteration" name="pathTypes"
+		type="common.location.PathTypeENT">
+		<img src='images/icons/cursor-pointer.png' class="pathMenu pathTypeIcon"
+			alt="<%=pathTIteration.getPathTypeId()%>" width="48" height="48"
+			title="<%=pathTIteration.getPathType()%>"
+			onclick="alert('<%=pathTIteration.getPathTypeId()%>')">
+		<%-- 				<option value="<%=pathTIteration.getPathTypeId()%>"><%=pathTIteration.getPathType()%></option> --%>
+	</logic:iterate>
+	<!-- 	</div> -->
+
+</div>
+
+
+
 <script src="js/croppie.js"></script>
 <script src="js/leanModal.min.js"></script>
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.map.js"></script>
+<script type="text/javascript"
+	src="js/location/management/path.management.path.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.image.js"></script>
 <script type="text/javascript"
@@ -310,11 +342,10 @@
 <script type="text/javascript"
 	src="js/location/management/path.management.marker.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.management.path.js"></script>
-<script type="text/javascript"
 	src="js/location/management/path.management.panel.js"></script>
 <script async defer
-	src="https
+	src="http
 	://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
 	type="text/javascript"></script>
+<script type="text/javascript" src="js/location/google.map.label.js"></script>
 </html>

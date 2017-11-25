@@ -4,8 +4,8 @@ import hibernate.client.ClientDAO;
 import hibernate.client.ClientDAOInterface;
 import hibernate.location.LocationDAO;
 import hibernate.location.LocationDAOInterface;
-import hibernate.route.RouteDAO;
-import hibernate.route.RouteDAOInterface;
+import hibernate.route.PathDAO;
+import hibernate.route.PathDAOInterface;
 import hibernate.security.SecurityDAO;
 import hibernate.security.SecurityDAOInterface;
 import hibernate.user.UserDAO;
@@ -17,7 +17,7 @@ public class NMMUMobileDAOManager {
 	static SecurityDAOInterface _securityDAOInterface ;
 	static ClientDAOInterface _clientDAOInterface ;
 	static LocationDAOInterface _locationDAOInterface ;
-	static RouteDAOInterface _routeDAOInterface ;
+	static PathDAOInterface _pathDAOInterface ;
 	
 	public static UserDAOInterface getUserDAOInterface(){
 		if (_userDAOInterface == null) {
@@ -47,11 +47,11 @@ public class NMMUMobileDAOManager {
 		return _locationDAOInterface; 
 	}
 	
-	public static RouteDAOInterface getRouteDAOInterface(){
-		if (_routeDAOInterface == null) {
-			_routeDAOInterface = new RouteDAO();
+	public static PathDAOInterface getPathDAOInterface(){
+		if (_pathDAOInterface == null) {
+			_pathDAOInterface = new PathDAO();
 		}
-		return _routeDAOInterface; 
+		return _pathDAOInterface; 
 	}
 	
 }
