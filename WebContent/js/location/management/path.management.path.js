@@ -51,7 +51,7 @@ function updatePathWeight() {
 				fillOpacity : 0,
 				center : map.getCenter(),
 				map : map,
-				radius : parseFloat(paths[i].customInfo) / 2
+				radius : parseFloat(paths[i].customInfo.split(";")[0]) / 2
 			});
 			var pathWidthScale = 1;
 			if (overlay.getProjection() != undefined) {
@@ -91,7 +91,7 @@ function setPathTypeButtonIcon() {
 		else if (pathTypeId == "6")
 			$(this).attr("src", "images/icons/pathType/wheelchair.png");
 		else if (pathTypeId == "7")
-			$(this).attr("src", "images/icons/pathType/cursor-pointer.png");
+			$(this).attr("src", "images/icons/pathType/escalator.png");
 		else if (pathTypeId == "8")
 			$(this).attr("src", "images/icons/pathType/bicycle.png");
 		else
@@ -165,7 +165,7 @@ function drawApath(l) {
 		strokeColor : color,
 		strokeOpacity : 1.0,
 		strokeWeight : pathWidthScale,
-		customInfo : l.width
+		customInfo : l.width + ";" + l.pathType
 	});
 	pathPolyline.id = l.pathId;
 	pathPolyline.addListener('click', function() {
@@ -254,8 +254,6 @@ function addAPathInnerConnection(event) {
 	else
 		$("#pathLatLng").val(lat + "," + lng);
 	updateConstantLine();
-	$("#locationTypeId").val(5);// //////////////////////////////this line is
-	// unnecessary
 
 	var pathMarker = new google.maps.Marker({
 		position : {
@@ -369,7 +367,8 @@ function cancelADrawnPath() {
 	$("#destinationId").val("");
 	$("#markerId").val("");
 	$("#pathLatLng").val("");
-	pathDrawingCircle.setMap(null);
+	if (pathDrawingCircle != null)
+		pathDrawingCircle.setMap(null);
 }
 
 function addAPath(location, gps) {
@@ -441,10 +440,13 @@ function selectAPath(path) {
 		selectIcon(pathTypes[int] + "");
 	}
 	$("#pathType").val(path.pathType);
+	$("#pathLength").html(path.distance);
 	$("#destination").val(path.destination.locationName);
 	$("#destinationId").val(path.destination.locationID);
 	$("#pathWidth").val(path.width);
 	$("#pathId").val(path.pathId);
+	$("#pathWidth").slider("refresh");
+	$("#pathWidth").trigger("create");
 	if (paths != null)
 		for ( var i = 0; i < paths.length; i++) {
 			if (paths[i].id == path.pathId) {
@@ -453,7 +455,7 @@ function selectAPath(path) {
 				});
 			} else {
 				paths[i].setOptions({
-					strokeColor : getPathPolyColor(path.pathType)
+					strokeColor : getPathPolyColor(paths[i].customInfo.split(";")[1])
 				});
 			}
 			paths[i].setMap(null);
@@ -462,17 +464,17 @@ function selectAPath(path) {
 }
 
 function selectIcon(id) {
-	$(".pathTypeIcon").each(function() {
-		$(this).removeClass("pathTypeIconSelected");
-		if ($(this).hasClass("pathTypeIconSelected")) {
+	$(".pathTypeIconSelected").each(function() {
+//		if ($(this).hasClass("pathTypeIconSelected")) {
 			$(this).removeClass("pathTypeIconSelected");
 			$(this).addClass("pathTypeIcon");
-		}
+//		}
+		$(this).trigger("create");
 	});
 	$(".pathTypeIcon").each(function() {
 		var pathTypeId = $(this).attr("alt");
-		if ($(this).hasClass("pathTypeIconSelected"))
-			$(this).removeClass("pathTypeIconSelected");
+//		if ($(this).hasClass("pathTypeIconSelected"))
+//			$(this).removeClass("pathTypeIconSelected");
 		if (pathTypeId == id) {
 			$(this).removeClass("pathTypeIcon");
 			$(this).addClass("pathTypeIconSelected");

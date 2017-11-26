@@ -188,15 +188,13 @@
 	class="ui-panel ui-panel-position-right ui-panel-display-overlay 
 	ui-panel-animate ui-panel-open rightSidePanel"
 	data-dismissible="false" data-swipe-close="false">
-	<div class="ui-block-solo ui-grid-a editlocationFormRow"
+	<div class="ui-block-solo editlocationFormRow "
 		style="white-space: nowrap;">
-		<label for="pathWidth">Path Width</label>
-		<div class="ui-block-a">
-			<input class="pathMenu" type="number" placeholder="Label"
-				name="pathWidth" id="pathWidth" value="5">
+		<label for="pathWidth">Path Width (Meters)</label>
+		<div class="ui-field-contain">
+			<input class="pathMenu" type="range" placeholder="Label"
+				name="pathWidth" id="pathWidth" value="5" min="0" max="10">
 		</div>
-		<div class="ui-block-b"
-			style="vertical-align: middle; margin: 10 auto !important;">(meters)</div>
 	</div>
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="departure">From</label> <input type="text"
