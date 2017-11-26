@@ -40,6 +40,7 @@ function selectActionType() {
 		map.setOptions({
 			draggableCursor : 'corsshair'
 		});
+		$("#openLocationEditMenu").attr("href","#locationEditPanel");
 		var gps = map.getCenter().toString();
 		gps = gps.replace("(","");
 		gps = gps.replace(")","");
@@ -49,6 +50,7 @@ function selectActionType() {
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
 		$("#pathEditPanelBTN").trigger("click");
+		$("#openLocationEditMenu").attr("href","#pathEditPanel");
 		// map.setOptions({
 		// draggableCursor : "url('images/map-markers/road.png'), auto"
 		// });

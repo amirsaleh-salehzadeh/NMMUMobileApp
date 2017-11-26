@@ -313,7 +313,7 @@
 	<!-- 		<label for="pathType" style="display: inline-block !important;">Path Type</label> -->
 	<logic:iterate id="pathTIteration" name="pathTypes"
 		type="common.location.PathTypeENT">
-		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
+		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon pathTypeIconSelected"
 			alt="<%=pathTIteration.getPathTypeId()%>" width="48" height="48"
 			title="<%=pathTIteration.getPathType()%>"
 			onclick="alert('<%=pathTIteration.getPathTypeId()%>')">

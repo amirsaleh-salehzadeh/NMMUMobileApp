@@ -481,4 +481,5 @@ function selectIcon(id) {
 		}
 		$(this).trigger("create");
 	});
+	$("#pathTypePopup").trigger("create");
 }
