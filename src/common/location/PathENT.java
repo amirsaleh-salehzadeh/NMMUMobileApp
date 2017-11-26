@@ -8,13 +8,28 @@ public class PathENT {
 	LocationLightENT depL;
 	LocationLightENT desL;
 	double distance;
-	ArrayList<PathTypeENT> pathType;
+	ArrayList<PathTypeENT> pathTypes;
+	String pathType;
 	long pathId;
 	String pathRoute;
 	double width;
 	String pathName;
 	String description;
 	
+
+	/**
+	 * @return the pathType
+	 */
+	public String getPathType() {
+		return pathType;
+	}
+
+	/**
+	 * @param pathType the pathType to set
+	 */
+	public void setPathType(String pathType) {
+		this.pathType = pathType;
+	}
 
 	/**
 	 * @return the pathRoute
@@ -36,15 +51,15 @@ public class PathENT {
 	/**
 	 * @return the pathType
 	 */
-	public ArrayList<PathTypeENT> getPathType() {
-		return pathType;
+	public ArrayList<PathTypeENT> getPathTypes() {
+		return pathTypes;
 	}
 
 	/**
 	 * @param pathType the pathType to set
 	 */
-	public void setPathType(ArrayList<PathTypeENT> pathType) {
-		this.pathType = pathType;
+	public void setPathTypes(ArrayList<PathTypeENT> pathTypes) {
+		this.pathTypes = pathTypes;
 	}
 
 	/**
@@ -95,8 +110,8 @@ public class PathENT {
 		this.departure = departure;
 		this.destination = destination;
 		this.distance = distance;
-		this.pathType = new ArrayList<PathTypeENT>();
-		this.pathType.add(pathType);
+		this.pathTypes = new ArrayList<PathTypeENT>();
+		this.pathTypes.add(pathType);
 	}
 
 	public PathENT(LocationENT departure, LocationENT destination,
@@ -105,8 +120,8 @@ public class PathENT {
 		this.departure = departure;
 		this.destination = destination;
 		this.distance = distance;
-		this.pathType = new ArrayList<PathTypeENT>();
-		this.pathType.add(pathType);
+		this.pathTypes = new ArrayList<PathTypeENT>();
+		this.pathTypes.add(pathType);
 		this.pathId = pathId;
 	}
 	
@@ -116,8 +131,8 @@ public class PathENT {
 		this.depL = departure;
 		this.desL = destination;
 		this.distance = distance;
-		this.pathType = new ArrayList<PathTypeENT>();
-		this.pathType.add(pathType);
+		this.pathTypes = new ArrayList<PathTypeENT>();
+		this.pathTypes.add(pathType);
 		this.pathId = pathId;
 	}
 
@@ -173,8 +188,8 @@ public class PathENT {
 		super();
 		this.departure = departure;
 		this.destination = destination;
-		this.pathType = new ArrayList<PathTypeENT>();
-		this.pathType.add(pathType);
+		this.pathTypes = new ArrayList<PathTypeENT>();
+		this.pathTypes.add(pathType);
 	}
 
 	public LocationENT getDeparture() {

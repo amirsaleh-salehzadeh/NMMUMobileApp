@@ -7,7 +7,7 @@
 }
 
 .toolBar>img {
-	background-color: rgba(8, 27, 44, 1) !important;
+	background-color: rgba(8, 27, 44, 1);
 	max-width: 32px;
 	max-height: 32px;
 	margin: 3px !important;

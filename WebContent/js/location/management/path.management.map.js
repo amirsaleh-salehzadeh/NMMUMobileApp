@@ -147,6 +147,7 @@ function animateCircle(line) {
 
 
 function initMap() {
+	setPathTypeButtonIcon();
 	getPathTypePanel();
 	getAllMarkers("360");
 	$("#parentLocationId").val("360");
