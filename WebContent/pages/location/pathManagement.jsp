@@ -27,7 +27,7 @@
 																						'value'));
 															});
 										});
-						$("#locationEditPanel")
+						$(".rightSidePanel")
 								.on(
 										"panelbeforeopen",
 										function(event, ui) {
@@ -61,11 +61,11 @@
 <link href="css/location/croppie.css" rel="stylesheet">
 <link href="css/location/management/path.management.css"
 	rel="stylesheet">
-<link href="css/location/management/path.management.toolbox.css"
-	rel="stylesheet">
 <link href="css/location/management/path.management.location.edit.css"
 	rel="stylesheet">
 <link href="css/location/management/path.management.polygon.css"
+	rel="stylesheet">
+<link href="css/location/management/path.management.toolbox.css"
 	rel="stylesheet">
 </head>
 <input type="hidden" id="parentLocationId" value="360">
@@ -74,6 +74,7 @@
 <input type='hidden' id='locationTypeDefinition' value='def'>
 <input type="hidden" name="destinationId" id="destinationId">
 <input type="hidden" name="departureId" id="departureId">
+<input type="hidden" name="pathId" id="pathId">
 <input type="hidden" name="markerCoordinate" id="markerCoordinate">
 <input type="hidden" name="markerId" id="markerId">
 <input type="hidden" id="pathLatLng">
@@ -90,6 +91,8 @@
 	class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
 	id="openLocationEditMenu"><img width='24' height='24'
 	src='images/icons/add.png'>NEW</a>
+<a href="#pathEditPanel" data-role="button" style="display: none;"
+	id="pathEditPanelBTN"></a>
 <!-- SEARCH FEILD RIGHT SIDE -->
 <fieldset data-role="controlgroup" data-mini="true"
 	data-type="horizontal" name="optionType" id="locPathModeRadiobtn">
@@ -148,26 +151,29 @@
 		<img src="images/icons/image.png" id="editIconIcon" width="48"
 			height="48" style="cursor: pointer;" />Edit Thumbnail
 	</div>
-	<div class="ui-grid-b editlocationFormRow">
+
+	<!-- 	<div class="ui-block-solo editlocationFormRow" -->
+	<!-- 		onclick="" id="calendarIcon"> -->
+	<!-- 		<img src="images/icons/calendar.png" id="editIconIcon" width="48" -->
+	<!-- 			height="48" style="cursor: pointer;" />Schedule Access  -->
+	<!-- 	</div> -->
+
+	<div class="ui-grid-a editlocationFormRow">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
 		</div>
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow save-icon "
-				onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
-				Barcode</a>
-		</div>
-		<div class="ui-block-c">
-			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow cancel-icon "
 				onclick="removeMarker()">Remove</a>
 		</div>
 	</div>
-
-	<a href="#" data-rel="close"
-		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline"
+	<a style="cursor: pointer;" data-role="button" href="#"
+		class="pathMenu ui-btn ui-shadow save-icon editlocationFormRow"
+		onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
+		Barcode</a> <a href="#" data-rel="close"
+		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow"
 		id="closeLocationEditMenu">Close Settings</a>
 </div>
 
@@ -182,43 +188,41 @@
 	class="ui-panel ui-panel-position-right ui-panel-display-overlay 
 	ui-panel-animate ui-panel-open rightSidePanel"
 	data-dismissible="false" data-swipe-close="false">
-	
-	<div class="ui-block-solo">
-		<input type="text" placeholder="From" name="departure" id="departure"
+	<div class="ui-block-solo editlocationFormRow "
+		style="white-space: nowrap;">
+		<label for="pathWidth">Path Width (Meters)</label>
+		<div class="ui-field-contain">
+			<input class="pathMenu" type="range" placeholder="Label"
+				name="pathWidth" id="pathWidth" value="5" min="0" max="10">
+		</div>
+	</div>
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="departure">From</label> <input type="text"
+			placeholder="From" class="pathMenu" name="departure" id="departure"
 			value="">
 	</div>
-	<div class="ui-block-solo">
-		<input type="text" placeholder="To" name="destination"
-			id="destination" value="">
-	</div>
-	<div class="ui-field-contain">
-		    <label for="pathType">Path Type</label> <select name="pathType"
-			id="pathType">
-			<logic:iterate id="pathTIteration" name="pathTypes"
-				type="common.location.PathTypeENT">
-				<option value="<%=pathTIteration.getPathTypeId()%>"><%=pathTIteration.getPathType()%></option>
-			</logic:iterate>
-		</select>
-	</div>
-	<div class="ui-block-solo">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
-	</div>
-	
 	<div class="ui-block-solo editlocationFormRow">
-		<label for="markerName" id="markerLabel">Label</label> <input
-			class="pathMenu" type="text" placeholder="Label" name="markerName"
-			id="markerName" value="">
+		<label for="destination">To</label> <input type="text"
+			placeholder="To" class="pathMenu" name="destination" id="destination"
+			value="">
+	</div>
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="pathType">Path Length</label> <span id="pathLength">223m</span>
+	</div>
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="pathName">Label</label> <input class="pathMenu"
+			type="text" placeholder="Label" name="pathName" id="pathName"
+			value="">
 	</div>
 	<div class="ui-block-solo editlocationFormRow pathMenu">
-		<label for="locationDescription" id="DescriptionLabel">Description</label>
-		<textarea type="text" placeholder="Description"
-			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
+		<label for="pathDescription" id="DescriptionLabel">Description</label>
+		<textarea type="text" placeholder="Description" name="pathDescription"
+			id="pathDescription" value="" rows="5"></textarea>
 	</div>
 	<div class="ui-grid-a editlocationFormRow">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
 		</div>
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
@@ -228,18 +232,22 @@
 	</div>
 
 	<a href="#" data-rel="close"
-		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline"
+		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow"
 		id="closeLocationEditMenu">Close Settings</a>
 </div>
+
 
 
 <!-- MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP  -->
 
 
+
 <div id="map_canvas"></div>
 
 
+
 <!-- LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING  -->
+
 
 
 <div id="loadingOverlay">
@@ -276,19 +284,52 @@
 </div>
 
 
+
 <!-- EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP EDIT BOUNDARY POPUP  -->
 
 
-<div id="editBoundaryPopup" class="ui-grid-a">
+
+<div id="editBoundaryPopup" class="ui-grid-a toolBar">
 	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
+<<<<<<< HEAD
 		height="48" title="Free Select Mode" onclick="removeDrawingMode()">
 	<img src='images/icons/polygon-select.png' width="48" height="48"
 		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
 	<img src='images/icons/delete-icon.png' width="48" height="48"
 		class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
 	<span id="selectBoundaryColor" title="Select A Colour" onclick="selectColor()"></span>
+=======
+		height="48" title="Free Select Mode" onclick="removeDrawingMode()"><img
+		src='images/icons/polygon-select.png' width="48" height="48"
+		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" /> <img
+		src='images/icons/delete-icon.png' width="48" height="48"
+		class="pathMenu" title="Delete Boundary" onclick="setDrawingMode()" />
+	<span id="selectBoundaryColor" title="Select A Colour"
+		onclick="selectColor()"></span>
+>>>>>>> Version-0.3.1
 	<div id="color-palette"></div>
 	<!-- 		 For later work	<span>Boundary Edit Points</span> -->
+</div>
+
+
+
+<!-- PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP vPATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP -->
+
+
+
+<div id="pathTypePopup" class="ui-grid-solo toolBar">
+	<!-- <div class="ui-block-solo editlocationFormRow"> -->
+	<!-- 		<label for="pathType" style="display: inline-block !important;">Path Type</label> -->
+	<logic:iterate id="pathTIteration" name="pathTypes"
+		type="common.location.PathTypeENT">
+		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
+			alt="<%=pathTIteration.getPathTypeId()%>" width="48" height="48"
+			title="<%=pathTIteration.getPathType()%>"
+			onclick="alert('<%=pathTIteration.getPathTypeId()%>')">
+		<%-- 				<option value="<%=pathTIteration.getPathTypeId()%>"><%=pathTIteration.getPathType()%></option> --%>
+	</logic:iterate>
+	<!-- 	</div> -->
+
 </div>
 
 
@@ -296,6 +337,8 @@
 <script src="js/croppie.js"></script>
 <script src="js/leanModal.min.js"></script>
 <script src="js/jquery.Jcrop.min.js"></script>
+<script type="text/javascript"
+	src="js/location/management/path.management.path.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.map.js"></script>
 <script type="text/javascript"
@@ -307,11 +350,9 @@
 <script type="text/javascript"
 	src="js/location/management/path.management.marker.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.management.path.js"></script>
-<script type="text/javascript"
 	src="js/location/management/path.management.panel.js"></script>
 <script async defer
-	src="https
-	://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
+	src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
 	type="text/javascript"></script>
+<script type="text/javascript" src="js/location/google.map.label.js"></script>
 </html>

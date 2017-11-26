@@ -1,5 +1,5 @@
 .editlocationFormRow {
-	-webkit-border-radius: .0 !important;
+	-webkit-border-radius: 3 !important;
 	border-radius: 3 !important;
 	color: rgb(248, 182, 36) !important;
 	background-color: rgba(8, 27, 44, 1) !important;
@@ -7,8 +7,8 @@
 	border: 1px solid !important;
 	border-color: rgb(248, 182, 36) !important;
 	font-weight: bold !important;
-	display: block;
-	margin-bottom: 3px;
+	margin: 0 !important;
+	margin-bottom: 3px !important;
 }
 
 .editlocationFormRow>label {

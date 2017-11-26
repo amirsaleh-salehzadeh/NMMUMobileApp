@@ -1,0 +1,4 @@
+ALTER TABLE `paths` ADD `width` DOUBLE NOT NULL DEFAULT '1' AFTER `path_route`;
+ALTER TABLE `paths` ADD `description` LONGTEXT NULL DEFAULT NULL AFTER `width`, ADD `path_name` TEXT NULL DEFAULT NULL AFTER `description`;
+CREATE TABLE `nmmumobile`.`path_path_type` ( `path_path_type_id` BIGINT(255) NOT NULL AUTO_INCREMENT , `path_id` BIGINT(255) NOT NULL , `path_type_id` INT(22) NOT NULL , PRIMARY KEY (`path_path_type_id`), INDEX `ptid` (`path_type_id`), INDEX `pid` (`path_id`)) ENGINE = InnoDB;
+ALTER TABLE `path_path_type` ADD CONSTRAINT `pid_pid` FOREIGN KEY (`path_id`) REFERENCES `nmmumobile`.`paths`(`path_id`) ON DELETE RESTRICT ON UPDATE RESTRICT; ALTER TABLE `path_path_type` ADD CONSTRAINT `ptype_ptype` FOREIGN KEY (`path_type_id`) REFERENCES `nmmumobile`.`path_type`(`path_type_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;

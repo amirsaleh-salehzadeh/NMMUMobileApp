@@ -1,15 +1,35 @@
 package common.location;
 
+import java.util.ArrayList;
+
 public class PathENT {
 	LocationENT departure;
 	LocationENT destination;
 	LocationLightENT depL;
 	LocationLightENT desL;
 	double distance;
-	PathTypeENT pathType;
+	ArrayList<PathTypeENT> pathTypes;
+	String pathType;
 	long pathId;
 	String pathRoute;
+	double width;
+	String pathName;
+	String description;
 	
+
+	/**
+	 * @return the pathType
+	 */
+	public String getPathType() {
+		return pathType;
+	}
+
+	/**
+	 * @param pathType the pathType to set
+	 */
+	public void setPathType(String pathType) {
+		this.pathType = pathType;
+	}
 
 	/**
 	 * @return the pathRoute
@@ -28,13 +48,70 @@ public class PathENT {
 	public PathENT() {
 	}
 
+	/**
+	 * @return the pathType
+	 */
+	public ArrayList<PathTypeENT> getPathTypes() {
+		return pathTypes;
+	}
+
+	/**
+	 * @param pathType the pathType to set
+	 */
+	public void setPathTypes(ArrayList<PathTypeENT> pathTypes) {
+		this.pathTypes = pathTypes;
+	}
+
+	/**
+	 * @return the width
+	 */
+	public double getWidth() {
+		return width;
+	}
+
+	/**
+	 * @param width the width to set
+	 */
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	/**
+	 * @return the pathName
+	 */
+	public String getPathName() {
+		return pathName;
+	}
+
+	/**
+	 * @param pathName the pathName to set
+	 */
+	public void setPathName(String pathName) {
+		this.pathName = pathName;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public PathENT(LocationENT departure, LocationENT destination,
 			double distance, PathTypeENT pathType) {
 		super();
 		this.departure = departure;
 		this.destination = destination;
 		this.distance = distance;
-		this.pathType = pathType;
+		this.pathTypes = new ArrayList<PathTypeENT>();
+		this.pathTypes.add(pathType);
 	}
 
 	public PathENT(LocationENT departure, LocationENT destination,
@@ -43,7 +120,8 @@ public class PathENT {
 		this.departure = departure;
 		this.destination = destination;
 		this.distance = distance;
-		this.pathType = pathType;
+		this.pathTypes = new ArrayList<PathTypeENT>();
+		this.pathTypes.add(pathType);
 		this.pathId = pathId;
 	}
 	
@@ -53,7 +131,8 @@ public class PathENT {
 		this.depL = departure;
 		this.desL = destination;
 		this.distance = distance;
-		this.pathType = pathType;
+		this.pathTypes = new ArrayList<PathTypeENT>();
+		this.pathTypes.add(pathType);
 		this.pathId = pathId;
 	}
 
@@ -109,7 +188,8 @@ public class PathENT {
 		super();
 		this.departure = departure;
 		this.destination = destination;
-		this.pathType = pathType;
+		this.pathTypes = new ArrayList<PathTypeENT>();
+		this.pathTypes.add(pathType);
 	}
 
 	public LocationENT getDeparture() {
@@ -134,14 +214,6 @@ public class PathENT {
 
 	public void setDistance(double distance) {
 		this.distance = distance;
-	}
-
-	public PathTypeENT getPathType() {
-		return pathType;
-	}
-
-	public void setPathType(PathTypeENT pathType) {
-		this.pathType = pathType;
 	}
 
 }

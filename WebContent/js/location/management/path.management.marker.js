@@ -54,7 +54,7 @@ function saveMarker() {
 		alert("Please select a name for the location");
 		return;
 	}
-//	$("#locationTypeId").val($("#locationType").val());
+	// $("#locationTypeId").val($("#locationType").val());
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$.ajax({
 		url : url,
@@ -113,16 +113,18 @@ function getAllMarkers(parentId) {
 		},
 		success : function(data) {
 			str = "";
-			$.each(data, function(k, l) {
-				if (k == 0) {
-					getMarkerInfo(l);
-					getParentLocationTypeId(null,l.locationType.locationTypeId);
-					getLocationTypeDropDown(null);
-					$("#panelMenu").panel();
-					$("#panelMenu").panel( "close" );
-				}
-				addMarker(l);
-			});
+			$.each(data,
+					function(k, l) {
+						if (k == 0) {
+							getMarkerInfo(l);
+							getParentLocationTypeId(null,
+									l.locationType.locationTypeId);
+							getLocationTypeDropDown(null);
+							$("#panelMenu").panel();
+							$("#panelMenu").panel("close");
+						}
+						addMarker(l);
+					});
 		},
 		complete : function() {
 			HideLoadingScreen();
@@ -143,8 +145,7 @@ function getMarkerInfo(location) {
 					+ location.parent.locationType.locationType + "</li>" + str;
 		} else
 			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
-					+ "\")'>" + location.parent.locationName + "</li>"
-					+ str;
+					+ "\")'>" + location.parent.locationName + "</li>" + str;
 		location = location.parent;
 	} while (location.parent != null);
 	$("#infoListView").html(str).trigger("create").listview("refresh");
@@ -217,7 +218,8 @@ function addAMarker(location, gps) {
 		$("#markerCoordinate").val(gps);
 		$("#locationDescription").val("");
 		$("#openLocationEditMenu")
-				.html("<img width='24' height='24' src='images/icons/add.png' class=''>NEW")
+				.html(
+						"<img width='24' height='24' src='images/icons/add.png' class=''>NEW")
 				.trigger("create");
 	} else {
 		$("#markerId").val(location.locationID);
@@ -234,7 +236,8 @@ function addAMarker(location, gps) {
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
 		$("#openLocationEditMenu")
-				.html("<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
+				.html(
+						"<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
 				.trigger("create");
 	}
 	showHideSettingsMenu();
