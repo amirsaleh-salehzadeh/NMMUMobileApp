@@ -26,7 +26,8 @@ function printBarcode(id, name) {
 function mapSattelView() {
 	if ($("#mapSatelViewImage").attr("src").indexOf("map") > 0) {
 		$("#mapSatelViewImage").attr("src", "images/icons/satellite.png");
-		map.setMapTypeId('map_style');
+//		map.setMapTypeId('map_style');
+		map.setMapTypeId('mystyle');
 	}else{
 		map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
 		$("#mapSatelViewImage").attr("src", "images/icons/maps.png");

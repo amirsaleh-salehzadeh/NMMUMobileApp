@@ -281,11 +281,11 @@
 
 <div id="editBoundaryPopup" class="ui-grid-a">
 	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
-		height="48" title="Free Select Mode" onclick="removeDrawingMode()"><img
-		src='images/icons/polygon-select.png' width="48" height="48"
-		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" /> <img
-		src='images/icons/delete-icon.png' width="48" height="48"
-		class="pathMenu" title="Delete Boundary" onclick="setDrawingMode()" />
+		height="48" title="Free Select Mode" onclick="removeDrawingMode()">
+	<img src='images/icons/polygon-select.png' width="48" height="48"
+		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
+	<img src='images/icons/delete-icon.png' width="48" height="48"
+		class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
 	<span id="selectBoundaryColor" title="Select A Colour" onclick="selectColor()"></span>
 	<div id="color-palette"></div>
 	<!-- 		 For later work	<span>Boundary Edit Points</span> -->

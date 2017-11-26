@@ -150,21 +150,23 @@ function initMap() {
 	getAllMarkers("360");
 	$("#parentLocationId").val("360");
 	var myLatLng = {
-		lat : -33.5343803,
-		lng : 24.2683424
+			lat : -33.5343803,
+			lng : 24.2683424
 	};
 
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		zoom : 7,
 		fullscreenControl : false,
 		streetViewControl : false,
-		mapTypeControl : false,
+		mapTypeControl: false,
 		scrollwheel : true,
 		gestureHandling : 'greedy'
+//        styles: myStyle
 	});
-	map.mapTypes.set('map_style', new google.maps.StyledMapType(myStyle, {
+	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
 		name : 'My Style'
 	}));
+	map.setMapTypeId('mystyle');
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
@@ -188,76 +190,6 @@ function initMap() {
 		draggableCursor : 'corsshair'
 	});
 
-	var polyOptions = {
-		strokeWeight : 0,
-		fillOpacity : 0.45,
-		editable : true,
-		draggable : false
-	};
-	// drawingManager = new google.maps.drawing.DrawingManager({
-	// drawingMode : google.maps.drawing.OverlayType.POLYGON,
-	// drawingControl : true,
-	// drawingControlOptions : {
-	// style : google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-	// position : google.maps.ControlPosition.TOP_CENTER,
-	// // drawingModes: ['marker', 'circle', 'polygon', 'polyline',
-	// // 'rectangle']
-	// drawingModes : [ 'polygon' ]
-	// },
-	// rectangleOptions : polyOptions,
-	// map : map
-	// });
-	//
-	// google.maps.event
-	// .addListener(
-	// drawingManager,
-	// 'overlaycomplete',
-	// function(e) {
-	// var newShape = e.overlay;
-	// $("#boundary").val(getPolygonCoords(newShape));
-	// newShape.type = e.type;
-	// if (e.type !== google.maps.drawing.OverlayType.MARKER) {
-	// drawingManager.setDrawingMode(null);
-	// google.maps.event
-	// .addListener(
-	// newShape,
-	// 'click',
-	// function(e) {
-	// if (e.vertex !== undefined) {
-	// if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
-	// var path = newShape
-	// .getPaths()
-	// .getAt(e.path);
-	// path.removeAt(e.vertex);
-	// if (path.length < 3) {
-	// newShape
-	// .setMap(null);
-	// }
-	// }
-	// }
-	// setSelection(newShape);
-	// showArrays(newShape, e.latLng);
-	// });
-	// setSelection(newShape);
-	// } else {
-	// google.maps.event.addListener(newShape, 'click',
-	// function(e) {
-	// setSelection(newShape);
-	// });
-	// setSelection(newShape);
-	// }
-	// });
-
-	// Clear the current selection when the drawing mode is changed, or when the
-	// map is clicked.
-	// google.maps.event.addListener(drawingManager, 'drawingmode_changed',
-	// clearSelection);
-	// google.maps.event.addListener(map, 'click', clearSelection);
-	// google.maps.event.addDomListener(document.getElementById('delete-button'),
-	// 'click', deleteSelectedShape);
-	// Disables drawing mode on startup so you have to click on toolbar first to
-	// draw shapes and create the colour palette
-	// drawingManager.setDrawingMode(null);
-	buildColorPalette();
+	createDrawingManager();
 	getAllLocationTypes();
 }
