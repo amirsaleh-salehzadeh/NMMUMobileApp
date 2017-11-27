@@ -178,6 +178,7 @@ function drawApath(l) {
 function saveThePath() {
 	if ($("#pathTypeIds").val().length <= 0) {
 		alert("Select Path Type");
+		return;
 	}
 	$('#insertAPath').popup('close');
 	saveAPath();
@@ -192,7 +193,6 @@ function saveAPath() {
 			+ "&width=" + $("#pathWidth").val() + "&pathName="
 			+ $("#pathName").val() + "&description="
 			+ $("#pathDescription").val() + "&pathId=" + $("#pathId").val();
-
 	$.ajax({
 		url : url,
 		cache : false,
