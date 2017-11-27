@@ -47,7 +47,6 @@ function updatePathWeight() {
 				strokeColor : '#00FF00',
 				strokeOpacity : 0.3,
 				strokeWeight : 1,
-				fillColor : '#00FF00',
 				fillOpacity : 0,
 				center : map.getCenter(),
 				map : map,
@@ -135,7 +134,7 @@ function drawApath(l) {
 	}
 	pathCoor.push(new google.maps.LatLng(parseFloat(l.destination.gps
 			.split(',')[0]), parseFloat(l.destination.gps.split(',')[1])));
-	var color = getPathPolyColor(l.pathType);
+	// var color = getPathPolyColor(l.pathType);
 	var tmpCircle = new google.maps.Circle({
 		strokeColor : '#00FF00',
 		strokeOpacity : 0.3,
@@ -162,8 +161,8 @@ function drawApath(l) {
 	var pathPolyline = new google.maps.Polyline({
 		path : pathCoor,
 		geodesic : true,
-		strokeColor : color,
-		strokeOpacity : 1.0,
+		strokeColor : '#081B2C',
+		strokeOpacity : 0.6,
 		strokeWeight : pathWidthScale,
 		customInfo : l.width + ";" + l.pathType
 	});
@@ -177,6 +176,9 @@ function drawApath(l) {
 
 // SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH INCLUDES MANY POINTS
 function saveThePath() {
+	if ($("#pathTypeIds").val().length <= 0) {
+		alert("Select Path Type");
+	}
 	$('#insertAPath').popup('close');
 	saveAPath();
 	cancelADrawnPath();
@@ -189,8 +191,7 @@ function saveAPath() {
 			+ $("#pathTypeIds").val() + "&pathRoute=" + $("#pathLatLng").val()
 			+ "&width=" + $("#pathWidth").val() + "&pathName="
 			+ $("#pathName").val() + "&description="
-			+ $("#pathDescription").val()+ "&pathId="
-			+ $("#pathId").val();
+			+ $("#pathDescription").val() + "&pathId=" + $("#pathId").val();
 
 	$.ajax({
 		url : url,
@@ -231,14 +232,14 @@ function removePath() {
 					return;
 				}
 				for ( var i = 0; i < paths.length; i++) {
-					if (paths[i].id == $("#pathId").val()){
+					if (paths[i].id == $("#pathId").val()) {
 						paths[i].setMap(null);
 						var i = pathTypeIds.indexOf($("#pathId").val());
 						if (i != -1) {
 							pathTypeIds.splice(i, 1);
 						}
 					}
-					
+
 				}
 			},
 			complete : function() {
@@ -265,16 +266,17 @@ function addAPathInnerConnection(event) {
 		$("#pathLatLng").val(lat + "," + lng);
 	updateConstantLine();
 
-	var pathMarker = new google.maps.Marker({
-		position : {
-			lat : lat,
-			lng : lng
-		},
-		map : map
-	});
+	// var pathMarker = new google.maps.Marker({
+	// position : {
+	// lat : lat,
+	// lng : lng
+	// },
+	// map : map
+	// });
 	var bounds = new google.maps.LatLngBounds();
 	bounds.extend(marker.getPosition());
-	pathMarkers.push(pathMarker);
+	// pathMarkers.push(pathMarker);
+	mapDrawingClickCounter++;
 }
 
 $(document).keyup(function(e) {
@@ -304,7 +306,7 @@ function updateMovingLine(event) {
 	if (movingLine == null) {
 		movingLine = new google.maps.Polyline({
 			path : tmpPathCoor,
-			strokeColor : 'green',
+			strokeColor : '#081B2C',
 			strokeOpacity : .66,
 			map : map
 		});
@@ -324,21 +326,20 @@ function updateMovingLine(event) {
 	movingLine.setMap(map);
 	pathDrawingCircle.setMap(null);
 	pathDrawingCircle.setMap(map);
-	$("#pathLength").html(movingLine.inKm());
+	$("#pathLength").html(getTheLength(movingLine.inKm()));
 }
 
 var tmpPathCoor = [];
 function updateConstantLine() {
 	tmpPathCoor = [];
 	var nextDestGPS = $("#pathLatLng").val().split("_");
-	if ($("#pathLatLng").val() == "")
-		nextDestGPS = $("#markerCoordinate").val();
 	polylineConstantLength = 0;
-	tmpPathCoor.push(getGoogleMapPosition($("#markerCoordinate").val()));
 	for ( var i = 0; i < nextDestGPS.length; i++) {
 		tmpPathCoor.push(getGoogleMapPosition(nextDestGPS[i]));
 		lastOne = getGoogleMapPosition(nextDestGPS[i]);
 	}
+	if ($("#destinationGPS").val().length > 0)
+		tmpPathCoor.push(getGoogleMapPosition($("#destinationGPS").val()));
 	if (nextDestGPS.length <= 1)
 		return;
 	if (pathPolylineConstant != undefined)
@@ -374,12 +375,14 @@ function cancelADrawnPath() {
 	$("#departureId").val("");
 	$("#destination").val("");
 	$("#destinationId").val("");
+	$("#destinationGPS").val("");
 	$("#markerId").val("");
 	$("#pathLatLng").val("");
 	if (pathDrawingCircle != null)
 		pathDrawingCircle.setMap(null);
 }
 
+var mapDrawingClickCounter;
 function addAPath(location, gps) {
 	gps = gps.replace(" ", "");
 	if (location == null) {
@@ -387,9 +390,11 @@ function addAPath(location, gps) {
 		return;
 	}
 	if ($("#departure").val() == "") {
+		mapDrawingClickCounter = 1;
 		$("#departure").val(location.locationName);
 		$("#departureId").val(location.locationID);
 		$("#markerCoordinate").val(location.gps);
+		$("#pathLatLng").val($("#markerCoordinate").val());
 		lastOne = getGoogleMapPosition(location.gps);
 		google.maps.event.clearInstanceListeners(map);
 		pathDrawingCircle = new google.maps.Circle({
@@ -422,15 +427,24 @@ function addAPath(location, gps) {
 		$("#pathLatLng").val(location.gps);
 		return;
 	} else if ($("#destinationId").val() == "") {
+		var oldPathLatLng = $("#pathLatLng").val();
 		$("#destination").val(location.locationName);
 		$("#destinationId").val(location.locationID);
 		google.maps.event.clearInstanceListeners(map);
-		var lastUnnecessaryMarkerGPS = $("#pathLatLng").val().split("_")[$(
-				"#pathLatLng").val().split("_").length];
-		$("#pathLatLng").val(
-				$("#pathLatLng").val().replace("_" + lastUnnecessaryMarkerGPS,
-						""));
+		// var pltlng = oldPathLatLng.split("_");
+		// var lastUnnecessaryMarkerGPS = pltlng[pltlng.length];
+		// if (pltlng.length > mapDrawingClickCounter)
+		// $("#pathLatLng").val(
+		// oldPathLatLng.replace(
+		// "_" + lastUnnecessaryMarkerGPS, ""));
+		$("#destinationGPS").val(location.gps);
 		pathDrawingCircle.setMap(null);
+		google.maps.event.clearInstanceListeners(map);
+		if (movingLine != undefined) {
+			movingLine.setMap(null);
+			movingLine = undefined;
+		}
+		updateConstantLine();
 	}
 }
 var pathTypeIds = [];
@@ -454,7 +468,7 @@ function selectAPath(path) {
 		selectIcon(ptids[int] + "");
 	}
 	$("#pathTypeIds").val(path.pathType);
-	$("#pathLength").html(path.distance);
+	$("#pathLength").html(getTheLength(path.distance));
 	$("#destination").val(path.destination.locationName);
 	$("#destinationId").val(path.destination.locationID);
 	$("#pathWidth").val(path.width);
@@ -469,8 +483,7 @@ function selectAPath(path) {
 				});
 			} else {
 				paths[i].setOptions({
-					strokeColor : getPathPolyColor(paths[i].customInfo
-							.split(";")[1])
+					strokeColor : '#081B2C'
 				});
 			}
 			paths[i].setMap(null);
@@ -498,4 +511,15 @@ function selectIcon(id) {
 	});
 	$("#pathTypePopup").trigger("create");
 	$("#pathTypeIds").val(pathTypeIds.join(","));
+}
+
+function getTheLength(distance) {
+	var Kilometres = Math.floor(distance / 1000);
+	var Metres = Math.round(distance - (Kilometres * 1000));
+	var res = "";
+	if (Kilometres != 0)
+		res = Kilometres + "." + Metres + " (Km) ";
+	else
+		res = Metres + " (m) ";
+	return res;
 }

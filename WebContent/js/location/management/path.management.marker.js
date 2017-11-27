@@ -157,7 +157,9 @@ function addMarker(l) {
 	}
 	marker = new google.maps.Marker({
 		map : map,
-		icon : refreshMap(l.locationType.locationTypeId, l.gps),
+		icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
+		hovericon : refreshMap(l.locationType.locationTypeId, l.gps, "hover"),
+		originalicon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
 		animation : google.maps.Animation.DROP,
 		draggable : true,
 		labelContent : l.locationName + " " + l.locationType.locationType,
@@ -167,6 +169,12 @@ function addMarker(l) {
 			opacity : 1.0
 		},
 		title : l.locationName
+	});
+	google.maps.event.addListener(marker, "mouseover", function() {
+		this.setIcon(this.hovericon);
+	});
+	google.maps.event.addListener(marker, "mouseout", function() {
+		this.setIcon(this.originalicon);
 	});
 	var pos = {
 		lat : parseFloat(l.gps.split(",")[0]),

@@ -94,16 +94,16 @@ var myStyle = [ {
 	} ]
 } ];
 
-function refreshMap(locationTypeId, gpsStr) {
+function refreshMap(locationTypeId, gpsStr, folderName) {
 	var gps = {
 		lat : parseFloat(gpsStr.split(",")[0]),
 		lng : parseFloat(gpsStr.split(",")[1])
 	};
-	var icon = 'images/map-markers/';
+	var icon = 'images/map-markers/'+ folderName + '/';
 	if (locationTypeId == "1") {
 		icon += 'marker-blue.png';
 	} else if (locationTypeId == "11") {
-		icon += 'exit.png';
+		icon += 'door.png';
 	} else if (locationTypeId == "2") {
 		icon += 'area.png';
 		map.setCenter(gps);
@@ -122,6 +122,11 @@ function refreshMap(locationTypeId, gpsStr) {
 			path : google.maps.SymbolPath.CIRCLE,
 			scale : 4
 		};
+		if(folderName.indexOf("hover")!=-1)
+			icon = {
+				path : google.maps.SymbolPath.CIRCLE,
+				scale : 16
+			};
 		map.setCenter(gps);
 		// map.setZoom(15);
 	} else
@@ -165,7 +170,7 @@ function initMap() {
 	map.mapTypes.set('map_style', new google.maps.StyledMapType(myStyle, {
 		name : 'My Style'
 	}));
-//	map.setCenter(myLatLng);
+// map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
 	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document

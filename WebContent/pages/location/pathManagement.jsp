@@ -73,6 +73,7 @@
 <input type='hidden' id='parentLocationTypeId' value="0">
 <input type='hidden' id='locationTypeDefinition' value='def'>
 <input type="hidden" name="destinationId" id="destinationId">
+<input type="hidden" name="destinationGPS" id="destinationGPS">
 <input type="hidden" name="departureId" id="departureId">
 <input type="hidden" name="pathId" id="pathId">
 <input type="hidden" name="markerCoordinate" id="markerCoordinate">
