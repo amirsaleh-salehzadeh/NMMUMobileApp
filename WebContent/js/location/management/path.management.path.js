@@ -186,7 +186,12 @@ function saveThePath() {
 function saveAPath() {
 	var url = "REST/GetPathWS/SavePath?fLocationId=" + $("#departureId").val()
 			+ "&tLocationId=" + $("#destinationId").val() + "&pathType="
-			+ $("#pathType").val() + "&pathRoute=" + $("#pathLatLng").val();
+			+ $("#pathTypeIds").val() + "&pathRoute=" + $("#pathLatLng").val()
+			+ "&width=" + $("#pathWidth").val() + "&pathName="
+			+ $("#pathName").val() + "&description="
+			+ $("#pathDescription").val()+ "&pathId="
+			+ $("#pathId").val();
+
 	$.ajax({
 		url : url,
 		cache : false,
@@ -210,10 +215,9 @@ function saveAPath() {
 }
 
 // REMOVE A PATH
-function removePath(id) {
-	// var loadingContent = "Removing Path";
+function removePath() {
 	if (confirm('Are you sure you want to remove this path?')) {
-		var url = "REST/GetLocationWS/RemoveAPath?pathId=" + id;
+		var url = "REST/GetLocationWS/RemoveAPath?pathId=" + $("#pathId").val();
 		$.ajax({
 			url : url,
 			cache : false,
@@ -227,8 +231,14 @@ function removePath(id) {
 					return;
 				}
 				for ( var i = 0; i < paths.length; i++) {
-					if (paths[i].id == id)
+					if (paths[i].id == $("#pathId").val()){
 						paths[i].setMap(null);
+						var i = pathTypeIds.indexOf($("#pathId").val());
+						if (i != -1) {
+							pathTypeIds.splice(i, 1);
+						}
+					}
+					
 				}
 			},
 			complete : function() {
@@ -260,8 +270,7 @@ function addAPathInnerConnection(event) {
 			lat : lat,
 			lng : lng
 		},
-		map : map,
-		icon : 'images/map-markers/road.png'
+		map : map
 	});
 	var bounds = new google.maps.LatLngBounds();
 	bounds.extend(marker.getPosition());
@@ -383,8 +392,6 @@ function addAPath(location, gps) {
 		$("#markerCoordinate").val(location.gps);
 		lastOne = getGoogleMapPosition(location.gps);
 		google.maps.event.clearInstanceListeners(map);
-		// $("#pathLatLng").val(location.gps);
-		// updateConstantLine();
 		pathDrawingCircle = new google.maps.Circle({
 			strokeColor : '#00FF00',
 			strokeOpacity : 0.3,
@@ -426,20 +433,27 @@ function addAPath(location, gps) {
 		pathDrawingCircle.setMap(null);
 	}
 }
-
+var pathTypeIds = [];
 function selectAPath(path) {
+	pathTypeIds = [];
 	url = "REST/GetPathWS/SavePath?fLocationId=" + $("#departureId").val()
 			+ "&tLocationId=" + $("#destinationId").val() + "&pathType="
 			+ $("#pathType").val() + "&pathRoute=" + $("#pathLatLng").val();
-	var pathTypes = path.pathType.split(',');
 	$("#departure").val(path.departure.locationName);
 	$("#departureId").val(path.departure.locationID);
 	$("#markerCoordinate").val(path.departure.gps);
 	$("#pathLatLng").val(path.departure.gps);
-	for ( var int = 0; int < pathTypes.length; int++) {
-		selectIcon(pathTypes[int] + "");
+	var ptids = path.pathType.split(",");
+	$(".pathTypeIcon").each(function() {
+		if ($(this).hasClass("pathTypeIconSelected"))
+			$(this).removeClass("pathTypeIconSelected");
+		$(this).trigger("create");
+	});
+	$("#pathTypePopup").trigger("create");
+	for ( var int = 0; int < ptids.length; int++) {
+		selectIcon(ptids[int] + "");
 	}
-	$("#pathType").val(path.pathType);
+	$("#pathTypeIds").val(path.pathType);
 	$("#pathLength").html(path.distance);
 	$("#destination").val(path.destination.locationName);
 	$("#destinationId").val(path.destination.locationID);
@@ -455,7 +469,8 @@ function selectAPath(path) {
 				});
 			} else {
 				paths[i].setOptions({
-					strokeColor : getPathPolyColor(paths[i].customInfo.split(";")[1])
+					strokeColor : getPathPolyColor(paths[i].customInfo
+							.split(";")[1])
 				});
 			}
 			paths[i].setMap(null);
@@ -464,22 +479,23 @@ function selectAPath(path) {
 }
 
 function selectIcon(id) {
-	$(".pathTypeIconSelected").each(function() {
-//		if ($(this).hasClass("pathTypeIconSelected")) {
-			$(this).removeClass("pathTypeIconSelected");
-			$(this).addClass("pathTypeIcon");
-//		}
-		$(this).trigger("create");
-	});
 	$(".pathTypeIcon").each(function() {
 		var pathTypeId = $(this).attr("alt");
-//		if ($(this).hasClass("pathTypeIconSelected"))
-//			$(this).removeClass("pathTypeIconSelected");
 		if (pathTypeId == id) {
-			$(this).removeClass("pathTypeIcon");
-			$(this).addClass("pathTypeIconSelected");
+			if (!$(this).hasClass("pathTypeIconSelected")) {
+				$(this).addClass("pathTypeIconSelected");
+				pathTypeIds.push(id);
+			} else {
+				$(this).removeClass("pathTypeIconSelected");
+				var i = pathTypeIds.indexOf(id);
+				if (i != -1) {
+					pathTypeIds.splice(i, 1);
+				}
+
+			}
+			$(this).trigger("create");
 		}
-		$(this).trigger("create");
 	});
 	$("#pathTypePopup").trigger("create");
+	$("#pathTypeIds").val(pathTypeIds.join(","));
 }

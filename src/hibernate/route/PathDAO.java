@@ -25,28 +25,29 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			e.printStackTrace();
 		}
 		try {
-			String query = "Select p.*, pt.*, GROUP_CONCAT(ppt.path_type_id) as pathtype from paths p "
-					+ "inner join location lf on lf.location_id = p.destination_location_id " 
-					+ " left join path_type pt on pt.path_type_id = p.path_type"
-					+ " left join path_path_type ppt on ppt.path_type_id = pt.path_type_id"
-					+ " where lf.client_name = '" + username
-					+ "' and lf.parent_id = " + parentId + " group by p.path_id";
+			String query = "Select p.*, pt.*, GROUP_CONCAT(ppt.path_type_id) as pathtypeString from paths p "
+					+ "inner join location lf on lf.location_id = p.destination_location_id "
+					+ " inner join path_path_type ppt on ppt.path_id = p.path_id"
+					+ " inner join path_type pt on pt.path_type_id = ppt.path_type_id"
+					+ " where lf.client_name = '"
+					+ username
+					+ "' and lf.parent_id = "
+					+ parentId
+					+ " group by p.path_id";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			LocationDAO ldao = new LocationDAO();
 			while (rs.next()) {
-				PathENT p = new PathENT(ldao.getLocationENT(
-						new LocationENT(rs.getLong("departure_location_id")),
-						conn), ldao.getLocationENT(
-						new LocationENT(rs.getLong("destination_location_id")),
-						conn), rs.getDouble("distance"),
-						new PathTypeENT(rs.getInt("path_type_id"), rs
-								.getString("pt.path_type")),
-						rs.getLong("path_id"));
-				p.setPathRoute(rs.getString("path_route"));
-				p.setWidth(rs.getDouble("width"));
-				p.setPathType(rs.getInt("path_type_id")+"");
-				res.add(p);
+				PathENT ent = new PathENT(ldao.getLocationENT(new LocationENT(
+						rs.getLong("departure_location_id")), conn),
+						ldao.getLocationENT(
+								new LocationENT(rs
+										.getLong("destination_location_id")),
+								conn), rs.getDouble("distance"),
+						rs.getString("pathtypeString"), rs.getLong("path_id"),
+						rs.getString("path_route"), rs.getDouble("width"),
+						rs.getString("path_Name"), rs.getString("description"));
+				res.add(ent);
 			}
 			ps.close();
 			conn.close();
@@ -68,21 +69,30 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			String query = "";
 			query = "insert into paths (destination_location_id, departure_location_id, distance, path_route, path_name, description, width)"
 					+ " values (?, ?, ?, ?, ?, ?, ?)";
+			if (path.getPathId() > 0)
+				query = "update paths set destination_location_id = ?, departure_location_id = ?, "
+						+ "distance = ?, path_route = ?,  path_name = ?, description = ?, width = ?"
+						+ " where path_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setLong(1, path.getDestination().getLocationID());
 			ps.setLong(2, path.getDeparture().getLocationID());
-			ps.setDouble(3, reEvaluateDistance(path.getDistance(),path.getPathTypes()));
+			ps.setDouble(3,
+					reEvaluateDistance(path.getDistance(), path.getPathTypes()));
 			ps.setString(4, path.getPathRoute());
 			ps.setString(5, path.getPathName());
 			ps.setString(6, path.getDescription());
 			ps.setDouble(7, path.getWidth());
+			if (path.getPathId() > 0)
+				ps.setLong(8, path.getPathId());
 			ps.execute();
 			ps.close();
-			query = "select path_id from paths order by path_id desc limit 1";
-			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next())
-				path.setPathId(rs.getLong("path_id"));
+			if (path.getPathId() <= 0) {
+				query = "select path_id from paths order by path_id desc limit 1";
+				ps = conn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery();
+				while (rs.next())
+					path.setPathId(rs.getLong("path_id"));
+			}
 			path = savePathTypes(path, conn);
 			ps.close();
 			conn.commit();
@@ -148,7 +158,8 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		return null;
 	}
 
-	private double reEvaluateDistance(double distance, ArrayList<PathTypeENT> pathTypes) {
+	private double reEvaluateDistance(double distance,
+			ArrayList<PathTypeENT> pathTypes) {
 		for (int i = 0; i < pathTypes.size(); i++) {
 			int pathTypeId = pathTypes.get(i).getPathTypeId();
 			if (pathTypeId == 6)// stairways
@@ -157,7 +168,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		return distance;
 	}
 
-	private PathENT savePathTypes(PathENT path, Connection conn) {
+	public PathENT savePathTypes(PathENT path, Connection conn) {
 		try {
 			if (conn == null)
 				try {
@@ -167,15 +178,17 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 					e.printStackTrace();
 				}
 			String query = "";
+			query = "delete from path_path_type where path_id = "
+					+ path.getPathId();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			ps.close();
 			query = "insert into path_path_type (path_id, path_type_id)"
-					+ " SELECT * FROM (SELECT ?, ?) AS tmp WHERE NOT EXISTS " +
-					"(SELECT path_path_type_id FROM path_path_type WHERE path_id = ? and path_type_id = ?) LIMIT 1;";
+					+ " values (? , ?)";
 			for (int i = 0; i < path.getPathTypes().size(); i++) {
-				PreparedStatement ps = conn.prepareStatement(query);
-				ps.setLong(1, path.getDestination().getLocationID());
-				ps.setLong(2, path.getDeparture().getLocationID());
-				ps.setInt(3, 0);
-				ps.setString(4, path.getPathRoute());
+				ps = conn.prepareStatement(query);
+				ps.setLong(1, path.getPathId());
+				ps.setLong(2, path.getPathTypes().get(i).getPathTypeId());
 				ps.execute();
 				ps.close();
 			}

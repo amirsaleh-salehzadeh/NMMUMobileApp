@@ -21,11 +21,14 @@ public class PathServicesWS {
 	@GET
 	@Path("/GetPathsForUserAndParent")
 	@Produces("application/json")
-	public String getPathsForUserAndParent(@QueryParam("userName") String userName,@QueryParam("parentId") long parentId) {
+	public String getPathsForUserAndParent(
+			@QueryParam("userName") String userName,
+			@QueryParam("parentId") long parentId) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			json = mapper.writeValueAsString(getPathDAO().getRoutesForUserAndParent(userName, parentId));
+			json = mapper.writeValueAsString(getPathDAO()
+					.getRoutesForUserAndParent(userName, parentId));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -35,17 +38,20 @@ public class PathServicesWS {
 		}
 		return json;
 	}
-	
+
 	@GET
 	@Path("/SavePath")
 	@Produces("application/json")
 	public String savePath(@QueryParam("fLocationId") long fLocationId,
 			@QueryParam("tLocationId") long tLocationId,
 			@QueryParam("pathRoute") String pathRoute,
-			@QueryParam("pathType") int pathType) {
+			@QueryParam("pathName") String pathName,
+			@QueryParam("description") String description,
+			@QueryParam("pathType") String pathType,
+			@QueryParam("pathId") long pathId, @QueryParam("width") double width) {
 		PathENT ent = new PathENT(new LocationENT(fLocationId),
-				new LocationENT(tLocationId), new PathTypeENT(pathType));
-		ent.setPathRoute(pathRoute);
+				new LocationENT(tLocationId), 0, pathType, pathId, pathRoute,
+				width, pathName, description);
 		String json = "[]";
 		ObjectMapper mapper = new ObjectMapper();
 		try {

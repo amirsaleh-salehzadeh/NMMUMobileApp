@@ -15,7 +15,6 @@ public class PathENT {
 	double width;
 	String pathName;
 	String description;
-	
 
 	/**
 	 * @return the pathType
@@ -25,10 +24,17 @@ public class PathENT {
 	}
 
 	/**
-	 * @param pathType the pathType to set
+	 * @param pathType
+	 *            the pathType to set
 	 */
 	public void setPathType(String pathType) {
 		this.pathType = pathType;
+		this.pathTypes = new ArrayList<PathTypeENT>();
+		String[] pathTypesArr = pathType.split(",");
+		if (pathTypesArr != null && pathTypesArr.length > 0)
+			for (int i = 0; i < pathTypesArr.length; i++)
+				this.pathTypes.add(new PathTypeENT(Integer
+						.parseInt(pathTypesArr[i])));
 	}
 
 	/**
@@ -39,7 +45,8 @@ public class PathENT {
 	}
 
 	/**
-	 * @param pathRoute the pathRoute to set
+	 * @param pathRoute
+	 *            the pathRoute to set
 	 */
 	public void setPathRoute(String pathRoute) {
 		this.pathRoute = pathRoute;
@@ -49,14 +56,15 @@ public class PathENT {
 	}
 
 	/**
-	 * @return the pathType
+	 * @return the pathTypes
 	 */
 	public ArrayList<PathTypeENT> getPathTypes() {
 		return pathTypes;
 	}
 
 	/**
-	 * @param pathType the pathType to set
+	 * @param pathTypes
+	 *            the pathType to set
 	 */
 	public void setPathTypes(ArrayList<PathTypeENT> pathTypes) {
 		this.pathTypes = pathTypes;
@@ -70,7 +78,8 @@ public class PathENT {
 	}
 
 	/**
-	 * @param width the width to set
+	 * @param width
+	 *            the width to set
 	 */
 	public void setWidth(double width) {
 		this.width = width;
@@ -84,7 +93,8 @@ public class PathENT {
 	}
 
 	/**
-	 * @param pathName the pathName to set
+	 * @param pathName
+	 *            the pathName to set
 	 */
 	public void setPathName(String pathName) {
 		this.pathName = pathName;
@@ -98,7 +108,8 @@ public class PathENT {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -124,7 +135,7 @@ public class PathENT {
 		this.pathTypes.add(pathType);
 		this.pathId = pathId;
 	}
-	
+
 	public PathENT(LocationLightENT departure, LocationLightENT destination,
 			double distance, PathTypeENT pathType, long pathId) {
 		super();
@@ -144,7 +155,8 @@ public class PathENT {
 	}
 
 	/**
-	 * @param depL the depL to set
+	 * @param depL
+	 *            the depL to set
 	 */
 	public void setDepL(LocationLightENT depL) {
 		this.depL = depL;
@@ -158,7 +170,8 @@ public class PathENT {
 	}
 
 	/**
-	 * @param desL the desL to set
+	 * @param desL
+	 *            the desL to set
 	 */
 	public void setDesL(LocationLightENT desL) {
 		this.desL = desL;
@@ -175,6 +188,27 @@ public class PathENT {
 		this.destination = destination;
 	}
 
+	public PathENT(LocationENT departure, LocationENT destination,
+			double distance, String pathType, long pathId,
+			String pathRoute, double width, String pathName, String description) {
+		super();
+		this.departure = departure;
+		this.destination = destination;
+		this.distance = distance;
+		this.pathType = pathType;
+		this.pathTypes = new ArrayList<PathTypeENT>();
+		String[] pathTypesArr = pathType.split(",");
+		if (pathTypesArr != null && pathTypesArr.length > 0)
+			for (int i = 0; i < pathTypesArr.length; i++)
+				this.pathTypes.add(new PathTypeENT(Integer
+						.parseInt(pathTypesArr[i])));
+		this.pathId = pathId;
+		this.pathRoute = pathRoute;
+		this.width = width;
+		this.pathName = pathName;
+		this.description = description;
+	}
+
 	public long getPathId() {
 		return pathId;
 	}
@@ -184,12 +218,17 @@ public class PathENT {
 	}
 
 	public PathENT(LocationENT departure, LocationENT destination,
-			PathTypeENT pathType) {
+			String pathType) {
 		super();
 		this.departure = departure;
 		this.destination = destination;
+		this.pathType = pathType;
 		this.pathTypes = new ArrayList<PathTypeENT>();
-		this.pathTypes.add(pathType);
+		String[] pathTypesArr = pathType.split(",");
+		if (pathTypesArr != null && pathTypesArr.length > 0)
+			for (int i = 0; i < pathTypesArr.length; i++)
+				this.pathTypes.add(new PathTypeENT(Integer
+						.parseInt(pathTypesArr[i])));
 	}
 
 	public LocationENT getDeparture() {

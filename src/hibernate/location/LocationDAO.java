@@ -658,15 +658,22 @@ public class LocationDAO extends BaseHibernateDAO implements
 			Connection conn = null;
 			try {
 				conn = getConnection();
+				conn.setAutoCommit(false);
 			} catch (AMSException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String query = "delete from paths where path_id = ?";
+			String query = "";
+			query = "delete from path_path_type where path_id = "
+					+ ent.getPathId();
 			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			ps.close();
+			query = "delete from paths where path_id = ?";
+			ps = conn.prepareStatement(query);
 			ps.setLong(1, ent.getPathId());
 			ps.execute();
 			ps.close();
+			conn.commit();
 			conn.close();
 			return true;
 		} catch (SQLException e) {

@@ -1,6 +1,7 @@
 package hibernate.location;
 
 import hibernate.config.BaseHibernateDAO;
+import hibernate.route.PathDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -153,9 +154,53 @@ public class DataManagementLocation extends BaseHibernateDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	private void getAllPaths() throws AMSException {
+		Connection conn = null;
+		try {
+			conn = getConnection();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		ArrayList<PathENT> res = new ArrayList<PathENT>();
+		try {
+			String query = "Select * from pathstmp";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			LocationDAO ldao = new LocationDAO();
+			PathDAO dao = new PathDAO();
+			while (rs.next()) {
+				PathENT ent = new PathENT(ldao.getLocationENT(new LocationENT(
+						rs.getLong("departure_location_id")), conn),
+						ldao.getLocationENT(
+								new LocationENT(rs
+										.getLong("destination_location_id")),
+								conn), rs.getDouble("distance"),
+						rs.getString("path_type"), rs.getLong("path_id"),
+						rs.getString("path_route"), 2,
+						"", "");
+				ent.setPathId(0);
+				ent.setPathType(rs.getString("path_type"));
+				dao.savePath(ent);
+				res.add(ent);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void main(String[] args) {
-		updateAllGPS();
+//		updateAllGPS();
+		 DataManagementLocation daomng = new DataManagementLocation();
+
+		 try {
+			daomng.getAllPaths();
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// updateAllDescriptions();
 
 		// NORTH CAMPUS NMMU

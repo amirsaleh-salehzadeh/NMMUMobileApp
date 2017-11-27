@@ -78,6 +78,8 @@
 <input type="hidden" name="markerCoordinate" id="markerCoordinate">
 <input type="hidden" name="markerId" id="markerId">
 <input type="hidden" id="pathLatLng">
+<input type="hidden" name="pathTypeIds" id="pathTypeIds">
+
 
 
 <div class="ui-block-solo" id="mapSatelViewIcon"
@@ -193,7 +195,7 @@
 		<label for="pathWidth">Path Width (Meters)</label>
 		<div class="ui-field-contain">
 			<input class="pathMenu" type="range" placeholder="Label"
-				name="pathWidth" id="pathWidth" value="5" min="0" max="10">
+				name="pathWidth" id="pathWidth" value="5" min="0" max="50">
 		</div>
 	</div>
 	<div class="ui-block-solo editlocationFormRow">
@@ -207,7 +209,7 @@
 			value="">
 	</div>
 	<div class="ui-block-solo editlocationFormRow">
-		<label for="pathType">Path Length</label> <span id="pathLength">223m</span>
+		<label for="pathLength">Path Length</label> <span id="pathLength"></span>
 	</div>
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="pathName">Label</label> <input class="pathMenu"
@@ -227,12 +229,12 @@
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow cancel-icon "
-				onclick="removeMarker()">Remove</a>
+				onclick="removePath()">Remove</a>
 		</div>
 	</div>
 
 	<a href="#" data-rel="close"
-		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow"
+		class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow"
 		id="closeLocationEditMenu">Close Settings</a>
 </div>
 
@@ -309,18 +311,13 @@
 
 
 <div id="pathTypePopup" class="ui-grid-solo toolBar">
-	<!-- <div class="ui-block-solo editlocationFormRow"> -->
-	<!-- 		<label for="pathType" style="display: inline-block !important;">Path Type</label> -->
 	<logic:iterate id="pathTIteration" name="pathTypes"
 		type="common.location.PathTypeENT">
-		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon pathTypeIconSelected"
+		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
 			alt="<%=pathTIteration.getPathTypeId()%>" width="48" height="48"
 			title="<%=pathTIteration.getPathType()%>"
-			onclick="alert('<%=pathTIteration.getPathTypeId()%>')">
-		<%-- 				<option value="<%=pathTIteration.getPathTypeId()%>"><%=pathTIteration.getPathType()%></option> --%>
+			onclick="selectIcon('<%=pathTIteration.getPathTypeId()%>');">
 	</logic:iterate>
-	<!-- 	</div> -->
-
 </div>
 
 
