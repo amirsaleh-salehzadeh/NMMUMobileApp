@@ -19,9 +19,9 @@ import common.location.PathTypeENT;
 public class PathServicesWS {
 
 	@GET
-	@Path("/GetPathsForUserAndParent")
+	@Path("/GetRoutesForUserAndParent")
 	@Produces("application/json")
-	public String getPathsForUserAndParent(@QueryParam("userName") String userName,@QueryParam("parentId") long parentId) {
+	public String getRoutesForUserAndParent(@QueryParam("userName") String userName,@QueryParam("parentId") long parentId) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {

@@ -25,12 +25,11 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			e.printStackTrace();
 		}
 		try {
-			String query = "Select p.*, pt.*, GROUP_CONCAT(ppt.path_type_id) as pathtype from paths p "
-					+ "inner join location lf on lf.location_id = p.destination_location_id " 
+			String query = "Select p.*, pt.* from paths p "
+					+ "inner join location lf on lf.location_id = p.destination_location_id "
 					+ " left join path_type pt on pt.path_type_id = p.path_type"
-					+ " left join path_path_type ppt on ppt.path_type_id = pt.path_type_id"
 					+ " where lf.client_name = '" + username
-					+ "' and lf.parent_id = " + parentId + " group by p.path_id";
+					+ "' and lf.parent_id = " + parentId;
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			LocationDAO ldao = new LocationDAO();
@@ -44,8 +43,6 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 								.getString("pt.path_type")),
 						rs.getLong("path_id"));
 				p.setPathRoute(rs.getString("path_route"));
-				p.setWidth(rs.getDouble("width"));
-				p.setPathType(rs.getInt("path_type_id")+"");
 				res.add(p);
 			}
 			ps.close();
@@ -71,7 +68,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setLong(1, path.getDestination().getLocationID());
 			ps.setLong(2, path.getDeparture().getLocationID());
-			ps.setDouble(3, reEvaluateDistance(path.getDistance(),path.getPathTypes()));
+			ps.setDouble(3, reEvaluateDistance(path.getDistance(),path.getPathType()));
 			ps.setString(4, path.getPathRoute());
 			ps.setString(5, path.getPathName());
 			ps.setString(6, path.getDescription());
@@ -170,7 +167,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			query = "insert into path_path_type (path_id, path_type_id)"
 					+ " SELECT * FROM (SELECT ?, ?) AS tmp WHERE NOT EXISTS " +
 					"(SELECT path_path_type_id FROM path_path_type WHERE path_id = ? and path_type_id = ?) LIMIT 1;";
-			for (int i = 0; i < path.getPathTypes().size(); i++) {
+			for (int i = 0; i < path.getPathType().size(); i++) {
 				PreparedStatement ps = conn.prepareStatement(query);
 				ps.setLong(1, path.getDestination().getLocationID());
 				ps.setLong(2, path.getDeparture().getLocationID());

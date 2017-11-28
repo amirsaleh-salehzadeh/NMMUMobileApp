@@ -14,25 +14,6 @@
 	padding-top: .4em !important;
 }
 
-.pathTypeIcon {
-	font-size: 11pt !important;
-	font-weight: normal !important;
-	color: rgb(248, 182, 36) !important;
-	background-color: rgba(8, 27, 44, 0) !important;
-	text-shadow: none !important;
-	border-color: rgb(248, 182, 36) !important;
-}
-
-.pathTypeIcon .pathTypeIconSelected {
-	font-size: 11pt !important;
-	font-weight: normal !important;
-	color: rgb(248, 182, 36) !important;
-	background-color: rgba(8, 27, 44, 1) !important;
-	text-shadow: none !important;
-	border: solid 3px !important;
-	border-color: rgb(248, 182, 36) !important;
-}
-
 .ui-controlgroup {
 	margin: 0 !important;
 }

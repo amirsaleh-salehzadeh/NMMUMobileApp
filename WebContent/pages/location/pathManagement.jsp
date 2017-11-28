@@ -61,11 +61,11 @@
 <link href="css/location/croppie.css" rel="stylesheet">
 <link href="css/location/management/path.management.css"
 	rel="stylesheet">
+<link href="css/location/management/path.management.toolbox.css"
+	rel="stylesheet">
 <link href="css/location/management/path.management.location.edit.css"
 	rel="stylesheet">
 <link href="css/location/management/path.management.polygon.css"
-	rel="stylesheet">
-<link href="css/location/management/path.management.toolbox.css"
 	rel="stylesheet">
 </head>
 <input type="hidden" id="parentLocationId" value="360">
@@ -74,7 +74,6 @@
 <input type='hidden' id='locationTypeDefinition' value='def'>
 <input type="hidden" name="destinationId" id="destinationId">
 <input type="hidden" name="departureId" id="departureId">
-<input type="hidden" name="pathId" id="pathId">
 <input type="hidden" name="markerCoordinate" id="markerCoordinate">
 <input type="hidden" name="markerId" id="markerId">
 <input type="hidden" id="pathLatLng">
@@ -315,7 +314,7 @@
 	<!-- 		<label for="pathType" style="display: inline-block !important;">Path Type</label> -->
 	<logic:iterate id="pathTIteration" name="pathTypes"
 		type="common.location.PathTypeENT">
-		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
+		<img src='images/icons/cursor-pointer.png' class="pathMenu pathTypeIcon"
 			alt="<%=pathTIteration.getPathTypeId()%>" width="48" height="48"
 			title="<%=pathTIteration.getPathType()%>"
 			onclick="alert('<%=pathTIteration.getPathTypeId()%>')">
@@ -331,9 +330,9 @@
 <script src="js/leanModal.min.js"></script>
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.management.path.js"></script>
-<script type="text/javascript"
 	src="js/location/management/path.management.map.js"></script>
+<script type="text/javascript"
+	src="js/location/management/path.management.path.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.image.js"></script>
 <script type="text/javascript"
@@ -345,7 +344,8 @@
 <script type="text/javascript"
 	src="js/location/management/path.management.panel.js"></script>
 <script async defer
-	src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
+	src="http
+	://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
 	type="text/javascript"></script>
 <script type="text/javascript" src="js/location/google.map.label.js"></script>
 </html>
