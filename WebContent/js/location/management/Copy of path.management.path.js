@@ -63,8 +63,10 @@ function updatePathWeight() {
 						+ Math.pow(point1.y - point2.y, 2))) * 2;
 			}
 			tmpCircle.setMap(null);
-			if (pathWidthScale <= 0)
-				pathWidthScale = 1;
+			if (pathWidthScale <= 10)
+				pathWidthScale = 5;
+			if (pathWidthScale >= 27)
+				pathWidthScale = 27;
 			paths[i].setOptions({
 				strokeWeight : pathWidthScale
 			});
@@ -97,24 +99,7 @@ function setPathTypeButtonIcon() {
 			$(this).attr("src", "images/icons/pathType/cursor-pointer.png");
 	});
 }
-
-function getPathPolyColor(typeId) {
-	var color = '#FF0000';
-	if (typeId == "1") {
-		color = '#ffb400';
-	} else if (typeId == "2") {
-		color = '#0ec605';
-	} else if (typeId == "3")
-		color = '#3359fc';
-	else if (typeId == "4")
-		color = '#000000';
-	else if (typeId == "5")
-		color = '#ffffff';
-	else if (typeId == "6") {
-		color = '#fc33f0';
-	}
-	return color;
-}
+var tmpIntersectionMarker = undefined;
 function drawApath(l) {
 	var pathCoor = [];
 	pathCoor.push(new google.maps.LatLng(
@@ -134,7 +119,6 @@ function drawApath(l) {
 	}
 	pathCoor.push(new google.maps.LatLng(parseFloat(l.destination.gps
 			.split(',')[0]), parseFloat(l.destination.gps.split(',')[1])));
-	// var color = getPathPolyColor(l.pathType);
 	var tmpCircle = new google.maps.Circle({
 		strokeColor : '#00FF00',
 		strokeOpacity : 0.3,
@@ -154,33 +138,155 @@ function drawApath(l) {
 				+ Math.pow(point1.y - point2.y, 2))) * 2;
 	}
 	tmpCircle.setMap(null);
-	if (pathWidthScale <= 0)
-		pathWidthScale = 1;
-	// if(pathWidthScale > 33)
-	// pathWidthScale = 33;
+	if (pathWidthScale <= 10)
+		pathWidthScale = 5;
+	if (pathWidthScale >= 27)
+		pathWidthScale = 27;
 	var pathPolyline = new google.maps.Polyline({
 		path : pathCoor,
 		geodesic : true,
 		strokeColor : '#081B2C',
 		strokeOpacity : 0.6,
 		strokeWeight : pathWidthScale,
-		customInfo : l.width + ";" + l.pathType
+		customInfo : l.width + ";" + l.pathType,
+		zIndex : 10
 	});
 	pathPolyline.id = l.pathId;
-	pathPolyline.addListener('click', function() {
-		selectAPath(l);
+	pathPolyline.addListener('click', function(event) {
+		var lat = event.latLng.lat();
+		var lng = event.latLng.lng();
+		if ($('#destination').val().length <= 0
+				&& $('#departure').val().length > 0) {
+			createAPointOnAnExistingPath(l, lat + "," + lng, this);
+		} else {
+			selectAPath(l);
+		}
+	});
+	pathPolyline.addListener('mousemove', function(event) {
+		if (tmpIntersectionMarker != undefined) {
+			tmpIntersectionMarker.setMap(null);
+			tmpIntersectionMarker = null;
+		}
+		if ($('#destination').val().length <= 0
+				&& $('#departure').val().length > 0) {
+			updateMovingLine(event);
+			var lat = event.latLng.lat();
+			var lng = event.latLng.lng();
+			var pos = {
+				lat : parseFloat(lat),
+				lng : parseFloat(lng)
+			};
+			// var gps = event.latLng.lat() + ","
+			// + parseFloat(event.latLng.lng());
+			if (tmpIntersectionMarker == undefined)
+				tmpIntersectionMarker = new google.maps.Marker({
+					map : map,
+					icon : {
+						path : google.maps.SymbolPath.CIRCLE,
+						scale : 10,
+						color : 'green'
+					},
+					labelStyle : {
+						opacity : 1.0
+					},
+					position : pos,
+					title : "Create New Intersetion"
+				});
+			else
+				tmpIntersectionMarker.setPosition(pos);
+			google.maps.event.addListener(tmpIntersectionMarker, "click",
+					function(event) {
+						createAPointOnAnExistingPath(l, {
+							x : parseFloat(lat),
+							y : parseFloat(lng)
+						}, this);
+					});
+		}
+	});
+	pathPolyline.addListener('mouseout', function(event) {
+		if (tmpIntersectionMarker != undefined) {
+			tmpIntersectionMarker.setMap(null);
+			tmpIntersectionMarker = null;
+		}
 	});
 	pathPolyline.setMap(map);
 	paths.push(pathPolyline);
 }
+var intmpIntersectionMarker;
+function createAPointOnAnExistingPath(path, destinationGPS) {
+	var line = path.pathRoute.split("_");
+	var pointsInLine = [];
+	$(line).each(function(k, l) {
+		var point = {
+			x : parseFloat(l.split(",")[0]),
+			y : parseFloat(l.split(",")[1])
+		};
+		pointsInLine.push(point);
+	});
+	var intersection = {
+		lat : getClosestPointOnLines(destinationGPS, pointsInLine).x,
+		lng : getClosestPointOnLines(destinationGPS, pointsInLine).y
+	};
+	if (intmpIntersectionMarker == null)
+		intmpIntersectionMarker = new google.maps.Marker({
+			map : map,
+			icon : {
+				path : google.maps.SymbolPath.CIRCLE,
+				scale : 10,
+				strokeColor : 'red'
+			},
+			labelStyle : {
+				opacity : 1.0
+			},
+			position : intersection,
+			title : "Create New Intersetion"
+		});
+	else
+		intmpIntersectionMarker.setPosition(intersection);
+	if (!confirm("create intersation?")) {
+		intmpIntersectionMarker.setMap(null);
+		intmpIntersectionMarker = null;
+		return;
+	}
+	alert(1);
+	return;
+	var url = "REST/GetPathWS/SavePathConnectToAnExistingPath?fLocationId="
+			+ $("#departureId").val() + "&tLocationGPS=" + destinationGPS
+			+ "&pathType=" + $("#pathTypeIds").val() + "&pathRoute="
+			+ $("#pathLatLng").val() + "&width=" + $("#pathWidth").val()
+			+ "&pathName=" + $("#pathName").val() + "&description="
+			+ $("#pathDescription").val() + "&destinationPathId=" + path.pathId;
 
-// SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH INCLUDES MANY POINTS
+	$.ajax({
+		url : url,
+		cache : false,
+		async : true,
+		beforeSend : function() {
+			ShowLoadingScreen("Saving the path");
+		},
+		success : function(data) {
+			$.each(data, function(k, l) {
+				drawApath(l);
+			});
+			// $("#departureId").val($("#destinationId").val());
+		},
+		complete : function() {
+			HideLoadingScreen();
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+			alert("savePath");
+		}
+	});
+}
+
+// SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH CONTAINS MANY POINTS
 function saveThePath() {
 	if ($("#pathTypeIds").val().length <= 0) {
 		alert("Select Path Type");
 		return;
 	}
-	$('#insertAPath').popup('close');
 	saveAPath();
 	cancelADrawnPath();
 }
@@ -202,7 +308,7 @@ function saveAPath() {
 		},
 		success : function(data) {
 			drawApath(data);
-			$("#departureId").val($("#destinationId").val());
+			// $("#departureId").val($("#destinationId").val());
 		},
 		complete : function() {
 			HideLoadingScreen();
@@ -227,20 +333,12 @@ function removePath() {
 				ShowLoadingScreen("Removing the path");
 			},
 			success : function(data) {
-				if (data.errorMSG != null) {
-					alert(data.errorMSG);
-					return;
-				}
 				for ( var i = 0; i < paths.length; i++) {
 					if (paths[i].id == $("#pathId").val()) {
 						paths[i].setMap(null);
-						var i = pathTypeIds.indexOf($("#pathId").val());
-						if (i != -1) {
-							pathTypeIds.splice(i, 1);
-						}
 					}
-
 				}
+				toast("remove successful");
 			},
 			complete : function() {
 				HideLoadingScreen();
@@ -256,6 +354,7 @@ function removePath() {
 	}
 }
 
+// DRAW A TEMPORARY PATH WITH JOINTS
 var pathMarkers = [];
 function addAPathInnerConnection(event) {
 	var lat = event.latLng.lat();
@@ -265,17 +364,8 @@ function addAPathInnerConnection(event) {
 	else
 		$("#pathLatLng").val(lat + "," + lng);
 	updateConstantLine();
-
-	// var pathMarker = new google.maps.Marker({
-	// position : {
-	// lat : lat,
-	// lng : lng
-	// },
-	// map : map
-	// });
 	var bounds = new google.maps.LatLngBounds();
 	bounds.extend(marker.getPosition());
-	// pathMarkers.push(pathMarker);
 	mapDrawingClickCounter++;
 }
 
@@ -301,8 +391,8 @@ function updateMovingLine(event) {
 	}
 	if (pathWidthScale <= 0)
 		pathWidthScale = 1;
-	if (pathWidthScale > 33)
-		pathWidthScale = 33;
+	if (pathWidthScale >= 27)
+		pathWidthScale = 27;
 	if (movingLine == null) {
 		movingLine = new google.maps.Polyline({
 			path : tmpPathCoor,
@@ -320,7 +410,8 @@ function updateMovingLine(event) {
 	} else
 		movingLine.setPath(tmpPathCoor);
 	movingLine.setOptions({
-		strokeWeight : pathWidthScale
+		strokeWeight : pathWidthScale,
+		zIndex : 8
 	});
 	movingLine.setMap(null);
 	movingLine.setMap(map);
@@ -427,16 +518,9 @@ function addAPath(location, gps) {
 		$("#pathLatLng").val(location.gps);
 		return;
 	} else if ($("#destinationId").val() == "") {
-		var oldPathLatLng = $("#pathLatLng").val();
 		$("#destination").val(location.locationName);
 		$("#destinationId").val(location.locationID);
 		google.maps.event.clearInstanceListeners(map);
-		// var pltlng = oldPathLatLng.split("_");
-		// var lastUnnecessaryMarkerGPS = pltlng[pltlng.length];
-		// if (pltlng.length > mapDrawingClickCounter)
-		// $("#pathLatLng").val(
-		// oldPathLatLng.replace(
-		// "_" + lastUnnecessaryMarkerGPS, ""));
 		$("#destinationGPS").val(location.gps);
 		pathDrawingCircle.setMap(null);
 		google.maps.event.clearInstanceListeners(map);
@@ -522,4 +606,84 @@ function getTheLength(distance) {
 	else
 		res = Metres + " (m) ";
 	return res;
+}
+
+function getClosestPointOnLines(pXy, aXys) {
+
+	var minDist;
+	var fTo;
+	var fFrom;
+	var x;
+	var y;
+	var i;
+	var dist;
+
+	if (aXys.length > 1) {
+
+		for ( var n = 1; n < aXys.length; n++) {
+
+			if (aXys[n].x != aXys[n - 1].x) {
+				var a = (aXys[n].y - aXys[n - 1].y)
+						/ (aXys[n].x - aXys[n - 1].x);
+				var b = aXys[n].y - a * aXys[n].x;
+				dist = Math.abs(a * pXy.x + b - pXy.y) / Math.sqrt(a * a + 1);
+			} else
+				dist = Math.abs(pXy.x - aXys[n].x)
+
+				// length^2 of line segment
+			var rl2 = Math.pow(aXys[n].y - aXys[n - 1].y, 2)
+					+ Math.pow(aXys[n].x - aXys[n - 1].x, 2);
+
+			// distance^2 of pt to end line segment
+			var ln2 = Math.pow(aXys[n].y - pXy.y, 2)
+					+ Math.pow(aXys[n].x - pXy.x, 2);
+			// distance^2 of pt to begin line segment
+			var lnm12 = Math.pow(aXys[n - 1].y - pXy.y, 2)
+					+ Math.pow(aXys[n - 1].x - pXy.x, 2);
+
+			// minimum distance^2 of pt to infinite line
+			var dist2 = Math.pow(dist, 2);
+
+			// calculated length^2 of line segment
+			var calcrl2 = ln2 - dist2 + lnm12 - dist2;
+
+			// redefine minimum distance to line segment (not infinite line) if
+			// necessary
+			if (calcrl2 > rl2)
+				dist = Math.sqrt(Math.min(ln2, lnm12));
+
+			if ((minDist == null) || (minDist > dist)) {
+				if (calcrl2 > rl2) {
+					if (lnm12 < ln2) {
+						fTo = 0;// nearer to previous point
+						fFrom = 1;
+					} else {
+						fFrom = 0;// nearer to current point
+						fTo = 1;
+					}
+				} else {
+					// perpendicular from point intersects line segment
+					fTo = ((Math.sqrt(lnm12 - dist2)) / Math.sqrt(rl2));
+					fFrom = ((Math.sqrt(ln2 - dist2)) / Math.sqrt(rl2));
+				}
+				minDist = dist;
+				i = n;
+			}
+		}
+
+		var dx = aXys[i - 1].x - aXys[i].x;
+		var dy = aXys[i - 1].y - aXys[i].y;
+
+		x = aXys[i - 1].x - (dx * fTo);
+		y = aXys[i - 1].y - (dy * fTo);
+
+	}
+
+	return {
+		'x' : x,
+		'y' : y,
+		'i' : i,
+		'fTo' : fTo,
+		'fFrom' : fFrom
+	};
 }

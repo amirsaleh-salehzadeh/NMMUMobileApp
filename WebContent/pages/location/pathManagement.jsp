@@ -327,7 +327,9 @@
 <script src="js/leanModal.min.js"></script>
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.management.path.js"></script>
+	src="js/location/management/path.data.transaction.js"></script>
+<script type="text/javascript"
+	src="js/location/management/path.polyline.drawing.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.map.js"></script>
 <script type="text/javascript"

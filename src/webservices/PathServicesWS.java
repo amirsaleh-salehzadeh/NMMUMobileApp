@@ -66,6 +66,36 @@ public class PathServicesWS {
 		return json;
 	}
 
+	@GET
+	@Path("/SavePathConnectToAnExistingPath")
+	@Produces("application/json")
+	public String savePathConnectToAnExistingPath(
+			@QueryParam("fLocationId") long fLocationId,
+			@QueryParam("tLocationGPS") String tLocationId,
+			@QueryParam("pathRoute") String pathRoute,
+			@QueryParam("pathName") String pathName,
+			@QueryParam("description") String description,
+			@QueryParam("pathType") String pathType,
+			@QueryParam("destinationPathId") long destinationPathId,
+			@QueryParam("width") double width) {
+
+		// PathENT ent = new PathENT(new LocationENT(fLocationId),
+		// new LocationENT(tLocationId), 0, pathType, pathId, pathRoute,
+		// width, pathName, description);
+		String json = "[]";
+		// ObjectMapper mapper = new ObjectMapper();
+		// try {
+		// json = mapper.writeValueAsString(getPathDAO().savePath(ent));
+		// } catch (JsonGenerationException e) {
+		// e.printStackTrace();
+		// } catch (JsonMappingException e) {
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		return json;
+	}
+
 	private static PathDAOInterface getPathDAO() {
 		return NMMUMobileDAOManager.getPathDAOInterface();
 	}

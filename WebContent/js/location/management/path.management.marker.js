@@ -120,8 +120,6 @@ function getAllMarkers(parentId) {
 							getParentLocationTypeId(null,
 									l.locationType.locationTypeId);
 							getLocationTypeDropDown(null);
-							$("#panelMenu").panel();
-							$("#panelMenu").panel("close");
 						}
 						addMarker(l);
 					});
