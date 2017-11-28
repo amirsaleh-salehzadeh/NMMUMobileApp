@@ -107,7 +107,7 @@ function refreshMap(locationTypeId, gpsStr) {
 	} else if (locationTypeId == "2") {
 		icon += 'area.png';
 		map.setCenter(gps);
-		map.setZoom(15);
+		// map.setZoom(7);
 	} else if (locationTypeId == "3") {
 		icon += 'buildingss.png';
 		map.setCenter(gps);
@@ -145,6 +145,7 @@ function animateCircle(line) {
 	}, 50);
 }
 
+
 function initMap() {
 	setPathTypeButtonIcon();
 	getPathTypePanel();
@@ -156,6 +157,7 @@ function initMap() {
 	};
 
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
+		zoom : 7,
 		fullscreenControl : false,
 		streetViewControl : false,
 		mapTypeControl : false,
@@ -165,7 +167,7 @@ function initMap() {
 	map.mapTypes.set('map_style', new google.maps.StyledMapType(myStyle, {
 		name : 'My Style'
 	}));
-//	map.setCenter(myLatLng);
+	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
 	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
@@ -190,12 +192,12 @@ function initMap() {
 		draggableCursor : 'corsshair'
 	});
 
-	// var polyOptions = {
-	// strokeWeight : 0,
-	// fillOpacity : 0.45,
-	// editable : true,
-	// draggable : false
-	// };
+//	var polyOptions = {
+//		strokeWeight : 0,
+//		fillOpacity : 0.45,
+//		editable : true,
+//		draggable : false
+//	};
 	google.maps.LatLng.prototype.kmTo = function(a) {
 		var e = Math, ra = e.PI / 180;
 		var b = this.lat() * ra, c = a.lat() * ra, d = b - c;
