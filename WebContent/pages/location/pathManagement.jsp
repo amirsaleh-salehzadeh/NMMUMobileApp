@@ -57,8 +57,10 @@
 			$("#editBoundaryPopup").css("display", "none");
 	}
 </script>
-
-<link href="css/location/croppie.css" rel="stylesheet">
+<link href="css/location/colorpicker.css"
+	rel="stylesheet">
+<link href="css/location/croppie.css"
+	rel="stylesheet">
 <link href="css/location/management/path.management.css"
 	rel="stylesheet">
 <link href="css/location/management/path.management.location.edit.css"
@@ -78,6 +80,7 @@
 <input type="hidden" name="markerCoordinate" id="markerCoordinate">
 <input type="hidden" name="markerId" id="markerId">
 <input type="hidden" id="pathLatLng">
+<input type="hidden" name="tempBoundaryColors" id="tempBoundaryColors">
 
 
 <div class="ui-block-solo" id="mapSatelViewIcon"
@@ -291,23 +294,22 @@
 
 <div id="editBoundaryPopup" class="ui-grid-a toolBar">
 	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
-<<<<<<< HEAD
 		height="48" title="Free Select Mode" onclick="removeDrawingMode()">
 	<img src='images/icons/polygon-select.png' width="48" height="48"
 		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
 	<img src='images/icons/delete-icon.png' width="48" height="48"
 		class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
-	<span id="selectBoundaryColor" title="Select A Colour" onclick="selectColor()"></span>
-=======
-		height="48" title="Free Select Mode" onclick="removeDrawingMode()"><img
-		src='images/icons/polygon-select.png' width="48" height="48"
-		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" /> <img
-		src='images/icons/delete-icon.png' width="48" height="48"
-		class="pathMenu" title="Delete Boundary" onclick="setDrawingMode()" />
-	<span id="selectBoundaryColor" title="Select A Colour"
-		onclick="selectColor()"></span>
->>>>>>> Version-0.3.1
-	<div id="color-palette"></div>
+<!-- 	<span id="selectBoundaryColor" title="Select A Colour" onclick="selectColor()"></span> -->
+	<br>
+	<span>Fill Colour</span>
+	<div id="colorSelectorFill">
+		<div style="background-color: #00ff00"></div>
+	</div>
+	<span>Border Colour</span>
+	<div id="colorSelectorBorder">
+		<div style="background-color: #0000ff"></div>
+	</div>
+	<div id="color-palette" style="display: none"></div>
 	<!-- 		 For later work	<span>Boundary Edit Points</span> -->
 </div>
 
@@ -317,7 +319,7 @@
 
 
 
-<div id="pathTypePopup" class="ui-grid-solo toolBar">
+<div id="pathTypePopup" class="ui-grid-solo toolBar" style="display: none">
 	<!-- <div class="ui-block-solo editlocationFormRow"> -->
 	<!-- 		<label for="pathType" style="display: inline-block !important;">Path Type</label> -->
 	<logic:iterate id="pathTIteration" name="pathTypes"
@@ -335,6 +337,7 @@
 
 
 <script src="js/croppie.js"></script>
+<script src="js/colorpicker.js"></script>
 <script src="js/leanModal.min.js"></script>
 <script src="js/jquery.Jcrop.min.js"></script>
 <script type="text/javascript"
