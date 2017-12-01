@@ -56,6 +56,7 @@ function saveMarker() {
 	}
 	// $("#locationTypeId").val($("#locationType").val());
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
+	$("#boundary").val($("#boundary").val() + ";" + $("#tempBoundaryColors").val()); // boundary mow has boundary plus colours
 	$.ajax({
 		url : url,
 		cache : false,
@@ -246,9 +247,12 @@ function addAMarker(location, gps) {
 						"<img width='24' height='24' src='images/icons/add.png' class=''>NEW")
 				.trigger("create");
 	} else {
-		$("#markerId").val(location.locationID);
+
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(location.gps);
+		$("#boundary").val(getArrayBoundary(location));// boundary only has boundary no colours
+		$("#tempBoundaryColors").val(getBoundaryColour(location.boundary));// boundary colours
+		$("#markerId").val(location.locationID);
 		$("#croppedIcon").attr("src", location.icon);
 		$("#icon").val(location.icon);
 		var icn = location.icon;

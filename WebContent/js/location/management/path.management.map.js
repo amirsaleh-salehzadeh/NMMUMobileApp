@@ -158,21 +158,23 @@ function initMap() {
 	getAllMarkers("360");
 	$("#parentLocationId").val("360");
 	var myLatLng = {
-		lat : -33.5343803,
-		lng : 24.2683424
+			lat : -33.5343803,
+			lng : 24.2683424
 	};
 
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		fullscreenControl : false,
 		streetViewControl : false,
-		mapTypeControl : false,
+		mapTypeControl: false,
 		scrollwheel : true,
 		gestureHandling : 'greedy'
+//        styles: myStyle
 	});
-	map.mapTypes.set('map_style', new google.maps.StyledMapType(myStyle, {
+	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
 		name : 'My Style'
 	}));
-// map.setCenter(myLatLng);
+	map.setMapTypeId('mystyle');
+	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
 	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
@@ -197,12 +199,9 @@ function initMap() {
 		draggableCursor : 'corsshair'
 	});
 
-	// var polyOptions = {
-	// strokeWeight : 0,
-	// fillOpacity : 0.45,
-	// editable : true,
-	// draggable : false
-	// };
+	createDrawingManager();
+	createColorPicker();
+	
 	google.maps.LatLng.prototype.kmTo = function(a) {
 		var e = Math, ra = e.PI / 180;
 		var b = this.lat() * ra, c = a.lat() * ra, d = b - c;
@@ -210,7 +209,7 @@ function initMap() {
 		var f = 2 * e.asin(e.sqrt(e.pow(e.sin(d / 2), 2) + e.cos(b) * e.cos(c)
 				* e.pow(e.sin(g / 2), 2)));
 		return f * 6378.137;
-	}
+	};
 
 	google.maps.Polyline.prototype.inKm = function(n) {
 		var a = this.getPath(n), len = a.getLength(), dist = 0;
@@ -218,71 +217,6 @@ function initMap() {
 			dist += a.getAt(i).kmTo(a.getAt(i + 1));
 		}
 		return dist;
-	}
-	// drawingManager = new google.maps.drawing.DrawingManager({
-	// drawingMode : google.maps.drawing.OverlayType.POLYGON,
-	// drawingControl : true,
-	// drawingControlOptions : {
-	// style : google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-	// position : google.maps.ControlPosition.TOP_CENTER,
-	// // drawingModes: ['marker', 'circle', 'polygon', 'polyline',
-	// // 'rectangle']
-	// drawingModes : [ 'polygon' ]
-	// },
-	// rectangleOptions : polyOptions,
-	// map : map
-	// });
-	//
-	// google.maps.event
-	// .addListener(
-	// drawingManager,
-	// 'overlaycomplete',
-	// function(e) {
-	// var newShape = e.overlay;
-	// $("#boundary").val(getPolygonCoords(newShape));
-	// newShape.type = e.type;
-	// if (e.type !== google.maps.drawing.OverlayType.MARKER) {
-	// drawingManager.setDrawingMode(null);
-	// google.maps.event
-	// .addListener(
-	// newShape,
-	// 'click',
-	// function(e) {
-	// if (e.vertex !== undefined) {
-	// if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
-	// var path = newShape
-	// .getPaths()
-	// .getAt(e.path);
-	// path.removeAt(e.vertex);
-	// if (path.length < 3) {
-	// newShape
-	// .setMap(null);
-	// }
-	// }
-	// }
-	// setSelection(newShape);
-	// showArrays(newShape, e.latLng);
-	// });
-	// setSelection(newShape);
-	// } else {
-	// google.maps.event.addListener(newShape, 'click',
-	// function(e) {
-	// setSelection(newShape);
-	// });
-	// setSelection(newShape);
-	// }
-	// });
-
-	// Clear the current selection when the drawing mode is changed, or when the
-	// map is clicked.
-	// google.maps.event.addListener(drawingManager, 'drawingmode_changed',
-	// clearSelection);
-	// google.maps.event.addListener(map, 'click', clearSelection);
-	// google.maps.event.addDomListener(document.getElementById('delete-button'),
-	// 'click', deleteSelectedShape);
-	// Disables drawing mode on startup so you have to click on toolbar first to
-	// draw shapes and create the colour palette
-	// drawingManager.setDrawingMode(null);
-	buildColorPalette();
+	};
 	getAllLocationTypes();
 }
