@@ -153,6 +153,7 @@ function addMarker(l) {
 	if (l.boundary != null && l.boundary.length > 2) {
 		drawPolygons(l);
 	}
+	if(l.locationType.locationTypeId != 5)
 	marker = new google.maps.Marker({
 		map : map,
 		icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
@@ -166,7 +167,24 @@ function addMarker(l) {
 		labelStyle : {
 			opacity : 1.0
 		},
-		title : l.locationName
+		label : l.locationName,
+		zIndex: 20
+	});else
+		marker = new google.maps.Marker({
+		map : map,
+		icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
+		hovericon : refreshMap(l.locationType.locationTypeId, l.gps, "hover"),
+		originalicon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
+		animation : google.maps.Animation.DROP,
+		draggable : true,
+		labelContent : l.locationName + " " + l.locationType.locationType,
+		labelAnchor : new google.maps.Point(30, 20),
+		labelClass : "labels", // the CSS class for the label
+		labelStyle : {
+			opacity : 1.0
+		},
+		title : l.locationName,
+		zIndex: 20
 	});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
@@ -230,7 +248,7 @@ function addAMarker(location, gps) {
 	} else {
 		$("#markerId").val(location.locationID);
 		$("#markerName").val(location.locationName);
-		$("#markerCoordinate").val(gps);
+		$("#markerCoordinate").val(location.gps);
 		$("#croppedIcon").attr("src", location.icon);
 		$("#icon").val(location.icon);
 		var icn = location.icon;

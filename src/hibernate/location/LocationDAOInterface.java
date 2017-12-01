@@ -12,7 +12,7 @@ import common.location.PathTypeENT;
 import tools.AMSException;
 
 public interface LocationDAOInterface {
-	public LocationENT saveUpdateLocation(LocationENT ent) throws AMSException;
+	public LocationENT saveUpdateLocation(LocationENT ent, Connection conn) throws AMSException;
 
 	public ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type);
 
@@ -24,8 +24,6 @@ public interface LocationDAOInterface {
 
 	public boolean deleteLocation(LocationENT ent) throws AMSException;
 
-	public boolean deletePath(PathENT ent) throws AMSException;
-
 	public ArrayList<DropDownENT> getAllCountrirs();
 
 	public ArrayList<PathTypeENT> getAllPathTypes();
@@ -34,12 +32,7 @@ public interface LocationDAOInterface {
 
 	public LocationENT findClosestLocation(String GPSCoordinates, String locationTypeIds, String parentIds, String clientName);
 
-	public PathENT getAPath(PathENT ent);
-
 	public long saveTrip(long deptLocationId, long destLocationId);
-
-	public ArrayList<PathENT> getShortestPath(long dep, long dest,
-			int pathTypeId, String clientName, int areaId);
 
 	public void deleteTrip(long tripId);
 

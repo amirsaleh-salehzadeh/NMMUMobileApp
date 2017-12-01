@@ -94,7 +94,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 			if (ent.getIcon() != null && ent.getIcon().length() < 5)
 				ent.setIcon(null);
 			try {
-				dao.saveUpdateLocation(ent);
+				dao.saveUpdateLocation(ent, null);
 			} catch (AMSException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -128,7 +128,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 				System.out.println(ent.getLocationName() + " "
 						+ ent.getLocationID());
 				try {
-					dao.saveUpdateLocation(ent);
+					dao.saveUpdateLocation(ent, null);
 				} catch (AMSException e) {
 					e.printStackTrace();
 				}
@@ -181,7 +181,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 						"", "");
 				ent.setPathId(0);
 				ent.setPathType(rs.getString("path_type"));
-				dao.savePath(ent);
+				dao.savePath(ent, conn);
 				res.add(ent);
 			}
 			ps.close();

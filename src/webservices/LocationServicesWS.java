@@ -2,6 +2,7 @@ package webservices;
 
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.location.LocationDAOInterface;
+import hibernate.route.PathDAOInterface;
 import hibernate.security.SecurityDAOInterface;
 
 import java.io.IOException;
@@ -183,7 +184,7 @@ public class LocationServicesWS {
 				departureId = getLocationDAO().findClosestLocation(from,
 						"11,3,5", parentId, "NMMU").getLocationID();
 			}
-			ArrayList<PathENT> res = getLocationDAO().getShortestPath(
+			ArrayList<PathENT> res = getPathDAO().getShortestPath(
 					departureId, destinationId, pathType, clientName, pathType);
 			if (res.size() == 0)
 				getLocationDAO().saveTrip(departureId, destinationId);
@@ -237,8 +238,8 @@ public class LocationServicesWS {
 			@FormParam("boundary") String boundary,
 			@FormParam("plan") String plan, @FormParam("parentId") long parentId) {
 		LocationENT ent = new LocationENT(locationId, userName,
-				new LocationTypeENT(Integer.parseInt(locationTypeId)), address, coordinate,
-				locationName);
+				new LocationTypeENT(Integer.parseInt(locationTypeId)), address,
+				coordinate, locationName);
 		ent.setParentId(parentId);
 		ent.setDescription(description);
 		ent.setBoundary(boundary);
@@ -248,7 +249,7 @@ public class LocationServicesWS {
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
-					.saveUpdateLocation(ent));
+					.saveUpdateLocation(ent, null));
 		} catch (AMSException e) {
 			e.printStackTrace();
 		} catch (JsonGenerationException e) {
@@ -268,26 +269,13 @@ public class LocationServicesWS {
 		String json = "[]";
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			json = mapper.writeValueAsString(getLocationDAO().getAPath(
+			json = mapper.writeValueAsString(getPathDAO().getAPath(
 					new PathENT(pathId)));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return json;
-	}
-
-	@GET
-	@Path("/RemoveAPath")
-	@Produces("application/json")
-	public String removeAPath(@QueryParam("pathId") long pathId) {
-		String json = "[]";
-		try {
-			getLocationDAO().deletePath(new PathENT(pathId));
-		} catch (AMSException e) {
 			e.printStackTrace();
 		}
 		return json;
@@ -388,5 +376,9 @@ public class LocationServicesWS {
 
 	private static LocationDAOInterface getLocationDAO() {
 		return NMMUMobileDAOManager.getLocationDAOInterface();
+	}
+
+	private static PathDAOInterface getPathDAO() {
+		return NMMUMobileDAOManager.getPathDAOInterface();
 	}
 }

@@ -35,14 +35,17 @@ import tools.QRBarcodeGen;
 public class LocationDAO extends BaseHibernateDAO implements
 		LocationDAOInterface {
 
-	public LocationENT saveUpdateLocation(LocationENT ent) throws AMSException {
+	public LocationENT saveUpdateLocation(LocationENT ent, Connection conn)
+			throws AMSException {
 		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
+			boolean isnew = false;
+			if (conn == null)
+				try {
+					conn = getConnection();
+					isnew = true;
+				} catch (AMSException e) {
+					e.printStackTrace();
+				}
 			String query = "";
 			query = "insert into location (country, address, post_box, gps, location_name, client_name, location_type, parent_id, description, boundary, plan, icon)"
 					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -71,7 +74,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 			}
 			rs.close();
 			ps.close();
-			conn.close();
+			if (isnew)
+				conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -416,8 +420,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 		if (ent.getLocationTypeId() >= 3)
 			return null;
 		try {
-			if (conn == null)
+			boolean isnew = false;
+			if (conn == null) {
 				conn = getConnection();
+				isnew = true;
+			}
 			String query = "";
 			query = "select lt.* from location_type lt"
 					+ " where lt.parent_id = " + ent.getLocationTypeId()
@@ -434,7 +441,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 				res.add(ent);
 			}
 			ps.close();
-			// conn.close();
+			if (isnew)
+				conn.close();
 			if (!end)
 				return null;
 		} catch (SQLException e) {
@@ -501,82 +509,13 @@ public class LocationDAO extends BaseHibernateDAO implements
 		int closest = -1;
 		double[] distances = new double[points.size()];
 		for (int i = 0; i < points.size(); i++) {
-			distances[i] = PathDAO.calculateDistanceBetweenTwoPoints(points.get(i)
-					.getGps(), GPSCoordinates);
+			distances[i] = PathDAO.calculateDistanceBetweenTwoPoints(points
+					.get(i).getGps(), GPSCoordinates);
 			if (closest == -1 || distances[i] < distances[closest]) {
 				closest = i;
 			}
 		}
 		return points.get(closest);
-	}
-
-	public ArrayList<PathENT> getShortestPath(long dep, long dest,
-			int pathTypeId, String clientName, int areaId) {
-		UndirectedGraph<Long, DefaultWeightedEdge> graph = null;
-		GraphGenerator g = new GraphGenerator();
-		if (g.fetchGraph(clientName, areaId, pathTypeId) == null)
-			g.generateGraph(clientName, areaId, pathTypeId);
-		graph = g.fetchGraph(clientName, areaId, pathTypeId);
-		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
-				graph, dep, dest);
-		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(graph,
-				dep, dest);
-		ArrayList<PathENT> res = new ArrayList<PathENT>();
-		if (shortest_path == null)
-			shortest_path = new ArrayList<DefaultWeightedEdge>();
-		for (int i = 0; i < shortest_path.size(); i++) {
-			long source = graph.getEdgeSource(shortest_path.get(i));
-			long target = graph.getEdgeTarget(shortest_path.get(i));
-			PathENT tmpPath = getAPath(new PathENT(new LocationENT(source),
-					new LocationENT(target)));
-			LocationLightENT srcLoc = tmpPath.getDepL();
-			LocationLightENT tarLoc = tmpPath.getDesL();
-			String pathRoute = tmpPath.getPathRoute();
-			String resPathRoute = "";
-			if (i == 0 && source != dep) {
-				long tmp = source;
-				source = target;
-				target = tmp;
-				LocationLightENT tmpLoc = srcLoc;
-				srcLoc = tarLoc;
-				tarLoc = tmpLoc;
-				if (pathRoute != null && pathRoute.length() > 0) {
-					String[] tmpPathRoute = pathRoute.split("_");
-					for (int j = tmpPathRoute.length - 1; j >= 0; j--) {
-						if (j != 0)
-							resPathRoute += tmpPathRoute[j] + "_";
-						else
-							resPathRoute += tmpPathRoute[j];
-					}
-				}
-			} else if (i > 0)
-				if (source != res.get(i - 1).getDesL().getId()) {
-					long tmp = source;
-					source = target;
-					target = tmp;
-					LocationLightENT tmpLoc = srcLoc;
-					srcLoc = tarLoc;
-					tarLoc = tmpLoc;
-					if (pathRoute != null && pathRoute.length() > 0) {
-						String[] tmpPathRoute = pathRoute.split("_");
-						for (int j = tmpPathRoute.length - 1; j >= 0; j--) {
-							if (j != 0)
-								resPathRoute += tmpPathRoute[j] + "_";
-							else
-								resPathRoute += tmpPathRoute[j];
-						}
-					}
-				}
-			if (resPathRoute.length() > 0)
-				tmpPath.setPathRoute(resPathRoute);
-			tmpPath.setDesL(tarLoc);
-			tmpPath.setDepL(srcLoc);
-			res.add(tmpPath);
-		}
-		// System.out.println(" getShortestPath End >>>> "
-		// + System.currentTimeMillis());
-
-		return res;
 	}
 
 	public static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
@@ -608,78 +547,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 			}
 		}
 		return g;
-	}
-
-	public PathENT getAPath(PathENT ent) {
-		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-			String query = "";
-			query = "select * from paths where path_id = " + ent.getPathId();
-			if (ent.getDeparture().getLocationID() > 0
-					&& ent.getDeparture().getLocationID() > 0)
-				query = "select * from paths where (departure_location_id = "
-						+ ent.getDeparture().getLocationID()
-						+ " and destination_location_id = "
-						+ ent.getDestination().getLocationID()
-						+ ") or (destination_location_id = "
-						+ ent.getDeparture().getLocationID()
-						+ " and departure_location_id = "
-						+ ent.getDestination().getLocationID() + ")";
-			PreparedStatement ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				LocationENT dep = getLocationENT(
-						new LocationENT(rs.getLong("departure_location_id")),
-						conn);
-				LocationENT des = getLocationENT(
-						new LocationENT(rs.getLong("destination_location_id")),
-						conn);
-				ent = new PathENT(new LocationLightENT(dep),
-						new LocationLightENT(des), rs.getDouble("distance"),
-						new PathTypeENT(rs.getInt("path_type")),
-						rs.getLong("path_id"));
-				ent.setPathRoute(rs.getString("path_route"));
-			}
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return ent;
-	}
-
-	public boolean deletePath(PathENT ent) throws AMSException {
-		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-				conn.setAutoCommit(false);
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-			String query = "";
-			query = "delete from path_path_type where path_id = "
-					+ ent.getPathId();
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.execute();
-			ps.close();
-			query = "delete from paths where path_id = ?";
-			ps = conn.prepareStatement(query);
-			ps.setLong(1, ent.getPathId());
-			ps.execute();
-			ps.close();
-			conn.commit();
-			conn.close();
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw getAMSException("", e);
-		}
 	}
 
 	public long saveTrip(long deptLocationId, long destLocationId) {

@@ -71,10 +71,10 @@
 <input type="hidden" id="parentLocationId" value="360">
 <input type='hidden' id='locationTypeId' value="0">
 <input type='hidden' id='parentLocationTypeId' value="0">
-<input type='hidden' id='locationTypeDefinition' value='def'>
 <input type="hidden" name="destinationId" id="destinationId">
 <input type="hidden" name="destinationGPS" id="destinationGPS">
 <input type="hidden" name="departureId" id="departureId">
+<input type="hidden" name="departureGPS" id="departureGPS">
 <input type="hidden" name="pathId" id="pathId">
 <input type="hidden" name="markerCoordinate" id="markerCoordinate">
 <input type="hidden" name="markerId" id="markerId">
@@ -330,6 +330,9 @@
 	src="js/location/management/path.data.transaction.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.polyline.drawing.js"></script>
+<script type="text/javascript"
+	src="js/location/management/path.polyline.interaction.js"></script>
+<script type="text/javascript" src="js/location/management/path.type.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.map.js"></script>
 <script type="text/javascript"

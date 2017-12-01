@@ -6,9 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
+
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.alg.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultWeightedEdge;
+
 import common.location.LocationENT;
+import common.location.LocationLightENT;
+import common.location.LocationTypeENT;
 import common.location.PathENT;
 import common.location.PathTypeENT;
+import graph.management.GraphGenerator;
 import hibernate.config.BaseHibernateDAO;
 import hibernate.location.LocationDAO;
 import tools.AMSException;
@@ -57,15 +67,17 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		return res;
 	}
 
-	public PathENT savePath(PathENT path) {
+	public PathENT savePath(PathENT path, Connection conn) {
 		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-				conn.setAutoCommit(false);
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
+			boolean isnew = false;
+			if (conn == null)
+				try {
+					conn = getConnection();
+					conn.setAutoCommit(false);
+					isnew = true;
+				} catch (AMSException e) {
+					e.printStackTrace();
+				}
 			String query = "";
 			query = "insert into paths (destination_location_id, departure_location_id, distance, path_route, path_name, description, width)"
 					+ " values (?, ?, ?, ?, ?, ?, ?)";
@@ -95,8 +107,10 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			}
 			path = savePathTypes(path, conn);
 			ps.close();
-			conn.commit();
-			conn.close();
+			if (isnew) {
+				conn.commit();
+				conn.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -152,12 +166,6 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		return outp;
 	}
 
-	public ArrayList<PathTypeENT> getRoutesForUserAndParent(
-			ArrayList<PathTypeENT> pathTypeENTs, Connection conn) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private double reEvaluateDistance(double distance,
 			ArrayList<PathTypeENT> pathTypes) {
 		for (int i = 0; i < pathTypes.size(); i++) {
@@ -170,10 +178,12 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 
 	public PathENT savePathTypes(PathENT path, Connection conn) {
 		try {
+			boolean isnew = false;
 			if (conn == null)
 				try {
 					conn = getConnection();
 					conn.setAutoCommit(false);
+					isnew = true;
 				} catch (AMSException e) {
 					e.printStackTrace();
 				}
@@ -192,10 +202,245 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 				ps.execute();
 				ps.close();
 			}
+			if (isnew)
+				conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return path;
+	}
+
+	public boolean deletePath(PathENT ent, Connection conn) throws AMSException {
+		try {
+			boolean isNewCon = false;
+			if (conn == null)
+				try {
+					conn = getConnection();
+					conn.setAutoCommit(false);
+					isNewCon = true;
+				} catch (AMSException e) {
+					e.printStackTrace();
+				}
+			String query = "";
+			query = "delete from path_path_type where path_id = "
+					+ ent.getPathId();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			ps.close();
+			query = "delete from paths where path_id = ?";
+			ps = conn.prepareStatement(query);
+			ps.setLong(1, ent.getPathId());
+			ps.execute();
+			ps.close();
+			if (isNewCon) {
+				conn.commit();
+				conn.close();
+			}
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+	}
+
+	public PathENT getAPath(PathENT ent) {
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			query = "select * from paths where path_id = " + ent.getPathId();
+			if (ent.getDeparture() != null
+					&& ent.getDeparture().getLocationID() > 0
+					&& ent.getDestination() != null
+					&& ent.getDestination().getLocationID() > 0)
+				query = "select * from paths where (departure_location_id = "
+						+ ent.getDeparture().getLocationID()
+						+ " and destination_location_id = "
+						+ ent.getDestination().getLocationID()
+						+ ") or (destination_location_id = "
+						+ ent.getDeparture().getLocationID()
+						+ " and departure_location_id = "
+						+ ent.getDestination().getLocationID() + ")";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			LocationDAO dao = new LocationDAO();
+			while (rs.next()) {
+				LocationENT dep = dao.getLocationENT(
+						new LocationENT(rs.getLong("departure_location_id")),
+						conn);
+				LocationENT des = dao.getLocationENT(
+						new LocationENT(rs.getLong("destination_location_id")),
+						conn);
+				ent = new PathENT(dep, des);
+				ent.setPathRoute(rs.getString("path_route"));
+				ent.setPathId(rs.getLong("path_id"));
+				ent.setPathTypes(getPathTypesOfAPath(rs.getLong("path_id"),
+						conn));
+				ent.setWidth(rs.getDouble("width"));
+				ent.setPathName(rs.getString("path_Name"));
+				ent.setDescription(rs.getString("description"));
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ent;
+	}
+
+	private ArrayList<PathTypeENT> getPathTypesOfAPath(long pathId,
+			Connection conn) {
+		ArrayList<PathTypeENT> res = new ArrayList<PathTypeENT>();
+		boolean isNewCon = false;
+		if (conn == null)
+			try {
+				conn = getConnection();
+				isNewCon = true;
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+		String query = "select ppt.*, p.path_type from path_path_type ppt "
+				+ " left join path_type p on p.path_type_id = ppt.path_type_id "
+				+ " where path_id = " + pathId;
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				res.add(new PathTypeENT(rs.getInt("path_type_id"), rs
+						.getString("path_type")));
+			}
+			ps.close();
+			if (isNewCon)
+				conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return res;
+	}
+
+	public ArrayList<PathENT> getShortestPath(long dep, long dest,
+			int pathTypeId, String clientName, int areaId) {
+		UndirectedGraph<Long, DefaultWeightedEdge> graph = null;
+		GraphGenerator g = new GraphGenerator();
+		if (g.fetchGraph(clientName, areaId, pathTypeId) == null)
+			g.generateGraph(clientName, areaId, pathTypeId);
+		graph = g.fetchGraph(clientName, areaId, pathTypeId);
+		DijkstraShortestPath dsp = new DijkstraShortestPath<Long, DefaultWeightedEdge>(
+				graph, dep, dest);
+		List<DefaultWeightedEdge> shortest_path = dsp.findPathBetween(graph,
+				dep, dest);
+		ArrayList<PathENT> res = new ArrayList<PathENT>();
+		if (shortest_path == null)
+			shortest_path = new ArrayList<DefaultWeightedEdge>();
+		for (int i = 0; i < shortest_path.size(); i++) {
+			long source = graph.getEdgeSource(shortest_path.get(i));
+			long target = graph.getEdgeTarget(shortest_path.get(i));
+			PathENT tmpPath = getAPath(new PathENT(new LocationENT(source),
+					new LocationENT(target)));
+			LocationLightENT srcLoc = tmpPath.getDepL();
+			LocationLightENT tarLoc = tmpPath.getDesL();
+			String pathRoute = tmpPath.getPathRoute();
+			String resPathRoute = "";
+			if (i == 0 && source != dep) {
+				long tmp = source;
+				source = target;
+				target = tmp;
+				LocationLightENT tmpLoc = srcLoc;
+				srcLoc = tarLoc;
+				tarLoc = tmpLoc;
+				if (pathRoute != null && pathRoute.length() > 0) {
+					String[] tmpPathRoute = pathRoute.split("_");
+					for (int j = tmpPathRoute.length - 1; j >= 0; j--) {
+						if (j != 0)
+							resPathRoute += tmpPathRoute[j] + "_";
+						else
+							resPathRoute += tmpPathRoute[j];
+					}
+				}
+			} else if (i > 0)
+				if (source != res.get(i - 1).getDesL().getId()) {
+					long tmp = source;
+					source = target;
+					target = tmp;
+					LocationLightENT tmpLoc = srcLoc;
+					srcLoc = tarLoc;
+					tarLoc = tmpLoc;
+					if (pathRoute != null && pathRoute.length() > 0) {
+						String[] tmpPathRoute = pathRoute.split("_");
+						for (int j = tmpPathRoute.length - 1; j >= 0; j--) {
+							if (j != 0)
+								resPathRoute += tmpPathRoute[j] + "_";
+							else
+								resPathRoute += tmpPathRoute[j];
+						}
+					}
+				}
+			if (resPathRoute.length() > 0)
+				tmpPath.setPathRoute(resPathRoute);
+			tmpPath.setDesL(tarLoc);
+			tmpPath.setDepL(srcLoc);
+			res.add(tmpPath);
+		}
+		return res;
+	}
+
+	public ArrayList<PathENT> createAPointOnPath(long pathId, String pointGPS,
+			int index) {
+		ArrayList<PathENT> res = new ArrayList<PathENT>();
+		Connection conn = null;
+		final PathENT p = getAPath(new PathENT(pathId));
+		LocationENT ent = new LocationENT();
+		ent.setGps(pointGPS);
+		ent.setLocationName("Intersection");
+		ent.setLocationType(new LocationTypeENT(5));
+		ent.setClientName(p.getDeparture().getClientName());
+		ent.setParentId(p.getDeparture().getParentId());
+		ent.setCountry(200);
+		LocationDAO dao = new LocationDAO();
+		try {
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			ent = dao.saveUpdateLocation(ent, conn);
+			String[] points = p.getPathRoute().split("_");
+			StringJoiner firstRoute = new StringJoiner("_");
+			StringJoiner secondRoute = new StringJoiner("_");
+			for (int i = 0; i < points.length; i++) {
+				if (i < index-1)
+					firstRoute.add(points[i]);
+				else
+					secondRoute.add(points[i]);
+			}
+
+			PathENT path = p;
+			path.setPathId(0);
+			path.setDeparture(new LocationENT(p.getDeparture().getLocationID()));
+			path.setDestination(new LocationENT(ent.getLocationID()));
+			path.setPathRoute(firstRoute.toString());
+			path = savePath(path, conn);
+			res.add(path);
+			path.setPathId(0);
+			path.setDeparture(new LocationENT(ent.getLocationID()));
+			path.setDestination(new LocationENT(p.getDestination()
+					.getLocationID()));
+			path.setPathRoute(secondRoute.toString());
+			path = savePath(path, conn);
+			deletePath(new PathENT(pathId), conn);
+			res.add(path);
+			conn.commit();
+			conn.close();
+		} catch (AMSException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 }

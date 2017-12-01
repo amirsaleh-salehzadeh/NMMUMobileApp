@@ -16,9 +16,14 @@ public interface PathDAOInterface {
 	public ArrayList<PathENT> getRoutesForUserAndParent(String username,
 			long parentId);
 
-	public ArrayList<PathTypeENT> getRoutesForUserAndParent(
-			ArrayList<PathTypeENT> pathTypeENTs, Connection conn);
+ 	public PathENT savePath(PathENT path, Connection conn);
 
-	public PathENT savePath(PathENT path);
+	public boolean deletePath(PathENT ent, Connection conn) throws AMSException;
+
+	public PathENT getAPath(PathENT ent);
+
+	public ArrayList<PathENT> getShortestPath(long dep, long dest,
+			int pathTypeId, String clientName, int areaId);
 	
+	public ArrayList<PathENT> createAPointOnPath(long pathId, String pointGPS, int index);
 }

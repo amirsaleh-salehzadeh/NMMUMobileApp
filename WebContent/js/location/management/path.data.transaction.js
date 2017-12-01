@@ -83,8 +83,12 @@ function saveAPath() {
 
 // REMOVE A PATH
 function removePath() {
+	if ($("#pathId").val().length <= 0) {
+		alert("please select a path");
+		return;
+	}
 	if (confirm('Are you sure you want to remove this path?')) {
-		var url = "REST/GetLocationWS/RemoveAPath?pathId=" + $("#pathId").val();
+		var url = "REST/GetPathWS/RemoveAPath?pathId=" + $("#pathId").val();
 		$.ajax({
 			url : url,
 			cache : false,
@@ -96,6 +100,7 @@ function removePath() {
 				for ( var i = 0; i < paths.length; i++) {
 					if (paths[i].id == $("#pathId").val()) {
 						paths[i].setMap(null);
+						paths[i] = null;
 					}
 				}
 				toast("remove successful");
@@ -125,8 +130,8 @@ function addAPath(location, gps) {
 		mapDrawingClickCounter = 1;
 		$("#departure").val(location.locationName);
 		$("#departureId").val(location.locationID);
-		$("#markerCoordinate").val(location.gps);
-		$("#pathLatLng").val($("#markerCoordinate").val());
+		$("#departureGPS").val(location.gps);
+//		$("#pathLatLng").val($("#departureGPS").val());
 		lastOne = getGoogleMapPosition(location.gps);
 		google.maps.event.clearInstanceListeners(map);
 		pathDrawingCircle = new google.maps.Circle({
@@ -156,7 +161,7 @@ function addAPath(location, gps) {
 				event) {
 			addAPathInnerConnection(event);
 		});
-		$("#pathLatLng").val(location.gps);
+//		$("#pathLatLng").val(location.gps);
 		return;
 	} else if ($("#destinationId").val() == "") {
 		$("#destination").val(location.locationName);

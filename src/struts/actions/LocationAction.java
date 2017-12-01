@@ -68,7 +68,8 @@ public class LocationAction extends Action {
 			ActionMapping mapping) {
 		LocationENT locationENT = getLocationENT(request);
 		try {
-			locationENT = getLocationDAO().saveUpdateLocation(locationENT);
+			locationENT = getLocationDAO()
+					.saveUpdateLocation(locationENT, null);
 			success = "The location '" + locationENT.getLocationName()
 					+ "' saved successfully";
 		} catch (AMSException e) {
