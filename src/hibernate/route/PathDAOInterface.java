@@ -20,7 +20,7 @@ public interface PathDAOInterface {
 
 	public boolean deletePath(PathENT ent, Connection conn) throws AMSException;
 
-	public PathENT getAPath(PathENT ent);
+	public PathENT getAPath(PathENT ent, Connection conn);
 
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId, String clientName, int areaId);

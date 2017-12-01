@@ -270,7 +270,7 @@ public class LocationServicesWS {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			json = mapper.writeValueAsString(getPathDAO().getAPath(
-					new PathENT(pathId)));
+					new PathENT(pathId), null));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
