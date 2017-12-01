@@ -98,6 +98,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 				ps.setLong(8, path.getPathId());
 			ps.execute();
 			ps.close();
+			LocationDAO ldao = new LocationDAO();
 			if (path.getPathId() <= 0) {
 				query = "select path_id from paths order by path_id desc limit 1";
 				ps = conn.prepareStatement(query);
@@ -106,6 +107,8 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 					path.setPathId(rs.getLong("path_id"));
 			}
 			path = savePathTypes(path, conn);
+			path.setDeparture(ldao.getLocationENT(new LocationENT(path.getDeparture().getLocationID()), conn));
+			path.setDestination(ldao.getLocationENT(new LocationENT(path.getDestination().getLocationID()), conn));
 			ps.close();
 			if (isnew) {
 				conn.commit();
