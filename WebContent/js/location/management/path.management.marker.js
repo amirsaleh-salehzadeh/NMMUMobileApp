@@ -250,7 +250,7 @@ function addAMarker(location, gps) {
 
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(location.gps);
-		$("#boundary").val(getArrayBoundary(location));// boundary only has boundary no colours
+		$("#boundary").val(getArrayBoundary(location.boundary));// boundary only has boundary no colours
 		$("#tempBoundaryColors").val(getBoundaryColour(location.boundary));// boundary colours
 		$("#markerId").val(location.locationID);
 		$("#croppedIcon").attr("src", location.icon);

@@ -1,115 +1,135 @@
-function createDrawingManager(){
+function createDrawingManager() {
 	var polyOptions = {
-	    strokeWeight: 2,
-	    fillOpacity: 0.45,
-	    editable: true,
-	    draggable: false
+		strokeWeight : 2,
+		fillOpacity : 0.45,
+		editable : true,
+		draggable : false
 	};
-	    // Creates a drawing manager attached to the map that allows the user to draw
-	    // markers, lines, and shapes.
+	// Creates a drawing manager attached to the map that allows the user to
+	// draw
+	// markers, lines, and shapes.
 	drawingManager = new google.maps.drawing.DrawingManager({
-	drawingMode: google.maps.drawing.OverlayType.POLYGON,
-	drawingControl: false,
-	drawingControlOptions: {
-	    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-	    position: google.maps.ControlPosition.TOP_CENTER,
-//	    drawingModes: ['marker', 'circle', 'polygon', 'polyline', 'rectangle']
-	    drawingModes: ['polygon']
-	},
-	markerOptions: {
-	    draggable: false
-	},
-	polylineOptions: {
-	    editable: true,
-	    draggable: false
-	},
-	rectangleOptions: polyOptions,
-	circleOptions: polyOptions,
-	polygonOptions: polyOptions,
-	map: map
+		drawingMode : google.maps.drawing.OverlayType.POLYGON,
+		drawingControl : false,
+		drawingControlOptions : {
+			style : google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+			position : google.maps.ControlPosition.TOP_CENTER,
+			// drawingModes: ['marker', 'circle', 'polygon', 'polyline',
+			// 'rectangle']
+			drawingModes : [ 'polygon' ]
+		},
+		markerOptions : {
+			draggable : false
+		},
+		polylineOptions : {
+			editable : true,
+			draggable : false
+		},
+		rectangleOptions : polyOptions,
+		circleOptions : polyOptions,
+		polygonOptions : polyOptions,
+		map : map
 	});
-	    
-	google.maps.event.addListener(drawingManager, 'overlaycomplete', function (e) {
-		var newShape = e.overlay;
-	    newShape.type = e.type;
-	    $("#boundary").val(getPolygonCoords(newShape));
-//	    alert("Test1");
-	    google.maps.event.addListener(newShape, "mouseup", function(event){
-	    	$("#boundary").val(getPolygonCoords(newShape));
-//	    	alert("test2");
-		});
-	    
-//	    var polygonOptions = this.get('polygonOptions');
-//	    polygonOptions.strokeColor = '#FF0000';
-//		newShape.set('polygonOptions', polygonOptions);
-//		this.setMap(null);
-//		this.setMap(map);
-	    
-//	    var FillColour = '#1E90FF';
-//		var BorderColour = '#1E90FF';
-//		$("#tempBoundaryColors").val(FillColour + "," + BorderColour);
 
-	    //$('#insertAMarker').popup('open');
-	    if (e.type !== google.maps.drawing.OverlayType.MARKER) {
-	        // Switch back to non-drawing mode after drawing a shape.
-	    	drawingManager.setDrawingMode(null);
-	        // Add an event listener that selects the newly-drawn shape when the user
-	        // mouses down on it.
-	    	google.maps.event.addListener(newShape, 'click', function (e) {
-	    		if (e.vertex !== undefined) {
-	    			if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
-	    				var path = newShape.getPaths().getAt(e.path);
-	    				path.removeAt(e.vertex);
-	    				if (path.length < 3) {
-	    					newShape.setMap(null);
-	    				}
-	                }
-	                if (newShape.type === google.maps.drawing.OverlayType.POLYLINE) {
-	                	var path = newShape.getPath();
-	                    path.removeAt(e.vertex);
-	                    if (path.length < 2) {
-	                    	newShape.setMap(null);
-	                    }
-	                }
-	            }
-	        	setSelection(newShape);
-	    	});
-	            setSelection(newShape);
-	     }
-	     else {
-	    	 google.maps.event.addListener(newShape, 'click', function (e) {
-	    		 setSelection(newShape);
-	         });
-	         setSelection(newShape);
-	     }
-	    if ($("#tempBoundaryColors").val() == ""){
-	    	setBoundaryFillColour("#1E90FF");
-		    setBoundaryBorderColour("#1E90FF");
-	    }
-	    else{
-	    	setBoundaryFillColour(getFillColourValue);
-		    setBoundaryBorderColour(getBorderColourValue);
-	    }
-//	    $("#tempBoundaryColors").val(newShape.get('fillColor') + "," + newShape.get('strokeColor'));
-	});
-	
-    
-	
+	google.maps.event
+			.addListener(
+					drawingManager,
+					'overlaycomplete',
+					function(e) {
+						var newShape = e.overlay;
+						newShape.type = e.type;
+						$("#boundary").val(getPolygonCoords(newShape));
+						// alert("Test1");
+						google.maps.event.addListener(newShape, "mouseup",
+								function(event) {
+									$("#boundary").val(
+											getPolygonCoords(newShape));
+									// alert("test2");
+								});
+
+						// var polygonOptions = this.get('polygonOptions');
+						// polygonOptions.strokeColor = '#FF0000';
+						// newShape.set('polygonOptions', polygonOptions);
+						// this.setMap(null);
+						// this.setMap(map);
+
+						// var FillColour = '#1E90FF';
+						// var BorderColour = '#1E90FF';
+						// $("#tempBoundaryColors").val(FillColour + "," +
+						// BorderColour);
+
+						// $('#insertAMarker').popup('open');
+						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
+							// Switch back to non-drawing mode after drawing a
+							// shape.
+							drawingManager.setDrawingMode(null);
+							// Add an event listener that selects the
+							// newly-drawn shape when the user
+							// mouses down on it.
+							google.maps.event
+									.addListener(
+											newShape,
+											'click',
+											function(e) {
+												if (e.vertex !== undefined) {
+													if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
+														var path = newShape
+																.getPaths()
+																.getAt(e.path);
+														path.removeAt(e.vertex);
+														if (path.length < 3) {
+															newShape
+																	.setMap(null);
+														}
+													}
+													if (newShape.type === google.maps.drawing.OverlayType.POLYLINE) {
+														var path = newShape
+																.getPath();
+														path.removeAt(e.vertex);
+														if (path.length < 2) {
+															newShape
+																	.setMap(null);
+														}
+													}
+												}
+												setSelection(newShape);
+											});
+							setSelection(newShape);
+						} else {
+							google.maps.event.addListener(newShape, 'click',
+									function(e) {
+										setSelection(newShape);
+									});
+							setSelection(newShape);
+						}
+						if ($("#tempBoundaryColors").val() == "") {
+							setBoundaryFillColour("#1E90FF");
+							setBoundaryBorderColour("#1E90FF");
+						} else {
+							setBoundaryFillColour(getFillColourValue);
+							setBoundaryBorderColour(getBorderColourValue);
+						}
+						// $("#tempBoundaryColors").val(newShape.get('fillColor')
+						// + "," + newShape.get('strokeColor'));
+					});
+
 	// Clear the current selection when the drawing mode is changed, or when the
 	// map is clicked.
-	google.maps.event.addListener(drawingManager, 'drawingmode_changed', clearSelection);
+	google.maps.event.addListener(drawingManager, 'drawingmode_changed',
+			clearSelection);
 	google.maps.event.addListener(map, 'click', clearSelection);
-	//Disables drawing mode on startup so you have to click on toolbar first to draw shapes and create the colour palette
+	// Disables drawing mode on startup so you have to click on toolbar first to
+	// draw shapes and create the colour palette
 	drawingManager.setDrawingMode(null);
-	buildColorPalette(); 
+	buildColorPalette();
 }
 
 var longpress = false;
 var start;
 function drawPolygons(location) {
-	
-	var arrayBoundary = getArrayBoundary(location);
-	
+
+	var arrayBoundary = getArrayBoundary(location.boundary);
+
 	var CoordinatesArray = new Array();
 	for ( var i = 0; i <= arrayBoundary.length - 1; i++) {
 		var LatAndLng = arrayBoundary[i].split(",");
@@ -118,11 +138,11 @@ function drawPolygons(location) {
 		var LatLng = new google.maps.LatLng(Lat, Lng);
 		CoordinatesArray.push(LatLng);
 	}
-	
-	var boundaryColour = getBoundaryColour(location); 
+
+	var boundaryColour = getBoundaryColour(location.boundary);
 	var FillColour = '#' + boundaryColour[0];
 	var BorderColour = '#' + boundaryColour[1];
-	
+
 	var DRAWPolygon = new google.maps.Polygon({
 		paths : CoordinatesArray,
 		strokeColor : BorderColour,
@@ -136,13 +156,12 @@ function drawPolygons(location) {
 	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
 		if (longpress) {
 			$("#parentLocationId").val(location.locationID);
-			$("#parentLocationId").val(location.parentId);
 			$("#parentDescriptionToAdd")
 					.html(location.locationName + " Campus");
 			getAllPaths();
 			getAllMarkers(location.locationID + "");
 		} else {
-//			alert("Test3");
+			// alert("Test3");
 			addAMarker(location, location.gps);
 			setSelection(DRAWPolygon);
 		}
@@ -158,30 +177,32 @@ function drawPolygons(location) {
 	polygons.push(DRAWPolygon);
 }
 
-function getArrayBoundary(location){
-	var locationWithColour = location.boundary;
-	var locationWithColourArray = locationWithColour.split(";");
+function getArrayBoundary(boundary) {
+	var locationWithColourArray = boundary.split(";");
 	var arrayBoundary = locationWithColourArray[0].split("_");
 	return arrayBoundary;
 }
 
-function getBoundaryColour(boundary){
-	var locationWithColour = boundary;
-	var locationWithColourArray = locationWithColour.split(";");
+function getBoundaryColour(boundary) {
+	if (boundary.length <= 1)
+		return;
+	var locationWithColourArray = boundary.split(";");
+	if (locationWithColourArray.length <= 1)
+		return "";
 	var boundaryColour = locationWithColourArray[1].split(",");
 	return boundaryColour;
 }
 
 function deletePolygon() {
 	alert("This feature is disabled");
-//	var id = $("#markerId").val();
-//	for ( var i = 0; i < polygons.length; i++) {
-//		if (polygons[i].id == id) {
-//			polygons[i].setMap(null);
-//			polygons.splice(i, 1);
-//			return;
-//		}
-//	}
+	// var id = $("#markerId").val();
+	// for ( var i = 0; i < polygons.length; i++) {
+	// if (polygons[i].id == id) {
+	// polygons[i].setMap(null);
+	// polygons.splice(i, 1);
+	// return;
+	// }
+	// }
 }
 
 function setMapOnAllpoligons(map) {
@@ -295,41 +316,41 @@ function buildColorPalette() {
 	selectColor(colors[0]);
 }
 
-function createColorPicker(){
+function createColorPicker() {
 	$('#colorSelectorFill').ColorPicker({
-		color: '#0000ff',
-		onShow: function (colpkr) {
+		color : '#0000ff',
+		onShow : function(colpkr) {
 			$(colpkr).fadeIn(500);
 			return false;
 		},
-		onHide: function (colpkr) {
+		onHide : function(colpkr) {
 			$(colpkr).fadeOut(500);
 			return false;
 		},
-		onChange: function (hsb, hex, rgb) {
+		onChange : function(hsb, hex, rgb) {
 			$('#colorSelectorFill div').css('backgroundColor', '#' + hex);
 			updateFillColourValue(hex);
-			if (selectedShape){
+			if (selectedShape) {
 				setBoundaryFillColour('#' + hex);
-			} 
+			}
 		}
 	});
 	$('#colorSelectorBorder').ColorPicker({
-		color: '#0000ff',
-		onShow: function (colpkr) {
+		color : '#0000ff',
+		onShow : function(colpkr) {
 			$(colpkr).fadeIn(500);
 			return false;
 		},
-		onHide: function (colpkr) {
+		onHide : function(colpkr) {
 			$(colpkr).fadeOut(500);
 			return false;
 		},
-		onChange: function (hsb, hex, rgb) {
+		onChange : function(hsb, hex, rgb) {
 			$('#colorSelectorBorder div').css('backgroundColor', '#' + hex);
 			updateBorderColourValue(hex);
-			if (selectedShape){
+			if (selectedShape) {
 				setBoundaryBorderColour('#' + hex);
-			} 
+			}
 		}
 	});
 }
@@ -347,78 +368,78 @@ function getPolygonCoords(shape) {
 	return coordinates;
 }
 
-function setBoundaryFillColour(HexFillColour){
+function setBoundaryFillColour(HexFillColour) {
 	var polygonOptions = drawingManager.get('polygonOptions');
 	polygonOptions.fillColor = HexFillColour;
 	drawingManager.set('polygonOptions', polygonOptions);
 	selectedShape.set('fillColor', HexFillColour);
 }
 
-function setBoundaryBorderColour(HexBorderColour){
+function setBoundaryBorderColour(HexBorderColour) {
 	var polygonOptions = drawingManager.get('polygonOptions');
 	polygonOptions.strokeColor = HexBorderColour;
 	drawingManager.set('polygonOptions', polygonOptions);
 	selectedShape.set('strokeColor', HexBorderColour);
 }
 
-//function updateBoundaryValue(shape){
-//	var Coordinates = getPolygonCoords(shape);
+// function updateBoundaryValue(shape){
+// var Coordinates = getPolygonCoords(shape);
 //	
-//	var BoundaryValue = $("#boundary").val();
-//	var pos = BoundaryValue.indexOf(";");
-//	var length = BoundaryValue.length;
-//	var ColourField = BoundaryValue.slice(pos, length);
+// var BoundaryValue = $("#boundary").val();
+// var pos = BoundaryValue.indexOf(";");
+// var length = BoundaryValue.length;
+// var ColourField = BoundaryValue.slice(pos, length);
 //	
-//	var newBoundaryValue = Coordinates + ColourField;
+// var newBoundaryValue = Coordinates + ColourField;
 //	
-//	$("#boundary").val(newBoundaryValue);
-//}
+// $("#boundary").val(newBoundaryValue);
+// }
 
-//function updateBoundaryFillColour(HexFillColour){
-//	var id = $("#markerId").val();
-//	for ( var i = 0; i < polygons.length; i++) {
-//		if (polygons[i].id == id) {
+// function updateBoundaryFillColour(HexFillColour){
+// var id = $("#markerId").val();
+// for ( var i = 0; i < polygons.length; i++) {
+// if (polygons[i].id == id) {
 //			
-//			//change fill colour
-//			p8.setOption({
-//				fillColor : HexFillColour
-//			});
-//			return;
-//		}
-//	}
-//}
+// //change fill colour
+// p8.setOption({
+// fillColor : HexFillColour
+// });
+// return;
+// }
+// }
+// }
 //
-//function updateBoundaryBorderColour(HexBorderColour){
-//	var id = $("#markerId").val();
-//	for ( var i = 0; i < polygons.length; i++) {
-//		if (polygons[i].id == id) {
+// function updateBoundaryBorderColour(HexBorderColour){
+// var id = $("#markerId").val();
+// for ( var i = 0; i < polygons.length; i++) {
+// if (polygons[i].id == id) {
 //			
-//			//change border colour
-//			updateBorderColourValue(HexBorderColour);
-//			return;
-//		}
-//	}
-//}
+// //change border colour
+// updateBorderColourValue(HexBorderColour);
+// return;
+// }
+// }
+// }
 //
-function updateFillColourValue(FillColour){
+function updateFillColourValue(FillColour) {
 	var boundaryColour = $("#tempBoundaryColors").val().split(",");
 	var BorderColour = boundaryColour[1];
 	$("#tempBoundaryColors").val(FillColour + "," + BorderColour);
 }
 
-function updateBorderColourValue(BorderColour){
+function updateBorderColourValue(BorderColour) {
 	var boundaryColour = $("#tempBoundaryColors").val().split(",");
 	var FillColour = boundaryColour[0];
 	$("#tempBoundaryColors").val(FillColour + "," + BorderColour);
 }
 
-function getFillColourValue(){
+function getFillColourValue() {
 	var boundaryColour = $("#tempBoundaryColors").val().split(",");
 	var FillColour = boundaryColour[0];
 	return FillColour;
 }
 
-function getBorderColourValue(){
+function getBorderColourValue() {
 	var boundaryColour = $("#tempBoundaryColors").val().split(",");
 	var BorderColour = boundaryColour[1];
 	return BorderColour;
