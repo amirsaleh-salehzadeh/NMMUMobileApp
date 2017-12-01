@@ -120,12 +120,14 @@ function refreshMap(locationTypeId, gpsStr, folderName) {
 		// icon += 'crossroad48.png';
 		icon = {
 			path : google.maps.SymbolPath.CIRCLE,
-			scale : 4
+			scale : 4,
+			fillOpacity: 1
 		};
 		if(folderName.indexOf("hover")!=-1)
 			icon = {
 				path : google.maps.SymbolPath.CIRCLE,
-				scale : 16
+				scale : 16,
+				fillOpacity: 1
 			};
 		map.setCenter(gps);
 		// map.setZoom(15);

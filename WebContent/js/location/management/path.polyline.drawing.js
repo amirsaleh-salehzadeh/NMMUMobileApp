@@ -119,7 +119,8 @@ function drawApath(l) {
 					icon : {
 						path : google.maps.SymbolPath.CIRCLE,
 						scale : 10,
-						color : 'green'
+						color : 'green',
+						fillOpacity: 1
 					},
 					labelStyle : {
 						opacity : 1.0

@@ -45,7 +45,8 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 					icon : {
 						path : google.maps.SymbolPath.CIRCLE,
 						scale : 10,
-						strokeColor : 'red'
+						strokeColor : 'red',
+						fillOpacity: 1
 					},
 					labelStyle : {
 						opacity : 1.0
