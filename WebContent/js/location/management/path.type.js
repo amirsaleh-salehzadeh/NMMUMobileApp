@@ -44,3 +44,26 @@ function selectIcon(id) {
 	$("#pathTypeIds").val(pathTypeIds.join(","));
 }
 
+function showMenu(e) {
+	var target = document.getElementById('map_canvas'), posx = event.pageX
+			- target.offsetLeft, posy = event.pageY - target.offsetTop;
+	$('#pathTypePopup').css("position", "absolute");
+	$('#pathTypePopup').css("left", posx + 'px');
+	$('#pathTypePopup').css("top", event.pageY + 'px');
+	$('#pathTypePopup').trigger("create");
+}
+
+function mapDivClicked(event) {
+	var target = document.getElementById('map_canvas'), posx = event.pageX
+			- target.offsetLeft, posy = event.pageY - target.offsetTop, bounds = map
+			.getBounds(), neLatlng = bounds.getNorthEast(), swLatlng = bounds
+			.getSouthWest(), startLat = neLatlng.lat(), endLng = neLatlng.lng(), endLat = swLatlng
+			.lat(), startLng = swLatlng.lng();
+
+	document.getElementById('posX').value = posx;
+	document.getElementById('posY').value = posy;
+	document.getElementById('lat').value = startLat
+			+ ((posy / 350) * (endLat - startLat));
+	document.getElementById('lng').value = startLng
+			+ ((posx / 500) * (endLng - startLng));
+}

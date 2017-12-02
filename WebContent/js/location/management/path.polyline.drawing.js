@@ -90,6 +90,7 @@ function drawApath(l) {
 	pathPolyline.addListener('click', function(event) {
 		var lat = event.latLng.lat();
 		var lng = event.latLng.lng();
+		showMenu(event);
 		if ($('#destination').val().length <= 0
 				&& $('#departure').val().length > 0) {
 			createAPointOnAnExistingPath(l, lat + "," + lng, this);
@@ -120,7 +121,7 @@ function drawApath(l) {
 						path : google.maps.SymbolPath.CIRCLE,
 						scale : 10,
 						color : 'green',
-						fillOpacity: 1
+						fillOpacity : 1
 					},
 					labelStyle : {
 						opacity : 1.0
@@ -132,6 +133,7 @@ function drawApath(l) {
 				tmpIntersectionMarker.setPosition(pos);
 			google.maps.event.addListener(tmpIntersectionMarker, "click",
 					function(event) {
+						showMenu(event);
 						createAPointOnAnExistingPath(l, {
 							x : parseFloat(lat),
 							y : parseFloat(lng)

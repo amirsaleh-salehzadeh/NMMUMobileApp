@@ -1,3 +1,21 @@
+#pathTypePopup {
+	position: absolute;
+	z-index: 120;
+	background-color: rgba(8, 27, 44, .7) !important;
+}
+
+#pathTypePopup>img {
+	background-color: rgba(8, 27, 44, 1);
+	max-width: 32px;
+	max-height: 32px;
+	margin: 3px !important;
+	display: inline-block;
+	cursor: pointer;
+	border: solid 1px;
+	padding: 2px;
+}
+
+
 #openLocationEditMenu {
 	color: rgb(248, 182, 36) !important;
 	background-color: transparent !important;

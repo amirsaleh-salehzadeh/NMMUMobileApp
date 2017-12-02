@@ -1,6 +1,10 @@
 var intmpIntersectionMarker;
 function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
-	if (!confirm("create intersation?")) {
+	if (!confirm("create intersection?")) {
+		return;
+	}
+	if ($("#pathTypeIds").val().length <= 0) {
+		alert("Select Path Type");
 		return;
 	}
 	// All points on the polyline
@@ -12,11 +16,11 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 		};
 		pointsInLine.push(point);
 	});
-
 	var intersectionpoint = getClosestPointOnLines(destinationGPS, pointsInLine);
 	var url = "REST/GetPathWS/CreateAPointOnThePath?pathId=" + path.pathId
 			+ "&pointGPS=" + destinationGPS.x + "," + destinationGPS.y
 			+ "&index=" + intersectionpoint.i;
+	var intersectId = 0;
 	$.ajax({
 		url : url,
 		cache : false,
@@ -27,6 +31,8 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 		success : function(data) {
 			$.each(data, function(k, l) {
 				drawApath(l);
+				if (k == 0)
+					intersectId = l.destination.locationID;
 			});
 			for ( var i = 0; i < paths.length; i++) {
 				if (paths[i].id == path.pathId) {
@@ -45,8 +51,8 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 					icon : {
 						path : google.maps.SymbolPath.CIRCLE,
 						scale : 10,
-						strokeColor : 'red',
-						fillOpacity: 1
+						strokeColor : 'black',
+						fillOpacity : 1
 					},
 					labelStyle : {
 						opacity : 1.0
@@ -56,7 +62,21 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 				});
 			else
 				intmpIntersectionMarker.setPosition(intersection);
-
+			intmpIntersectionMarker.id = intersectId;
+			markers.push(intmpIntersectionMarker);
+			$("#destination").val("Intersection");
+			$("#destinationId").val(intersectId);
+			google.maps.event.clearInstanceListeners(map);
+			pathDrawingCircle.setMap(null);
+			google.maps.event.clearInstanceListeners(map);
+			if (movingLine != undefined) {
+				movingLine.setMap(null);
+				movingLine = undefined;
+			}
+			updateConstantLine();
+			google.maps.event.clearInstanceListeners(map);
+			$("#destinationGPS").val(location.gps);
+			saveThePath();
 		},
 		complete : function() {
 			HideLoadingScreen();
@@ -151,7 +171,6 @@ function getClosestPointOnLines(pXy, aXys) {
 		x = aXys[i - 1].x - (dx * fTo);
 		y = aXys[i - 1].y - (dy * fTo);
 	}
-
 	return {
 		'x' : x,
 		'y' : y,

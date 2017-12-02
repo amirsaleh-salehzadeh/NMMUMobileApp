@@ -179,8 +179,8 @@ function initMap() {
 			.getElementById('locationsUnderAType'));
 	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
 			.getElementById('editBoundaryPopup'));
-	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
-			.getElementById('pathTypePopup'));
+//	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+//			.getElementById('pathTypePopup'));
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");
 		$("#departureId").val("");

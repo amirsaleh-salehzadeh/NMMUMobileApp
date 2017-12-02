@@ -56,7 +56,13 @@ function saveMarker() {
 	}
 	// $("#locationTypeId").val($("#locationType").val());
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
-	$("#boundary").val($("#boundary").val() + ";" + $("#tempBoundaryColors").val()); // boundary mow has boundary plus colours
+	$("#boundary").val(
+			$("#boundary").val() + ";" + $("#tempBoundaryColors").val()); // boundary
+																			// mow
+																			// has
+																			// boundary
+																			// plus
+																			// colours
 	$.ajax({
 		url : url,
 		cache : false,
@@ -154,39 +160,44 @@ function addMarker(l) {
 	if (l.boundary != null && l.boundary.length > 2) {
 		drawPolygons(l);
 	}
-	if(l.locationType.locationTypeId != 5)
-	marker = new google.maps.Marker({
-		map : map,
-		icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
-		hovericon : refreshMap(l.locationType.locationTypeId, l.gps, "hover"),
-		originalicon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
-		animation : google.maps.Animation.DROP,
-		draggable : true,
-		labelContent : l.locationName + " " + l.locationType.locationType,
-		labelAnchor : new google.maps.Point(30, 20),
-		labelClass : "labels", // the CSS class for the label
-		labelStyle : {
-			opacity : 1.0
-		},
-		label : l.locationName,
-		zIndex: 20
-	});else
+	if (l.locationType.locationTypeId != 5)
 		marker = new google.maps.Marker({
-		map : map,
-		icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
-		hovericon : refreshMap(l.locationType.locationTypeId, l.gps, "hover"),
-		originalicon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
-		animation : google.maps.Animation.DROP,
-		draggable : true,
-		labelContent : l.locationName + " " + l.locationType.locationType,
-		labelAnchor : new google.maps.Point(30, 20),
-		labelClass : "labels", // the CSS class for the label
-		labelStyle : {
-			opacity : 1.0
-		},
-		title : l.locationName,
-		zIndex: 20
-	});
+			map : map,
+			icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
+			hovericon : refreshMap(l.locationType.locationTypeId, l.gps,
+					"hover"),
+			originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
+					"normal"),
+			animation : google.maps.Animation.DROP,
+			draggable : true,
+			labelContent : l.locationName + " " + l.locationType.locationType,
+			labelAnchor : new google.maps.Point(30, 20),
+			labelClass : "labels", // the CSS class for the label
+			labelStyle : {
+				opacity : 1.0
+			},
+			label : l.locationName,
+			zIndex : 40
+		});
+	else
+		marker = new google.maps.Marker({
+			map : map,
+			icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
+			hovericon : refreshMap(l.locationType.locationTypeId, l.gps,
+					"hover"),
+			originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
+					"normal"),
+			animation : google.maps.Animation.DROP,
+			draggable : true,
+			labelContent : l.locationName + " " + l.locationType.locationType,
+			labelAnchor : new google.maps.Point(30, 20),
+			labelClass : "labels", // the CSS class for the label
+			labelStyle : {
+				opacity : 1.0
+			},
+			title : l.locationName,
+			zIndex : 40
+		});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
 	});
@@ -250,8 +261,8 @@ function addAMarker(location, gps) {
 
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(location.gps);
-		$("#boundary").val(getArrayBoundary(location.boundary));// boundary only has boundary no colours
-		$("#tempBoundaryColors").val(getBoundaryColour(location.boundary));// boundary colours
+		$("#boundary").val(getArrayBoundary(location.boundary));
+		$("#tempBoundaryColors").val(getBoundaryColour(location.boundary));
 		$("#markerId").val(location.locationID);
 		$("#croppedIcon").attr("src", location.icon);
 		$("#icon").val(location.icon);

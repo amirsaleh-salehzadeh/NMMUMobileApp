@@ -321,7 +321,7 @@
 
 
 
-<div id="pathTypePopup" class="ui-grid-solo toolBar">
+<div id="pathTypePopup" class="ui-grid-solo">
 	<logic:iterate id="pathTIteration" name="pathTypes"
 		type="common.location.PathTypeENT">
 		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
