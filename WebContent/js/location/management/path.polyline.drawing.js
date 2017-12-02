@@ -90,7 +90,7 @@ function drawApath(l) {
 	pathPolyline.addListener('click', function(event) {
 		var lat = event.latLng.lat();
 		var lng = event.latLng.lng();
-		showMenu(event);
+		showPathTypeMenu();
 		pathEditPanelOpen();
 		if ($('#destination').val().length <= 0
 				&& $('#departure').val().length > 0) {
@@ -132,7 +132,7 @@ function drawApath(l) {
 				tmpIntersectionMarker.setPosition(pos);
 			google.maps.event.addListener(tmpIntersectionMarker, "click",
 					function(event) {
-						showMenu(event);
+						showPathTypeMenu();
 						createAPointOnAnExistingPath(l, {
 							x : parseFloat(lat),
 							y : parseFloat(lng)

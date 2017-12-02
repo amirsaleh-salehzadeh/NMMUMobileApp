@@ -43,11 +43,9 @@ function selectIcon(id) {
 	$("#pathTypeIds").val(pathTypeIds.join(","));
 }
 
-function showMenu(e) {
-	var target = document.getElementById('map_canvas'), posx = event.pageX
-			- target.offsetLeft, posy = event.pageY - target.offsetTop;
+function showPathTypeMenu() {
 	$('#pathTypePopup').css("position", "absolute");
-	$('#pathTypePopup').css("left", posx + 'px');
+	$('#pathTypePopup').css("left", event.pageX + 'px');
 	$('#pathTypePopup').css("top", event.pageY + 'px');
 	$('#pathTypePopup').trigger("create");
 	$('#pathTypePopup').fadeIn();

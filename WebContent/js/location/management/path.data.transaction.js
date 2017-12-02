@@ -98,7 +98,7 @@ function removePath() {
 			},
 			success : function(data) {
 				for ( var i = 0; i < paths.length; i++) {
-					if (paths[i].id == $("#pathId").val()) {
+					if (paths[i] != null && paths[i].id == $("#pathId").val()) {
 						paths[i].setMap(null);
 						paths[i] = null;
 					}
@@ -174,6 +174,7 @@ function addAPath(location) {
 			movingLine = undefined;
 		}
 		updateConstantLine();
+		showPathTypeMenu();
 	}
 }
 

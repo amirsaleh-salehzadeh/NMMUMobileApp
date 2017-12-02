@@ -35,7 +35,7 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 					intersectId = l.destination.locationID;
 			});
 			for ( var i = 0; i < paths.length; i++) {
-				if (paths[i].id == path.pathId) {
+				if (paths[i] != null && paths[i].id == path.pathId) {
 					paths[i].setMap(null);
 					paths[i] = null;
 				}
@@ -67,7 +67,8 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 			if ($("#destinationId").val().length < 1) {
 				$("#destination").val("Intersection");
 				$("#destinationId").val(intersectId);
-				$("#destinationGPS").val(destinationGPS.x + "," + destinationGPS.y);
+				$("#destinationGPS").val(
+						destinationGPS.x + "," + destinationGPS.y);
 				google.maps.event.clearInstanceListeners(map);
 				pathDrawingCircle.setMap(null);
 				google.maps.event.clearInstanceListeners(map);
@@ -123,17 +124,19 @@ function selectAPath(path) {
 	$("#pathWidth").trigger("create");
 	if (paths != null)
 		for ( var i = 0; i < paths.length; i++) {
-			if (paths[i].id == path.pathId) {
-				paths[i].setOptions({
-					strokeColor : 'red'
-				});
-			} else {
-				paths[i].setOptions({
-					strokeColor : '#081B2C'
-				});
+			if (paths[i] != null) {
+				if (paths[i].id == path.pathId) {
+					paths[i].setOptions({
+						strokeColor : 'red'
+					});
+				} else {
+					paths[i].setOptions({
+						strokeColor : '#081B2C'
+					});
+				}
+				paths[i].setMap(null);
+				paths[i].setMap(map);
 			}
-			paths[i].setMap(null);
-			paths[i].setMap(map);
 		}
 }
 
