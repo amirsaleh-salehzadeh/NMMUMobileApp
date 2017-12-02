@@ -128,26 +128,24 @@ function getLocationTypeImage(locationTypeId) {
 }
 
 function openPanel() {
-	if( $("#locationEditPanel").hasClass("ui-panel-open") ){
-		$("#openLocationEditMenu").attr("href","#locationEditPanel");
+	if ($("#locationEditPanel").hasClass("ui-panel-open")) {
+		$("#openLocationEditMenu").attr("href", "#locationEditPanel");
+	} else {
+		$("#openLocationEditMenu").attr("href", "#locationEditPanel");
 	}
-	else {
-		$("#openLocationEditMenu").attr("href","#locationEditPanel");
-	}
-	
-	if( $("#pathEditPanel").hasClass("ui-panel-open") ){
-		$("#openLocationEditMenu").attr("href","#pathEditPanel");
-	}
-	else {
-		$("#openLocationEditMenu").attr("href","#pathEditPanel");
+
+	if ($("#pathEditPanel").hasClass("ui-panel-open")) {
+		$("#openLocationEditMenu").attr("href", "#pathEditPanel");
+	} else {
+		$("#openLocationEditMenu").attr("href", "#pathEditPanel");
 	}
 }
 
 function closePanel() {
-	if( $("#locationEditPanel").hasClass("ui-panel-open") ){
+	if ($("#locationEditPanel").hasClass("ui-panel-open")) {
 		$("#closeLocationEditMenu").trigger("click");
 	}
-	if( $("#pathEditPanel").hasClass("ui-panel-open") ){
+	if ($("#pathEditPanel").hasClass("ui-panel-open")) {
 		$("#closeLocationEditMenu").trigger("click");
 	}
 }

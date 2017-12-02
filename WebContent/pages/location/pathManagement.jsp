@@ -347,15 +347,15 @@
 <script type="text/javascript"
 	src="js/location/management/path.management.map.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.management.image.js"></script>
+	src="js/location/management/image.thumbnail.croppie.js"></script>
 <script type="text/javascript"
 	src="js/location/management/path.management.polygon.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.management.js"></script>
+	src="js/location/management/management.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.management.marker.js"></script>
+	src="js/location/management/marker.management.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.management.panel.js"></script>
+	src="js/location/management/panel.edit.management.js"></script>
 <script async defer
 	src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
 	type="text/javascript"></script>

@@ -274,8 +274,7 @@ function addAMarker(location, gps) {
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
 		$("#openLocationEditMenu")
-				.html(
-						"<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
+				.html("<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
 				.trigger("create");
 	}
 	showHideSettingsMenu();

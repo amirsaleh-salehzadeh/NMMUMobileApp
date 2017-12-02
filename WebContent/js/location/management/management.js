@@ -100,6 +100,7 @@ function getPathTypePanel() {
 $(document)
 		.ready(
 				function() {
+					$('#pathTypePopup').fadeOut();
 					$("#map_canvas").css("min-width",
 							parseInt($("#mainBodyContents").css("width")));
 					$("#map_canvas").css(
