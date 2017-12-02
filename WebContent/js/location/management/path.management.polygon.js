@@ -47,25 +47,8 @@ function createDrawingManager() {
 									// alert("test2");
 								});
 
-						// var polygonOptions = this.get('polygonOptions');
-						// polygonOptions.strokeColor = '#FF0000';
-						// newShape.set('polygonOptions', polygonOptions);
-						// this.setMap(null);
-						// this.setMap(map);
-
-						// var FillColour = '#1E90FF';
-						// var BorderColour = '#1E90FF';
-						// $("#tempBoundaryColors").val(FillColour + "," +
-						// BorderColour);
-
-						// $('#insertAMarker').popup('open');
 						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
-							// Switch back to non-drawing mode after drawing a
-							// shape.
 							drawingManager.setDrawingMode(null);
-							// Add an event listener that selects the
-							// newly-drawn shape when the user
-							// mouses down on it.
 							google.maps.event
 									.addListener(
 											newShape,
@@ -109,8 +92,6 @@ function createDrawingManager() {
 							setBoundaryFillColour(getFillColourValue);
 							setBoundaryBorderColour(getBorderColourValue);
 						}
-						// $("#tempBoundaryColors").val(newShape.get('fillColor')
-						// + "," + newShape.get('strokeColor'));
 					});
 
 	// Clear the current selection when the drawing mode is changed, or when the

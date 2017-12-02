@@ -57,17 +57,15 @@
 			$("#editBoundaryPopup").css("display", "none");
 	}
 </script>
-<link href="css/location/colorpicker.css"
+<link href="css/location/colorpicker.css" rel="stylesheet">
+<link href="css/location/croppie.css" rel="stylesheet">
+<link href="css/location/management/management.css"
 	rel="stylesheet">
-<link href="css/location/croppie.css"
+<link href="css/location/management/location.edit.css"
 	rel="stylesheet">
-<link href="css/location/management/path.management.css"
+<link href="css/location/management/polygon.management.css"
 	rel="stylesheet">
-<link href="css/location/management/path.management.location.edit.css"
-	rel="stylesheet">
-<link href="css/location/management/path.management.polygon.css"
-	rel="stylesheet">
-<link href="css/location/management/path.management.toolbox.css"
+<link href="css/location/management/toolbox.management.css"
 	rel="stylesheet">
 </head>
 <input type="hidden" id="parentLocationId" value="360">
@@ -298,12 +296,11 @@
 	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
 		height="48" title="Free Select Mode" onclick="removeDrawingMode()">
 	<img src='images/icons/polygon-select.png' width="48" height="48"
-		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
-	<img src='images/icons/delete-icon.png' width="48" height="48"
+		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" /> <img
+		src='images/icons/delete-icon.png' width="48" height="48"
 		class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
-<!-- 	<span id="selectBoundaryColor" title="Select A Colour" onclick="selectColor()"></span> -->
-	<br>
-	<span>Fill Colour</span>
+	<!-- 	<span id="selectBoundaryColor" title="Select A Colour" onclick="selectColor()"></span> -->
+	<br> <span>Fill Colour</span>
 	<div id="colorSelectorFill">
 		<div style="background-color: #00ff00"></div>
 	</div>
