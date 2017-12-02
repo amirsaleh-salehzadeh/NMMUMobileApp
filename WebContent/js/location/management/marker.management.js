@@ -176,6 +176,7 @@ function addMarker(l) {
 				opacity : 1.0
 			},
 			label : l.locationName,
+			title : l.locationName,
 			zIndex : 40
 		});
 	else
@@ -198,10 +199,13 @@ function addMarker(l) {
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
+		this.setLabel(this.getTitle());
 	});
 	google.maps.event.addListener(marker, "mouseout", function() {
 		this.setIcon(this.originalicon);
+		this.setLabel(null);
 	});
+	marker.setLabel(null);
 	var pos = {
 		lat : parseFloat(l.gps.split(",")[0]),
 		lng : parseFloat(l.gps.split(",")[1])

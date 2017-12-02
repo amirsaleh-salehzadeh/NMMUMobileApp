@@ -342,13 +342,13 @@
 	src="js/location/management/path.polyline.interaction.js"></script>
 <script type="text/javascript" src="js/location/management/path.type.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.management.map.js"></script>
+	src="js/location/management/map.management.js"></script>
 <script type="text/javascript"
 	src="js/location/management/image.thumbnail.croppie.js"></script>
 <script type="text/javascript"
-	src="js/location/management/path.management.polygon.js"></script>
+	src="js/location/management/marker.polygon.js"></script>
 <script type="text/javascript"
-	src="js/location/management/management.js"></script>
+	src="js/location/management/management.general.js"></script>
 <script type="text/javascript"
 	src="js/location/management/marker.management.js"></script>
 <script type="text/javascript"
@@ -356,5 +356,4 @@
 <script async defer
 	src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
 	type="text/javascript"></script>
-<script type="text/javascript" src="js/location/google.map.label.js"></script>
 </html>

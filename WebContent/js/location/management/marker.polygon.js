@@ -108,9 +108,7 @@ function createDrawingManager() {
 var longpress = false;
 var start;
 function drawPolygons(location) {
-
 	var arrayBoundary = getArrayBoundary(location.boundary);
-
 	var CoordinatesArray = new Array();
 	for ( var i = 0; i <= arrayBoundary.length - 1; i++) {
 		var LatAndLng = arrayBoundary[i].split(",");
