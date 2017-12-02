@@ -91,6 +91,7 @@ function drawApath(l) {
 		var lat = event.latLng.lat();
 		var lng = event.latLng.lng();
 		showMenu(event);
+		pathEditPanelOpen();
 		if ($('#destination').val().length <= 0
 				&& $('#departure').val().length > 0) {
 			createAPointOnAnExistingPath(l, lat + "," + lng, this);

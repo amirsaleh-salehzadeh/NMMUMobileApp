@@ -106,7 +106,8 @@ function saveMarker() {
 
 var str = "";
 function getAllMarkers(parentId) {
-	$("#closeLocationEditMenu").trigger("click");
+	pathEditPanelClose();
+	locationEditPanelClose();
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllMarkers(null);
@@ -279,5 +280,5 @@ function addAMarker(location, gps) {
 				.html("<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
 				.trigger("create");
 	}
-	showHideSettingsMenu();
+	locationEditPanelOpen();
 }

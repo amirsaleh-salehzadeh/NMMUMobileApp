@@ -141,6 +141,37 @@ function openPanel() {
 	}
 }
 
+function locationEditPanelOpen() {
+//	if ($("#locationEditPanel").hasClass("ui-panel-open")) {
+//		$("#openLocationEditMenu").attr("href", "#locationEditPanel");
+//	} else {
+//		$("#openLocationEditMenu").attr("href", "#locationEditPanel");
+//	}
+//
+//	if ($("#pathEditPanel").hasClass("ui-panel-open")) {
+//		$("#openLocationEditMenu").attr("href", "#pathEditPanel");
+//	} else {
+//		$("#openLocationEditMenu").attr("href", "#pathEditPanel");
+//	}
+	pathEditPanelClose();
+	$('#locationEditPanel').panel("open");
+	$("#pathTypePopup").fadeOut();
+}
+
+function locationEditPanelClose() {
+	$('#locationEditPanel').panel("close");
+}
+
+function pathEditPanelOpen() {
+	locationEditPanelClose();
+	$('#pathEditPanel').panel("open");
+}
+
+function pathEditPanelClose() {
+	$('#pathEditPanel').panel("close");
+}
+
+
 function closePanel() {
 	if ($("#locationEditPanel").hasClass("ui-panel-open")) {
 		$("#closeLocationEditMenu").trigger("click");

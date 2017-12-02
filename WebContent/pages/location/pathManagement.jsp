@@ -175,7 +175,7 @@
 	<a style="cursor: pointer;" data-role="button" href="#"
 		class="pathMenu ui-btn ui-shadow save-icon editlocationFormRow"
 		onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
-		Barcode</a> <a href="#" data-rel="close"
+		Barcode</a> <a href="#" onclick="locationEditPanelClose();"
 		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow"
 		id="closeLocationEditMenu">Close Settings</a>
 </div>
@@ -234,7 +234,7 @@
 		</div>
 	</div>
 
-	<a href="#" data-rel="close"
+	<a href="#" onclick="pathEditPanelClose()"
 		class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow"
 		id="closeLocationEditMenu">Close Settings</a>
 </div>
