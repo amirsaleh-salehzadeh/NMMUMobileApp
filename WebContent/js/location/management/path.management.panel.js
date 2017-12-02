@@ -126,3 +126,28 @@ function getLocationTypeImage(locationTypeId) {
 		icon += 'marker-yellow.png';
 	return icon;
 }
+
+function openPanel() {
+	if( $("#locationEditPanel").hasClass("ui-panel-open") ){
+		$("#openLocationEditMenu").attr("href","#locationEditPanel");
+	}
+	else {
+		$("#openLocationEditMenu").attr("href","#locationEditPanel");
+	}
+	
+	if( $("#pathEditPanel").hasClass("ui-panel-open") ){
+		$("#openLocationEditMenu").attr("href","#pathEditPanel");
+	}
+	else {
+		$("#openLocationEditMenu").attr("href","#pathEditPanel");
+	}
+}
+
+function closePanel() {
+	if( $("#locationEditPanel").hasClass("ui-panel-open") ){
+		$("#closeLocationEditMenu").trigger("click");
+	}
+	if( $("#pathEditPanel").hasClass("ui-panel-open") ){
+		$("#closeLocationEditMenu").trigger("click");
+	}
+}
