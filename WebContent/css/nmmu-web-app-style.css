@@ -3,6 +3,7 @@ body{
 	overflow: hidden;
 }
 #mainMenu {
+	top:12.5%;
 	position: absolute !important;
 	background-color: rgba(8, 27, 44, 1);
 	width: 20%;
