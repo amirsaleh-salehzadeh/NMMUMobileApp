@@ -169,6 +169,7 @@ function pathEditPanelOpen() {
 
 function pathEditPanelClose() {
 	$('#pathEditPanel').panel("close");
+	$("#pathTypePopup").fadeOut();
 }
 
 
