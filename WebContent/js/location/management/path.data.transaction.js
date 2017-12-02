@@ -120,8 +120,8 @@ function removePath() {
 }
 
 var mapDrawingClickCounter;
-function addAPath(location, gps) {
-	gps = gps.replace(" ", "");
+function addAPath(location) {
+	$('#pathTypePopup').fadeOut();
 	if (location == null) {
 		alert("A path can only be drawn between two locations");
 		return;
@@ -131,7 +131,6 @@ function addAPath(location, gps) {
 		$("#departure").val(location.locationName);
 		$("#departureId").val(location.locationID);
 		$("#departureGPS").val(location.gps);
-//		$("#pathLatLng").val($("#departureGPS").val());
 		lastOne = getGoogleMapPosition(location.gps);
 		google.maps.event.clearInstanceListeners(map);
 		pathDrawingCircle = new google.maps.Circle({

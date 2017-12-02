@@ -64,19 +64,28 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 				intmpIntersectionMarker.setPosition(intersection);
 			intmpIntersectionMarker.id = intersectId;
 			markers.push(intmpIntersectionMarker);
-			$("#destination").val("Intersection");
-			$("#destinationId").val(intersectId);
-			google.maps.event.clearInstanceListeners(map);
-			pathDrawingCircle.setMap(null);
-			google.maps.event.clearInstanceListeners(map);
-			if (movingLine != undefined) {
-				movingLine.setMap(null);
-				movingLine = undefined;
+			if ($("#destinationId").val().length < 1) {
+				$("#destination").val("Intersection");
+				$("#destinationId").val(intersectId);
+				$("#destinationGPS").val(destinationGPS.x + "," + destinationGPS.y);
+				google.maps.event.clearInstanceListeners(map);
+				pathDrawingCircle.setMap(null);
+				google.maps.event.clearInstanceListeners(map);
+				if (movingLine != undefined) {
+					movingLine.setMap(null);
+					movingLine = undefined;
+				}
+				updateConstantLine();
+				google.maps.event.clearInstanceListeners(map);
+				saveThePath();
+			} else {
+				var location = {
+					locationName : "Intersection",
+					locationID : intersectId,
+					gps : destinationGPS.x + "," + destinationGPS.y
+				};
+				addAPath(location);
 			}
-			updateConstantLine();
-			google.maps.event.clearInstanceListeners(map);
-			$("#destinationGPS").val(location.gps);
-			saveThePath();
 		},
 		complete : function() {
 			HideLoadingScreen();

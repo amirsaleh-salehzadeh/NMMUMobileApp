@@ -191,7 +191,7 @@ function initMap() {
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			addAMarker(null, lat + "," + lng);
 		} else {
-			addAPath(null, lat + "," + lng);
+			addAPath(null);
 		}
 	});
 

@@ -215,7 +215,7 @@ function addMarker(l) {
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			addAMarker(l, l.gps);
 		} else {
-			addAPath(l, l.gps);
+			addAPath(l);
 		}
 	});
 	marker.addListener('dragend', function(point) {
@@ -258,7 +258,6 @@ function addAMarker(location, gps) {
 						"<img width='24' height='24' src='images/icons/add.png' class=''>NEW")
 				.trigger("create");
 	} else {
-
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(location.gps);
 		$("#boundary").val(getArrayBoundary(location.boundary));

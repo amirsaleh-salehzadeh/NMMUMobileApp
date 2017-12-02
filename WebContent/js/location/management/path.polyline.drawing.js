@@ -112,8 +112,6 @@ function drawApath(l) {
 				lat : parseFloat(lat),
 				lng : parseFloat(lng)
 			};
-			// var gps = event.latLng.lat() + ","
-			// + parseFloat(event.latLng.lng());
 			if (tmpIntersectionMarker == undefined)
 				tmpIntersectionMarker = new google.maps.Marker({
 					map : map,
