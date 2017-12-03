@@ -42,7 +42,7 @@ function createDrawingManager() {
 									$("#boundary").val(
 											getPolygonCoords(newShape));
 								});
-
+//						alert("test1");
 						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
 							drawingManager.setDrawingMode(null);
 							google.maps.event
@@ -103,8 +103,9 @@ function createDrawingManager() {
 
 var longpress = false;
 var start;
+var boundarySelected = false;
 function drawPolygons(location) {
-	var arrayBoundary = getArrayBoundary(location.boundary);
+	var arrayBoundary = getArrayBoundary(location.boundary).split("_");
 	var CoordinatesArray = new Array();
 	for ( var i = 0; i <= arrayBoundary.length - 1; i++) {
 		var LatAndLng = arrayBoundary[i].split(",");
@@ -115,8 +116,16 @@ function drawPolygons(location) {
 	}
 
 	var boundaryColour = getBoundaryColour(location.boundary);
-	var FillColour = '#' + boundaryColour[0];
-	var BorderColour = '#' + boundaryColour[1];
+	var FillColour;
+	var BorderColour;
+	if (boundaryColour == ""){
+		FillColour = "#1E90FF";
+		BorderColour = "#1E90FF";
+	}
+	else {
+		FillColour = '#' + boundaryColour[0];
+		BorderColour = '#' + boundaryColour[1];
+	}
 
 	var DRAWPolygon = new google.maps.Polygon({
 		paths : CoordinatesArray,
@@ -137,8 +146,22 @@ function drawPolygons(location) {
 			getAllMarkers(location.locationID + "");
 		} else {
 			// alert("Test3");
-			addAMarker(location, location.gps);
-			setSelection(DRAWPolygon);
+			if (boundarySelected){ // boundary selected
+				if (DRAWPolygon == selectedShape){
+					clearSelection();
+					boundarySelected = false;
+				}
+				else { // previous boundary selected but now selecting new boundary
+					setSelection(DRAWPolygon);
+					addAMarker(location, location.gps);
+					boundarySelected = true;
+				}
+			}
+			else { // boundary not selected
+				setSelection(DRAWPolygon);
+				addAMarker(location, location.gps);
+				boundarySelected = true;
+			}
 		}
 	});
 
@@ -154,7 +177,7 @@ function drawPolygons(location) {
 
 function getArrayBoundary(boundary) {
 	var locationWithColourArray = boundary.split(";");
-	var arrayBoundary = locationWithColourArray[0].split("_");
+	var arrayBoundary = locationWithColourArray[0];
 	return arrayBoundary;
 }
 
@@ -210,6 +233,8 @@ function clearSelection() {
 		}
 
 		selectedShape = null;
+		$("#tempBoundaryColors").val("");
+		$("#boundary").val("");
 	}
 }
 
