@@ -7,35 +7,47 @@
 <html>
 <head>
 <script type="text/javascript">
-	$(document).ready(function() {
-		// 		selectRightPanelVal();
-		fitTheHeights();
-	});
-	function fitTheHeights() {
-		$("#editBoundaryPopup").css("display", "none");
-		$("#rightpanel").trigger("updatelayout");
-		$(".liLocationLV").each(function() {
-			$(this).bind('onclick', function(e) {
-				alert('Selected Name=' + $(this).attr('value'));
-			});
-		});
-		$(".rightSidePanel").on(
-				"panelbeforeopen",
-				function(event, ui) {
-					selectThisLocationType(null);
-					$(this).css(
-							"top",
-							parseInt($(".jqm-header").height())
-									+ parseInt($("#locPathModeRadiobtn")
-											.height()) + 7);
-					$("#markerName").focus();
-				});
-// 		$(".ui-panel").css(
-// 				"max-height",
-// 				parseInt($(".jqm-header").height())
-// 						+ parseInt($("#locPathModeRadiobtn").height()) + 7);
-		
-		$("#markerName").focus();
+	$(document)
+			.ready(
+					function() {
+						// 		selectRightPanelVal();
+						$("#editBoundaryPopup").css("display", "none");
+						$("#rightpanel").trigger("updatelayout");
+						$(".liLocationLV")
+								.each(
+										function() {
+											$(this)
+													.bind(
+															'onclick',
+															function(e) {
+																alert('Selected Name='
+																		+ $(
+																				this)
+																				.attr(
+																						'value'));
+															});
+										});
+						$(".rightSidePanel")
+								.on(
+										"panelbeforeopen",
+										function(event, ui) {
+											selectThisLocationType(null);
+											$(this)
+													.css(
+															"top",
+															parseInt($(
+																	".jqm-header")
+																	.height())
+																	+ parseInt($(
+																			"#locPathModeRadiobtn")
+																			.height())
+																	+ 7);
+											$("#markerName").focus();
+										});
+					});
+	function showHideSettingsMenu() {
+		$("#openLocationEditMenu").trigger("click");
+
 	}
 
 	function showHideMainBoundary() {
@@ -47,8 +59,10 @@
 </script>
 <link href="css/location/colorpicker.css" rel="stylesheet">
 <link href="css/location/croppie.css" rel="stylesheet">
-<link href="css/location/management/management.css" rel="stylesheet">
-<link href="css/location/management/location.edit.css" rel="stylesheet">
+<link href="css/location/management/management.css"
+	rel="stylesheet">
+<link href="css/location/management/location.edit.css"
+	rel="stylesheet">
 <link href="css/location/management/polygon.management.css"
 	rel="stylesheet">
 <link href="css/location/management/toolbox.management.css"
@@ -286,7 +300,7 @@
 		src='images/icons/delete-icon.png' width="48" height="48"
 		class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
 	<!-- 	<span id="selectBoundaryColor" title="Select A Colour" onclick="selectColor()"></span> -->
-	<span>Fill Colour</span>
+	<br> <span>Fill Colour</span>
 	<div id="colorSelectorFill">
 		<div style="background-color: #00ff00"></div>
 	</div>

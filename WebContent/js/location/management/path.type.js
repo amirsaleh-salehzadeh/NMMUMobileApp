@@ -29,14 +29,13 @@ function selectIcon(id) {
 			if (!$(this).hasClass("pathTypeIconSelected")) {
 				$(this).addClass("pathTypeIconSelected");
 				pathTypeIds.push(id);
-			} 
-//			else {
-//				$(this).removeClass("pathTypeIconSelected");
-//				var i = pathTypeIds.indexOf(id);
-//				if (i != -1) {
-//					pathTypeIds.splice(i, 1);
-//				}
-//			}
+			} else {
+				$(this).removeClass("pathTypeIconSelected");
+				var i = pathTypeIds.indexOf(id);
+				if (i != -1) {
+					pathTypeIds.splice(i, 1);
+				}
+			}
 			$(this).trigger("create");
 		}
 	});
@@ -45,15 +44,6 @@ function selectIcon(id) {
 }
 
 function showPathTypeMenu() {
-	$(".pathTypeIcon").each(function() {
-		if ($(this).hasClass("pathTypeIconSelected")) {
-			$(this).removeClass("pathTypeIconSelected");
-		}
-		$(this).trigger("create");
-	});
-	pathTypeIds = [];
-	$("#pathTypePopup").trigger("create");
-	$("#pathTypeIds").val(pathTypeIds.join(","));
 	$('#pathTypePopup').css("position", "absolute");
 	$('#pathTypePopup').css("left", event.pageX + 'px');
 	$('#pathTypePopup').css("top", event.pageY + 'px');

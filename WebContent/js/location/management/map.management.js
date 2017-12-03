@@ -1,7 +1,6 @@
 var map, marker, infoWindow;
 var markers = [];
 var paths = [];
-var pathMarkers = [];
 var polygons = [];
 var myStyle = [ {
 	featureType : "administrative",

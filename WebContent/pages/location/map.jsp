@@ -51,7 +51,6 @@
 </style>
 <script type="text/javascript">
 	$(window).bind('load', function() {
-// 		showHideLeftSideMenu();
 		browserCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();

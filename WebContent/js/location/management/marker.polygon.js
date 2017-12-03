@@ -14,6 +14,8 @@ function createDrawingManager() {
 		drawingControlOptions : {
 			style : google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
 			position : google.maps.ControlPosition.TOP_CENTER,
+			// drawingModes: ['marker', 'circle', 'polygon', 'polyline',
+			// 'rectangle']
 			drawingModes : [ 'polygon' ]
 		},
 		markerOptions : {
@@ -37,10 +39,12 @@ function createDrawingManager() {
 						var newShape = e.overlay;
 						newShape.type = e.type;
 						$("#boundary").val(getPolygonCoords(newShape));
+						// alert("Test1");
 						google.maps.event.addListener(newShape, "mouseup",
 								function(event) {
 									$("#boundary").val(
 											getPolygonCoords(newShape));
+									// alert("test2");
 								});
 
 						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
@@ -133,7 +137,7 @@ function drawPolygons(location) {
 			$("#parentLocationId").val(location.locationID);
 			$("#parentDescriptionToAdd")
 					.html(location.locationName + " Campus");
-//			getAllPaths();
+			getAllPaths();
 			getAllMarkers(location.locationID + "");
 		} else {
 			// alert("Test3");
@@ -180,7 +184,7 @@ function deletePolygon() {
 	// }
 }
 
-function setMapOnAllPolygons(map) {
+function setMapOnAllpoligons(map) {
 	for ( var i = 0; i < polygons.length; i++) {
 		polygons[i].setMap(map);
 	}
