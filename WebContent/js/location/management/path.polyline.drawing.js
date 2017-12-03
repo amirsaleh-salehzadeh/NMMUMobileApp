@@ -1,3 +1,9 @@
+function setMapOnAllPolylines(map) {
+	for ( var i = 0; i < paths.length; i++) {
+		paths[i].setMap(map);
+	}
+}
+
 function updatePathWeight() {
 	if (paths != null)
 		for ( var i = 0; i < paths.length; i++) {

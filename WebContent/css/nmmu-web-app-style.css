@@ -1,7 +1,18 @@
 @CHARSET "ISO-8859-1";
-body{
+
+.ui-panel.ui-panel-open {
+	position: fixed;
+}
+
+.ui-panel .ui-panel-inner {
+	height: 100%;
+	overflow-y: auto;
+}
+
+body {
 	overflow: hidden;
 }
+
 #mainMenu {
 	position: absolute !important;
 	background-color: rgba(8, 27, 44, 1);
@@ -28,7 +39,6 @@ body{
 /* 	font-size: 10pt; */
 /* 	line-height: 1em; */
 /* } */
-
 #searchFilters {
 	background-color: #383c40;
 	border-radius: 11px;
@@ -235,7 +245,6 @@ body{
 	text-shadow: none !important;
 }
 
-
 #locationType {
 	border-radius: 0;
 	color: rgb(248, 182, 36) !important;
@@ -243,7 +252,7 @@ body{
 	text-shadow: none;
 	max-width: 100%;
 	white-space: nowrap;
-    overflow-x: scroll;
+	overflow-x: scroll;
 }
 
 @media ( min-width : 60em) {
@@ -296,18 +305,18 @@ body{
 	.jqm-demos .jqm-list .ui-btn:hover,.jqm-demos .jqm-list .ui-btn:active {
 		color: #9addff;
 	}
-/* 	.ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay { */
-/* 		background-color: transparent; */
-/* 		bottom: 0px; */
-/* 		top: 100; */
-/* 		box-shadow: none; */
-/* 	} */
-/* 	.ui-panel-position-right .ui-listview .ui-btn { */
-/* 		color: white; */
-/* 		background-color: black; */
-/* 		font-family: 'Open Sans', sans-serif; */
-/* 		font-weight: 300; */
-/* 	} */
+	/* 	.ui-panel-animate.ui-panel-position-right.ui-panel-display-overlay { */
+	/* 		background-color: transparent; */
+	/* 		bottom: 0px; */
+	/* 		top: 100; */
+	/* 		box-shadow: none; */
+	/* 	} */
+	/* 	.ui-panel-position-right .ui-listview .ui-btn { */
+	/* 		color: white; */
+	/* 		background-color: black; */
+	/* 		font-family: 'Open Sans', sans-serif; */
+	/* 		font-weight: 300; */
+	/* 	} */
 }
 
 /*	right panel */
