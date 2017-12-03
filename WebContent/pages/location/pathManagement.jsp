@@ -328,7 +328,10 @@
 	</logic:iterate>
 </div>
 
-
+<!-- MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL -->
+<div id="markerLabel">
+hi
+</div>
 
 <script src="js/croppie.js"></script>
 <script src="js/colorpicker.js"></script>

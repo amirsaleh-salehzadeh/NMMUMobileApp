@@ -200,14 +200,11 @@ function addMarker(l) {
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
-		this.setLabel({text:this.getTitle(),
-			color:'rgb(248, 182, 36)'
-			});
-		
+		showMarkerLabel(this.getTitle(),event.pageX,event.pageY);		
 	});
 	google.maps.event.addListener(marker, "mouseout", function() {
 		this.setIcon(this.originalicon);
-		this.setLabel(null);
+		clearLabel();
 	});
 	marker.setLabel(null);
 	var pos = {
@@ -284,4 +281,17 @@ function addAMarker(location, gps) {
 				.trigger("create");
 	}
 	locationEditPanelOpen();
+}
+function showMarkerLabel(name, left, top){
+	$("#markerLabel").trigger("create");
+	document.getElementById("markerLabel").innerHTML = name;
+//	$("#markerLabel").html(name);
+	$("#markerLabel").css("left", left + "px");
+	$("#markerLabel").css("top", top + "px");
+	$("#markerLabel").css("display","block");
+	$("#markerLabel").refresh();
+	$("#markerLabel").fadeIn();
+}
+function clearLabel(){
+	$("#markerLabel").fadeOut();
 }
