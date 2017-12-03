@@ -57,12 +57,7 @@ function saveMarker() {
 	// $("#locationTypeId").val($("#locationType").val());
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$("#boundary").val(
-			$("#boundary").val() + ";" + $("#tempBoundaryColors").val()); // boundary
-																			// mow
-																			// has
-																			// boundary
-																			// plus
-																			// colours
+			$("#boundary").val() + ";" + $("#tempBoundaryColors").val());
 	$.ajax({
 		url : url,
 		cache : false,
@@ -111,7 +106,8 @@ function getAllMarkers(parentId) {
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllMarkers(null);
-	setMapOnAllpoligons(null);
+	setMapOnAllPolygons(null);
+	setMapOnAllPolylines(null);
 	$.ajax({
 		url : url,
 		cache : false,
@@ -131,9 +127,11 @@ function getAllMarkers(parentId) {
 						}
 						addMarker(l);
 					});
+			
 		},
 		complete : function() {
 			HideLoadingScreen();
+			setMapOnAllPathMarkers(null);
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
@@ -237,7 +235,12 @@ function addMarker(l) {
 		}
 	});
 	marker.setPosition(pos);
-	markers.push(marker);
+	if (l.locationType.locationTypeId != 5)
+		markers.push(marker);
+	else{
+		marker.setMap(null);
+		pathMarkers.push(marker);
+	}
 }
 
 function setMapOnAllMarkers(map) {
@@ -246,10 +249,15 @@ function setMapOnAllMarkers(map) {
 	}
 }
 
+function setMapOnAllPathMarkers(map) {
+	for ( var i = 0; i < pathMarkers.length; i++) {
+		pathMarkers[i].setMap(map);
+	}
+}
+
 function addAMarker(location, gps) {
 	$("#upload").val("");
 	$("#main-cropper").empty();
-	// $("#iconCropDiv").empty();
 	if (location == null) {
 		gps = gps.replace(" ", "");
 		$("#markerId").val("");
@@ -276,9 +284,11 @@ function addAMarker(location, gps) {
 		$("#parentLocationId").val(location.parentId);
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
-		$("#openLocationEditMenu")
-				.html("<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
-				.trigger("create");
+		// $("#openLocationEditMenu")
+		// .html(
+		// "<img width='24' height='24' src='images/icons/edit.png'
+		// class=''>EDIT")
+		// .trigger("create");
 	}
 	locationEditPanelOpen();
 }

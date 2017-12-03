@@ -15,6 +15,8 @@ function getAllPaths() {
 		for ( var i = 0; i < paths.length; i++) {
 			paths[i].setMap(null);
 		}
+	setMapOnAllMarkers(null);
+	setMapOnAllPathMarkers(map);
 	var url = "REST/GetPathWS/GetPathsForUserAndParent?userName=NMMU&parentId="
 			+ $("#parentLocationId").val();
 	$.ajax({
@@ -160,7 +162,6 @@ function addAPath(location) {
 				event) {
 			addAPathInnerConnection(event);
 		});
-//		$("#pathLatLng").val(location.gps);
 		return;
 	} else if ($("#destinationId").val() == "") {
 		$("#destination").val(location.locationName);

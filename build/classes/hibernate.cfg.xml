@@ -6,13 +6,13 @@
 		<property name="hibernate.dialect">
 			org.hibernate.dialect.MySQLDialect
 		</property>
-	<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nmmumobile?characterEncoding=utf8</property>
-	<property name="hibernate.connection.username">root</property>
-	<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+<!-- 	<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nmmumobile?characterEncoding=utf8</property> -->
+<!-- 	<property name="hibernate.connection.username">root</property> -->
+<!-- 	<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property> -->
 
-<!--   		<property name="hibernate.connection.url">jdbc:mysql://postgrad.nmmu.ac.za:3306/nmmumobile?characterEncoding=utf8</property>   -->
-<!--  		<property name="hibernate.connection.username">nmmu_mobile_user</property>   -->
-<!--  		<property name="hibernate.connection.password">Dfjr9bg834gmb</property>   -->
+  		<property name="hibernate.connection.url">jdbc:mysql://postgrad.nmmu.ac.za:3306/nmmumobile?characterEncoding=utf8</property>  
+ 		<property name="hibernate.connection.username">nmmu_mobile_user</property>  
+ 		<property name="hibernate.connection.password">Dfjr9bg834gmb</property>  
 
 
 <!-- 	LIVE SERVER NEVER USE IT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->

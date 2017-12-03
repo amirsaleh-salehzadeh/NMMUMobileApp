@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>AWE GEO AR demo</title>
+
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 <meta charset="utf-8"/>
 <style type="text/css">
@@ -19,10 +20,34 @@
 }
 </style>
 </head>
+
 <body>
-<div id="container"></div>
+<script	src="js/location/camera/path.navigation.camera.ar.js"></script>
+<div id="container"><input type="button" onclick="testARAlert();" value="Start AR"/></div>
+
 <script type="text/javascript" src="../../js/awe-loader-min.js"></script>
 <script type="text/javascript">
+var loc, dest,lat1, lon1, lat2, lon2;
+lat1= loc.split("_",[0]);
+lat2= dest.split("_",[0]);
+lon1=loc.split("_",[1]);
+lon2=dest.split("_",[1]);
+ // generally used geo measurement function
+    var R = 6378.137; // Radius of earth in KM
+    var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+    var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c ;
+    return d * 1000; // meters
+}
+
+</script>
+<script type="text/javascript">
+
+function startAR(){
   window.addEventListener('load', function() {
     // initialize awe after page loads
     window.awe.init({
@@ -94,6 +119,7 @@
 			        awe.pois.add({ id:'south_west', position: { x:-200, y:0, z:-200 } });
 			        awe.pois.add({ id:'west', position: { x:-200, y:0, z:0 } });
 			        awe.pois.add({ id:'north_west', position: { x:-200, y:0, z:200 } });
+			        awe.pois.add({ id:'destination', position: { x:, y:0, z:200 } });
 			
 			        // add projections to each of the pois
 			        awe.projections.add({ 
@@ -171,6 +197,15 @@
 			            color:0xCCCCCC, 
 			          },
 			        }, { poi_id: 'north_west' });
+			        awe.projections.add({ 
+				          id:'d', 
+				          geometry:{ shape:'cube', x:50, y:50, z:50 }, 
+	                rotation:{ x:30, y:30, z:0 },
+				          material:{ 
+				            type: 'phong',
+				            color:0xFF0000, 
+				          },
+				        }, { poi_id: 'destination' });
 			
             },
           },
@@ -186,6 +221,7 @@
       }
     });
   });
+}
 </script>
 </body>
 </html>
