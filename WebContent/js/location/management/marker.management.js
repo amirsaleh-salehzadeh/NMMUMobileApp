@@ -195,12 +195,15 @@ function addMarker(l) {
 			labelStyle : {
 				opacity : 1.0
 			},
-			title : l.locationName,
+			label :l.locationName,
 			zIndex : 40
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
-		this.setLabel(this.getTitle());
+		this.setLabel({text:this.getTitle(),
+			color:'rgb(248, 182, 36)'
+			});
+		
 	});
 	google.maps.event.addListener(marker, "mouseout", function() {
 		this.setIcon(this.originalicon);
