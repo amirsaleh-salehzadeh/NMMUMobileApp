@@ -148,7 +148,6 @@ function drawPolygons(location) {
 			$("#parentLocationId").val(location.locationID);
 			$("#parentDescriptionToAdd")
 					.html(location.locationName + " Campus");
-			getAllPaths();
 			getAllMarkers(location.locationID + "");
 			// restricting map when working in an area
 			minZoomLevel = 17;
@@ -218,7 +217,7 @@ function deletePolygon() {
 	// }
 }
 
-function setMapOnAllpoligons(map) {
+function setMapOnAllPolygons(map) {
 	for ( var i = 0; i < polygons.length; i++) {
 		polygons[i].setMap(map);
 	}

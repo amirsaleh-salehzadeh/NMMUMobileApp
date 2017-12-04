@@ -17,9 +17,11 @@ function getAllPaths() {
 		}
 	var url = "REST/GetPathWS/GetPathsForUserAndParent?userName=NMMU&parentId="
 			+ $("#parentLocationId").val();
+	setMapOnAllMarkers(null);
+	setMapOnAllPathMarkers(map);
 	$.ajax({
 		url : url,
-		cache : false,
+		cache : true,
 		async : true,
 		beforeSend : function() {
 			ShowLoadingScreen("Fetching paths");

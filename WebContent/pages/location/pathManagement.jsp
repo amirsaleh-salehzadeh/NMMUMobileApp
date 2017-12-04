@@ -329,7 +329,6 @@
 </div>
 
 
-
 <script src="js/croppie.js"></script>
 <script src="js/colorpicker.js"></script>
 <script src="js/leanModal.min.js"></script>

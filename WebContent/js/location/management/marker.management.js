@@ -1,3 +1,4 @@
+var pathMarkers = [];
 function removeMarker() {
 	var url = "REST/GetLocationWS/RemoveALocation?locationId="
 			+ $("#markerId").val();
@@ -58,11 +59,11 @@ function saveMarker() {
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$("#boundary").val(
 			$("#boundary").val() + ";" + $("#tempBoundaryColors").val()); // boundary
-																			// mow
-																			// has
-																			// boundary
-																			// plus
-																			// colours
+	// mow
+	// has
+	// boundary
+	// plus
+	// colours
 	$.ajax({
 		url : url,
 		cache : false,
@@ -106,22 +107,26 @@ function saveMarker() {
 
 var str = "";
 function getAllMarkers(parentId) {
-	 minZoomLevel =1;
-		pathEditPanelClose();
+	minZoomLevel = 1;
+	pathEditPanelClose();
 	locationEditPanelClose();
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllMarkers(null);
-	setMapOnAllpoligons(null);
+	setMapOnAllPolygons(null);
+	setMapOnAllPathMarkers(null);
+	setMapOnAllPolylines(null);
 	$.ajax({
 		url : url,
-		cache : false,
+		cache : true,
 		async : true,
 		beforeSend : function() {
 			ShowLoadingScreen("Fetching locations");
 		},
 		success : function(data) {
 			str = "";
+			markers = [];
+			pathMarkers = [];
 			$.each(data,
 					function(k, l) {
 						if (k == 0) {
@@ -135,6 +140,7 @@ function getAllMarkers(parentId) {
 		},
 		complete : function() {
 			HideLoadingScreen();
+			setMapOnAllPathMarkers(null);
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
@@ -147,8 +153,9 @@ function getAllMarkers(parentId) {
 function getMarkerInfo(location) {
 	do {
 		if (location.parent.parentId > 0) {
-			str = "<li onclick=' editRestrict=false; getAllMarkers(\"" + location.parent.locationID
-					+ "\",)'> > " + location.parent.locationName + " "
+			str = "<li onclick='editRestrict=false; getAllMarkers(\""
+					+ location.parent.locationID + "\")'> "
+					+ location.parent.locationName + " "
 					+ location.parent.locationType.locationType + "</li>" + str;
 		} else
 			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
@@ -196,7 +203,7 @@ function addMarker(l) {
 			labelStyle : {
 				opacity : 1.0
 			},
-			label :l.locationName,
+			label : l.locationName,
 			zIndex : 40
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {
@@ -238,12 +245,23 @@ function addMarker(l) {
 		}
 	});
 	marker.setPosition(pos);
-	markers.push(marker);
+	if (l.locationType.locationTypeId != 5)
+		markers.push(marker);
+	else {
+		marker.setMap(null);
+		pathMarkers.push(marker);
+	}
 }
 
 function setMapOnAllMarkers(map) {
 	for ( var i = 0; i < markers.length; i++) {
 		markers[i].setMap(map);
+	}
+}
+
+function setMapOnAllPathMarkers(map) {
+	for ( var i = 0; i < pathMarkers.length; i++) {
+		pathMarkers[i].setMap(map);
 	}
 }
 
@@ -257,10 +275,11 @@ function addAMarker(location, gps) {
 		$("#markerName").val("");
 		$("#markerCoordinate").val(gps);
 		$("#locationDescription").val("");
-//		$("#openLocationEditMenu")
-//				.html(
-//						"<img width='24' height='24' src='images/icons/add.png' class=''>NEW")
-//				.trigger("create");
+		// $("#openLocationEditMenu")
+		// .html(
+		// "<img width='24' height='24' src='images/icons/add.png'
+		// class=''>NEW")
+		// .trigger("create");
 	} else {
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(location.gps);
@@ -278,20 +297,21 @@ function addAMarker(location, gps) {
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
 		$("#openLocationEditMenu")
-				.html("<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
+				.html(
+						"<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
 				.trigger("create");
 	}
 	locationEditPanelOpen();
 }
-function showMarkerLabel(name){
+function showMarkerLabel(name) {
 	$("#googleMapMarkerLabel").html(name);
 	$('#googleMapMarkerLabel').css("display", "block");
 	$('#googleMapMarkerLabel').css("position", "absolute");
 	$('#googleMapMarkerLabel').css("left", event.pageX + 'px');
 	$('#googleMapMarkerLabel').css("top", event.pageY + 'px');
 	$('#googleMapMarkerLabel').trigger("create");
-	$('#googleMapMarkerLabel').fadeIn(slow);
+	$('#googleMapMarkerLabel').fadeIn('slow');
 }
-function clearLabel(){
+function clearLabel() {
 	$('#googleMapMarkerLabel').fadeOut();
 }
