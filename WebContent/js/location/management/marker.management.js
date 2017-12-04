@@ -106,7 +106,8 @@ function saveMarker() {
 
 var str = "";
 function getAllMarkers(parentId) {
-	pathEditPanelClose();
+	 minZoomLevel =1;
+		pathEditPanelClose();
 	locationEditPanelClose();
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
@@ -146,7 +147,7 @@ function getAllMarkers(parentId) {
 function getMarkerInfo(location) {
 	do {
 		if (location.parent.parentId > 0) {
-			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
+			str = "<li onclick=' editRestrict=false; getAllMarkers(\"" + location.parent.locationID
 					+ "\",)'> > " + location.parent.locationName + " "
 					+ location.parent.locationType.locationType + "</li>" + str;
 		} else
@@ -200,7 +201,7 @@ function addMarker(l) {
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
-		showMarkerLabel(this.getTitle(),event.pageX,event.pageY);		
+		showMarkerLabel(this.getTitle());
 	});
 	google.maps.event.addListener(marker, "mouseout", function() {
 		this.setIcon(this.originalicon);
@@ -282,16 +283,15 @@ function addAMarker(location, gps) {
 	}
 	locationEditPanelOpen();
 }
-function showMarkerLabel(name, left, top){
-	$("#markerLabel").trigger("create");
-	document.getElementById("markerLabel").innerHTML = name;
-//	$("#markerLabel").html(name);
-	$("#markerLabel").css("left", left + "px");
-	$("#markerLabel").css("top", top + "px");
-	$("#markerLabel").css("display","block");
-	$("#markerLabel").refresh();
-	$("#markerLabel").fadeIn();
+function showMarkerLabel(name){
+	$("#googleMapMarkerLabel").html(name);
+	$('#googleMapMarkerLabel').css("display", "block");
+	$('#googleMapMarkerLabel').css("position", "absolute");
+	$('#googleMapMarkerLabel').css("left", event.pageX + 'px');
+	$('#googleMapMarkerLabel').css("top", event.pageY + 'px');
+	$('#googleMapMarkerLabel').trigger("create");
+	$('#googleMapMarkerLabel').fadeIn(slow);
 }
 function clearLabel(){
-	$("#markerLabel").fadeOut();
+	$('#googleMapMarkerLabel').fadeOut();
 }

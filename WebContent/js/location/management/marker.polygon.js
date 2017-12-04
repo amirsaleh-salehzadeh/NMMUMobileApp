@@ -1,3 +1,4 @@
+var minZoomLevel;
 function createDrawingManager() {
 	var polyOptions = {
 		strokeWeight : 2,
@@ -134,11 +135,21 @@ function drawPolygons(location) {
 	DRAWPolygon.id = location.locationID;
 	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
 		if (longpress) {
+			
 			$("#parentLocationId").val(location.locationID);
 			$("#parentDescriptionToAdd")
 					.html(location.locationName + " Campus");
 			getAllPaths();
 			getAllMarkers(location.locationID + "");
+			// restricting map when working in an area
+			minZoomLevel = 17;
+			map.setZoom(minZoomLevel);
+			   // Limit the zoom level
+			   google.maps.event.addListener(map, 'zoom_changed', function() {
+			     if (map.getZoom() < minZoomLevel)
+			    	 map.setZoom(minZoomLevel);
+			   });
+			 
 		} else {
 			// alert("Test3");
 			addAMarker(location, location.gps);

@@ -244,9 +244,7 @@
 <!-- MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP  -->
 
 
-
 <div id="map_canvas"></div>
-
 
 
 <!-- LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING  -->
@@ -312,7 +310,9 @@
 	<!-- 		 For later work	<span>Boundary Edit Points</span> -->
 </div>
 
+<!-- MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL -->
 
+<div id="googleMapMarkerLabel"></div>
 
 <!-- PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP vPATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP -->
 
@@ -328,10 +328,7 @@
 	</logic:iterate>
 </div>
 
-<!-- MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL -->
-<div id="markerLabel">
-hi
-</div>
+
 
 <script src="js/croppie.js"></script>
 <script src="js/colorpicker.js"></script>
