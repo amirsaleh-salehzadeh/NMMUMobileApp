@@ -121,9 +121,9 @@ function getLocationTypeImage(locationTypeId) {
 	} else if (locationTypeId == "4") {
 		icon += 'marker-pink.png';
 	} else if (locationTypeId == "5") {
-		icon += 'marker-green.png';
+		icon = 'images/pathType/stairs.png';
 	} else
-		icon += 'marker-yellow.png';
+		icon += '/normal/.png';
 	return icon;
 }
 

@@ -8,6 +8,13 @@
 	background-color:rgba(8, 27, 44, 1) !important ; 
 	height:20px;
 	text-shadow:0;
+	font-size: 14pt;
+	line-height: .5 em;
+	font-weight: bold;
+	padding: .4 .4 .4 .4 em;
+	border: solid;
+	border-width: 2;
+	border-color: rgb(248, 182, 36);
 }
 .labels {
 	/* 	font-size: 32pt !important; */

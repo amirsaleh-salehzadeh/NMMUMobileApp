@@ -153,13 +153,13 @@ function getAllMarkers(parentId) {
 function getMarkerInfo(location) {
 	do {
 		if (location.parent.parentId > 0) {
-			str = "<li onclick='editRestrict=false; getAllMarkers(\""
+			str = "<li onclick='getAllMarkers(\""
 					+ location.parent.locationID + "\")'> "
 					+ location.parent.locationName + " "
 					+ location.parent.locationType.locationType + "</li>" + str;
 		} else
 			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
-					+ "\")'>" + location.parent.locationName + "</li>" + str;
+					+ "\")'&nbsp;>" + location.parent.locationName + "</li>" + str;
 		location = location.parent;
 	} while (location.parent != null);
 	$("#infoListView").html(str).trigger("create").listview("refresh");
@@ -178,14 +178,7 @@ function addMarker(l) {
 			originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
 					"normal"),
 			draggable : true,
-			labelContent : l.locationName + " " + l.locationType.locationType,
-			labelAnchor : new google.maps.Point(30, 20),
-			labelClass : "labels", // the CSS class for the label
-			labelStyle : {
-				opacity : 1.0
-			},
-			label : l.locationName,
-			title : l.locationName,
+			title : l.locationName + " " + l.locationType.locationType,
 			zIndex : 40
 		});
 	else
@@ -197,14 +190,8 @@ function addMarker(l) {
 			originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
 					"normal"),
 			draggable : true,
-			labelContent : l.locationName + " " + l.locationType.locationType,
-			labelAnchor : new google.maps.Point(30, 20),
-			labelClass : "labels", // the CSS class for the label
-			labelStyle : {
-				opacity : 1.0
-			},
-			label : l.locationName,
-			zIndex : 40
+			zIndex : 40,
+			title : l.locationName + " " + l.locationType.locationType
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
@@ -212,7 +199,7 @@ function addMarker(l) {
 	});
 	google.maps.event.addListener(marker, "mouseout", function() {
 		this.setIcon(this.originalicon);
-		clearLabel();
+		clearMarkerLabel();
 	});
 	marker.setLabel(null);
 	var pos = {
@@ -275,11 +262,7 @@ function addAMarker(location, gps) {
 		$("#markerName").val("");
 		$("#markerCoordinate").val(gps);
 		$("#locationDescription").val("");
-		// $("#openLocationEditMenu")
-		// .html(
-		// "<img width='24' height='24' src='images/icons/add.png'
-		// class=''>NEW")
-		// .trigger("create");
+		$("#openLocationEditMenu").trigger("create");
 	} else {
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(location.gps);
@@ -307,11 +290,11 @@ function showMarkerLabel(name) {
 	$("#googleMapMarkerLabel").html(name);
 	$('#googleMapMarkerLabel').css("display", "block");
 	$('#googleMapMarkerLabel').css("position", "absolute");
-	$('#googleMapMarkerLabel').css("left", event.pageX + 'px');
-	$('#googleMapMarkerLabel').css("top", event.pageY + 'px');
+	$('#googleMapMarkerLabel').css("left", event.pageX + 17 + 'px');
+	$('#googleMapMarkerLabel').css("top", event.pageY + +17 + 'px');
 	$('#googleMapMarkerLabel').trigger("create");
-	$('#googleMapMarkerLabel').fadeIn('slow');
+	// $('#googleMapMarkerLabel').fadeIn();
 }
-function clearLabel() {
+function clearMarkerLabel() {
 	$('#googleMapMarkerLabel').fadeOut();
 }
