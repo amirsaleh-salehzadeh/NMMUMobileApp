@@ -20,10 +20,7 @@ public class LocationENT {
 
 	private long locationID;
 	private String clientName;
-	private int country = 0;
 	public LocationTypeENT locationType;
-	private String address = "";
-	private String postBox = null;
 	private String gps = "";
 	private String locationName = "";
 	private String icon = "";
@@ -34,18 +31,15 @@ public class LocationENT {
 	public ArrayList<LocationENT> childrenENT = new ArrayList<LocationENT>();
 	private LocationENT parent;
 
-	public LocationENT(long locationID, String clientName, int country,
-			LocationTypeENT locationType, String address, String postBox,
-			String gps, String locationName, String icon, String plan,
-			String boundary, String description, long parentId,
-			ArrayList<LocationENT> childrenENT, LocationENT parent) {
+	public LocationENT(long locationID, String clientName,
+			LocationTypeENT locationType, String gps, String locationName,
+			String icon, String plan, String boundary, String description,
+			long parentId, ArrayList<LocationENT> childrenENT,
+			LocationENT parent) {
 		super();
 		this.locationID = locationID;
 		this.clientName = clientName;
-		this.country = country;
 		this.locationType = locationType;
-		this.address = address;
-		this.postBox = postBox;
 		this.gps = gps;
 		this.locationName = locationName;
 		this.icon = icon;
@@ -65,7 +59,8 @@ public class LocationENT {
 	}
 
 	/**
-	 * @param icon the icon to set
+	 * @param icon
+	 *            the icon to set
 	 */
 	public void setIcon(String icon) {
 		this.icon = icon;
@@ -79,7 +74,8 @@ public class LocationENT {
 	}
 
 	/**
-	 * @param plan the plan to set
+	 * @param plan
+	 *            the plan to set
 	 */
 	public void setPlan(String plan) {
 		this.plan = plan;
@@ -93,7 +89,8 @@ public class LocationENT {
 	}
 
 	/**
-	 * @param boundary the boundary to set
+	 * @param boundary
+	 *            the boundary to set
 	 */
 	public void setBoundary(String boundary) {
 		this.boundary = boundary;
@@ -107,7 +104,8 @@ public class LocationENT {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -121,22 +119,20 @@ public class LocationENT {
 	}
 
 	/**
-	 * @param parent the parent to set
+	 * @param parent
+	 *            the parent to set
 	 */
 	public void setParent(LocationENT parent) {
 		this.parent = parent;
 	}
 
 	public LocationENT(long locationID, String clientName,
-			LocationTypeENT locationType, String address, String postBox,
-			String gps, String locationName, long parentId,
-			ArrayList<LocationENT> childrenENT) {
+			LocationTypeENT locationType, String gps, String locationName,
+			long parentId, ArrayList<LocationENT> childrenENT) {
 		super();
 		this.locationID = locationID;
 		this.clientName = clientName;
 		this.locationType = locationType;
-		this.address = address;
-		this.postBox = postBox;
 		this.gps = gps;
 		this.locationName = locationName;
 		this.parentId = parentId;
@@ -166,22 +162,12 @@ public class LocationENT {
 		this.childrenENT = childrenENT;
 	}
 
-	public LocationENT(long locationID, String clientName, int country,
-			LocationTypeENT locationType, String address, String postBox,
-			String gps, String locationName) {
+	public LocationENT(long locationID, String clientName,
+			LocationTypeENT locationType, String gps, String locationName) {
 		super();
-		// if (address == null)
-		// address = "N/A";
-		// if (gps == null)
-		// gps = "N/A";
-		if (country == 0)
-			country = 200;
 		this.locationID = locationID;
 		this.clientName = clientName;
-		this.country = country;
 		this.locationType = locationType;
-		this.address = address;
-		this.postBox = postBox;
 		this.gps = gps;
 		this.locationName = locationName;
 	}
@@ -190,20 +176,11 @@ public class LocationENT {
 	}
 
 	public LocationENT(long locationID, String clientName,
-			LocationTypeENT locationType, String address, String gps,
-			String locationName) {
+			LocationTypeENT locationType, String locationName) {
 		super();
-		// if (address == null)
-		// address = "N/A";
-		// if (gps == null)
-		// gps = "N/A";
-		if (country == 0)
-			country = 200;
 		this.locationID = locationID;
 		this.clientName = clientName;
 		this.locationType = locationType;
-		this.address = address;
-		this.gps = gps;
 		this.locationName = locationName;
 	}
 
@@ -245,34 +222,6 @@ public class LocationENT {
 
 	public void setClientName(String clientName) {
 		this.clientName = clientName;
-	}
-
-	public int getCountry() {
-		return this.country;
-	}
-
-	public void setCountry(int country) {
-		this.country = country;
-	}
-
-	public String getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(String address) {
-		if (address == null)
-			address = "N/A";
-		this.address = address;
-	}
-
-	public String getPostBox() {
-		return this.postBox;
-	}
-
-	public void setPostBox(String postBox) {
-		if (postBox == null)
-			postBox = "N/A";
-		this.postBox = postBox;
 	}
 
 	public String getGps() {

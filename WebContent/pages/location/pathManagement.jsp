@@ -120,8 +120,8 @@
 
 
 <div data-role="panel" id="locationEditPanel" data-position="right"
-	data-display="overlay"
-	class="ui-panel ui-panel-position-right ui-panel-display-overlay 
+	data-display="overlay" data-position-fixed="true"
+	class="ui-panel ui-panel-position-right 
 	ui-panel-animate ui-panel-open rightSidePanel"
 	data-dismissible="false" data-swipe-close="false">
 	<input type="hidden" name="icon" id="icon" value=""> <input

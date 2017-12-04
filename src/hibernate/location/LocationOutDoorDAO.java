@@ -42,7 +42,7 @@ public class LocationOutDoorDAO extends BaseHibernateDAO implements
 						rs.getString("username"), new LocationTypeENT(
 								rs.getInt("location_type_id"),
 								rs.getString("ltname")),
-						rs.getString("address"), rs.getString("gps"),
+						 rs.getString("gps"),
 						rs.getString("location_name"));
 				ent.setIcon(rs.getString("icon"));
 				ent.setDescription(rs.getString("description"));
@@ -75,7 +75,7 @@ public class LocationOutDoorDAO extends BaseHibernateDAO implements
 						rs.getString("username"), new LocationTypeENT(
 								rs.getInt("location_type"),
 								rs.getString("ltname")),
-						rs.getString("address"), rs.getString("gps"),
+						 rs.getString("gps"),
 						rs.getString("location_name"));
 				ent.setIcon(rs.getString("icon"));
 				ent.setParentId(rs.getLong("parent_id"));

@@ -48,7 +48,7 @@ function selectActionType() {
 		gps = gps.replace(" ","");
 		addAMarker(null, gps);
 		locationEditPanelOpen();
-		getAllMarkers($("#parentLocationId").val());
+		getAllMarkers($("#parentLocationId").val(), false);
 	} else {
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
@@ -57,8 +57,8 @@ function selectActionType() {
 		// map.setOptions({
 		// draggableCursor : "url('images/map-markers/road.png'), auto"
 		// });
-		pathEditPanelOpen();
-		getAllPaths();
+//		pathEditPanelOpen();
+		getAllPaths(false);
 	}
 	google.maps.event.addListener(map, "click", function(event) {
 		$("#departure").val("");

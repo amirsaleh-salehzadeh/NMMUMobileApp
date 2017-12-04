@@ -35,13 +35,10 @@ function removeMarker() {
 }
 
 function deleteMarker(id) {
-	for ( var i = 0; i < markers.length; i++) {
-		if (markers[i].id == id) {
-			markers[i].setMap(null);
-			markers.splice(i, 1);
-			return;
-		}
-	}
+	var i = markers.indexOf(id);
+	markers[i].setMap(null);
+	markers.splice(i, 1);
+	return;
 }
 
 function saveMarker() {
@@ -55,15 +52,9 @@ function saveMarker() {
 		alert("Please select a name for the location");
 		return;
 	}
-	// $("#locationTypeId").val($("#locationType").val());
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$("#boundary").val(
-			$("#boundary").val() + ";" + $("#tempBoundaryColors").val()); // boundary
-	// mow
-	// has
-	// boundary
-	// plus
-	// colours
+			$("#boundary").val() + ";" + $("#tempBoundaryColors").val());
 	$.ajax({
 		url : url,
 		cache : false,
@@ -106,27 +97,34 @@ function saveMarker() {
 }
 
 var str = "";
-function getAllMarkers(parentId) {
+function getAllMarkers(parentId, refreshMarkers) {
 	minZoomLevel = 1;
 	pathEditPanelClose();
 	locationEditPanelClose();
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
-	setMapOnAllMarkers(null);
-	setMapOnAllPolygons(null);
-	setMapOnAllPathMarkers(null);
 	setMapOnAllPolylines(null);
+	if (!refreshMarkers && markers.length > 0) {
+		setMapOnAllMarkers(map);
+		setMapOnAllPathMarkers(null);
+		return;
+	}
 	$.ajax({
 		url : url,
-		cache : true,
+		cache : false,
 		async : true,
 		beforeSend : function() {
 			ShowLoadingScreen("Fetching locations");
+			setMapOnAllMarkers(null);
+			setMapOnAllPolygons(null);
+			setMapOnAllPathMarkers(null);
 		},
 		success : function(data) {
 			str = "";
 			markers = [];
+			polygons = [];
 			pathMarkers = [];
+			paths = [];
 			$.each(data,
 					function(k, l) {
 						if (k == 0) {
@@ -153,13 +151,13 @@ function getAllMarkers(parentId) {
 function getMarkerInfo(location) {
 	do {
 		if (location.parent.parentId > 0) {
-			str = "<li onclick='getAllMarkers(\""
-					+ location.parent.locationID + "\")'> "
-					+ location.parent.locationName + " "
+			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
+					+ "\", true)'> > " + location.parent.locationName + " "
 					+ location.parent.locationType.locationType + "</li>" + str;
 		} else
 			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
-					+ "\")'&nbsp;>" + location.parent.locationName + "</li>" + str;
+					+ "\", true)'&nbsp;>" + location.parent.locationName
+					+ "</li>" + str;
 		location = location.parent;
 	} while (location.parent != null);
 	$("#infoListView").html(str).trigger("create").listview("refresh");
@@ -191,7 +189,7 @@ function addMarker(l) {
 					"normal"),
 			draggable : true,
 			zIndex : 40,
-			title : l.locationName + " " + l.locationType.locationType
+//			title : l.locationName + " " + l.locationType.locationType
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
@@ -261,6 +259,7 @@ function addAMarker(location, gps) {
 		$("#markerId").val("");
 		$("#markerName").val("");
 		$("#markerCoordinate").val(gps);
+		$("#boundary").val("");
 		$("#locationDescription").val("");
 		$("#openLocationEditMenu").trigger("create");
 	} else {
@@ -296,5 +295,5 @@ function showMarkerLabel(name) {
 	// $('#googleMapMarkerLabel').fadeIn();
 }
 function clearMarkerLabel() {
-	$('#googleMapMarkerLabel').fadeOut();
+	$('#googleMapMarkerLabel').css("display", "none");
 }

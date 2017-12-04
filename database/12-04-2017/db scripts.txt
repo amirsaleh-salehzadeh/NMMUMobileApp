@@ -1,0 +1,5 @@
+ALTER TABLE location DROP FOREIGN KEY location_ibfk_2;
+DROP TABLE countries;
+ALTER TABLE `location` DROP `country`;
+ALTER TABLE `location` DROP `address`;
+ALTER TABLE `location` DROP `post_box`;

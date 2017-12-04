@@ -119,7 +119,6 @@ function drawPolygons(location) {
 		var LatLng = new google.maps.LatLng(Lat, Lng);
 		CoordinatesArray.push(LatLng);
 	}
-
 	var boundaryColour = getBoundaryColour(location.boundary);
 	var FillColour;
 	var BorderColour;
@@ -148,9 +147,9 @@ function drawPolygons(location) {
 			$("#parentLocationId").val(location.locationID);
 			$("#parentDescriptionToAdd")
 					.html(location.locationName + " Campus");
-			getAllMarkers(location.locationID + "");
+			getAllMarkers(location.locationID + "", true);
 			// restricting map when working in an area
-			minZoomLevel = 17;
+			minZoomLevel = 16;
 			map.setZoom(minZoomLevel);
 			   // Limit the zoom level
 			   google.maps.event.addListener(map, 'zoom_changed', function() {
@@ -159,7 +158,6 @@ function drawPolygons(location) {
 			   });
 			 
 		} else {
-			// alert("Test3");
 			if (boundarySelected){ // boundary selected
 				if (DRAWPolygon == selectedShape){
 					clearSelection();

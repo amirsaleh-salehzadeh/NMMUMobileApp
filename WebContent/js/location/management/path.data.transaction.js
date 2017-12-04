@@ -1,9 +1,10 @@
 var movingLine, pathPolylineConstant, lastOne, overlay, pathDrawingCircle;
 var pathWidthScale = 0;
 
-function getAllPaths() {
+function getAllPaths(newPaths, refreshPaths) {
 	google.maps.event.addListener(map, 'zoom_changed', function(event) {
 		google.maps.event.addListenerOnce(map, 'bounds_changed', function(e) {
+			if ($('[name="optionType"] :radio:checked').val() != "marker")
 			updatePathWeight();
 		});
 	});
@@ -11,17 +12,19 @@ function getAllPaths() {
 	overlay.draw = function() {
 	};
 	overlay.setMap(map);
-	if (paths != null)
-		for ( var i = 0; i < paths.length; i++) {
-			paths[i].setMap(null);
-		}
-	var url = "REST/GetPathWS/GetPathsForUserAndParent?userName=NMMU&parentId="
-			+ $("#parentLocationId").val();
 	setMapOnAllMarkers(null);
 	setMapOnAllPathMarkers(map);
+	if (!refreshPaths && paths.length > 0) {
+		setMapOnAllPolylines(map);
+		return;
+	}
+	setMapOnAllPolylines(null);
+	path = [];
+	var url = "REST/GetPathWS/GetPathsForUserAndParent?userName=NMMU&parentId="
+			+ $("#parentLocationId").val();
 	$.ajax({
 		url : url,
-		cache : true,
+		cache : false,
 		async : true,
 		beforeSend : function() {
 			ShowLoadingScreen("Fetching paths");
@@ -41,7 +44,6 @@ function getAllPaths() {
 		}
 	});
 }
-
 
 // SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH CONTAINS MANY POINTS
 function saveThePath() {
@@ -99,13 +101,17 @@ function removePath() {
 				ShowLoadingScreen("Removing the path");
 			},
 			success : function(data) {
-				for ( var i = 0; i < paths.length; i++) {
-					if (paths[i] != null && paths[i].id == $("#pathId").val()) {
-						paths[i].setMap(null);
-						paths[i] = null;
-					}
-				}
+				// for ( var i = 0; i < paths.length; i++) {
+				// if (paths[i] != null && paths[i].id == $("#pathId").val()) {
+				// paths[i].setMap(null);
+				// paths[i] = null;
+				// }
+				// }
+				var i = paths.indexOf($("#pathId").val());
+				paths[i].setMap(null);
+				paths.splice(i, 1);
 				toast("remove successful");
+				cancelADrawnPath();
 			},
 			complete : function() {
 				HideLoadingScreen();
@@ -144,10 +150,10 @@ function addAPath(location) {
 			map : map,
 			radius : parseFloat($("#pathWidth").val()) / 2
 		});
-		overlay = new google.maps.OverlayView();
-		overlay.draw = function() {
-		};
-		overlay.setMap(map);
+		// overlay = new google.maps.OverlayView();
+		// overlay.draw = function() {
+		// };
+		// overlay.setMap(map);
 		google.maps.event.addListener(map, "mousemove", function(event) {
 			updateMovingLine(event);
 		});
@@ -162,7 +168,7 @@ function addAPath(location) {
 				event) {
 			addAPathInnerConnection(event);
 		});
-//		$("#pathLatLng").val(location.gps);
+		// $("#pathLatLng").val(location.gps);
 		return;
 	} else if ($("#destinationId").val() == "") {
 		$("#destination").val(location.locationName);
@@ -179,4 +185,3 @@ function addAPath(location) {
 		showPathTypeMenu();
 	}
 }
-

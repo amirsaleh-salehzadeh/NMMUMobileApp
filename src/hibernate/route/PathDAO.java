@@ -415,7 +415,6 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		ent.setLocationType(new LocationTypeENT(5));
 		ent.setClientName(p.getDeparture().getClientName());
 		ent.setParentId(p.getDeparture().getParentId());
-		ent.setCountry(200);
 		LocationDAO dao = new LocationDAO();
 		try {
 			conn = getConnection();

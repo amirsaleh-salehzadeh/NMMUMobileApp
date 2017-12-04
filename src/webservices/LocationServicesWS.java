@@ -238,7 +238,7 @@ public class LocationServicesWS {
 			@FormParam("boundary") String boundary,
 			@FormParam("plan") String plan, @FormParam("parentId") long parentId) {
 		LocationENT ent = new LocationENT(locationId, userName,
-				new LocationTypeENT(Integer.parseInt(locationTypeId)), address,
+				new LocationTypeENT(Integer.parseInt(locationTypeId)),
 				coordinate, locationName);
 		ent.setParentId(parentId);
 		ent.setDescription(description);

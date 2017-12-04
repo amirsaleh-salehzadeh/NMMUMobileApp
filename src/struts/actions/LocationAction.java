@@ -162,7 +162,7 @@ public class LocationAction extends Action {
 					.getParameter("locationTypeId"));
 		LocationTypeENT locationTypeENT = new LocationTypeENT(locationTypeId);
 		LocationENT locationENT = new LocationENT(0, search, locationTypeENT,
-				Address, Gps, search);
+				Gps, search);
 		LocationLST locationLST = new LocationLST(locationENT, pageNo,
 				pageSize, true, "location_name");
 		// try {

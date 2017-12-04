@@ -16,8 +16,6 @@ public interface LocationDAOInterface {
 
 	public ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type);
 
-	public LocationLST searchForLocations(LocationLST lst) throws AMSException;
-
 	public LocationENT getLocationENT(LocationENT ent, Connection conn);
 
 	public ArrayList<LocationENT> getAllLocationsForUser(String username, String locationTypeIds, String parentLocationIds);

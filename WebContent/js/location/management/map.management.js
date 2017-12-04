@@ -155,7 +155,7 @@ function animateCircle(line) {
 function initMap() {
 	setPathTypeButtonIcon();
 	getPathTypePanel();
-	getAllMarkers("360");
+	getAllMarkers("360", true);
 	$("#parentLocationId").val("360");
 	var myLatLng = {
 			lat : -33.5343803,
