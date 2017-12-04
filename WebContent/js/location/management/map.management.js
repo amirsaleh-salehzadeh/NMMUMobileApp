@@ -167,6 +167,7 @@ function initMap() {
 		streetViewControl : false,
 		mapTypeControl: false,
 		scrollwheel : true,
+		disableDoubleClickZoom: true,
 		gestureHandling : 'greedy'
 //        styles: myStyle
 	});
@@ -186,6 +187,7 @@ function initMap() {
 		$("#departureId").val("");
 		$("#destination").val("");
 		$("#destinationId").val("");
+		$("#boundary").val("");
 		var lat = event.latLng.lat();
 		var lng = event.latLng.lng();
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {

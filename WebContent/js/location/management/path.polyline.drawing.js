@@ -34,6 +34,7 @@ function updatePathWeight() {
 }
 
 var tmpIntersectionMarker = undefined;
+var pathSelected = false;
 function drawApath(l) {
 	var pathCoor = [];
 	pathCoor.push(new google.maps.LatLng(
@@ -88,15 +89,33 @@ function drawApath(l) {
 	});
 	pathPolyline.id = l.pathId;
 	pathPolyline.addListener('click', function(event) {
-		var lat = event.latLng.lat();
-		var lng = event.latLng.lng();
-		showPathTypeMenu();
-		pathEditPanelOpen();
-		if ($('#destination').val().length <= 0
-				&& $('#departure').val().length > 0) {
-			createAPointOnAnExistingPath(l, lat + "," + lng, this);
-		} else {
-			selectAPath(l);
+		if (pathSelected){
+			$('#pathTypePopup').fadeOut();
+			if (paths != null){
+				for ( var i = 0; i < paths.length; i++) {
+					if (paths[i] != null) {
+						paths[i].setOptions({
+							strokeColor : '#081B2C'
+						});
+						paths[i].setMap(null);
+						paths[i].setMap(map);
+					}
+				}
+			}
+			pathSelected = false;
+		}
+		else {
+			var lat = event.latLng.lat();
+			var lng = event.latLng.lng();
+			showPathTypeMenu();
+			pathEditPanelOpen();
+			if ($('#destination').val().length <= 0
+					&& $('#departure').val().length > 0) {
+				createAPointOnAnExistingPath(l, lat + "," + lng, this);
+			} else {
+				selectAPath(l);
+			}
+			pathSelected = true;
 		}
 	});
 	pathPolyline.addListener('mousemove', function(event) {

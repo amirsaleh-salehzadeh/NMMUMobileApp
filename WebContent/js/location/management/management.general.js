@@ -152,3 +152,10 @@ function getCookie(cname) {
 	}
 	return "";
 }
+
+$(document).keyup(function(e) {
+	if (e.keyCode == 27) {
+		clearSelection();
+		boundarySelected = false;
+	}
+});
