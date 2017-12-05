@@ -143,10 +143,7 @@ function drawPolygons(location) {
 	DRAWPolygon.id = location.locationID;
 	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
 		if (longpress) {
-			
 			$("#parentLocationId").val(location.locationID);
-			$("#parentDescriptionToAdd")
-					.html(location.locationName + " Campus");
 			getAllMarkers(location.locationID + "", true);
 			// restricting map when working in an area
 			minZoomLevel = 16;

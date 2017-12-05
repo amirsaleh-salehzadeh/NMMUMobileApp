@@ -41,23 +41,17 @@ function selectActionType() {
 		map.setOptions({
 			draggableCursor : 'corsshair'
 		});
-//		$("#openLocationEditMenu").attr("href","#locationEditPanel");
 		var gps = map.getCenter().toString();
 		gps = gps.replace("(","");
 		gps = gps.replace(")","");
 		gps = gps.replace(" ","");
 		addAMarker(null, gps);
-		locationEditPanelOpen();
 		getAllMarkers($("#parentLocationId").val(), false);
 	} else {
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
 		$("#pathEditPanelBTN").trigger("click");
 		$("#openLocationEditMenu").attr("href","#pathEditPanel");
-		// map.setOptions({
-		// draggableCursor : "url('images/map-markers/road.png'), auto"
-		// });
-//		pathEditPanelOpen();
 		getAllPaths(false);
 	}
 	google.maps.event.addListener(map, "click", function(event) {

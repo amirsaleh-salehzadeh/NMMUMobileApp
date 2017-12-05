@@ -99,8 +99,6 @@ function saveMarker() {
 var str = "";
 function getAllMarkers(parentId, refreshMarkers) {
 	minZoomLevel = 1;
-	pathEditPanelClose();
-	locationEditPanelClose();
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllPolylines(null);
@@ -155,7 +153,7 @@ function getMarkerInfo(location) {
 					+ "\", true)'> > " + location.parent.locationName + " "
 					+ location.parent.locationType.locationType + "</li>" + str;
 		} else
-			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
+			str += "<li onclick='getAllMarkers(\"" + location.parent.locationID
 					+ "\", true)'&nbsp;>" + location.parent.locationName
 					+ "</li>" + str;
 		location = location.parent;
@@ -189,7 +187,7 @@ function addMarker(l) {
 					"normal"),
 			draggable : true,
 			zIndex : 40,
-//			title : l.locationName + " " + l.locationType.locationType
+		// title : l.locationName + " " + l.locationType.locationType
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
@@ -278,12 +276,10 @@ function addAMarker(location, gps) {
 		$("#parentLocationId").val(location.parentId);
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
-		$("#openLocationEditMenu")
-				.html(
-						"<img width='24' height='24' src='images/icons/edit.png' class=''>EDIT")
-				.trigger("create");
+		locationEditPanelOpen(location.locationName + " ("
+				+ location.locationType.locationType + ")");
+		selectThisLocationType(null);
 	}
-	locationEditPanelOpen();
 }
 function showMarkerLabel(name) {
 	$("#googleMapMarkerLabel").html(name);

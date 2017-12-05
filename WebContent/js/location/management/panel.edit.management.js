@@ -127,21 +127,14 @@ function getLocationTypeImage(locationTypeId) {
 	return icon;
 }
 
-function locationEditPanelOpen() {
-	locationEditPanelClose();
-	$("#locationEditPanel").trigger("create");
-	$('#locationEditPanel').css("position", "absolute");
-//	$('#locationEditPanel').css("left", event.pageX + 'px');
-//	$('#locationEditPanel').css("top", event.pageY + 'px');
-	$('#locationEditPanel').trigger("create");
-	$('#locationEditPanel').css("display", "block");
-//	var left = $(window).width() - Math.round($("#locationEditPanel").width() / 2);
-//	if ((event.pageX + $("#locationEditPanel").width()) >= $(window).width())
-//		left = $(window).width() - $("#locationEditPanel").width();
-//	if (left <= 0)
-//		left = 0;
-//	$('#locationEditPanel').css("left", left + 'px');
-	$('#locationEditPanel').trigger("create");
+function locationEditPanelOpen(title) {
+	// locationEditPanelClose();
+	$("#locationEditMenuTitle").html(title);
+	$('#locationEditMenu').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#locationEditMenu").popup("open").trigger("create");
 }
 
 function locationEditPanelClose() {
@@ -156,4 +149,21 @@ function pathEditPanelOpen() {
 function pathEditPanelClose() {
 	locationEditPanelClose();
 	$("#pathTypePopup").fadeOut();
+}
+
+function openALocation() {
+	$("#locationEditMenu").popup("close");
+	$("#parentLocationId").val($("#markerId").val());
+	getAllMarkers($("#markerId").val(), true);
+}
+
+function openLocationTypePopup() {
+	$('#editLocationTypePopup').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#locationEditMenu").on("popupafterclose", function() {
+		$("#editLocationTypePopup").popup('open').trigger("create");
+	});
+	$("#locationEditMenu").popup("close").trigger("create");
 }

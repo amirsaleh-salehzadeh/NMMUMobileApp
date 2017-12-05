@@ -6,51 +6,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<title>Control Panel</title>
 <script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						// 		selectRightPanelVal();
-						$("#editBoundaryPopup").css("display", "none");
-						$("#rightpanel").trigger("updatelayout");
-						$(".liLocationLV")
-								.each(
-										function() {
-											$(this)
-													.bind(
-															'onclick',
-															function(e) {
-																alert('Selected Name='
-																		+ $(
-																				this)
-																				.attr(
-																						'value'));
-															});
-										});
-// 						$(".rightSidePanel")
-// 								.on(
-// 										"panelbeforeopen",
-// 										function(event, ui) {
-// 											selectThisLocationType(null);
-// 											$(this)
-// 													.css(
-// 															"top",
-// 															parseInt($(
-// 																	".jqm-header")
-// 																	.height())
-// 																	+ parseInt($(
-// 																			"#locPathModeRadiobtn")
-// 																			.height())
-// 																	+ 7);
-// 											$("#markerName").focus();
-// 										});
-					});
+	$(document).ready(function() {
+		// 		selectRightPanelVal();
+		$("#editBoundaryPopup").css("display", "none");
+		$("#rightpanel").trigger("updatelayout");
+		$(".liLocationLV").each(function() {
+			$(this).bind('onclick', function(e) {
+				alert('Selected Name=' + $(this).attr('value'));
+			});
+		});
+	});
 	function showHideSettingsMenu() {
 		$("#openLocationEditMenu").trigger("click");
 
 	}
 
 	function showHideMainBoundary() {
+		$("#locationEditMenu").popup("close");
 		if ($("#editBoundaryPopup").css("display") == "none")
 			$("#editBoundaryPopup").css("display", "block");
 		else
@@ -79,7 +53,8 @@
 <input type="hidden" id="pathLatLng">
 <input type="hidden" name="pathTypeIds" id="pathTypeIds">
 <input type="hidden" name="tempBoundaryColors" id="tempBoundaryColors">
-
+<input type="hidden" name="icon" id="icon" value="">
+<input type="hidden" name="boundary" id="boundary" value="">
 
 <div class="ui-block-solo" id="mapSatelViewIcon"
 	style="width: inherit; padding: 3px; margin: 2px;"
@@ -115,11 +90,48 @@
 
 <!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
 
+<div data-role="popup" id="locationEditMenu" data-mini="true">
+	<ul data-role="listview" data-inset="true" style="min-width: 210px;">
+		<li data-role="list-divider" id="locationEditMenuTitle">Choose an
+			action</li>
+		<li><a href="#" onclick='openALocation();'>Open</a></li>
+		<li><a href="#" onclick='openLocationTypePopup();'>Edit
+				Location Type</a></li>
+		<li><a href="#"
+			onclick="">Edit Info</a></li>
+		<li><a href="#" onclick="showHideMainBoundary();">Edit
+				Boundary</a></li>
+		<li><a href="#" onclick="$('#editIconPopup').popup('open')">Edit
+				Thumbnail</a></li>
+		<li data-role="list-divider"></li>
+		<li><a href="#">Delete</a></li>
+		<li data-role="list-divider"></li>
+		<li><a href="#">Print Barcode</a></li>
+	</ul>
+</div>
 
+<div data-role="popup" id="editLocationTypePopup" data-theme="b">
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="locationType" id="locationTypeLabel"></label>
+		<div class="ui-field-contain">
+			<div data-role="controlgroup" name="locationType" id="locationType"
+				data-mini="true"></div>
+		</div>
+	</div>
+	<div class="ui-grid-a editlocationFormRow">
+		<div class="ui-block-a">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
+		</div>
+		<div class="ui-block-b">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="$('#editLocationTypePopup').popup('close');">Close</a>
+		</div>
+	</div>
+</div>
 
-<div id="locationEditPanel" class="ui-grid-solo rightSidePanel">
-	<input type="hidden" name="icon" id="icon" value=""> <input
-		type="hidden" name="boundary" id="boundary" value="">
+<div data-role="popup" id="editLocationInfoPopup" data-theme="b">
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="locationType" id="locationTypeLabel"></label>
 		<div class="ui-field-contain">
@@ -137,6 +149,9 @@
 		<textarea type="text" placeholder="Description"
 			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
 	</div>
+</div>
+
+<div id="locationEditPanel" class="ui-grid-solo rightSidePanel">
 	<div class="ui-block-solo editlocationFormRow"
 		onclick="showHideMainBoundary();">
 		<img src="images/icons/polygon.png" id="editBoundaryIcon" width="48"
@@ -169,9 +184,7 @@
 	<a style="cursor: pointer;" data-role="button" href="#"
 		class="pathMenu ui-btn ui-shadow save-icon editlocationFormRow"
 		onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print
-		Barcode</a> <a href="#" onclick="locationEditPanelClose();"
-		class=" pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow"
-		id="closeLocationEditMenu">Close Settings</a>
+		Barcode</a>
 </div>
 
 
@@ -313,13 +326,13 @@
 
 
 <div id="pathTypePopup" class="ui-grid-solo">
-		<logic:iterate id="pathTIteration" name="pathTypes"
-			type="common.location.PathTypeENT">
-			<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
-				alt="<%=pathTIteration.getPathTypeId()%>" width="48" height="48"
-				title="<%=pathTIteration.getPathType()%>"
-				onclick="selectIcon('<%=pathTIteration.getPathTypeId()%>');">
-		</logic:iterate>
+	<logic:iterate id="pathTIteration" name="pathTypes"
+		type="common.location.PathTypeENT">
+		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
+			alt="<%=pathTIteration.getPathTypeId()%>" width="48" height="48"
+			title="<%=pathTIteration.getPathType()%>"
+			onclick="selectIcon('<%=pathTIteration.getPathTypeId()%>');">
+	</logic:iterate>
 </div>
 
 
