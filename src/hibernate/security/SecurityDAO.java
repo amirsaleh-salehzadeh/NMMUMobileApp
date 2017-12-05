@@ -9,10 +9,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
+import com.mysql.jdbc.Statement;
+
 import common.security.GroupENT;
 import common.security.GroupLST;
 import common.security.RoleENT;
 import common.security.RoleLST;
+import common.user.UserENT;
+import common.user.UserPassword;
 import hibernate.config.BaseHibernateDAO;
 import tools.AMSException;
 import tools.AMSUtililies;
@@ -24,96 +28,116 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		SecurityDAO udao = new SecurityDAO();
 		// try {
 		//
-		for (int i = 0; i < 30; i++) {
-			RoleENT roles = new RoleENT();
-			roles.setComment("commeneeet" + i);
-			roles.setRoleName("roleeddde" + i);
-			roles.setClientID(1);
-			try {
-				udao.saveUpdateRole(roles);
-			} catch (AMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// System.out.println("hei");
-		}
-		// RoleLST role = udao.getRolesList(new RoleLST());
-		// RoleENT role = new RoleENT();
-		// role.setRoleName("role100");
-		// role.setClientID(2);
-		// RoleENT r = udao.getRole(role);
-		// GroupLST g = new GroupLST();
-		// GroupENT gs = new GroupENT();
-		// gs.setGroupName("");
-		// g.setSearchGroup(gs);
-		// g = udao.getGroupList(g);
-		System.out.println("done");
-		// } catch (AMSException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+//		for (int i = 0; i < 30; i++) {
+//			RoleENT roles = new RoleENT();
+//			roles.setComment("commeneeet" + i);
+//			roles.setRoleName("roleeddde" + i);
+//			roles.setClientID(1);
+//			try {
+//				udao.saveUpdateRole(roles);
+//			} catch (AMSException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
-	public RoleENT saveUpdateRole(RoleENT role) throws AMSException {
-//		Session session = getSession();
-//		Transaction tx = null;
-//		try {
-//			tx = session.beginTransaction();
-//			if (role.getRoleName() != null && !role.getRoleName().equals("")) {
-//				if (validateRole(role) == null)
-//					session.save(role);
-//				else
-//					throw getAMSException("The role already Exist", null);
-//			} else
-//				session.saveOrUpdate(role);
-//			tx.commit();
-//			session.flush();
-//			session.clear();
-//			session.close();
-//		} catch (HibernateException ex) {
-//			tx.rollback();
-//			session.clear();
-//			session.close();
-//			ex.printStackTrace();
-//			throw getAMSException("", ex);
-//		}
+	public RoleENT saveUpdateRole(RoleENT role, Connection conn) throws AMSException {
+		boolean isnew = false;
+		if (conn == null)
+			try {
+				conn = getConnection();
+				isnew = true;
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+		String query = "";
+		query = "INSERT INTO roles (role_name, comment, client_id, category_role) " +
+				"VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE  comment = ?, client_id = ?, category_role = ? ";
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setString(1, role.getRoleName());
+			ps.setString(2, role.getComment());
+			ps.setInt(3, role.getClientID());
+			ps.setString(4, role.getRoleCategory());
+			ps.setString(5, role.getComment());
+			ps.setInt(6, role.getClientID());
+			ps.setString(7, role.getRoleCategory());
+			ps.executeUpdate();
+			ps.close();
+			if (isnew)
+				conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return role;
 	}
 
 	private boolean deleteRole(RoleENT role) throws AMSException {
+		// try {
+		// Connection conn = null;
+		// try {
+		// conn = getConnection();
+		// } catch (AMSException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// String query = "delete from roles where role_name = ?";
+		// PreparedStatement ps = conn.prepareStatement(query);
+		// ps.setString(1, role.getRoleName());
+		// ps.execute();
+		// ps.close();
+		// conn.close();
+		return true;
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// throw getAMSException("", e);
+		// }
+	}
+
+	public RoleENT getRole(RoleENT role) throws AMSException {
+//		int clientid = role.getSearchRole().getClientID();
 //		try {
 //			Connection conn = null;
 //			try {
 //				conn = getConnection();
 //			} catch (AMSException e) {
-//				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
-//			String query = "delete from roles where role_name = ?";
+//			String searchKey = roleLST.getSearchRole().getRoleName();
+//			String query = "Select r.*, c.client_name from roles r "
+//					+ "left join clients c on r.client_id = c.client_id where ";
+//			if (clientid > 0)
+//				query += " clientID = " + clientid + " and ";
+//			query += "r.role_name like ? or r.category_role like ? ";
+//			query += " order by " + roleLST.getSortedByField();
+//			if (roleLST.isAscending())
+//				query += ", role_name Asc";
+//			else
+//				query += " Desc";
+//			query += " LIMIT ?, ? ";
 //			PreparedStatement ps = conn.prepareStatement(query);
-//			ps.setString(1, role.getRoleName());
-//			ps.execute();
+//			ps.setString(1, "%" + searchKey + "%");
+//			ps.setString(2, "%" + searchKey + "%");
+//			ps.setInt(3, roleLST.getFirst());
+//			ps.setInt(4, roleLST.getPageSize());
+//			ResultSet rs = ps.executeQuery();
+//			while (rs.next()) {
+//				RoleENT r = new RoleENT(rs.getString("role_name"),
+//						rs.getInt("client_id"), rs.getString("client_name"),
+//						rs.getString("comment"));
+//				r.setRoleCategory(rs.getString("category_role"));
+//				res.add(r);
+//			}
+//			rs.last();
+//			roleLST.setTotalItems(rs.getRow());
+//			rs.close();
+//			roleLST.setRoleENTs(res);
 //			ps.close();
 //			conn.close();
-			return true;
 //		} catch (SQLException e) {
 //			e.printStackTrace();
-//			throw getAMSException("", e);
-//		}
-	}
-
-	public RoleENT getRole(RoleENT role) throws AMSException {
-//		Query q = null;
-//		try {
-//			Session session = getSession();
-//			q = session.createQuery("from RoleENT where roleName =:Id");
-//			q.setString("Id", role.getRoleName());
-//			role = (RoleENT) q.uniqueResult();
-//			session.close();
-//			HibernateSessionFactory.closeSession();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//			role = null;
 //		}
 		return role;
 	}
@@ -126,7 +150,6 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			try {
 				conn = getConnection();
 			} catch (AMSException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			String searchKey = roleLST.getSearchRole().getRoleName();
@@ -211,43 +234,55 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		return groupLST;
 	}
 
-	public GroupENT saveUpdateGroup(GroupENT group) throws AMSException {
-//		Session session = getSession();
-//		Transaction tx = null;
-//		try {
-//			tx = session.beginTransaction();
-//			if (group.getGroupID() <= 0) {
-//				if (getGroup(group) == null)
-//					session.save(group);
-//				else
-//					throw getAMSException("The group already Exist", null);
-//			} else
-//				session.saveOrUpdate(group);
-//			tx.commit();
-//			session.flush();
-//			session.clear();
-//			session.close();
-//		} catch (HibernateException ex) {
-//			tx.rollback();
-//			session.clear();
-//			session.close();
-//			ex.printStackTrace();
-//			throw getAMSException("", ex);
-//		}
+	public GroupENT saveUpdateGroup(GroupENT group, Connection conn)
+			throws AMSException {
+		boolean isnew = false;
+		if (conn == null)
+			try {
+				conn = getConnection();
+				isnew = true;
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+		String query = "";
+		query = "insert into groups (group_name, comment, client_id)"
+				+ " values (?, ?, ?)";
+		if (group.getGroupID() > 0)
+			query = "update groups set group_name= ?, comment = ?, client_id = ? where group_id = "
+					+ group.getGroupID();
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, group.getGroupName());
+			ps.setString(2, group.getComment());
+			ps.setInt(3, group.getClientID());
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				group.setGroupID(rs.getInt("location_id"));
+			}
+			rs.close();
+			ps.close();
+			if (isnew)
+				conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return group;
 	}
 
 	public GroupENT getGroup(GroupENT group) throws AMSException {
-//		Query q = null;
-//		try {
-//			q = getSession().createQuery("from GroupENT where groupID =:Id ");
-//			q.setInteger("Id", group.getGroupID());
-//			group = (GroupENT) q.uniqueResult();
-//			HibernateSessionFactory.closeSession();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//			group = null;
-//		}
+		// Query q = null;
+		// try {
+		// q = getSession().createQuery("from GroupENT where groupID =:Id ");
+		// q.setInteger("Id", group.getGroupID());
+		// group = (GroupENT) q.uniqueResult();
+		// HibernateSessionFactory.closeSession();
+		// } catch (HibernateException ex) {
+		// ex.printStackTrace();
+		// group = null;
+		// }
 		return group;
 	}
 
@@ -287,18 +322,18 @@ public class SecurityDAO extends BaseHibernateDAO implements
 	}
 
 	public RoleENT validateRole(RoleENT role) throws AMSException {
-//		Query q = null;
-//		try {
-//			q = getSession().createQuery(
-//					"from RoleENT where roleName =:name and clientID =:client");
-//			q.setString("name", role.getRoleName());
-//			q.setInteger("client", role.getClientID());
-//			role = (RoleENT) q.uniqueResult();
-//			HibernateSessionFactory.closeSession();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//			role = null;
-//		}
+		// Query q = null;
+		// try {
+		// q = getSession().createQuery(
+		// "from RoleENT where roleName =:name and clientID =:client");
+		// q.setString("name", role.getRoleName());
+		// q.setInteger("client", role.getClientID());
+		// role = (RoleENT) q.uniqueResult();
+		// HibernateSessionFactory.closeSession();
+		// } catch (HibernateException ex) {
+		// ex.printStackTrace();
+		// role = null;
+		// }
 		return role;
 	}
 
@@ -474,6 +509,73 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	public RoleENT saveUserRole(RoleENT role) throws AMSException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public GroupENT saveUserGroup(GroupENT group) throws AMSException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean saveGroupRole(GroupENT group) throws AMSException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean getUserGroups(GroupENT group) throws AMSException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean getGroupRoles(GroupENT group) throws AMSException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean changePassword(UserPassword ent) throws AMSException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public UserPassword register(UserPassword userPassword) throws AMSException {
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "";
+			query = "select * from users where username = "
+					+ userPassword.getUserName();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				throw new AMSException("The username already exist");
+			query = "insert into users (username, password) values (? ,?)";
+			ps = conn.prepareStatement(query);
+			ps.execute();
+			while (rs.next()) {
+				rs.getString("category_role");
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return userPassword;
+	}
+
+	public GroupENT saveUpdateGroup(GroupENT group) throws AMSException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

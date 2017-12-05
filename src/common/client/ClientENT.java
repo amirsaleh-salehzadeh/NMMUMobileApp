@@ -4,6 +4,12 @@ public class ClientENT {
 	String clientName;
 	int clientID;
 
+	public ClientENT(String clientName, int clientID) {
+		super();
+		this.clientName = clientName;
+		this.clientID = clientID;
+	}
+
 	public String getClientName() {
 		return clientName;
 	}
