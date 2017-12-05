@@ -127,39 +127,25 @@ function getLocationTypeImage(locationTypeId) {
 	return icon;
 }
 
-function openPanel() {
-	if ($("#locationEditPanel").hasClass("ui-panel-open")) {
-		$("#openLocationEditMenu").attr("href", "#locationEditPanel");
-	} else {
-		$("#openLocationEditMenu").attr("href", "#locationEditPanel");
-	}
-
-	if ($("#pathEditPanel").hasClass("ui-panel-open")) {
-		$("#openLocationEditMenu").attr("href", "#pathEditPanel");
-	} else {
-		$("#openLocationEditMenu").attr("href", "#pathEditPanel");
-	}
-}
-
 function locationEditPanelOpen() {
-//	if ($("#locationEditPanel").hasClass("ui-panel-open")) {
-//		$("#openLocationEditMenu").attr("href", "#locationEditPanel");
-//	} else {
-//		$("#openLocationEditMenu").attr("href", "#locationEditPanel");
-//	}
-//
-//	if ($("#pathEditPanel").hasClass("ui-panel-open")) {
-//		$("#openLocationEditMenu").attr("href", "#pathEditPanel");
-//	} else {
-//		$("#openLocationEditMenu").attr("href", "#pathEditPanel");
-//	}
-	pathEditPanelClose();
-	$('#locationEditPanel').panel("open");
-	$("#pathTypePopup").fadeOut();
+	locationEditPanelClose();
+	$("#locationEditPanel").trigger("create");
+	$('#locationEditPanel').css("position", "absolute");
+	$('#locationEditPanel').css("left", event.pageX + 'px');
+	$('#locationEditPanel').css("top", event.pageY + 'px');
+	$('#locationEditPanel').trigger("create");
+	$('#locationEditPanel').css("display", "block");
+	var left = $(window).width() - Math.round($("#locationEditPanel").width() / 2);
+//	if ((event.pageX + $("#locationEditPanel").width()) >= $(window).width())
+//		left = $(window).width() - $("#locationEditPanel").width();
+//	if (left <= 0)
+//		left = 0;
+	$('#locationEditPanel').css("left", left + 'px');
+	$('#locationEditPanel').trigger("create");
 }
 
 function locationEditPanelClose() {
-	$('#locationEditPanel').panel("close");
+	$('#locationEditPanel').css("display", "none");
 }
 
 function pathEditPanelOpen() {
@@ -168,16 +154,6 @@ function pathEditPanelOpen() {
 }
 
 function pathEditPanelClose() {
-	$('#pathEditPanel').panel("close");
+	locationEditPanelClose();
 	$("#pathTypePopup").fadeOut();
-}
-
-
-function closePanel() {
-	if ($("#locationEditPanel").hasClass("ui-panel-open")) {
-		$("#closeLocationEditMenu").trigger("click");
-	}
-	if ($("#pathEditPanel").hasClass("ui-panel-open")) {
-		$("#closeLocationEditMenu").trigger("click");
-	}
 }

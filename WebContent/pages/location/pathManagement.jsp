@@ -27,23 +27,23 @@
 																						'value'));
 															});
 										});
-						$(".rightSidePanel")
-								.on(
-										"panelbeforeopen",
-										function(event, ui) {
-											selectThisLocationType(null);
-											$(this)
-													.css(
-															"top",
-															parseInt($(
-																	".jqm-header")
-																	.height())
-																	+ parseInt($(
-																			"#locPathModeRadiobtn")
-																			.height())
-																	+ 7);
-											$("#markerName").focus();
-										});
+// 						$(".rightSidePanel")
+// 								.on(
+// 										"panelbeforeopen",
+// 										function(event, ui) {
+// 											selectThisLocationType(null);
+// 											$(this)
+// 													.css(
+// 															"top",
+// 															parseInt($(
+// 																	".jqm-header")
+// 																	.height())
+// 																	+ parseInt($(
+// 																			"#locPathModeRadiobtn")
+// 																			.height())
+// 																	+ 7);
+// 											$("#markerName").focus();
+// 										});
 					});
 	function showHideSettingsMenu() {
 		$("#openLocationEditMenu").trigger("click");
@@ -59,10 +59,8 @@
 </script>
 <link href="css/location/colorpicker.css" rel="stylesheet">
 <link href="css/location/croppie.css" rel="stylesheet">
-<link href="css/location/management/management.css"
-	rel="stylesheet">
-<link href="css/location/management/location.edit.css"
-	rel="stylesheet">
+<link href="css/location/management/management.css" rel="stylesheet">
+<link href="css/location/management/location.edit.css" rel="stylesheet">
 <link href="css/location/management/polygon.management.css"
 	rel="stylesheet">
 <link href="css/location/management/toolbox.management.css"
@@ -90,7 +88,7 @@
 		id="mapSatelViewImage" />
 </div>
 
-<a href="#locationEditPanel" data-mini="true" data-role="button"
+<a href="#" data-mini="true" data-role="button"
 	class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
 	id="openLocationEditMenu"><img width='24' height='24'
 	src='images/icons/add.png'>NEW</a>
@@ -119,11 +117,7 @@
 
 
 
-<div data-role="panel" id="locationEditPanel" data-position="right"
-	data-display="overlay" data-position-fixed="true"
-	class="ui-panel ui-panel-position-right 
-	ui-panel-animate ui-panel-open rightSidePanel"
-	data-dismissible="false" data-swipe-close="false">
+<div id="locationEditPanel" class="ui-grid-solo rightSidePanel">
 	<input type="hidden" name="icon" id="icon" value=""> <input
 		type="hidden" name="boundary" id="boundary" value="">
 	<div class="ui-block-solo editlocationFormRow">
@@ -319,13 +313,13 @@
 
 
 <div id="pathTypePopup" class="ui-grid-solo">
-	<logic:iterate id="pathTIteration" name="pathTypes"
-		type="common.location.PathTypeENT">
-		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
-			alt="<%=pathTIteration.getPathTypeId()%>" width="48" height="48"
-			title="<%=pathTIteration.getPathType()%>"
-			onclick="selectIcon('<%=pathTIteration.getPathTypeId()%>');">
-	</logic:iterate>
+		<logic:iterate id="pathTIteration" name="pathTypes"
+			type="common.location.PathTypeENT">
+			<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
+				alt="<%=pathTIteration.getPathTypeId()%>" width="48" height="48"
+				title="<%=pathTIteration.getPathType()%>"
+				onclick="selectIcon('<%=pathTIteration.getPathTypeId()%>');">
+		</logic:iterate>
 </div>
 
 

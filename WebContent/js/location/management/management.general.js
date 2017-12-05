@@ -41,7 +41,7 @@ function selectActionType() {
 		map.setOptions({
 			draggableCursor : 'corsshair'
 		});
-		$("#openLocationEditMenu").attr("href","#locationEditPanel");
+//		$("#openLocationEditMenu").attr("href","#locationEditPanel");
 		var gps = map.getCenter().toString();
 		gps = gps.replace("(","");
 		gps = gps.replace(")","");
@@ -105,6 +105,7 @@ $(document)
 		.ready(
 				function() {
 					$('#pathTypePopup').fadeOut();
+					$('#locationEditPanel').fadeOut();
 					$("#map_canvas").css("min-width",
 							parseInt($("#mainBodyContents").css("width")));
 					$("#map_canvas").css(
