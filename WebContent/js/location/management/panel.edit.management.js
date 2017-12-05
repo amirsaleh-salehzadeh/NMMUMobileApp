@@ -131,16 +131,16 @@ function locationEditPanelOpen() {
 	locationEditPanelClose();
 	$("#locationEditPanel").trigger("create");
 	$('#locationEditPanel').css("position", "absolute");
-	$('#locationEditPanel').css("left", event.pageX + 'px');
-	$('#locationEditPanel').css("top", event.pageY + 'px');
+//	$('#locationEditPanel').css("left", event.pageX + 'px');
+//	$('#locationEditPanel').css("top", event.pageY + 'px');
 	$('#locationEditPanel').trigger("create");
 	$('#locationEditPanel').css("display", "block");
-	var left = $(window).width() - Math.round($("#locationEditPanel").width() / 2);
+//	var left = $(window).width() - Math.round($("#locationEditPanel").width() / 2);
 //	if ((event.pageX + $("#locationEditPanel").width()) >= $(window).width())
 //		left = $(window).width() - $("#locationEditPanel").width();
 //	if (left <= 0)
 //		left = 0;
-	$('#locationEditPanel').css("left", left + 'px');
+//	$('#locationEditPanel').css("left", left + 'px');
 	$('#locationEditPanel').trigger("create");
 }
 
