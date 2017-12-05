@@ -128,7 +128,6 @@ function getLocationTypeImage(locationTypeId) {
 }
 
 function locationEditPanelOpen(title) {
-	// locationEditPanelClose();
 	$("#locationEditMenuTitle").html(title);
 	$('#locationEditMenu').popup("option", {
 		x : event.pageX,
@@ -137,17 +136,11 @@ function locationEditPanelOpen(title) {
 	$("#locationEditMenu").popup("open").trigger("create");
 }
 
-function locationEditPanelClose() {
-	$('#locationEditPanel').css("display", "none");
-}
-
 function pathEditPanelOpen() {
-	locationEditPanelClose();
 	$('#pathEditPanel').panel("open");
 }
 
 function pathEditPanelClose() {
-	locationEditPanelClose();
 	$("#pathTypePopup").fadeOut();
 }
 
@@ -158,6 +151,7 @@ function openALocation() {
 }
 
 function openLocationTypePopup() {
+	selectThisLocationType(null);
 	$('#editLocationTypePopup').popup("option", {
 		x : event.pageX,
 		y : event.pageY

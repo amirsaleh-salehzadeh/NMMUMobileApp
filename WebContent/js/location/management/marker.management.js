@@ -278,7 +278,6 @@ function addAMarker(location, gps) {
 		$("#locationTypeId").val(location.locationType.locationTypeId);
 		locationEditPanelOpen(location.locationName + " ("
 				+ location.locationType.locationType + ")");
-		selectThisLocationType(null);
 	}
 }
 function showMarkerLabel(name) {
