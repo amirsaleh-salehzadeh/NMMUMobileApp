@@ -98,8 +98,8 @@ function createDrawingManager() {
 	// Clear the current selection when the drawing mode is changed, or when the
 	// map is clicked.
 	google.maps.event.addListener(drawingManager, 'drawingmode_changed',
-			clearSelection);
-	google.maps.event.addListener(map, 'click', clearSelection);
+			clearBoundarySelection);
+	google.maps.event.addListener(map, 'click', clearBoundarySelection);
 	// Disables drawing mode on startup so you have to click on toolbar first to
 	// draw shapes and create the colour palette
 	drawingManager.setDrawingMode(null);
@@ -157,19 +157,16 @@ function drawPolygons(location) {
 		} else {
 			if (boundarySelected){ // boundary selected
 				if (DRAWPolygon == selectedShape){
-					clearSelection();
-					boundarySelected = false;
+					clearBoundarySelection();
 				}
 				else { // previous boundary selected but now selecting new boundary
 					setSelection(DRAWPolygon);
 					addAMarker(location, location.gps);
-					boundarySelected = true;
 				}
 			}
 			else { // boundary not selected
 				setSelection(DRAWPolygon);
 				addAMarker(location, location.gps);
-				boundarySelected = true;
 			}
 		}
 	});
@@ -235,26 +232,39 @@ function removeDrawingMode() {
 	drawingManager.setDrawingMode(null);
 }
 
-function clearSelection() {
+function clearBoundarySelection() {
 	if (selectedShape) {
 		if (selectedShape.type !== 'marker') {
 			selectedShape.setEditable(false);
 		}
 
 		selectedShape = null;
-		$("#tempBoundaryColors").val("");
-		$("#boundary").val("");
 	}
+	$("#tempBoundaryColors").val("");
+	$("#boundary").val("");
+	boundarySelected = false;
+}
+
+function unselectBoundary() {
+	if (selectedShape) {
+		if (selectedShape.type !== 'marker') {
+			selectedShape.setEditable(false);
+		}
+
+		selectedShape = null;
+	}
+	boundarySelected = false;
 }
 
 function setSelection(shape) {
 	if (shape.type !== 'marker') {
-		clearSelection();
+		clearBoundarySelection();
 		shape.setEditable(true);
 		selectColor(shape.get('fillColor') || shape.get('strokeColor'));
 	}
 
 	selectedShape = shape;
+	boundarySelected = true;
 }
 
 function deleteSelectedShape() {
