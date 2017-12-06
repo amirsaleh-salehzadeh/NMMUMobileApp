@@ -72,7 +72,6 @@ function saveAPath() {
 		},
 		success : function(data) {
 			drawApath(data);
-			// $("#departureId").val($("#destinationId").val());
 		},
 		complete : function() {
 			HideLoadingScreen();
@@ -101,12 +100,6 @@ function removePath() {
 				ShowLoadingScreen("Removing the path");
 			},
 			success : function(data) {
-				// for ( var i = 0; i < paths.length; i++) {
-				// if (paths[i] != null && paths[i].id == $("#pathId").val()) {
-				// paths[i].setMap(null);
-				// paths[i] = null;
-				// }
-				// }
 				var i = paths.indexOf($("#pathId").val());
 				paths[i].setMap(null);
 				paths.splice(i, 1);
@@ -150,10 +143,6 @@ function addAPath(location) {
 			map : map,
 			radius : parseFloat($("#pathWidth").val()) / 2
 		});
-		// overlay = new google.maps.OverlayView();
-		// overlay.draw = function() {
-		// };
-		// overlay.setMap(map);
 		google.maps.event.addListener(map, "mousemove", function(event) {
 			updateMovingLine(event);
 		});
@@ -168,7 +157,6 @@ function addAPath(location) {
 				event) {
 			addAPathInnerConnection(event);
 		});
-		// $("#pathLatLng").val(location.gps);
 		return;
 	} else if ($("#destinationId").val() == "") {
 		$("#destination").val(location.locationName);

@@ -118,8 +118,8 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			while (rs.next()) {
 				UserENT userENT = new UserENT(rs.getString("username"));
 				userENT.setClientID(rs.getInt("client_id"));
-				userENT.setUserName(rs.getString("name"));
-				userENT.setUserName(rs.getString("surname"));
+				userENT.setName(rs.getString("name"));
+				userENT.setSurName(rs.getString("surname"));
 				userENTs.add(userENT);
 			}
 			rs.close();
@@ -229,8 +229,8 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			while (rs.next()) {
 				userENT.setUserName(rs.getString("username"));
 				userENT.setClientID(rs.getInt("client_id"));
-				userENT.setUserName(rs.getString("name"));
-				userENT.setUserName(rs.getString("surname"));
+				userENT.setName(rs.getString("name"));
+				userENT.setSurName(rs.getString("surname"));
 			}
 			rs.close();
 			ps.close();
@@ -353,7 +353,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, user.getUserName());
 			ps.execute();
-			query = "insert into user_roles (role_name, username) values (?,?)";
+			query = "insert into user_roles (username, role_name) values (?,?)";
 			for (int i = 0; i < user.getRoleENTs().size(); i++) {
 				ps = conn.prepareStatement(query);
 				ps.setString(1, user.getUserName());
