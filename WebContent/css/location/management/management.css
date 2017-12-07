@@ -1,4 +1,12 @@
 @CHARSET "ISO-8859-1";
+.ui-li-divider{
+	background-color: #383c40!important;	
+}
+#locationEditMenuTitle{
+color: rgb(248, 182, 36) !important;
+	background-color: #383c40!important;
+		text-shadow: none !important;	
+}
 #googleMapMarkerLabel{
 	display: block;
 	position: absolute;
