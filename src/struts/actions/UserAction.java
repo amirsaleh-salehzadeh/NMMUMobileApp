@@ -198,12 +198,14 @@ public class UserAction extends Action {
 			String searchKey = "";
 			if (request.getParameter("groupName") != null)
 				searchKey = request.getParameter("groupName");
-			GroupENT group = new GroupENT(0, searchKey, 0, "", "");
+			GroupENT group = new GroupENT( 0, searchKey,"");
 			request.setAttribute("groupENT", group);
 			request.setAttribute("userGroups",
 					getUserDAO().getAllGroupsUser(u.getUserName()));
+			GroupLST groupLST = new GroupLST(group, 0, 1000, true,
+					"group_name");
 			request.setAttribute("groupsList",
-					getSecurityDAO().getAllGroups(searchKey));
+					getSecurityDAO().getGroupList(groupLST));
 			return mapping.findForward("userGroup");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -226,12 +228,12 @@ public class UserAction extends Action {
 			if (request.getParameter("roleName") != null)
 				searchKey = request.getParameter("roleName");
 
-			RoleENT role = new RoleENT(searchKey, 0, "", "");
+			RoleENT role = new RoleENT(searchKey, "", "");
 			request.setAttribute("roleENT", role);
 			request.setAttribute("userRoles",
 					getUserDAO().getAllRolesUser(u.getUserName()));
 			request.setAttribute("rolesList",
-					getSecurityDAO().getAllRoles(searchKey));
+					getSecurityDAO().getRolesList(new RoleLST(role, 0, 1000, true, "role_name")));
 			return mapping.findForward("userRole");
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

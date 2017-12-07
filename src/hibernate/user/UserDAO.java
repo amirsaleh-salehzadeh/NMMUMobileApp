@@ -297,8 +297,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				RoleENT r = new RoleENT(rs.getString("role_name"),
-						rs.getInt("client_id"), "", rs.getInt("user_role_id"),
-						0, "");
+						rs.getString("category_role"), rs.getString("comment"));
 				res.add(r);
 			}
 			ps.close();
@@ -327,10 +326,9 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				GroupENT r = new GroupENT(rs.getInt("group_id"),
-						rs.getString("group_name"), rs.getInt("client_id"), "",
-						0, rs.getInt("user_group_id"), "");
-				res.add(r);
+				GroupENT g = new GroupENT(rs.getInt("group_id"),
+						rs.getString("group_name"),rs.getString("comment"));
+				res.add(g);
 			}
 			ps.close();
 			conn.close();

@@ -127,7 +127,7 @@ public class SecurityAction extends Action {
 		}
 		request.setAttribute("groupENTRoles", getSecurityDAO()
 				.getAllGroupRoles(gid));
-		request.setAttribute("roleLST", getSecurityDAO().getAllRoles(searchKey));
+		request.setAttribute("roleLST", getRoleLST(request).getRoleENTs());
 		return mapping.findForward("groupRole");
 	}
 
@@ -378,9 +378,6 @@ public class SecurityAction extends Action {
 
 	private RoleENT getRoleENT(HttpServletRequest request) {
 		RoleENT roleENT = new RoleENT();
-		if (request.getParameter("clientID") != null)
-			roleENT.setClientID(Integer.parseInt(request
-					.getParameter("clientID")));
 		if (request.getParameter("roleName") != null)
 			roleENT.setRoleName(request.getParameter("roleName"));
 		else
@@ -420,7 +417,7 @@ public class SecurityAction extends Action {
 		if (request.getParameter("clientID") != null
 				&& !request.getParameter("clientID").equals(""))
 			clientID = Integer.parseInt(request.getParameter("clientID"));
-		RoleENT roleENT = new RoleENT(search, clientID, "", search);
+		RoleENT roleENT = new RoleENT(search, "", search);
 		RoleLST roleLST = new RoleLST(roleENT, pageNo, pageSize, true,
 				"category_role");
 		try {
@@ -446,7 +443,7 @@ public class SecurityAction extends Action {
 		if (request.getParameter("clientID") != null
 				&& !request.getParameter("clientID").equals(""))
 			clientID = Integer.parseInt(request.getParameter("clientID"));
-		GroupENT groupENT = new GroupENT(0, search, clientID, "", search);
+		GroupENT groupENT = new GroupENT(clientID, search, search);
 		GroupLST groupLST = new GroupLST(groupENT, pageNo, pageSize, true,
 				"group_name");
 		try {
