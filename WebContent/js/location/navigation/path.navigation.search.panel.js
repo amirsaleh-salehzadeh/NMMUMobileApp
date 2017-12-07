@@ -106,22 +106,15 @@ function selectDestination(destination, content) {
 		});
 		map.panTo(markerDest.getPosition());
 		map.setZoom(18);
-//		blurFalse();
 		showBottomPanel();
-		// getDirectionFromCurrentLocation();
 	}
 }
 
 function getDirectionFromCurrentLocation() {
 	$("#departureId").val("");
 	$("#departureDescriptionInput").val("Current Location");
-//	findMyLocation();
 	$('#popupSearchResult').popup('close');
-//	blurFalse();
 	$("#locationInf").html('');
-//	do {
-//		$(".spinnerLoading").css('display', 'block');
-//	} while ($("#from").val().length < 2);
 	getThePath();
 }
 
@@ -136,16 +129,4 @@ function clearSearchBTN() {
 function searchFieldDivClearBTN() {
 	$("#searchField").val("");
 	$("#resultsListView").listview("refresh");
-}
-function blurTrue() {
-//	return;
-//	if (!($('#map_canvas').hasClass('off'))) {
-//		$('#map_canvas').toggleClass('off');
-//	}
-}
-function blurFalse() {
-//	return;
-//	if ($('#map_canvas').hasClass('off')) {
-//		$('#map_canvas').toggleClass('off');
-//	}
 }

@@ -32,6 +32,9 @@
 		else
 			$("#mainMenu").css("display", "none");
 	}
+	$(document).ready(function(){
+		$("#mainMenu").css("top",$(".jqm-header").height());
+	});
 </script>
 </head>
 <body dir="ltr">

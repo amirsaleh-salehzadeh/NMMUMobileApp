@@ -131,6 +131,9 @@ body {
 			</ul>
 		</div>
 	</li>
+	<li class="userMenu" data-filtertext="form checkboxradio widget radio input radio buttons controlgroups">
+    <a id="btnHeading" href="logOut.do" data-ajax="false">Logout</a></li>
+	
 </ul>
 <div data-role="popup" id="popupDialogDeleteConfirmation"
 	data-overlay-theme="b" data-theme="a" data-dismissible="false"

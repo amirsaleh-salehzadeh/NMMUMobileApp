@@ -30,7 +30,6 @@ function closePopup() {
 	$('#popupErrorMessage').css("display", "none");
 	$('#popupArrivalMessage').popup('close');
 	$('#popupSearchResult').popup('close');
-	// blurFalse();
 }
 
 function errorMessagePopupOpen(content) {

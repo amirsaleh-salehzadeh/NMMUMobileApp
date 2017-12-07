@@ -16,9 +16,7 @@
 		$ul.css("width", $input.css("width"));
 		$ul.listview("refresh");
 		$.ajax({
-			url : "REST/GetSecurityWS/GetAllRoleCategories?filter=" + value,
-			ataType : "jsonp",
-			crossDomain : true,
+			url : "REST/GetSecurityWS/GetAllRoleCategories?filterTxt=" + value,
 			data : {
 				q : $input.val()
 			}
