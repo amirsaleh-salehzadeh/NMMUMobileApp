@@ -160,4 +160,39 @@ function openLocationTypePopup() {
 		$("#editLocationTypePopup").popup('open').trigger("create");
 	});
 	$("#locationEditMenu").popup("close").trigger("create");
+//	$("#editLocationTypePopup").on("popupafterclose", function() {
+//		$("#editLocationTypePopup").on("popupafterclose", function() {
+//			return;
+//		});
+//	});
+}
+
+function openLocationInfoPopup() {
+	$('#editLocationInfoPopup').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#locationEditMenu").on("popupafterclose", function() {
+		$("#editLocationInfoPopup").popup('open').trigger("create");
+	});
+	$("#locationEditMenu").popup("close").trigger("create");
+}
+
+function openIconPopup() {
+	$('#editIconPopup').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#locationEditMenu").on("popupafterclose", function() {
+		$("#editIconPopup").popup('open').trigger("create");
+	});
+	$("#locationEditMenu").popup("close").trigger("create");
+}
+
+function showHideMainBoundary() {
+	$("#locationEditMenu").popup("close");
+	if ($("#editBoundaryPopup").css("display") == "none")
+		$("#editBoundaryPopup").css("display", "block");
+	else
+		$("#editBoundaryPopup").css("display", "none");
 }

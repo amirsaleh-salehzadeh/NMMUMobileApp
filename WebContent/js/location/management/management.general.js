@@ -154,7 +154,6 @@ function getCookie(cname) {
 
 $(document).keyup(function(e) {
 	if (e.keyCode == 27) {
-		clearSelection();
-		boundarySelected = false;
+		clearBoundarySelection();
 	}
 });

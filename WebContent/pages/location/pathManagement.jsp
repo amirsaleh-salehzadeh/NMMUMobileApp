@@ -22,14 +22,6 @@
 		$("#openLocationEditMenu").trigger("click");
 
 	}
-
-	function showHideMainBoundary() {
-		$("#locationEditMenu").popup("close");
-		if ($("#editBoundaryPopup").css("display") == "none")
-			$("#editBoundaryPopup").css("display", "block");
-		else
-			$("#editBoundaryPopup").css("display", "none");
-	}
 </script>
 <link href="css/location/colorpicker.css" rel="stylesheet">
 <link href="css/location/croppie.css" rel="stylesheet">
@@ -69,7 +61,13 @@
 	src='images/icons/add.png'>NEW</a>
 <a href="#pathEditPanel" data-role="button" style="display: none;"
 	id="pathEditPanelBTN"></a>
+	
+	
+	
 <!-- SEARCH FEILD RIGHT SIDE -->
+
+
+
 <fieldset data-role="controlgroup" data-mini="true"
 	data-type="horizontal" name="optionType" id="locPathModeRadiobtn">
 	<label for="marker" class="ui-icon-map-marker"><span
@@ -88,27 +86,30 @@
 
 
 
-<!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
+<!-- LOCATION EDIT MENU LOCATION EDIT MENU LOCATION EDIT MENU LOCATION EDIT MENU -->
+
+
 
 <div data-role="popup" id="locationEditMenu" data-mini="true">
 	<ul data-role="listview" data-inset="true" style="min-width: 210px;">
-		<li data-role="list-divider" id="locationEditMenuTitle">Choose an
-			action</li>
-		<li><a href="#" onclick='openALocation();'>Open</a></li>
-		<li><a href="#" onclick='openLocationTypePopup();'>Edit
-				Location Type</a></li>
-		<li><a href="#"
-			onclick="">Edit Info</a></li>
-		<li><a href="#" onclick="showHideMainBoundary();">Edit
-				Boundary</a></li>
-		<li><a href="#" onclick="$('#editIconPopup').popup('open')">Edit
-				Thumbnail</a></li>
+		<li data-role="list-divider" id="locationEditMenuTitle">Choose an action</li>
+		<li><a href="#" onclick="openALocation();">Open</a></li>
+		<li><a href="#" onclick="openLocationTypePopup();">Edit Location Type</a></li>
+		<li><a href="#" onclick="openLocationInfoPopup();">Edit Info</a></li>
+		<li><a href="#" onclick="showHideMainBoundary();">Edit Boundary</a></li>
+		<li><a href="#" onclick="openIconPopup();">Edit Thumbnail</a></li>
 		<li data-role="list-divider"></li>
 		<li><a href="#">Delete</a></li>
 		<li data-role="list-divider"></li>
 		<li><a href="#">Print Barcode</a></li>
 	</ul>
 </div>
+
+
+
+<!-- LOCATION TYPE POPUP LOCATION TYPE POPUP LOCATION TYPE POPUP LOCATION TYPE POPUP LOCATION TYPE POPUP -->
+
+
 
 <div data-role="popup" id="editLocationTypePopup" data-theme="b">
 	<div class="ui-block-solo editlocationFormRow">
@@ -126,10 +127,16 @@
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow cancel-icon "
-				onclick="$('#editLocationTypePopup').popup('close');">Close</a>
+				onclick="$('#editLocationTypePopup').popup('close');unselectBoundary();">Close</a>
 		</div>
 	</div>
 </div>
+
+
+
+<!-- LOCATION INFO POPUP LOCATION INFO POPUP LOCATION INFO POPUP LOCATION INFO POPUP LOCATION INFO POPUP -->
+
+
 
 <div data-role="popup" id="editLocationInfoPopup" data-theme="b">
 	<div class="ui-block-solo editlocationFormRow">
@@ -149,7 +156,18 @@
 		<textarea type="text" placeholder="Description"
 			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
 	</div>
+	<div>
+		<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="$('#editLocationInfoPopup').popup('close').trigger('create');unselectBoundary()">Close</a>
+	</div>
 </div>
+
+
+
+<!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
+
+
 
 <div id="locationEditPanel" class="ui-grid-solo rightSidePanel">
 	<div class="ui-block-solo editlocationFormRow"
@@ -251,7 +269,9 @@
 <!-- MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP  -->
 
 
+
 <div id="map_canvas"></div>
+
 
 
 <!-- LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING  -->
@@ -289,6 +309,11 @@
 			</div>
 		</div>
 	</div>
+	<div>
+		<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="$('#editIconPopup').popup('close').trigger('create');unselectBoundary()">Close</a>
+	</div>
 </div>
 
 
@@ -315,11 +340,20 @@
 	</div>
 	<div id="color-palette" style="display: none"></div>
 	<!-- 		 For later work	<span>Boundary Edit Points</span> -->
+	<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="showHideMainBoundary();unselectBoundary()">Close</a>
 </div>
+
+
 
 <!-- MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL -->
 
+
+
 <div id="googleMapMarkerLabel"></div>
+
+
 
 <!-- PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP vPATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP PATH TYPE POPUP -->
 
