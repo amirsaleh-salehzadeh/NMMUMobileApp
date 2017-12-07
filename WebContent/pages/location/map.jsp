@@ -51,7 +51,7 @@
 </style>
 <script type="text/javascript">
 	$(window).bind('load', function() {
-		browserCheck();
+// 		browserCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(266);
@@ -210,8 +210,8 @@
 			</div>
 			<div id="menuItems">
 				<div id="visitorCounter">
-					<a href="https://www.reliablecounter.com" target="_blank"> <img
-						src="https://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
+					<a href="http://www.reliablecounter.com" target="_blank"> <img
+						src="http://www.reliablecounter.com/count.php?page=findme-sc.mandela.ac.za/NMMUWebApp/location.do?reqCode=mapView&digit=style/plain/33/&reloads=0"
 						alt="" title="" border="0"></a>
 				</div>
 				<div class="ui-block-solo">

@@ -303,7 +303,6 @@ function selectMapMode() {
 	stopCamera();
 	// findMyLocation();
 	showHideLeftSideMenu();
-	showHideLeftSideMenu();
 }
 
 function showViewItems() {
