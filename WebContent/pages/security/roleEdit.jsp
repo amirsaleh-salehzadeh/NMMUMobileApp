@@ -36,6 +36,7 @@
 </script>
 </head>
 <body>
+<div id='formContainer'>
 	<ams:message messageEntity="${message}"></ams:message>
 	<form id="dataFilterGridMainPage" action="security.do"
 		autocomplete="off">
@@ -73,6 +74,7 @@
 			</div>
 		</div>
 	</form>
+	</div>
 </body>
 
 </html>
