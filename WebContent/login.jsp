@@ -6,8 +6,6 @@
 <title>Find It | Nelson Mandela University</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/location/login.css">
-<script src="js/jquery.mobile-1.4.5.min.js"></script>
-
 </head>
 <body class="login">
 	<div id="loginPage" data-role="page">

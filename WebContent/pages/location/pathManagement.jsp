@@ -394,6 +394,6 @@
 <script type="text/javascript"
 	src="js/location/management/panel.edit.management.js"></script>
 <script async defer
-	src="http://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABLdskfv64ZZa0mpjVcTMsEAXNblL9dyE&libraries=drawing&callback=initMap"
 	type="text/javascript"></script>
 </html>

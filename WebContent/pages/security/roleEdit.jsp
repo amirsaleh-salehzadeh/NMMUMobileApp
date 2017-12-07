@@ -56,12 +56,6 @@
 			<html:textarea name="roleENT" property="comment" styleId="comment"
 				title="Comment" />
 		</div>
-		<div class="ui-block-solo">
-			<bean:define id="selectedValue" name="roleENT" property="clientID"
-				type="java.lang.Integer"></bean:define>
-			<ams:dropDown dropDownItems="${clientENTs}"
-				selectedVal="<%=selectedValue.toString()%>" name="clientID" title=""></ams:dropDown>
-		</div>
 		<div class=ui-grid-a>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" data-mini="true"

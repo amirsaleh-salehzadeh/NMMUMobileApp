@@ -22,18 +22,9 @@
 		<ams:message messageEntity="${message}"></ams:message>
 		<input type="hidden" name="reqCode" id="reqCode" value="roleManagement">
 		<input type="hidden" name="reqCodeGrid" id="reqCodeGrid" value="">
-		<div class="ui-grid-a" id="searchFilters">
-			<fieldset class="ui-grid-a">
-				<div class="ui-block-a">
+		<div class="ui-grid-solo" id="searchFilters">
 					<html:text name="roleLST" property="searchRole.roleName"
 						onkeyup="refreshGrid();" title="Role Name" ></html:text>
-				</div>
-				<div class="ui-block-b">
-					<bean:define id="clientIdSelectedVal" name="roleLST" property="searchRole.clientID"></bean:define>
-					<ams:dropDown dropDownItems="${clientENTs}" name="clientID"
-						selectedVal="<%=clientIdSelectedVal.toString() %>" onChange="refreshGrid()" title="Client"></ams:dropDown>
-				</div>
-			</fieldset>
 		</div>
 		<div class="ui-grid-solo">
 			<bean:define id="totalRows" name="roleLST" property="totalItems"
@@ -48,7 +39,7 @@
 				type="java.lang.Integer"></bean:define>
 			<ams:ajaxPaginate currentPage="<%=currentPage%>"
 				pageSize="<%=pageSize%>" totalRows="<%=totalRows%>" align="center"
-				columns="roleName,DT_RowId,roleCategory,clientName,comment"
+				columns="roleName,DT_RowId,roleCategory,comment"
 				popupID="roleManagementSettingMenu"
 				popupGridSettingItems="${gridMenuItem}"
 				popupMenuSettingItems="${settingMenuItem}">
@@ -58,18 +49,16 @@
 						<tr>
 							<th><input type="checkbox" id="checkAllHead"></th>
 							<th data-priority="1">Role</th>
-							<th data-priority="3">Category</th>
-							<th data-priority="2">Client</th>
-							<th data-priority="4">Comment</th>
+							<th data-priority="2">Category</th>
+							<th data-priority="3">Comment</th>
 						</tr>
 					</thead>
 					<tfoot>
 						<tr>
 							<th><input type="checkbox" id="checkAllFoot"></th>
 							<th data-priority="1">Role</th>
-							<th data-priority="3">Category</th>
-							<th data-priority="2">Client</th>
-							<th data-priority="4">Comment</th>
+							<th data-priority="2">Category</th>
+							<th data-priority="3">Comment</th>
 						</tr>
 					</tfoot>
 				</table>

@@ -233,7 +233,7 @@ public class UserAction extends Action {
 			request.setAttribute("userRoles",
 					getUserDAO().getAllRolesUser(u.getUserName()));
 			request.setAttribute("rolesList",
-					getSecurityDAO().getRolesList(new RoleLST(role, 0, 1000, true, "role_name")));
+					getSecurityDAO().getRolesList(new RoleLST(role, 0, 1000, true, "role_name")).getRoleENTs());
 			return mapping.findForward("userRole");
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

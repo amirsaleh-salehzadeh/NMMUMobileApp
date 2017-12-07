@@ -15,9 +15,7 @@
 		<input type="hidden" name="userName"
 			value="<%=request.getParameter("userName")%>"> <input
 			type="hidden" name="reqCode" value="userRolesSave"> Roles for
-		user "
-		<bean:write name="userENT" property="userName" />
-		"
+		user "<bean:write name="userENT" property="userName" />"
 		<div>
 			<html:text property="roleName" name="roleENT"
 				styleId="searchKeyInput" onkeyup="searchForRole()"
@@ -41,7 +39,6 @@
 			<tbody>
 				<logic:iterate id="roleListIteration" indexId="rowId"
 					name="rolesList" type="common.security.RoleENT">
-
 					<%
 						int counter;
 							int idcount;
@@ -57,7 +54,6 @@
 								value="<%=roleListIteration.getRoleName()%>"
 								<logic:iterate id="userRoleNames"
 									name="userRoles" type="common.security.RoleENT">
-									
 										<%if (roleListIteration.getRoleName().equalsIgnoreCase(
 							userRoleNames.getRoleName())) {%>
 										checked="checked" <%}%>
@@ -67,7 +63,6 @@
 						<%
 							if (counter == 2) {
 						%>
-
 					</tr>
 					<%
 						}
