@@ -247,7 +247,7 @@ function initiMap() {
 	$("#mapViewIcon").fadeOut();
 	selectMapMode();
 	// getLocationTypePanel();
-//	mapSattelView();
+	// mapSattelView();
 }
 
 function zoomInMap() {
@@ -297,7 +297,7 @@ function selectDualMode() {
 function selectMapMode() {
 	// $("#cameraView").css("display", "none");
 	// $('#mapView').height($(window).height());
-	// $('#map_canvas').height($(window).height());
+	$('#map_canvas').height($(window).height());
 	$('#mapViewSelect').fadeOut();
 	$('#dualModeSelect').fadeIn();
 	stopCamera();
