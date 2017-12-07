@@ -153,10 +153,6 @@ function animateCircle(line) {
 }
 
 function initMap() {
-	setPathTypeButtonIcon();
-	getPathTypePanel();
-	getAllMarkers("360", true);
-	$("#parentLocationId").val("360");
 	var myLatLng = {
 			lat : -33.5343803,
 			lng : 24.2683424
@@ -221,4 +217,8 @@ function initMap() {
 		return dist;
 	};
 	getAllLocationTypes();
+	setPathTypeButtonIcon();
+	getPathTypePanel();
+	getAllMarkers("360", true);
+	$("#parentLocationId").val("360");
 }
