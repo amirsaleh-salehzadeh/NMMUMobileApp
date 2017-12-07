@@ -35,7 +35,7 @@
 </script>
 </head>
 <body dir="ltr">
-	<div data-role="page" class="jqm-demos jqm-home">
+	<div  data-role="page" class="jqm-demos jqm-home">
 		<div data-role="header" class="jqm-header">
 			<h2>
 				<img src="images/MandelaUniversity_logo_B.png"
