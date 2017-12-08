@@ -90,7 +90,7 @@
 
 
 
-<div data-role="popup" id="locationEditMenu" data-mini="true">
+<div data-role="popup" id="locationEditMenu" data-mini="true" data-dismissible="false">
 	<ul data-role="listview" data-inset="true" style="min-width: 210px;">
 		<li data-role="list-divider" id="locationEditMenuTitle">Choose an action</li>
 		<li><a href="#" onclick="openALocation();">Open</a></li>
@@ -102,6 +102,8 @@
 		<li><a href="#">Delete</a></li>
 		<li data-role="list-divider"></li>
 		<li><a href="#">Print Barcode</a></li>
+		<li data-role="list-divider"></li>
+		<li><a href="#" data-rel="back" class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left" onclick="unselectBoundary();">Close</a></li>
 	</ul>
 </div>
 
@@ -130,6 +132,7 @@
 				onclick="$('#editLocationTypePopup').popup('close');unselectBoundary();">Close</a>
 		</div>
 	</div>
+	<a href="#" data-rel="back" class="pathmenu ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
 </div>
 
 
@@ -161,6 +164,7 @@
 				class="pathMenu ui-btn ui-shadow cancel-icon "
 				onclick="$('#editLocationInfoPopup').popup('close').trigger('create');unselectBoundary()">Close</a>
 	</div>
+	<a href="#" data-rel="back" class="pathmenu ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
 </div>
 
 
@@ -314,6 +318,7 @@
 				class="pathMenu ui-btn ui-shadow cancel-icon "
 				onclick="$('#editIconPopup').popup('close').trigger('create');unselectBoundary()">Close</a>
 	</div>
+	<a href="#" data-rel="back" class="pathmenu ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
 </div>
 
 
