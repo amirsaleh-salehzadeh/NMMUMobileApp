@@ -10,7 +10,7 @@ body {
 
 </style>
 <ul class="jqm-list" data-role="listview">
-    <li class="userMenu" data-filtertext="form checkboxradio widget radio input radio buttons controlgroups">
+    <li  data-filtertext="form checkboxradio widget radio input radio buttons controlgroups">
     <a id="btnHeading" href="t_newsfeed.do?reqCode=newsFeedList" data-ajax="false">Home</a></li>
 	<li id="liMenu" data-role="collapsible" data-enhanced="true"
 		data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
@@ -30,17 +30,17 @@ body {
 				<li id="liMenu" class="userMenu"
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a id="btnMenu" class="userMenu ui-btn"
 					href="t_user.do?reqCode=userManagement" data-ajax="false">User</a></li>
-				<li id="liMenu"
+				<li id="liMenu" class="userMenu"
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a id="btnMenu" class="userMenu ui-btn"
 					href="t_security.do?reqCode=roleManagement" data-ajax="false">Roles</a></li>
-				<li id="liMenu"
+				<li id="liMenu" class="userMenu"
 					data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a id="btnMenu" class="userMenu ui-btn"
 					href="t_security.do?reqCode=groupManagement" data-ajax="false">Groups</a></li>
-				<li id="liMenu"
+				<li id="liMenu" class="userMenu"
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a id="btnMenu" class="userMenu ui-btn"
 					href="t_location.do?reqCode=pathManagement" data-ajax="false">Path
 						Management</a></li>
-				<li id="liMenu"
+				<li id="liMenu" class="userMenu"
 					data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a id="btnMenu" class="userMenu ui-btn"
 					href="t_location.do?reqCode=locationManagement" data-ajax="false">Location
 						Management</a></li>
