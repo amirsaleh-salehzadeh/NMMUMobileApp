@@ -85,6 +85,7 @@ function saveMarker() {
 		},
 		complete : function() {
 			HideLoadingScreen();
+			closeAMenuPopup();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);

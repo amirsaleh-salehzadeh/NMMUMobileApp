@@ -6,12 +6,24 @@
 	margin: 0 !important;
 }
 
+#boundaryColorFieldset {
+	border: solid 1px;
+	display: inline-block;
+	margin: 3px !important;
+	padding: 2px;
+	max-height: 32px;
+}
+
+#boundaryColorFieldset>span {
+	vertical-align: middle !important;
+}
+
 .toolBar>img {
 	background-color: rgba(8, 27, 44, 1);
 	max-width: 32px;
 	max-height: 32px;
 	margin: 3px !important;
-	display: inline-block;
+	display: inline;
 	cursor: pointer;
 	border: solid 1px;
 	padding: 2px;

@@ -178,20 +178,20 @@ function initMap() {
 			.getElementById('editBoundaryPopup'));
 //	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
 //			.getElementById('pathTypePopup'));
-	google.maps.event.addListener(map, "click", function(event) {
-		$("#departure").val("");
-		$("#departureId").val("");
-		$("#destination").val("");
-		$("#destinationId").val("");
-		$("#boundary").val("");
-		var lat = event.latLng.lat();
-		var lng = event.latLng.lng();
-		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			addAMarker(null, lat + "," + lng);
-		} else {
-			addAPath(null);
-		}
-	});
+//	google.maps.event.addListener(map, "click", function(event) {
+//		$("#departure").val("");
+//		$("#departureId").val("");
+//		$("#destination").val("");
+//		$("#destinationId").val("");
+//		$("#boundary").val("");
+//		var lat = event.latLng.lat();
+//		var lng = event.latLng.lng();
+//		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+//			addAMarker(null, lat + "," + lng);
+//		} else {
+//			addAPath(null);
+//		}
+//	});
 
 	map.setOptions({
 		draggableCursor : 'corsshair'
