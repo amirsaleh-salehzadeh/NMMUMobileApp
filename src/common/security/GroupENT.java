@@ -1,60 +1,57 @@
 package common.security;
 
+import java.util.ArrayList;
+
 public class GroupENT {
 	int groupID;
 	String groupName = "";
 	int clientID;
 	String clientName;
-	int groupUserName;
-	int roleGroupID;
-	
-	public GroupENT(int groupID, String groupName, int clientID,
-			String clientName, int groupUserName, int roleGroupID, String comment) {
-		super();
-		this.groupID = groupID;
-		this.groupName = groupName;
-		this.clientID = clientID;
-		this.clientName = clientName;
-		this.groupUserName = groupUserName;
-		this.roleGroupID = roleGroupID;
-		this.comment = comment;
-	}
-
-	public int getGroupUserName() {
-		return groupUserName;
-	}
-
-	public void setGroupUserName(int groupUserName) {
-		this.groupUserName = groupUserName;
-	}
-
-	public int getRoleGroupID() {
-		return roleGroupID;
-	}
-
-	public void setRoleGroupID(int roleGroupID) {
-		this.roleGroupID = roleGroupID;
-	}
+	ArrayList<RoleENT> groupRoles;
 
 	public GroupENT() {
-		
+
 	}
-	
+
 	public GroupENT(int groupID, String groupName, int clientID,
-			String clientName, String comment) {
+			String clientName, ArrayList<RoleENT> groupRoles, String comment) {
 		super();
 		this.groupID = groupID;
 		this.groupName = groupName;
 		this.clientID = clientID;
 		this.clientName = clientName;
+		this.groupRoles = groupRoles;
+		this.comment = comment;
+	}
+
+	public GroupENT(int groupID, String groupName, int clientID, String comment) {
+		super();
+		this.groupID = groupID;
+		this.groupName = groupName;
+		this.clientID = clientID;
 		this.comment = comment;
 	}
 	
+	public GroupENT(int groupID, String groupName, String comment) {
+		super();
+		this.groupID = groupID;
+		this.groupName = groupName;
+		this.comment = comment;
+	}
+
+	public ArrayList<RoleENT> getGroupRoles() {
+		return groupRoles;
+	}
+
+	public void setGroupRoles(ArrayList<RoleENT> groupRoles) {
+		this.groupRoles = groupRoles;
+	}
+
 	public GroupENT(int groupID) {
 		super();
 		this.groupID = groupID;
 	}
-	
+
 	public String getClientName() {
 		return clientName;
 	}
@@ -62,25 +59,25 @@ public class GroupENT {
 	public void setClientName(String clientName) {
 		this.clientName = clientName;
 	}
-	
+
 	String comment = "";
 
 	public String getGroupName() {
 		return groupName;
 	}
-	
+
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-	
+
 	public String getComment() {
 		return comment;
 	}
-	
+
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
+
 	public int getGroupID() {
 		return groupID;
 	}

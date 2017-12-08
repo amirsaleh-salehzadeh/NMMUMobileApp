@@ -288,19 +288,15 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
-			String query = "Select ur.*, r.* from user_roles ur"
-					+ " inner join users u on u.username = ur.username"
-					+ " inner join roles r on r.role_name = ur.role_name "
-					+ " and ur.username = ?";
+			String query = "Select * from user_roles where username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				RoleENT r = new RoleENT(rs.getString("role_name"),
-						rs.getInt("client_id"), "", rs.getInt("user_role_id"),
-						0, "");
+				RoleENT r = new RoleENT(rs.getString("role_name"));
 				res.add(r);
 			}
+			rs.close();
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -327,10 +323,9 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				GroupENT r = new GroupENT(rs.getInt("group_id"),
-						rs.getString("group_name"), rs.getInt("client_id"), "",
-						0, rs.getInt("user_group_id"), "");
-				res.add(r);
+				GroupENT g = new GroupENT(rs.getInt("group_id"),
+						rs.getString("group_name"),rs.getString("comment"));
+				res.add(g);
 			}
 			ps.close();
 			conn.close();

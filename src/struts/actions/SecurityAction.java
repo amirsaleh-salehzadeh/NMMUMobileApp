@@ -84,7 +84,7 @@ public class SecurityAction extends Action {
 		if (reqCode.equalsIgnoreCase("groupRoleView")) {
 			return groupRoleView(request, mapping);
 		}
-		
+
 		return af;
 	}
 
@@ -99,8 +99,9 @@ public class SecurityAction extends Action {
 				RoleENT r = new RoleENT(t[i]);
 				roles.add(r);
 			}
+		u.setGroupRoles(roles);
 		try {
-			getSecurityDAO().saveUpdateRolesGroup(roles, u);
+			getSecurityDAO().saveGroupRole(u);
 			success = "Roles saved successfully";
 		} catch (AMSException e) {
 			e.printStackTrace();
@@ -126,8 +127,8 @@ public class SecurityAction extends Action {
 			e.printStackTrace();
 		}
 		request.setAttribute("groupENTRoles", getSecurityDAO()
-				.getAllGroupRoles(gid));
-		request.setAttribute("roleLST", getSecurityDAO().getAllRoles(searchKey));
+				.getAllRolesForAGroup(gid));
+		request.setAttribute("roleLST", getRoleLST(request).getRoleENTs());
 		return mapping.findForward("groupRole");
 	}
 
@@ -180,20 +181,11 @@ public class SecurityAction extends Action {
 	private ActionForward editRole(HttpServletRequest request,
 			ActionMapping mapping, ActionForm form) {
 		RoleENT roleENT = new RoleENT();
-		String roleName = "";
-		try {
-			request.setAttribute("clientENTs", getClientDAO()
-					.getClientsDropDown());
-		} catch (AMSException e) {
-			e.printStackTrace();
-		}
-		if (request.getParameter("roleName") != null)
-			roleName = request.getParameter("roleName");
-		else {
+		if (request.getParameter("roleName") == null) {
 			request.setAttribute("roleENT", roleENT);
 			return mapping.findForward("roleEdit");
 		}
-		roleENT.setRoleName(roleName);
+		roleENT.setRoleName(request.getParameter("roleName"));
 		try {
 			request.setAttribute("roleENT", getSecurityDAO().getRole(roleENT));
 		} catch (AMSException e) {
@@ -336,19 +328,21 @@ public class SecurityAction extends Action {
 
 	private void createMenusForRole(HttpServletRequest request) {
 		List<PopupENT> popupEnts = new ArrayList<PopupENT>();
-		popupEnts.add(new PopupENT("hide-filters", "displaySearch();", "Show/Hide Search",
-				"#"));
+		popupEnts.add(new PopupENT("hide-filters", "displaySearch();",
+				"Show/Hide Search", "#"));
 		popupEnts.add(new PopupENT("new-item",
 				"callAnAction(\"security.do?reqCode=roleEdit\");", "New Role",
 				"#"));
-		popupEnts.add(new PopupENT("delete-item", "deleteSelectedItems(\"deleteRole\");",
-				"Delete Selected", "#"));
+		popupEnts
+				.add(new PopupENT("delete-item",
+						"deleteSelectedItems(\"deleteRole\");",
+						"Delete Selected", "#"));
 		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
-//		popupGridEnts
-//				.add(new PopupENT(
-//						"edit-item",
-//						"callAnAction(\"security.do?reqCode=roleEdit&roleName=REPLACEME\");",
-//						"Edit Role", "#"));
+		// popupGridEnts
+		// .add(new PopupENT(
+		// "edit-item",
+		// "callAnAction(\"security.do?reqCode=roleEdit&roleName=REPLACEME\");",
+		// "Edit Role", "#"));
 		popupGridEnts.add(new PopupENT("delete-item",
 				"deleteAnItem(\"REPLACEME\", \"deleteRole\");", "Remove", "#")); //
 		request.setAttribute("settingMenuItem", popupEnts);
@@ -357,13 +351,15 @@ public class SecurityAction extends Action {
 
 	private void createMenusForGroup(HttpServletRequest request) {
 		List<PopupENT> popupEnts = new ArrayList<PopupENT>();
-		popupEnts.add(new PopupENT("hide-filters", "displaySearch();", "Show/Hide Search",
-				"#"));
+		popupEnts.add(new PopupENT("hide-filters", "displaySearch();",
+				"Show/Hide Search", "#"));
 		popupEnts.add(new PopupENT("new-item",
 				"callAnAction(\"security.do?reqCode=groupEdit\");",
 				"New Group", "#"));
-		popupEnts.add(new PopupENT("delete-item", "deleteSelectedItems(\"deleteGroup\");",
-				"Delete Selected", "#"));
+		popupEnts
+				.add(new PopupENT("delete-item",
+						"deleteSelectedItems(\"deleteGroup\");",
+						"Delete Selected", "#"));
 		List<PopupENT> popupGridEnts = new ArrayList<PopupENT>();
 		popupGridEnts
 				.add(new PopupENT(
@@ -378,9 +374,6 @@ public class SecurityAction extends Action {
 
 	private RoleENT getRoleENT(HttpServletRequest request) {
 		RoleENT roleENT = new RoleENT();
-		if (request.getParameter("clientID") != null)
-			roleENT.setClientID(Integer.parseInt(request
-					.getParameter("clientID")));
 		if (request.getParameter("roleName") != null)
 			roleENT.setRoleName(request.getParameter("roleName"));
 		else
@@ -412,15 +405,11 @@ public class SecurityAction extends Action {
 			search = "";
 		int pageNo = 1;
 		int pageSize = 10;
-		int clientID = 0;
 		if (request.getParameter("currentPage") != null)
 			pageNo = Integer.parseInt(request.getParameter("currentPage"));
 		if (request.getParameter("pageSize") != null)
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
-		if (request.getParameter("clientID") != null
-				&& !request.getParameter("clientID").equals(""))
-			clientID = Integer.parseInt(request.getParameter("clientID"));
-		RoleENT roleENT = new RoleENT(search, clientID, "", search);
+		RoleENT roleENT = new RoleENT(search, "", search);
 		RoleLST roleLST = new RoleLST(roleENT, pageNo, pageSize, true,
 				"category_role");
 		try {
@@ -446,7 +435,7 @@ public class SecurityAction extends Action {
 		if (request.getParameter("clientID") != null
 				&& !request.getParameter("clientID").equals(""))
 			clientID = Integer.parseInt(request.getParameter("clientID"));
-		GroupENT groupENT = new GroupENT(0, search, clientID, "", search);
+		GroupENT groupENT = new GroupENT(clientID, search, search);
 		GroupLST groupLST = new GroupLST(groupENT, pageNo, pageSize, true,
 				"group_name");
 		try {

@@ -29,6 +29,9 @@ function selectIcon(id) {
 			if (!$(this).hasClass("pathTypeIconSelected")) {
 				$(this).addClass("pathTypeIconSelected");
 				pathTypeIds.push(id);
+			} else {
+				$(this).removeClass("pathTypeIconSelected");
+				pathTypeIds.splice(pathTypeIds.indexOf(id), 1);
 			}
 			$(this).trigger("create");
 		}
@@ -48,7 +51,7 @@ function showPathTypeMenu() {
 	$("#pathTypePopup").trigger("create");
 	$("#pathTypeIds").val(pathTypeIds.join(","));
 	$('#pathTypePopup').css("position", "absolute");
-	$('#pathTypePopup').css("left", event.pageX +'px');
+	$('#pathTypePopup').css("left", event.pageX + 'px');
 	$('#pathTypePopup').css("top", event.pageY + 'px');
 	$('#pathTypePopup').trigger("create");
 	var left = event.pageX - Math.round($("#pathTypePopup").width() / 2);
@@ -56,7 +59,7 @@ function showPathTypeMenu() {
 		left = $(window).width() - $("#pathTypePopup").width();
 	if (left <= 0)
 		left = 0;
-	$('#pathTypePopup').css("left", left +'px');
+	$('#pathTypePopup').css("left", left + 'px');
 	$('#pathTypePopup').trigger("create");
 	$('#pathTypePopup').fadeIn();
 }

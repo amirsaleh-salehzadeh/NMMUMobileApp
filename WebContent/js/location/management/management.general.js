@@ -54,19 +54,19 @@ function selectActionType() {
 		$("#openLocationEditMenu").attr("href","#pathEditPanel");
 		getAllPaths(false);
 	}
-	google.maps.event.addListener(map, "click", function(event) {
-		$("#departure").val("");
-		$("#departureId").val("");
-		$("#destination").val("");
-		$("#destinationId").val("");
-		var lat = event.latLng.lat();
-		var lng = event.latLng.lng();
-		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			addAMarker(null, lat + "," + lng);
-		} else {
-			addAPath(null);
-		}
-	});
+//	google.maps.event.addListener(map, "click", function(event) {
+//		$("#departure").val("");
+//		$("#departureId").val("");
+//		$("#destination").val("");
+//		$("#destinationId").val("");
+//		var lat = event.latLng.lat();
+//		var lng = event.latLng.lng();
+//		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+//			addAMarker(null, lat + "," + lng);
+//		} else {
+//			addAPath(null);
+//		}
+//	});
 }
 
 function getPathTypePanel() {
@@ -154,7 +154,6 @@ function getCookie(cname) {
 
 $(document).keyup(function(e) {
 	if (e.keyCode == 27) {
-		clearSelection();
-		boundarySelected = false;
+		clearBoundarySelection();
 	}
 });
