@@ -150,12 +150,12 @@ function getAllMarkers(parentId, refreshMarkers) {
 function getMarkerInfo(location) {
 	do {
 		if (location.parent.parentId > 0) {
-			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
-					+ "\", true)'> > " + location.parent.locationName + " "
+			str += "<li onclick='getAllMarkers(\"" + location.parent.locationID
+					+ "\", true)'>&nbsp;> " + location.parent.locationName + " "
 					+ location.parent.locationType.locationType + "</li>" + str;
 		} else
-			str += "<li onclick='getAllMarkers(\"" + location.parent.locationID
-					+ "\", true)'&nbsp;>" + location.parent.locationName
+			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
+					+ "\", true)'>" + location.parent.locationName
 					+ "</li>" + str;
 		location = location.parent;
 	} while (location.parent != null);

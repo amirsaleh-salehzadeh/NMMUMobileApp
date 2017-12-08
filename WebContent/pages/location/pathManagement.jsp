@@ -100,7 +100,7 @@
 		<li data-icon="false"><a href="#"
 			onclick="openLocationInfoPopup();">Edit Info</a></li>
 		<li data-icon="false"><a href="#"
-			onclick="showHideMainBoundary();">Edit Boundary </a></li>
+			onclick="showHideMainBoundary();">Edit Boundary</a></li>
 		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit
 				Thumbnail</a></li>
 		<li data-role="list-divider"></li>
