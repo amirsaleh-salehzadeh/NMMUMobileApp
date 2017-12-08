@@ -94,17 +94,19 @@
 	<ul data-role="listview" style="min-width: 210px;">
 		<li data-role="list-divider" id="locationEditMenuTitle">Choose an
 			action</li>
-		<li><a href="#" onclick="openALocation();">Open</a></li>
-		<li><a href="#" onclick="openLocationTypePopup();">Edit
-				Location Type</a></li>
-		<li><a href="#" onclick="openLocationInfoPopup();">Edit Info</a></li>
-		<li><a href="#" onclick="showHideMainBoundary();">Edit
-				Boundary</a></li>
-		<li><a href="#" onclick="openIconPopup();">Edit Thumbnail</a></li>
+		<li data-icon="false"><a href="#" onclick="openALocation();">Open</a></li>
+		<li data-icon="false"><a href="#"
+			onclick="openLocationTypePopup();">Edit Location Type</a></li>
+		<li data-icon="false"><a href="#"
+			onclick="openLocationInfoPopup();">Edit Info</a></li>
+		<li data-icon="false"><a href="#"
+			onclick="showHideMainBoundary();">Edit Boundary</a></li>
+		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit
+				Thumbnail</a></li>
 		<li data-role="list-divider"></li>
-		<li><a href="#">Delete</a></li>
+		<li data-icon="false"><a href="#">Delete</a></li>
 		<li data-role="list-divider"></li>
-		<li><a href="#">Print Barcode</a></li>
+		<li data-icon="false"><a href="#">Print Barcode</a></li>
 	</ul>
 </div>
 
