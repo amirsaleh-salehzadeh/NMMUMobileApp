@@ -87,7 +87,6 @@ function getPathTypePanel() {
 			$("ul#pathTypeListView").html(tmp).trigger("create");
 			$("ul#pathTypeListView").listview();
 			$("ul#pathTypeListView").listview("refresh");
-			$("#rightpanel").trigger("updatelayout");
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);

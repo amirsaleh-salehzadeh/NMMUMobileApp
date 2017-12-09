@@ -12,7 +12,6 @@
 		// 		selectRightPanelVal();
 		$("#editBoundaryPopup").css("display", "none");
 		$("#editPathPopup").css("display", "none");
-		$("#rightpanel").trigger("updatelayout");
 		$(".liLocationLV").each(function() {
 			$(this).bind('onclick', function(e) {
 				alert('Selected Name=' + $(this).attr('value'));
@@ -31,6 +30,7 @@
 <link href="css/location/management/toolbox.management.css"
 	rel="stylesheet">
 </head>
+
 
 
 <!-- HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS  -->

@@ -49,19 +49,6 @@ label {
 	white-space: nowrap;
 }
 
-/* .rightSidePanel { */
-/* 	background-color: rgba(8, 27, 44, 1) !important; */
-/* 	max-width: 20%; */
-/* 	overflow: auto; */
-/* 	height: 100%; */
-/* 	position: fixed; */
-/* 	overflow: auto; */
-/* 	bottom: 0; */
-/* } */
-
-/* .rightSidePanel .ui-panel-inner { */
-/* 	padding: 0.33em !important; */
-/* } */
 #map_canvas,#mapView {
 	width: 100%;
 	display: block;
