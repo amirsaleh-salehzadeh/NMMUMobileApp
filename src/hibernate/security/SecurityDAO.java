@@ -468,16 +468,15 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		try {
 			// inner join query to get all the roles
 			con = getConnection();
-			String query = "SELECT r.* FROM roles r" +
-					"inner join group_roles on group_roles.role_name = r.role_name" +
-					" where group_id = ? ";
+			String query = "SELECT g.* FROM group_roles g " +
+					"left join roles r on g.role_name = r.role_name" +
+					" where g.group_id = ? ";
 			ps = con.prepareStatement(query);
 			ps.setInt(1, gid);
-			rs = ps.getResultSet();
+			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				res.add(new RoleENT(rs.getString("role_name"), rs
-						.getString("category_role"), rs.getString("comment")));
+				res.add(new RoleENT(rs.getString("role_name")));
 
 			}
 			ps.close();
@@ -507,7 +506,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			for (int i = 0; i < group.getGroupRoles().size(); i++) {
 				ps = conn.prepareStatement(query);
 				ps.setInt(1, group.getGroupID());
-				ps.setString(1, group.getGroupRoles().get(i).getRoleName());
+				ps.setString(2, group.getGroupRoles().get(i).getRoleName());
 				ps.execute();
 			}
 			ps.close();
