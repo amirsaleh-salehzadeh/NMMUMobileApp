@@ -17,7 +17,137 @@
 				alert('Selected Name=' + $(this).attr('value'));
 			});
 		});
+		// 		drawTest();
 	});
+
+	function drawTest() {
+		var polygons = [ [ {
+			"X" : 72,
+			"Y" : 59.45
+		}, {
+			"X" : 136,
+			"Y" : 66
+		}, {
+			"X" : 170,
+			"Y" : 99
+		}, {
+			"X" : 171,
+			"Y" : 114
+		}, {
+			"X" : 183,
+			"Y" : 125
+		}, {
+			"X" : 218,
+			"Y" : 144
+		}, {
+			"X" : 218,
+			"Y" : 165
+		}, {
+			"X" : 226,
+			"Y" : 193
+		}, {
+			"X" : 254,
+			"Y" : 195
+		}, {
+			"X" : 283,
+			"Y" : 195
+		}, {
+			"X" : 292,
+			"Y" : 202
+		}, {
+			"X" : 325,
+			"Y" : 213
+		}, {
+			"X" : 341,
+			"Y" : 234
+		}, {
+			"X" : 397,
+			"Y" : 245
+		}, {
+			"X" : 417,
+			"Y" : 248
+		} ] ];
+		var scale = 100;
+		reverse_copy(polygons);
+		polygons = scaleup(polygons, scale);
+		var cpr = new ClipperLib.Clipper();
+		var delta = 25;
+		var joinType = ClipperLib.JoinType.jtRound;
+		var miterLimit = 2;
+		var AutoFix = true;
+		var svg, offsetted_polygon, cont = document
+				.getElementById('svgcontainer');
+		offsetted_polygon = cpr.OffsetPolygons(polygons, delta * scale,
+				joinType, miterLimit, AutoFix);
+		//console.log(JSON.stringify(offsetted_polygon));
+
+		// Draw red offset polygon
+		svg = '<svg style="margin-top:10px;margin-right:10px;margin-bottom:10px;background-color:#dddddd" width="540" height="340">';
+		svg += '<path stroke="red" fill="red" stroke-width="2" stroke-opacity="0.6" fill-opacity="0.2" d="'
+				+ polys2path(offsetted_polygon, scale) + '"/>';
+
+		//Draw blue polyline
+		svg += '<path stroke="blue" stroke-width="3" d="'
+				+ polys2path(polygons, scale) + '"/>';
+		svg += '</svg>';
+
+		cont.innerHTML += svg;
+	}
+
+	// helper function to scale up polygon coordinates
+	function scaleup(poly, scale) {
+		var i, j;
+
+		if (!scale)
+			scale = 1;
+
+		for (i = 0; i < poly.length; i++) {
+			for (j = 0; j < poly[i].length; j++) {
+				poly[i][j].X *= scale;
+				poly[i][j].Y *= scale;
+			}
+		}
+
+		return poly;
+	}
+
+	// converts polygons to SVG path string
+	function polys2path(poly, scale) {
+		var path = "", i, j;
+
+		if (!scale)
+			scale = 1;
+
+		for (i = 0; i < poly.length; i++) {
+			for (j = 0; j < poly[i].length; j++) {
+				if (!j)
+					path += "M";
+				else
+					path += "L";
+				path += (poly[i][j].X / scale) + ", " + (poly[i][j].Y / scale);
+			}
+			path += "Z";
+		}
+
+		return path;
+	}
+
+	function reverse_copy(poly) {
+		// Make reverse copy of polygons = convert polyline to a 'flat' polygon ...
+		var k, klen = poly.length, len, j;
+
+		for (k = 0; k < klen; k++) {
+			len = poly[k].length;
+			poly[k].length = len * 2 - 2;
+
+			for (j = 1; j <= len - 2; j++) {
+				poly[k][len - 1 + j] = {
+					X : poly[k][len - 1 - j].X,
+					Y : poly[k][len - 1 - j].Y
+				}
+			}
+		}
+	}
 </script>
 
 
@@ -37,19 +167,21 @@
 
 
 
-<input type="hidden" readonly  id="parentLocationId" value="360">
-<input type='hidden' readonly  id='locationTypeId' value="0">
+<input type="hidden" readonly id="parentLocationId" value="360">
+<input type='hidden' readonly id='locationTypeId' value="0">
 <input type='hidden' readonly id='parentLocationTypeId' value="0">
 <input type='hidden' readonly name="destinationId" id="destinationId">
 <input type='hidden' readonly name="destinationGPS" id="destinationGPS">
 <input type='hidden' readonly name="departureId" id="departureId">
 <input type='hidden' readonly name="departureGPS" id="departureGPS">
 <input type='hidden' readonly name="pathId" id="pathId">
-<input type='hidden' readonly name="markerCoordinate" id="markerCoordinate">
+<input type='hidden' readonly name="markerCoordinate"
+	id="markerCoordinate">
 <input type='hidden' readonly name="markerId" id="markerId">
 <input type='hidden' readonly id="pathLatLng">
 <input type='hidden' readonly name="pathTypeIds" id="pathTypeIds">
-<input type='hidden' readonly name="tempBoundaryColors" id="tempBoundaryColors">
+<input type='hidden' readonly name="tempBoundaryColors"
+	id="tempBoundaryColors">
 <input type='hidden' readonly name="icon" id="icon" value="">
 <input type='hidden' readonly name="boundary" id="boundary" value="">
 
@@ -98,8 +230,8 @@
 <div id="infoDiv" class="ui-block-solo">
 	<ul data-role="listview" id="infoListView">
 	</ul>
-<!-- 		<label for="locationInfo">Location </label> -->
-		<div id="locationInfo" class=""></div>
+	<!-- 		<label for="locationInfo">Location </label> -->
+	<div id="locationInfo" class=""></div>
 </div>
 
 
@@ -107,7 +239,8 @@
 
 
 
-<div data-role="popup" id="locationEditMenu" data-mini="true" data-dismissible="false">
+<div data-role="popup" id="locationEditMenu" data-mini="true"
+	data-dismissible="false">
 	<ul data-role="listview" style="min-width: 210px;">
 		<li data-role="list-divider" id="locationEditMenuTitle">Choose an
 			action</li>
@@ -116,8 +249,8 @@
 			onclick="openLocationTypePopup();">Edit Location Type</a></li>
 		<li data-icon="false"><a href="#"
 			onclick="openLocationInfoPopup();">Edit Info</a></li>
-		<li data-icon="false"><a href="#"
-			onclick="showMainBoundary();">Edit Boundary </a></li>
+		<li data-icon="false"><a href="#" onclick="showMainBoundary();">Edit
+				Boundary </a></li>
 		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit
 				Thumbnail</a></li>
 		<li data-role="list-divider"></li>
@@ -127,7 +260,9 @@
 			onclick="printBarcode($('#markerId').val(),$('#markerName').val());">Print
 				QR</a></li>
 		<li data-role="list-divider"></li>
-		<li><a href="#" data-rel="back" class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left" onclick="unselectBoundary();">Close</a></li>
+		<li><a href="#" data-rel="back"
+			class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left"
+			onclick="unselectBoundary();">Close</a></li>
 	</ul>
 </div>
 
@@ -243,12 +378,12 @@
 
 <div id="editBoundaryPopup" class="toolBar">
 	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
-		height="48" title="Normal Mode" onclick="removeDrawingMode()">
-	<img src='images/icons/polygon-select.png' width="48" height="48"
-		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
-	<img src='images/icons/edit.png' width="48" height="48" id="editBoundary"
-		class="pathMenu" title="Edit Boundary Points"/>
-	<img src='images/icons/delete-icon.png' width="48" height="48"
+		height="48" title="Normal Mode" onclick="removeDrawingMode()"> <img
+		src='images/icons/polygon-select.png' width="48" height="48"
+		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" /> <img
+		src='images/icons/edit.png' width="48" height="48" id="editBoundary"
+		class="pathMenu" title="Edit Boundary Points" /> <img
+		src='images/icons/delete-icon.png' width="48" height="48"
 		class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
 	<div id="boundaryColorFieldset">
 		<span>Fill Colour</span>
@@ -364,11 +499,11 @@
 <div id="editPathPopup" class="ui-grid-b toolBar">
 	<div class="ui-block-a">
 		<input type="text" placeholder="From (Departure)" name="departure"
-			id="departure" value="" readonly >
+			id="departure" value="" readonly>
 	</div>
 	<div class="ui-block-b">
 		<input type="text" placeholder="To (Destination)" name="destination"
-			id="destination" value="" readonly >
+			id="destination" value="" readonly>
 	</div>
 	<div class="ui-block-c">
 		<label for="pathLength">Length </label> <span id="pathLength"></span>
@@ -462,6 +597,9 @@
 	src="js/location/management/map.management.js"></script>
 <script type="text/javascript"
 	src="js/location/management/image.thumbnail.croppie.js"></script>
+<script src="https://openlayers.org/en/v4.5.0/build/ol.js"></script>
+<script
+	src="https://cdn.rawgit.com/bjornharrtell/jsts/gh-pages/1.4.0/jsts.min.js"></script>
 <script type="text/javascript"
 	src="js/location/management/marker.polygon.js"></script>
 <script type="text/javascript"

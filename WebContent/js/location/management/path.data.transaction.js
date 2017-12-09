@@ -2,12 +2,12 @@ var movingLine, pathPolylineConstant, lastOne, overlay, pathDrawingCircle;
 var pathWidthScale = 0;
 
 function getAllPaths(newPaths, refreshPaths) {
-	google.maps.event.addListener(map, 'zoom_changed', function(event) {
-		google.maps.event.addListenerOnce(map, 'bounds_changed', function(e) {
-			if ($('[name="optionType"] :radio:checked').val() != "marker")
-			updatePathWeight();
-		});
-	});
+//	google.maps.event.addListener(map, 'zoom_changed', function(event) {
+//		google.maps.event.addListenerOnce(map, 'bounds_changed', function(e) {
+//			if ($('[name="optionType"] :radio:checked').val() != "marker")
+//			updatePathWeight();
+//		});
+//	});
 	overlay = new google.maps.OverlayView();
 	overlay.draw = function() {
 	};
