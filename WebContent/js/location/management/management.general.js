@@ -47,12 +47,14 @@ function selectActionType() {
 		gps = gps.replace(" ","");
 		addAMarker(null, gps);
 		getAllMarkers($("#parentLocationId").val(), false);
+		hidePathInfo();
 	} else {
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
 		$("#pathEditPanelBTN").trigger("click");
 		$("#openLocationEditMenu").attr("href","#pathEditPanel");
 		getAllPaths(false);
+		showPathInfo();
 	}
 //	google.maps.event.addListener(map, "click", function(event) {
 //		$("#departure").val("");
@@ -98,7 +100,6 @@ function getPathTypePanel() {
 $(document)
 		.ready(
 				function() {
-					
 					$('#pathTypePopup').fadeOut();
 					$('#locationEditPanel').fadeOut();
 					$("#map_canvas").css("min-width",
