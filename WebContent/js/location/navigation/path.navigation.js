@@ -135,7 +135,6 @@ function getThePath() {
 						errorMessagePopupOpen("Unfortunately, there is no routes for this enquiry in the system. "
 								+ "<br/>We recorded your enquiry to update our database in the shortest possible time.");
 					} else {
-						// blurFalse();
 						resetWalking();
 						drawConstantPolyline();
 						hideBottomPanel();
@@ -145,7 +144,6 @@ function getThePath() {
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 					hideBottomPanel();
-					// blurFalse();
 					removeTrip();
 					errorMessagePopupOpen(thrownError);
 				}

@@ -36,11 +36,14 @@
 			<forward name="login" path="/login.html" />
 			<forward name="register" path="/pages/user/register.html" />
 			<forward name="gridJson" path="/pages/json.jsp" />
-			
+
 		</action>
 		<action path="/newsfeed" type="struts.actions.NEWSFeedAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="newsFeedList" path="/pages/newsFeed/newsFeedList.jsp" />
+		</action>
+		<action parameter="reqCode" path="/logOut" type="struts.actions.LogOutAction">
+			<set-property property="cancellable" value="true" />
 		</action>
 	</action-mappings>
 

@@ -21,38 +21,48 @@
 <style type="text/css">
 .flipswitchGender.ui-flipswitch .ui-btn.ui-flipswitch-on {
 	text-indent: -3.9em;
+	color: rgb(248, 182, 36) !important;
+	text-shadow: none !important;
+	    font-family: sans-serif;
 }
 
 .flipswitchGender.ui-flipswitch .ui-flipswitch-off {
 	text-indent: 0.5em;
+	color: rgb(248, 182, 36) !important;
+	text-shadow: none !important;
+	    font-family: sans-serif;
 }
 
 .flipswitchGender.ui-flipswitch {
 	background-color: #FF0080;
-	color: white;
+	color: rgb(248, 182, 36) !important;
 	width: 6.875em;
 	text-indent: 2em;
+	text-shadow: none !important;
 }
 
 .flipswitchGender.ui-flipswitch.ui-flipswitch-active {
 	background-color: #2E64FE;
-	color: white;
+	color: rgb(248, 182, 36) !important;
 	padding-left: 5em;
 	width: 1.875em;
 	text-indent: 2em;
+	text-shadow: none !important;
 }
 
 .flipswitchActive.ui-flipswitch .ui-btn.ui-flipswitch-on {
 	text-indent: -3.9em;
+	text-shadow: none !important;
 }
 
 .flipswitchActive.ui-flipswitch .ui-flipswitch-off {
 	text-indent: 0.5em;
+	text-shadow: none !important;
 }
 
 .flipswitchActive.ui-flipswitch {
 	background-color: #8A0808;
-	color: white;
+	color:rgb(248, 182, 36) !important;
 	width: 6.875em;
 	font-weight: normal;
 	text-indent: 2em;
@@ -60,7 +70,7 @@
 
 .flipswitchActive.ui-flipswitch.ui-flipswitch-active {
 	background-color: #2E64FE;
-	color: white;
+	color: rgb(248, 182, 36) !important;
 	padding-left: 5em;
 	width: 1.875em;
 	text-indent: 2em;

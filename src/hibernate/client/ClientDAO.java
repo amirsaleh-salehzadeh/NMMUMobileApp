@@ -1,5 +1,9 @@
 package hibernate.client;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +12,7 @@ import com.sun.jersey.spi.inject.ClientSide;
 
 import common.DropDownENT;
 import common.client.ClientENT;
+import common.security.GroupENT;
 import common.security.RoleENT;
 import common.user.UserENT;
 import common.user.UserLST;
@@ -31,22 +36,33 @@ public class ClientDAO extends BaseHibernateDAO implements ClientDAOInterface{//
 	public ArrayList<ClientENT> getAllClients(String searchKey)
 			throws AMSException {
 		ArrayList<ClientENT> clientENTs = new ArrayList<ClientENT>();
-//		Query q = null;
-//		try {
-//			q = getSession().createQuery(
-//					"from ClientENT where clientName like :searchKey")
-//					.setParameter("searchKey", "%" + searchKey + "%");
-//			clientENTs = (ArrayList<ClientENT>) q.list();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//		}
-		return clientENTs;
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "Select * from clients "
+					+ " where client_name like '%"+ searchKey +"%' ";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ClientENT c = new ClientENT(rs.getString("client_name"), rs.getInt("client_id"));
+				clientENTs.add(c);
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		return clientENTs;
 	}
 
 	public ClientENT getClient(int clientID) throws AMSException {
 		// TODO Auto-generated method stub
 //		Query q = null;
-		ClientENT clientENT = new ClientENT();
+//		ClientENT clientENT = new ClientENT();
 //		try {
 //			q = getSession().createQuery(
 //					"from ClientENT where clientID = :searchKey").setParameter(
@@ -55,25 +71,31 @@ public class ClientDAO extends BaseHibernateDAO implements ClientDAOInterface{//
 //		} catch (HibernateException ex) {
 //			ex.printStackTrace();
 //		}
-		return clientENT;
+		return null;
 	}
 
 	public ArrayList<DropDownENT> getClientsDropDown() throws AMSException {
-//		Query q = null;
 		ArrayList<DropDownENT> res = new ArrayList<DropDownENT>();
-//		try {
-//			Session s = getSession4Query();
-//			s.beginTransaction();
-//			List<ClientENT> dropdowns = getSession4Query()
-//					.createQuery(
-//							"from ClientENT").list();
-//			for(ClientENT dropdown : dropdowns) {
-//				res.add(new DropDownENT(dropdown.getClientID()+"", dropdown.getClientName(), null));
-//			}
-//			// List dropDown = q.list();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//		}
+		try {
+			Connection conn = null;
+			List<ClientENT> dropdowns;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "Select * from clients ";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				res.add(new DropDownENT(rs.getInt("client_id")+"", rs.getString("client_name"), null));
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return res;
 	}
 

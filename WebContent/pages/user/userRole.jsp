@@ -11,21 +11,20 @@
 </head>
 <body>
 	<form id="dataFilterGridMainPage" action="user.do">
-	<ams:message messageEntity="${message}"></ams:message>
-		<input type="hidden" name="userName" value="<%=request.getParameter("userName")%>">
-		<input type="hidden" name="reqCode" value="userRolesSave"> 
-		Roles for user "
-		<bean:write name="userENT" property="userName" />
-		"
+		<ams:message messageEntity="${message}"></ams:message>
+		<input type="hidden" name="userName"
+			value="<%=request.getParameter("userName")%>"> <input
+			type="hidden" name="reqCode" value="userRolesSave"> Roles for
+		user "<bean:write name="userENT" property="userName" />"
 		<div>
 			<html:text property="roleName" name="roleENT"
 				styleId="searchKeyInput" onkeyup="searchForRole()"
 				title="Search for a role"></html:text>
 		</div>
 		<div class="ui-grid-solo">
-		<label style="width: 100%">Select All <input type="checkbox"
-			id="checkAllRoles" onclick="selectAllRoles()">
-		</label>
+			<label style="width: 100%">Select All <input type="checkbox"
+				id="checkAllRoles" onclick="selectAllRoles()">
+			</label>
 		</div>
 		<div class=ui-block-a>
 			<a href="#" data-role="button" data-icon="delete"
@@ -38,9 +37,8 @@
 		<table data-role="table" id="table-column-toggle"
 			class="ui-responsive table-stroke">
 			<tbody>
-				<logic:iterate id="roleListIteration" indexId="rowId" name="rolesList"
-					type="common.security.RoleENT">
-
+				<logic:iterate id="roleListIteration" indexId="rowId"
+					name="rolesList" type="common.security.RoleENT">
 					<%
 						int counter;
 							int idcount;
@@ -52,21 +50,19 @@
 							}
 						%>
 						<td><label><input type="checkbox" name="userRoleName"
-								class="groupCheckBoxes"
+								class="roleCheckBoxes"
 								value="<%=roleListIteration.getRoleName()%>"
 								<logic:iterate id="userRoleNames"
 									name="userRoles" type="common.security.RoleENT">
-									
-										<%if (roleListIteration.getRoleName() == userRoleNames
-							.getRoleName()) {%>
+										<%if (roleListIteration.getRoleName().equalsIgnoreCase(
+							userRoleNames.getRoleName())) {%>
 										checked="checked" <%}%>
 								</logic:iterate>
-								data-inline="true" > <%=roleListIteration.getRoleName()%>
-						</label></td>
+								data-inline="true"> <%=roleListIteration.getRoleName()%></label>
+						</td>
 						<%
 							if (counter == 2) {
 						%>
-
 					</tr>
 					<%
 						}
@@ -82,8 +78,9 @@
 		refreshPlaceHolders();
 	});
 	function selectAllRoles() {
-		$('.groupCheckBoxes').prop('checked',
-				$("#checkAllRoles").is(':checked')).checkboxradio('refresh');
+		$('.roleCheckBoxes')
+				.prop('checked', $("#checkAllRoles").is(':checked'))
+				.checkboxradio('refresh');
 
 	}
 	function searchForRole() {

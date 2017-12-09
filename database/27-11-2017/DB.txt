@@ -1,2 +1,0 @@
-ALTER TABLE paths DROP FOREIGN KEY paths_ibfk_3;
-ALTER TABLE `paths` DROP `path_type`;

@@ -1,9 +1,10 @@
-#locationEditPanel{
+#locationEditPanel {
 	position: absolute;
 	z-index: 130;
 	margin: 0 50% auto;
 	height: 100%;
 }
+
 .editlocationFormRow {
 	-webkit-border-radius: 3 !important;
 	border-radius: 3 !important;
@@ -18,15 +19,16 @@
 }
 
 .editlocationFormRow>label {
-	display: inline-block;
+	/* 	display: inline-block; */
 	background-color: rgb(248, 182, 36) !important;
 	color: rgba(8, 27, 44, 1) !important;
-	font-weight: bold !important;
+	min-height: 1.5em !important;
+	font-weight: bolder !important;
 	text-align: center;
-	margin: 0;
+	margin: 0 auto;
 }
 
-.editlocationFormRow > img {
+.editlocationFormRow>img {
 	padding: 4px;
 }
 
@@ -60,11 +62,13 @@
 #locationDescription {
 	overflow-y: scroll;
 	max-height: 100px;
-	resize: none;
+	/* 	resize: none; */
+	color: rgb(248, 182, 36) !important;
 	overflow: hidden;
 	margin: 3px;
 	padding: 3px;
 	width: 98%;
+	overflow-y: auto;
 }
 
 .ui-popup {
@@ -89,9 +93,10 @@
 
 .locationTypeSelecIcons>img {
 	border: 1px solid !important;
-	border-color: rgba(248, 182, 36, .33) !important;
+	border-color: rgba(248, 182, 36, .5) !important;
 	margin: 2px;
 	padding: 3px;
+	opacity: 0.5 !important;
 }
 
 .locationTypeSelecIconSelected>img {
@@ -99,4 +104,9 @@
 	border-color: rgb(248, 182, 36) !important;
 	margin: 2px;
 	padding: 3px;
+	opacity: 1 !important;
+}
+
+.menuItemPopupClass {
+	min-width: 333px;
 }

@@ -152,30 +152,44 @@ function openALocation() {
 
 function openLocationTypePopup() {
 	selectThisLocationType(null);
+	// $.mobile.activePage.find(".menuItemPopupClass").remove();
 	$('#editLocationTypePopup').popup("option", {
 		x : event.pageX,
 		y : event.pageY
 	});
+	$("#mainBodyContents").trigger('create');
 	$("#locationEditMenu").on("popupafterclose", function() {
-		$("#editLocationTypePopup").popup('open').trigger("create");
+		setTimeout(function() {
+			$("#editLocationTypePopup").trigger('create').popup('open');
+		}, 100);
 	});
-	$("#locationEditMenu").popup("close").trigger("create");
-//	$("#editLocationTypePopup").on("popupafterclose", function() {
-//		$("#editLocationTypePopup").on("popupafterclose", function() {
-//			return;
-//		});
-//	});
+	$("#locationEditMenu").popup("close");
+	$("#mainBodyContents").trigger('create');
 }
 
 function openLocationInfoPopup() {
+	// $.mobile.activePage.find(".menuItemPopupClass").remove();
+
 	$('#editLocationInfoPopup').popup("option", {
 		x : event.pageX,
 		y : event.pageY
 	});
+	$("#mainBodyContents").trigger('create');
 	$("#locationEditMenu").on("popupafterclose", function() {
-		$("#editLocationInfoPopup").popup('open').trigger("create");
+		setTimeout(function() {
+			$("#editLocationInfoPopup").trigger('create').popup('open');
+		}, 100);
 	});
-	$("#locationEditMenu").popup("close").trigger("create");
+	$("#locationEditMenu").popup("close");
+	$("#mainBodyContents").trigger('create');
+}
+
+function closeAMenuPopup() {
+	$('.menuItemPopupClass').popup('close');
+	$("#locationEditMenu").on("popupafterclose", function() {
+	});
+	$("#locationEditMenu").unbind("popupafterclose");
+	unselectBoundary();
 }
 
 function openIconPopup() {
@@ -184,9 +198,12 @@ function openIconPopup() {
 		y : event.pageY
 	});
 	$("#locationEditMenu").on("popupafterclose", function() {
-		$("#editIconPopup").popup('open').trigger("create");
-	});
-	$("#locationEditMenu").popup("close").trigger("create");
+		setTimeout(function() {
+			$("#editIconPopup").popup('open').trigger('create');
+		}, 100);
+	}).trigger('create');
+	$("#mainBodyContents").trigger('create');
+	$("#locationEditMenu").popup("close");
 }
 
 function showHideMainBoundary() {

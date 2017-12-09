@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.mysql.jdbc.Statement;
+
 import common.DropDownENT;
 import common.client.ClientENT;
 import common.security.GroupENT;
@@ -72,58 +74,61 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 	}
 
 	public UserENT saveUpdateUser(UserENT ent) throws AMSException {
-//		Session session = getSession();
-//		Transaction tx = null;
-//		try {
-//			tx = session.beginTransaction();
-//			ent.setPassword(AMSUtililies.encodeMD5(ent.getPassword()));
-//			if (ent.getUserName() != null && !ent.getUserName().equalsIgnoreCase("")) {
-//				if (getUserENT(ent) == null)
-//					session.save(ent);
-//				else
-//					throw getAMSException("The username already Exist", null);
-//			} else
-//				session.saveOrUpdate(ent);
-//			tx.commit();
-//			session.flush();
-//			session.clear();
-//			session.close();
-//		} catch (HibernateException ex) {
-//			tx.rollback();
-//			session.clear();
-//			session.close();
-//			ex.printStackTrace();
-//			throw getAMSException("", ex);
-//		}
+		// Session session = getSession();
+		// Transaction tx = null;
+		// try {
+		// tx = session.beginTransaction();
+		// ent.setPassword(AMSUtililies.encodeMD5(ent.getPassword()));
+		// if (ent.getUserName() != null &&
+		// !ent.getUserName().equalsIgnoreCase("")) {
+		// if (getUserENT(ent) == null)
+		// session.save(ent);
+		// else
+		// throw getAMSException("The username already Exist", null);
+		// } else
+		// session.saveOrUpdate(ent);
+		// tx.commit();
+		// session.flush();
+		// session.clear();
+		// session.close();
+		// } catch (HibernateException ex) {
+		// tx.rollback();
+		// session.clear();
+		// session.close();
+		// ex.printStackTrace();
+		// throw getAMSException("", ex);
+		// }
 		return ent;
 	}
 
 	public UserLST getUserLST(UserLST lst) throws AMSException {
 		ArrayList<UserENT> userENTs = new ArrayList<UserENT>();
-//		Query q = null;
-//		int clientid = lst.getSearchUser().getClientID();
-//		try {
-//			String query = "from UserENT where username like :uname ";
-//			if (clientid > 0)
-//				query += "and clientID = " + clientid;
-//			query += " order by " + lst.getSortedByField();
-//			if (lst.isAscending())
-//				query += " Asc";
-//			else
-//				query += " Desc";
-//
-//			q = getSession().createQuery(query);
-//			q.setParameter("uname", "%" + lst.getSearchUser().getUserName()
-//					+ "%");
-//			lst.setTotalItems(q.list().size());
-//			q.setFirstResult(lst.getFirst());
-//			q.setMaxResults(lst.getPageSize());
-//			userENTs = (ArrayList<UserENT>) q.list();
-//			lst.setUserENTs(userENTs);
-//			HibernateSessionFactory.closeSession();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//		}
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			query = "select * from users";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.execute();
+			ResultSet rs = ps.getResultSet();
+			while (rs.next()) {
+				UserENT userENT = new UserENT(rs.getString("username"));
+				userENT.setClientID(rs.getInt("client_id"));
+				userENT.setName(rs.getString("name"));
+				userENT.setSurName(rs.getString("surname"));
+				userENTs.add(userENT);
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+			lst.setUserENTs(userENTs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return lst;
 	}
 
@@ -151,111 +156,126 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 
 	public ArrayList<EthnicENT> getAllEthnics() throws AMSException {
 		ArrayList<EthnicENT> list = new ArrayList<EthnicENT>();
-//		Query q = null;
-//		try {
-//			q = getSession().createQuery("from EthnicENT");
-//			list = (ArrayList<EthnicENT>) q.list();
-//			HibernateSessionFactory.closeSession();
-//		} catch (HibernateException ex) {
-//			throw getAMSException("", ex);
-//		}
+		// Query q = null;
+		// try {
+		// q = getSession().createQuery("from EthnicENT");
+		// list = (ArrayList<EthnicENT>) q.list();
+		// HibernateSessionFactory.closeSession();
+		// } catch (HibernateException ex) {
+		// throw getAMSException("", ex);
+		// }
 		return list;
 	}
 
 	public ArrayList<TitleENT> getAllTitles() throws AMSException {
 		ArrayList<TitleENT> list = new ArrayList<TitleENT>();
-//		Query q = null;
-//		try {
-//			q = getSession().createQuery("from TitleENT");
-//			list = (ArrayList<TitleENT>) q.list();
-//			HibernateSessionFactory.closeSession();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//			throw getAMSException("", ex);
-//		}
+		// Query q = null;
+		// try {
+		// q = getSession().createQuery("from TitleENT");
+		// list = (ArrayList<TitleENT>) q.list();
+		// HibernateSessionFactory.closeSession();
+		// } catch (HibernateException ex) {
+		// ex.printStackTrace();
+		// throw getAMSException("", ex);
+		// }
 		return list;
 	}
 
 	public EthnicENT getEthnic(int ethnicID) throws AMSException {
-//		Query q = null;
+		// Query q = null;
 		EthnicENT ethnic = new EthnicENT();
-//		try {
-//			q = getSession().createQuery("from EthnicENT where ethnicID =:Id");
-//			q.setInteger("Id", ethnicID);
-//			ethnic = (EthnicENT) q.uniqueResult();
-//			HibernateSessionFactory.closeSession();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//			throw getAMSException("", ex);
-//		}
+		// try {
+		// q = getSession().createQuery("from EthnicENT where ethnicID =:Id");
+		// q.setInteger("Id", ethnicID);
+		// ethnic = (EthnicENT) q.uniqueResult();
+		// HibernateSessionFactory.closeSession();
+		// } catch (HibernateException ex) {
+		// ex.printStackTrace();
+		// throw getAMSException("", ex);
+		// }
 		return ethnic;
 	}
 
 	public TitleENT getTitle(int titleID) throws AMSException {
-//		Query q = null;
+		// Query q = null;
 		TitleENT title = new TitleENT();
-//		try {
-//			q = getSession().createQuery("from TitleENT where titleID =:Id");
-//			q.setInteger("Id", titleID);
-//			title = (TitleENT) q.uniqueResult();
-//			HibernateSessionFactory.closeSession();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//			throw getAMSException("", ex);
-//		}
+		// try {
+		// q = getSession().createQuery("from TitleENT where titleID =:Id");
+		// q.setInteger("Id", titleID);
+		// title = (TitleENT) q.uniqueResult();
+		// HibernateSessionFactory.closeSession();
+		// } catch (HibernateException ex) {
+		// ex.printStackTrace();
+		// throw getAMSException("", ex);
+		// }
 		return title;
 	}
 
 	public UserENT getUserENT(UserENT user) throws AMSException {
-//		Query q = null;
-//		try {
-//			q = getSession().createQuery(
-//					"from UserENT where username =:uname");
-//			q.setString("uname", user.getUserName());
-//			user = (UserENT) q.uniqueResult();
-//			HibernateSessionFactory.closeSession();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//			throw getAMSException("", ex);
-//		}
-		return user;
+		UserENT userENT = new UserENT();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			query = "select * from users where username = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, user.getUserName());
+			ps.execute();
+			ResultSet rs = ps.getResultSet();
+			while (rs.next()) {
+				userENT.setUserName(rs.getString("username"));
+				userENT.setClientID(rs.getInt("client_id"));
+				userENT.setName(rs.getString("name"));
+				userENT.setSurName(rs.getString("surname"));
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return userENT;
 	}
 
 	public ArrayList<DropDownENT> getTitlesDropDown() {
-//		Query q = null;
+		// Query q = null;
 		ArrayList<DropDownENT> res = new ArrayList<DropDownENT>();
-//		try {
-//			Session s = getSession4Query();
-//			s.beginTransaction();
-//			List<TitleENT> dropdowns = getSession4Query().createQuery(
-//					"from TitleENT").list();
-//			for (TitleENT dropdown : dropdowns) {
-//				res.add(new DropDownENT(dropdown.getTitleID() + "", dropdown
-//						.getTitle(), null));
-//			}
-//			// List dropDown = q.list();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//		}
+		// try {
+		// Session s = getSession4Query();
+		// s.beginTransaction();
+		// List<TitleENT> dropdowns = getSession4Query().createQuery(
+		// "from TitleENT").list();
+		// for (TitleENT dropdown : dropdowns) {
+		// res.add(new DropDownENT(dropdown.getTitleID() + "", dropdown
+		// .getTitle(), null));
+		// }
+		// // List dropDown = q.list();
+		// } catch (HibernateException ex) {
+		// ex.printStackTrace();
+		// }
 		return res;
 	}
 
 	public ArrayList<DropDownENT> getEthnicsDropDown() {
-//		Query q = null;
+		// Query q = null;
 		ArrayList<DropDownENT> res = new ArrayList<DropDownENT>();
-//		try {
-//			Session s = getSession4Query();
-//			s.beginTransaction();
-//			List<EthnicENT> dropdowns = getSession4Query().createQuery(
-//					"from EthnicENT").list();
-//			for (EthnicENT dropdown : dropdowns) {
-//				res.add(new DropDownENT(dropdown.getEthnicID() + "", dropdown
-//						.getEthnic(), null));
-//			}
-//			// List dropDown = q.list();
-//		} catch (HibernateException ex) {
-//			ex.printStackTrace();
-//		}
+		// try {
+		// Session s = getSession4Query();
+		// s.beginTransaction();
+		// List<EthnicENT> dropdowns = getSession4Query().createQuery(
+		// "from EthnicENT").list();
+		// for (EthnicENT dropdown : dropdowns) {
+		// res.add(new DropDownENT(dropdown.getEthnicID() + "", dropdown
+		// .getEthnic(), null));
+		// }
+		// // List dropDown = q.list();
+		// } catch (HibernateException ex) {
+		// ex.printStackTrace();
+		// }
 		return res;
 	}
 
@@ -268,19 +288,15 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
-			String query = "Select ur.*, r.* from user_roles ur"
-					+ " inner join users u on u.username = ur.username"
-					+ " inner join roles r on r.role_name = ur.role_name "
-					+ " and ur.username = ?";
+			String query = "Select * from user_roles where username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				RoleENT r = new RoleENT(
-						rs.getString("role_name"), rs.getInt("client_id"), "",
-						rs.getInt("user_role_id"), 0, "");
+				RoleENT r = new RoleENT(rs.getString("role_name"));
 				res.add(r);
 			}
+			rs.close();
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -299,7 +315,6 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 			String query = "Select ug.*, g.* from user_groups ug"
 					+ " inner join groups g on g.group_id = ug.group_id"
 					+ " inner join users u on u.username = ug.username "
@@ -308,10 +323,9 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				GroupENT r = new GroupENT(rs.getInt("group_id"),
-						rs.getString("group_name"), rs.getInt("client_id"), "",
-						0, rs.getInt("user_group_id"), "");
-				res.add(r);
+				GroupENT g = new GroupENT(rs.getInt("group_id"),
+						rs.getString("group_name"),rs.getString("comment"));
+				res.add(g);
 			}
 			ps.close();
 			conn.close();
@@ -326,22 +340,23 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			Connection conn = null;
 			try {
 				conn = getConnection();
+				conn.setAutoCommit(false);
 			} catch (AMSException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			String query = "delete from user_roles where username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, user.getUserName());
 			ps.execute();
-			query = "insert into user_roles (role_name, username) values (?,?)";
+			query = "insert into user_roles (username, role_name) values (?,?)";
 			for (int i = 0; i < user.getRoleENTs().size(); i++) {
 				ps = conn.prepareStatement(query);
-				ps.setString(2, user.getUserName());
-				ps.setString(1, user.getRoleENTs().get(i).getRoleName());
+				ps.setString(1, user.getUserName());
+				ps.setString(2, user.getRoleENTs().get(i).getRoleName());
 				ps.execute();
 			}
 			ps.close();
+			conn.commit();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

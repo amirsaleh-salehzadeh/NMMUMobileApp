@@ -16,9 +16,7 @@
 		$ul.css("width", $input.css("width"));
 		$ul.listview("refresh");
 		$.ajax({
-			url : "REST/GetSecurityWS/GetAllRoleCategories?filter=" + value,
-			ataType : "jsonp",
-			crossDomain : true,
+			url : "REST/GetSecurityWS/GetAllRoleCategories?filterTxt=" + value,
 			data : {
 				q : $input.val()
 			}
@@ -38,6 +36,7 @@
 </script>
 </head>
 <body>
+<div id='formContainer'>
 	<ams:message messageEntity="${message}"></ams:message>
 	<form id="dataFilterGridMainPage" action="security.do"
 		autocomplete="off">
@@ -57,12 +56,6 @@
 			<html:textarea name="roleENT" property="comment" styleId="comment"
 				title="Comment" />
 		</div>
-		<div class="ui-block-solo">
-			<bean:define id="selectedValue" name="roleENT" property="clientID"
-				type="java.lang.Integer"></bean:define>
-			<ams:dropDown dropDownItems="${clientENTs}"
-				selectedVal="<%=selectedValue.toString()%>" name="clientID" title=""></ams:dropDown>
-		</div>
 		<div class=ui-grid-a>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" data-mini="true"
@@ -75,6 +68,7 @@
 			</div>
 		</div>
 	</form>
+	</div>
 </body>
 
 </html>
