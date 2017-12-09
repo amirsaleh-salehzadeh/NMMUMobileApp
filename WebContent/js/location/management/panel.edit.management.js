@@ -248,7 +248,8 @@ function showMainBoundary() {
 		if (polygons[int].id == $("#markerId").val())
 			i = int;
 	}
-	polygons[i].setMap(map);
+	if (i > 0)
+		polygons[i].setMap(map);
 	$("#locationEditMenu").popup("close");
 	$("#editBoundaryPopup").css("display", "block");
 }
