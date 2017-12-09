@@ -122,7 +122,6 @@ function removePath() {
 
 var mapDrawingClickCounter;
 function addAPath(location) {
-	$('#pathTypePopup').fadeOut();
 	if (location == null) {
 		alert("A path can only be drawn between two locations");
 		return;
@@ -170,6 +169,6 @@ function addAPath(location) {
 			movingLine = undefined;
 		}
 		updateConstantLine();
-		showPathTypeMenu();
+		openPathTypePopup();
 	}
 }

@@ -129,6 +129,8 @@ function getLocationTypeImage(locationTypeId) {
 
 function locationEditPanelOpen(title) {
 	$("#locationEditMenuTitle").html(title);
+	$("#locationInfo").html(title);
+	
 	$('#locationEditMenu').popup("option", {
 		x : event.pageX,
 		y : event.pageY
@@ -136,12 +138,13 @@ function locationEditPanelOpen(title) {
 	$("#locationEditMenu").popup("open").trigger("create");
 }
 
-function pathEditPanelOpen() {
-	$('#pathEditPanel').panel("open");
-}
-
-function pathEditPanelClose() {
-	$("#pathTypePopup").fadeOut();
+function pathEditPanelOpen(title) {
+	$("#pathEditMenuTitle").html(title);
+	$('#pathEditMenu').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#pathEditMenu").popup("open").trigger("create");
 }
 
 function openALocation() {
@@ -152,7 +155,6 @@ function openALocation() {
 
 function openLocationTypePopup() {
 	selectThisLocationType(null);
-	// $.mobile.activePage.find(".menuItemPopupClass").remove();
 	$('#editLocationTypePopup').popup("option", {
 		x : event.pageX,
 		y : event.pageY
@@ -167,9 +169,28 @@ function openLocationTypePopup() {
 	$("#mainBodyContents").trigger('create');
 }
 
-function openLocationInfoPopup() {
-	// $.mobile.activePage.find(".menuItemPopupClass").remove();
+function openPathTypePopup() {
+	$(".pathTypeIcon").each(function() {
+		if ($(this).hasClass("pathTypeIconSelected")) {
+			$(this).removeClass("pathTypeIconSelected");
+		}
+		$(this).trigger("create");
+	});
+	$('#editPathTypePopup').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#mainBodyContents").trigger('create');
+	$("#pathEditMenu").on("popupafterclose", function() {
+		setTimeout(function() {
+			$("#editPathTypePopup").trigger('create').popup('open');
+		}, 100);
+	});
+	$("#pathEditMenu").popup("close");
+	$("#mainBodyContents").trigger('create');
+}
 
+function openLocationInfoPopup() {
 	$('#editLocationInfoPopup').popup("option", {
 		x : event.pageX,
 		y : event.pageY
@@ -184,11 +205,25 @@ function openLocationInfoPopup() {
 	$("#mainBodyContents").trigger('create');
 }
 
+function openPathInfoPopup() {
+	$('#editPathInfoPopup').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#mainBodyContents").trigger('create');
+	$("#pathEditMenu").on("popupafterclose", function() {
+		setTimeout(function() {
+			$("#editPathInfoPopup").trigger('create').popup('open');
+		}, 100);
+	});
+	$("#pathEditMenu").popup("close");
+	$("#mainBodyContents").trigger('create');
+}
+
 function closeAMenuPopup() {
 	$('.menuItemPopupClass').popup('close');
-	$("#locationEditMenu").on("popupafterclose", function() {
-	});
 	$("#locationEditMenu").unbind("popupafterclose");
+	$("#pathEditMenu").unbind("popupafterclose");
 	unselectBoundary();
 }
 
@@ -212,4 +247,13 @@ function showHideMainBoundary() {
 		$("#editBoundaryPopup").css("display", "block");
 	else
 		$("#editBoundaryPopup").css("display", "none");
+}
+
+function showPathInfo() {
+	$("#pathEditMenu").popup("close");
+	$("#editPathPopup").css("display", "block");
+}
+
+function hidePathInfo() {
+	$("#editPathPopup").css("display", "none");
 }

@@ -10,14 +10,14 @@ body {
 }
 </style>
 <ul class="jqm-list" data-role="listview">
+
 	<li class="userMenu"
 		data-filtertext="form checkboxradio widget radio input radio buttons controlgroups">
 		<a id="btnHeading" href="t_newsfeed.do?reqCode=newsFeedList"
 		data-ajax="false">Home</a>
 	</li>
-	<%
-		String uname = request.getRemoteUser();
-		if (SecurityDAO.isUserAuthorised(uname, "SuperAdmin")
+	<%		String uname = request.getRemoteUser();
+	        if (SecurityDAO.isUserAuthorised(uname, "SuperAdmin")
 				|| SecurityDAO.isUserAuthorised(uname, "ClientSuperAdmin")) {
 	%>
 	<li id="liMenu" data-role="collapsible" data-enhanced="true"

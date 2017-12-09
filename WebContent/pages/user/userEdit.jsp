@@ -69,7 +69,7 @@
 }
 
 .flipswitchActive.ui-flipswitch.ui-flipswitch-active {
-	background-color: #2E64FE;
+	background-color:#3eb249;
 	color: rgb(248, 182, 36) !important;
 	padding-left: 5em;
 	width: 1.875em;

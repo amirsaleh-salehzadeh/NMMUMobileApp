@@ -69,7 +69,6 @@ function saveMarker() {
 			locationTypeId : $("#locationTypeId").val(),
 			locationId : $("#markerId").val(),
 			description : $("#locationDescription").val(),
-			address : "",
 			plan : "",
 			boundary : $("#boundary").val(),
 			userName : "NMMU"

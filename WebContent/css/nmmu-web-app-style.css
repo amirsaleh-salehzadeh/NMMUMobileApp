@@ -814,10 +814,23 @@ table.dataTable,table.dataTable th,table.dataTable td {
 		margin-top: 0.5em;
 	}
 }
+.userMenu {
+	color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+		text-shadow: none !important;
+		border-color:rgb(248, 182, 36) !important;
+		border-top:0;
+		border-left:0;
+		border-right:0;
+		border-bottom:2px solid;
+		margin:0;
+}
 .ui-btn{
 	color: rgb(248, 182, 36) !important;
 	background-color: rgba(8, 27, 44, 1) !important;
 		text-shadow: none !important;
+		border-color:rgb(248, 182, 36) !important;
+	
 }
 .ui-btn-active {
 	color: rgb(248, 182, 36) !important;
@@ -829,5 +842,42 @@ textarea.ui-input-text.ui-textinput-autogrow{
 	color: rgb(248, 182, 36) !important;
 	background-color: rgba(8, 27, 44, 1) !important;
 		text-shadow: none !important;
+}
+.ui-btn:hover {
+ color: rgb(248, 182, 36) !important;
+	background-color: #383c40!important;
+		text-shadow: none !important;
+} 
+	#btnMenu:hover {
+ color: rgb(248, 182, 36) !important;
+	background-color: #383c40!important;
+		text-shadow: none !important;
+}
+#btnHeading:hover{
+ color: rgb(248, 182, 36) !important;
+	background-color: #383c40!important;
+		text-shadow: none !important;
+}
+.menuicon:hover{
+ color: rgb(248, 182, 36) !important;
+	background-color: #383c40!important;
+		text-shadow: none !important;
+}
+#mainBodyMenuSettingBTN:hover{
+ color: rgb(248, 182, 36) !important;
+	background-color: #383c40!important;
+		text-shadow: none !important;
+}
+.ui-listview>.ui-li-static{
+		color: rgb(248, 182, 36) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+		text-shadow: none !important;
+		border-color:rgb(248, 182, 36) !important;
 	
+}
+.ui-listview>.ui-li-static:hover{
+	color: rgb(248, 182, 36) !important;
+	background-color: #383c40!important;
+		text-shadow: none !important;
+
 }

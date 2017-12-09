@@ -96,7 +96,6 @@ function drawApath(l) {
 	pathPolyline.id = l.pathId;
 	pathPolyline.addListener('click', function(event) {
 		if (pathSelected){
-			$('#pathTypePopup').fadeOut();
 			if (paths != null){
 				for ( var i = 0; i < paths.length; i++) {
 					if (paths[i] != null) {
@@ -113,8 +112,7 @@ function drawApath(l) {
 		else {
 			var lat = event.latLng.lat();
 			var lng = event.latLng.lng();
-			showPathTypeMenu();
-			pathEditPanelOpen();
+			pathEditPanelOpen(l.pathName);
 			if ($('#destination').val().length <= 0
 					&& $('#departure').val().length > 0) {
 				createAPointOnAnExistingPath(l, lat + "," + lng, this);
@@ -157,7 +155,7 @@ function drawApath(l) {
 				tmpIntersectionMarker.setPosition(pos);
 			google.maps.event.addListener(tmpIntersectionMarker, "click",
 					function(event) {
-						showPathTypeMenu();
+				openPathTypePopup();
 						createAPointOnAnExistingPath(l, {
 							x : parseFloat(lat),
 							y : parseFloat(lng)

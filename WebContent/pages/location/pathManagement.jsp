@@ -11,18 +11,16 @@
 	$(document).ready(function() {
 		// 		selectRightPanelVal();
 		$("#editBoundaryPopup").css("display", "none");
-		$("#rightpanel").trigger("updatelayout");
+		$("#editPathPopup").css("display", "none");
 		$(".liLocationLV").each(function() {
 			$(this).bind('onclick', function(e) {
 				alert('Selected Name=' + $(this).attr('value'));
 			});
 		});
 	});
-	function showHideSettingsMenu() {
-		$("#openLocationEditMenu").trigger("click");
-
-	}
 </script>
+
+
 <link href="css/location/colorpicker.css" rel="stylesheet">
 <link href="css/location/croppie.css" rel="stylesheet">
 <link href="css/location/management/management.css" rel="stylesheet">
@@ -32,58 +30,77 @@
 <link href="css/location/management/toolbox.management.css"
 	rel="stylesheet">
 </head>
-<input type="hidden" id="parentLocationId" value="360">
-<input type='hidden' id='locationTypeId' value="0">
-<input type='hidden' id='parentLocationTypeId' value="0">
-<input type="hidden" name="destinationId" id="destinationId">
-<input type="hidden" name="destinationGPS" id="destinationGPS">
-<input type="hidden" name="departureId" id="departureId">
-<input type="hidden" name="departureGPS" id="departureGPS">
-<input type="hidden" name="pathId" id="pathId">
-<input type="hidden" name="markerCoordinate" id="markerCoordinate">
-<input type="hidden" name="markerId" id="markerId">
-<input type="hidden" id="pathLatLng">
-<input type="hidden" name="pathTypeIds" id="pathTypeIds">
-<input type="hidden" name="tempBoundaryColors" id="tempBoundaryColors">
-<input type="hidden" name="icon" id="icon" value="">
-<input type="hidden" name="boundary" id="boundary" value="">
+
+
+
+<!-- HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS  -->
+
+
+
+<input type="hidden" readonly  id="parentLocationId" value="360">
+<input type='hidden' readonly  id='locationTypeId' value="0">
+<input type='hidden' readonly id='parentLocationTypeId' value="0">
+<input type='hidden' readonly name="destinationId" id="destinationId">
+<input type='hidden' readonly name="destinationGPS" id="destinationGPS">
+<input type='hidden' readonly name="departureId" id="departureId">
+<input type='hidden' readonly name="departureGPS" id="departureGPS">
+<input type='hidden' readonly name="pathId" id="pathId">
+<input type='hidden' readonly name="markerCoordinate" id="markerCoordinate">
+<input type='hidden' readonly name="markerId" id="markerId">
+<input type='hidden' readonly id="pathLatLng">
+<input type='hidden' readonly name="pathTypeIds" id="pathTypeIds">
+<input type='hidden' readonly name="tempBoundaryColors" id="tempBoundaryColors">
+<input type='hidden' readonly name="icon" id="icon" value="">
+<input type='hidden' readonly name="boundary" id="boundary" value="">
+
+
+
+
+<!-- TOP PANEL ICONS TOP PANEL ICONS TOP PANEL ICONS TOP PANEL ICONS TOP PANEL ICONS TOP PANEL ICONS TOP PANEL ICONS TOP PANEL ICONS TOP PANEL ICONS  -->
+
 
 <div class="ui-block-solo" id="mapSatelViewIcon"
 	style="width: inherit; padding: 3px; margin: 2px;"
 	onclick="mapSattelView();">
-	<img alt="" src="images/icons/satellite.png" width="32" height="32"
+	<img alt="" src="images/icons/satellite.png" width="48" height="48"
 		id="mapSatelViewImage" />
 </div>
 
 <a href="#" data-mini="true" data-role="button"
 	class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
-	id="openLocationEditMenu"><img width='24' height='24'
+	id="openLocationEditMenu"><img width='32' height='32'
 	src='images/icons/add.png'>NEW</a>
 <a href="#pathEditPanel" data-role="button" style="display: none;"
 	id="pathEditPanelBTN"></a>
 
 
 
-<!-- SEARCH FEILD RIGHT SIDE -->
+<!-- PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT  -->
 
 
 
 <fieldset data-role="controlgroup" data-mini="true"
 	data-type="horizontal" name="optionType" id="locPathModeRadiobtn">
+	<!-- 	AREA -->
 	<label for="marker" class="ui-icon-map-marker"><span
 		class="inlineIcon" id="modeSelection_locationText">CAMPUS</span></label> <input
 		type="radio" name="radio-choice" id="marker" value="marker"
-		checked="checked" onclick="selectActionType();"> <label
-		for="path" class="ui-icon-map-path"><span
+		checked="checked" onclick="selectActionType();">
+	<!-- 		PATH -->
+	<label for="path" class="ui-icon-map-path"><span
 		class="ui-alt-icon inlineIcon">PATH</span></label> <input type="radio"
 		name="radio-choice" id="path" value="path"
 		onclick="selectActionType();">
 </fieldset>
+
+
+
 <div id="infoDiv" class="ui-block-solo">
 	<ul data-role="listview" id="infoListView">
 	</ul>
+<!-- 		<label for="locationInfo">Location </label> -->
+		<div id="locationInfo" class=""></div>
 </div>
-
 
 
 <!-- LOCATION EDIT MENU LOCATION EDIT MENU LOCATION EDIT MENU LOCATION EDIT MENU -->
@@ -100,13 +117,15 @@
 		<li data-icon="false"><a href="#"
 			onclick="openLocationInfoPopup();">Edit Info</a></li>
 		<li data-icon="false"><a href="#"
-			onclick="showHideMainBoundary();">Edit Boundary</a></li>
+			onclick="showHideMainBoundary();">Edit Boundary </a></li>
 		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit
 				Thumbnail</a></li>
 		<li data-role="list-divider"></li>
 		<li data-icon="false"><a href="#">Delete</a></li>
 		<li data-role="list-divider"></li>
-		<li data-icon="false"><a href="#">Print Barcode</a></li>
+		<li data-icon="false"><a href="#"
+			onclick="printBarcode($('#markerId').val(),$('#markerName').val());">Print
+				QR</a></li>
 		<li data-role="list-divider"></li>
 		<li><a href="#" data-rel="back" class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left" onclick="unselectBoundary();">Close</a></li>
 	</ul>
@@ -160,7 +179,7 @@
 			id="markerName" value="">
 	</div>
 	<div class="ui-block-solo editlocationFormRow">
-		<label for="locationDescription" id="DescriptionLabel">Description</label>
+		<label for="locationDescription">Description</label>
 		<textarea type="text" placeholder="Description"
 			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
 	</div>
@@ -175,119 +194,6 @@
 				onclick="closeAMenuPopup();">Close</a>
 		</div>
 	</div>
-</div>
-
-
-
-<!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
-
-
-
-<!-- <div id="locationEditPanel" class="ui-grid-solo rightSidePanel"> -->
-<!-- 	<div class="ui-block-solo editlocationFormRow" -->
-<!-- 		onclick="showHideMainBoundary();"> -->
-<!-- 		<img src="images/icons/polygon.png" id="editBoundaryIcon" width="48" -->
-<!-- 			height="48" style="cursor: pointer;" />Edit Boundary -->
-
-<!-- 	</div> -->
-<!-- 	<div class="ui-block-solo editlocationFormRow" -->
-<!-- 		onclick="$('#editIconPopup').popup('open');" id="locationIcon"> -->
-<!-- 		<img src="images/icons/image.png" id="editIconIcon" width="48" -->
-<!-- 			height="48" style="cursor: pointer;" />Edit Thumbnail -->
-<!-- 	</div> -->
-
-<!-- 	<div class="ui-block-solo editlocationFormRow" -->
-<!-- 		onclick="" id="calendarIcon"> -->
-<!-- 		<img src="images/icons/calendar.png" id="editIconIcon" width="48" -->
-<!-- 			height="48" style="cursor: pointer;" />Schedule Access  -->
-<!-- 	</div> -->
-
-<!-- 	<div class="ui-grid-a editlocationFormRow"> -->
-<!-- 		<div class="ui-block-a"> -->
-<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-<!-- 				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a> -->
-<!-- 		</div> -->
-<!-- 		<div class="ui-block-b"> -->
-<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-<!-- 				class="pathMenu ui-btn ui-shadow cancel-icon " -->
-<!-- 				onclick="removeMarker()">Remove</a> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- 	<a style="cursor: pointer;" data-role="button" href="#" -->
-<!-- 		class="pathMenu ui-btn ui-shadow save-icon editlocationFormRow" -->
-<!-- 		onclick="printBarcode($('#markerId').val(),$('#markerName').val())">Print -->
-<!-- 		Barcode</a> -->
-<!-- </div> -->
-
-
-<!-- INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP INSERT PATH POPUP -->
-
-
-<div data-role="panel" id="pathEditPanel" data-position="right"
-	data-display="overlay"
-	class="ui-panel ui-panel-position-right ui-panel-display-overlay 
-	ui-panel-animate ui-panel-open rightSidePanel"
-	data-dismissible="false" data-swipe-close="false">
-	<div class="ui-block-solo editlocationFormRow "
-		style="white-space: nowrap;">
-		<label for="pathWidth">Path Width (Meters)</label>
-		<div class="ui-field-contain">
-			<input class="pathMenu" type="range" placeholder="Label"
-				name="pathWidth" id="pathWidth" value="5" min="0" max="50">
-		</div>
-	</div>
-	<div class="ui-block-solo editlocationFormRow">
-		<label for="departure">From</label> <input type="text"
-			placeholder="From" class="pathMenu" name="departure" id="departure"
-			value="">
-	</div>
-	<div class="ui-block-solo editlocationFormRow">
-		<label for="destination">To</label> <input type="text"
-			placeholder="To" class="pathMenu" name="destination" id="destination"
-			value="">
-	</div>
-	<div class="ui-block-solo editlocationFormRow">
-		<label for="pathLength">Path Length</label> <span id="pathLength"></span>
-	</div>
-	<div class="ui-block-solo editlocationFormRow">
-		<label for="pathName">Label</label> <input class="pathMenu"
-			type="text" placeholder="Label" name="pathName" id="pathName"
-			value="">
-	</div>
-	<div class="ui-block-solo editlocationFormRow pathMenu">
-		<label for="pathDescription" id="DescriptionLabel">Description</label>
-		<textarea type="text" placeholder="Description" name="pathDescription"
-			id="pathDescription" value="" rows="5"></textarea>
-	</div>
-	<div class="ui-grid-a editlocationFormRow">
-		<div class="ui-block-a">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
-		</div>
-		<div class="ui-block-b">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow cancel-icon "
-				onclick="removePath()">Remove</a>
-		</div>
-	</div>
-	<a href="#" onclick="pathEditPanelClose()"
-		class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow"
-		id="closeLocationEditMenu">Close Settings</a>
-</div>
-
-
-<!-- MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP  -->
-
-
-<div id="map_canvas"></div>
-
-
-<!-- LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING  -->
-
-
-<div id="loadingOverlay">
-	<div class="markerLoading" style="display: none;"></div>
-	<span id="loadingContent" style="display: none;"></span>
 </div>
 
 
@@ -335,13 +241,13 @@
 
 
 
-<div id="editBoundaryPopup" class="ui-grid-a toolBar">
+<div id="editBoundaryPopup" class="toolBar">
 	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
 		height="48" title="Normal Mode" onclick="removeDrawingMode()">
-<!-- 	<img src='images/icons/polygon-select.png' width="48" height="48" -->
-<!-- 		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" /> -->
+	<img src='images/icons/polygon-select.png' width="48" height="48"
+		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
 	<img src='images/icons/edit.png' width="48" height="48" id="editBoundary"
-		class="pathMenu" title="Edit Boundary Points" onclick="editPolygon(DRAWPolygon)"/>
+		class="pathMenu" title="Edit Boundary Points"/>
 	<img src='images/icons/delete-icon.png' width="48" height="48"
 		class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
 	<div id="boundaryColorFieldset">
@@ -368,6 +274,140 @@
 	</div>
 </div>
 
+<!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
+
+
+
+<!-- 		<img src="images/icons/polygon.png" id="editBoundaryIcon" width="48" -->
+<!-- 			height="48" style="cursor: pointer;" />Edit Boundary -->
+
+<!-- 		<img src="images/icons/image.png" id="editIconIcon" width="48" -->
+<!-- 			height="48" style="cursor: pointer;" />Edit Thumbnail -->
+
+<!-- 	<div class="ui-block-solo editlocationFormRow" -->
+<!-- 		onclick="" id="calendarIcon"> -->
+<!-- 		<img src="images/icons/calendar.png" id="editIconIcon" width="48" -->
+<!-- 			height="48" style="cursor: pointer;" />Schedule Access  -->
+<!-- 	</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU -->
+
+
+
+
+<div data-role="popup" id="pathEditMenu" data-mini="true">
+	<ul data-role="listview" style="min-width: 210px;">
+		<li data-role="list-divider" id="pathEditMenuTitle">Choose an
+			action</li>
+		<li data-icon="false"><a href="#" onclick="openPathTypePopup();">Edit
+				Path Type</a></li>
+		<li data-icon="false"><a href="#" onclick="openPathInfoPopup();">Edit
+				Info</a></li>
+		<li data-icon="false"><a href="#"><label for="pathWidth">Path
+					Width (Meters)</label> <input type="range" placeholder="Label"
+				name="pathWidth" id="pathWidth" value="5" min="0" max="50">
+		</a></li>
+		<!-- 		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit -->
+		<!-- 				Thumbnail</a></li> -->
+		<li data-role="list-divider"></li>
+		<li data-icon="false"><a href="#" onclick="removePath();">Delete</a></li>
+	</ul>
+</div>
+
+
+
+<!-- PATH INFO POPUP PATH INFO POPUP PATH INFO POPUP PATH INFO POPUP PATH INFO POPUP -->
+
+
+
+<div data-role="popup" id="editPathInfoPopup" class="menuItemPopupClass">
+	<a href="#" data-role="button" data-theme="a" data-icon="delete"
+		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
+		onclick="$('#editPathInfoPopup').popup('close'); ">Close</a>
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="pathName" id="markerLabel">Label</label> <input
+			class="pathMenu" type="text" placeholder="Label" name="pathName"
+			id="pathName" value="">
+	</div>
+	<div class="ui-block-solo editlocationFormRow">
+		<label for="pathDescription">Description</label>
+		<textarea type="text" placeholder="Description" name="pathDescription"
+			id="pathDescription" value="" rows="5"></textarea>
+	</div>
+	<div class="ui-grid-a editlocationFormRow">
+		<div class="ui-block-a">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
+		</div>
+		<div class="ui-block-b">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="closeAMenuPopup();">Close</a>
+		</div>
+	</div>
+</div>
+
+
+
+<div id="editPathPopup" class="ui-grid-b toolBar">
+	<div class="ui-block-a">
+		<input type="text" placeholder="From (Departure)" name="departure"
+			id="departure" value="" readonly >
+	</div>
+	<div class="ui-block-b">
+		<input type="text" placeholder="To (Destination)" name="destination"
+			id="destination" value="" readonly >
+	</div>
+	<div class="ui-block-c">
+		<label for="pathLength">Length </label> <span id="pathLength"></span>
+	</div>
+</div>
+<!-- 	<div class="ui-grid-a editlocationFormRow"> -->
+<!-- 		<div class="ui-block-a"> -->
+<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
+<!-- 				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a> -->
+<!-- 		</div> -->
+<!-- 		<div class="ui-block-b"> -->
+<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
+<!-- 				class="pathMenu ui-btn ui-shadow cancel-icon " -->
+<!-- 				onclick="removePath()">Remove</a> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- 	<a href="#" onclick="pathEditPanelClose()" -->
+<!-- 		class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow" -->
+<!-- 		id="closeLocationEditMenu">Close Settings</a> -->
+
+
+
+<!-- MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP  -->
+
+
+
+<div id="map_canvas"></div>
+
+
+
+<!-- LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING LOADING  -->
+
+
+
+<div id="loadingOverlay">
+	<div class="markerLoading" style="display: none;"></div>
+	<span id="loadingContent" style="display: none;"></span>
+</div>
+
 
 
 <!-- MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL MARKER LABEL -->
@@ -382,7 +422,10 @@
 
 
 
-<div id="pathTypePopup" class="ui-grid-solo">
+<div id="editPathTypePopup" data-role="popup" class="menuItemPopupClass">
+	<a href="#" data-role="button" data-theme="a" data-icon="delete"
+		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
+		onclick="$('#editPathTypePopup').popup('close'); ">Close</a>
 	<logic:iterate id="pathTIteration" name="pathTypes"
 		type="common.location.PathTypeENT">
 		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
@@ -390,6 +433,17 @@
 			title="<%=pathTIteration.getPathType()%>"
 			onclick="selectIcon('<%=pathTIteration.getPathTypeId()%>');">
 	</logic:iterate>
+	<div class="ui-grid-a editlocationFormRow">
+		<div class="ui-block-a">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveThePath()">Save</a>
+		</div>
+		<div class="ui-block-b">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="closeAMenuPopup();">Close</a>
+		</div>
+	</div>
 </div>
 
 
