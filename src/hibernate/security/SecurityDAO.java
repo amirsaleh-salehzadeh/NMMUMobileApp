@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.apache.tomcat.util.security.MD5Encoder;
+
 import com.mysql.jdbc.Statement;
 
 import common.security.GroupENT;
@@ -20,6 +22,7 @@ import common.user.UserPassword;
 import hibernate.config.BaseHibernateDAO;
 import tools.AMSException;
 import tools.AMSUtililies;
+import tools.MD5Encryptor;
 
 public class SecurityDAO extends BaseHibernateDAO implements
 		SecurityDAOInterface {
@@ -28,10 +31,16 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		SecurityDAO udao = new SecurityDAO();
 		try {
 			RoleENT r = udao.getRole(new RoleENT("SuperAdmin"));
+			UserPassword test = new UserPassword();
+			test.setUserName("testersss");
+			test.setUserPassword("number");
+			udao.register(test);
+
 			System.out.println(r.getComment());
 		} catch (AMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -335,24 +344,24 @@ public class SecurityDAO extends BaseHibernateDAO implements
 				e.printStackTrace();
 			}
 			String query = "";
-			query = "select * from users where username = "
-					+ userPassword.getUserName();
+			query = "select * from users where username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, userPassword.getUserName());
 			ResultSet rs = ps.executeQuery();
 			if (rs.next())
 				throw new AMSException("The username already exist");
-			query = "insert into users (username, password) values (? ,?)";
-			ps = conn.prepareStatement(query);
-			ps.execute();
-			while (rs.next()) {
-				rs.getString("category_role");
-			}
 			rs.close();
+			query = "insert into users(username, password) values (?, ?)";
+			ps.clearBatch();
+			ps = conn.prepareStatement(query);
+			ps.setString(1, userPassword.getUserName());
+			ps.setString(2, MD5Encryptor.encode(userPassword.getUserPassword()));
+			ps.execute();
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			throw getAMSException(AMSEX_SAVE, e);
 		}
 		return userPassword;
 	}
@@ -364,7 +373,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		try {
 			con = getConnection();
 			// checks if user in the database
-			String query = "SELECT * FROM users where ?";
+			String query = "SELECT * FROM users where username=?";
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, userName);
 			ResultSet rs = ps.executeQuery();
@@ -468,9 +477,9 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		try {
 			// inner join query to get all the roles
 			con = getConnection();
-			String query = "SELECT g.* FROM group_roles g " +
-					"left join roles r on g.role_name = r.role_name" +
-					" where g.group_id = ? ";
+			String query = "SELECT g.* FROM group_roles g "
+					+ "left join roles r on g.role_name = r.role_name"
+					+ " where g.group_id = ? ";
 			ps = con.prepareStatement(query);
 			ps.setInt(1, gid);
 			rs = ps.executeQuery();
