@@ -117,7 +117,7 @@
 		<li data-icon="false"><a href="#"
 			onclick="openLocationInfoPopup();">Edit Info</a></li>
 		<li data-icon="false"><a href="#"
-			onclick="showHideMainBoundary();">Edit Boundary </a></li>
+			onclick="showMainBoundary();">Edit Boundary </a></li>
 		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit
 				Thumbnail</a></li>
 		<li data-role="list-divider"></li>
@@ -269,7 +269,7 @@
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow cancel-icon "
-				onclick="showHideMainBoundary();unselectBoundary();">Close</a>
+				onclick="hideMainBoundary();unselectBoundary();">Close</a>
 		</div>
 	</div>
 </div>
