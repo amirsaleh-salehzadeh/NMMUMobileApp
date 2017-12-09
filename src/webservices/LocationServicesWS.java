@@ -232,7 +232,6 @@ public class LocationServicesWS {
 			@FormParam("locationTypeId") String locationTypeId,
 			@FormParam("locationName") String locationName,
 			@FormParam("userName") String userName,
-			@FormParam("address") String address,
 			@FormParam("coordinate") String coordinate,
 			@FormParam("description") String description,
 			@FormParam("boundary") String boundary,

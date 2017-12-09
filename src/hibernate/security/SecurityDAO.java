@@ -26,6 +26,13 @@ public class SecurityDAO extends BaseHibernateDAO implements
 
 	public static void main(String[] args) {
 		SecurityDAO udao = new SecurityDAO();
+		try {
+			RoleENT r = udao.getRole(new RoleENT("SuperAdmin"));
+			System.out.println(r.getComment());
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public RoleENT saveUpdateRole(RoleENT role, Connection conn)
@@ -228,6 +235,7 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 			throw getAMSException("", e);
 		}
+
 	}
 
 	public void saveUpdateRolesGroup(ArrayList<RoleENT> roles, GroupENT group)
@@ -351,46 +359,162 @@ public class SecurityDAO extends BaseHibernateDAO implements
 
 	public boolean checkUsernameValidity(String userName) throws AMSException {
 		// TODO Auto-generated method stub
-		return false;
+		Boolean ans = false;
+		Connection con = null;
+		try {
+			con = getConnection();
+			// checks if user in the database
+			String query = "SELECT * FROM users where ?";
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, userName);
+			ResultSet rs = ps.executeQuery();
+			// if found then return true else return false
+			if (rs.next()) {
+				ans = true;
+			}
+
+			rs.close();
+			ps.close();
+			con.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+
+		return ans;
+
 	}
 
 	public GroupENT saveUpdateGroup(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub not this
 		return null;
 	}
 
 	public GroupENT getGroup(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = getConnection();
+			String query = "SELECT * FROM groups where group_id =  ?";
+
+			ps = con.prepareStatement(query);
+			ps.setInt(1, group.getGroupID());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				GroupENT newone = new GroupENT(rs.getInt("group_id"),
+						rs.getString("group_name"), rs.getInt("client_id"),
+						rs.getString("comment"));
+				ps.close();
+				rs.close();
+				return newone;
+			}
+			ps.close();
+			rs.close();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+		return new GroupENT();
 	}
 
 	public boolean deleteRoles(ArrayList<RoleENT> roles) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
+		Connection con = null;
+		Boolean happens = false;
+		PreparedStatement ps = null;
+
+		try {
+			con = getConnection();
+			for (RoleENT role : roles) {
+				String query = " DELETE FROM roles where role_name = ?";
+				ps = con.prepareStatement(query);
+				ps.setString(1, role.getRoleName());
+				happens = ps.execute();
+				ps.close();
+			}
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+
+		}
+
+		return happens;
+
 	}
 
 	public boolean deleteGroups(ArrayList<GroupENT> groups) throws AMSException {
-		// TODO Auto-generated method stub
-		return false;
+		Boolean happens = false;
+		try {
+			for (GroupENT group : groups) {
+				happens = deleteGroup(group);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+
+		}
+
+		return happens;
 	}
 
 	public ArrayList<RoleENT> getAllRolesForAGroup(int gid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<RoleENT> res = new ArrayList<RoleENT>();
+		try {
+			// inner join query to get all the roles
+			con = getConnection();
+			String query = "SELECT g.* FROM group_roles g " +
+					"left join roles r on g.role_name = r.role_name" +
+					" where g.group_id = ? ";
+			ps = con.prepareStatement(query);
+			ps.setInt(1, gid);
+			rs = ps.executeQuery();
 
-	public RoleENT saveUserRole(RoleENT role) throws AMSException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			while (rs.next()) {
+				res.add(new RoleENT(rs.getString("role_name")));
 
-	public GroupENT saveUserGroup(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub
-		return null;
+			}
+			ps.close();
+			rs.close();
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return res;
 	}
 
 	public boolean saveGroupRole(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "delete from group_roles where group_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, group.getGroupID());
+			ps.execute();
+			query = "insert into group_roles (group_id, role_name) values (?,?)";
+			for (int i = 0; i < group.getGroupRoles().size(); i++) {
+				ps = conn.prepareStatement(query);
+				ps.setInt(1, group.getGroupID());
+				ps.setString(2, group.getGroupRoles().get(i).getRoleName());
+				ps.execute();
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
 		return false;
 	}
 

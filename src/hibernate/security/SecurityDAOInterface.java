@@ -37,10 +37,6 @@ public interface SecurityDAOInterface {
 	public void changePassword(String oldPass, String newPass, String username)
 			throws AMSException;
 
-	public RoleENT saveUserRole(RoleENT role) throws AMSException;
-
-	public GroupENT saveUserGroup(GroupENT group) throws AMSException;
-
 	public boolean saveGroupRole(GroupENT group) throws AMSException;
 
 	// public ArrayList<UserRoleENT> getUserRoles(RoleENT role) throws
