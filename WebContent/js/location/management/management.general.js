@@ -51,8 +51,6 @@ function selectActionType() {
 	} else {
 		$("#locationTypeListViewDiv").css("display", "none");
 		$("#pathTypeListViewDiv").css("display", "block");
-		$("#pathEditPanelBTN").trigger("click");
-		$("#openLocationEditMenu").attr("href","#pathEditPanel");
 		getAllPaths(false);
 		showPathInfo();
 	}

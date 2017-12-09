@@ -202,9 +202,6 @@
 	class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
 	id="openLocationEditMenu"><img width='32' height='32'
 	src='images/icons/add.png'>NEW</a>
-<a href="#pathEditPanel" data-role="button" style="display: none;"
-	id="pathEditPanelBTN"></a>
-
 
 
 <!-- PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT  -->
@@ -408,6 +405,8 @@
 		</div>
 	</div>
 </div>
+
+
 
 <!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
 

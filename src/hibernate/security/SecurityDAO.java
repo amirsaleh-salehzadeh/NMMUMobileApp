@@ -358,7 +358,6 @@ public class SecurityDAO extends BaseHibernateDAO implements
 	}
 
 	public boolean checkUsernameValidity(String userName) throws AMSException {
-		// TODO Auto-generated method stub
 		Boolean ans = false;
 		Connection con = null;
 		try {
