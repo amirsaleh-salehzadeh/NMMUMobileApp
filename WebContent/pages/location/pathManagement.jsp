@@ -107,7 +107,7 @@
 
 
 
-<div data-role="popup" id="locationEditMenu" data-mini="true">
+<div data-role="popup" id="locationEditMenu" data-mini="true" data-dismissible="false">
 	<ul data-role="listview" style="min-width: 210px;">
 		<li data-role="list-divider" id="locationEditMenuTitle">Choose an
 			action</li>
@@ -117,7 +117,7 @@
 		<li data-icon="false"><a href="#"
 			onclick="openLocationInfoPopup();">Edit Info</a></li>
 		<li data-icon="false"><a href="#"
-			onclick="showHideMainBoundary();">Edit Boundary </a></li>
+			onclick="showMainBoundary();">Edit Boundary </a></li>
 		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit
 				Thumbnail</a></li>
 		<li data-role="list-divider"></li>
@@ -126,6 +126,8 @@
 		<li data-icon="false"><a href="#"
 			onclick="printBarcode($('#markerId').val(),$('#markerName').val());">Print
 				QR</a></li>
+		<li data-role="list-divider"></li>
+		<li><a href="#" data-rel="back" class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left" onclick="unselectBoundary();">Close</a></li>
 	</ul>
 </div>
 
@@ -139,7 +141,7 @@
 	class="menuItemPopupClass">
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
-		onclick="$('#editLocationTypePopup').popup('close'); ">Close</a>
+		onclick="$('#editLocationTypePopup').popup('close');unselectBoundary();">Close</a>
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="locationType" id="locationTypeLabel"></label>
 		<div class="ui-field-contain">
@@ -170,7 +172,7 @@
 	class="menuItemPopupClass">
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
-		onclick="$('#editLocationInfoPopup').popup('close'); ">Close</a>
+		onclick="$('#editLocationInfoPopup').popup('close');unselectBoundary();">Close</a>
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="markerName" id="markerLabel">Label</label> <input
 			class="pathMenu" type="text" placeholder="Label" name="markerName"
@@ -205,7 +207,7 @@
 	class="menuItemPopupClass">
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
-		onclick="$('#editIconPopup').popup('close'); ">Close</a>
+		onclick="$('#editIconPopup').popup('close');unselectBoundary();">Close</a>
 	<div class="pathMenu editlocationFormRow" id="IconCollapsible">
 		<label>Icon</label>
 		<div class="ui-block-solo" id="iconDiv">
@@ -241,10 +243,12 @@
 
 <div id="editBoundaryPopup" class="toolBar">
 	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
-		height="48" title="Free Select Mode" onclick="removeDrawingMode()">
+		height="48" title="Normal Mode" onclick="removeDrawingMode()">
 	<img src='images/icons/polygon-select.png' width="48" height="48"
-		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" /> <img
-		src='images/icons/delete-icon.png' width="48" height="48"
+		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
+	<img src='images/icons/edit.png' width="48" height="48" id="editBoundary"
+		class="pathMenu" title="Edit Boundary Points"/>
+	<img src='images/icons/delete-icon.png' width="48" height="48"
 		class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
 	<div id="boundaryColorFieldset">
 		<span>Fill Colour</span>
@@ -265,7 +269,7 @@
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow cancel-icon "
-				onclick="showHideMainBoundary();unselectBoundary()">Close</a>
+				onclick="hideMainBoundary();unselectBoundary();">Close</a>
 		</div>
 	</div>
 </div>

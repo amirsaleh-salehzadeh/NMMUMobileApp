@@ -130,7 +130,7 @@ function getLocationTypeImage(locationTypeId) {
 function locationEditPanelOpen(title) {
 	$("#locationEditMenuTitle").html(title);
 	$("#locationInfo").html(title);
-	
+
 	$('#locationEditMenu').popup("option", {
 		x : event.pageX,
 		y : event.pageY
@@ -241,12 +241,23 @@ function openIconPopup() {
 	$("#locationEditMenu").popup("close");
 }
 
-function showHideMainBoundary() {
+function showMainBoundary() {
+	setMapOnAllPolygons(null);
+	var i = 0;
+	for ( var int = 0; int < polygons.length; int++) {
+		if (polygons[int].id == $("#markerId").val())
+			i = int;
+	}
+	if (i > 0)
+		polygons[i].setMap(map);
 	$("#locationEditMenu").popup("close");
-	if ($("#editBoundaryPopup").css("display") == "none")
-		$("#editBoundaryPopup").css("display", "block");
-	else
-		$("#editBoundaryPopup").css("display", "none");
+	$("#editBoundaryPopup").css("display", "block");
+}
+
+function hideMainBoundary() {
+	setMapOnAllPolygons(map);
+	$("#locationEditMenu").popup("close");
+	$("#editBoundaryPopup").css("display", "none");
 }
 
 function showPathInfo() {
