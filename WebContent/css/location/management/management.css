@@ -182,3 +182,8 @@ opacity
 	background-color: rgba(248, 182, 36, 1) !important;
 	border-color: rgba(8, 27, 44, 1) !important;
 }
+#editInfoBtn{
+	height:38px !important;
+	text-align:center !important;
+	
+}

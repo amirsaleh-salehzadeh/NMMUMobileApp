@@ -94,19 +94,19 @@
 	<ul data-role="listview" style="min-width: 210px;">
 		<li data-role="list-divider" id="locationEditMenuTitle">Choose an
 			action</li>
-		<li data-icon="false"><a href="#" onclick="openALocation();">Open</a></li>
-		<li data-icon="false"><a href="#"
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo" href="#" onclick="openALocation();">Open</a></li>
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo" href="#"
 			onclick="openLocationTypePopup();">Edit Location Type</a></li>
-		<li data-icon="false"><a href="#"
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo" href="#"
 			onclick="openLocationInfoPopup();">Edit Info</a></li>
-		<li data-icon="false"><a href="#"
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo" href="#"
 			onclick="showHideMainBoundary();">Edit Boundary</a></li>
-		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo" href="#" onclick="openIconPopup();">Edit
 				Thumbnail</a></li>
 		<li data-role="list-divider"></li>
-		<li data-icon="false"><a href="#">Delete</a></li>
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo" href="#">Delete</a></li>
 		<li data-role="list-divider"></li>
-		<li data-icon="false"><a href="#">Print Barcode</a></li>
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo"  href="#">Print Barcode</a></li>
 	</ul>
 </div>
 
