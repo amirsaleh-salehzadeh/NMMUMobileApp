@@ -98,6 +98,51 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// ex.printStackTrace();
 		// throw getAMSException("", ex);
 		// }
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+				conn.setAutoCommit(false);
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "delete from users where username = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, ent.getUserName());
+			ps.execute();
+			query = "insert into users (active,client_id"
+					+ ",date_of_birth,ethnic,gender"
+					+ ",name,password,registeration_date,surname,title,username)"
+					+ " values (?,?,?,?,?,?,?,?,?,?,?)";
+			ps = conn.prepareStatement(query);
+			if (ent.isActive()) {
+				ps.setInt(1, 1);
+			} else
+				ps.setInt(1, 0);
+
+			ps.setInt(2, ent.getClientID());
+			ps.setString(3, ent.getDateOfBirth());
+			ps.setInt(4, ent.getEthnicID());
+			if (ent.isGender()) {
+				ps.setInt(5, 1);
+			} else
+				ps.setInt(5, 0);
+
+			ps.setString(6, ent.getName());
+			ps.setString(7, ent.getPassword());
+			ps.setString(8, ent.getRegisterationDate());
+			ps.setString(9, ent.getSurName());
+			ps.setInt(10, ent.getTitleID());
+			ps.setString(11, ent.getUserName());
+			ps.execute();
+			ps.close();
+			conn.commit();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+
 		return ent;
 	}
 
@@ -120,6 +165,13 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				userENT.setClientID(rs.getInt("client_id"));
 				userENT.setName(rs.getString("name"));
 				userENT.setSurName(rs.getString("surname"));
+				userENT.setActive(rs.getInt("active") == 1);
+				userENT.setEthnicID(rs.getInt("ethnic_id"));
+				userENT.setDateOfBirth(rs.getString("date_of_birth"));
+				userENT.setGender(rs.getInt("gender") == 1);
+				userENT.setTitleID(rs.getInt("title"));
+				userENT.setRegisterationDate(rs.getString("registeration_date"));
+				userENT.setPassword(rs.getString("password"));
 				userENTs.add(userENT);
 			}
 			rs.close();
@@ -129,6 +181,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 		return lst;
 	}
 
@@ -164,30 +217,29 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// } catch (HibernateException ex) {
 		// throw getAMSException("", ex);
 		// }
-		 PreparedStatement ps = null ;
-		 ResultSet rs = null ;
-		 try{
-			 Connection con = getConnection() ;
-			 String query = "SELECT * FROM ethnics" ;
-			  ps = con.prepareStatement(query) ;
-			  rs = ps.getResultSet() ;
-			  while(rs.next()){
-				 EthnicENT newone = new EthnicENT() ;
-				 newone.setEthnic(rs.getString("ethnic")) ;
-				 newone.setEthnicID(rs.getInt("ethnic_id")) ;
-				   list.add(newone) ;
-				  
-			  }
-			  con.close() ;
-			  rs.close() ;
-			  ps.close() ;
-			 
-			 
-		 }catch(Exception e){
-			 e.printStackTrace() ;
-			 throw getAMSException("", e) ;
-		 }
-		   
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			Connection con = getConnection();
+			String query = "SELECT * FROM ethnics";
+			ps = con.prepareStatement(query);
+			rs = ps.getResultSet();
+			while (rs.next()) {
+				EthnicENT newone = new EthnicENT();
+				newone.setEthnic(rs.getString("ethnic"));
+				newone.setEthnicID(rs.getInt("ethnic_id"));
+				list.add(newone);
+
+			}
+			con.close();
+			rs.close();
+			ps.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+
 		return list;
 	}
 
@@ -202,33 +254,31 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// ex.printStackTrace();
 		// throw getAMSException("", ex);
 		// }
-		 PreparedStatement ps = null ;
-		 ResultSet rs = null ;
-		 try{
-			 Connection con = getConnection() ;
-			 String query = "SELECT * FROM titles" ;
-			  ps = con.prepareStatement(query) ;
-			  rs = ps.getResultSet() ;
-			  while(rs.next()){
-				 TitleENT newone = new TitleENT() ;
-				 newone.setTitle(rs.getString("title")) ;
-				 newone.setTitleID(rs.getInt("title_id")) ;
-				   list.add(newone) ;
-				  
-			  }
-			  con.close() ;
-			  rs.close() ;
-			  ps.close() ;
-			 
-			 
-		 }catch(Exception e){
-			 e.printStackTrace() ;
-			 throw getAMSException("", e) ;
-		 }
-		   
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			Connection con = getConnection();
+			String query = "SELECT * FROM titles";
+			ps = con.prepareStatement(query);
+			rs = ps.getResultSet();
+			while (rs.next()) {
+				TitleENT newone = new TitleENT();
+				newone.setTitle(rs.getString("title"));
+				newone.setTitleID(rs.getInt("title_id"));
+				list.add(newone);
+
+			}
+			con.close();
+			rs.close();
+			ps.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+
 		return list;
-		
-		
+
 	}
 
 	public EthnicENT getEthnic(int ethnicID) throws AMSException {
@@ -243,28 +293,27 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// ex.printStackTrace();
 		// throw getAMSException("", ex);
 		// }
-		 PreparedStatement ps = null ;
-		 ResultSet rs = null ;
-		 try{
-			 Connection con = getConnection() ;
-			 String query = "SELECT * FROM ethnics where ethnic_id = ?" ;
-              ps = con.prepareStatement(query) ;
-			  ps.setInt(1, ethnicID);
-	           rs = ps.getResultSet() ;
-			  while(rs.next()){
-				 
-				 ethnic.setEthnic(rs.getString("ethnic")) ;
-				 ethnic.setEthnicID(rs.getInt("ethnic_id")) ;
-				     }
-			  con.close() ;
-			  rs.close() ;
-			  ps.close() ;
-			 
-			 
-		 }catch(Exception e){
-			 e.printStackTrace() ;
-			 throw getAMSException("", e) ;
-		 }
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			Connection con = getConnection();
+			String query = "SELECT * FROM ethnics where ethnic_id = ?";
+			ps = con.prepareStatement(query);
+			ps.setInt(1, ethnicID);
+			rs = ps.getResultSet();
+			while (rs.next()) {
+
+				ethnic.setEthnic(rs.getString("ethnic"));
+				ethnic.setEthnicID(rs.getInt("ethnic_id"));
+			}
+			con.close();
+			rs.close();
+			ps.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
 		return ethnic;
 	}
 
@@ -280,30 +329,29 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// ex.printStackTrace();
 		// throw getAMSException("", ex);
 		// }
-		
-		 PreparedStatement ps = null ;
-		 ResultSet rs = null ;
-		 try{
-			 Connection con = getConnection() ;
-			 String query = "SELECT * FROM titles where title_id = ?" ;
-			  ps = con.prepareStatement(query) ;
-			  ps.setInt(1, titleID) ;
-			  rs = ps.getResultSet() ;
-			  while(rs.next()){
-				 
-				 title.setTitle(rs.getString("title")) ;
-				 title.setTitleID(rs.getInt("title_id")) ;
-				   
-			  }
-			  con.close() ;
-			  rs.close() ;
-			  ps.close() ;
-			 
-			 
-		 }catch(Exception e){
-			 e.printStackTrace() ;
-			 throw getAMSException("", e) ;
-		 }
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			Connection con = getConnection();
+			String query = "SELECT * FROM titles where title_id = ?";
+			ps = con.prepareStatement(query);
+			ps.setInt(1, titleID);
+			rs = ps.getResultSet();
+			while (rs.next()) {
+
+				title.setTitle(rs.getString("title"));
+				title.setTitleID(rs.getInt("title_id"));
+
+			}
+			con.close();
+			rs.close();
+			ps.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
 		return title;
 	}
 
@@ -327,17 +375,18 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				userENT.setClientID(rs.getInt("client_id"));
 				userENT.setName(rs.getString("name"));
 				userENT.setSurName(rs.getString("surname"));
-				userENT.setActive(rs.getBoolean("active")) ;
-				userENT.setDateOfBirth(rs.getString("date_of_birth")) ;
+				userENT.setActive(rs.getBoolean("active"));
+				userENT.setDateOfBirth(rs.getString("date_of_birth"));
 				userENT.setEthnicID(rs.getInt("ethnic"));
-				userENT.setTitleID(rs.getInt("title")) ;
-				userENT.setRegisterationDate(rs.getString("registeration_date")) ;
-				userENT.setPassword(rs.getString("password")) ;
-				if(rs.getInt("gender") ==1){
-					userENT.setGender(true) ;
-				}else userENT.setGender(false) ;
-				
-				//Please set all attributes for a users here...
+				userENT.setTitleID(rs.getInt("title"));
+				userENT.setRegisterationDate(rs.getString("registeration_date"));
+				userENT.setPassword(rs.getString("password"));
+				if (rs.getInt("gender") == 1) {
+					userENT.setGender(true);
+				} else
+					userENT.setGender(false);
+
+				// Please set all attributes for a users here...
 			}
 			rs.close();
 			ps.close();
@@ -383,7 +432,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// } catch (HibernateException ex) {
 		// ex.printStackTrace();
 		// }
-		
+
 		return res;
 	}
 
@@ -432,7 +481,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				GroupENT g = new GroupENT(rs.getInt("group_id"),
-						rs.getString("group_name"),rs.getString("comment"));
+						rs.getString("group_name"), rs.getString("comment"));
 				res.add(g);
 			}
 			ps.close();
