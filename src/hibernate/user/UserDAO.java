@@ -498,6 +498,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				ps.setString(2, user.getUserName());
 				ps.setInt(1, user.getGroupENTs().get(i).getGroupID());
 				ps.execute();
+				query = "insert into user_roles (group_id, username) values (?,?)";
 			}
 			ps.close();
 			conn.close();
