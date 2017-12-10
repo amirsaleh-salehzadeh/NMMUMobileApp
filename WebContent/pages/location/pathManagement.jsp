@@ -50,6 +50,7 @@
 <input type='hidden' readonly id="pathLatLng">
 <input type='hidden' readonly name="pathTypeIds" id="pathTypeIds">
 <input type='hidden' readonly name="tempBoundaryColors" id="tempBoundaryColors">
+<input type='hidden' readonly name="boundaryColors" id="boundaryColors">
 <input type='hidden' readonly name="icon" id="icon" value="">
 <input type='hidden' readonly name="boundary" id="boundary" value="">
 
@@ -242,31 +243,37 @@
 
 
 <div id="editBoundaryPopup" class="toolBar">
-	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
-		height="48" title="Normal Mode" onclick="removeDrawingMode()">
-	<img src='images/icons/polygon-select.png' width="48" height="48"
-		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
-	<img src='images/icons/edit.png' width="48" height="48" id="editBoundary"
-		class="pathMenu" title="Edit Boundary Points"/>
-	<img src='images/icons/delete-icon.png' width="48" height="48"
-		class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
-	<div id="boundaryColorFieldset">
-		<span>Fill Colour</span>
-		<div id="colorSelectorFill">
-			<div style="background-color: #00ff00"></div>
-		</div>
-		<span>Border Colour</span>
-		<div id="colorSelectorBorder">
-			<div style="background-color: #0000ff"></div>
-		</div>
-		<div id="color-palette" style="display: none"></div>
-	</div>
-	<div class="ui-grid-a editlocationFormRow">
+	<div class="ui-grid-e editlocationFormRow">
 		<div class="ui-block-a">
+			<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
+				height="48" title="Normal Mode" onclick="removeDrawingMode()">
+			<img src='images/icons/polygon-select.png' width="48" height="48"
+				class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
+			<img src='images/icons/edit.png' width="48" height="48" id="editBoundary"
+				class="pathMenu" title="Edit Boundary Points"/>
+			<img src='images/icons/delete-icon.png' width="48" height="48"
+				class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
+		</div>
+		<div class="ui-block-b">
+			<div id="boundaryColorFieldset">
+				<span>Fill Colour</span>
+				<div id="colorSelectorFill">
+					<div style="background-color: #1E90FF"></div>
+				</div>
+				<span>Border Colour</span>
+				<div id="colorSelectorBorder">
+					<div style="background-color: #1E90FF"></div>
+				</div>
+				<div id="color-palette" style="display: none"></div>
+			</div>
+			<img src='images/icons/undo.png' class="pathMenu" width="48"
+				height="48" title="Undo Colour Change" onclick="undoColourChange()">
+		</div>
+		<div class="ui-block-c">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
 		</div>
-		<div class="ui-block-b">
+		<div class="ui-block-d">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow cancel-icon "
 				onclick="hideMainBoundary();unselectBoundary();">Close</a>
