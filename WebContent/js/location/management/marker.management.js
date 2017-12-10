@@ -99,6 +99,12 @@ function saveMarker() {
 
 var str = "";
 function getAllMarkers(parentId, refreshMarkers) {
+	if ( (parentId == 360) && (boundaryOpened == true) ){
+		boundaryOpened = false;
+	}
+	if ( (parentId == 369) && (boundaryOpened == false) ){
+		boundaryOpened = true;
+	}
 	minZoomLevel = 1;
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
@@ -163,7 +169,7 @@ function getMarkerInfo(location) {
 }
 
 function addMarker(l) {
-	if (l.locationType.locationTypeId != 5)
+	if (l.locationType.locationTypeId != 5 || l.locationType.locationTypeId != 5)
 		marker = new google.maps.Marker({
 			icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
 			hovericon : refreshMap(l.locationType.locationTypeId, l.gps,

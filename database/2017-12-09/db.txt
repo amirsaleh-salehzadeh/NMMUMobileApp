@@ -3,6 +3,7 @@ ALTER TABLE users DROP FOREIGN KEY users_ibfk_2;
 update clients set client_name = 'public' WHERE client_id = 2;
 ALTER TABLE `users` CHANGE `active` `active` TINYINT(1) NOT NULL DEFAULT '0';
 ALTER TABLE `users` CHANGE `client_id` `client_id` INT(11) NOT NULL DEFAULT '2';
+ALTER TABLE `users` CHANGE `ethnic` `ethnic` INT(11) NOT NULL;
 
 
 	

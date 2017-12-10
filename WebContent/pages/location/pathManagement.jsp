@@ -138,8 +138,7 @@ title {
 		<li id="editInfoBtn" data-icon="false"><a href="#"
 			onclick="openIconPopup();">Edit Thumbnail</a></li>
 		<li data-role="list-divider"></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo"
-			href="#">Delete</a></li>
+		<li data-icon="false"><a href="#" onclick="deletePolygon();">Delete</a></li>
 		<li data-role="list-divider"></li>
 		<li id="editInfoBtn" data-icon="false"><a href="#"
 			onclick="printBarcode($('#markerId').val(),$('#markerName').val());">Print
