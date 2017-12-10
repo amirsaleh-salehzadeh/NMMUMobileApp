@@ -7,52 +7,22 @@
 }
 
 #boundaryColorFieldset {
-	border: solid 1px;
 	display: inline-block;
-	margin: 3px !important;
 	padding: 2px;
-	max-height: 32px;
-}
-
-#boundaryColorFieldset>span {
-	vertical-align: middle !important;
+	max-height: 48px;
+	color: rgb(248, 182, 36) !important;
+	text-shadow: none;
 }
 
 .toolBar>img {
 	background-color: rgba(8, 27, 44, 1);
-	max-width: 32px;
-	max-height: 32px;
+	max-width: 48px;
+	max-height: 48px;
 	margin: 3px !important;
 	display: inline;
 	cursor: pointer;
 	border: solid 1px;
 	padding: 2px;
-}
-
-.inlineIcon {
-	display: inline-block;
-	position: relative;
-	vertical-align: middle;
-	width: auto !important;
-}
-
-#parentLocationListView {
-	position: absolute;
-	z-index: 100;
-	background-color: white;
-	width: 100%;
-}
-
-.labels {
-	color: red;
-	background-color: white;
-	font-family: "Lucida Grande", "Arial", sans-serif;
-	font-size: 10px;
-	font-weight: bold;
-	text-align: center;
-	width: 65px;
-	border: 2px solid black;
-	white-space: nowrap;
 }
 
 .color-button {

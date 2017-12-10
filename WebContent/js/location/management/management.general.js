@@ -26,18 +26,21 @@ function printBarcode(id, name) {
 function mapSattelView() {
 	if ($("#mapSatelViewImage").attr("src").indexOf("map") > 0) {
 		$("#mapSatelViewImage").attr("src", "images/icons/satellite.png");
-//		map.setMapTypeId('map_style');
 		map.setMapTypeId('mystyle');
 	}else{
 		map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
 		$("#mapSatelViewImage").attr("src", "images/icons/maps.png");
+		$("#mapSatelViewImage").attr("alt", "Map View");
+	}
+}
+function createNewButton(){
+	if ($('[name="optionType"] :radio:checked').val() == "marker") {
+	} else {
 	}
 }
 
 function selectActionType() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		$("#locationTypeListViewDiv").css("display", "block");
-		$("#pathTypeListViewDiv").css("display", "none");
 		map.setOptions({
 			draggableCursor : 'corsshair'
 		});
@@ -49,24 +52,9 @@ function selectActionType() {
 		getAllMarkers($("#parentLocationId").val(), false);
 		hidePathInfo();
 	} else {
-		$("#locationTypeListViewDiv").css("display", "none");
-		$("#pathTypeListViewDiv").css("display", "block");
 		getAllPaths(false);
 		showPathInfo();
 	}
-//	google.maps.event.addListener(map, "click", function(event) {
-//		$("#departure").val("");
-//		$("#departureId").val("");
-//		$("#destination").val("");
-//		$("#destinationId").val("");
-//		var lat = event.latLng.lat();
-//		var lng = event.latLng.lng();
-//		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-//			addAMarker(null, lat + "," + lng);
-//		} else {
-//			addAPath(null);
-//		}
-//	});
 }
 
 function getPathTypePanel() {

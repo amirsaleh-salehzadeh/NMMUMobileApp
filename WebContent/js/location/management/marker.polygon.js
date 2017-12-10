@@ -158,7 +158,7 @@ function drawPolygons(location) {
 				if (DRAWPolygon == selectedShape) {
 					clearBoundarySelection();
 				} else { // previous boundary selected but now selecting new
-							// boundary
+					// boundary
 					setBoundarySelection(DRAWPolygon);
 					addAMarker(location, location.gps);
 				}
@@ -189,11 +189,9 @@ function getArrayBoundary(boundary) {
 }
 
 function getBoundaryColour(boundary) {
-	if (boundary.length <= 1)
-		return;
 	var locationWithColourArray = boundary.split(";");
-	if (locationWithColourArray.length <= 1)
-		return "";
+	if (boundary.length <= 1 || locationWithColourArray.length <= 1)
+		return "#000000,#FFFFFF";
 	var boundaryColour = locationWithColourArray[1].split(",");
 	return boundaryColour;
 }

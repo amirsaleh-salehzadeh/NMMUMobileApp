@@ -176,7 +176,7 @@ function initMap() {
 			.getElementById('locationsUnderAType'));
 	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
 			.getElementById('editBoundaryPopup'));
-	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+	map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(document
 			.getElementById('editPathPopup'));
 //	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
 //			.getElementById('pathTypePopup'));

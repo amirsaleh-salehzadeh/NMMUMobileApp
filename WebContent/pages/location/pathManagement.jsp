@@ -17,137 +17,7 @@
 				alert('Selected Name=' + $(this).attr('value'));
 			});
 		});
-		// 		drawTest();
 	});
-
-	function drawTest() {
-		var polygons = [ [ {
-			"X" : 72,
-			"Y" : 59.45
-		}, {
-			"X" : 136,
-			"Y" : 66
-		}, {
-			"X" : 170,
-			"Y" : 99
-		}, {
-			"X" : 171,
-			"Y" : 114
-		}, {
-			"X" : 183,
-			"Y" : 125
-		}, {
-			"X" : 218,
-			"Y" : 144
-		}, {
-			"X" : 218,
-			"Y" : 165
-		}, {
-			"X" : 226,
-			"Y" : 193
-		}, {
-			"X" : 254,
-			"Y" : 195
-		}, {
-			"X" : 283,
-			"Y" : 195
-		}, {
-			"X" : 292,
-			"Y" : 202
-		}, {
-			"X" : 325,
-			"Y" : 213
-		}, {
-			"X" : 341,
-			"Y" : 234
-		}, {
-			"X" : 397,
-			"Y" : 245
-		}, {
-			"X" : 417,
-			"Y" : 248
-		} ] ];
-		var scale = 100;
-		reverse_copy(polygons);
-		polygons = scaleup(polygons, scale);
-		var cpr = new ClipperLib.Clipper();
-		var delta = 25;
-		var joinType = ClipperLib.JoinType.jtRound;
-		var miterLimit = 2;
-		var AutoFix = true;
-		var svg, offsetted_polygon, cont = document
-				.getElementById('svgcontainer');
-		offsetted_polygon = cpr.OffsetPolygons(polygons, delta * scale,
-				joinType, miterLimit, AutoFix);
-		//console.log(JSON.stringify(offsetted_polygon));
-
-		// Draw red offset polygon
-		svg = '<svg style="margin-top:10px;margin-right:10px;margin-bottom:10px;background-color:#dddddd" width="540" height="340">';
-		svg += '<path stroke="red" fill="red" stroke-width="2" stroke-opacity="0.6" fill-opacity="0.2" d="'
-				+ polys2path(offsetted_polygon, scale) + '"/>';
-
-		//Draw blue polyline
-		svg += '<path stroke="blue" stroke-width="3" d="'
-				+ polys2path(polygons, scale) + '"/>';
-		svg += '</svg>';
-
-		cont.innerHTML += svg;
-	}
-
-	// helper function to scale up polygon coordinates
-	function scaleup(poly, scale) {
-		var i, j;
-
-		if (!scale)
-			scale = 1;
-
-		for (i = 0; i < poly.length; i++) {
-			for (j = 0; j < poly[i].length; j++) {
-				poly[i][j].X *= scale;
-				poly[i][j].Y *= scale;
-			}
-		}
-
-		return poly;
-	}
-
-	// converts polygons to SVG path string
-	function polys2path(poly, scale) {
-		var path = "", i, j;
-
-		if (!scale)
-			scale = 1;
-
-		for (i = 0; i < poly.length; i++) {
-			for (j = 0; j < poly[i].length; j++) {
-				if (!j)
-					path += "M";
-				else
-					path += "L";
-				path += (poly[i][j].X / scale) + ", " + (poly[i][j].Y / scale);
-			}
-			path += "Z";
-		}
-
-		return path;
-	}
-
-	function reverse_copy(poly) {
-		// Make reverse copy of polygons = convert polyline to a 'flat' polygon ...
-		var k, klen = poly.length, len, j;
-
-		for (k = 0; k < klen; k++) {
-			len = poly[k].length;
-			poly[k].length = len * 2 - 2;
-
-			for (j = 1; j <= len - 2; j++) {
-				poly[k][len - 1 + j] = {
-					X : poly[k][len - 1 - j].X,
-					Y : poly[k][len - 1 - j].Y
-				}
-			}
-		}
-	}
 </script>
 
 
@@ -159,6 +29,11 @@
 	rel="stylesheet">
 <link href="css/location/management/toolbox.management.css"
 	rel="stylesheet">
+<style type="text/css">
+title {
+	display: none!;
+}
+</style>
 </head>
 
 
@@ -194,29 +69,27 @@
 <div class="ui-block-solo" id="mapSatelViewIcon"
 	style="width: inherit; padding: 3px; margin: 2px;"
 	onclick="mapSattelView();">
-	<img alt="" src="images/icons/satellite.png" width="48" height="48"
-		id="mapSatelViewImage" />
+	<img alt="Satellite View" src="images/icons/satellite.png" width="48"
+		height="48" id="mapSatelViewImage" class="showLabelMouseOverTrue" />
 </div>
 
-<a href="#" data-mini="true" data-role="button"
-	class="ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info"
-	id="openLocationEditMenu"><img width='32' height='32'
+<a href="#" data-mini="true" data-role="button" title=""
+	class="showLabelMouseOverTrue" id="createNewButton"
+	onclick="createNew();"><img width='27' height='27'
 	src='images/icons/add.png'>NEW</a>
 
 
-<!-- PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION SELECT  -->
-
-
-
+<!-- PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION  -->
 <fieldset data-role="controlgroup" data-mini="true"
 	data-type="horizontal" name="optionType" id="locPathModeRadiobtn">
-	<!-- 	AREA -->
-	<label for="marker" class="ui-icon-map-marker"><span
+	<div id="settingTabLabel">MANAGEMENT TAB</div>
+	<!-- 	LOCATION -->
+	<label for="marker" id="ui-icon-map-marker"><span
 		class="inlineIcon" id="modeSelection_locationText">CAMPUS</span></label> <input
 		type="radio" name="radio-choice" id="marker" value="marker"
 		checked="checked" onclick="selectActionType();">
 	<!-- 		PATH -->
-	<label for="path" class="ui-icon-map-path"><span
+	<label for="path" id="ui-icon-map-path"><span
 		class="ui-alt-icon inlineIcon">PATH</span></label> <input type="radio"
 		name="radio-choice" id="path" value="path"
 		onclick="selectActionType();">
@@ -241,17 +114,19 @@
 	<ul data-role="listview" style="min-width: 210px;">
 		<li data-role="list-divider" id="locationEditMenuTitle">Choose an
 			action</li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo" href="#" onclick="openALocation();">Open</a></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo" href="#"
-			onclick="openLocationTypePopup();">Edit Location Type</a></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo" href="#"
-			onclick="openLocationInfoPopup();">Edit Info</a></li>
-		<li id="editInfoBtn" data-icon="false"><a href="#" onclick="showMainBoundary();">Edit
-				Boundary </a></li>
-		<li  id="editInfoBtn" data-icon="false"><a href="#" onclick="openIconPopup();">Edit
-				Thumbnail</a></li>
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo"
+			href="#" onclick="openALocation();">Open</a></li>
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo"
+			href="#" onclick="openLocationTypePopup();">Edit Location Type</a></li>
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo"
+			href="#" onclick="openLocationInfoPopup();">Edit Info</a></li>
+		<li id="editInfoBtn" data-icon="false"><a href="#"
+			onclick="showMainBoundary();">Edit Boundary </a></li>
+		<li id="editInfoBtn" data-icon="false"><a href="#"
+			onclick="openIconPopup();">Edit Thumbnail</a></li>
 		<li data-role="list-divider"></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo" href="#">Delete</a></li>
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo"
+			href="#">Delete</a></li>
 		<li data-role="list-divider"></li>
 		<li id="editInfoBtn" data-icon="false"><a href="#"
 			onclick="printBarcode($('#markerId').val(),$('#markerName').val());">Print
@@ -373,34 +248,36 @@
 
 
 
-<div id="editBoundaryPopup" class="toolBar">
-	<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
-		height="48" title="Normal Mode" onclick="removeDrawingMode()"> <img
-		src='images/icons/polygon-select.png' width="48" height="48"
-		class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" /> <img
-		src='images/icons/edit.png' width="48" height="48" id="editBoundary"
-		class="pathMenu" title="Edit Boundary Points" /> <img
-		src='images/icons/delete-icon.png' width="48" height="48"
-		class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
-	<div id="boundaryColorFieldset">
-		<span>Fill Colour</span>
-		<div id="colorSelectorFill">
-			<div style="background-color: #00ff00"></div>
+<div id="editBoundaryPopup" class="toolBar ui-grid-a">
+	<div class="ui-block-a">
+		<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
+			height="48" title="Normal Mode" onclick="removeDrawingMode()">
+		<img src='images/icons/polygon-select.png' width="48" height="48"
+			class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
+		<img src='images/icons/edit.png' width="48" height="48"
+			id="editBoundary" class="pathMenu" title="Edit Boundary Points" /> <img
+			src='images/icons/delete-icon.png' width="48" height="48"
+			class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
+		<div id="boundaryColorFieldset" >
+			<span>Fill Colour</span>
+			<div id="colorSelectorFill">
+				<div style="background-color: #00ff00"></div>
+			</div>
+			<span>Border Colour</span>
+			<div id="colorSelectorBorder">
+				<div style="background-color: #0000ff"></div>
+			</div>
+			<div id="color-palette" style="display: none"></div>
 		</div>
-		<span>Border Colour</span>
-		<div id="colorSelectorBorder">
-			<div style="background-color: #0000ff"></div>
-		</div>
-		<div id="color-palette" style="display: none"></div>
 	</div>
-	<div class="ui-grid-a editlocationFormRow">
+	<div class="ui-block-b ui-grid-a editlocationFormRow">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+				class="ui-btn save-icon " onclick="saveMarker()">Save</a>
 		</div>
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow cancel-icon "
+				class="ui-btn cancel-icon "
 				onclick="hideMainBoundary();unselectBoundary();">Close</a>
 		</div>
 	</div>

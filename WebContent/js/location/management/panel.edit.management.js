@@ -130,7 +130,6 @@ function getLocationTypeImage(locationTypeId) {
 function locationEditPanelOpen(title) {
 	$("#locationEditMenuTitle").html(title);
 	$("#locationInfo").html(title);
-
 	$('#locationEditMenu').popup("option", {
 		x : event.pageX,
 		y : event.pageY

@@ -162,12 +162,8 @@ function getMarkerInfo(location) {
 }
 
 function addMarker(l) {
-	if (l.boundary != null && l.boundary.length > 2) {
-		drawPolygons(l);
-	}
 	if (l.locationType.locationTypeId != 5)
 		marker = new google.maps.Marker({
-			map : map,
 			icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
 			hovericon : refreshMap(l.locationType.locationTypeId, l.gps,
 					"hover"),
@@ -179,7 +175,6 @@ function addMarker(l) {
 		});
 	else
 		marker = new google.maps.Marker({
-			map : map,
 			icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
 			hovericon : refreshMap(l.locationType.locationTypeId, l.gps,
 					"hover"),
@@ -191,11 +186,9 @@ function addMarker(l) {
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
-		showMarkerLabel(this.getTitle());
 	});
 	google.maps.event.addListener(marker, "mouseout", function() {
 		this.setIcon(this.originalicon);
-		clearMarkerLabel();
 	});
 	marker.setLabel(null);
 	var pos = {
@@ -228,6 +221,10 @@ function addMarker(l) {
 		}
 	});
 	marker.setPosition(pos);
+	if (l.boundary != null && l.boundary.length > 2) {
+		drawPolygons(l);
+	}else
+		marker.setMap(map);
 	if (l.locationType.locationTypeId != 5)
 		markers.push(marker);
 	else {
@@ -259,7 +256,6 @@ function addAMarker(location, gps) {
 		$("#markerCoordinate").val(gps);
 		$("#boundary").val("");
 		$("#locationDescription").val("");
-		$("#openLocationEditMenu").trigger("create");
 	} else {
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(location.gps);
