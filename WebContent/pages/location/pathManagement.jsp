@@ -102,8 +102,14 @@ title {
 <div id="infoDiv" class="ui-block-solo">
 	<ul data-role="listview" id="infoListView">
 	</ul>
+	
 	<!-- 		<label for="locationInfo">Location </label> -->
-	<div id="locationInfo" class=""></div>
+	<div id="infoLocationGrid" class="ui-grid-a">
+	<label id="locationDescriptionLabel" class="ui-block-a" for="locationInfo"></label>
+	<div id="locationInfo" class="ui-block-b"></div>
+	
+	</div>
+	
 </div>
 
 
@@ -114,23 +120,23 @@ title {
 <div data-role="popup" id="locationEditMenu" data-mini="true"
 	data-dismissible="false">
 	<ul data-role="listview" style="min-width: 210px;">
-		<li data-role="list-divider" id="locationEditMenuTitle">Choose an
+		<li class="unselectable"data-role="list-divider" id="locationEditMenuTitle">Choose an
 			action</li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo"
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo open"
 			href="#" onclick="openALocation();">Open</a></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo"
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo location"
 			href="#" onclick="openLocationTypePopup();">Edit Location Type</a></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo"
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo edit"
 			href="#" onclick="openLocationInfoPopup();">Edit Info</a></li>
-		<li id="editInfoBtn" data-icon="false"><a href="#"
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo boundary" href="#"
 			onclick="showMainBoundary();">Edit Boundary </a></li>
-		<li id="editInfoBtn" data-icon="false"><a href="#"
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo thumbnail" href="#"
 			onclick="openIconPopup();">Edit Thumbnail</a></li>
 		<li data-role="list-divider"></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo"
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo delete"
 			href="#">Delete</a></li>
 		<li data-role="list-divider"></li>
-		<li id="editInfoBtn" data-icon="false"><a href="#"
+		<li id="editInfoBtn" data-icon="false"><a class="editInfo printBarcode" href="#"
 			onclick="printBarcode($('#markerId').val(),$('#markerName').val());">Print
 				QR</a></li>
 		<li data-role="list-divider"></li>

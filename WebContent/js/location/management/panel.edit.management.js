@@ -127,9 +127,11 @@ function getLocationTypeImage(locationTypeId) {
 	return icon;
 }
 
-function locationEditPanelOpen(title) {
-	$("#locationEditMenuTitle").html(title);
-	$("#locationInfo").html(title);
+function locationEditPanelOpen(title, info) {
+	$("#locationInfo").html('');
+	$("#locationEditMenuTitle").html(title +" ("+info+")");
+	$("#locationInfo").prepend(title);
+	$("#locationDescriptionLabel").html(info+":");
 	$('#locationEditMenu').popup("option", {
 		x : event.pageX,
 		y : event.pageY
