@@ -89,6 +89,7 @@ function createDrawingManager() {
 						if ($("#tempBoundaryColors").val() == "") {
 							setBoundaryFillColour("#1E90FF");
 							setBoundaryBorderColour("#1E90FF");
+							$("#tempBoundaryColors").val("1E90FF,1E90FF");
 						} else {
 							setBoundaryFillColour(getFillColourValue);
 							setBoundaryBorderColour(getBorderColourValue);
@@ -98,8 +99,10 @@ function createDrawingManager() {
 	// Clear the current selection when the drawing mode is changed, or when the
 	// map is clicked.
 	google.maps.event.addListener(drawingManager, 'drawingmode_changed',
-			clearBoundarySelection);
-	google.maps.event.addListener(map, 'click', clearBoundarySelection);
+			unselectBoundary);
+	
+//	google.maps.event.addListener(map, 'click', unselectBoundary);
+	
 	// Disables drawing mode on startup so you have to click on toolbar first to
 	// draw shapes and create the colour palette
 	drawingManager.setDrawingMode(null);
@@ -170,6 +173,10 @@ function drawPolygons(location) {
 		$('#editBoundary').on('click', function() {
 			editPolygon(DRAWPolygon);
 		});
+		$('#colorSelectorFill div').css('backgroundColor',FillColour);
+		$('#colorSelectorBorder div').css('backgroundColor',BorderColour);
+		$('#colorSelectorFill').ColorPickerSetColor(FillColour);
+		$('#colorSelectorBorder').ColorPickerSetColor(BorderColour);
 	});
 
 	google.maps.event.addListener(DRAWPolygon, 'mousedown', function(event) {
@@ -180,6 +187,16 @@ function drawPolygons(location) {
 		longpress = (end - start < 500) ? false : true;
 	});
 	polygons.push(DRAWPolygon);
+}
+
+function undoColourChange() {
+	$("#tempBoundaryColors").val($("#boundaryColors").val());
+	$('#colorSelectorFill div').css('backgroundColor',getFillColourValue());
+	$('#colorSelectorBorder div').css('backgroundColor',getBorderColourValue());
+	$('#colorSelectorFill').ColorPickerSetColor(getFillColourValue());
+	$('#colorSelectorBorder').ColorPickerSetColor(getBorderColourValue());
+	setBoundaryFillColour(getFillColourValue());
+	setBoundaryBorderColour(getBorderColourValue());
 }
 
 function getArrayBoundary(boundary) {
@@ -425,11 +442,11 @@ function updateBorderColourValue(BorderColour) {
 function getFillColourValue() {
 	var boundaryColour = $("#tempBoundaryColors").val().split(",");
 	var FillColour = boundaryColour[0];
-	return FillColour;
+	return '#' + FillColour;
 }
 
 function getBorderColourValue() {
 	var boundaryColour = $("#tempBoundaryColors").val().split(",");
 	var BorderColour = boundaryColour[1];
-	return BorderColour;
+	return '#' + BorderColour;
 }

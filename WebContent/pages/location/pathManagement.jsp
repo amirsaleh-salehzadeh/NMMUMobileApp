@@ -61,6 +61,18 @@ title {
 <input type='hidden' readonly name="destinationGPS" id="destinationGPS">
 <input type='hidden' readonly name="departureId" id="departureId">
 <input type='hidden' readonly name="departureGPS" id="departureGPS">
+<<<<<<< HEAD
+=======
+<input type='hidden' readonly name="pathId" id="pathId">
+<input type='hidden' readonly name="markerCoordinate" id="markerCoordinate">
+<input type='hidden' readonly name="markerId" id="markerId">
+<input type='hidden' readonly id="pathLatLng">
+<input type='hidden' readonly name="pathTypeIds" id="pathTypeIds">
+<input type='hidden' readonly name="tempBoundaryColors" id="tempBoundaryColors">
+<input type='hidden' readonly name="boundaryColors" id="boundaryColors">
+<input type='hidden' readonly name="icon" id="icon" value="">
+<input type='hidden' readonly name="boundary" id="boundary" value="">
+>>>>>>> Rudolf-0.3.1
 
 
 
@@ -250,6 +262,7 @@ title {
 
 
 
+<<<<<<< HEAD
 <div id="editBoundaryPopup" class="toolBar ui-grid-a">
 	<div class="ui-block-a">
 		<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
@@ -274,10 +287,40 @@ title {
 	</div>
 	<div class="ui-block-b ui-grid-a editlocationFormRow">
 		<div class="ui-block-a">
+=======
+<div id="editBoundaryPopup" class="toolBar">
+	<div class="ui-grid-e editlocationFormRow">
+		<div class="ui-block-a">
+			<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
+				height="48" title="Normal Mode" onclick="removeDrawingMode()">
+			<img src='images/icons/polygon-select.png' width="48" height="48"
+				class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
+			<img src='images/icons/edit.png' width="48" height="48" id="editBoundary"
+				class="pathMenu" title="Edit Boundary Points"/>
+			<img src='images/icons/delete-icon.png' width="48" height="48"
+				class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
+		</div>
+		<div class="ui-block-b">
+			<div id="boundaryColorFieldset">
+				<span>Fill Colour</span>
+				<div id="colorSelectorFill">
+					<div style="background-color: #1E90FF"></div>
+				</div>
+				<span>Border Colour</span>
+				<div id="colorSelectorBorder">
+					<div style="background-color: #1E90FF"></div>
+				</div>
+				<div id="color-palette" style="display: none"></div>
+			</div>
+			<img src='images/icons/undo.png' class="pathMenu" width="48"
+				height="48" title="Undo Colour Change" onclick="undoColourChange()">
+		</div>
+		<div class="ui-block-c">
+>>>>>>> Rudolf-0.3.1
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="ui-btn save-icon " onclick="saveMarker()">Save</a>
 		</div>
-		<div class="ui-block-b">
+		<div class="ui-block-d">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="ui-btn cancel-icon "
 				onclick="hideMainBoundary();unselectBoundary();">Close</a>

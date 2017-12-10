@@ -55,6 +55,7 @@ function saveMarker() {
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$("#boundary").val(
 			$("#boundary").val() + ";" + $("#tempBoundaryColors").val());
+	$("#boundaryColors").val($("#tempBoundaryColors").val());
 	$.ajax({
 		url : url,
 		cache : false,
@@ -260,7 +261,14 @@ function addAMarker(location, gps) {
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(location.gps);
 		$("#boundary").val(getArrayBoundary(location.boundary));
-		$("#tempBoundaryColors").val(getBoundaryColour(location.boundary));
+		if (getBoundaryColour(location.boundary) == ""){
+			$("#tempBoundaryColors").val("1E90FF,1E90FF");
+			$("#boundaryColors").val("1E90FF,1E90FF");
+		}
+		else {
+			$("#tempBoundaryColors").val(getBoundaryColour(location.boundary));
+			$("#boundaryColors").val(getBoundaryColour(location.boundary));
+		}
 		$("#markerId").val(location.locationID);
 		$("#croppedIcon").attr("src", location.icon);
 		$("#icon").val(location.icon);
