@@ -62,7 +62,7 @@ public class ClientDAO extends BaseHibernateDAO implements ClientDAOInterface{//
 	public ClientENT getClient(int clientID) throws AMSException {
 		// TODO Auto-generated method stub
 //		Query q = null;
-//		ClientENT clientENT = new ClientENT();
+		ClientENT clientENT = new ClientENT("" , clientID);
 //		try {
 //			q = getSession().createQuery(
 //					"from ClientENT where clientID = :searchKey").setParameter(
@@ -71,7 +71,23 @@ public class ClientDAO extends BaseHibernateDAO implements ClientDAOInterface{//
 //		} catch (HibernateException ex) {
 //			ex.printStackTrace();
 //		}
-		return null;
+		try{
+			Connection con = getConnection() ;
+			String query  = "SELECT* FROM clients where client_id= ? " ;
+			
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1,clientID) ;
+			ResultSet rs = ps.executeQuery() ;
+			while(rs.next()){
+			clientENT.setClientID(rs.getInt("client_id")) ; 
+			clientENT.setClientName(rs.getString("client_name")) ;}
+			
+			
+			
+		}catch (Exception ex) {
+ 		ex.printStackTrace();
+		}
+		return clientENT ;
 	}
 
 	public ArrayList<DropDownENT> getClientsDropDown() throws AMSException {

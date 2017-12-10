@@ -164,6 +164,30 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// } catch (HibernateException ex) {
 		// throw getAMSException("", ex);
 		// }
+		 PreparedStatement ps = null ;
+		 ResultSet rs = null ;
+		 try{
+			 Connection con = getConnection() ;
+			 String query = "SELECT * FROM ethnics" ;
+			  ps = con.prepareStatement(query) ;
+			  rs = ps.getResultSet() ;
+			  while(rs.next()){
+				 EthnicENT newone = new EthnicENT() ;
+				 newone.setEthnic(rs.getString("ethnic")) ;
+				 newone.setEthnicID(rs.getInt("ethnic_id")) ;
+				   list.add(newone) ;
+				  
+			  }
+			  con.close() ;
+			  rs.close() ;
+			  ps.close() ;
+			 
+			 
+		 }catch(Exception e){
+			 e.printStackTrace() ;
+			 throw getAMSException("", e) ;
+		 }
+		   
 		return list;
 	}
 
@@ -178,7 +202,33 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// ex.printStackTrace();
 		// throw getAMSException("", ex);
 		// }
+		 PreparedStatement ps = null ;
+		 ResultSet rs = null ;
+		 try{
+			 Connection con = getConnection() ;
+			 String query = "SELECT * FROM titles" ;
+			  ps = con.prepareStatement(query) ;
+			  rs = ps.getResultSet() ;
+			  while(rs.next()){
+				 TitleENT newone = new TitleENT() ;
+				 newone.setTitle(rs.getString("title")) ;
+				 newone.setTitleID(rs.getInt("title_id")) ;
+				   list.add(newone) ;
+				  
+			  }
+			  con.close() ;
+			  rs.close() ;
+			  ps.close() ;
+			 
+			 
+		 }catch(Exception e){
+			 e.printStackTrace() ;
+			 throw getAMSException("", e) ;
+		 }
+		   
 		return list;
+		
+		
 	}
 
 	public EthnicENT getEthnic(int ethnicID) throws AMSException {
@@ -193,6 +243,28 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// ex.printStackTrace();
 		// throw getAMSException("", ex);
 		// }
+		 PreparedStatement ps = null ;
+		 ResultSet rs = null ;
+		 try{
+			 Connection con = getConnection() ;
+			 String query = "SELECT * FROM ethnics where ethnic_id = ?" ;
+              ps = con.prepareStatement(query) ;
+			  ps.setInt(1, ethnicID);
+	           rs = ps.getResultSet() ;
+			  while(rs.next()){
+				 
+				 ethnic.setEthnic(rs.getString("ethnic")) ;
+				 ethnic.setEthnicID(rs.getInt("ethnic_id")) ;
+				     }
+			  con.close() ;
+			  rs.close() ;
+			  ps.close() ;
+			 
+			 
+		 }catch(Exception e){
+			 e.printStackTrace() ;
+			 throw getAMSException("", e) ;
+		 }
 		return ethnic;
 	}
 
@@ -208,6 +280,30 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// ex.printStackTrace();
 		// throw getAMSException("", ex);
 		// }
+		
+		 PreparedStatement ps = null ;
+		 ResultSet rs = null ;
+		 try{
+			 Connection con = getConnection() ;
+			 String query = "SELECT * FROM titles where title_id = ?" ;
+			  ps = con.prepareStatement(query) ;
+			  ps.setInt(1, titleID) ;
+			  rs = ps.getResultSet() ;
+			  while(rs.next()){
+				 
+				 title.setTitle(rs.getString("title")) ;
+				 title.setTitleID(rs.getInt("title_id")) ;
+				   
+			  }
+			  con.close() ;
+			  rs.close() ;
+			  ps.close() ;
+			 
+			 
+		 }catch(Exception e){
+			 e.printStackTrace() ;
+			 throw getAMSException("", e) ;
+		 }
 		return title;
 	}
 
@@ -231,6 +327,17 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				userENT.setClientID(rs.getInt("client_id"));
 				userENT.setName(rs.getString("name"));
 				userENT.setSurName(rs.getString("surname"));
+				userENT.setActive(rs.getBoolean("active")) ;
+				userENT.setDateOfBirth(rs.getString("date_of_birth")) ;
+				userENT.setEthnicID(rs.getInt("ethnic"));
+				userENT.setTitleID(rs.getInt("title")) ;
+				userENT.setRegisterationDate(rs.getString("registeration_date")) ;
+				userENT.setPassword(rs.getString("password")) ;
+				if(rs.getInt("gender") ==1){
+					userENT.setGender(true) ;
+				}else userENT.setGender(false) ;
+				
+				//Please set all attributes for a users here...
 			}
 			rs.close();
 			ps.close();
@@ -276,6 +383,7 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// } catch (HibernateException ex) {
 		// ex.printStackTrace();
 		// }
+		
 		return res;
 	}
 
