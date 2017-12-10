@@ -99,6 +99,12 @@ function saveMarker() {
 
 var str = "";
 function getAllMarkers(parentId, refreshMarkers) {
+	if ( (parentId == 360) && (boundaryOpened == true) ){
+		boundaryOpened = false;
+	}
+	if ( (parentId == 369) && (boundaryOpened == false) ){
+		boundaryOpened = true;
+	}
 	minZoomLevel = 1;
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
