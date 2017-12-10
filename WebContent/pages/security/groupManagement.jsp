@@ -45,7 +45,7 @@
 				type="java.lang.Integer"></bean:define>
 			<ams:ajaxPaginate currentPage="<%=currentPage%>"
 				pageSize="<%=pageSize%>" totalRows="<%=totalRows%>" align="center"
-				columns="goupID,groupName,comment,clientID"
+				columns="goupID,groupName,comment,clientName"
 				popupID="groupManagementSettingMenu"
 				popupGridSettingItems="${gridMenuItem}"
 				popupMenuSettingItems="${settingMenuItem}">

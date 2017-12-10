@@ -22,7 +22,7 @@ public interface SecurityDAOInterface {
 	public RoleENT saveUpdateRole(RoleENT role, Connection conn)
 			throws AMSException;
 
-	public GroupENT saveUpdateGroup(GroupENT group) throws AMSException;
+	public GroupENT saveUpdateGroup(GroupENT group, Connection conn) throws AMSException;
 
 	public RoleENT getRole(RoleENT role) throws AMSException;
 

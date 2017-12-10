@@ -45,20 +45,22 @@ title {
 <input type="hidden" readonly id="parentLocationId" value="360">
 <input type='hidden' readonly id='locationTypeId' value="0">
 <input type='hidden' readonly id='parentLocationTypeId' value="0">
-<input type='hidden' readonly name="destinationId" id="destinationId">
-<input type='hidden' readonly name="destinationGPS" id="destinationGPS">
-<input type='hidden' readonly name="departureId" id="departureId">
-<input type='hidden' readonly name="departureGPS" id="departureGPS">
-<input type='hidden' readonly name="pathId" id="pathId">
 <input type='hidden' readonly name="markerCoordinate"
 	id="markerCoordinate">
 <input type='hidden' readonly name="markerId" id="markerId">
+<input type='hidden' readonly name="icon" id="icon" value="">
+<input type='hidden' readonly name="boundary" id="boundary" value="">
+
+
+<input type='hidden' readonly name="pathId" id="pathId">
 <input type='hidden' readonly id="pathLatLng">
 <input type='hidden' readonly name="pathTypeIds" id="pathTypeIds">
 <input type='hidden' readonly name="tempBoundaryColors"
 	id="tempBoundaryColors">
-<input type='hidden' readonly name="icon" id="icon" value="">
-<input type='hidden' readonly name="boundary" id="boundary" value="">
+<input type='hidden' readonly name="destinationId" id="destinationId">
+<input type='hidden' readonly name="destinationGPS" id="destinationGPS">
+<input type='hidden' readonly name="departureId" id="departureId">
+<input type='hidden' readonly name="departureGPS" id="departureGPS">
 
 
 
@@ -258,7 +260,7 @@ title {
 			id="editBoundary" class="pathMenu" title="Edit Boundary Points" /> <img
 			src='images/icons/delete-icon.png' width="48" height="48"
 			class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
-		<div id="boundaryColorFieldset" >
+		<div id="boundaryColorFieldset">
 			<span>Fill Colour</span>
 			<div id="colorSelectorFill">
 				<div style="background-color: #00ff00"></div>
@@ -373,8 +375,8 @@ title {
 
 
 <div id="editPathPopup" class="ui-grid-b toolBar">
-	<div class="ui-block-a">
-		<input type="text" placeholder="From (Departure)" name="departure"
+	<div class="ui-block-a ui-field-contain">
+		<label for="departure">Departure</label><input type="text" placeholder="From (Departure)" name="departure"
 			id="departure" value="" readonly>
 	</div>
 	<div class="ui-block-b">

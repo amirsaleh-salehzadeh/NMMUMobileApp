@@ -193,19 +193,21 @@ public class SecurityDAO extends BaseHibernateDAO implements
 			query = "update groups set group_name= ?, comment = ?, client_id = ? where group_id = "
 					+ group.getGroupID();
 		PreparedStatement ps;
+		ResultSet rs = null;
 		try {
 			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, group.getGroupName());
 			ps.setString(2, group.getComment());
 			ps.setInt(3, group.getClientID());
-			if (group.getGroupID() > 0)
-				ps.setInt(3, group.getGroupID());
-			ps.executeUpdate();
-			ResultSet rs = ps.getGeneratedKeys();
-			if (rs.next()) {
-				group.setGroupID(rs.getInt("group_id"));
-			}
-			rs.close();
+			if (group.getGroupID() > 0) {
+				ps.setInt(4, group.getGroupID());
+				rs = ps.getGeneratedKeys();
+				if (rs.next()) {
+					group.setGroupID(rs.getInt("group_id"));
+				}
+				rs.close();
+			} else
+				ps.executeUpdate();
 			ps.close();
 			if (isnew)
 				conn.close();
@@ -385,11 +387,6 @@ public class SecurityDAO extends BaseHibernateDAO implements
 
 	}
 
-	public GroupENT saveUpdateGroup(GroupENT group) throws AMSException {
-		// TODO Auto-generated method stub not this
-		return null;
-	}
-
 	public GroupENT getGroup(GroupENT group) throws AMSException {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -467,9 +464,9 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		try {
 			// inner join query to get all the roles
 			con = getConnection();
-			String query = "SELECT g.* FROM group_roles g " +
-					"left join roles r on g.role_name = r.role_name" +
-					" where g.group_id = ? ";
+			String query = "SELECT g.* FROM group_roles g "
+					+ "left join roles r on g.role_name = r.role_name"
+					+ " where g.group_id = ? ";
 			ps = con.prepareStatement(query);
 			ps.setInt(1, gid);
 			rs = ps.executeQuery();

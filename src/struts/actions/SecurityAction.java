@@ -166,7 +166,7 @@ public class SecurityAction extends Action {
 		}
 		GroupENT groupENT = getGroupENT(request);
 		try {
-			groupENT = getSecurityDAO().saveUpdateGroup(groupENT);
+			groupENT = getSecurityDAO().saveUpdateGroup(groupENT, null);
 			success = "The group '" + groupENT.getGroupName()
 					+ "' saved successfully";
 		} catch (AMSException e) {

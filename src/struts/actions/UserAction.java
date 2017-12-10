@@ -205,7 +205,7 @@ public class UserAction extends Action {
 			GroupLST groupLST = new GroupLST(group, 0, 1000, true,
 					"group_name");
 			request.setAttribute("groupsList",
-					getSecurityDAO().getGroupList(groupLST));
+					getSecurityDAO().getGroupList(groupLST).getGroupENTs());
 			return mapping.findForward("userGroup");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block

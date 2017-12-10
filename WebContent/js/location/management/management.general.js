@@ -35,6 +35,7 @@ function mapSattelView() {
 }
 function createNewButton(){
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
+		
 	} else {
 	}
 }
