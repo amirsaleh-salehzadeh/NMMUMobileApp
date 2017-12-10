@@ -1,8 +1,19 @@
 @CHARSET "ISO-8859-1";
-
-label {
+#infoLocationGrid{
+	margin:0;
+	
+}
+#locationInfo{
+	background-color: transparent!important;
+	text-shadow: none !important;
 	color: rgb(248, 182, 36) !important;
-	background-color: #383c40 !important;
+	display:inline !important;
+	
+}
+label {
+	padding: 2px 0px 2px 2px !important;
+	color: rgba(8, 27, 44, 1)  !important;
+	background-color:rgb(248, 182, 36)!important;
 	text-shadow: none !important;
 }
 
@@ -190,5 +201,32 @@ opacity
 #editInfoBtn{
 	height:38px !important;
 	text-align:center !important;
-	
+    background-repeat: no-repeat;
+    background-position: left 2px center;
+    
+   
+}
+.editInfo {
+	 padding-left: 30px;
+}
+.edit{
+	 background-image: url("WebContent/images/icons/edit.png");
+}
+.open{
+	 background-image: url();
+}
+.location{
+	 background-image: url("WebContent/images/icons/location.png");
+}
+.boundary{
+	 background-image: url("WebContent/images/icons/polygon.png");
+}
+.thumbnail{
+	 background-image: url();
+}
+.delete{
+	 background-image: url("WebContent/images/icons/bin.png");
+}
+.printBarcode{
+	 background-image: url("WebContent/images/icons/QRCodeIcon.png");
 }
