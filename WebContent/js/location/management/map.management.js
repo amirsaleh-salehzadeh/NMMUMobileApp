@@ -195,9 +195,9 @@ function initMap() {
 //		}
 //	});
 
-	map.setOptions({
-		draggableCursor : 'corsshair'
-	});
+//	map.setOptions({
+//		draggableCursor : 'corsshair'
+//	});
 
 	createDrawingManager();
 	createColorPicker();

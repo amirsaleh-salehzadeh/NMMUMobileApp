@@ -169,7 +169,7 @@ function getMarkerInfo(location) {
 }
 
 function addMarker(l) {
-	if (l.locationType.locationTypeId != 5 || l.locationType.locationTypeId != 5)
+	if (l.locationType.locationTypeId != 5)
 		marker = new google.maps.Marker({
 			icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
 			hovericon : refreshMap(l.locationType.locationTypeId, l.gps,
@@ -178,7 +178,7 @@ function addMarker(l) {
 					"normal"),
 			draggable : true,
 			title : l.locationName + " " + l.locationType.locationType,
-			zIndex : 40
+			zIndex : 666
 		});
 	else
 		marker = new google.maps.Marker({
@@ -188,7 +188,7 @@ function addMarker(l) {
 			originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
 					"normal"),
 			draggable : true,
-			zIndex : 40,
+			zIndex : 666,
 		// title : l.locationName + " " + l.locationType.locationType
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {

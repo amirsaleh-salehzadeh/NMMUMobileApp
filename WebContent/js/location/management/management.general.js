@@ -27,15 +27,15 @@ function mapSattelView() {
 	if ($("#mapSatelViewImage").attr("src").indexOf("map") > 0) {
 		$("#mapSatelViewImage").attr("src", "images/icons/satellite.png");
 		map.setMapTypeId('mystyle');
-	}else{
+	} else {
 		map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
 		$("#mapSatelViewImage").attr("src", "images/icons/maps.png");
 		$("#mapSatelViewImage").attr("alt", "Map View");
 	}
 }
-function createNewButton(){
+function createNew() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		
+		setDrawingMode();
 	} else {
 	}
 }
@@ -46,9 +46,9 @@ function selectActionType() {
 			draggableCursor : 'corsshair'
 		});
 		var gps = map.getCenter().toString();
-		gps = gps.replace("(","");
-		gps = gps.replace(")","");
-		gps = gps.replace(" ","");
+		gps = gps.replace("(", "");
+		gps = gps.replace(")", "");
+		gps = gps.replace(" ", "");
 		addAMarker(null, gps);
 		getAllMarkers($("#parentLocationId").val(), false);
 		hidePathInfo();
@@ -97,7 +97,7 @@ $(document)
 									- parseInt($("#locPathModeRadiobtn")
 											.height()) - 3);
 					// $(".jqm-demos").css("max-height",$(window).height());
-					
+
 				});
 
 function ShowLoadingScreen(loadingContent) {

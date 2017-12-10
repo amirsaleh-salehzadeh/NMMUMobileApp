@@ -63,15 +63,7 @@ title {
 <input type='hidden' readonly name="departureGPS" id="departureGPS">
 
 
-<input type='hidden' readonly name="pathId" id="pathId">
-<input type='hidden' readonly name="markerCoordinate" id="markerCoordinate">
-<input type='hidden' readonly name="markerId" id="markerId">
-<input type='hidden' readonly id="pathLatLng">
-<input type='hidden' readonly name="pathTypeIds" id="pathTypeIds">
-<input type='hidden' readonly name="tempBoundaryColors" id="tempBoundaryColors">
 <input type='hidden' readonly name="boundaryColors" id="boundaryColors">
-<input type='hidden' readonly name="icon" id="icon" value="">
-<input type='hidden' readonly name="boundary" id="boundary" value="">
 
 
 

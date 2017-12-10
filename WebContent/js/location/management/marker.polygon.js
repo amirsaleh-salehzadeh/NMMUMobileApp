@@ -250,6 +250,7 @@ function setMapOnAllPolygons(map) {
 
 function setDrawingMode() {
 	drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+	
 }
 
 function removeDrawingMode() {
