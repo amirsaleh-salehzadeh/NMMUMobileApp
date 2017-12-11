@@ -252,6 +252,7 @@ function showMainBoundary() {
 	if (i > 0)
 		polygons[i].setMap(map);
 	$("#locationEditMenu").popup("close");
+	$("#editBoundaryPopup").css("left",($("#map_canvas").width()/2)-($("#editBoundaryPopup").width()/2));
 	$("#editBoundaryPopup").css("display", "block");
 }
 

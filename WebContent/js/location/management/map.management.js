@@ -174,8 +174,8 @@ function initMap() {
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
-	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
-			.getElementById('editBoundaryPopup'));
+//	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+//			.getElementById('editBoundaryPopup'));
 	createDrawingManager();
 	createColorPicker();
 	

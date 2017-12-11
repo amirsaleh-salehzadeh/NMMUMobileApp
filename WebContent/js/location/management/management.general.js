@@ -33,16 +33,11 @@ function mapSattelView() {
 		$("#mapSatelViewImage").attr("alt", "Map View");
 	}
 }
+
 function createNew() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		// map.setOptions({
-		// draggableCursor : 'corsshair'
-		// });
-//		setDrawingMode();
-		map
-				.setOptions({
-					draggableCursor : "url('images/map-markers/mouse-cursors/pin.png'), auto"
-				});
+		showMainBoundary();
+		startDrawingMode();
 	} else {
 		$("#map_canvas").css("cursor",
 				"url(images/map-markers/mouse-cursors/pin.png) , auto");

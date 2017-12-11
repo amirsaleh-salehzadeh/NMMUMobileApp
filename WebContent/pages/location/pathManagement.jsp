@@ -70,6 +70,12 @@
 	rel="stylesheet">
 <link href="css/location/management/toolbox.management.css"
 	rel="stylesheet">
+<style type="text/css">
+#map_canvas div[style*='crosshair'] {
+	cursor: url("images/map-markers/mouse-cursors/pin.png") 32 32,
+		crosshair !important;
+}
+</style>
 </head>
 
 
@@ -119,9 +125,10 @@
 	onclick="createNew();"><img width='27' height='27'
 	src='images/icons/add.png'>NEW</a>
 
-<a href="#" data-mini="true" data-role="button" title="Search for a Place"
-	class="showLabelMouseOverTrue" id="searchButton" onclick="createNew();"><img
-	width='27' height='27' src='images/icons/search.png'>SEARCH</a>
+<a href="#" data-mini="true" data-role="button"
+	title="Search for a Place" class="showLabelMouseOverTrue"
+	id="searchButton" onclick="createNew();"><img width='27'
+	height='27' src='images/icons/search.png'>SEARCH</a>
 
 
 <!-- PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION  -->
@@ -131,13 +138,14 @@
 	<!-- 	LOCATION -->
 	<label for="marker" id="ui-icon-map-marker"><span
 		class="inlineIcon showLabelMouseOverTrue"
-		id="modeSelection_locationText" title="Manage the Places">CAMPUS</span></label> <input
-		type="radio" name="radio-choice" id="marker" value="marker"
+		id="modeSelection_locationText" title="Manage the Places">CAMPUS</span></label>
+	<input type="radio" name="radio-choice" id="marker" value="marker"
 		checked="checked" onclick="selectActionType();" alt="View and Manage">
 	<!-- 		PATH -->
 	<label for="path" id="ui-icon-map-path"><span
-		class="ui-alt-icon inlineIcon showLabelMouseOverTrue"  title="Manage the Paths">PATH</span></label> <input
-		type="radio" name="radio-choice" id="path" value="path"
+		class="ui-alt-icon inlineIcon showLabelMouseOverTrue"
+		title="Manage the Paths">PATH</span></label> <input type="radio"
+		name="radio-choice" id="path" value="path"
 		onclick="selectActionType();">
 </fieldset>
 
@@ -304,17 +312,18 @@
 
 
 
-<div id="editBoundaryPopup" class="toolBar ui-grid-a">
-	<div class="ui-block-a">
-		<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
+<div id="editBoundaryPopup" class="toolBar">
+	<div class="ams">
+		<img src='images/icons/cursor-pointer.png' class="pathMenu showLabelMouseOverTrue" width="48"
 			height="48" title="Normal Mode" onclick="removeDrawingMode()">
 		<img src='images/icons/polygon-select.png' width="48" height="48"
-			class="pathMenu" title="Drawing Mode" onclick="setDrawingMode()" />
+			class="pathMenu showLabelMouseOverTrue" title="Drawing Mode" onclick="startDrawingMode()" />
 		<img src='images/icons/edit.png' width="48" height="48"
-			id="editBoundary" class="pathMenu" title="Edit Boundary Points" /> <img
+			class="pathMenu showLabelMouseOverTrue" title="Edit Boundary Points" /> <img
 			src='images/icons/delete-icon.png' width="48" height="48"
-			class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
-		<div id="boundaryColorFieldset">
+			class="pathMenu showLabelMouseOverTrue" title="Delete Boundary" onclick="deletePolygon()" />
+			<span id="boundaryColorIconSpan" onclick="showHideColors()" class="pathMenu showLabelMouseOverTrue" title="Polygon Color"></span>
+		<div id="boundaryColorFieldset" style="display: none;">
 			<span>Fill Colour</span>
 			<div id="colorSelectorFill">
 				<div style="background-color: #00ff00"></div>
@@ -323,22 +332,22 @@
 			<div id="colorSelectorBorder">
 				<div style="background-color: #0000ff"></div>
 			</div>
-<!-- 			<div id="color-palette" style="display: none"></div> -->
+			<!-- 			<div id="color-palette" style="display: none"></div> -->
 			<img src='images/icons/undo.png' class="pathMenu" width="48"
 				height="48" title="Undo Colour Change" onclick="undoColourChange()">
 		</div>
 	</div>
-	<div class="ui-block-b ui-grid-a editlocationFormRow">
-		<div class="ui-block-a">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class="ui-btn save-icon " onclick="saveMarker()">Save</a>
-		</div>
-		<div class="ui-block-b">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class="ui-btn cancel-icon "
-				onclick="hideMainBoundary();unselectBoundary();">Close</a>
-		</div>
-	</div>
+<!-- 	<div class="ui-block-b ui-grid-a editlocationFormRow"> -->
+<!-- 		<div class="ui-block-a"> -->
+<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
+<!-- 				class="ui-btn save-icon " onclick="saveMarker()">Save</a> -->
+<!-- 		</div> -->
+<!-- 		<div class="ui-block-b"> -->
+<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
+<!-- 				class="ui-btn cancel-icon " -->
+<!-- 				onclick="hideMainBoundary();unselectBoundary();">Close</a> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
 </div>
 
 
