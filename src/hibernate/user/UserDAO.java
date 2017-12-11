@@ -57,11 +57,12 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// u.setRoleENTs(ad);
 
 		try {
-		//	udao.registerNewUser(new UserPassword("amir", "1234"));
-			UserENT user = udao.getUserLST(l).getUserENTs().get(2) ;
+		// udao.registerNewUser(new UserPassword("amir", "1234"));
+			UserENT user = udao.getUserLST(l).getUserENTs().get(1) ;
 			user.setName("tester") ;
+			user.setSurName("maninjwa") ;
 			udao.updateUserProfile(user) ;
-			user.getClientID();
+			 l = udao.getUserLST(new UserLST()) ;
 			
 		} catch (AMSException e) {
 			e.printStackTrace();
@@ -524,11 +525,10 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				e.printStackTrace();
 			}
 
-			// values (2,?,?,?,?,?,?,?,?,?)";
-			query = "update users " +
+				query = "update users " +
 					"set active= ? ,client_id = ?, date_of_birth =?,ethnic = ?,gender = ?"
 					+ ",name = ?,password = ?,registeration_date =?,surname =?,title =?,username =? "
-					+ "where username= ? and active =1";
+					+ "where username= test and active =1";
 			ps = conn.prepareStatement(query);
 			if (user.isActive()) {
 				ps.setInt(1, 1);
@@ -548,11 +548,12 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			ps.setString(8, user.getRegisterationDate());
 			ps.setString(9, user.getSurName());
 			ps.setString(10, user.getUserName());
-			ps.setString(11, user.getUserName());
-			ps.setInt(12, 1) ;
+			//ps.setString(11, user.getUserName());
+			ps.setInt(11, 1) ;
 			ps.execute();
-			ps.close();
 			conn.commit();
+			ps.close();
+			
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
