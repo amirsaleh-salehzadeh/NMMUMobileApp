@@ -35,6 +35,17 @@ function mapSattelView() {
 }
 
 function createNew() {
+	$("#markerCoordinate").val("");
+	$("#markerId").val("");
+	$("#icon").val("");
+	$("#boundary").val("");
+	$("#pathId").val("");
+	$("#pathLatLng").val("");
+	$("#destinationId").val("");
+	$("#destinationGPS").val("");
+	$("#departureId").val("");
+	$("#departureGPS").val("");
+	$("#boundaryColors").val("");
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
 		showMainBoundary();
 		startDrawingMode();
