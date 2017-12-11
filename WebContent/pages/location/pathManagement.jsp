@@ -91,7 +91,7 @@
 	id="markerCoordinate">
 <input type='hidden' readonly name="markerId" id="markerId">
 <input type='hidden' readonly name="icon" id="icon" value="">
-<input type='text' readonly name="boundary" id="boundary" value="">
+<input type='hidden' readonly name="boundary" id="boundary" value="">
 
 
 
