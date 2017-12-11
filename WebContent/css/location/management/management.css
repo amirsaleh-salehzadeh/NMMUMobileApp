@@ -1,21 +1,25 @@
 @CHARSET "ISO-8859-1";
 
-#infoLocationGrid {
-	margin: 0;
-}
-
 #locationInfo {
 	background-color: transparent !important;
 	text-shadow: none !important;
 	color: rgb(248, 182, 36) !important;
 	display: inline !important;
+	padding-left:3px;
+	padding-right:7px;
+	width: 100%;
+	display: inline;
 }
 
-label {
-	padding: 2px 0px 2px 2px !important;
+#locationDescriptionLabel {
+	padding: 2px 5px 2px 2px !important;
 	color: rgba(8, 27, 44, 1) !important;
 	background-color: rgb(248, 182, 36) !important;
 	text-shadow: none !important;
+	margin: 0 !important;
+	width: 100%;
+	font-weight: bold;
+	display: inline;
 }
 
 .ui-li-divider {
@@ -28,7 +32,7 @@ label {
 	text-shadow: none !important;
 }
 
-#googleMapMarkerLabel {
+.labelStyleClass {
 	display: none;
 	position: absolute;
 	z-index: 120;
@@ -40,7 +44,7 @@ label {
 	font-size: 14pt;
 	line-height: .5 em;
 	font-weight: bold;
-	padding: .4 .4 .4 .4 em;
+	padding: .4em .4em .4em .4em;
 	border: solid;
 	border-width: 2;
 	border-color: rgb(248, 182, 36);
@@ -69,7 +73,7 @@ label {
 	border-top: solid 3px;
 	border-radius: 7px;
 	border-color: rgb(248, 182, 36) !important;
-	top: -7px;
+	top: -3px;
 }
 
 #loadingOverlay {
@@ -110,14 +114,56 @@ label {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :scale
+
+
+
+
+
+
+
 
 
  
 
 
+
+
+
+
+
+
+
 (1
 .0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -128,7 +174,35 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -149,20 +223,76 @@ keyframes sk-scaleout { 0% {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 scale
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 (1
 .0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -173,13 +303,55 @@ transform
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
 
 
  
 
 
+
+
+
+
+
+
+
 scale
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -192,13 +364,55 @@ scale
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 );
 opacity
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -230,49 +444,13 @@ opacity
 	border-color: rgba(8, 27, 44, 1) !important;
 }
 
-#editInfoBtn {
-	height: 38px !important;
-	text-align: center !important;
-	background-repeat: no-repeat;
-	background-position: left 2px center;
-}
-
 .editInfo {
-	padding-left: 30px;
+	min-height: 0 !important;
+	padding-left: 2.22em !important;
 }
 
-.edit {
-	background-image: url("../../../images/icons/edit.png");
-		 background-repeat: no-repeat;
-	
-}
-
-.open {
-	background-image: url();
-}
-
-.location {
-	background-image: url("../../../images/icons/location.png");
-		 background-repeat: no-repeat;
-	
-}
-
-.boundary {
-	background-image: url("../../../images/icons/polygon.png");
-		 background-repeat: no-repeat;
-	
-}
-
-.thumbnail {
-	background-image: url();
-}
-
-.delete {
-	background-image: url("../../../images/icons/bin.png");
-		 background-repeat: no-repeat;
-}
-
-.printBarcode {
-	background-image: url("../../../images/icons/QRCodeIcon.png");
-	background-repeat: no-repeat;
+.editInfo>img {
+	width: 27px;
+	height: 27px;
+	padding: 7px 7px 3px 3px !important;
 }

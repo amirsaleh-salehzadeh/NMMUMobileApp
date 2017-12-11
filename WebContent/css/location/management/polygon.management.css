@@ -4,6 +4,7 @@
 	right: 0;
 	left: 0 !important;
 	margin: 0 !important;
+	z-index: 166 !important;
 }
 
 #boundaryColorFieldset {

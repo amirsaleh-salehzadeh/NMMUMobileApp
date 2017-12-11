@@ -35,8 +35,11 @@ function mapSattelView() {
 }
 function createNew() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
+//		map.setOptions({
+//			draggableCursor : 'corsshair'
+//		});
 		map.setOptions({
-			draggableCursor : 'corsshair'
+					draggableCursor : 'images/map-markers/mouse-cursors/pin.png'
 		});
 		setDrawingMode();
 	} else {
@@ -45,9 +48,9 @@ function createNew() {
 
 function selectActionType() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		map.setOptions({
-			draggableCursor : 'corsshair'
-		});
+//		map.setOptions({
+//			draggableCursor : 'corsshair'
+//		});
 		var gps = map.getCenter().toString();
 		gps = gps.replace("(", "");
 		gps = gps.replace(")", "");

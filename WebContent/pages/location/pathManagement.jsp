@@ -8,16 +8,57 @@
 <head>
 <title>Control Panel</title>
 <script type="text/javascript">
-	$(document).ready(function() {
-		// 		selectRightPanelVal();
-		$("#editBoundaryPopup").css("display", "none");
-		$("#editPathPopup").css("display", "none");
-		$(".liLocationLV").each(function() {
-			$(this).bind('onclick', function(e) {
-				alert('Selected Name=' + $(this).attr('value'));
-			});
-		});
-	});
+	$(document)
+			.ready(
+					function() {
+						// 		selectRightPanelVal();
+						$("#editBoundaryPopup").css("display", "none");
+						$("#pathInfoFooter").css("display", "none");
+						$(".liLocationLV")
+								.each(
+										function() {
+											$(this)
+													.bind(
+															'onclick',
+															function(e) {
+																alert('Selected Name='
+																		+ $(
+																				this)
+																				.attr(
+																						'value'));
+															});
+										});
+						$(".showLabelMouseOverTrue")
+								.each(
+										function() {
+											$(this)
+													.on(
+															'mousemove',
+															function() {
+																if ($(this)
+																		.attr(
+																				"alt") != undefined
+																		&& $(
+																				this)
+																				.attr(
+																						"alt").length >= 1)
+																	showMarkerLabel($(
+																			this)
+																			.attr(
+																					"alt"));
+																else
+																	showMarkerLabel($(
+																			this)
+																			.attr(
+																					"title"));
+															});
+											$(this).on('mouseout', function() {
+												clearMarkerLabel();
+											});
+										});
+						getAllMarkers("360", true);
+						$("#parentLocationId").val("360");
+					});
 </script>
 
 
@@ -29,11 +70,6 @@
 	rel="stylesheet">
 <link href="css/location/management/toolbox.management.css"
 	rel="stylesheet">
-<style type="text/css">
-title {
-	display: none!;
-}
-</style>
 </head>
 
 
@@ -78,10 +114,14 @@ title {
 		height="48" id="mapSatelViewImage" class="showLabelMouseOverTrue" />
 </div>
 
-<a href="#" data-mini="true" data-role="button" title=""
+<a href="#" data-mini="true" data-role="button" title="Create New"
 	class="showLabelMouseOverTrue" id="createNewButton"
 	onclick="createNew();"><img width='27' height='27'
 	src='images/icons/add.png'>NEW</a>
+
+<a href="#" data-mini="true" data-role="button" title="Search a Place"
+	class="showLabelMouseOverTrue" id="searchButton" onclick="createNew();"><img
+	width='27' height='27' src='images/icons/search.png'>SEARCH</a>
 
 
 <!-- PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION  -->
@@ -90,13 +130,14 @@ title {
 	<div id="settingTabLabel">MANAGEMENT TAB</div>
 	<!-- 	LOCATION -->
 	<label for="marker" id="ui-icon-map-marker"><span
-		class="inlineIcon" id="modeSelection_locationText">CAMPUS</span></label> <input
+		class="inlineIcon showLabelMouseOverTrue"
+		id="modeSelection_locationText" title="Manage">CAMPUS</span></label> <input
 		type="radio" name="radio-choice" id="marker" value="marker"
-		checked="checked" onclick="selectActionType();">
+		checked="checked" onclick="selectActionType();" alt="View and Manage">
 	<!-- 		PATH -->
 	<label for="path" id="ui-icon-map-path"><span
-		class="ui-alt-icon inlineIcon">PATH</span></label> <input type="radio"
-		name="radio-choice" id="path" value="path"
+		class="ui-alt-icon inlineIcon showLabelMouseOverTrue">PATH</span></label> <input
+		type="radio" name="radio-choice" id="path" value="path"
 		onclick="selectActionType();">
 </fieldset>
 
@@ -105,14 +146,12 @@ title {
 <div id="infoDiv" class="ui-block-solo">
 	<ul data-role="listview" id="infoListView">
 	</ul>
-	
+
 	<!-- 		<label for="locationInfo">Location </label> -->
-	<div id="infoLocationGrid" class="ui-grid-a">
-	<label id="locationDescriptionLabel" class="ui-block-a" for="locationInfo"></label>
-	<div id="locationInfo" class="ui-block-b"></div>
-	
+	<div class="ui-block-solo" style="margin: 0 !important;">
+		<label id="locationDescriptionLabel" for="locationInfo"></label>
+		<div id="locationInfo"></div>
 	</div>
-	
 </div>
 
 
@@ -123,28 +162,35 @@ title {
 <div data-role="popup" id="locationEditMenu" data-mini="true"
 	data-dismissible="false">
 	<ul data-role="listview" style="min-width: 210px;">
-		<li class="unselectable"data-role="list-divider" id="locationEditMenuTitle">Choose an
-			action</li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo open"
-			href="#" onclick="openALocation();">Open</a></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo location"
-			href="#" onclick="openLocationTypePopup();">Edit Location Type</a></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo edit"
-			href="#" onclick="openLocationInfoPopup();">Edit Info</a></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo boundary" href="#"
-			onclick="showMainBoundary();">Edit Boundary </a></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo thumbnail" href="#"
-			onclick="openIconPopup();">Edit Thumbnail</a></li>
+		<li class="unselectable" data-role="list-divider"
+			id="locationEditMenuTitle">Choose an action</li>
+		<li data-icon="false"><a class="editInfo open" href="#"
+			onclick="openALocation();"><img alt=""
+				src="images/icons/open.png">Open</a></li>
+		<li data-icon="false"><a class="editInfo location" href="#"
+			onclick="openLocationTypePopup();"><img alt=""
+				src="images/icons/location.png">Edit Location Type</a></li>
+		<li data-icon="false"><a class="editInfo" href="#"
+			onclick="openLocationInfoPopup();"><img alt=""
+				src="images/icons/info.png">Edit Info</a></li>
+		<li data-icon="false"><a class="editInfo" href="#"
+			onclick="showMainBoundary();"><img alt=""
+				src="images/icons/polygon.png">Edit Boundary </a></li>
+		<li data-icon="false"><a class="editInfo thumbnail" href="#"
+			onclick="openIconPopup();"><img alt=""
+				src="images/icons/image.png">Edit Thumbnail</a></li>
 		<li data-role="list-divider"></li>
-		<li data-icon="false"><a href="#" class="editInfo delete" onclick="deletePolygon();">Delete</a></li>
+		<li data-icon="false"><a href="#" class="editInfo delete"
+			onclick="deletePolygon();"><img alt=""
+				src="images/icons/delete.png">Delete</a></li>
 		<li data-role="list-divider"></li>
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo printBarcode" href="#"
-			onclick="printBarcode($('#markerId').val(),$('#markerName').val());">Print
-				QR</a></li>
+		<li data-icon="false"><a class="editInfo" href="#"
+			onclick="printBarcode($('#markerId').val(),$('#markerName').val());"><img
+				alt="" src="images/icons/QRCodeIcon.png">Print QR</a></li>
 		<li data-role="list-divider"></li>
-		<li><a href="#" data-rel="back"
-			class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left"
-			onclick="unselectBoundary();">Close</a></li>
+		<li><a href="#" data-rel="back" class="editInfo"
+			onclick="unselectBoundary();"><img alt=""
+				src="images/icons/clearInput.png">Close</a></li>
 	</ul>
 </div>
 
@@ -382,16 +428,28 @@ title {
 
 
 
-<div id="editPathPopup" class="ui-grid-b toolBar">
-	<div class="ui-block-a ui-field-contain">
-		<label for="departure">Departure</label><input type="text" placeholder="From (Departure)" name="departure"
-			id="departure" value="" readonly>
+<div id="pathInfoFooter" class="ui-grid-d">
+	<div class="ui-block-a">
+		<label for="departure">Departure</label><input type="text"
+			placeholder="From (Departure)" name="departure" id="departure"
+			value="" readonly>
 	</div>
 	<div class="ui-block-b">
-		<input type="text" placeholder="To (Destination)" name="destination"
-			id="destination" value="" readonly>
+		<label for="destination">Destination</label><input type="text"
+			placeholder="To (Destination)" name="destination" id="destination"
+			value="" readonly>
 	</div>
 	<div class="ui-block-c">
+		<label for="destination">Label</label><input type="text"
+			placeholder="Path Label" name="destination" id="pathLabel" value=""
+			readonly>
+	</div>
+	<div class="ui-block-d">
+		<label for="destination">Width (Meter)</label><input type="text"
+			placeholder="Width" name="destination" id="pathWidth" value="0"
+			readonly>
+	</div>
+	<div class="ui-block-e">
 		<label for="pathLength">Length </label> <span id="pathLength"></span>
 	</div>
 </div>
@@ -435,7 +493,7 @@ title {
 
 
 
-<div id="googleMapMarkerLabel"></div>
+<div id="googleMapMarkerLabel" class="labelStyleClass"></div>
 
 
 

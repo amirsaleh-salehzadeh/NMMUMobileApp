@@ -263,9 +263,9 @@ function hideMainBoundary() {
 
 function showPathInfo() {
 	$("#pathEditMenu").popup("close");
-	$("#editPathPopup").css("display", "block");
+	$("#pathInfoFooter").css("display", "inline-block").trigger("create");
 }
 
 function hidePathInfo() {
-	$("#editPathPopup").css("display", "none");
+	$("#pathInfoFooter").css("display", "none");
 }

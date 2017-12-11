@@ -176,8 +176,8 @@ function initMap() {
 			.getElementById('locationsUnderAType'));
 	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
 			.getElementById('editBoundaryPopup'));
-	map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(document
-			.getElementById('editPathPopup'));
+//	map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(document
+//			.getElementById('editPathPopup'));
 //	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
 //			.getElementById('pathTypePopup'));
 //	google.maps.event.addListener(map, "click", function(event) {
@@ -221,6 +221,4 @@ function initMap() {
 	getAllLocationTypes();
 	setPathTypeButtonIcon();
 	getPathTypePanel();
-	getAllMarkers("360", true);
-	$("#parentLocationId").val("360");
 }

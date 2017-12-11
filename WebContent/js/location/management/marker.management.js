@@ -106,12 +106,15 @@ function getAllMarkers(parentId, refreshMarkers) {
 		boundaryOpened = true;
 	}
 	minZoomLevel = 1;
+	$("input[name='radio-choice']").checkboxradio();
+	$("input[name='radio-choice']").checkboxradio('disable');
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllPolylines(null);
 	if (!refreshMarkers && markers.length > 0) {
 		setMapOnAllMarkers(map);
 		setMapOnAllPathMarkers(null);
+//		$("input[name='radio-choice']").checkboxradio('enable');
 		return;
 	}
 	$.ajax({
@@ -144,11 +147,13 @@ function getAllMarkers(parentId, refreshMarkers) {
 		complete : function() {
 			HideLoadingScreen();
 			setMapOnAllPathMarkers(null);
+			$("input[name='radio-choice']").checkboxradio('enable');
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
 			alert("getAllMarkers");
+			$("input[name='radio-choice']").checkboxradio('enable');
 		}
 	});
 }
@@ -230,6 +235,7 @@ function addMarker(l) {
 	marker.setPosition(pos);
 	if (l.boundary != null && l.boundary.length > 2) {
 		drawPolygons(l);
+		marker.setVisible(false);
 	}else
 		marker.setMap(map);
 	if (l.locationType.locationTypeId != 5)
@@ -295,7 +301,7 @@ function showMarkerLabel(name) {
 	$('#googleMapMarkerLabel').css("display", "block");
 	$('#googleMapMarkerLabel').css("position", "absolute");
 	$('#googleMapMarkerLabel').css("left", event.pageX + 17 + 'px');
-	$('#googleMapMarkerLabel').css("top", event.pageY + +17 + 'px');
+	$('#googleMapMarkerLabel').css("top", event.pageY + 17 + 'px');
 	$('#googleMapMarkerLabel').trigger("create");
 	// $('#googleMapMarkerLabel').fadeIn();
 }
