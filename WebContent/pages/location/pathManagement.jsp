@@ -13,6 +13,7 @@
 					function() {
 						// 		selectRightPanelVal();
 						$("#editBoundaryPopup").css("display", "none");
+						$("#boundaryColourDiv").css("display", "none");
 						$("#pathInfoFooter").css("display", "none");
 						$(".liLocationLV")
 								.each(
@@ -304,8 +305,8 @@
 
 
 
-<div id="editBoundaryPopup" class="toolBar ui-grid-a">
-	<div class="ui-block-a">
+<div id="editBoundaryPopup" class="toolBar ui-grid-c">
+	<div class="ui-block-a" style="width: auto;">
 		<img src='images/icons/cursor-pointer.png' class="pathMenu" width="48"
 			height="48" title="Normal Mode" onclick="removeDrawingMode()">
 		<img src='images/icons/polygon-select.png' width="48" height="48"
@@ -314,21 +315,37 @@
 			id="editBoundary" class="pathMenu" title="Edit Boundary Points" /> <img
 			src='images/icons/delete-icon.png' width="48" height="48"
 			class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
-		<div id="boundaryColorFieldset">
-			<span>Fill Colour</span>
-			<div id="colorSelectorFill">
-				<div style="background-color: #00ff00"></div>
-			</div>
-			<span>Border Colour</span>
-			<div id="colorSelectorBorder">
-				<div style="background-color: #0000ff"></div>
-			</div>
-<!-- 			<div id="color-palette" style="display: none"></div> -->
-			<img src='images/icons/undo.png' class="pathMenu" width="48"
-				height="48" title="Undo Colour Change" onclick="undoColourChange()">
+	</div>
+	<div class="ui-block-b" style="width: auto;">
+		<div id="boundaryColour" title="Edit Boundary Colours" onclick="openBoundaryColour();"></div>
+	</div>
+	<div class="ui-block-c">	
+		<div id="boundaryColourDiv">
+			<div class="ui-grid-e" id="boundaryColorFieldset">
+				<div class="ui-block-a" style="width: 80px">
+					<span>Fill Colour</span>
+					<div id="colorSelectorFill">
+						<div style="background-color: #00ff00"></div>
+					</div>
+				</div>
+				<div class="ui-block-b" style="width: 100px">
+					<div>Border Colour</div>
+					<div id="colorSelectorBorder">
+						<div style="background-color: #0000ff"></div>
+					</div>
+				</div>
+				<div class="ui-block-c">
+					<img src='images/icons/checkMark.png' width="48" height="48"
+						class="pathMenu" title="Apply Colour" onclick="applyBoundaryColour()" />
+				</div>
+				<div class="ui-block-d">
+					<img src='images/icons/undo.png' class="pathMenu" width="48"
+						height="48" title="Undo Colour Change" onclick="undoColourChange()">
+				</div>
+			</div>	
 		</div>
 	</div>
-	<div class="ui-block-b ui-grid-a editlocationFormRow">
+	<div class="ui-block-d ui-grid-a editlocationFormRow" style="float: right;">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="ui-btn save-icon " onclick="saveMarker()">Save</a>
@@ -340,8 +357,6 @@
 		</div>
 	</div>
 </div>
-
-
 
 <!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
 

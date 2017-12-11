@@ -269,3 +269,14 @@ function showPathInfo() {
 function hidePathInfo() {
 	$("#pathInfoFooter").css("display", "none");
 }
+
+function openBoundaryColour(){
+	if (boundaryColourOpened){
+		boundaryColourOpened = false;
+		$("#boundaryColourDiv").css("display", "none");
+	}
+	else{
+		boundaryColourOpened = true;
+		$("#boundaryColourDiv").css("display", "block");
+	}
+}
