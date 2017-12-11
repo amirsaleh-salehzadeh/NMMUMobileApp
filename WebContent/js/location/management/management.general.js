@@ -38,7 +38,7 @@ function createNew() {
 		// map.setOptions({
 		// draggableCursor : 'corsshair'
 		// });
-		setDrawingMode();
+//		setDrawingMode();
 		map
 				.setOptions({
 					draggableCursor : "url('images/map-markers/mouse-cursors/pin.png'), auto"
