@@ -371,15 +371,15 @@ public class UserAction extends Action {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		UserENT userENT = getUserENT(request);
-		try {
-			userENT = getUserDAO().saveUpdateUser(userENT);
-			success = "The user '" + userENT.getUserName()
-					+ "' saved successfully";
-		} catch (AMSException e) {
-			error = AMSErrorHandler.handle(request, this, e, "", "");
-		}
-		request.setAttribute("userENT", userENT);
+//		UserENT userENT = getUserENT(request);
+//		try {
+//			userENT = getUserDAO().saveUpdateUser(userENT);
+//			success = "The user '" + userENT.getUserName()
+//					+ "' saved successfully";
+//		} catch (AMSException e) {
+//			error = AMSErrorHandler.handle(request, this, e, "", "");
+//		}
+//		request.setAttribute("userENT", userENT);
 		MessageENT m = new MessageENT(success, error);
 		request.setAttribute("message", m);
 		return mapping.findForward("userEdit");

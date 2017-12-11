@@ -3,14 +3,14 @@ package common.user;
 public class UserPassword {
 	private String userName;
 	private String userPassword;
-	private String oldPassword;
 
-	public String getOldPassword() {
-		return oldPassword;
+	public UserPassword(String userName, String userPassword) {
+		super();
+		this.userName = userName;
+		this.userPassword = userPassword;
 	}
-
-	public void setOldPassword(String oldPassword) {
-		this.oldPassword = oldPassword;
+	
+	public UserPassword() {
 	}
 
 	public String getUserName() {
