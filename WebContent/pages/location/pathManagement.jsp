@@ -119,7 +119,7 @@
 	onclick="createNew();"><img width='27' height='27'
 	src='images/icons/add.png'>NEW</a>
 
-<a href="#" data-mini="true" data-role="button" title="Search a Place"
+<a href="#" data-mini="true" data-role="button" title="Search for a Place"
 	class="showLabelMouseOverTrue" id="searchButton" onclick="createNew();"><img
 	width='27' height='27' src='images/icons/search.png'>SEARCH</a>
 
@@ -131,12 +131,12 @@
 	<!-- 	LOCATION -->
 	<label for="marker" id="ui-icon-map-marker"><span
 		class="inlineIcon showLabelMouseOverTrue"
-		id="modeSelection_locationText" title="Manage">CAMPUS</span></label> <input
+		id="modeSelection_locationText" title="Manage the Places">CAMPUS</span></label> <input
 		type="radio" name="radio-choice" id="marker" value="marker"
 		checked="checked" onclick="selectActionType();" alt="View and Manage">
 	<!-- 		PATH -->
 	<label for="path" id="ui-icon-map-path"><span
-		class="ui-alt-icon inlineIcon showLabelMouseOverTrue">PATH</span></label> <input
+		class="ui-alt-icon inlineIcon showLabelMouseOverTrue"  title="Manage the Paths">PATH</span></label> <input
 		type="radio" name="radio-choice" id="path" value="path"
 		onclick="selectActionType();">
 </fieldset>
@@ -446,7 +446,7 @@
 	</div>
 	<div class="ui-block-d">
 		<label for="destination">Width (Meter)</label><input type="text"
-			placeholder="Width" name="destination" id="pathWidth" value="0"
+			placeholder="Width" name="destination" id="pathWidthLabel" value="0"
 			readonly>
 	</div>
 	<div class="ui-block-e">

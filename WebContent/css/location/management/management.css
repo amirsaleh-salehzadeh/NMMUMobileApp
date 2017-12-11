@@ -40,7 +40,7 @@
 	font-size: 10pt;
 	background-color: rgba(8, 27, 44, 1) !important;
 	height: 20px;
-	text-shadow: 0;
+	text-shadow: none !important;
 	font-size: 14pt;
 	line-height: .5 em;
 	font-weight: bold;
@@ -84,7 +84,9 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	opacity: .7;
+	opacity: .8;
+	position: absolute;
+	z-index: 666;
 }
 
 .markerLoading {

@@ -114,6 +114,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 	if (!refreshMarkers && markers.length > 0) {
 		setMapOnAllMarkers(map);
 		setMapOnAllPathMarkers(null);
+		$("input[name='radio-choice']").checkboxradio('enable');
 //		$("input[name='radio-choice']").checkboxradio('enable');
 		return;
 	}
