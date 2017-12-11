@@ -136,12 +136,7 @@ title {
 		<li id="editInfoBtn" data-icon="false"><a class="editInfo thumbnail" href="#"
 			onclick="openIconPopup();">Edit Thumbnail</a></li>
 		<li data-role="list-divider"></li>
-<<<<<<< HEAD
-		<li data-icon="false"><a href="#" onclick="deletePolygon();">Delete</a></li>
-=======
-		<li id="editInfoBtn" data-icon="false"><a class="editInfo delete"
-			href="#">Delete</a></li>
->>>>>>> Neil-v0.4
+		<li data-icon="false"><a href="#" class="editInfo delete" onclick="deletePolygon();">Delete</a></li>
 		<li data-role="list-divider"></li>
 		<li id="editInfoBtn" data-icon="false"><a class="editInfo printBarcode" href="#"
 			onclick="printBarcode($('#markerId').val(),$('#markerName').val());">Print

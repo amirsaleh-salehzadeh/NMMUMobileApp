@@ -35,6 +35,9 @@ function mapSattelView() {
 }
 function createNew() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
+		map.setOptions({
+			draggableCursor : 'corsshair'
+		});
 		setDrawingMode();
 	} else {
 	}
