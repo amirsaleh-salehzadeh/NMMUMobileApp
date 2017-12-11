@@ -35,22 +35,26 @@ function mapSattelView() {
 }
 function createNew() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-//		map.setOptions({
-//			draggableCursor : 'corsshair'
-//		});
-		map.setOptions({
-					draggableCursor : 'images/map-markers/mouse-cursors/pin.png'
-		});
+		// map.setOptions({
+		// draggableCursor : 'corsshair'
+		// });
 		setDrawingMode();
+		map
+				.setOptions({
+					draggableCursor : "url('images/map-markers/mouse-cursors/pin.png'), auto"
+				});
 	} else {
+		$("#map_canvas").css("cursor",
+				"url(images/map-markers/mouse-cursors/pin.png) , auto");
+		map
+				.setOptions({
+					draggableCursor : "url('images/map-markers/mouse-cursors/pin.png'), auto"
+				});
 	}
 }
 
 function selectActionType() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-//		map.setOptions({
-//			draggableCursor : 'corsshair'
-//		});
 		var gps = map.getCenter().toString();
 		gps = gps.replace("(", "");
 		gps = gps.replace(")", "");

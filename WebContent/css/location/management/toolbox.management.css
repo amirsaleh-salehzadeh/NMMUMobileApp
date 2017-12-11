@@ -22,7 +22,9 @@
 #pathInfoFooter>div>label {
 	/* 	font-size: 12pt; */
 	border-right: solid 1px;
-	border-color: rgba(8, 27, 44, 1);
+	border-color: rgba(8, 27, 44, 1) !important;
+	color: rgba(8, 27, 44, 1) !important;
+	background-color: rgba(248, 182, 36, 1) !important;
 	margin: 0;
 	font-weight: bold;
 	text-align: center;
@@ -90,6 +92,9 @@ input[name="radio-choice"] {
 	font-size: 16pt;
 	/* 	min-height: 48px !important; */
 }
+#locPathModeRadiobtn>div>div{
+	margin: 0 3 -2 0;
+}
 
 #locPathModeRadiobtn>div>div .ui-radio-on {
 	color: rgb(248, 182, 36) !important;
@@ -100,6 +105,7 @@ input[name="radio-choice"] {
 	display: inline-block !important;
 	font-size: 16pt;
 	line-height: 0;
+	margin: 0;
 	border-radius: 7px 7px 0px 0px !important;
 	border-bottom-color: #383c40 !important;
 	border-bottom-radius: 0 !important;
@@ -130,7 +136,7 @@ input[name="radio-choice"] {
 	background-color: rgb(248, 182, 36) !important;
 	font-size: 12;
 	color: rgb(8, 27, 44) !important;
-	margin-bottom: -6;
+	margin-bottom: -6 !important;
 	padding-bottom: 3px;
 	text-shadow: none;
 }
