@@ -1,19 +1,20 @@
 @CHARSET "ISO-8859-1";
-#infoLocationGrid{
-	margin:0;
-	
+
+#infoLocationGrid {
+	margin: 0;
 }
-#locationInfo{
-	background-color: transparent!important;
+
+#locationInfo {
+	background-color: transparent !important;
 	text-shadow: none !important;
 	color: rgb(248, 182, 36) !important;
-	display:inline !important;
-	
+	display: inline !important;
 }
+
 label {
 	padding: 2px 0px 2px 2px !important;
-	color: rgba(8, 27, 44, 1)  !important;
-	background-color:rgb(248, 182, 36)!important;
+	color: rgba(8, 27, 44, 1) !important;
+	background-color: rgb(248, 182, 36) !important;
 	text-shadow: none !important;
 }
 
@@ -107,19 +108,29 @@ label {
 -webkit-transform
 
 
+
+
 :scale
+
 
  
 
+
 (1
 .0
+
+
 
 
 );
 opacity
 
 
+
+
 :
+
+
 
 
 0;
@@ -136,27 +147,41 @@ keyframes sk-scaleout { 0% {
 -webkit-transform
 
 
+
+
 :
 
+
  
+
 
 scale
 
+
  
+
 
 (1
 .0
+
+
 
 
 );
 transform
 
 
+
+
 :
+
 
  
 
+
 scale
+
+
 
 
 
@@ -165,11 +190,17 @@ scale
 .0
 
 
+
+
 );
 opacity
 
 
+
+
 :
+
+
 
 
 0;
@@ -198,35 +229,50 @@ opacity
 	background-color: rgba(248, 182, 36, 1) !important;
 	border-color: rgba(8, 27, 44, 1) !important;
 }
-#editInfoBtn{
-	height:38px !important;
-	text-align:center !important;
-    background-repeat: no-repeat;
-    background-position: left 2px center;
-    
-   
+
+#editInfoBtn {
+	height: 38px !important;
+	text-align: center !important;
+	background-repeat: no-repeat;
+	background-position: left 2px center;
 }
+
 .editInfo {
-	 padding-left: 30px;
+	padding-left: 30px;
 }
-.edit{
-	 background-image: url("WebContent/images/icons/edit.png");
+
+.edit {
+	background-image: url("../../../images/icons/edit.png");
+		 background-repeat: no-repeat;
+	
 }
-.open{
-	 background-image: url();
+
+.open {
+	background-image: url();
 }
-.location{
-	 background-image: url("WebContent/images/icons/location.png");
+
+.location {
+	background-image: url("../../../images/icons/location.png");
+		 background-repeat: no-repeat;
+	
 }
-.boundary{
-	 background-image: url("WebContent/images/icons/polygon.png");
+
+.boundary {
+	background-image: url("../../../images/icons/polygon.png");
+		 background-repeat: no-repeat;
+	
 }
-.thumbnail{
-	 background-image: url();
+
+.thumbnail {
+	background-image: url();
 }
-.delete{
-	 background-image: url("WebContent/images/icons/bin.png");
+
+.delete {
+	background-image: url("../../../images/icons/bin.png");
+		 background-repeat: no-repeat;
 }
-.printBarcode{
-	 background-image: url("WebContent/images/icons/QRCodeIcon.png");
+
+.printBarcode {
+	background-image: url("../../../images/icons/QRCodeIcon.png");
+	background-repeat: no-repeat;
 }
