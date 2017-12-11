@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.tomcat.util.security.MD5Encoder;
+
 import com.mysql.jdbc.Statement;
 
 import common.DropDownENT;
@@ -24,6 +26,7 @@ import common.user.UserPassword;
 import hibernate.config.BaseHibernateDAO;
 import tools.AMSException;
 import tools.AMSUtililies;
+import tools.MD5Encryptor;
 
 public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 	public static void main(String[] args) {
@@ -50,20 +53,20 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// ent.setPassword("pass"+i);
 		// ent = udao.saveUpdateUser(ent);
 
-		 UserLST l = new UserLST();
+		UserLST l = new UserLST();
 		// UserENT us = new UserENT();
 		// ArrayList<RoleENT> ad = new ArrayList<RoleENT>();
 		// UserENT u = new UserENT();
 		// u.setRoleENTs(ad);
 
 		try {
-		// udao.registerNewUser(new UserPassword("amir", "1234"));
-			UserENT user = udao.getUserLST(l).getUserENTs().get(1) ;
-			user.setName("tester") ;
-			user.setSurName("maninjwa") ;
-			udao.updateUserProfile(user) ;
-			 l = udao.getUserLST(new UserLST()) ;
-			
+			// udao.registerNewUser(new UserPassword("amir", "1234"));
+			UserENT user = udao.getUserLST(l).getUserENTs().get(1);
+			user.setName("tester");
+			user.setSurName("maninjwa");
+			udao.updateUserProfile(user);
+			udao.getUserLST(new UserLST());
+
 		} catch (AMSException e) {
 			e.printStackTrace();
 		}
@@ -81,16 +84,22 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
-			// String query = "delete from users where username = ?";
-			// ps.setString(1, ent.getUserName());
-			// ps.execute(); // U SHOULD CHECK IF USENAME EXISTS THEN TREW AN
-			// EXCEPTION HERE
-			String query = "insert into users (client_id,password,username,ethnic, title)"
-					+ " values (2,?,?,1,1)";
+
+			String query = "";
+			query = "select * from users where username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1, ent.getUserName());
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				throw new AMSException("The username already exist");
+			rs.close();
+			ps.clearBatch();
+			query = "insert into users (client_id,password,username,ethnic, title)"
+					+ " values (2,?,?,1,1)";
+			ps = conn.prepareStatement(query);
 			ps = conn.prepareStatement(query);
 			ps.setString(2, ent.getUserName());
-			ps.setString(1, ent.getUserPassword());
+			ps.setString(1, MD5Encryptor.encode(ent.getUserPassword()));
 			ps.execute();
 			ps.close();
 			conn.commit();
@@ -525,10 +534,10 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 				e.printStackTrace();
 			}
 
-				query = "update users " +
-					"set active= ? ,client_id = ?, date_of_birth =?,ethnic = ?,gender = ?"
-					+ ",name = ?,password = ?,registeration_date =?,surname =?,title =?,username =? "
-					+ "where username= test and active =1";
+			query = "UPDATE users "
+					+ "SET active= ? ,client_id = ?, date_of_birth =?,ethnic =?,gender =?"
+					+ ",name = ?,password= ?,registeration_date =?,surname =?,title =?,username =? "
+					+ "where username=? and active =1";
 			ps = conn.prepareStatement(query);
 			if (user.isActive()) {
 				ps.setInt(1, 1);
@@ -548,12 +557,11 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			ps.setString(8, user.getRegisterationDate());
 			ps.setString(9, user.getSurName());
 			ps.setString(10, user.getUserName());
-			//ps.setString(11, user.getUserName());
-			ps.setInt(11, 1) ;
-			ps.execute();
-			conn.commit();
+			ps.setString(11, user.getUserName());
+			ps.setInt(12, 1);
+			ps.executeUpdate();
 			ps.close();
-			
+			conn.commit();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
