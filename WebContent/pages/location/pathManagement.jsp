@@ -323,7 +323,9 @@
 			<div id="colorSelectorBorder">
 				<div style="background-color: #0000ff"></div>
 			</div>
-			<div id="color-palette" style="display: none"></div>
+<!-- 			<div id="color-palette" style="display: none"></div> -->
+			<img src='images/icons/undo.png' class="pathMenu" width="48"
+				height="48" title="Undo Colour Change" onclick="undoColourChange()">
 		</div>
 	</div>
 	<div class="ui-block-b ui-grid-a editlocationFormRow">
