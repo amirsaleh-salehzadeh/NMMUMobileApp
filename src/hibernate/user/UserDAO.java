@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.tomcat.util.security.MD5Encoder;
+
 import com.mysql.jdbc.Statement;
 
 import common.DropDownENT;
@@ -24,6 +26,7 @@ import common.user.UserPassword;
 import hibernate.config.BaseHibernateDAO;
 import tools.AMSException;
 import tools.AMSUtililies;
+import tools.MD5Encryptor;
 
 public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 	public static void main(String[] args) {
@@ -51,53 +54,28 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 		// ent = udao.saveUpdateUser(ent);
 
 		UserLST l = new UserLST();
-		UserENT us = new UserENT();
-		ArrayList<RoleENT> ad = new ArrayList<RoleENT>();
-		UserENT u = new UserENT();
-		u.setRoleENTs(ad);
+		// UserENT us = new UserENT();
+		// ArrayList<RoleENT> ad = new ArrayList<RoleENT>();
+		// UserENT u = new UserENT();
+		// u.setRoleENTs(ad);
+
 		try {
-			udao.saveUpdateUserRoles(u);
+			// udao.registerNewUser(new UserPassword("amir", "1234"));
+			UserENT user = udao.getUserLST(l).getUserENTs().get(1);
+			user.setName("tester");
+			user.setSurName("maninjwa");
+			udao.updateUserProfile(user);
+			udao.getUserLST(new UserLST());
+
 		} catch (AMSException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(us.toString());
-		// l.setSearchUser(us);
-		// udao.deleteUser(us);
+		// UDAO.DELETEUSER(US);
 
 		System.out.println("done");
-		// }
-		// } catch (AMSException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
 	}
 
-	public UserENT saveUpdateUser(UserENT ent) throws AMSException {
-		// Session session = getSession();
-		// Transaction tx = null;
-		// try {
-		// tx = session.beginTransaction();
-		// ent.setPassword(AMSUtililies.encodeMD5(ent.getPassword()));
-		// if (ent.getUserName() != null &&
-		// !ent.getUserName().equalsIgnoreCase("")) {
-		// if (getUserENT(ent) == null)
-		// session.save(ent);
-		// else
-		// throw getAMSException("The username already Exist", null);
-		// } else
-		// session.saveOrUpdate(ent);
-		// tx.commit();
-		// session.flush();
-		// session.clear();
-		// session.close();
-		// } catch (HibernateException ex) {
-		// tx.rollback();
-		// session.clear();
-		// session.close();
-		// ex.printStackTrace();
-		// throw getAMSException("", ex);
-		// }
+	public UserPassword registerNewUser(UserPassword ent) throws AMSException {
 		try {
 			Connection conn = null;
 			try {
@@ -106,34 +84,22 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			} catch (AMSException e) {
 				e.printStackTrace();
 			}
-			String query = "delete from users where username = ?";
+
+			String query = "";
+			query = "select * from users where username = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, ent.getUserName());
-			ps.execute();
-			query = "insert into users (active,client_id"
-					+ ",date_of_birth,ethnic,gender"
-					+ ",name,password,registeration_date,surname,title,username)"
-					+ " values (?,?,?,?,?,?,?,?,?,?,?)";
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				throw new AMSException("The username already exist");
+			rs.close();
+			ps.clearBatch();
+			query = "insert into users (client_id,password,username,ethnic, title)"
+					+ " values (2,?,?,1,1)";
 			ps = conn.prepareStatement(query);
-			if (ent.isActive()) {
-				ps.setInt(1, 1);
-			} else
-				ps.setInt(1, 0);
-
-			ps.setInt(2, ent.getClientID());
-			ps.setString(3, ent.getDateOfBirth());
-			ps.setInt(4, ent.getEthnicID());
-			if (ent.isGender()) {
-				ps.setInt(5, 1);
-			} else
-				ps.setInt(5, 0);
-
-			ps.setString(6, ent.getName());
-			ps.setString(7, ent.getPassword());
-			ps.setString(8, ent.getRegisterationDate());
-			ps.setString(9, ent.getSurName());
-			ps.setInt(10, ent.getTitleID());
-			ps.setString(11, ent.getUserName());
+			ps = conn.prepareStatement(query);
+			ps.setString(2, ent.getUserName());
+			ps.setString(1, MD5Encryptor.encode(ent.getUserPassword()));
 			ps.execute();
 			ps.close();
 			conn.commit();
@@ -142,7 +108,6 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			e.printStackTrace();
 			throw getAMSException("", e);
 		}
-
 		return ent;
 	}
 
@@ -555,6 +520,56 @@ public class UserDAO extends BaseHibernateDAO implements UserDAOInterface {
 			e.printStackTrace();
 			throw getAMSException("", e);
 		}
+	}
+
+	public UserENT updateUserProfile(UserENT user) throws AMSException {
+		String query = "";
+		PreparedStatement ps = null;
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+				conn.setAutoCommit(false);
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+
+			query = "UPDATE users "
+					+ "SET active= ? ,client_id = ?, date_of_birth =?,ethnic =?,gender =?"
+					+ ",name = ?,password= ?,registeration_date =?,surname =?,title =?,username =? "
+					+ "where username=? and active =1";
+			ps = conn.prepareStatement(query);
+			if (user.isActive()) {
+				ps.setInt(1, 1);
+			} else
+				ps.setInt(1, 0);
+
+			ps.setInt(2, user.getClientID());
+			ps.setString(3, user.getDateOfBirth());
+			ps.setInt(4, user.getEthnicID());
+			if (user.isGender()) {
+				ps.setInt(5, 1);
+			} else
+				ps.setInt(5, 0);
+
+			ps.setString(6, user.getName());
+			ps.setString(7, user.getPassword());
+			ps.setString(8, user.getRegisterationDate());
+			ps.setString(9, user.getSurName());
+			ps.setString(10, user.getUserName());
+			ps.setString(11, user.getUserName());
+			ps.setInt(12, 1);
+			ps.executeUpdate();
+			ps.close();
+			conn.commit();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+
+		return user;
+
 	}
 
 }
