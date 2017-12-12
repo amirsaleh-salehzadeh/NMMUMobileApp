@@ -72,8 +72,8 @@
 	rel="stylesheet">
 <style type="text/css">
 #map_canvas div[style*='crosshair'] {
-	cursor: url("images/map-markers/mouse-cursors/pin.png") 32 32,
-		crosshair !important;
+	cursor: url("images/map-markers/mouse-cursors/pin.png") 32 32, crosshair
+		!important;
 }
 </style>
 </head>
@@ -315,30 +315,36 @@
 
 <div id="editBoundaryPopup" class="toolBar">
 	<div class="ams">
-		<img src='images/icons/cursor-pointer.png' class="pathMenu showLabelMouseOverTrue" width="48"
-			height="48" title="Normal Mode" onclick="removeDrawingMode()">
-		<img src='images/icons/polygon-select.png' width="48" height="48"
-			class="pathMenu showLabelMouseOverTrue" title="Drawing Mode" onclick="startDrawingMode()" />
-		<img src='images/icons/edit.png' width="48" height="48"
-			class="pathMenu showLabelMouseOverTrue" title="Edit Boundary Points" /> <img
+		<img src='images/icons/cursor-pointer.png'
+			class="pathMenu showLabelMouseOverTrue" width="48" height="48"
+			title="Normal Mode" onclick="removeDrawingMode()"> <img
+			src='images/icons/polygon-select.png' width="48" height="48"
+			class="pathMenu showLabelMouseOverTrue" title="Drawing Mode"
+			onclick="startDrawingMode()" /> <img src='images/icons/edit.png'
+			width="48" height="48" class="pathMenu showLabelMouseOverTrue"
+			title="Edit Boundary Points" /> <img
 			src='images/icons/delete-icon.png' width="48" height="48"
-			class="pathMenu showLabelMouseOverTrue" title="Delete Boundary" onclick="deletePolygon()" />
-			<span id="boundaryColorIconSpan" onclick="showHideColors()" class="pathMenu showLabelMouseOverTrue" title="Polygon Color"></span>
-		<div id="boundaryColorFieldset" style="display: none;">
-			<span>Fill Colour</span>
-			<div id="colorSelectorFill">
-				<div style="background-color: #00ff00"></div>
-			</div>
-			<span>Border Colour</span>
-			<div id="colorSelectorBorder">
-				<div style="background-color: #0000ff"></div>
-			</div>
-			<!-- 			<div id="color-palette" style="display: none"></div> -->
-			<img src='images/icons/undo.png' class="pathMenu" width="48"
-				height="48" title="Undo Colour Change" onclick="undoColourChange()">
-		</div>
+			class="pathMenu" title="Delete Boundary" onclick="deletePolygon()" />
+		<div id="boundaryColour" title="Edit Boundary Colours" class="pathMenu showLabelMouseOverTrue"
+			onclick="showHideColors();"></div>
 	</div>
-<!-- 	<div class="ui-block-b ui-grid-a editlocationFormRow"> -->
+	<!-- 	<div class="ui-block-c">	 -->
+	<div id="boundaryColorFieldset" style="display: none;">
+		<span>Fill Colour</span>
+		<div id="colorSelectorFill">
+			<div style="background-color: #00ff00"></div>
+		</div>
+		<span>Border Colour</span>
+		<div id="colorSelectorBorder">
+			<div style="background-color: #0000ff"></div>
+		</div>
+		<img src='images/icons/checkMark.png' width="48" height="48"
+			class="pathMenu showLabelMouseOverTrue" title="Apply Colour" onclick="applyBoundaryColour()" />
+		<img src='images/icons/undo.png' class="pathMenu showLabelMouseOverTrue" width="48"
+			height="48" title="Undo Colour Change" onclick="undoColourChange()">
+	</div>
+	<!-- 	</div> -->
+<!-- 	<div class="ui-grid-a editlocationFormRow" style="float: right;"> -->
 <!-- 		<div class="ui-block-a"> -->
 <!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
 <!-- 				class="ui-btn save-icon " onclick="saveMarker()">Save</a> -->
@@ -350,8 +356,6 @@
 <!-- 		</div> -->
 <!-- 	</div> -->
 </div>
-
-
 
 <!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
 

@@ -270,3 +270,4 @@ function showPathInfo() {
 function hidePathInfo() {
 	$("#pathInfoFooter").css("display", "none");
 }
+
