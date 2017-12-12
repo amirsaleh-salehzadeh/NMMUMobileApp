@@ -99,12 +99,12 @@ function saveMarker() {
 
 var str = "";
 function getAllMarkers(parentId, refreshMarkers) {
-	if ((parentId == 360) && (boundaryOpened == true)) {
-		boundaryOpened = false;
-	}
-	if ((parentId == 369) && (boundaryOpened == false)) {
-		boundaryOpened = true;
-	}
+//	if ((parentId == 360) && (boundaryOpened == true)) {
+//		boundaryOpened = false;
+//	}
+//	if ((parentId == 369) && (boundaryOpened == false)) {
+//		boundaryOpened = true;
+//	}
 	minZoomLevel = 1;
 	$("input[name='radio-choice']").checkboxradio();
 	$("input[name='radio-choice']").checkboxradio('disable');

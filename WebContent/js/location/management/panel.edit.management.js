@@ -77,6 +77,7 @@ function getLocationTypeName(obj, id) {
 			function(k, l) {
 				if (l.locationTypeId == id) {
 					$("#locationTypeLabel").html(l.locationType);
+					$("#locationTypeLabelFooter").val(l.locationType);
 					$("#modeSelection_locationText").html(
 							l.locationType.toUpperCase()).trigger("create");
 					return;
@@ -90,8 +91,9 @@ function getLocationTypeName(obj, id) {
 }
 
 function selectThisLocationType(ltype) {
-	if (ltype != null)
+	if (ltype != null){
 		$("#locationTypeId").val($(ltype).attr("value"));
+	}
 	$(".locationTypeSelecIcons").each(
 			function() {
 				if ($(this).hasClass("locationTypeSelecIconSelected"))
@@ -131,21 +133,12 @@ function locationEditPanelOpen(title, info) {
 	$("#locationInfo").html('');
 	$("#locationEditMenuTitle").html(title +" ("+info+")");
 	$("#locationInfo").prepend(title);
-	$("#locationDescriptionLabel").html(info+":");
+	$("#locationDescriptionLabel").html(info);//+":"
 	$('#locationEditMenu').popup("option", {
 		x : event.pageX,
 		y : event.pageY
 	});
 	$("#locationEditMenu").popup("open").trigger("create");
-}
-
-function pathEditPanelOpen(title) {
-	$("#pathEditMenuTitle").html(title);
-	$('#pathEditMenu').popup("option", {
-		x : event.pageX,
-		y : event.pageY
-	});
-	$("#pathEditMenu").popup("open").trigger("create");
 }
 
 function openALocation() {
@@ -170,6 +163,127 @@ function openLocationTypePopup() {
 	$("#mainBodyContents").trigger('create');
 }
 
+function openLocationInfoPopup() {
+	$('#editLocationInfoPopup').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+//	$("#mainBodyContents").trigger('create');
+	$("#locationEditMenu").on("popupafterclose", function() {
+		setTimeout(function() {
+			$("#editLocationInfoPopup").trigger('create').popup('open');
+		}, 100);
+	});
+	$("#locationEditMenu").popup("close");
+//	$("#mainBodyContents").trigger('create');
+}
+
+function closeAMenuPopup() {
+	$('.menuItemPopupClass').popup('close');
+	$("#locationEditMenu").unbind("popupafterclose");
+	$("#pathEditMenu").unbind("popupafterclose");
+//	hideMainBoundary();
+//	unselectBoundary();
+}
+
+function openIconPopup() {
+	$('#editIconPopup').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#locationEditMenu").on("popupafterclose", function() {
+		setTimeout(function() {
+			$("#editIconPopup").popup('open').trigger('create');
+		}, 100);
+	}).trigger('create');
+	$("#mainBodyContents").trigger('create');
+	$("#locationEditMenu").popup("close");
+}
+
+//function showMainBoundary() {
+//	setMapOnAllPolygons(null);
+//	var i = 0;
+//	for ( var int = 0; int < polygons.length; int++) {
+//		if (polygons[int].id == $("#markerId").val())
+//			i = int;
+//	}
+//	if (i > 0)
+//		polygons[i].setMap(map);
+//	$("#locationEditMenu").popup("close");
+//	$("#editBoundaryPopup").css("left",($("#map_canvas").width()/2)-($("#editBoundaryPopup").width()/2));
+//	$("#editBoundaryPopup").css("display", "block");
+//}
+//
+//function hideMainBoundary() {
+//	setMapOnAllPolygons(map);
+//	$("#locationEditMenu").popup("close");
+//	$("#editBoundaryPopup").css("display", "none");
+//}
+
+function openEditBoundaryPopup(){
+	$('#editBoundaryPopup').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#locationEditMenu").on("popupafterclose", function() {
+		setTimeout(function() {
+			$("#editBoundaryPopup").trigger('create').popup('open');
+		}, 100);
+	});
+	$("#locationEditMenu").popup("close");
+}
+
+function showLocationInfo() {
+	$("#locationEditMenu").popup("close");
+	$("#locationInfoFooter").css("display", "inline-block").trigger("create");
+	$("#locationSaveCancelPanel").css("display", "inline-block").trigger("create");
+	hidePathInfo();
+	$("#locationSaveCancelPanel").css(
+			"top",
+			parseInt(parseInt($(".jqm-header").height())
+					+ parseInt($("#locPathModeRadiobtn")
+							.height()) + 3));
+}
+
+function hideLocationInfo() {
+	$("#locationInfoFooter").css("display", "none");
+	$("#locationSaveCancelPanel").css("display", "none");
+}
+
+function pathEditPanelOpen(title) {
+	$("#pathEditMenuTitle").html(title);
+	$('#pathEditMenu').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#pathEditMenu").popup("open").trigger("create");
+}
+
+function showPathInfo() {
+	$("#pathEditMenu").popup("close");
+	$("#pathInfoFooter").css("display", "inline-block").trigger("create");
+	hideLocationInfo();
+}
+
+function hidePathInfo() {
+	$("#pathInfoFooter").css("display", "none");
+}
+
+function openPathInfoPopup() {
+	$('#editPathInfoPopup').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#mainBodyContents").trigger('create');
+	$("#pathEditMenu").on("popupafterclose", function() {
+		setTimeout(function() {
+			$("#editPathInfoPopup").trigger('create').popup('open');
+		}, 100);
+	});
+	$("#pathEditMenu").popup("close");
+	$("#mainBodyContents").trigger('create');
+}
+
 function openPathTypePopup() {
 	$(".pathTypeIcon").each(function() {
 		if ($(this).hasClass("pathTypeIconSelected")) {
@@ -190,103 +304,3 @@ function openPathTypePopup() {
 	$("#pathEditMenu").popup("close");
 	$("#mainBodyContents").trigger('create');
 }
-
-function openLocationInfoPopup() {
-	$('#editLocationInfoPopup').popup("option", {
-		x : event.pageX,
-		y : event.pageY
-	});
-	$("#mainBodyContents").trigger('create');
-	$("#locationEditMenu").on("popupafterclose", function() {
-		setTimeout(function() {
-			$("#editLocationInfoPopup").trigger('create').popup('open');
-		}, 100);
-	});
-	$("#locationEditMenu").popup("close");
-	$("#mainBodyContents").trigger('create');
-}
-
-function openPathInfoPopup() {
-	$('#editPathInfoPopup').popup("option", {
-		x : event.pageX,
-		y : event.pageY
-	});
-	$("#mainBodyContents").trigger('create');
-	$("#pathEditMenu").on("popupafterclose", function() {
-		setTimeout(function() {
-			$("#editPathInfoPopup").trigger('create').popup('open');
-		}, 100);
-	});
-	$("#pathEditMenu").popup("close");
-	$("#mainBodyContents").trigger('create');
-}
-
-function closeAMenuPopup() {
-	$('.menuItemPopupClass').popup('close');
-	$("#locationEditMenu").unbind("popupafterclose");
-	$("#pathEditMenu").unbind("popupafterclose");
-	hideMainBoundary();
-	unselectBoundary();
-}
-
-function openIconPopup() {
-	$('#editIconPopup').popup("option", {
-		x : event.pageX,
-		y : event.pageY
-	});
-	$("#locationEditMenu").on("popupafterclose", function() {
-		setTimeout(function() {
-			$("#editIconPopup").popup('open').trigger('create');
-		}, 100);
-	}).trigger('create');
-	$("#mainBodyContents").trigger('create');
-	$("#locationEditMenu").popup("close");
-}
-
-function showMainBoundary() {
-	setMapOnAllPolygons(null);
-	var i = 0;
-	for ( var int = 0; int < polygons.length; int++) {
-		if (polygons[int].id == $("#markerId").val())
-			i = int;
-	}
-	if (i > 0)
-		polygons[i].setMap(map);
-	$("#locationEditMenu").popup("close");
-	$("#editBoundaryPopup").css("left",($("#map_canvas").width()/2)-($("#editBoundaryPopup").width()/2));
-	$("#editBoundaryPopup").css("display", "block");
-}
-
-function hideMainBoundary() {
-	setMapOnAllPolygons(map);
-	$("#locationEditMenu").popup("close");
-	$("#editBoundaryPopup").css("display", "none");
-}
-
-function showPathInfo() {
-	$("#pathEditMenu").popup("close");
-	$("#pathInfoFooter").css("display", "inline-block").trigger("create");
-	hideLocationInfo();
-}
-
-function hidePathInfo() {
-	$("#pathInfoFooter").css("display", "none");
-}
-
-function showLocationInfo() {
-	$("#locationEditMenu").popup("close");
-	$("#locationInfoFooter").css("display", "inline-block").trigger("create");
-	$("#locationSaveCancelPanel").css("display", "inline-block").trigger("create");
-	hidePathInfo();
-	$("#locationSaveCancelPanel").css(
-			"top",
-			parseInt(parseInt($(".jqm-header").height())
-					+ parseInt($("#locPathModeRadiobtn")
-							.height()) + 3));
-}
-
-function hideLocationInfo() {
-	$("#locationInfoFooter").css("display", "none");
-	$("#locationSaveCancelPanel").css("display", "none");
-}
-

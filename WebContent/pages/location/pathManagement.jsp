@@ -3,6 +3,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%@ taglib prefix="logic" uri="/WEB-INF/struts-logic.tld"%>
+<%@taglib prefix="ams" uri="/WEB-INF/AMSTag.tld"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,8 +12,7 @@
 	$(document)
 			.ready(
 					function() {
-						// 		selectRightPanelVal();
-						$("#editBoundaryPopup").css("display", "none");
+						// 						$("#editBoundaryPopup").css("display", "none");
 						$("#pathInfoFooter").css("display", "none");
 						$("#map_canvas").css("min-width",
 								parseInt($("#mainBodyContents").css("width")));
@@ -56,7 +56,8 @@
 		getAllMarkers("360", true);
 		$("#parentLocationId").val("360");
 		hideLocationInfo();
-		mapSattelView();
+		// 		mapSattelView();
+		popErrorMessage("heeeey");
 	});
 </script>
 
@@ -81,7 +82,7 @@
 
 <!-- HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS  -->
 
-
+<ams:message messageEntity="${message}"></ams:message>
 
 <input type="hidden" readonly id="parentLocationId" value="360">
 <input type='hidden' readonly id='locationTypeId' value="0">
@@ -122,7 +123,7 @@
 
 <a href="#" data-mini="true" data-role="button" title="Create New"
 	class="showLabelMouseOverTrue" id="createNewButton"
-	onclick="createNew();"><img width='27' height='27'
+	onclick="createNew(0);"><img width='27' height='27'
 	src='images/icons/add.png'>NEW</a>
 
 <a href="#" data-mini="true" data-role="button"
@@ -182,7 +183,7 @@
 			onclick="openLocationInfoPopup();"><img alt=""
 				src="images/icons/info.png">Edit Info</a></li>
 		<li data-icon="false"><a class="editInfo" href="#"
-			onclick="showMainBoundary();"><img alt=""
+			onclick="openEditBoundaryPopup();"><img alt=""
 				src="images/icons/polygon.png">Edit Boundary </a></li>
 		<li data-icon="false"><a class="editInfo thumbnail" href="#"
 			onclick="openIconPopup();"><img alt=""
@@ -198,7 +199,7 @@
 		<li data-role="list-divider"></li>
 		<li><a href="#" data-rel="back" class="editInfo"
 			onclick="unselectBoundary();"><img alt=""
-				src="images/icons/clearInput.png">Close</a></li>
+				src="images/icons/clearInput.png">Cancel</a></li>
 	</ul>
 </div>
 
@@ -210,9 +211,9 @@
 
 <div data-role="popup" id="editLocationTypePopup"
 	class="menuItemPopupClass">
-	<a href="#" data-role="button" data-theme="a" data-icon="delete"
+	<a href="#" data-role="button"  data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
-		onclick="closeAMenuPopup();">Close</a>
+		onclick="closeAMenuPopup();">Cancel</a>
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="locationType" id="locationTypeLabel"></label>
 		<div class="ui-field-contain">
@@ -220,17 +221,17 @@
 				data-mini="true"></div>
 		</div>
 	</div>
-	<!-- 	<div class="ui-grid-a editlocationFormRow"> -->
-	<!-- 		<div class="ui-block-a"> -->
-	<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-	<!-- 				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="ui-block-b"> -->
-	<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-	<!-- 				class="pathMenu ui-btn ui-shadow cancel-icon " -->
-	<!-- 				onclick="closeAMenuPopup();">Close</a> -->
-	<!-- 		</div> -->
-	<!-- 	</div> -->
+	<div class="ui-grid-a editlocationFormRow">
+		<div class="ui-block-a">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+		</div>
+		<div class="ui-block-b">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="closeAMenuPopup();">Cancel</a>
+		</div>
+	</div>
 </div>
 
 
@@ -243,7 +244,7 @@
 	class="menuItemPopupClass">
 	<a href="#" data-role="button" data-theme="a" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
-		onclick="closeAMenuPopup();">Close</a>
+		onclick="closeAMenuPopup();">Cancel</a>
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="markerName" id="markerLabel">Label</label> <input
 			class="pathMenu" type="text" placeholder="Label" name="markerName"
@@ -254,17 +255,17 @@
 		<textarea type="text" placeholder="Description"
 			name="locationDescription" id="locationDescription" value="" rows="5"></textarea>
 	</div>
-	<!-- 	<div class="ui-grid-a editlocationFormRow"> -->
-	<!-- 		<div class="ui-block-a"> -->
-	<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-	<!-- 				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="ui-block-b"> -->
-	<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-	<!-- 				class="pathMenu ui-btn ui-shadow cancel-icon " -->
-	<!-- 				onclick="closeAMenuPopup();">Close</a> -->
-	<!-- 		</div> -->
-	<!-- 	</div> -->
+	<div class="ui-grid-a editlocationFormRow">
+		<div class="ui-block-a">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+		</div>
+		<div class="ui-block-b">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="closeAMenuPopup();">Cancel</a>
+		</div>
+	</div>
 </div>
 
 
@@ -274,11 +275,11 @@
 
 
 <div data-role="popup" id="editIconPopup" data-position-to="window"
-	data-transition="turn" style="width: 100%; padding: 7px 7px 7px 7px;"
+	 style="padding: 7px 7px 7px 7px;"
 	class="menuItemPopupClass">
-	<a href="#" data-role="button" data-theme="a" data-icon="delete"
+	<a href="#" data-role="button" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
-		onclick="closeAMenuPopup();">Close</a>
+		onclick="closeAMenuPopup();">Cancel</a>
 	<div class="pathMenu editlocationFormRow" id="IconCollapsible">
 		<label>Icon</label>
 		<div class="ui-block-solo" id="iconDiv">
@@ -293,17 +294,17 @@
 			<!-- 			</div> -->
 		</div>
 	</div>
-	<!-- 	<div class="ui-grid-a editlocationFormRow"> -->
-	<!-- 		<div class="ui-block-a"> -->
-	<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-	<!-- 				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a> -->
-	<!-- 		</div> -->
-	<!-- 		<div class="ui-block-b"> -->
-	<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-	<!-- 				class="pathMenu ui-btn ui-shadow cancel-icon " -->
-	<!-- 				onclick="closeAMenuPopup();">Close</a> -->
-	<!-- 		</div> -->
-	<!-- 	</div> -->
+	<div class="ui-grid-a editlocationFormRow">
+		<div class="ui-block-a">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow save-icon " onclick="saveMarker()">Save</a>
+		</div>
+		<div class="ui-block-b">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="pathMenu ui-btn ui-shadow cancel-icon "
+				onclick="closeAMenuPopup();">Cancel</a>
+		</div>
+	</div>
 </div>
 
 
@@ -312,39 +313,61 @@
 
 
 
-<div id="editBoundaryPopup" class="toolBar">
+<div id="editBoundaryPopup" class="toolBar" data-role="popup"
+	data-position-to="window" 
+	style="padding: 7px 7px 7px 7px;" class="menuItemPopupClass"
+	data-dismissible="false">
+	<a href="#" data-role="button" data-icon="delete"
+		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
+		onclick="closeAMenuPopup();">Cancel</a>
 	<div class="ams">
-		<img src='images/icons/cursor-pointer.png'
-			class="pathMenu showLabelMouseOverTrue" width="48" height="48"
-			title="Normal Mode" onclick="removeDrawingMode()"> <img
-			src='images/icons/polygon-select.png' width="48" height="48"
-			class="pathMenu showLabelMouseOverTrue" title="Drawing Mode"
-			onclick="startDrawingMode()" /> <img src='images/icons/edit.png'
-			width="48" height="48" class="pathMenu showLabelMouseOverTrue"
-			title="Edit Boundary Points" /> <img
-			src='images/icons/delete-icon.png' width="48" height="48"
-			class="pathMenu showLabelMouseOverTrue" title="Delete Boundary"
-			onclick="deletePolygon()" />
-		<div id="boundaryColour" title="Edit Boundary Colours"
-			class="pathMenu showLabelMouseOverTrue" onclick="showHideColors();"></div>
-	</div>
-	<!-- 	<div class="ui-block-c">	 -->
-	<div id="boundaryColorFieldset" style="display: none;">
-		<span>Fill Colour</span>
-		<div id="colorSelectorFill">
-			<div style="background-color: #00ff00"></div>
+		<!-- 		<img src='images/icons/cursor-pointer.png' -->
+		<!-- 			class="pathMenu showLabelMouseOverTrue" width="48" height="48" -->
+		<!-- 			title="Normal Mode" onclick="removeDrawingMode()"> <img -->
+		<!-- 			src='images/icons/polygon-select.png' width="48" height="48" -->
+		<!-- 			class="pathMenu showLabelMouseOverTrue" title="Drawing Mode" -->
+		<!-- 			onclick="startDrawingMode()" /> <img src='images/icons/edit.png' -->
+		<!-- 			width="48" height="48" class="pathMenu showLabelMouseOverTrue" -->
+		<!-- 			title="Edit Boundary Points" /> <img -->
+		<!-- 			src='images/icons/delete-icon.png' width="48" height="48" -->
+		<!-- 			class="pathMenu showLabelMouseOverTrue" title="Delete Boundary" -->
+		<!-- 			onclick="deletePolygon()" /> -->
+		<!-- 		<div id="boundaryColour" title="Edit Boundary Colours" -->
+		<!-- 			class="pathMenu showLabelMouseOverTrue" onclick="showHideColors();"></div> -->
+		<!-- 	</div> -->
+		<!-- 	<div class="ui-block-c">	 -->
+		<div id="boundaryColorFieldset" style="display: none;">
+			<span>Fill Colour</span>
+			<div id="colorSelectorFill">
+				<div style="background-color: #00ff00"></div>
+			</div>
+			<span>Border Colour</span>
+			<div id="colorSelectorBorder">
+				<div style="background-color: #0000ff"></div>
+			</div>
+			<img src='images/icons/checkMark.png' width="48" height="48"
+				class="pathMenu showLabelMouseOverTrue" title="Apply Colour"
+				onclick="applyBoundaryColour()" /> <img src='images/icons/undo.png'
+				class="pathMenu showLabelMouseOverTrue" width="48" height="48"
+				title="Undo Colour Change" onclick="undoColourChange()">
 		</div>
-		<span>Border Colour</span>
-		<div id="colorSelectorBorder">
-			<div style="background-color: #0000ff"></div>
-		</div>
-		<img src='images/icons/checkMark.png' width="48" height="48"
-			class="pathMenu showLabelMouseOverTrue" title="Apply Colour"
-			onclick="applyBoundaryColour()" /> <img src='images/icons/undo.png'
-			class="pathMenu showLabelMouseOverTrue" width="48" height="48"
-			title="Undo Colour Change" onclick="undoColourChange()">
+
+		<ul data-role="listview" style="min-width: 210px !important;">
+			<li class="unselectable" data-role="list-divider"
+				id="locationEditMenuTitle">Boundary Settings</li>
+			<li data-icon="false"><a class="editInfo open" href="#"
+				onclick="editPoly(this);"><img alt=""
+					src="images/icons/edit.png">Edit the Boundary</a></li>
+			<li data-icon="false"><a class="editInfo location" href="#"
+				onclick="deletePolygon();"><img alt=""
+					src="images/icons/delete-icon.png">Remove the Boundary</a></li>
+			<li data-icon="false"><a class="editInfo location" href="#"
+				onclick="showHideColors();"><img alt=""
+					src="images/icons/location.png">Change the Color</a></li>
+			<li><a href="#" class="editInfo" onclick="closeAMenuPopup();"><img
+					alt="" src="images/icons/clearInput.png">Cancel</a></li>
+		</ul>
 	</div>
-	<!-- 	</div> -->
 </div>
 
 <!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
@@ -383,33 +406,27 @@
 			id="locationThumbnail" value="" readonly>
 	</div>
 	<div class="ui-block-d">
-		<label for="locationTypeLabel">Location Type</label><input type="text"
-			placeholder="Width" name="locationTypeLabel" id="locationTypeLabel"
-			value="0" readonly>
+		<label for="locationTypeLabelFooter">Location Type</label><input
+			type="text" placeholder="Width" name="locationTypeLabelFooter"
+			id="locationTypeLabelFooter" value="0" readonly>
 	</div>
 	<div class="ui-block-e">
 		<label for="locationBoundary">Boundary</label> <span
 			id="locationBoundary"></span>
 	</div>
-</div>
-
-<div class="ui-grid-a" style="" id="locationSaveCancelPanel">
-	<div class="ui-block-a">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn save-icon" onclick="saveMarker()">Save</a>
+	<div class="ui-grid-a" style="" id="locationSaveCancelPanel">
+		<div class="ui-block-a">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="ui-btn save-icon" id="locationSaveNextButton"
+				onclick="saveMarker()">Save</a>
+		</div>
+		<div class="ui-block-b">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				class="ui-btn cancel-icon"
+				onclick="closeAMenuPopup();hideLocationInfo();">Cancel</a>
+		</div>
 	</div>
-	<div class="ui-block-b">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn cancel-icon" onclick="closeAMenuPopup();hideLocationInfo();">Cancel</a>
-	</div>
 </div>
-
-
-
-
-
-
-
 
 
 <!-- EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU -->
@@ -443,7 +460,7 @@
 
 
 <div data-role="popup" id="editPathInfoPopup" class="menuItemPopupClass">
-	<a href="#" data-role="button" data-theme="a" data-icon="delete"
+	<a href="#" data-role="button" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
 		onclick="$('#editPathInfoPopup').popup('close'); ">Close</a>
 	<div class="ui-block-solo editlocationFormRow">
@@ -546,7 +563,7 @@
 
 
 <div id="editPathTypePopup" data-role="popup" class="menuItemPopupClass">
-	<a href="#" data-role="button" data-theme="a" data-icon="delete"
+	<a href="#" data-role="button" data-icon="delete"
 		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
 		onclick="$('#editPathTypePopup').popup('close'); ">Close</a>
 	<logic:iterate id="pathTIteration" name="pathTypes"

@@ -3,9 +3,7 @@ var longpress = false;
 var start;
 var boundarySelected = false;
 var boundaryEditable = false;
-var boundaryOpened = false;
 var drawingManager;
-var selectedShape;
 
 function createDrawingManager() {
 	var polyOptions = {
@@ -25,7 +23,7 @@ function createDrawingManager() {
 			drawingModes : [ 'polygon' ]
 		},
 		markerOptions : {
-			draggable : false,
+			draggable : true
 		},
 		polylineOptions : {
 			editable : true,
@@ -45,12 +43,12 @@ function createDrawingManager() {
 						newShape.type = e.type;
 						$("#boundary").val(getPolygonCoords(newShape));
 						// alert("Test1");
-						google.maps.event.addListener(newShape, "mouseup",
-								function(event) {
-									$("#boundary").val(
-											getPolygonCoords(newShape));
-									// alert("test2");
-								});
+						// google.maps.event.addListener(newShape, "mouseup",
+						// function(event) {
+						// $("#boundary").val(
+						// getPolygonCoords(newShape));
+						// // alert("test2");
+						// });
 						// alert("test1");
 						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
 							drawingManager.setDrawingMode(null);
@@ -102,8 +100,8 @@ function createDrawingManager() {
 
 	// Clear the current selection when the drawing mode is changed, or when the
 	// map is clicked.
-	google.maps.event.addListener(drawingManager, 'drawingmode_changed',
-			unselectBoundary);
+//	google.maps.event.addListener(drawingManager, 'drawingmode_changed',
+//			unselectBoundary);
 
 	// Disables drawing mode on startup so you have to click on toolbar first to
 	// draw shapes and create the colour palette
@@ -143,7 +141,6 @@ function drawPolygons(location) {
 		if (longpress) {
 			$("#parentLocationId").val(location.locationID);
 			getAllMarkers(location.locationID + "", true);
-			// restricting map when working in an area
 			minZoomLevel = 16;
 			map.setZoom(minZoomLevel);
 			// Limit the zoom level
@@ -151,7 +148,6 @@ function drawPolygons(location) {
 				if (map.getZoom() < minZoomLevel)
 					map.setZoom(minZoomLevel);
 			});
-			boundaryOpened = true;
 		} else {
 			showLocationInfo();
 			if (boundarySelected) { // boundary selected
@@ -240,21 +236,17 @@ function showHideColors() {
 }
 
 function deletePolygon() {
-	if (boundaryOpened) {
-		var id = $("#markerId").val();
-		for ( var i = 0; i < polygons.length; i++) {
-			if (polygons[i].id == id) {
-				polygons[i].setMap(null);
-				polygons.splice(i, 1);
-				$('#locationEditMenu').popup('close');
-				return;
-			}
+	var id = $("#markerId").val();
+	for ( var i = 0; i < polygons.length; i++) {
+		if (polygons[i].id == id) {
+			polygons[i].setMap(null);
+			polygons.splice(i, 1);
+			$('#locationEditMenu').popup('close');
+			return;
 		}
-	} else {
-		alert("This feature is disabled for area boundary");
 	}
 	hideMainBoundary();
-	unselectBoundary();
+//	unselectBoundary();
 }
 
 function setMapOnAllPolygons(map) {
@@ -273,29 +265,29 @@ function removeDrawingMode() {
 	boundaryEditable = false;
 }
 
-function clearBoundarySelection() {
-	if (selectedShape) {
-		if (selectedShape.type !== 'marker') {
-			selectedShape.setEditable(false);
-		}
+//function clearBoundarySelection() {
+//	if (selectedShape) {
+//		if (selectedShape.type !== 'marker') {
+//			selectedShape.setEditable(false);
+//		}
+//
+//		selectedShape = null;
+//	}
+//	$("#tempBoundaryColors").val("");
+//	$("#boundary").val("");
+//	boundarySelected = false;
+//}
 
-		selectedShape = null;
-	}
-	$("#tempBoundaryColors").val("");
-	$("#boundary").val("");
-	boundarySelected = false;
-}
-
-function unselectBoundary() {
-	if (selectedShape) {
-		if (selectedShape.type !== 'marker') {
-			selectedShape.setEditable(false);
-		}
-
-		selectedShape = null;
-	}
-	boundarySelected = false;
-}
+//function unselectBoundary() {
+//	if (selectedShape) {
+//		if (selectedShape.type !== 'marker') {
+//			selectedShape.setEditable(false);
+//		}
+//
+//		selectedShape = null;
+//	}
+//	boundarySelected = false;
+//}
 
 function setBoundarySelection(shape) {
 	if (shape.type !== 'marker') {
@@ -314,7 +306,7 @@ function editPolygon(shape) {
 	} else {
 		boundaryEditable = true;
 		if (shape.type !== 'marker') {
-			unselectBoundary();
+//			unselectBoundary();
 			shape.setEditable(true);
 		}
 		selectedShape = shape;

@@ -34,36 +34,55 @@ function mapSattelView() {
 	}
 }
 
-function createNew() {
+function createNew(seq) {// a number to indicate the sequence of next
+	// procedures
 	showLocationInfo();
-	$("#markerCoordinate").val("");
-	$("#markerId").val("");
-	$("#icon").val("");
-	$("#boundary").val("");
-	$("#pathId").val("");
-	$("#pathLatLng").val("");
-	$("#destinationId").val("");
-	$("#destinationGPS").val("");
-	$("#departureId").val("");
-	$("#departureGPS").val("");
-	$("#boundaryColors").val("");
-	
-	
-	$("#locationLabel").val("");
-	$("#locationInfoDescriptionLabel").val("");
-	$("#locationThumbnail").val("");
-	$("#locationTypeLabel").val("");
-	$("#locationBoundary").html("");
-	$(document).keyup(function(e) {
-		if (e.keyCode == 27) {
-			removeDrawingMode();
-			hideMainBoundary();
-		}
-	});
+	if (seq == 0) {
+		$("#markerCoordinate").val("");
+		$("#markerId").val("");
+		$("#icon").val("");
+		$("#boundary").val("");
+		$("#pathId").val("");
+		$("#pathLatLng").val("");
+		$("#destinationId").val("");
+		$("#destinationGPS").val("");
+		$("#departureId").val("");
+		$("#departureGPS").val("");
+		$("#boundaryColors").val("");
+
+		$("#locationLabel").val("");
+		$("#locationInfoDescriptionLabel").val("");
+		$("#locationThumbnail").val("");
+		$("#locationTypeLabelFooter").val("");
+		$("#locationBoundary").html("");
+		$(document).keyup(function(e) {
+			if (e.keyCode == 27) {
+				removeDrawingMode();
+				hideMainBoundary();
+			}
+		});
+	}
+	$("#locationSaveNextButton").html("Next");
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-//		showMainBoundary();
-		openLocationTypePopup();
-//		startDrawingMode();
+		// showMainBoundary();
+		// $('.menuItemPopupClass').popup('close');
+		// locationEditPanelOpen("", "");
+		if (seq == 0) {
+			selectThisLocationType(null);
+			setTimeout(function() {
+				$('#editLocationTypePopup').popup(
+						{
+							positionTo : "window",
+							transition : "pop",
+							history : false
+						}).trigger('create').popup('open');
+			}, 100);
+			$("#locationSaveNextButton").attr("onclick", "createNew(1)");
+		} else if (seq == 1) {
+			openLocationInfoPopup();
+			$("#locationSaveNextButton").attr("onclick", "createNew(2)");
+		}
+		// startDrawingMode();
 	} else {
 		$("#map_canvas").css("cursor",
 				"url(images/map-markers/mouse-cursors/pin.png) , auto");
@@ -114,14 +133,12 @@ function getPathTypePanel() {
 	});
 }
 
-$(document)
-		.ready(
-				function() {
-					$('#pathTypePopup').fadeOut();
-					$('#locationEditPanel').fadeOut();
-					// $(".jqm-demos").css("max-height",$(window).height());
+$(document).ready(function() {
+	$('#pathTypePopup').fadeOut();
+	$('#locationEditPanel').fadeOut();
+	// $(".jqm-demos").css("max-height",$(window).height());
 
-				});
+});
 
 function ShowLoadingScreen(loadingContent) {
 	if (loadingContent == null) {
@@ -162,8 +179,8 @@ function getCookie(cname) {
 	return "";
 }
 
-$(document).keyup(function(e) {
-	if (e.keyCode == 27) {
-		clearBoundarySelection();
-	}
-});
+//$(document).keyup(function(e) {
+//	if (e.keyCode == 27) {
+//		clearBoundarySelection();
+//	}
+//});
