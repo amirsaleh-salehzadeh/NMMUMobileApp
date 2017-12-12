@@ -1,5 +1,7 @@
 @CHARSET "ISO-8859-1";
-
+.showLabelMouseOverTrue{
+	cursor: pointer;
+}
 #locationInfo {
 	background-color: transparent !important;
 	text-shadow: none !important;

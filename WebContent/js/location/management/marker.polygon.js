@@ -34,7 +34,7 @@ function createDrawingManager() {
 			drawingModes : [ 'polygon' ]
 		},
 		markerOptions : {
-			draggable : false
+			draggable : false,
 		},
 		polylineOptions : {
 			editable : true,
@@ -45,7 +45,6 @@ function createDrawingManager() {
 		polygonOptions : polyOptions,
 		map : map
 	});
-
 	google.maps.event
 			.addListener(
 					drawingManager,
@@ -114,9 +113,9 @@ function createDrawingManager() {
 	// map is clicked.
 	google.maps.event.addListener(drawingManager, 'drawingmode_changed',
 			unselectBoundary);
-	
-//	google.maps.event.addListener(map, 'click', unselectBoundary);
-	
+
+	// google.maps.event.addListener(map, 'click', unselectBoundary);
+
 	// Disables drawing mode on startup so you have to click on toolbar first to
 	// draw shapes and create the colour palette
 	drawingManager.setDrawingMode(null);
@@ -128,9 +127,7 @@ function drawPolygons(location) {
 	var CoordinatesArray = new Array();
 	for ( var i = 0; i < arrayBoundary.length; i++) {
 		var LatAndLng = arrayBoundary[i].split(",");
-		var Lat = LatAndLng[0];
-		var Lng = LatAndLng[1];
-		var LatLng = new google.maps.LatLng(Lat, Lng);
+		var LatLng = new google.maps.LatLng(LatAndLng[0], LatAndLng[1]);
 		CoordinatesArray.push(LatLng);
 	}
 	var boundaryColour = getBoundaryColour(location.boundary);
@@ -184,8 +181,8 @@ function drawPolygons(location) {
 		$('#editBoundary').on('click', function() {
 			editPolygon(DRAWPolygon);
 		});
-		$('#colorSelectorFill div').css('backgroundColor',FillColour);
-		$('#colorSelectorBorder div').css('backgroundColor',BorderColour);
+		$('#colorSelectorFill div').css('backgroundColor', FillColour);
+		$('#colorSelectorBorder div').css('backgroundColor', BorderColour);
 		$('#colorSelectorFill').ColorPickerSetColor(FillColour);
 		$('#colorSelectorBorder').ColorPickerSetColor(BorderColour);
 	});
@@ -196,15 +193,16 @@ function drawPolygons(location) {
 	google.maps.event.addListener(DRAWPolygon, 'mouseup', function(event) {
 		end = new Date().getTime();
 		longpress = (end - start < 500) ? false : true;
-//		$("#boundary").val(getPolygonCoords(DRAWPolygon));
+		// $("#boundary").val(getPolygonCoords(DRAWPolygon));
 	});
 	polygons.push(DRAWPolygon);
 }
 
 function undoColourChange() {
 	$("#tempBoundaryColors").val($("#boundaryColors").val());
-	$('#colorSelectorFill div').css('backgroundColor',getFillColourValue());
-	$('#colorSelectorBorder div').css('backgroundColor',getBorderColourValue());
+	$('#colorSelectorFill div').css('backgroundColor', getFillColourValue());
+	$('#colorSelectorBorder div')
+			.css('backgroundColor', getBorderColourValue());
 	$('#colorSelectorFill').ColorPickerSetColor(getFillColourValue());
 	$('#colorSelectorBorder').ColorPickerSetColor(getBorderColourValue());
 	setBoundaryFillColour(getFillColourValue());
@@ -225,21 +223,31 @@ function getBoundaryColour(boundary) {
 	return boundaryColour;
 }
 
-function deletePolygon() {
-	if (boundaryOpened){
-		 var id = $("#markerId").val();
-		 for ( var i = 0; i < polygons.length; i++) {
-			 if (polygons[i].id == id) {
-				 polygons[i].setMap(null);
-				 polygons.splice(i, 1);
-				 $('#locationEditMenu').popup('close');
-				 return;
-			 }
-		 }
+function showHideColors() {
+	if ($("#boundaryColorFieldset").css("display") == "none") {
+		$("#boundaryColorFieldset").css("display", "block");
+	} else {
+		$("#boundaryColorFieldset").css("display", "none");
 	}
-	else{
+
+}
+
+function deletePolygon() {
+	if (boundaryOpened) {
+		var id = $("#markerId").val();
+		for ( var i = 0; i < polygons.length; i++) {
+			if (polygons[i].id == id) {
+				polygons[i].setMap(null);
+				polygons.splice(i, 1);
+				$('#locationEditMenu').popup('close');
+				return;
+			}
+		}
+	} else {
 		alert("This feature is disabled for area boundary");
 	}
+	hideMainBoundary();
+	unselectBoundary();
 }
 
 function setMapOnAllPolygons(map) {
@@ -248,9 +256,9 @@ function setMapOnAllPolygons(map) {
 	}
 }
 
-function setDrawingMode() {
+function startDrawingMode() {
 	drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-	
+
 }
 
 function removeDrawingMode() {
@@ -294,11 +302,10 @@ function setBoundarySelection(shape) {
 }
 
 function editPolygon(shape) {
-	if (boundaryEditable){
+	if (boundaryEditable) {
 		boundaryEditable = false;
 		shape.setEditable(false);
-	}
-	else{
+	} else {
 		boundaryEditable = true;
 		if (shape.type !== 'marker') {
 			unselectBoundary();
