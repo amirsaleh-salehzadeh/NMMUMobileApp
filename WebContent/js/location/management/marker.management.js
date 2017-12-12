@@ -27,9 +27,10 @@ function removeMarker() {
 				HideLoadingScreen();
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);
-				alert("getAllMarkers");
+//				alert(xhr.status);
+//				alert(thrownError);
+//				alert("getAllMarkers");
+				popErrorMessage("An error occured while removing the marker. "+ thrownError);
 			}
 		});
 }
@@ -88,11 +89,12 @@ function saveMarker() {
 			closeAMenuPopup();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
+//			alert(xhr.status);
+//			alert(thrownError);
 			alert(ajaxOptions);
 			HideLoadingScreen();
-			alert("saveMarker");
+//			alert("saveMarker");
+			popErrorMessage("An error occured while saving the marker. "+ thrownError);
 		},
 	});
 }
@@ -151,10 +153,11 @@ function getAllMarkers(parentId, refreshMarkers) {
 			$("input[name='radio-choice']").checkboxradio('enable');
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-			alert("getAllMarkers");
+//			alert(xhr.status);
+//			alert(thrownError);
+//			alert("getAllMarkers");
 			$("input[name='radio-choice']").checkboxradio('enable');
+			popErrorMessage("An error occured while fetching the markers from the server. "+ thrownError);
 		}
 	});
 }
