@@ -14,9 +14,10 @@ function getAllLocationTypes() {
 			setCookie('TripPathIdsCookie', JSON.stringify(data), 1);
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-			alert("getAllLocationTypes");
+//			alert(xhr.status);
+//			alert(thrownError);
+//			alert("getAllLocationTypes");
+			popErrorMessage("An error occured while fetching the location types from the server. "+ thrownError);
 		}
 	});
 }

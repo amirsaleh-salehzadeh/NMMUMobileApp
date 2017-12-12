@@ -81,9 +81,10 @@ function saveAPath() {
 			HideLoadingScreen();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-			alert("savePath");
+//			alert(xhr.status);
+//			alert(thrownError);
+//			alert("savePath");
+			popErrorMessage("An error occured while saving the path. "+ thrownError);
 		}
 	});
 }
@@ -114,9 +115,10 @@ function removePath() {
 				HideLoadingScreen();
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);
-				alert("removePath");
+//				alert(xhr.status);
+//				alert(thrownError);
+//				alert("removePath");
+				popErrorMessage("An error occured while removing the path. "+ thrownError);
 			}
 		});
 	} else {

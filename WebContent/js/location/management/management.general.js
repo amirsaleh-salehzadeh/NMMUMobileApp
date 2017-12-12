@@ -126,9 +126,10 @@ function getPathTypePanel() {
 			$("ul#pathTypeListView").listview("refresh");
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-			alert("getPathTypePanel");
+//			alert(xhr.status);
+//			alert(thrownError);
+//			alert("getPathTypePanel");
+			popErrorMessage("An error occured while fetching the path types from the server. "+ thrownError);
 		}
 	});
 }

@@ -92,9 +92,10 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 			HideLoadingScreen();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-			alert("CreatingIntersection");
+//			alert(xhr.status);
+//			alert(thrownError);
+//			alert("CreatingIntersection");
+			popErrorMessage("An error occured while creating an intersection. "+ thrownError);
 		}
 	});
 }
