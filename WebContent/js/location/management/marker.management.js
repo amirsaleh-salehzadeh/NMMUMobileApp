@@ -99,10 +99,10 @@ function saveMarker() {
 
 var str = "";
 function getAllMarkers(parentId, refreshMarkers) {
-	if ( (parentId == 360) && (boundaryOpened == true) ){
+	if ((parentId == 360) && (boundaryOpened == true)) {
 		boundaryOpened = false;
 	}
-	if ( (parentId == 369) && (boundaryOpened == false) ){
+	if ((parentId == 369) && (boundaryOpened == false)) {
 		boundaryOpened = true;
 	}
 	minZoomLevel = 1;
@@ -115,7 +115,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 		setMapOnAllMarkers(map);
 		setMapOnAllPathMarkers(null);
 		$("input[name='radio-choice']").checkboxradio('enable');
-//		$("input[name='radio-choice']").checkboxradio('enable');
+		// $("input[name='radio-choice']").checkboxradio('enable');
 		return;
 	}
 	$.ajax({
@@ -163,12 +163,13 @@ function getMarkerInfo(location) {
 	do {
 		if (location.parent.parentId > 0) {
 			str += "<li onclick='getAllMarkers(\"" + location.parent.locationID
-					+ "\", true)'>&nbsp;> " + location.parent.locationName + " "
-					+ location.parent.locationType.locationType + "</li>" + str;
+					+ "\", true)'>&nbsp;> " + location.parent.locationName
+					+ " " + location.parent.locationType.locationType + "</li>"
+					+ str;
 		} else
 			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
-					+ "\", true)'>" + location.parent.locationName
-					+ "</li>" + str;
+					+ "\", true)'>" + location.parent.locationName + "</li>"
+					+ str;
 		location = location.parent;
 	} while (location.parent != null);
 	$("#infoListView").html(str).trigger("create").listview("refresh");
@@ -213,6 +214,7 @@ function addMarker(l) {
 	google.maps.event.addListener(marker, 'click', function(point) {
 		$("#locationTypeId").val(l.locationType.locationTypeId);
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+			showLocationInfo();
 			addAMarker(l, l.gps);
 		} else {
 			addAPath(l);
@@ -237,9 +239,12 @@ function addMarker(l) {
 	if (l.boundary != null && l.boundary.length > 2) {
 		drawPolygons(l);
 		marker.setVisible(false);
-	}else
+	} else
 		marker.setMap(map);
-	if (l.locationType.locationTypeId != 5)
+	if (l.locationType.locationTypeId == 11) {
+		markers.push(marker);
+		pathMarkers.push(marker);
+	} else if (l.locationType.locationTypeId != 5 && l.locationType.locationTypeId != 11)
 		markers.push(marker);
 	else {
 		marker.setMap(null);
@@ -274,17 +279,21 @@ function addAMarker(location, gps) {
 		$("#markerName").val(location.locationName);
 		$("#markerCoordinate").val(location.gps);
 		$("#boundary").val(getArrayBoundary(location.boundary));
-		if (getBoundaryColour(location.boundary) == ""){
+		if (getBoundaryColour(location.boundary) == "") {
 			$("#tempBoundaryColors").val("1E90FF,1E90FF");
 			$("#boundaryColors").val("1E90FF,1E90FF");
-		}
-		else {
+		} else {
 			$("#tempBoundaryColors").val(getBoundaryColour(location.boundary));
 			$("#boundaryColors").val(getBoundaryColour(location.boundary));
 		}
 		$("#markerId").val(location.locationID);
 		$("#croppedIcon").attr("src", location.icon);
 		$("#icon").val(location.icon);
+		$("#locationLabel").val(location.locationName);
+		$("#locationInfoDescriptionLabel").val(location.description);
+		$("#locationThumbnail").val(location.icon);
+		$("#locationTypeLabel").val(location.locationType.locationType);
+		$("#locationBoundary").html(location.boundary);
 		var icn = location.icon;
 		if (icn != null && icn.length > 5)
 			$("#editIconIcon").attr("src", location.icon);
@@ -293,8 +302,8 @@ function addAMarker(location, gps) {
 		$("#parentLocationId").val(location.parentId);
 		$("#locationDescription").val(location.description);
 		$("#locationTypeId").val(location.locationType.locationTypeId);
-		locationEditPanelOpen(location.locationName ,
-				 location.locationType.locationType );
+		locationEditPanelOpen(location.locationName,
+				location.locationType.locationType);
 	}
 }
 function showMarkerLabel(name) {

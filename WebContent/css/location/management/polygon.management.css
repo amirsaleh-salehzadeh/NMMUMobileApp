@@ -14,15 +14,19 @@
 	display: inline-block;
 }
 
-#boundaryColorIconSpan {
-	min-width: 45;
-	min-height: 45;
-	background-color: white !important;
-	/* 	position: absolute; */
-	display: inline-block;
-	border: 3px solid;
-	border-color: #00cc00;
-	margin: 4;
+#locationSaveCancelPanel {
+	width: 333px;
+	background-color: rgba(8, 27, 44, 1) !important;
+	z-index: 33 !important;
+	position: absolute;
+	padding-left: 0;
+	padding-right: 0;
+	left: 0;
+	border: solid 3px;
+	border-color: rgb(248, 182, 36) !important;
+	border-radius: 0px 0px 24px 24px;
+	margin: 0;
+	padding: 0;
 }
 
 #boundaryColorFieldset {
@@ -32,6 +36,17 @@
 	color: rgb(248, 182, 36) !important;
 	text-shadow: none;
 	position: absolute;
+	width: auto;
+	background-color: rgba(8, 27, 44, 1);
+}
+
+#boundaryColorFieldset>img {
+	display: inline-block;
+	padding: 2px;
+	max-height: 48px;
+	text-shadow: none;
+	width: auto;
+	background-color: rgba(8, 27, 44, 1);
 }
 
 .toolBar>img {
@@ -45,27 +60,15 @@
 	padding: 2px !important;
 }
 
-.color-button {
-	width: 14px;
-	height: 14px;
-	font-size: 0;
-	margin: 2px;
-	float: left;
-	cursor: pointer;
-}
-
-#selectBoundaryColor {
-	width: 28px;
-	height: 28px;
-	background-color: white;
+#boundaryColour {
+	min-width: 42px;
+	min-height: 42px;
+	/* 	background-color: #00ff00; */
+	/* 	border-color: #0000ff; */
+	border: solid 3px;
+	top: 0px;
 	display: inline-block;
-	right: 0;
-	max-width: 32px;
-	max-height: 32px;
-	margin: 3px !important;
-	left: 0 !important;
-	display: inline-block;
-	cursor: pointer;
-	border: solid 3px red;
-	padding: 2px;
+	margin-left: 5px !important;
+	margin-right: 5px !important;
+	margin: 4;
 }

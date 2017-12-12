@@ -35,6 +35,7 @@ function mapSattelView() {
 }
 
 function createNew() {
+	showLocationInfo();
 	$("#markerCoordinate").val("");
 	$("#markerId").val("");
 	$("#icon").val("");
@@ -46,9 +47,23 @@ function createNew() {
 	$("#departureId").val("");
 	$("#departureGPS").val("");
 	$("#boundaryColors").val("");
+	
+	
+	$("#locationLabel").val("");
+	$("#locationInfoDescriptionLabel").val("");
+	$("#locationThumbnail").val("");
+	$("#locationTypeLabel").val("");
+	$("#locationBoundary").html("");
+	$(document).keyup(function(e) {
+		if (e.keyCode == 27) {
+			removeDrawingMode();
+			hideMainBoundary();
+		}
+	});
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		showMainBoundary();
-		startDrawingMode();
+//		showMainBoundary();
+		openLocationTypePopup();
+//		startDrawingMode();
 	} else {
 		$("#map_canvas").css("cursor",
 				"url(images/map-markers/mouse-cursors/pin.png) , auto");
@@ -104,14 +119,6 @@ $(document)
 				function() {
 					$('#pathTypePopup').fadeOut();
 					$('#locationEditPanel').fadeOut();
-					$("#map_canvas").css("min-width",
-							parseInt($("#mainBodyContents").css("width")));
-					$("#map_canvas").css(
-							"height",
-							parseInt($(window).height())
-									- parseInt($(".jqm-header").height())
-									- parseInt($("#locPathModeRadiobtn")
-											.height()) - 3);
 					// $(".jqm-demos").css("max-height",$(window).height());
 
 				});
