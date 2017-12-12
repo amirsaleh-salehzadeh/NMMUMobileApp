@@ -225,6 +225,7 @@ function closeAMenuPopup() {
 	$('.menuItemPopupClass').popup('close');
 	$("#locationEditMenu").unbind("popupafterclose");
 	$("#pathEditMenu").unbind("popupafterclose");
+	hideMainBoundary();
 	unselectBoundary();
 }
 
@@ -265,9 +266,27 @@ function hideMainBoundary() {
 function showPathInfo() {
 	$("#pathEditMenu").popup("close");
 	$("#pathInfoFooter").css("display", "inline-block").trigger("create");
+	hideLocationInfo();
 }
 
 function hidePathInfo() {
 	$("#pathInfoFooter").css("display", "none");
+}
+
+function showLocationInfo() {
+	$("#locationEditMenu").popup("close");
+	$("#locationInfoFooter").css("display", "inline-block").trigger("create");
+	$("#locationSaveCancelPanel").css("display", "inline-block").trigger("create");
+	hidePathInfo();
+	$("#locationSaveCancelPanel").css(
+			"top",
+			parseInt(parseInt($(".jqm-header").height())
+					+ parseInt($("#locPathModeRadiobtn")
+							.height()) + 3));
+}
+
+function hideLocationInfo() {
+	$("#locationInfoFooter").css("display", "none");
+	$("#locationSaveCancelPanel").css("display", "none");
 }
 

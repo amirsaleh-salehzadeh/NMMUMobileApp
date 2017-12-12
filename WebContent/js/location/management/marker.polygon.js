@@ -45,12 +45,12 @@ function createDrawingManager() {
 						newShape.type = e.type;
 						$("#boundary").val(getPolygonCoords(newShape));
 						// alert("Test1");
-						// google.maps.event.addListener(newShape, "mouseup",
-						// function(event) {
-						// $("#boundary").val(
-						// getPolygonCoords(newShape));
-						// // alert("test2");
-						// });
+						google.maps.event.addListener(newShape, "mouseup",
+								function(event) {
+									$("#boundary").val(
+											getPolygonCoords(newShape));
+									// alert("test2");
+								});
 						// alert("test1");
 						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
 							drawingManager.setDrawingMode(null);
@@ -153,6 +153,7 @@ function drawPolygons(location) {
 			});
 			boundaryOpened = true;
 		} else {
+			showLocationInfo();
 			if (boundarySelected) { // boundary selected
 				if (DRAWPolygon == selectedShape) {
 					clearBoundarySelection();
@@ -172,7 +173,8 @@ function drawPolygons(location) {
 			editPolygon(DRAWPolygon);
 		});
 		$('#boundaryColour').css('background-color', FillColour);
-		$('#boundaryColour').css('border-color', BorderColour).trigger("create");
+		$('#boundaryColour').css('border-color', BorderColour)
+				.trigger("create");
 		$('#colorSelectorFill div').css('background-color', FillColour);
 		$('#colorSelectorBorder div').css('background-color', BorderColour);
 		$('#colorSelectorFill').ColorPickerSetColor(FillColour);

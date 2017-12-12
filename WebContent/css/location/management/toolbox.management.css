@@ -4,7 +4,7 @@
 	background-color: rgba(8, 27, 44, .7) !important;
 }
 
-#pathInfoFooter {
+.pathManagementInfoFooter {
 	bottom: 0;
 	min-width: 100%;
 	background-color: rgba(8, 27, 44, .7) !important;
@@ -19,7 +19,7 @@
 	/* 	display: none !important; */
 }
 
-#pathInfoFooter>div>label {
+.pathManagementInfoFooter>div>label {
 	/* 	font-size: 12pt; */
 	border-right: solid 1px;
 	border-color: rgba(8, 27, 44, 1) !important;
