@@ -57,7 +57,7 @@
 		$("#parentLocationId").val("360");
 		hideLocationInfo();
 		// 		mapSattelView();
-		popErrorMessage("heeeey");
+// 		popErrorMessage("heeeey");
 	});
 </script>
 

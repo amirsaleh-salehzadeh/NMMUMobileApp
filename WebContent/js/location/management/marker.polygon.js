@@ -1,7 +1,6 @@
 var minZoomLevel;
 var longpress = false;
 var start;
-var boundarySelected = false;
 var boundaryEditable = false;
 var drawingManager;
 
@@ -80,7 +79,7 @@ function createDrawingManager() {
 												}
 												editPolygon(newShape);
 											});
-							setBoundarySelection(newShape);
+//							setBoundarySelection(newShape);
 						} else {
 							google.maps.event.addListener(newShape, 'click',
 									function(e) {
@@ -138,24 +137,24 @@ function drawPolygons(location) {
 	DRAWPolygon.setMap(map);
 	DRAWPolygon.id = location.locationID;
 	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
-		if (longpress) {
-			$("#parentLocationId").val(location.locationID);
-			getAllMarkers(location.locationID + "", true);
-			minZoomLevel = 16;
-			map.setZoom(minZoomLevel);
-			// Limit the zoom level
-			google.maps.event.addListener(map, 'zoom_changed', function() {
-				if (map.getZoom() < minZoomLevel)
-					map.setZoom(minZoomLevel);
-			});
-		} else {
+//		if (longpress) {
+//			$("#parentLocationId").val(location.locationID);
+//			getAllMarkers(location.locationID + "", true);
+//			minZoomLevel = 16;
+//			map.setZoom(minZoomLevel);
+//			// Limit the zoom level
+//			google.maps.event.addListener(map, 'zoom_changed', function() {
+//				if (map.getZoom() < minZoomLevel)
+//					map.setZoom(minZoomLevel);
+//			});
+//		} else {
 			showLocationInfo();
 //			if (boundarySelected) { // boundary selected
 //				if (DRAWPolygon == selectedShape) {
 //					clearBoundarySelection();
 //				} else { // previous boundary selected but now selecting new
 					// boundary
-					setBoundarySelection(DRAWPolygon);
+					setBoundarySelection(this);
 					clearMarkerLabel();
 					addAMarker(location, location.gps);
 //				}
@@ -164,7 +163,7 @@ function drawPolygons(location) {
 //				clearMarkerLabel();
 //				addAMarker(location, location.gps);
 //			}
-		}
+//		}
 		$('#editBoundary').on('click', function() {
 			editPolygon(DRAWPolygon);
 		});
@@ -291,8 +290,8 @@ function removeDrawingMode() {
 
 function setBoundarySelection(shape) {
 	if (shape.type !== 'marker') {
-		clearBoundarySelection();
-		// shape.setEditable(true);
+//		clearBoundarySelection();
+		 shape.setEditable(true);
 	}
 
 	selectedShape = shape;
