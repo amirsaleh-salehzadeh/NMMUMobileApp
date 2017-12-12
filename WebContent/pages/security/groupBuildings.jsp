@@ -54,7 +54,7 @@
 		<div class="ui-grid-a" id="locationHolder">
 			<div id="allLocations" class="ui-block-a">
 			<ul id="my-tree">
-				<li style="padding: 2px 4px 4px 4px">NMU
+				<li style="padding: 2px 4px 4px 4px">Nelson Mandela University
 					<ul id="loc360">
 					</ul>
 				</li>
