@@ -40,9 +40,8 @@ function getAllPaths(newPaths, refreshPaths) {
 //			$("input[name='radio-choice']").checkboxradio('enable');
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-			alert("getAllPaths");
+			popErrorMessage("An error occured while fetching the paths from the server. "+ thrownError);
+//			alert("getAllPaths");
 //			$("input[name='radio-choice']").checkboxradio('enable');
 		}
 	});
