@@ -150,20 +150,20 @@ function drawPolygons(location) {
 			});
 		} else {
 			showLocationInfo();
-			if (boundarySelected) { // boundary selected
-				if (DRAWPolygon == selectedShape) {
-					clearBoundarySelection();
-				} else { // previous boundary selected but now selecting new
+//			if (boundarySelected) { // boundary selected
+//				if (DRAWPolygon == selectedShape) {
+//					clearBoundarySelection();
+//				} else { // previous boundary selected but now selecting new
 					// boundary
 					setBoundarySelection(DRAWPolygon);
 					clearMarkerLabel();
 					addAMarker(location, location.gps);
-				}
-			} else { // boundary not selected
-				setBoundarySelection(DRAWPolygon);
-				clearMarkerLabel();
-				addAMarker(location, location.gps);
-			}
+//				}
+//			} else { // boundary not selected
+//				setBoundarySelection(DRAWPolygon);
+//				clearMarkerLabel();
+//				addAMarker(location, location.gps);
+//			}
 		}
 		$('#editBoundary').on('click', function() {
 			editPolygon(DRAWPolygon);
