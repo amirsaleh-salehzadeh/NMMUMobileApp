@@ -14,6 +14,7 @@
 			<forward name="groupManagement" path="/pages/security/groupManagement.jsp" />
 			<forward name="groupEdit" path="/pages/security/groupEdit.jsp" />
 			<forward name="groupRole" path="/pages/security/groupRole.jsp" />
+			<forward name="groupBuildings" path="/pages/security/groupBuildings.jsp" />
 			<forward name="gridJson" path="/pages/json.jsp" />
 		</action>
 		<action path="/location" type="struts.actions.LocationAction">

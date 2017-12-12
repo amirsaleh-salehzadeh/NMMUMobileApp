@@ -28,7 +28,8 @@ body {
 
 .jqm-home {
 	background: rgba(8, 27, 44, 1);
-	color: white;
+	color: rgb(248, 182, 36)  !important;
+	text-shadow: none;
 	min-height: 100%;
 }
 
@@ -72,6 +73,7 @@ body {
  */
 #gridList>tbody>tr>td .ui-checkbox>input,#gridList>thead>tr>th .ui-checkbox>input,#gridList>tfoot>tr>th .ui-checkbox>input
 	{
+
 	position: static;
 	width: 17px;
 	height: 17px;
@@ -879,5 +881,6 @@ textarea.ui-input-text.ui-textinput-autogrow{
 	color: rgb(248, 182, 36) !important;
 	background-color: #383c40!important;
 		text-shadow: none !important;
-
+border-bottom:2px !important;;
+border-color:rgb(248, 182, 36) !important;
 }
