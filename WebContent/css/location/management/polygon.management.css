@@ -17,7 +17,7 @@
 	width: 333px;
 	background-color: rgba(8, 27, 44, 1) !important;
 	z-index: 33 !important;
-	position: absolute;
+	position: fixed;
 	padding-left: 0;
 	padding-right: 0;
 	left: 0;

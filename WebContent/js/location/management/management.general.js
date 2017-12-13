@@ -37,6 +37,8 @@ function mapSattelView() {
 function createNew(seq) {// a number to indicate the sequence of next
 	// procedures
 	showLocationInfo();
+	startDrawingMode();
+	return;
 	if (seq == 0) {
 		$("#markerCoordinate").val("");
 		$("#markerId").val("");
