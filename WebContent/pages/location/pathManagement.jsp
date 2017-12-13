@@ -312,9 +312,9 @@
 
 
 
-<div id="editBoundaryPopup" class="toolBar" data-role="popup"
+<div id="editBoundaryPopup" data-role="popup"
 	data-position-to="window" style="padding: 7px 7px 7px 7px;"
-	class="menuItemPopupClass" data-dismissible="false">
+	class="menuItemPopupClass toolBar" data-dismissible="false">
 	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext"
 		class="ui-btn-right closeMessageButtonIcon"
 		onclick="closeAMenuPopup();">Cancel</a>
