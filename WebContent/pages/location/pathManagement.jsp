@@ -128,9 +128,30 @@
 
 <a href="#" data-mini="true" data-role="button"
 	title="Search for a Place" class="showLabelMouseOverTrue"
-	id="searchButton" onclick="createNew();"><img width='27'
+	id="searchButton" onclick="openSearchPanel();"><img width='27'
 	height='27' src='images/icons/search.png'>SEARCH</a>
+	
+<!-- SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL -->	
 
+<div data-role="panel" id="locationSearchPanel" data-position="right" data-display="overlay" data-swipe-close="false"
+		data-dismissible="false"  class="ui-panel ui-panel-position-right ui-panel-display-overlay ui-body-inherit ui-panel-animate ui-panel-open" data-theme="none">
+	<div class="ui-block-solo" id="searchFieldDiv">
+			<input type="text" id="searchField" placeholder="Find a Location" data-role="none">
+			<span onclick="searchFieldDivClearBTN();"></span>
+	</div>
+	<div class="ui-block-solo ">
+		<a data-role="button" href="#" data-rel="close"
+		class="pathMenu ui-btn ui-shadow cancel-icon ">Close</a>
+	</div>
+	<div class="ui-block-solo" id="resultsListViewDiv">
+		<div data-role="content">
+			<div data-role="collapsible-set" id="resultsListViewContentDiv"
+				data-input="#searchField" data-filter="true"
+				data-collapsed="false">
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION  -->
 <fieldset data-role="controlgroup" data-mini="true"
