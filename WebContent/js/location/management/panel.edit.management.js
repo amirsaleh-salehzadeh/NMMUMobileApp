@@ -237,18 +237,21 @@ function openEditBoundaryPopup(){
 function showLocationInfo() {
 	$("#locationEditMenu").popup("close");
 	$("#locationInfoFooter").css("display", "inline-block").trigger("create");
-	$("#locationSaveCancelPanel").css("display", "inline-block").trigger("create");
+//	$("#locationSaveCancelPanel").css("display", "inline-block").trigger("create");
 	hidePathInfo();
-	$("#locationSaveCancelPanel").css(
-			"top",
-			parseInt(parseInt($(".jqm-header").height())
-					+ parseInt($("#locPathModeRadiobtn")
-							.height()) + 3));
+//	$("#locationSaveCancelPanel").css(
+//			"top",
+//			parseInt(parseInt($(".jqm-header").height())
+//					+ parseInt($("#locPathModeRadiobtn")
+//							.height()) + 3));
 }
 
 function hideLocationInfo() {
 	$("#locationInfoFooter").css("display", "none");
-	$("#locationSaveCancelPanel").css("display", "none");
+	for ( var i = 0; i < polygons.length; i++) {
+		polygons[i].setEditable(false);
+	}
+//	$("#locationSaveCancelPanel").css("display", "none");
 }
 
 function pathEditPanelOpen(title) {

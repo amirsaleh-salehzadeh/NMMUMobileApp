@@ -194,8 +194,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setDescription(rs.getString("description"));
 				ent.setIcon(rs.getString("icon"));
 				ent.setPlan(rs.getString("plan"));
-				ent.setParent(getLocationENT(
-						new LocationENT(rs.getLong("parent_id")), conn));
+				if (rs.getLong("parent_id") > 0)
+					ent.setParent(getLocationENT(
+							new LocationENT(rs.getLong("parent_id")), conn));
 				locationENTs.add(ent);
 			}
 			rs.close();

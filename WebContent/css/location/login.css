@@ -1,28 +1,30 @@
-.login{
+.login {
 	background-color: rgba(8, 27, 44, 1);
 }
 
-div #loginContents{
-	 position: absolute;
-    top:5;
-    left: 0;
-    right: 0;
-
-    margin: auto;
-	display:inline-block;
-	 border: 3px solid #ffb501;
-	width:293px;
+div #loginContents {
+	position: absolute;
+	top: 22%;
+	left: 0;
+	right: 0;
+	margin: auto;
+	display: inline;
+	border: 3px solid #ffb501;
+	width: 293px;
 	color: #ffb501;
-	
-}
-input{
-	margin :15px;
-	padding:5px;
+	padding: 11px;
 }
 
-.ui-btn{
-	color:rgba(8, 27, 44, 1);
+input {
+	margin: 15px;
+	padding: 5px;
+}
+
+button {
+	color: rgba(8, 27, 44, 1);
 	background-color: #ffb501;
-	margin :15px;
-	padding:5px;
+	margin: 7px;
+	padding: 5px;
+	display: inline-block;
+	width: 40%;
 }

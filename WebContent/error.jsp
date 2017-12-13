@@ -7,7 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/location/login.css">
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
-
+<style type="text/css">
+button {
+	width: 100%;
+}
+</style>
 </head>
 <body class="login">
 	<div id="loginPage" data-role="page">
@@ -26,8 +30,7 @@
 				<div class="ui-block-solo">
 					<button id="loginBtn" class="ui-btn" type="submit">Login</button>
 				</div>
-				<label style="color: red;">Invalid username or password
-				</label>
+				<label style="color: red;">Invalid username or password </label>
 			</form>
 		</div>
 	</div>

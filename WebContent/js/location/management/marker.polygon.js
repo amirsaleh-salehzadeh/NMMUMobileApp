@@ -1,7 +1,7 @@
 var minZoomLevel;
-var longpress = false;
+// var longpress = false;
 var start;
-var boundaryEditable = false;
+// var boundaryEditable = false;
 var drawingManager;
 
 function createDrawingManager() {
@@ -25,7 +25,7 @@ function createDrawingManager() {
 			draggable : true
 		},
 		polylineOptions : {
-			editable : true,
+			editable : false,
 			draggable : false
 		},
 		rectangleOptions : polyOptions,
@@ -79,7 +79,7 @@ function createDrawingManager() {
 												}
 												editPolygon(newShape);
 											});
-//							setBoundarySelection(newShape);
+							// setBoundarySelection(newShape);
 						} else {
 							google.maps.event.addListener(newShape, 'click',
 									function(e) {
@@ -99,8 +99,8 @@ function createDrawingManager() {
 
 	// Clear the current selection when the drawing mode is changed, or when the
 	// map is clicked.
-//	google.maps.event.addListener(drawingManager, 'drawingmode_changed',
-//			unselectBoundary);
+	// google.maps.event.addListener(drawingManager, 'drawingmode_changed',
+	// unselectBoundary);
 
 	// Disables drawing mode on startup so you have to click on toolbar first to
 	// draw shapes and create the colour palette
@@ -137,33 +137,38 @@ function drawPolygons(location) {
 	DRAWPolygon.setMap(map);
 	DRAWPolygon.id = location.locationID;
 	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
-//		if (longpress) {
-//			$("#parentLocationId").val(location.locationID);
-//			getAllMarkers(location.locationID + "", true);
-//			minZoomLevel = 16;
-//			map.setZoom(minZoomLevel);
-//			// Limit the zoom level
-//			google.maps.event.addListener(map, 'zoom_changed', function() {
-//				if (map.getZoom() < minZoomLevel)
-//					map.setZoom(minZoomLevel);
-//			});
-//		} else {
-			showLocationInfo();
-//			if (boundarySelected) { // boundary selected
-//				if (DRAWPolygon == selectedShape) {
-//					clearBoundarySelection();
-//				} else { // previous boundary selected but now selecting new
-					// boundary
-					setBoundarySelection(this);
-					clearMarkerLabel();
-					addAMarker(location, location.gps);
-//				}
-//			} else { // boundary not selected
-//				setBoundarySelection(DRAWPolygon);
-//				clearMarkerLabel();
-//				addAMarker(location, location.gps);
-//			}
-//		}
+		// if (longpress) {
+		// $("#parentLocationId").val(location.locationID);
+		// getAllMarkers(location.locationID + "", true);
+		// minZoomLevel = 16;
+		// map.setZoom(minZoomLevel);
+		// // Limit the zoom level
+		// google.maps.event.addListener(map, 'zoom_changed', function() {
+		// if (map.getZoom() < minZoomLevel)
+		// map.setZoom(minZoomLevel);
+		// });
+		// } else {
+		for ( var int = 0; int < polygons.length; int++) {
+			if (polygons[int].id != $("#markerId").val())
+				polygons[int].setMap(null);
+		}
+		showLocationInfo();
+		// if (boundarySelected) { // boundary selected
+		// if (DRAWPolygon == selectedShape) {
+		// clearBoundarySelection();
+		// } else { // previous boundary selected but now selecting new
+		// boundary
+		setBoundarySelection(this);
+		clearMarkerLabel();
+		addAMarker(location, location.gps);
+
+		// }
+		// } else { // boundary not selected
+		// setBoundarySelection(DRAWPolygon);
+		// clearMarkerLabel();
+		// addAMarker(location, location.gps);
+		// }
+		// }
 		$('#editBoundary').on('click', function() {
 			editPolygon(DRAWPolygon);
 		});
@@ -176,14 +181,14 @@ function drawPolygons(location) {
 		$('#colorSelectorBorder').ColorPickerSetColor(BorderColour);
 	});
 
-	google.maps.event.addListener(DRAWPolygon, 'mousedown', function(event) {
-		start = new Date().getTime();
-	});
-	google.maps.event.addListener(DRAWPolygon, 'mouseup', function(event) {
-		end = new Date().getTime();
-		longpress = (end - start < 500) ? false : true;
-		// $("#boundary").val(getPolygonCoords(DRAWPolygon));
-	});
+	// google.maps.event.addListener(DRAWPolygon, 'mousedown', function(event) {
+	// start = new Date().getTime();
+	// });
+	// google.maps.event.addListener(DRAWPolygon, 'mouseup', function(event) {
+	// end = new Date().getTime();
+	// longpress = (end - start < 500) ? false : true;
+	// // $("#boundary").val(getPolygonCoords(DRAWPolygon));
+	// });
 	google.maps.event.addListener(DRAWPolygon, 'mousemove', function(event) {
 		$("#googleMapMarkerLabel").html(location.locationName);
 		$('#googleMapMarkerLabel').css("display", "block");
@@ -245,7 +250,7 @@ function deletePolygon() {
 		}
 	}
 	hideMainBoundary();
-//	unselectBoundary();
+	// unselectBoundary();
 }
 
 function setMapOnAllPolygons(map) {
@@ -261,56 +266,61 @@ function startDrawingMode() {
 
 function removeDrawingMode() {
 	drawingManager.setDrawingMode(null);
-	boundaryEditable = false;
+	// boundaryEditable = false;
 }
 
-//function clearBoundarySelection() {
-//	if (selectedShape) {
-//		if (selectedShape.type !== 'marker') {
-//			selectedShape.setEditable(false);
-//		}
+// function clearBoundarySelection() {
+// if (selectedShape) {
+// if (selectedShape.type !== 'marker') {
+// selectedShape.setEditable(false);
+// }
 //
-//		selectedShape = null;
-//	}
-//	$("#tempBoundaryColors").val("");
-//	$("#boundary").val("");
-//	boundarySelected = false;
-//}
+// selectedShape = null;
+// }
+// $("#tempBoundaryColors").val("");
+// $("#boundary").val("");
+// boundarySelected = false;
+// }
 
-//function unselectBoundary() {
-//	if (selectedShape) {
-//		if (selectedShape.type !== 'marker') {
-//			selectedShape.setEditable(false);
-//		}
+// function unselectBoundary() {
+// if (selectedShape) {
+// if (selectedShape.type !== 'marker') {
+// selectedShape.setEditable(false);
+// }
 //
-//		selectedShape = null;
-//	}
-//	boundarySelected = false;
-//}
+// selectedShape = null;
+// }
+// boundarySelected = false;
+// }
 
 function setBoundarySelection(shape) {
-	if (shape.type !== 'marker') {
-//		clearBoundarySelection();
-		 shape.setEditable(true);
+	for ( var i = 0; i < polygons.length; i++) {
+		polygons[i].setEditable(false);
 	}
-
+	if (shape.type !== 'marker') {
+		// clearBoundarySelection();
+		shape.setEditable(true);
+	}
 	selectedShape = shape;
-	boundarySelected = true;
+	// boundarySelected = true;
 }
 
 function editPolygon(shape) {
-	if (boundaryEditable) {
-		boundaryEditable = false;
-		shape.setEditable(false);
-	} else {
-		boundaryEditable = true;
-		if (shape.type !== 'marker') {
-//			unselectBoundary();
-			shape.setEditable(true);
-		}
-		selectedShape = shape;
-		boundarySelected = true;
+	// if (boundaryEditable) {
+	// boundaryEditable = false;
+	// shape.setEditable(false);
+	// } else {
+	// boundaryEditable = true;
+	for ( var i = 0; i < polygons.length; i++) {
+		polygons[i].setEditable(false);
 	}
+	if (shape.type !== 'marker') {
+		// unselectBoundary();
+		shape.setEditable(true);
+	}
+	selectedShape = shape;
+	// boundarySelected = true;
+	// }
 }
 
 function deleteSelectedShape() {

@@ -6,27 +6,22 @@
 <title>Find It | Nelson Mandela University</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/location/login.css">
+
 </head>
 <body class="login">
 	<div id="loginPage" data-role="page">
 		<div id="loginContents">
 			<form name="loginForm" method="POST" action="j_security_check">
 				<img id="logo" src="images/MandelaUniversity_logo_B.png">
-				<div class="ui-block-solo">
 					<input type="text" name="j_username" id="uNameEmail" value=""
 						placeholder="Username/Email" />
-				</div>
-				<div class="ui-block-solo">
 					<input type="password" name="j_password" id="loginPass" value=""
 						placeholder="Password" />
-				</div>
-
-				<div class="ui-block-solo">
 					<button id="loginBtn" class="ui-btn" type="submit">Login</button>
-				</div>
-				<label>Haven't got an account yet? </label> <label>Register
-					<a href="t_location.do?reqCode=register">Here!</a>
-				</label>
+					<button id="loginBtn" class="ui-btn" type="button">Register</button>
+<!-- 					<label>Haven't got an account yet? </label> <label>Register -->
+<!-- 					<a href="t_location.do?reqCode=register">Here!</a> -->
+<!-- 				</label> -->
 			</form>
 		</div>
 	</div>

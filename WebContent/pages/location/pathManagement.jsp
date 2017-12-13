@@ -198,7 +198,7 @@
 				alt="" src="images/icons/QRCodeIcon.png">Print QR</a></li>
 		<li data-role="list-divider"></li>
 		<li><a href="#" data-rel="back" class="editInfo"
-			onclick="unselectBoundary();"><img alt=""
+			onclick="hideLocationInfo();"><img alt=""
 				src="images/icons/clearInput.png">Cancel</a></li>
 	</ul>
 </div>
@@ -414,18 +414,18 @@
 		<label for="locationBoundary">Boundary</label> <span
 			id="locationBoundary"></span>
 	</div>
-	<div class="ui-grid-a" style="" id="locationSaveCancelPanel">
-		<div class="ui-block-a">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class="ui-btn save-icon" id="locationSaveNextButton"
-				onclick="saveMarker()">Save</a>
-		</div>
-		<div class="ui-block-b">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class="ui-btn cancel-icon"
-				onclick="closeAMenuPopup();hideLocationInfo();">Cancel</a>
-		</div>
-	</div>
+<!-- 	<div class="ui-grid-a" style="" id="locationSaveCancelPanel"> -->
+<!-- 		<div class="ui-block-a"> -->
+<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
+<!-- 				class="ui-btn save-icon" id="locationSaveNextButton" -->
+<!-- 				onclick="saveMarker()">Save</a> -->
+<!-- 		</div> -->
+<!-- 		<div class="ui-block-b"> -->
+<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
+<!-- 				class="ui-btn cancel-icon" -->
+<!-- 				onclick="closeAMenuPopup();hideLocationInfo();">Cancel</a> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
 </div>
 
 
