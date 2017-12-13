@@ -324,3 +324,73 @@ function openPathTypePopup() {
 	$("#pathEditMenu").popup("close");
 	$("#mainBodyContents").trigger('create');
 }
+
+function openSearchPanel(){
+	getLocationTypeList();
+	$( "#locationSearchPanel" ).panel( "open" );
+}
+
+function getLocationTypeList() {
+	$("#resultsListViewContentDiv").empty();
+	var url = "REST/GetLocationWS/SearchForALocation?clientName=NMMU&locationType=Building&locationName=";
+	$.ajax({
+		url : url,
+		cache : true,
+		async : true,
+		success : function(data) {
+			// $.each(data, function(p, z) {
+			$.each(data.childrenENT, function(k, l) {
+				var children = l.childrenENT;
+				var col = $("<div/>", {
+					"data-role" : "collapsible",
+					"data-collapsed" : true,
+					"class" : "parentCollapsibleLV",
+					"data-icon" : false
+				});
+				var title = $("<h3/>", {
+					text : l.locationName + " Campus"
+				}).appendTo(col);
+				var list_items = '';
+				$.each(children, function(x, y) {
+					list_items += "<li id='" + y.locationID + "_" + y.gps + "_"
+							+ y.locationType.locationType
+							+ "' onclick='selectDestination(this, \""
+							+ y.locationType.locationType + " "
+							+ y.locationName + "\")' data-icon='false'>"
+							+ "<a href='#' class='resultsListViewContent'>";
+					var src = "images/map-markers/building.png";
+					if (y.icon != null)
+						src = y.icon;
+					list_items += "<img src='" + src
+							+ "' class='listViewIcons'><h2>"
+							+ y.locationType.locationType + " "
+							+ y.locationName + "</h2><p>";
+					var desc = "&nbsp;";
+					if (y.description != null)
+						desc = y.description;
+					list_items += desc + ", " + l.locationName + " Campus</p></a></li>";
+				});
+				var list = $("<ul/>", {
+					"data-role" : "listview",
+					"id" : "listview" + l.locationID,
+					// "data-inset" : true,
+					"data-input" : "#searchField",
+					"data-filter" : true,
+					"data-icon" : false
+				});
+				$(list).append(list_items);
+				$(list).appendTo(col).trigger("create");
+				$("#resultsListViewContentDiv").append(col).collapsibleset()
+						.trigger("create");
+			});
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			errorMessagePopupOpen(ajaxOptions + ": " + thrownError);
+		}
+	});
+}
+
+function searchFieldDivClearBTN() {
+	$("#searchField").val("");
+	$("#resultsListView").listview("refresh");
+}
