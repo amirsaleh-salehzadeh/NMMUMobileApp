@@ -209,8 +209,18 @@ function drawPolygons(location) {
 		$("#googleMapMarkerLabel").html(location.locationName);
 		$('#googleMapMarkerLabel').css("display", "block");
 		$('#googleMapMarkerLabel').css("position", "absolute");
-		$('#googleMapMarkerLabel').css("left", event.xa.x + 17 + 'px');
-		$('#googleMapMarkerLabel').css("top", event.xa.y + 17 + 'px');
+		
+		var quadrant = determineQuadrant(event);
+		var xLabelMove; var yLabelMove;
+		if (quadrant == 1){xLabelMove = 17;yLabelMove = 20;};
+		if (quadrant == 2){xLabelMove = -80;yLabelMove = 20;};
+		if (quadrant == 3){xLabelMove = 17;yLabelMove = -20;};
+		if (quadrant == 4){xLabelMove = -80;yLabelMove = -20;};
+		
+		$('#googleMapMarkerLabel').css("left", event.xa.x + xLabelMove + 'px');
+		$('#googleMapMarkerLabel').css("top", event.xa.y + yLabelMove + 'px');
+		
+		
 		$('#googleMapMarkerLabel').trigger("create");
 	});
 	google.maps.event.addListener(DRAWPolygon, 'mouseout', function(event) {
@@ -218,6 +228,32 @@ function drawPolygons(location) {
 	});
 	polygons.push(DRAWPolygon);
 }
+
+function determineQuadrant(event){
+	var width = $(window).width();
+	var height = $(window).height();
+	
+	// Quadrant
+	//	1	2
+	//	3	4
+	
+	if( event.xa.x < width/2 ){
+		if ( event.xa.y < height/2 ){
+			return 1;
+		}
+		else {
+			return 3;
+		}
+	}
+	else {
+		if ( event.xa.y < height/2 ){
+			return 2;
+		}
+		else {
+			return 4;
+		}
+	}
+}	
 
 function undoColourChange() {
 	$("#tempBoundaryColors").val($("#boundaryColors").val());
