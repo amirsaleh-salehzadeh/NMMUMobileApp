@@ -148,10 +148,10 @@ function drawPolygons(location) {
 		// map.setZoom(minZoomLevel);
 		// });
 		// } else {
-		for ( var int = 0; int < polygons.length; int++) {
-			if (polygons[int].id != $("#markerId").val())
-				polygons[int].setMap(null);
-		}
+//		for ( var int = 0; int < polygons.length; int++) {
+//			if (polygons[int].id != $("#markerId").val())
+//				polygons[int].setMap(null);
+//		}
 		showLocationInfo();
 		// if (boundarySelected) { // boundary selected
 		// if (DRAWPolygon == selectedShape) {
