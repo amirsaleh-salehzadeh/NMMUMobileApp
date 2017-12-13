@@ -11,8 +11,13 @@
 	href="TreeView Plugin/trunk/src/jquery.treefilter.css">
 	<link rel="stylesheet"
 	href="css/nmmu-web-app-style.css">
+	<link href="css/location/management/management.css" rel="stylesheet">
 </head>
 <body>
+<div id="loadingOverlay">
+	<div class="markerLoading" style="display: none;"></div>
+	<span id="loadingContent" style="display: none;"></span>
+</div>
 	<script type="text/javascript"
 		src="js/location/management/location.access.js"></script>
 	<form id="dataFilterGridMainPage" action="security.do">
@@ -22,21 +27,9 @@
 		<input type="hidden" name="groupID"
 			value="<%=request.getParameter("groupID")%>"> <input
 			type="hidden" name="reqCode" value="saveUpdateGroupRole">
-		Roles for group "<span
+		Locations allowed for group "<span
 			style="font-weight: bold; text-shadow: none; font-style: italic;"><bean:write
 				name="groupENT" property="groupName" /></span>"
-		<!-- 
-		<div class="ui-grid-solo">
-			<div class="ui-block-a">
-				<input type="text" name="searchKey" placeholder="Search for a role">
-			</div>
-		</div>
-		-->
-		<div>
-			<html:text property="groupName" name="groupENT"
-				styleId="searchKeyInput" onkeyup="searchForRole()"
-				title="Search for a role"></html:text>
-		</div>
 <div class=ui-grid-a>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" class="cancel-icon" data-mini="true"
@@ -47,11 +40,11 @@
 					onclick="saveTheForm();">Save</a>
 			</div>
 		</div>
-		<input type="search" id="my-search" placeholder="search">
+		<input type="search" id="my-search" placeholder="Search for a Building">
 
 		<!-- insert heirachy here -->
 		
-		<div class="ui-grid-a" id="locationHolder">
+		
 			<div id="allLocations" class="ui-block-a">
 			<ul id="my-tree">
 				<li style="padding: 2px 4px 4px 4px">Nelson Mandela University
@@ -60,11 +53,7 @@
 				</li>
 			</ul>	
 			</div>
-			<div class="ui-block-b">
-			<div style="padding: 2px 2px 2px 2px">Selected Areas of access:</div>
-			
-			</div>
-		</div>
+
 
 		
 
@@ -74,6 +63,10 @@
 		<script src="TreeView Plugin/trunk/src/jquery.treefilter.js"></script>
 		<!-- end of heirachy -->
 
+		
+
+		<script type="text/javascript"
+	src="js/location/management/management.general.js"></script>
 	</form>
 </body>
 
