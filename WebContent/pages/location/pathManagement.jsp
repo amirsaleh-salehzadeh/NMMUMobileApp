@@ -318,7 +318,7 @@
 	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext"
 		class="ui-btn-right closeMessageButtonIcon"
 		onclick="closeAMenuPopup();">Cancel</a>
-	<div class="ams">
+<!-- 	<div class="ams"> -->
 		<!-- 		<img src='images/icons/cursor-pointer.png' -->
 		<!-- 			class="pathMenu showLabelMouseOverTrue" width="48" height="48" -->
 		<!-- 			title="Normal Mode" onclick="removeDrawingMode()"> <img -->
@@ -349,7 +349,7 @@
 			<li><a href="#" class="editInfo" onclick="closeAMenuPopup();"><img
 					alt="" src="images/icons/clearInput.png">Cancel</a></li>
 		</ul>
-	</div>
+	<!-- 	</div> -->
 	<div id="boundaryColorFieldset" style="display: none;">
 		<span>Fill Colour</span>
 		<div id="colorSelectorFill">
@@ -439,8 +439,6 @@
 
 
 <!-- EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU EDIT PATH MENU -->
-
-
 
 
 <div data-role="popup" id="pathEditMenu" data-mini="true">

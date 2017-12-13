@@ -265,6 +265,7 @@ function hideLocationInfo() {
 	$("#locationInfoFooter").css("display", "none");
 	for ( var i = 0; i < polygons.length; i++) {
 		polygons[i].setEditable(false);
+		polygons[i].setMap(map);
 	}
 	selectedShape = null;
 	// $("#locationSaveCancelPanel").css("display", "none");
