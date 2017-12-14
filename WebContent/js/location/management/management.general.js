@@ -34,65 +34,6 @@ function mapSattelView() {
 	}
 }
 
-function createNew(seq) {// a number to indicate the sequence of next
-	// procedures
-	showLocationInfo();
-	if (seq == 0) {
-		$("#markerCoordinate").val("");
-		$("#markerId").val("");
-		$("#icon").val("");
-		$("#boundary").val("");
-		$("#pathId").val("");
-		$("#pathLatLng").val("");
-		$("#destinationId").val("");
-		$("#destinationGPS").val("");
-		$("#departureId").val("");
-		$("#departureGPS").val("");
-		$("#boundaryColors").val("");
-
-		$("#locationLabel").val("");
-		$("#locationInfoDescriptionLabel").val("");
-		$("#locationThumbnail").val("");
-		$("#locationTypeLabelFooter").val("");
-		$("#locationBoundary").html("");
-		$(document).keyup(function(e) {
-			if (e.keyCode == 27) {
-				removeDrawingMode();
-				hideMainBoundary();
-			}
-		});
-	}
-	$("#locationSaveNextButton").html("Next");
-	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		// showMainBoundary();
-		// $('.menuItemPopupClass').popup('close');
-		// locationEditPanelOpen("", "");
-		if (seq == 0) {
-			selectThisLocationType(null);
-			setTimeout(function() {
-				$('#editLocationTypePopup').popup(
-						{
-							positionTo : "window",
-							transition : "pop",
-							history : false
-						}).trigger('create').popup('open');
-			}, 100);
-			$("#locationSaveNextButton").attr("onclick", "createNew(1)");
-		} else if (seq == 1) {
-			openLocationInfoPopup();
-			$("#locationSaveNextButton").attr("onclick", "createNew(2)");
-		}
-		// startDrawingMode();
-	} else {
-		$("#map_canvas").css("cursor",
-				"url(images/map-markers/mouse-cursors/pin.png) , auto");
-		map
-				.setOptions({
-					draggableCursor : "url('images/map-markers/mouse-cursors/pin.png'), auto"
-				});
-	}
-}
-
 function selectActionType() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
 		var gps = map.getCenter().toString();
@@ -110,48 +51,49 @@ function selectActionType() {
 
 function getPathTypePanel() {
 	var url = "REST/GetLocationWS/GetAllPathTypes";
-	$.ajax({
-		url : url,
-		cache : false,
-		async : true,
-		success : function(data) {
-			var tmp = "";
-			$.each(data, function(k, l) {
-				tmp += "<li value='" + l.pathTypeId
-						+ "' class='liPathLV'><a href='#'>" + l.pathType
-						+ "</a></li>";
+	$
+			.ajax({
+				url : url,
+				cache : false,
+				async : true,
+				success : function(data) {
+					var tmp = "";
+					$.each(data, function(k, l) {
+						tmp += "<li value='" + l.pathTypeId
+								+ "' class='liPathLV'><a href='#'>"
+								+ l.pathType + "</a></li>";
+					});
+					$("ul#pathTypeListView").html(tmp).trigger("create");
+					$("ul#pathTypeListView").listview();
+					$("ul#pathTypeListView").listview("refresh");
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					// alert(xhr.status);
+					// alert(thrownError);
+					// alert("getPathTypePanel");
+					popErrorMessage("An error occured while fetching the path types from the server. "
+							+ thrownError);
+				}
 			});
-			$("ul#pathTypeListView").html(tmp).trigger("create");
-			$("ul#pathTypeListView").listview();
-			$("ul#pathTypeListView").listview("refresh");
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-//			alert(xhr.status);
-//			alert(thrownError);
-//			alert("getPathTypePanel");
-			popErrorMessage("An error occured while fetching the path types from the server. "+ thrownError);
-		}
-	});
 }
 
 $(document).ready(function() {
 	$('#pathTypePopup').fadeOut();
 	$('#locationEditPanel').fadeOut();
 	// $(".jqm-demos").css("max-height",$(window).height());
-
 });
 
 function ShowLoadingScreen(loadingContent) {
 	if (loadingContent == null) {
 		loadingContent = "Please Wait";
 	}
-	$("#loadingOverlay").css("display", "block");
-	$("#loadingContent").css("display", "block");
-	$(".markerLoading").css('display', 'block').trigger("create");
-	$("#loadingContent").html("Loading. . ." + "</br>" + loadingContent);
+	$("#loadingOverlay").css("display", "inline-block");
+	$("#loadingContent").css("display", "inline-block");
+	$(".markerLoading").css('display', 'inline-block').trigger("create");
+	$("#loadingContent").html(
+			"</br></br>Loading. . ." + "</br></br></br>" + loadingContent);
 }
 function HideLoadingScreen() {
-
 	$("#loadingOverlay").css("display", "none");
 	$(".markerLoading").css('display', 'none');
 	$("#loadingContent").css("display", "none");
@@ -180,8 +122,8 @@ function getCookie(cname) {
 	return "";
 }
 
-//$(document).keyup(function(e) {
-//	if (e.keyCode == 27) {
-//		clearBoundarySelection();
-//	}
-//});
+// $(document).keyup(function(e) {
+// if (e.keyCode == 27) {
+// clearBoundarySelection();
+// }
+// });

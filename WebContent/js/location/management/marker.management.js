@@ -67,7 +67,7 @@ function saveMarker() {
 			icon : $("#icon").val(),
 			locationName : $("#markerName").val(),
 			parentId : $("#parentLocationId").val(),
-			coordinate : $("#markerCoordinate").val(),
+			coordinate : $("#locationGPS").val(),
 			locationTypeId : $("#locationTypeId").val(),
 			locationId : $("#markerId").val(),
 			description : $("#locationDescription").val(),
@@ -226,7 +226,7 @@ function addMarker(l) {
 	marker.addListener('dragend', function(point) {
 		$("#locationTypeId").val(l.locationType.locationTypeId);
 		if (confirm("Are you sure you want to move the marker?")) {
-			$("#markerCoordinate").val(
+			$("#locationGPS").val(
 					point.latLng.lat() + "," + point.latLng.lng());
 			$("#markerId").val(l.locationID);
 			$("#parentLocationId").val(l.parentId);
@@ -271,16 +271,17 @@ function addAMarker(location, gps) {
 	$("#upload").val("");
 	$("#main-cropper").empty();
 	// $("#iconCropDiv").empty();
+	google.maps.event.clearInstanceListeners(map);
 	if (location == null) {
 		gps = gps.replace(" ", "");
 		$("#markerId").val("");
 		$("#markerName").val("");
-		$("#markerCoordinate").val(gps);
+		$("#locationGPS").val(gps);
 		$("#boundary").val("");
 		$("#locationDescription").val("");
 	} else {
 		$("#markerName").val(location.locationName);
-		$("#markerCoordinate").val(location.gps);
+		$("#locationGPS").val(location.gps);
 		$("#boundary").val(getArrayBoundary(location.boundary));
 		if (getBoundaryColour(location.boundary) == "") {
 			$("#tempBoundaryColors").val("1E90FF,1E90FF");

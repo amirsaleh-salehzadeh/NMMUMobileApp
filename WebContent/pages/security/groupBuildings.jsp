@@ -9,15 +9,15 @@
 <head>
 <link rel="stylesheet"
 	href="TreeView Plugin/trunk/src/jquery.treefilter.css">
-	<link rel="stylesheet"
-	href="css/nmmu-web-app-style.css">
-	<link href="css/location/management/management.css" rel="stylesheet">
+<!-- 	<link rel="stylesheet" -->
+<!-- 	href="css/nmmu-web-app-style.css"> -->
+<!-- 	<link href="css/location/management/management.css" rel="stylesheet"> -->
 </head>
 <body>
-<div id="loadingOverlay">
-	<div class="markerLoading" style="display: none;"></div>
-	<span id="loadingContent" style="display: none;"></span>
-</div>
+<!-- <div id="loadingOverlay"> -->
+<!-- 	<div class="markerLoading" style="display: none;"></div> -->
+<!-- 	<span id="loadingContent" style="display: none;"></span> -->
+<!-- </div> -->
 	<script type="text/javascript"
 		src="js/location/management/location.access.js"></script>
 	<form id="dataFilterGridMainPage" action="security.do">

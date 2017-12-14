@@ -230,15 +230,15 @@ function openEditBoundaryPopup() {
 	});
 	// $("#locationSaveCancelPanel").css("display",
 	// "inline-block").trigger("create");
-	$("#locationSaveCancelPanel").css(
+	$(".SaveCancelBTNPanel").css(
 			"top",
 			parseInt(parseInt($(".jqm-header").height())
 					+ parseInt($("#locPathModeRadiobtn").height()) + 3))
 			.trigger("create");
-	$("#locationSaveCancelPanel").css(
+	$(".SaveCancelBTNPanel").css(
 			"left",
 			parseInt(parseInt($(window).width()) / 2
-					- +parseInt($("#locationSaveCancelPanel").width()) / 2))
+					- +parseInt($(".SaveCancelBTNPanel").width()) / 2))
 			.trigger("create");
 	$("#locationEditMenu").on("popupafterclose", function() {
 		setTimeout(function() {

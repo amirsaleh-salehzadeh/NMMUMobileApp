@@ -59,42 +59,37 @@ public class SecurityAction extends Action {
 			deleteRole(request);
 			reqCode = "roleManagement";
 		}
+		if (reqCode.equalsIgnoreCase("saveUpdateGroupRole")) {
+			saveUpdateGroupRole(request, mapping);
+			reqCode = "groupRoleView";
+		}
+		if (reqCode.equalsIgnoreCase("deleteGroup")) {
+			deleteGroup(request);
+			reqCode = "groupManagement";
+		}
 		if (reqCode.equalsIgnoreCase("roleManagement")) {
 			return roleManagement(request, mapping);
 		} else if (reqCode.equals("roleEdit")) {
 			return editRole(request, mapping, form);
 		} else if (reqCode.equals("saveUpdateRole")) {
 			return saveUpdateRole(request, mapping);
-		}
-		if (reqCode.equalsIgnoreCase("deleteGroup")) {
-			deleteGroup(request);
-			reqCode = "groupManagement";
-		}
-		if (reqCode.equalsIgnoreCase("groupManagement")) {
+		} else if (reqCode.equalsIgnoreCase("groupManagement")) {
 			return groupManagement(request, mapping);
 		} else if (reqCode.equals("groupEdit")) {
 			return editGroup(request, mapping, form);
 		} else if (reqCode.equals("saveUpdateGroup")) {
 			return saveUpdateGroup(request, mapping);
-		}
-		if (reqCode.equalsIgnoreCase("saveUpdateGroupRole")) {
-			saveUpdateGroupRole(request, mapping);
-			reqCode = "groupRoleView";
-		}
-		if (reqCode.equalsIgnoreCase("groupRoleView")) {
+		} else if (reqCode.equals("groupBuildings")) {
+			return groupBuildings(request, mapping);
+		} else if (reqCode.equalsIgnoreCase("groupRoleView")) {
 			return groupRoleView(request, mapping);
 		}
-		if (reqCode.equals("groupBuildings")) {
-			return groupBuildings(request, mapping);
-		}
-
 		return af;
 	}
+
 	private ActionForward groupBuildings(HttpServletRequest request,
-			ActionMapping mapping){
-		String searchKey = "";
+			ActionMapping mapping) {
 		int gid = Integer.parseInt(request.getParameter("groupID"));
-		
 		try {
 			request.setAttribute("groupENT",
 					getSecurityDAO().getGroup(new GroupENT(gid)));
@@ -105,11 +100,10 @@ public class SecurityAction extends Action {
 		}
 		request.setAttribute("groupENTRoles", getSecurityDAO()
 				.getAllRolesForAGroup(gid));
-		
-	
 		return mapping.findForward("groupBuildings");
-		
+
 	}
+
 	private void saveUpdateGroupRole(HttpServletRequest request,
 			ActionMapping mapping) {
 		String[] t = request.getParameterValues("groupRoleName");

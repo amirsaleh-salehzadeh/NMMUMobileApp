@@ -9,11 +9,7 @@
 	border-radius: 0px 0px 24px 24px;
 }
 
-.ams {
-	display: inline-block;
-}
-
-#locationSaveCancelPanel {
+.SaveCancelBTNPanel {
 	width: 333px;
 	background-color: rgba(8, 27, 44, 1) !important;
 	z-index: 33 !important;
@@ -26,6 +22,10 @@
 	border-radius: 0px 0px 24px 24px;
 	margin: 0;
 	padding: 0;
+}
+
+.SaveNextBTNPanel {
+	display: none;
 }
 
 #boundaryColorFieldset {

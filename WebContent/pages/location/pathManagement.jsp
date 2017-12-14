@@ -9,49 +9,33 @@
 <head>
 <title>Control Panel</title>
 <script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						// 						$("#editBoundaryPopup").css("display", "none");
-						$("#pathInfoFooter").css("display", "none");
-						$("#map_canvas").css("min-width",
-								parseInt($("#mainBodyContents").css("width")));
-						$("#map_canvas").css(
-								"height",
-								parseInt($(window).height())
-										- parseInt($(".jqm-header").height())
-										- parseInt($("#locPathModeRadiobtn")
-												.height()) - 6);
-						$("#map_canvas").trigger("create");
-						$(".showLabelMouseOverTrue")
-								.each(
-										function() {
-											$(this)
-													.on(
-															'mousemove',
-															function() {
-																if ($(this)
-																		.attr(
-																				"alt") != undefined
-																		&& $(
-																				this)
-																				.attr(
-																						"alt").length >= 1)
-																	showMarkerLabel($(
-																			this)
-																			.attr(
-																					"alt"));
-																else
-																	showMarkerLabel($(
-																			this)
-																			.attr(
-																					"title"));
-															});
-											$(this).on('mouseout', function() {
-												clearMarkerLabel();
-											});
-										});
-					});
+	var showLabelMouseEvent = function() {
+		if ($(this).attr("alt") != undefined && $(this).attr("alt").length >= 1)
+			showMarkerLabel($(this).attr("alt"));
+		else
+			showMarkerLabel($(this).attr("title"));
+	};
+	var showLabelMouseMove = function() {
+		$(this).on('mousemove', showLabelMouseEvent);
+		$(this).on('mouseout', function() {
+			clearMarkerLabel();
+		});
+	};
+	$(document).ready(
+			function() {
+				// 						$("#editBoundaryPopup").css("display", "none");
+				$("#pathInfoFooter").css("display", "none");
+				$("#map_canvas").css("min-width",
+						parseInt($("#mainBodyContents").css("width")));
+				$("#map_canvas").css(
+						"height",
+						parseInt($(window).height())
+								- parseInt($(".jqm-header").height())
+								- parseInt($("#locPathModeRadiobtn").height())
+								- 6);
+				$("#map_canvas").trigger("create");
+				$(".showLabelMouseOverTrue").each(showLabelMouseMove);
+			});
 	$(window).bind('load', function() {
 		getAllMarkers("360", true);
 		$("#parentLocationId").val("360");
@@ -87,8 +71,7 @@
 <input type="hidden" readonly id="parentLocationId" value="360">
 <input type='hidden' readonly id='locationTypeId' value="0">
 <input type='hidden' readonly id='parentLocationTypeId' value="0">
-<input type='hidden' readonly name="markerCoordinate"
-	id="markerCoordinate">
+<input type='hidden' readonly name="locationGPS" id="locationGPS">
 <input type='hidden' readonly name="markerId" id="markerId">
 <input type='hidden' readonly name="icon" id="icon" value="">
 <input type='hidden' readonly name="boundary" id="boundary" value="">
@@ -130,24 +113,26 @@
 	title="Search for a Place" class="showLabelMouseOverTrue"
 	id="searchButton" onclick="openSearchPanel();"><img width='27'
 	height='27' src='images/icons/search.png'>SEARCH</a>
-	
-<!-- SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL -->	
 
-<div data-role="panel" id="locationSearchPanel" data-position="right" data-display="overlay" data-swipe-close="false"
-		data-dismissible="false"  class="ui-panel ui-panel-position-right ui-panel-display-overlay ui-body-inherit ui-panel-animate ui-panel-open" data-theme="none">
+<!-- SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL -->
+
+<div data-role="panel" id="locationSearchPanel" data-position="right"
+	data-display="overlay" data-swipe-close="false"
+	data-dismissible="false"
+	class="ui-panel ui-panel-position-right ui-panel-display-overlay ui-body-inherit ui-panel-animate ui-panel-open"
+	data-theme="none">
 	<div class="ui-block-solo" id="searchFieldDiv">
-			<input type="text" id="searchField" placeholder="Find a Location" data-role="none">
-			<span onclick="searchFieldDivClearBTN();"></span>
+		<input type="text" id="searchField" placeholder="Find a Location"
+			data-role="none"> <span onclick="searchFieldDivClearBTN();"></span>
 	</div>
 	<div class="ui-block-solo ">
 		<a data-role="button" href="#" data-rel="close"
-		class="pathMenu ui-btn ui-shadow cancel-icon ">Close</a>
+			class="pathMenu ui-btn ui-shadow cancel-icon ">Close</a>
 	</div>
 	<div class="ui-block-solo" id="resultsListViewDiv">
 		<div data-role="content">
 			<div data-role="collapsible-set" id="resultsListViewContentDiv"
-				data-input="#searchField" data-filter="true"
-				data-collapsed="false">
+				data-input="#searchField" data-filter="true" data-collapsed="false">
 			</div>
 		</div>
 	</div>
@@ -172,17 +157,19 @@
 </fieldset>
 
 
+<!-- LOCATION INFO LOCATION INFO LOCATION INFO LOCATION INFO LOCATION INFO  -->
+
 
 <div id="infoDiv" class="ui-block-solo">
 	<ul data-role="listview" id="infoListView">
 	</ul>
-
 	<!-- 		<label for="locationInfo">Location </label> -->
 	<div class="ui-block-solo" style="margin: 0 !important;">
 		<label id="locationDescriptionLabel" for="locationInfo"></label>
 		<div id="locationInfo"></div>
 	</div>
 </div>
+
 
 
 <!-- LOCATION EDIT MENU LOCATION EDIT MENU LOCATION EDIT MENU LOCATION EDIT MENU -->
@@ -197,18 +184,22 @@
 		<li data-icon="false"><a class="editInfo open" href="#"
 			onclick="openALocation();"><img alt=""
 				src="images/icons/open.png">Open</a></li>
+		<li data-role="list-divider"></li>
+
 		<li data-icon="false"><a class="editInfo location" href="#"
 			onclick="openLocationTypePopup();"><img alt=""
-				src="images/icons/location.png">Edit Location Type</a></li>
-		<li data-icon="false"><a class="editInfo" href="#"
-			onclick="openLocationInfoPopup();"><img alt=""
-				src="images/icons/info.png">Edit Info</a></li>
+				src="images/icons/location.png">Set Location Type</a></li>
 		<li data-icon="false"><a class="editInfo" href="#"
 			onclick="openEditBoundaryPopup();"><img alt=""
-				src="images/icons/polygon.png">Edit Boundary </a></li>
+				src="images/icons/polygon.png">Boundary </a></li>
+		<li data-role="list-divider"></li>
+
+		<li data-icon="false"><a class="editInfo" href="#"
+			onclick="openLocationInfoPopup();"><img alt=""
+				src="images/icons/info.png">Info</a></li>
 		<li data-icon="false"><a class="editInfo thumbnail" href="#"
 			onclick="openIconPopup();"><img alt=""
-				src="images/icons/image.png">Edit Thumbnail</a></li>
+				src="images/icons/image.png">Thumbnail</a></li>
 		<li data-role="list-divider"></li>
 		<li data-icon="false"><a href="#" class="editInfo delete"
 			onclick="deletePolygon();"><img alt=""
@@ -224,7 +215,18 @@
 	</ul>
 </div>
 
-
+<div class="ui-grid-a SaveCancelBTNPanel SaveNextBTNPanel" style=""
+	id="locationCreateNewNextPanel">
+	<div class="ui-block-a">
+		<a style="cursor: pointer;" data-role="button" href="#"
+			class="ui-btn save-icon" id="locationSaveNextButton" onclick="">Next</a>
+	</div>
+	<div class="ui-block-b">
+		<a style="cursor: pointer;" data-role="button" href="#"
+			class="ui-btn cancel-icon"
+			onclick="closeAMenuPopup();hideLocationInfo();">Cancel</a>
+	</div>
+</div>
 
 <!-- LOCATION TYPE POPUP LOCATION TYPE POPUP LOCATION TYPE POPUP LOCATION TYPE POPUP LOCATION TYPE POPUP -->
 
@@ -333,43 +335,42 @@
 
 
 
-<div id="editBoundaryPopup" data-role="popup"
-	data-position-to="window" style="padding: 7px 7px 7px 7px;"
-	class="menuItemPopupClass toolBar" data-dismissible="false">
+<div id="editBoundaryPopup" data-role="popup" data-position-to="window"
+	style="padding: 7px 7px 7px 7px;" class="menuItemPopupClass toolBar"
+	data-dismissible="false">
 	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext"
 		class="ui-btn-right closeMessageButtonIcon"
 		onclick="closeAMenuPopup();">Cancel</a>
-<!-- 	<div class="ams"> -->
-		<!-- 		<img src='images/icons/cursor-pointer.png' -->
-		<!-- 			class="pathMenu showLabelMouseOverTrue" width="48" height="48" -->
-		<!-- 			title="Normal Mode" onclick="removeDrawingMode()"> <img -->
-		<!-- 			src='images/icons/polygon-select.png' width="48" height="48" -->
-		<!-- 			class="pathMenu showLabelMouseOverTrue" title="Drawing Mode" -->
-		<!-- 			onclick="startDrawingMode()" /> <img src='images/icons/edit.png' -->
-		<!-- 			width="48" height="48" class="pathMenu showLabelMouseOverTrue" -->
-		<!-- 			title="Edit Boundary Points" /> <img -->
-		<!-- 			src='images/icons/delete-icon.png' width="48" height="48" -->
-		<!-- 			class="pathMenu showLabelMouseOverTrue" title="Delete Boundary" -->
-		<!-- 			onclick="deletePolygon()" /> -->
-		<!-- 		<div id="boundaryColour" title="Edit Boundary Colours" -->
-		<!-- 			class="pathMenu showLabelMouseOverTrue" onclick="showHideColors();"></div> -->
-		<!-- 	</div> -->
-		<!-- 	<div class="ui-block-c">	 -->
-		<ul data-role="listview" style="min-width: 210px !important;">
-			<li class="unselectable" data-role="list-divider"
-				id="locationEditMenuTitle">Boundary Settings</li>
-			<li data-icon="false"><a class="editInfo open" href="#"
-				onclick="editPolygon();"><img alt=""
-					src="images/icons/edit.png">Edit the Boundary</a></li>
-			<li data-icon="false"><a class="editInfo location" href="#"
-				onclick="deletePolygon();"><img alt=""
-					src="images/icons/delete-icon.png">Remove the Boundary</a></li>
-			<li data-icon="false"><a class="editInfo location" href="#"
-				onclick="showHideColors();"><img alt=""
-					src="images/icons/location.png">Change the Color</a></li>
-			<li><a href="#" class="editInfo" onclick="closeAMenuPopup();"><img
-					alt="" src="images/icons/clearInput.png">Cancel</a></li>
-		</ul>
+	<!-- 	<div class="ams"> -->
+	<!-- 		<img src='images/icons/cursor-pointer.png' -->
+	<!-- 			class="pathMenu showLabelMouseOverTrue" width="48" height="48" -->
+	<!-- 			title="Normal Mode" onclick="removeDrawingMode()"> <img -->
+	<!-- 			src='images/icons/polygon-select.png' width="48" height="48" -->
+	<!-- 			class="pathMenu showLabelMouseOverTrue" title="Drawing Mode" -->
+	<!-- 			onclick="startDrawingMode()" /> <img src='images/icons/edit.png' -->
+	<!-- 			width="48" height="48" class="pathMenu showLabelMouseOverTrue" -->
+	<!-- 			title="Edit Boundary Points" /> <img -->
+	<!-- 			src='images/icons/delete-icon.png' width="48" height="48" -->
+	<!-- 			class="pathMenu showLabelMouseOverTrue" title="Delete Boundary" -->
+	<!-- 			onclick="deletePolygon()" /> -->
+	<!-- 		<div id="boundaryColour" title="Edit Boundary Colours" -->
+	<!-- 			class="pathMenu showLabelMouseOverTrue" onclick="showHideColors();"></div> -->
+	<!-- 	</div> -->
+	<!-- 	<div class="ui-block-c">	 -->
+	<ul data-role="listview" style="min-width: 210px !important;">
+		<li class="unselectable" data-role="list-divider"
+			id="locationEditMenuTitle">Boundary Settings</li>
+		<li data-icon="false"><a class="editInfo open" href="#"
+			onclick="editPolygon();"><img alt="" src="images/icons/edit.png">Edit</a></li>
+		<li data-icon="false"><a class="editInfo location" href="#"
+			onclick="deletePolygon();"><img alt=""
+				src="images/icons/delete-icon.png">Remove</a></li>
+		<li data-icon="false"><a class="editInfo location" href="#"
+			onclick="showHideColors();"><img alt=""
+				src="images/icons/location.png">Color</a></li>
+		<li><a href="#" class="editInfo" onclick="closeAMenuPopup();"><img
+				alt="" src="images/icons/clearInput.png">Cancel</a></li>
+	</ul>
 	<!-- 	</div> -->
 	<div id="boundaryColorFieldset" style="display: none;">
 		<span>Fill Colour</span>
@@ -386,11 +387,11 @@
 			class="pathMenu showLabelMouseOverTrue" width="48" height="48"
 			title="Undo Colour Change" onclick="undoColourChange()">
 	</div>
-	<div class="ui-grid-a" style="" id="locationSaveCancelPanel">
+	<div class="ui-grid-a SaveCancelBTNPanel" style=""
+		id="locationSaveCancelPanel">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class="ui-btn save-icon" id="locationSaveNextButton"
-				onclick="saveMarker()">Save</a>
+				class="ui-btn save-icon" onclick="saveMarker()">Save</a>
 		</div>
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
@@ -400,15 +401,11 @@
 	</div>
 </div>
 
+
+
 <!-- LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL LOCATION EDIT PANEL  -->
 
 
-
-<!-- 		<img src="images/icons/polygon.png" id="editBoundaryIcon" width="48" -->
-<!-- 			height="48" style="cursor: pointer;" />Edit Boundary -->
-
-<!-- 		<img src="images/icons/image.png" id="editIconIcon" width="48" -->
-<!-- 			height="48" style="cursor: pointer;" />Edit Thumbnail -->
 
 <!-- 	<div class="ui-block-solo editlocationFormRow" -->
 <!-- 		onclick="" id="calendarIcon"> -->
@@ -443,18 +440,6 @@
 	<div class="ui-block-e">
 		<label for="locationBoundary">Boundary</label> <span
 			id="locationBoundary"></span>
-	</div>
-	<div class="ui-grid-a" style="" id="locationSaveCancelPanelOLDID">
-		<div class="ui-block-a">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class="ui-btn save-icon" id="locationSaveNextButton"
-				onclick="saveMarker()">Save</a>
-		</div>
-		<div class="ui-block-b">
-			<a style="cursor: pointer;" data-role="button" href="#"
-				class="ui-btn cancel-icon"
-				onclick="closeAMenuPopup();hideLocationInfo();">Cancel</a>
-		</div>
 	</div>
 </div>
 
@@ -628,6 +613,8 @@
 <script type="text/javascript" src="js/location/management/path.type.js"></script>
 <script type="text/javascript"
 	src="js/location/management/map.management.js"></script>
+<script type="text/javascript"
+	src="js/location/management/location.create.new.js"></script>
 <script type="text/javascript"
 	src="js/location/management/image.thumbnail.croppie.js"></script>
 <script src="https://openlayers.org/en/v4.5.0/build/ol.js"></script>
