@@ -41,29 +41,28 @@ public class LocationServicesWS {
 	@Produces("application/json")
 	public String createTFCEntrance(
 			@QueryParam("locationName") String locationName,
-			@QueryParam("coordinate") String grpsString ,
+			@QueryParam("coordinate") String grpsString,
 			@QueryParam("locationType") String parentLocationIds,
-			@QueryParam("username") String userName 
-			, @QueryParam("parentId") long parentId) {
+			@QueryParam("username") String userName,
+			@QueryParam("parentId") long parentId) {
 		ObjectMapper mapper = new ObjectMapper();
-		
-		int locationid= 0 ;
+
+		int locationid = 0;
 		String json = "";
-		
+
 		try {
-			
-			LocationENT ent = new LocationENT(userName) ;
+
+			LocationENT ent = new LocationENT(userName);
 			if (locationName.equalsIgnoreCase("Entrance"))
-				ent.setLocationType( new LocationTypeENT(10)) ;
-			ent.setBoundary(null) ;
-			ent.setLocationName(locationName) ;
-			ent.setGps(grpsString) ;
-			ent.setParentId(parentId) ;
-			ent.setIcon(null) ;
-			ent.setPlan(null) ;
-			ent.setDescription(null) ;
-			
-			
+				ent.setLocationType(new LocationTypeENT(10));
+			ent.setBoundary(null);
+			ent.setLocationName(locationName);
+			ent.setGps(grpsString);
+			ent.setParentId(parentId);
+			ent.setIcon(null);
+			ent.setPlan(null);
+			ent.setDescription(null);
+
 			json = mapper.writeValueAsString(getLocationDAO()
 					.saveUpdateLocation(ent, null));
 		} catch (JsonGenerationException e) {
@@ -72,43 +71,40 @@ public class LocationServicesWS {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}catch (AMSException e) {
+		} catch (AMSException e) {
 			// TODO: handle exception
-			e.printStackTrace() ;
+			e.printStackTrace();
 		}
-		
-		
-		return json ;
+
+		return json;
 	}
-	
-	
+
 	@GET
 	@Path("/CreateTFCLevels")
 	@Produces("application/json")
 	public String createTFCLevels(
 			@QueryParam("locationName") String locationName,
-			@QueryParam("coordinate") String grpsString ,
 			@QueryParam("locationType") String parentLocationIds,
-			@QueryParam("username") String userName 
-			, @QueryParam("parentId") long parentId) {
+			@QueryParam("username") String userName,
+			@QueryParam("parentId") long parentId) {
 		ObjectMapper mapper = new ObjectMapper();
-		
-		int locationid= 0 ;
+
+		int locationid = 0;
 		String json = "";
-		
+
 		try {
-			
-			LocationENT ent = new LocationENT(userName) ;
+
+			LocationENT ent = new LocationENT(userName);
 			if (locationName.equalsIgnoreCase("Level"))
-				ent.setLocationType( new LocationTypeENT(4)) ;
-			ent.setBoundary(null) ;
-			ent.setLocationName(locationName) ;
-			ent.setGps(grpsString) ;
-			ent.setParentId(parentId) ;
-			ent.setIcon(null) ;
-			ent.setPlan(null) ;
-			ent.setDescription(null) ;
-			
+				ent.setLocationType(new LocationTypeENT(4));
+			ent.setBoundary(null);
+			ent.setLocationName(locationName);
+
+			ent.setParentId(parentId);
+			ent.setIcon(null);
+			ent.setPlan(null);
+			ent.setDescription(null);
+
 			json = mapper.writeValueAsString(getLocationDAO()
 					.saveUpdateLocation(ent, null));
 		} catch (JsonGenerationException e) {
@@ -117,15 +113,14 @@ public class LocationServicesWS {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}catch (AMSException e) {
+		} catch (AMSException e) {
 			// TODO: handle exception
-			e.printStackTrace() ;
+			e.printStackTrace();
 		}
-		
-		
-		return json ;
+
+		return json;
 	}
-	
+
 	@GET
 	@Path("/GetAllLocationsForUser")
 	@Produces("application/json")
@@ -274,8 +269,8 @@ public class LocationServicesWS {
 				departureId = getLocationDAO().findClosestLocation(from,
 						"11,3,5", parentId, "NMMU").getLocationID();
 			}
-			ArrayList<PathENT> res = getPathDAO().getShortestPath(
-					departureId, destinationId, pathType, clientName, pathType);
+			ArrayList<PathENT> res = getPathDAO().getShortestPath(departureId,
+					destinationId, pathType, clientName, pathType);
 			if (res.size() == 0)
 				getLocationDAO().saveTrip(departureId, destinationId);
 			json = mapper.writeValueAsString(res);
