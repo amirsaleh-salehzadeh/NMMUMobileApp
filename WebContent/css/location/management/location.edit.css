@@ -188,7 +188,7 @@ div#searchFieldDiv span {
 	right: 9px;
 	width: 32px !important;
 	height: 32px !important;
-	background-image: url("../images/icons/clearInput.png");
+	background-image: url("../../../images/icons/clearInput.png");
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
 	cursor: pointer;
@@ -196,7 +196,7 @@ div#searchFieldDiv span {
 }
 
 div#searchFieldDiv span {
-	background-image: url("../images/icons/clearInput.png") !important;
+	background-image: url("../../../images/icons/clearInput.png") !important;
 }
 
 div#searchFieldDiv span {
@@ -212,7 +212,7 @@ div#searchFieldDiv {
 #searchField {
 	color: rgb(248, 182, 36) !important;
 	background-color: rgb(8, 27, 44) !important;
-	background-image: url("/images/icons/search.png");
+	background-image: url("../../../images/icons/search.png");
 	background-repeat: no-repeat;
 	background-size: 27px 27px;
 	background-position: 3px 5px;
