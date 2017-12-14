@@ -1,11 +1,11 @@
-var tmpCreateNewlocation
+var tmpCreateNewlocation;
 function createNew(seq) {// a number to indicate the sequence of next
 	// procedures
 	showLocationInfo();
 	var mapOptions = {
 		draggableCursor : "url('images/map-markers/mouse-cursors/pin.png'), auto"
 	};
-	$("#locationCreateNewNextPanel").css("display","inline-block");
+	$("#locationCreateNewNextPanel").css("display", "none");
 	switch (seq) {
 	case 0:
 		$("#locationGPS").val("");
@@ -32,9 +32,11 @@ function createNew(seq) {// a number to indicate the sequence of next
 			}
 		});
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+			mapOptions = {
+				draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
+			};
+			map.setOptions(mapOptions);
 			popSuccessMessage("Please find the area of the property on the map, place a marker point on the map and press next.");
-			$("#map_canvas").css("cursor",
-			"url(images/map-markers/mouse-cursors/buildingss.png) , auto");
 			var mapClickListener = function(event) {
 				var lat = event.latLng.lat();
 				var lng = event.latLng.lng();
@@ -42,10 +44,21 @@ function createNew(seq) {// a number to indicate the sequence of next
 					$("#locationGPS").val(lat + "," + lng);
 					$("#locationSaveNextButton").attr("onclick",
 							"createNew(1);");
-					
+					$("#locationCreateNewNextPanel").css("display",
+							"inline-block");
+					tmpCreateNewlocation = new google.maps.Marker({
+						map : map
+					});
+					map.setCenter({
+						lat : parseFloat(lat),
+						lng : parseFloat(lng)
+					});
+					tmpCreateNewlocation.setPosition({
+						lat : parseFloat(lat),
+						lng : parseFloat(lng)
+					});
 				} else
 					return;
-
 			};
 			google.maps.event.addListener(map, "click", mapClickListener);
 			break;
@@ -55,10 +68,17 @@ function createNew(seq) {// a number to indicate the sequence of next
 			map.setOptions(mapOptions);
 		}
 	case 1:
+		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+			popSuccessMessage("Set a label and description for this property.");
+			openLocationInfoPopup();
+			$("#locationSaveNextButton").attr("onclick", "createNew(3)");
+		} else {
+			$("#map_canvas").css("cursor",
+					"url(images/map-markers/mouse-cursors/pin.png) , auto");
+			map.setOptions(mapOptions);
+		}
+	case 2:
 		selectThisLocationType(null);
-		popSuccessMessage("Please find the area of the property on the map, place a marker point on the map and press next.");
-		$("#map_canvas").css("cursor",
-		"url(images/map-markers/mouse-cursors/buildingss.png) , auto");
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			popSuccessMessage("Set a type for this property.");
 			setTimeout(function() {
@@ -75,20 +95,6 @@ function createNew(seq) {// a number to indicate the sequence of next
 					"url(images/map-markers/mouse-cursors/pin.png) , auto");
 			map.setOptions(mapOptions);
 		}
-	case 2:
-		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			// showMainBoundary();
-			// $('.menuItemPopupClass').popup('close');
-			// locationEditPanelOpen("", "");
-			popSuccessMessage("Set a label and description for this property.");
-			openLocationInfoPopup();
-			$("#locationSaveNextButton").attr("onclick", "createNew(3)");
-			// startDrawingMode();
-		} else {
-			$("#map_canvas").css("cursor",
-					"url(images/map-markers/mouse-cursors/pin.png) , auto");
-			map.setOptions(mapOptions);
-		}
 		break;
 	case 3:
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
@@ -97,9 +103,9 @@ function createNew(seq) {// a number to indicate the sequence of next
 			// locationEditPanelOpen("", "");
 			popSuccessMessage("Please draw a boundary around the property. "
 					+ "Make sure to place the pins at an accurate geographical position");
-			openEditBoundaryPopup();
+//			openEditBoundaryPopup();
 			$("#locationSaveNextButton").attr("onclick", "createNew(4)");
-			// startDrawingMode();
+			 startDrawingMode();
 		} else {
 			$("#map_canvas").css("cursor",
 					"url(images/map-markers/mouse-cursors/pin.png) , auto");

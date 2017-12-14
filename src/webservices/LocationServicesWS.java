@@ -37,6 +37,32 @@ import tools.QRBarcodeGen;
 public class LocationServicesWS {
 
 	@GET
+	@Path("/CreateTFCLocationType")
+	@Produces("application/json")
+	public String createTFCLocationType(
+			@QueryParam("locationName") String locationName,
+			@QueryParam("coordinate") String locationTypeIds,
+			@QueryParam("locationType") String parentLocationIds
+			, @QueryParam("parentId") long parentId) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+//		try {
+//			if (parentLocationIds.equalsIgnoreCase("0"))
+//				parentLocationIds = null;
+//			json = mapper.writeValueAsString(getLocationDAO()
+//					.getAllLocationsForUser(userName, locationTypeIds,
+//							parentLocationIds));
+//		} catch (JsonGenerationException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		return json;
+	}
+	
+	@GET
 	@Path("/GetAllLocationsForUser")
 	@Produces("application/json")
 	public String getAllLocationsForUser(
