@@ -46,6 +46,7 @@ public class LocationServicesWS {
 			, @QueryParam("parentId") long parentId) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
+		//Enterance
 //		try {
 //			if (parentLocationIds.equalsIgnoreCase("0"))
 //				parentLocationIds = null;
