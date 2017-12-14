@@ -7,6 +7,9 @@ function getAllLocationsTree(parentId) {
 					url : url,
 					cache : false,
 					async : true,
+					beforeSend : function() {
+						ShowLoadingScreen("Loading Locations");
+					},
 					success : function(data) {
 						str = "";
 						$
@@ -31,6 +34,9 @@ function getAllLocationsTree(parentId) {
 										});
 						initiateTree();
 					},
+					complete : function() {
+						HideLoadingScreen();
+					},
 					error : function(xhr, ajaxOptions, thrownError) {
 						alert(xhr.status);
 						alert(thrownError);
@@ -46,4 +52,20 @@ function getAllLocationsTree(parentId) {
 			searcher : $("input#my-search")
 		});
 		// 	alert("done");
+	}
+	function ShowLoadingScreen(loadingContent) {
+		if (loadingContent == null) {
+			loadingContent = "Please Wait";
+		}
+		alert("Now");
+		$("#loadingOverlay").css("display", "block");
+		$("#loadingContent").css("display", "block");
+		$(".markerLoading").css('display', 'block').trigger("create");
+		$("#loadingContent").html("Loading. . ." + "</br>" + loadingContent);
+	}
+	function HideLoadingScreen() {
+
+		$("#loadingOverlay").css("display", "none");
+		$(".markerLoading").css('display', 'none');
+		$("#loadingContent").css("display", "none");
 	}
