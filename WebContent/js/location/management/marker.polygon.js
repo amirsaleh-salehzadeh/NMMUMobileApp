@@ -42,7 +42,8 @@ function createDrawingManager() {
 						var newShape = e.overlay;
 						newShape.type = e.type;
 						$("#boundary").val(getPolygonCoords(newShape));
-						alert("Test1");
+						$("#locationCreateNewNextPanel").css("display", "inline-block").trigger("create");
+//						alert("Test1");
 						// google.maps.event.addListener(newShape, "mouseup",
 						// function(event) {
 						// $("#boundary").val(
@@ -51,46 +52,48 @@ function createDrawingManager() {
 						// });
 						// alert("test1");
 						selectedShape = newShape;
-						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
-							drawingManager.setDrawingMode(null);
-							google.maps.event
-									.addListener(
-											newShape,
-											'click',
-											function(e) {
-												alert("test2");
-												if (e.vertex !== undefined) {
-													if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
-														var path = newShape
-																.getPaths()
-																.getAt(e.path);
-														path.removeAt(e.vertex);
-														if (path.length < 3) {
-															newShape
-																	.setMap(null);
-														}
-													}
-													if (newShape.type === google.maps.drawing.OverlayType.POLYLINE) {
-														var path = newShape
-																.getPath();
-														path.removeAt(e.vertex);
-														if (path.length < 2) {
-															newShape
-																	.setMap(null);
-														}
-													}
-												}
-												editPolygon(newShape);
-											});
+//						if (e.type !== google.maps.drawing.OverlayType.MARKER) {
+//							drawingManager.setDrawingMode(null);
+//							google.maps.event
+//									.addListener(
+//											newShape,
+//											'click',
+//											function(e) {
+//												alert("test2");
+//												if (e.vertex !== undefined) {
+//													if (newShape.type === google.maps.drawing.OverlayType.POLYGON) {
+//														var path = newShape
+//																.getPaths()
+//																.getAt(e.path);
+//														path.removeAt(e.vertex);
+//														if (path.length < 3) {
+//															newShape
+//																	.setMap(null);
+//														}
+//													}
+//													if (newShape.type === google.maps.drawing.OverlayType.POLYLINE) {
+//														var path = newShape
+//																.getPath();
+//														path.removeAt(e.vertex);
+//														if (path.length < 2) {
+//															newShape
+//																	.setMap(null);
+//														}
+//													}
+//												}
+//												editPolygon(newShape);
+//											});
 							// setBoundarySelection(newShape);
-						} else {
-							google.maps.event.addListener(newShape, 'click',
-									function(e) {
-										alert("marker");
-										setBoundarySelection(newShape);
-									});
-							setBoundarySelection(newShape);
-						}
+//						} 
+						
+//						else {
+//							google.maps.event.addListener(newShape, 'click',
+//									function(e) {
+//										alert("marker");
+//										setBoundarySelection(newShape);
+//									});
+//							setBoundarySelection(newShape);
+//						}
 						google.maps.event.addListener(newShape,
 								'bounds_changed', function() {
 									alert('Bounds changed.');

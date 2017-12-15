@@ -9,7 +9,7 @@
 	border-radius: 0px 0px 24px 24px;
 }
 
-.SaveCancelBTNPanel {
+.SaveCancelBTNPanel, #locationSaveCancelPanel {
 	width: 333px;
 	background-color: rgba(8, 27, 44, 1) !important;
 	z-index: 33 !important;
