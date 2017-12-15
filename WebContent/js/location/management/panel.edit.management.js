@@ -133,6 +133,16 @@ function getLocationTypeImage(locationTypeId) {
 }
 
 function locationEditPanelOpen(title, info) {
+	// $(".SaveCancelBTNPanel").css(
+	// "top",
+	// parseInt(parseInt($(".jqm-header").height())
+	// + parseInt($("#locPathModeRadiobtn").height()) + 3))
+	// .trigger("create");
+	// $(".SaveCancelBTNPanel").css(
+	// "left",
+	// parseInt(parseInt($(window).width()) / 2
+	// - +parseInt($(".SaveCancelBTNPanel").width()) / 2))
+	// .trigger("create");
 	$("#locationInfo").html('');
 	$("#locationEditMenuTitle").html(title + " (" + info + ")");
 	$("#locationInfo").prepend(title);
@@ -185,6 +195,18 @@ function closeAMenuPopup() {
 	$('.menuItemPopupClass').popup('close');
 	$("#locationEditMenu").unbind("popupafterclose");
 	$("#pathEditMenu").unbind("popupafterclose");
+	if (tmpCreateNewlocation != null) {
+		tmpCreateNewlocation.setMap(null);
+		tmpCreateNewlocation = null;
+	}
+	if (selectedShape != null) {
+		selectedShape.setMap(null);
+		selectedShape = null;
+	}
+	map.setOptions({
+		draggableCursor : 'crosshair'
+	});
+	$("#actionBar").css("display", "none");
 	// hideMainBoundary();
 	// unselectBoundary();
 }
@@ -228,17 +250,17 @@ function openEditBoundaryPopup() {
 		x : event.pageX,
 		y : event.pageY
 	});
-	// $("#locationSaveCancelPanel").css("display",
-	// "inline-block").trigger("create");
-	$(".SaveCancelBTNPanel").css(
+	$("#locationSaveCancelPanel").css("display", "inline-block").trigger(
+			"create");
+	$("#locationSaveCancelPanel").css(
 			"top",
 			parseInt(parseInt($(".jqm-header").height())
 					+ parseInt($("#locPathModeRadiobtn").height()) + 3))
 			.trigger("create");
-	$(".SaveCancelBTNPanel").css(
+	$("#locationSaveCancelPanel").css(
 			"left",
-			parseInt(parseInt($(window).width()) / 2
-					- +parseInt($(".SaveCancelBTNPanel").width()) / 2))
+			parseInt(parseInt($(window).width() / 2)
+					- parseInt($("#locationSaveCancelPanel").width() / 2)))
 			.trigger("create");
 	$("#locationEditMenu").on("popupafterclose", function() {
 		setTimeout(function() {
@@ -326,9 +348,9 @@ function openPathTypePopup() {
 	$("#mainBodyContents").trigger('create');
 }
 
-function openSearchPanel(){
+function openSearchPanel() {
 	getLocationTypeList();
-	$( "#locationSearchPanel" ).panel( "open" );
+	$("#locationSearchPanel").panel("open");
 }
 
 function getLocationTypeList() {
@@ -369,7 +391,8 @@ function getLocationTypeList() {
 					var desc = "&nbsp;";
 					if (y.description != null)
 						desc = y.description;
-					list_items += desc + ", " + l.locationName + " Campus</p></a></li>";
+					list_items += desc + ", " + l.locationName
+							+ " Campus</p></a></li>";
 				});
 				var list = $("<ul/>", {
 					"data-role" : "listview",

@@ -4,6 +4,21 @@
 	background-color: rgba(8, 27, 44, .7) !important;
 }
 
+#actionBar {
+	position: absolute;
+	display: none;
+	width: 100%;
+	z-index: 200;
+	background-color: rgb(8, 27, 44) !important;
+	min-height: 48px;
+	left: 0;
+	right: 0;
+	border-bottom: solid 3px;
+	border-radius: 7px;
+	border-color: rgb(248, 182, 36) !important;
+/* 	top: -3px; */
+}
+
 .pathManagementInfoFooter {
 	bottom: 0;
 	min-width: 100%;
@@ -41,7 +56,7 @@
 	padding: 2px;
 }
 
-#createNewButton, #searchButton {
+#createNewButton,#searchButton {
 	color: rgb(248, 182, 36) !important;
 	background-color: transparent !important;
 	text-shadow: none;
@@ -92,7 +107,8 @@ input[name="radio-choice"] {
 	font-size: 16pt;
 	/* 	min-height: 48px !important; */
 }
-#locPathModeRadiobtn>div>div{
+
+#locPathModeRadiobtn>div>div {
 	margin: 0 3 -2 0;
 }
 

@@ -391,18 +391,16 @@ public class LocationServicesWS {
 		String json = "[]";
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			json = mapper.writeValueAsString(getLocationDAO().deleteLocation(
-					new LocationENT(locationId)));
+			if(getLocationDAO().deleteLocation(
+					new LocationENT(locationId))){
+				json= "{\"errorMSG\": null}";
+			}else{
+				json = "{\"errorMSG\": \"Problem while removing the location\"}";
+			}
 		} catch (AMSException e) {
 			e.printStackTrace();
 			return "{\"errorMSG\": \"Please remove the path first\"}";
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} 
 		return json;
 	}
 

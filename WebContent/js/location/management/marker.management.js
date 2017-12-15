@@ -21,7 +21,18 @@ function removeMarker() {
 					alert(data.errorMSG);
 					return;
 				}
-				deleteMarker($("#markerId").val());
+				
+				var id = $("#markerId").val();
+				for ( var i = 0; i < polygons.length; i++) {
+					if (polygons[i].id == id) {
+						polygons[i].setMap(null);
+						polygons.splice(i, 1);
+						$('#locationEditMenu').popup('close');
+						return;
+					}
+				}
+				deleteMarker(id);
+				$(".locationFields").val("");
 			},
 			complete : function() {
 				HideLoadingScreen();
