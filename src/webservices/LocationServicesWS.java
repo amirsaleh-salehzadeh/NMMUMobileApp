@@ -62,7 +62,6 @@ public class LocationServicesWS {
 			ent.setIcon(null);
 			ent.setPlan(null);
 			ent.setDescription(null);
-
 			json = mapper.writeValueAsString(getLocationDAO()
 					.saveUpdateLocation(ent, null));
 		} catch (JsonGenerationException e) {
