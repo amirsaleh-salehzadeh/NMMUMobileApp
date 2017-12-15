@@ -21,15 +21,23 @@ function removeMarker() {
 					alert(data.errorMSG);
 					return;
 				}
-				deleteMarker($("#markerId").val());
+				
+				var id = $("#markerId").val();
+				for ( var i = 0; i < polygons.length; i++) {
+					if (polygons[i].id == id) {
+						polygons[i].setMap(null);
+						polygons.splice(i, 1);
+						$('#locationEditMenu').popup('close');
+						return;
+					}
+				}
+				deleteMarker(id);
+				$(".locationFields").val("");
 			},
 			complete : function() {
 				HideLoadingScreen();
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
-//				alert(xhr.status);
-//				alert(thrownError);
-//				alert("getAllMarkers");
 				popErrorMessage("An error occured while removing the marker. "+ thrownError);
 			}
 		});
@@ -89,11 +97,6 @@ function saveMarker() {
 			closeAMenuPopup();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-//			alert(xhr.status);
-//			alert(thrownError);
-			alert(ajaxOptions);
-			HideLoadingScreen();
-//			alert("saveMarker");
 			popErrorMessage("An error occured while saving the marker. "+ thrownError);
 		},
 	});
@@ -101,12 +104,6 @@ function saveMarker() {
 
 var str = "";
 function getAllMarkers(parentId, refreshMarkers) {
-//	if ((parentId == 360) && (boundaryOpened == true)) {
-//		boundaryOpened = false;
-//	}
-//	if ((parentId == 369) && (boundaryOpened == false)) {
-//		boundaryOpened = true;
-//	}
 	minZoomLevel = 1;
 	$("input[name='radio-choice']").checkboxradio();
 	$("input[name='radio-choice']").checkboxradio('disable');
@@ -117,7 +114,6 @@ function getAllMarkers(parentId, refreshMarkers) {
 		setMapOnAllMarkers(map);
 		setMapOnAllPathMarkers(null);
 		$("input[name='radio-choice']").checkboxradio('enable');
-		// $("input[name='radio-choice']").checkboxradio('enable');
 		return;
 	}
 	$.ajax({
@@ -153,9 +149,6 @@ function getAllMarkers(parentId, refreshMarkers) {
 			$("input[name='radio-choice']").checkboxradio('enable');
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-//			alert(xhr.status);
-//			alert(thrownError);
-//			alert("getAllMarkers");
 			$("input[name='radio-choice']").checkboxradio('enable');
 			popErrorMessage("An error occured while fetching the markers from the server. "+ thrownError);
 		}
@@ -199,7 +192,6 @@ function addMarker(l) {
 					"normal"),
 			draggable : true,
 			zIndex : 666,
-		// title : l.locationName + " " + l.locationType.locationType
 		});
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);

@@ -1,30 +1,22 @@
-var tmpCreateNewlocation
+var tmpCreateNewlocation;
 function createNew(seq) {// a number to indicate the sequence of next
 	// procedures
+	// closeAMenuPopup();
 	showLocationInfo();
+	$("#actionBar").css("display", "inline");
 	var mapOptions = {
 		draggableCursor : "url('images/map-markers/mouse-cursors/pin.png'), auto"
 	};
-	$("#locationCreateNewNextPanel").css("display","inline-block");
+	$("#locationCreateNewNextPanel").css("display", "none").trigger("create");
 	switch (seq) {
 	case 0:
-		$("#locationGPS").val("");
-		$("#markerId").val("");
-		$("#icon").val("");
-		$("#boundary").val("");
-		$("#pathId").val("");
-		$("#pathLatLng").val("");
-		$("#destinationId").val("");
-		$("#destinationGPS").val("");
-		$("#departureId").val("");
-		$("#departureGPS").val("");
-		$("#boundaryColors").val("");
-
-		$("#locationLabel").val("");
-		$("#locationInfoDescriptionLabel").val("");
-		$("#locationThumbnail").val("");
-		$("#locationTypeLabelFooter").val("");
-		$("#locationBoundary").html("");
+		if (tmpCreateNewlocation != null) {
+			tmpCreateNewlocation.setMap(null);
+			tmpCreateNewlocation = null;
+		}
+		$(".SaveCancelBTNPanel").html($("#locationCreateNewNextPanel").html())
+				.trigger("create");
+		$(".locationFields").val("");
 		$(document).keyup(function(e) {
 			if (e.keyCode == 27) {
 				removeDrawingMode();
@@ -32,20 +24,35 @@ function createNew(seq) {// a number to indicate the sequence of next
 			}
 		});
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			popSuccessMessage("Please find the area of the property on the map, place a marker point on the map and press next.");
-			$("#map_canvas").css("cursor",
-			"url(images/map-markers/mouse-cursors/buildingss.png) , auto");
+			mapOptions = {
+				draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
+			};
+			map.setOptions(mapOptions);
+			$("#actionBarMessage")
+					.html(
+							"Please find the area of the property on the map, place a marker point on the map and press next.");
 			var mapClickListener = function(event) {
 				var lat = event.latLng.lat();
 				var lng = event.latLng.lng();
-				if (confirm("Are u sure u want to place a property here?//create a temp marker")) {
+				map.panTo({
+					lat : parseFloat(lat),
+					lng : parseFloat(lng)
+				});
+				tmpCreateNewlocation = new google.maps.Marker({
+					map : map,
+					position : {
+						lat : parseFloat(lat),
+						lng : parseFloat(lng)
+					}
+				});
+				if (confirm("Are u sure u want to place a property here?")) {
 					$("#locationGPS").val(lat + "," + lng);
-					$("#locationSaveNextButton").attr("onclick",
-							"createNew(1);");
-					
-				} else
+					createNew(1);
+				} else {
+					tmpCreateNewlocation.setMap(null);
+					tmpCreateNewlocation = null;
 					return;
-
+				}
 			};
 			google.maps.event.addListener(map, "click", mapClickListener);
 			break;
@@ -54,13 +61,15 @@ function createNew(seq) {// a number to indicate the sequence of next
 					"url(images/map-markers/mouse-cursors/pin.png) , auto");
 			map.setOptions(mapOptions);
 		}
-	case 1:
+	case 1:// CTREATE TYPE
+		map.setOptions({
+			draggableCursor : 'crosshair'
+		});
+		map.setOptions(mapOptions);
 		selectThisLocationType(null);
-		popSuccessMessage("Please find the area of the property on the map, place a marker point on the map and press next.");
-		$("#map_canvas").css("cursor",
-		"url(images/map-markers/mouse-cursors/buildingss.png) , auto");
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			popSuccessMessage("Set a type for this property.");
+			$("#actionBarMessage")
+			.html("Set a type for this property.");
 			setTimeout(function() {
 				$('#editLocationTypePopup').popup({
 					positionTo : "window",
@@ -68,22 +77,30 @@ function createNew(seq) {// a number to indicate the sequence of next
 					history : false
 				}).trigger('create').popup('open');
 			}, 100);
-			$("#locationSaveNextButton").attr("onclick", "createNew(2)");
+			$(".locationSaveNextButton").attr("onclick", "createNew(2)")
+					.trigger("create");
 			break;
 		} else {
 			$("#map_canvas").css("cursor",
 					"url(images/map-markers/mouse-cursors/pin.png) , auto");
 			map.setOptions(mapOptions);
 		}
-	case 2:
+		break;
+	case 2: // SET INFO
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			// showMainBoundary();
-			// $('.menuItemPopupClass').popup('close');
-			// locationEditPanelOpen("", "");
-			popSuccessMessage("Set a label and description for this property.");
-			openLocationInfoPopup();
-			$("#locationSaveNextButton").attr("onclick", "createNew(3)");
-			// startDrawingMode();
+			$("#actionBarMessage")
+			.html("Set a label and description for this property.");
+			$("#editLocationTypePopup").on(
+					"popupafterclose",
+					function() {
+						setTimeout(function() {
+							$("#editLocationInfoPopup").trigger('create')
+									.popup('open');
+						}, 100);
+					});
+			$("#editLocationTypePopup").popup("close");
+			$(".locationSaveNextButton").attr("onclick", "createNew(3)")
+					.trigger("create");
 		} else {
 			$("#map_canvas").css("cursor",
 					"url(images/map-markers/mouse-cursors/pin.png) , auto");
@@ -95,11 +112,27 @@ function createNew(seq) {// a number to indicate the sequence of next
 			// showMainBoundary();
 			// $('.menuItemPopupClass').popup('close');
 			// locationEditPanelOpen("", "");
-			popSuccessMessage("Please draw a boundary around the property. "
+			$("#editLocationInfoPopup").popup("close");
+			$("#actionBarMessage")
+			.html("Please draw a boundary around the property. "
 					+ "Make sure to place the pins at an accurate geographical position");
-			openEditBoundaryPopup();
-			$("#locationSaveNextButton").attr("onclick", "createNew(4)");
-			// startDrawingMode();
+			// openEditBoundaryPopup();
+			// $(".locationSaveNextButton").attr("onclick", "createNew(4)");
+			$("#locationSaveCancelPanel").css("display", "inline-block")
+					.trigger("create");
+			$("#locationSaveCancelPanel")
+					.css(
+							"top",
+							parseInt(parseInt($(".jqm-header").height())
+									+ parseInt($("#locPathModeRadiobtn")
+											.height()) + 3)).trigger("create");
+			$("#locationSaveCancelPanel")
+					.css(
+							"left",
+							parseInt(parseInt($(window).width() / 2)
+									- parseInt($("#locationSaveCancelPanel")
+											.width() / 2))).trigger("create");
+			startDrawingMode();
 		} else {
 			$("#map_canvas").css("cursor",
 					"url(images/map-markers/mouse-cursors/pin.png) , auto");
@@ -107,5 +140,4 @@ function createNew(seq) {// a number to indicate the sequence of next
 		}
 		break;
 	}
-
 }
