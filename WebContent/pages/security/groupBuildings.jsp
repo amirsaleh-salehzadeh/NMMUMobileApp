@@ -8,21 +8,12 @@
 <html>
 <head>
 <link rel="stylesheet"
-	href="TreeView Plugin/trunk/src/jquery.treefilter.css">
-<!-- 	<link rel="stylesheet" -->
-<!-- 	href="css/nmmu-web-app-style.css"> -->
-<!-- 	<link href="css/location/management/management.css" rel="stylesheet"> -->
+	href="TreeViewPlugin/trunk/src/jquery.treefilter.css">
 </head>
 <body>
-<!-- <div id="loadingOverlay"> -->
-<!-- 	<div class="markerLoading" style="display: none;"></div> -->
-<!-- 	<span id="loadingContent" style="display: none;"></span> -->
-<!-- </div> -->
 	<script type="text/javascript"
 		src="js/location/management/location.access.js"></script>
 	<form id="dataFilterGridMainPage" action="security.do">
-
-
 		<ams:message messageEntity="${message}"></ams:message>
 		<input type="hidden" name="groupID"
 			value="<%=request.getParameter("groupID")%>"> <input
@@ -30,7 +21,7 @@
 		Locations allowed for group "<span
 			style="font-weight: bold; text-shadow: none; font-style: italic;"><bean:write
 				name="groupENT" property="groupName" /></span>"
-<div class=ui-grid-a>
+		<div class=ui-grid-a>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" class="cancel-icon" data-mini="true"
 					onclick="callAnAction('security.do?reqCode=groupEdit&groupID=<%=request.getParameter("groupID")%>');">Cancel</a>
@@ -40,33 +31,34 @@
 					onclick="saveTheForm();">Save</a>
 			</div>
 		</div>
-		<input type="search" id="my-search" placeholder="Search for a Building">
+		<input type="search" id="my-search"
+			placeholder="Search for a Building">
 
 		<!-- insert heirachy here -->
-		
-		
-			<div id="allLocations" class="ui-block-a">
+
+
+		<div id="allLocations" class="ui-block-a">
 			<ul id="my-tree">
 				<li style="padding: 2px 4px 4px 4px">Nelson Mandela University
 					<ul id="loc360">
 					</ul>
 				</li>
-			</ul>	
-			</div>
+			</ul>
+		</div>
 
 
-		
+
 
 		<script type="text/javascript">
 			getAllLocationsTree(360);
 		</script>
-		<script src="TreeView Plugin/trunk/src/jquery.treefilter.js"></script>
+		<script src="TreeViewPlugin/trunk/src/jquery.treefilter.js"></script>
 		<!-- end of heirachy -->
 
-		
+
 
 		<script type="text/javascript"
-	src="js/location/management/management.general.js"></script>
+			src="js/location/management/management.general.js"></script>
 	</form>
 </body>
 
