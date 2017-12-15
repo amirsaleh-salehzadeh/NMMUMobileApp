@@ -302,15 +302,59 @@ function addAMarker(location, gps) {
 				location.locationType.locationType);
 	}
 }
-function showMarkerLabel(name) {
-	$("#googleMapMarkerLabel").html(name);
-	$('#googleMapMarkerLabel').css("display", "block");
-	$('#googleMapMarkerLabel').css("position", "absolute");
-	$('#googleMapMarkerLabel').css("left", event.pageX + 17 + 'px');
-	$('#googleMapMarkerLabel').css("top", event.pageY + 17 + 'px');
-	$('#googleMapMarkerLabel').trigger("create");
-	// $('#googleMapMarkerLabel').fadeIn();
+
+//function showMarkerLabel(name) {
+//	$("#googleMapMarkerLabel").html(name);
+//	$('#googleMapMarkerLabel').css("display", "block");
+//	$('#googleMapMarkerLabel').css("position", "absolute");
+//	$('#googleMapMarkerLabel').css("left", event.pageX + 17 + 'px');
+//	$('#googleMapMarkerLabel').css("top", event.pageY + 17 + 'px');
+//	$('#googleMapMarkerLabel').trigger("create");
+//	// $('#googleMapMarkerLabel').fadeIn();
+//}
+
+var tempLabelWidth = 0;
+function showMarkerLabel(text, posX, posY, isPresentUnderneath) {
+	if (isPresentUnderneath){
+		$("#googleMapMarkerLabel").html(text);
+		$('#googleMapMarkerLabel').css("display", "block");
+		$('#googleMapMarkerLabel').css("position", "absolute");
+		$('#googleMapMarkerLabel').css("left", posX - ($("#googleMapMarkerLabel").width()/2) + 'px');
+		$('#googleMapMarkerLabel').css("top", posY + 25 + 'px');
+		// $('#googleMapMarkerLabel').fadeIn();
+		var labelLeft = $("#googleMapMarkerLabel").position().left;
+		var labelWidth = $("#googleMapMarkerLabel").width() + 7.467 + 7.467 + 1.997 + 1.997 ;
+		if (tempLabelWidth == 0){
+			tempLabelWidth = labelWidth;
+		}
+		if( labelWidth != tempLabelWidth){
+			labelWidth = tempLabelWidth;
+		}
+		var labelRight = $(window).width() - ( labelLeft + labelWidth );
+		if (labelRight < 0){
+			$('#googleMapMarkerLabel').css("left", posX - labelWidth + 'px');
+		}
+		if (labelLeft < 0){
+			$('#googleMapMarkerLabel').css("left",posX + 17 + 'px');
+		}
+		$('#googleMapMarkerLabel').trigger("create");
+	}
 }
+
 function clearMarkerLabel() {
 	$('#googleMapMarkerLabel').css("display", "none");
+	tempLabelWidth = 0;
+}
+
+function showActionBarLabel(text, posX, posY) {
+	$("#actionBarLabel").html(text);
+	$('#actionBarLabel').css("display", "block");
+	$('#actionBarLabel').css("position", "absolute");
+	$('#actionBarLabel').css("left", posX - ($("#actionBarLabel").width()/2) + 'px');
+	$('#actionBarLabel').css("top", posY - 25 + 'px');
+	$('#actionBarLabel').trigger("create");
+}
+
+function clearActionBarLabel() {
+	$('#actionBarLabel').css("display", "none");
 }

@@ -19,6 +19,48 @@
 /* 	top: -3px; */
 }
 
+#actionBarInfo {
+	float: left;
+	width: auto !important;		
+}
+
+#actionBarTitle {
+	left: 20px !important;
+	color: #00cc00 !important;
+	font-size: 14pt !important;
+	font-weight: bold !important;
+}
+
+#actionBarMessage {
+	left: 20px !important;
+	color: #00cc00 !important;
+	font-size: 14pt !important;
+}
+
+#actionBarButtons {
+	float: right;
+	width: auto !important;
+	min-width: 425px !important;	
+	display: block !important;
+	margin: 0px !important;	
+	paddiing: 0px !important;	
+}
+#actionBarNextButton .ui-btn {
+	margin: 0px !important;	
+}
+#actionBarBackButton .ui-btn {
+	margin: 0px !important;	
+}
+#actionBarSaveButton .ui-btn {
+	margin: 0px !important;	
+}
+#actionBarCancelButton .ui-btn {
+	margin: 0px !important;	
+}
+#actionBarNextButtonDiv,#actionBarBackButtonDiv,#actionBarSaveButtonDiv{
+	display: none;
+}
+
 .pathManagementInfoFooter {
 	bottom: 0;
 	min-width: 100%;

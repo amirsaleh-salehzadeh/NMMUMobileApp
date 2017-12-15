@@ -235,9 +235,9 @@ div#searchFieldDiv {
 	width: 300px !important;
 	color: rgb(248, 182, 36) !important;
 	min-height: 100px !important;
-	/*max-height: 400px !important;*/
+	max-height: 70% !important;
 	min-width: 100px !important;
-	/*overflow-y:scroll;*/
+	overflow-y:scroll;
 }
 
 #locationSearchPanel .ui-panel-inner {

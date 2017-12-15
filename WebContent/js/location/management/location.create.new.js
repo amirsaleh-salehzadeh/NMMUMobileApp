@@ -62,6 +62,7 @@ function createNew(seq) {// a number to indicate the sequence of next
 			map.setOptions(mapOptions);
 		}
 	case 1:// CTREATE TYPE
+		$("#actionBarNextButtonDiv").css("display", "block");
 		map.setOptions({
 			draggableCursor : 'crosshair'
 		});
@@ -90,6 +91,7 @@ function createNew(seq) {// a number to indicate the sequence of next
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			$("#actionBarMessage")
 			.html("Set a label and description for this property.");
+			$("#actionBarBackButtonDiv").css("display", "block");
 			$("#editLocationTypePopup").on(
 					"popupafterclose",
 					function() {
@@ -116,6 +118,14 @@ function createNew(seq) {// a number to indicate the sequence of next
 			$("#actionBarMessage")
 			.html("Please draw a boundary around the property. "
 					+ "Make sure to place the pins at an accurate geographical position");
+			$("#actionBarSaveButtonDiv").css("display", "block");
+			var mouseX;
+			var mouseY;
+			$(document).mousemove(function(event) {
+				mouseX = event.pageX;
+			    mouseY = event.pageY;
+			});
+			showActionBarLabel("Please draw a boundary around the property", mouseX, mouseY);
 			// openEditBoundaryPopup();
 			// $(".locationSaveNextButton").attr("onclick", "createNew(4)");
 			$("#locationSaveCancelPanel").css("display", "inline-block")
