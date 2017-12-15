@@ -150,12 +150,40 @@
 
 
 
+<!-- ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR -->
+
+
+
 <div id="actionBar">
-	<div id="actionBarTitle">CREATE NEW</div>
-	<div id="actionBarMessage"></div>
+	<div class="ui-grid-a">
+		<div id="actionBarInfo" class="ui-block-a">	
+			<div id="actionBarTitle">CREATE NEW</div>
+			<div id="actionBarMessage"></div>
+		</div>
+		<div  id="actionBarButtons" class="ui-block-b">	
+			<div class="ui-grid-c">
+				<div class="ui-block-a" id="actionBarNextButtonDiv">
+					<a style="cursor: pointer;" data-role="button" href="#" id="actionBarNextButton"
+						class="ui-btn next-icon" onclick="">Next</a>
+				</div>
+				<div class="ui-block-b" id="actionBarBackButtonDiv">
+					<a style="cursor: pointer;" data-role="button" href="#" id="actionBarBackButton"
+						class="ui-btn back-icon" onclick="">Back</a>
+				</div>
+				<div class="ui-block-c" id="actionBarSaveButtonDiv">
+					<a style="cursor: pointer;" data-role="button" href="#" id="actionBarSaveButton"
+						class="ui-btn save-icon" onclick="">Save</a>
+				</div>
+				<div class="ui-block-d" id="actionBarCancelButtonDiv">
+					<a style="cursor: pointer;" data-role="button" href="#" id="actionBarCancelButton"
+						class="ui-btn cancel-icon" onclick="closeAMenuPopup();">Cancel</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
-
+<div id="actionBarLabel" class="labelStyleClass"></div>
 
 <!-- HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS  -->
 
@@ -223,7 +251,7 @@
 	id="locationCreateNewNextPanel">
 	<div class="ui-block-a">
 		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn save-icon locationSaveNextButton" onclick="">Next</a>
+			class="ui-btn next-icon locationSaveNextButton" onclick="">Next</a>
 	</div>
 	<div class="ui-block-b">
 		<a style="cursor: pointer;" data-role="button" href="#"

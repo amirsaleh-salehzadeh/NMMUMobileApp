@@ -207,6 +207,7 @@ function closeAMenuPopup() {
 		draggableCursor : 'crosshair'
 	});
 	$("#actionBar").css("display", "none");
+	clearActionBarLabel();
 	// hideMainBoundary();
 	// unselectBoundary();
 }

@@ -345,3 +345,16 @@ function clearMarkerLabel() {
 	$('#googleMapMarkerLabel').css("display", "none");
 	tempLabelWidth = 0;
 }
+
+function showActionBarLabel(text, posX, posY) {
+	$("#actionBarLabel").html(text);
+	$('#actionBarLabel').css("display", "block");
+	$('#actionBarLabel').css("position", "absolute");
+	$('#actionBarLabel').css("left", posX - ($("#actionBarLabel").width()/2) + 'px');
+	$('#actionBarLabel').css("top", posY - 25 + 'px');
+	$('#actionBarLabel').trigger("create");
+}
+
+function clearActionBarLabel() {
+	$('#actionBarLabel').css("display", "none");
+}

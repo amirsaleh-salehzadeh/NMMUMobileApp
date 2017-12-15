@@ -101,6 +101,24 @@ body {
 /*
  * BUTTON ICONS
  */
+ .next-icon {
+	background-image: url("../images/icons/next.png");
+	background-repeat: no-repeat;
+	background-size: 24px 24px;
+	background-position: left 2px center;
+	padding-left: 5px;
+	text-align: right;
+}
+
+.back-icon {
+	background-image: url("../images/icons/back.png");
+	background-repeat: no-repeat;
+	background-size: 24px 24px;
+	background-position: left 2px center;
+	padding-left: 5px;
+	text-align: right;
+}
+
 .save-icon {
 	background-image: url("../images/icons/save.png");
 	background-repeat: no-repeat;
