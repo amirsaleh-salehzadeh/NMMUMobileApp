@@ -337,7 +337,7 @@ function deletePolygon() {
 				return;
 			}
 		}
-		hideMainBoundary();
+//		hideMainBoundary();
 	}
 	// unselectBoundary();
 }

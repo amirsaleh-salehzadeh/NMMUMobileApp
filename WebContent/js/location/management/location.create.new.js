@@ -14,13 +14,18 @@ function createNew(seq) {// a number to indicate the sequence of next
 			tmpCreateNewlocation.setMap(null);
 			tmpCreateNewlocation = null;
 		}
-		$(".SaveCancelBTNPanel").html($("#locationCreateNewNextPanel").html())
-				.trigger("create");
+		$(".SaveCancelBTNPanel").css("display", "none");
+		$("#actionBarNextButton").attr("disabled", true);
+		$("#actionBarNextButton").addClass("disabledBTN");
+		$("#actionBarBackButton").attr("disabled", true);
+		$("#actionBarBackButton").addClass("disabledBTN");
+		$("#actionBarSaveButton").attr("disabled", true);
+		$("#actionBarSaveButton").addClass("disabledBTN");
 		$(".locationFields").val("");
 		$(document).keyup(function(e) {
 			if (e.keyCode == 27) {
 				removeDrawingMode();
-				hideMainBoundary();
+				// hideMainBoundary();
 			}
 		});
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
@@ -28,6 +33,12 @@ function createNew(seq) {// a number to indicate the sequence of next
 				draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
 			};
 			map.setOptions(mapOptions);
+			// var mouseX;
+			// var mouseY;
+			$("#map_canvas").mousemove(function(event) {
+				showActionBarLabel("Pin Property", event.pageX, event.pageY);
+			});
+
 			$("#actionBarMessage")
 					.html(
 							"Please find the area of the property on the map, place a marker point on the map and press next.");
@@ -69,8 +80,7 @@ function createNew(seq) {// a number to indicate the sequence of next
 		map.setOptions(mapOptions);
 		selectThisLocationType(null);
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			$("#actionBarMessage")
-			.html("Set a type for this property.");
+			$("#actionBarMessage").html("Set a type for this property.");
 			setTimeout(function() {
 				$('#editLocationTypePopup').popup({
 					positionTo : "window",
@@ -78,8 +88,11 @@ function createNew(seq) {// a number to indicate the sequence of next
 					history : false
 				}).trigger('create').popup('open');
 			}, 100);
-			$(".locationSaveNextButton").attr("onclick", "createNew(2)")
+			$("#actionBarNextButton").attr("onclick", "createNew(2)")
 					.trigger("create");
+			$("#actionBarBackButton").attr("onclick", "createNew(1)");
+			$("#actionBarBackButton").removeClass("disabledBTN")
+			.trigger("create");
 			break;
 		} else {
 			$("#map_canvas").css("cursor",
@@ -89,8 +102,8 @@ function createNew(seq) {// a number to indicate the sequence of next
 		break;
 	case 2: // SET INFO
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			$("#actionBarMessage")
-			.html("Set a label and description for this property.");
+			$("#actionBarMessage").html(
+					"Set a label and description for this property.");
 			$("#actionBarBackButtonDiv").css("display", "block");
 			$("#editLocationTypePopup").on(
 					"popupafterclose",
@@ -116,16 +129,10 @@ function createNew(seq) {// a number to indicate the sequence of next
 			// locationEditPanelOpen("", "");
 			$("#editLocationInfoPopup").popup("close");
 			$("#actionBarMessage")
-			.html("Please draw a boundary around the property. "
-					+ "Make sure to place the pins at an accurate geographical position");
+					.html(
+							"Please draw a boundary around the property. "
+									+ "Make sure to place the pins at an accurate geographical position");
 			$("#actionBarSaveButtonDiv").css("display", "block");
-			var mouseX;
-			var mouseY;
-			$(document).mousemove(function(event) {
-				mouseX = event.pageX;
-			    mouseY = event.pageY;
-			});
-			showActionBarLabel("Please draw a boundary around the property", mouseX, mouseY);
 			// openEditBoundaryPopup();
 			// $(".locationSaveNextButton").attr("onclick", "createNew(4)");
 			$("#locationSaveCancelPanel").css("display", "inline-block")
@@ -150,4 +157,18 @@ function createNew(seq) {// a number to indicate the sequence of next
 		}
 		break;
 	}
+}
+
+function showActionBarLabel(text, posX, posY) {
+	$("#actionBarLabel").html(text);
+	$('#actionBarLabel').css("display", "block");
+	$('#actionBarLabel').css("position", "absolute");
+	$('#actionBarLabel').css("left",
+			posX - ($("#actionBarLabel").width() / 2) + 'px');
+	$('#actionBarLabel').css("top", posY - 40 + 'px');
+	$('#actionBarLabel').trigger("create");
+}
+
+function clearActionBarLabel() {
+	$('#actionBarLabel').css("display", "none");
 }

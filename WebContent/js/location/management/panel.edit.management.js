@@ -47,7 +47,7 @@ function getLocationTypeDropDown(obj) {
 					});
 	if (locationData.length > 0) {
 		$("#locationType").html(locationData);
-		$("#locationType").controlgroup("refresh").trigger("create");
+		$("#locationType").controlgroup().trigger("create");
 		$("#locationType").controlgroup("option", "type", "horizontal");
 	}
 	if (obj.children != null)
@@ -111,6 +111,15 @@ function selectThisLocationType(ltype) {
 				}
 			});
 	getLocationTypeName(null, $("#locationTypeId").val());
+	if ($("#locationTypeLabel").html().length <= 1)
+		$("#locationTypeLabel").html("Set Location Type");
+	if ($("#locationTypeId").val().length >= 1
+			&& $("#locationTypeId").val() != 0
+			&& $("#actionBar").css("display") != "none") {
+		$("#actionBarNextButton").removeClass("disabledBTN");
+		$("#actionBarNextButton").attr("disabled",false).trigger("create");
+		$("#actionBarMessage").html("Press Next");
+	}
 }
 
 function getLocationTypeImage(locationTypeId) {
@@ -204,7 +213,7 @@ function closeAMenuPopup() {
 		selectedShape = null;
 	}
 	map.setOptions({
-		draggableCursor : 'crosshair'
+		draggableCursor : 'closedhand'
 	});
 	$("#actionBar").css("display", "none");
 	clearActionBarLabel();

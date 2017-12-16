@@ -42,6 +42,9 @@
 		getAllMarkers("360", true);
 		$("#parentLocationId").val("360");
 		hideLocationInfo();
+		getAllLocationTypes();
+		setPathTypeButtonIcon();
+		getPathTypePanel();
 		// 		mapSattelView();
 		// 		popErrorMessage("heeeey");
 	});
@@ -154,36 +157,31 @@
 
 
 
-<div id="actionBar">
-	<div class="ui-grid-a">
-		<div id="actionBarInfo" class="ui-block-a">	
-			<div id="actionBarTitle">CREATE NEW</div>
-			<div id="actionBarMessage"></div>
+<div id="actionBar" class="ui-grid-b">
+	<div id="actionBarTitle" class="ui-block-a">CREATE NEW</div>
+	<div id="actionBarMessage" class="ui-block-b"></div>
+	<div class="ui-block-c ui-grid-c" id="actionBarButtonGroup">
+		<div class="ui-block-a" id="actionBarBackButtonDiv">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				id="actionBarBackButton" class="ui-btn back-icon" onclick="">Previous</a>
 		</div>
-		<div  id="actionBarButtons" class="ui-block-b">	
-			<div class="ui-grid-c">
-				<div class="ui-block-a" id="actionBarNextButtonDiv">
-					<a style="cursor: pointer;" data-role="button" href="#" id="actionBarNextButton"
-						class="ui-btn next-icon" onclick="">Next</a>
-				</div>
-				<div class="ui-block-b" id="actionBarBackButtonDiv">
-					<a style="cursor: pointer;" data-role="button" href="#" id="actionBarBackButton"
-						class="ui-btn back-icon" onclick="">Back</a>
-				</div>
-				<div class="ui-block-c" id="actionBarSaveButtonDiv">
-					<a style="cursor: pointer;" data-role="button" href="#" id="actionBarSaveButton"
-						class="ui-btn save-icon" onclick="">Save</a>
-				</div>
-				<div class="ui-block-d" id="actionBarCancelButtonDiv">
-					<a style="cursor: pointer;" data-role="button" href="#" id="actionBarCancelButton"
-						class="ui-btn cancel-icon" onclick="closeAMenuPopup();">Cancel</a>
-				</div>
-			</div>
+		<div class="ui-block-b" id="actionBarNextButtonDiv">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				id="actionBarNextButton" class="ui-btn next-icon" onclick="">Next</a>
+		</div>
+		<div class="ui-block-c" id="actionBarSaveButtonDiv">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				id="actionBarSaveButton" class="ui-btn save-icon" onclick="">Save</a>
+		</div>
+		<div class="ui-block-d" id="actionBarCancelButtonDiv">
+			<a style="cursor: pointer;" data-role="button" href="#"
+				id="actionBarCancelButton" class="ui-btn cancel-icon"
+				onclick="closeAMenuPopup();">Cancel</a>
 		</div>
 	</div>
 </div>
 
-<div id="actionBarLabel" class="labelStyleClass"></div>
+<div id="actionBarLabel"></div>
 
 <!-- HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS  -->
 

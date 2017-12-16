@@ -195,7 +195,4 @@ function initMap() {
 		}
 		return dist;
 	};
-	getAllLocationTypes();
-	setPathTypeButtonIcon();
-	getPathTypePanel();
 }
