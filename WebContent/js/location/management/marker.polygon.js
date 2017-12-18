@@ -226,40 +226,13 @@ function drawPolygons(location) {
 	// longpress = (end - start < 500) ? false : true;
 	// // $("#boundary").val(getPolygonCoords(DRAWPolygon));
 	// });
-	// google.maps.event.addListener(DRAWPolygon, 'mousemove', function(event) {
-	// $("#googleMapMarkerLabel").html(location.locationName);
-	// $('#googleMapMarkerLabel').css("display", "block");
-	// $('#googleMapMarkerLabel').css("position", "absolute");
-	//
-	// var quadrant = determineQuadrant(event);
-	// var xLabelMove;
-	// var yLabelMove;
-	// if (quadrant == 1) {
-	// xLabelMove = 17;
-	// yLabelMove = 20;
-	// }
-	// ;
-	// if (quadrant == 2) {
-	// xLabelMove = -80;
-	// yLabelMove = 20;
-	// }
-	// ;
-	// if (quadrant == 3) {
-	// xLabelMove = 17;
-	// yLabelMove = -20;
-	// }
-	// ;
-	// if (quadrant == 4) {
-	// xLabelMove = -80;
-	// yLabelMove = -20;
-	// }
-	// ;
-	//
-	// $('#googleMapMarkerLabel').css("left", event.xa.x + xLabelMove + 'px');
-	// $('#googleMapMarkerLabel').css("top", event.xa.y + yLabelMove + 'px');
-	//
-	// $('#googleMapMarkerLabel').trigger("create");
-	// });
+	google.maps.event.addListener(DRAWPolygon, 'mousemove', function(event) {
+		$("#googleMapMarkerLabel").html(location.locationName);
+		$('#googleMapMarkerLabel').css("display", "block");
+		$('#googleMapMarkerLabel').css("position", "absolute");
+		showMarkerLabel(location.locationName, event.xa.x, event.xa.y, false);
+		$('#googleMapMarkerLabel').trigger("create");
+	});
 	google.maps.event.addListener(DRAWPolygon, 'mouseout', function(event) {
 		clearMarkerLabel();
 	});
