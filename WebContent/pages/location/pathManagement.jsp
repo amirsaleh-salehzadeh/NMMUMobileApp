@@ -185,7 +185,7 @@
 		<div class="ui-block-d" id="actionBarCancelButtonDiv">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				id="actionBarCancelButton" class="ui-btn cancel-icon"
-				onclick="closeAMenuPopup();">Cancel</a>
+				onclick="cancelCreatingNew();">Cancel</a>
 		</div>
 	</div>
 </div>

@@ -1,7 +1,29 @@
 var tmpCreateNewlocation;
+function cancelCreatingNew() {
+	$('.menuItemPopupClass').popup('close');
+	$("#locationEditMenu").unbind("popupafterclose");
+	$("#pathEditMenu").unbind("popupafterclose");
+	hideLocationInfo();
+	if (tmpCreateNewlocation != null) {
+		tmpCreateNewlocation.setMap(null);
+		tmpCreateNewlocation = null;
+	}
+	if (selectedShape != null
+			&& ($("#locationEditMenu").val() != "0" || $("#locationEditMenu")
+					.val().length <= "0")) {
+		selectedShape.setMap(null);
+		selectedShape = null;
+	}
+	map.setOptions({
+		draggableCursor : 'default'
+	});
+	$("#actionBar").css("display", "none");
+	clearActionBarLabel();
+	$("#map_canvas").unbind('mousemove');
+	removeDrawingMode();
+}
 
 function createNew(seq) {
-	showLocationInfo();
 	$("#actionBar").css("display", "inline-block");
 	var mapOptions = {
 		draggableCursor : "default"
@@ -18,9 +40,9 @@ function createNew(seq) {
 	});
 	$("#map_canvas").unbind('mousemove');
 	clearActionBarLabel();
-	if($("#locationName").val().length>0)
+	if ($("#locationName").val().length > 0)
 		$("#locationLabel").val($("#locationName").val());
-	if($("#locationDescription").val().length>0)
+	if ($("#locationDescription").val().length > 0)
 		$("#locationInfoDescriptionLabel").val($("#locationDescription").val());
 	switch (seq) {
 	case 0:
@@ -28,6 +50,7 @@ function createNew(seq) {
 			tmpCreateNewlocation.setMap(null);
 			tmpCreateNewlocation = null;
 		}
+		showLocationInfo();
 		$(".SaveCancelBTNPanel").css("display", "none");
 		$("#actionBarNextButton").attr("disabled", true);
 		$("#actionBarNextButton").addClass("disabledBTN");
@@ -92,12 +115,12 @@ function setLocationInfoNew() {
 	$("#actionBarMessage").html(
 			"Set a label and description for this property.");
 	$("#actionBarBackButtonDiv").css("display", "block");
-//	$("#editLocationTypePopup").on("popupafterclose", function() {
-		setTimeout(function() {
-			$("#editLocationInfoPopup").trigger('create').popup('open');
-		}, 100);
-//	});
-//	$("#editLocationTypePopup").popup("close");
+	// $("#editLocationTypePopup").on("popupafterclose", function() {
+	setTimeout(function() {
+		$("#editLocationInfoPopup").trigger('create').popup('open');
+	}, 100);
+	// });
+	// $("#editLocationTypePopup").popup("close");
 	$("#actionBarNextButton").attr("onclick", "createNew(3)").trigger("create");
 	$("#actionBarBackButton").attr("onclick", "createNew(1)");
 	$(".locationSaveNextButton").attr("onclick", "createNew(3)").trigger(

@@ -207,25 +207,11 @@ function closeAMenuPopup() {
 	$('.menuItemPopupClass').popup('close');
 	$("#locationEditMenu").unbind("popupafterclose");
 	$("#pathEditMenu").unbind("popupafterclose");
-	if (tmpCreateNewlocation != null) {
-		tmpCreateNewlocation.setMap(null);
-		tmpCreateNewlocation = null;
-	}
-	if (selectedShape != null
-			&& (selectedShape.id <= 0 || selectedShape.id.length <= 0)) {
-		alert(selectedShape.id);
-		selectedShape.setMap(null);
-		selectedShape = null;
-	}
 	map.setOptions({
 		draggableCursor : 'default'
 	});
-	$("#actionBar").css("display", "none");
-	clearActionBarLabel();
 	$("#map_canvas").unbind('mousemove');
 	removeDrawingMode();
-	// hideMainBoundary();
-	// unselectBoundary();
 }
 
 function openIconPopup() {
@@ -302,11 +288,17 @@ function showLocationInfo() {
 
 function hideLocationInfo() {
 	$("#locationInfoFooter").css("display", "none");
+	$("#locationLabel").val("");
+	$("#locationInfoDescriptionLabel").val("");
+	$("#locationThumbnail").val("");
+	$("#locationTypeLabelFooter").val("");
+	$("#locationBoundary").html("");
+	$("#locationLabel").val("");
 	for ( var i = 0; i < polygons.length; i++) {
 		polygons[i].setEditable(false);
 		polygons[i].setMap(map);
 	}
-	selectedShape = null;
+//	selectedShape = null;
 	// $("#locationSaveCancelPanel").css("display", "none");
 }
 

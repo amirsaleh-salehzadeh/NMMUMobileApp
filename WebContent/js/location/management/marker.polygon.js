@@ -118,13 +118,6 @@ function createDrawingManager() {
 				removeDrawingMode();
 			});
 
-	// Clear the current selection when the drawing mode is changed, or when the
-	// map is clicked.
-	// google.maps.event.addListener(drawingManager, 'drawingmode_changed',
-	// unselectBoundary);
-
-	// Disables drawing mode on startup so you have to click on toolbar first to
-	// draw shapes and create the colour palette
 	drawingManager.setDrawingMode(null);
 }
 
