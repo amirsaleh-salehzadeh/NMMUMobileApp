@@ -33,13 +33,11 @@ function getLocationTypeDropDown(obj) {
 					function(k, l) {
 						if (l.parent.locationTypeId == $(
 								"#parentLocationTypeId").val()) {
-							locationData += '<a href="#" type="radio" onClick="selectThisLocationType(this)" class="locationTypeSelecIcons" name="locationType" value="'
-									+ l.locationTypeId
-									+ '" id="locationTypeId'
-									+ l.locationTypeId
-									+ '"><img title= "'
+							locationData += '<a href="#" title= "'
 									+ l.locationType
-									+ '" src="'
+									+ '" type="radio" onClick="selectThisLocationType(this)" class="locationTypeSelecIcons" name="locationType" value="'
+									+ l.locationTypeId + '" id="locationTypeId'
+									+ l.locationTypeId + '"><img src="'
 									+ getLocationTypeImage(l.locationTypeId)
 									+ '" width="48px" height="48px" /></a>';
 						} else
@@ -97,6 +95,7 @@ function selectThisLocationType(ltype) {
 	if (ltype != null) {
 		$("#locationTypeId").val($(ltype).attr("value"));
 	}
+	var ltypeTxt = "";
 	$(".locationTypeSelecIcons").each(
 			function() {
 				if ($(this).hasClass("locationTypeSelecIconSelected"))
@@ -107,6 +106,7 @@ function selectThisLocationType(ltype) {
 								"#parentLocationTypeId").val()) {
 					$(this).addClass("locationTypeSelecIconSelected").trigger(
 							"create");
+					ltypeTxt = $(this).attr("title");
 					$("#locationTypeId").val($(this).attr("value"));
 				}
 			});
@@ -117,8 +117,11 @@ function selectThisLocationType(ltype) {
 			&& $("#locationTypeId").val() != 0
 			&& $("#actionBar").css("display") != "none") {
 		$("#actionBarNextButton").removeClass("disabledBTN");
-		$("#actionBarNextButton").attr("disabled",false).trigger("create");
+		$("#actionBarNextButton").attr("disabled", false).trigger("create");
 		$("#actionBarMessage").html("Press Next");
+		$("#actionBarTitle").html("NEW " + ltypeTxt.toUpperCase());
+		$("#editLocationTypePopup").popup("close");
+		createNew(1);
 	}
 }
 
@@ -165,8 +168,8 @@ function locationEditPanelOpen(title, info) {
 
 function openALocation() {
 	$("#locationEditMenu").popup("close");
-	$("#parentLocationId").val($("#markerId").val());
-	getAllMarkers($("#markerId").val(), true);
+	$("#parentLocationId").val($("#locationId").val());
+	getAllMarkers($("#locationId").val(), true);
 }
 
 function openLocationTypePopup() {
@@ -208,15 +211,19 @@ function closeAMenuPopup() {
 		tmpCreateNewlocation.setMap(null);
 		tmpCreateNewlocation = null;
 	}
-	if (selectedShape != null) {
+	if (selectedShape != null
+			&& (selectedShape.id <= 0 || selectedShape.id.length <= 0)) {
+		alert(selectedShape.id);
 		selectedShape.setMap(null);
 		selectedShape = null;
 	}
 	map.setOptions({
-		draggableCursor : 'closedhand'
+		draggableCursor : 'default'
 	});
 	$("#actionBar").css("display", "none");
 	clearActionBarLabel();
+	$("#map_canvas").unbind('mousemove');
+	removeDrawingMode();
 	// hideMainBoundary();
 	// unselectBoundary();
 }
@@ -239,7 +246,7 @@ function openIconPopup() {
 // setMapOnAllPolygons(null);
 // var i = 0;
 // for ( var int = 0; int < polygons.length; int++) {
-// if (polygons[int].id == $("#markerId").val())
+// if (polygons[int].id == $("#locationId").val())
 // i = int;
 // }
 // if (i > 0)

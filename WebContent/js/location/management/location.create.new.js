@@ -1,22 +1,27 @@
 var tmpCreateNewlocation;
-function cancelCreateNewBuilding() {
 
-}
-
-function createNew(seq) {// a number to indicate the sequence of next
-	// procedures
-	// closeAMenuPopup();
+function createNew(seq) {
 	showLocationInfo();
-	$("#actionBar").css("display", "inline");
+	$("#actionBar").css("display", "inline-block");
 	var mapOptions = {
-		draggableCursor : "url('images/map-markers/mouse-cursors/pin.png'), auto"
+		draggableCursor : "default"
 	};
-//	$("#locationCreateNewNextPanel").css("display", "none").trigger("create");
-	map.setOptions({
-		draggableCursor : 'default'
+	$(document).keyup(function(e) {
+		if (e.keyCode == 27) {
+			removeDrawingMode();
+			map.setOptions({
+				draggableCursor : "default"
+			});
+			$('img').unbind('mouseover');
+			clearActionBarLabel();
+		}
 	});
 	$("#map_canvas").unbind('mousemove');
 	clearActionBarLabel();
+	if($("#locationName").val().length>0)
+		$("#locationLabel").val($("#locationName").val());
+	if($("#locationDescription").val().length>0)
+		$("#locationInfoDescriptionLabel").val($("#locationDescription").val());
 	switch (seq) {
 	case 0:
 		if (tmpCreateNewlocation != null) {
@@ -31,72 +36,33 @@ function createNew(seq) {// a number to indicate the sequence of next
 		$("#actionBarSaveButton").attr("disabled", true);
 		$("#actionBarSaveButton").addClass("disabledBTN");
 		$(".locationFields").val("");
-		$(document).keyup(function(e) {
-			if (e.keyCode == 27) {
-				removeDrawingMode();
-				// hideMainBoundary();
-				$('img').unbind('mouseover');
-			}
-		});
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+			setALocationTypeNew();
+			break;
+		} else {
+			$("#map_canvas").css("cursor",
+					"url(images/map-markers/mouse-cursors/pin.png) , auto");
+		}
+		break;
+	case 1:
+		$("#actionBarNextButtonDiv").css("display", "block");
+		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+			mapOptions = {
+				draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
+			};
 			setAPointOnMap();
 			break;
 		} else {
 			$("#map_canvas").css("cursor",
 					"url(images/map-markers/mouse-cursors/pin.png) , auto");
-			map.setOptions(mapOptions);
-		}
-	case 1:// SET TYPE
-		$("#actionBarNextButtonDiv").css("display", "block");
-		mapOptions = {
-			draggableCursor : "default"
-		};
-		map.setOptions(mapOptions);
-		selectThisLocationType(null);
-		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			$("#actionBarMessage").html("Set a type for this property.");
-			setTimeout(function() {
-				$('#editLocationTypePopup').popup({
-					positionTo : "window",
-					transition : "pop",
-					history : false
-				}).trigger('create').popup('open');
-			}, 100);
-			$("#actionBarNextButton").attr("onclick", "createNew(2)").trigger(
-					"create");
-			$("#actionBarBackButton").attr("onclick", "createNew(0)");
-			$("#actionBarBackButton").removeClass("disabledBTN").trigger(
-					"create");
-			break;
-		} else {
-			$("#map_canvas").css("cursor",
-					"url(images/map-markers/mouse-cursors/pin.png) , auto");
-			map.setOptions(mapOptions);
 		}
 		break;
 	case 2: // SET INFO
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			$("#actionBarMessage").html(
-					"Set a label and description for this property.");
-			$("#actionBarBackButtonDiv").css("display", "block");
-			$("#editLocationTypePopup").on(
-					"popupafterclose",
-					function() {
-						setTimeout(function() {
-							$("#editLocationInfoPopup").trigger('create')
-									.popup('open');
-						}, 100);
-					});
-			$("#editLocationTypePopup").popup("close");
-			$("#actionBarNextButton").attr("onclick", "createNew(3)").trigger(
-					"create");
-			$("#actionBarBackButton").attr("onclick", "createNew(1)");
-			$(".locationSaveNextButton").attr("onclick", "createNew(3)")
-					.trigger("create");
+			setLocationInfoNew();
 		} else {
 			$("#map_canvas").css("cursor",
 					"url(images/map-markers/mouse-cursors/pin.png) , auto");
-			map.setOptions(mapOptions);
 		}
 		break;
 	case 3:
@@ -112,44 +78,51 @@ function createNew(seq) {// a number to indicate the sequence of next
 			$("#actionBarSaveButtonDiv").css("display", "block");
 			// openEditBoundaryPopup();
 			// $(".locationSaveNextButton").attr("onclick", "createNew(4)");
-			$("#locationSaveCancelPanel").css("display", "inline-block")
-					.trigger("create");
-			$("#locationSaveCancelPanel")
-					.css(
-							"top",
-							parseInt(parseInt($(".jqm-header").height())
-									+ parseInt($("#locPathModeRadiobtn")
-											.height()) + 3)).trigger("create");
-			$("#locationSaveCancelPanel")
-					.css(
-							"left",
-							parseInt(parseInt($(window).width() / 2)
-									- parseInt($("#locationSaveCancelPanel")
-											.width() / 2))).trigger("create");
 			startDrawingMode();
 		} else {
 			$("#map_canvas").css("cursor",
 					"url(images/map-markers/mouse-cursors/pin.png) , auto");
-			map.setOptions(mapOptions);
 		}
 		break;
 	}
+	map.setOptions(mapOptions);
+}
+
+function setLocationInfoNew() {
+	$("#actionBarMessage").html(
+			"Set a label and description for this property.");
+	$("#actionBarBackButtonDiv").css("display", "block");
+//	$("#editLocationTypePopup").on("popupafterclose", function() {
+		setTimeout(function() {
+			$("#editLocationInfoPopup").trigger('create').popup('open');
+		}, 100);
+//	});
+//	$("#editLocationTypePopup").popup("close");
+	$("#actionBarNextButton").attr("onclick", "createNew(3)").trigger("create");
+	$("#actionBarBackButton").attr("onclick", "createNew(1)");
+	$(".locationSaveNextButton").attr("onclick", "createNew(3)").trigger(
+			"create");
+}
+
+function setALocationTypeNew() {
+	selectThisLocationType(null);
+	$("#actionBarMessage").html("Set a type for this property.");
+	setTimeout(function() {
+		$('#editLocationTypePopup').popup({
+			positionTo : "window",
+			transition : "pop",
+			history : false
+		}).trigger('create').popup('open');
+	}, 100);
 }
 
 function setAPointOnMap() {
-	mapOptions = {
-		draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
-	};
-	map.setOptions(mapOptions);
-	// var mouseX;
-	// var mouseY;
 	$("#map_canvas").mousemove(function(event) {
 		showActionBarLabel("Pin Property", event.pageX, event.pageY);
 	});
-
 	$("#actionBarMessage")
 			.html(
-					"Please find the area of the property on the map, place a marker point on the map and press next.");
+					"Place a marker on the map to point the property and then, press next.");
 	var mapClickListener = function(event) {
 		var lat = event.latLng.lat();
 		var lng = event.latLng.lng();
@@ -157,6 +130,10 @@ function setAPointOnMap() {
 			lat : parseFloat(lat),
 			lng : parseFloat(lng)
 		});
+		if (tmpCreateNewlocation != null) {
+			tmpCreateNewlocation.setMap(null);
+			tmpCreateNewlocation = null;
+		}
 		tmpCreateNewlocation = new google.maps.Marker({
 			map : map,
 			position : {
@@ -166,7 +143,14 @@ function setAPointOnMap() {
 		});
 		if (confirm("Are u sure u want to place a property here?")) {
 			$("#locationGPS").val(lat + "," + lng);
-			createNew(1);
+			$("#actionBarNextButton").attr("onclick", "createNew(2)").trigger(
+					"create");
+			$("#actionBarBackButton").attr("onclick", "createNew(0)");
+			$("#actionBarBackButton").removeClass("disabledBTN").trigger(
+					"create");
+			google.maps.event.clearInstanceListeners(map);
+			toast("The property location is set");
+			createNew(2);
 		} else {
 			tmpCreateNewlocation.setMap(null);
 			tmpCreateNewlocation = null;

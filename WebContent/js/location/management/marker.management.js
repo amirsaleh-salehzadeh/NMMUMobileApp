@@ -1,7 +1,7 @@
 var pathMarkers = [];
 function removeMarker() {
 	var url = "REST/GetLocationWS/RemoveALocation?locationId="
-			+ $("#markerId").val();
+			+ $("#locationId").val();
 	var loadingContent;
 	if ($("#locationTypeId").val() == 3) {
 		loadingContent = "Removing Building";
@@ -21,8 +21,8 @@ function removeMarker() {
 					alert(data.errorMSG);
 					return;
 				}
-				
-				var id = $("#markerId").val();
+
+				var id = $("#locationId").val();
 				for ( var i = 0; i < polygons.length; i++) {
 					if (polygons[i].id == id) {
 						polygons[i].setMap(null);
@@ -38,7 +38,8 @@ function removeMarker() {
 				HideLoadingScreen();
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
-				popErrorMessage("An error occured while removing the marker. "+ thrownError);
+				popErrorMessage("An error occured while removing the marker. "
+						+ thrownError);
 			}
 		});
 }
@@ -50,14 +51,14 @@ function deleteMarker(id) {
 	return;
 }
 
-function saveMarker() {
+function saveLocation() {
 	var loadingContent;
 	if ($("#locationTypeId").val() == 3) {
 		loadingContent = "Saving Building";
 	} else {
 		loadingContent = "Saving Intersection";
 	}
-	if ($("#markerName").val() == "") {
+	if ($("#locationName").val() == "") {
 		alert("Please select a name for the location");
 		return;
 	}
@@ -73,11 +74,11 @@ function saveMarker() {
 		type : 'POST',
 		data : {
 			icon : $("#icon").val(),
-			locationName : $("#markerName").val(),
+			locationName : $("#locationName").val(),
 			parentId : $("#parentLocationId").val(),
 			coordinate : $("#locationGPS").val(),
 			locationTypeId : $("#locationTypeId").val(),
-			locationId : $("#markerId").val(),
+			locationId : $("#locationId").val(),
 			description : $("#locationDescription").val(),
 			plan : "",
 			boundary : $("#boundary").val(),
@@ -88,7 +89,7 @@ function saveMarker() {
 		},
 		success : function(data) {
 			data = JSON.parse(data);
-			$("#markerId").val(data.locationID);
+			$("#locationId").val(data.locationID);
 			addMarker(data);
 			toast('Saved Successfully');
 		},
@@ -97,7 +98,8 @@ function saveMarker() {
 			closeAMenuPopup();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			popErrorMessage("An error occured while saving the marker. "+ thrownError);
+			popErrorMessage("An error occured while saving the marker. "
+					+ thrownError);
 		},
 	});
 }
@@ -116,24 +118,24 @@ function getAllMarkers(parentId, refreshMarkers) {
 		$("input[name='radio-choice']").checkboxradio('enable');
 		return;
 	}
-	$.ajax({
-		url : url,
-		cache : false,
-		async : true,
-		beforeSend : function() {
-			ShowLoadingScreen("Fetching locations");
-			setMapOnAllMarkers(null);
-			setMapOnAllPolygons(null);
-			setMapOnAllPathMarkers(null);
-		},
-		success : function(data) {
-			str = "";
-			markers = [];
-			polygons = [];
-			pathMarkers = [];
-			paths = [];
-			$.each(data,
-					function(k, l) {
+	$
+			.ajax({
+				url : url,
+				cache : false,
+				async : true,
+				beforeSend : function() {
+					ShowLoadingScreen("Fetching locations");
+					setMapOnAllMarkers(null);
+					setMapOnAllPolygons(null);
+					setMapOnAllPathMarkers(null);
+				},
+				success : function(data) {
+					str = "";
+					markers = [];
+					polygons = [];
+					pathMarkers = [];
+					paths = [];
+					$.each(data, function(k, l) {
 						if (k == 0) {
 							getMarkerInfo(l);
 							getParentLocationTypeId(null,
@@ -142,17 +144,18 @@ function getAllMarkers(parentId, refreshMarkers) {
 						}
 						addMarker(l);
 					});
-		},
-		complete : function() {
-			HideLoadingScreen();
-			setMapOnAllPathMarkers(null);
-			$("input[name='radio-choice']").checkboxradio('enable');
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-			$("input[name='radio-choice']").checkboxradio('enable');
-			popErrorMessage("An error occured while fetching the markers from the server. "+ thrownError);
-		}
-	});
+				},
+				complete : function() {
+					HideLoadingScreen();
+					setMapOnAllPathMarkers(null);
+					$("input[name='radio-choice']").checkboxradio('enable');
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					$("input[name='radio-choice']").checkboxradio('enable');
+					popErrorMessage("An error occured while fetching the markers from the server. "
+							+ thrownError);
+				}
+			});
 }
 
 function getMarkerInfo(location) {
@@ -218,14 +221,14 @@ function addMarker(l) {
 	marker.addListener('dragend', function(point) {
 		$("#locationTypeId").val(l.locationType.locationTypeId);
 		if (confirm("Are you sure you want to move the marker?")) {
-			$("#locationGPS").val(
-					point.latLng.lat() + "," + point.latLng.lng());
-			$("#markerId").val(l.locationID);
+			$("#locationGPS")
+					.val(point.latLng.lat() + "," + point.latLng.lng());
+			$("#locationId").val(l.locationID);
 			$("#parentLocationId").val(l.parentId);
-			$("#markerName").val(l.locationName);
+			$("#locationName").val(l.locationName);
 			$("#locationTypeId").val(l.locationType.locationTypeId);
 			$("#locationDescription").val(l.description);
-			saveMarker();
+			saveLocation();
 		} else {
 			this.setPosition(pos);
 		}
@@ -239,7 +242,8 @@ function addMarker(l) {
 	if (l.locationType.locationTypeId == 11) {
 		markers.push(marker);
 		pathMarkers.push(marker);
-	} else if (l.locationType.locationTypeId != 5 && l.locationType.locationTypeId != 11)
+	} else if (l.locationType.locationTypeId != 5
+			&& l.locationType.locationTypeId != 11)
 		markers.push(marker);
 	else {
 		marker.setMap(null);
@@ -266,13 +270,13 @@ function addAMarker(location, gps) {
 	google.maps.event.clearInstanceListeners(map);
 	if (location == null) {
 		gps = gps.replace(" ", "");
-		$("#markerId").val("");
-		$("#markerName").val("");
+		$("#locationId").val("");
+		$("#locationName").val("");
 		$("#locationGPS").val(gps);
 		$("#boundary").val("");
 		$("#locationDescription").val("");
 	} else {
-		$("#markerName").val(location.locationName);
+		$("#locationName").val(location.locationName);
 		$("#locationGPS").val(location.gps);
 		$("#boundary").val(getArrayBoundary(location.boundary));
 		if (getBoundaryColour(location.boundary) == "") {
@@ -282,7 +286,7 @@ function addAMarker(location, gps) {
 			$("#tempBoundaryColors").val(getBoundaryColour(location.boundary));
 			$("#boundaryColors").val(getBoundaryColour(location.boundary));
 		}
-		$("#markerId").val(location.locationID);
+		$("#locationId").val(location.locationID);
 		$("#croppedIcon").attr("src", location.icon);
 		$("#icon").val(location.icon);
 		$("#locationLabel").val(location.locationName);
@@ -303,45 +307,28 @@ function addAMarker(location, gps) {
 	}
 }
 
-//function showMarkerLabel(name) {
-//	$("#googleMapMarkerLabel").html(name);
-//	$('#googleMapMarkerLabel').css("display", "block");
-//	$('#googleMapMarkerLabel').css("position", "absolute");
-//	$('#googleMapMarkerLabel').css("left", event.pageX + 17 + 'px');
-//	$('#googleMapMarkerLabel').css("top", event.pageY + 17 + 'px');
-//	$('#googleMapMarkerLabel').trigger("create");
-//	// $('#googleMapMarkerLabel').fadeIn();
-//}
-
-var tempLabelWidth = 0;
 function showMarkerLabel(text, posX, posY, isPresentUnderneath) {
-	if (isPresentUnderneath){
+	if (isPresentUnderneath) {
 		$("#googleMapMarkerLabel").html(text);
 		$('#googleMapMarkerLabel').css("display", "block");
 		$('#googleMapMarkerLabel').css("position", "absolute");
-		$('#googleMapMarkerLabel').css("left", posX - ($("#googleMapMarkerLabel").width()/2) + 'px');
+
 		$('#googleMapMarkerLabel').css("top", posY + 25 + 'px');
 		// $('#googleMapMarkerLabel').fadeIn();
-		var labelLeft = $("#googleMapMarkerLabel").position().left;
-		var labelWidth = $("#googleMapMarkerLabel").width() + 7.467 + 7.467 + 1.997 + 1.997 ;
-		if (tempLabelWidth == 0){
-			tempLabelWidth = labelWidth;
-		}
-		if( labelWidth != tempLabelWidth){
-			labelWidth = tempLabelWidth;
-		}
-		var labelRight = $(window).width() - ( labelLeft + labelWidth );
-		if (labelRight < 0){
-			$('#googleMapMarkerLabel').css("left", posX - labelWidth + 'px');
-		}
-		if (labelLeft < 0){
-			$('#googleMapMarkerLabel').css("left",posX + 17 + 'px');
-		}
-		$('#googleMapMarkerLabel').trigger("create");
+		if (posX - ($("#googleMapMarkerLabel").width() / 2) < 0) {
+			$('#googleMapMarkerLabel').css("left", '2px');
+		} else if ($(window).width() - posX < $("#googleMapMarkerLabel")
+				.width() + 3) {
+			$('#googleMapMarkerLabel').css("right", '0px');
+			$('#googleMapMarkerLabel')
+					.css("left", $(window).width() + 3 + 'px');
+		} else
+			$('#googleMapMarkerLabel').css("left",
+					posX - ($("#googleMapMarkerLabel").width() / 2) + 'px');
 	}
+	$('#googleMapMarkerLabel').trigger("create");
 }
 
 function clearMarkerLabel() {
 	$('#googleMapMarkerLabel').css("display", "none");
-	tempLabelWidth = 0;
 }

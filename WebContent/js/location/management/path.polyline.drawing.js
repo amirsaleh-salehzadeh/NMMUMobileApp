@@ -312,7 +312,7 @@ function cancelADrawnPath() {
 	$("#destinationId").val("");
 	$("#destinationGPS").val("");
 	$("#departureGPS").val("");
-	$("#markerId").val("");
+	$("#locationId").val("");
 	$("#pathId").val("");
 	$("#pathLatLng").val("");
 	if (pathDrawingCircle != null)

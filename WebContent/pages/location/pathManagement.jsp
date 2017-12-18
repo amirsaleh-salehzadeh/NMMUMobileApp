@@ -10,10 +10,15 @@
 <title>Control Panel</title>
 <script type="text/javascript">
 	var showLabelMouseEvent = function() {
+		var isUnderNeath = false;
+		if (event.pageY < $(window).height() - $("#map_canvas").height())
+			isUnderNeath = true;
+		var txt = "";
 		if ($(this).attr("alt") != undefined && $(this).attr("alt").length >= 1)
-			showMarkerLabel($(this).attr("alt"));
+			txt = $(this).attr("alt");
 		else
-			showMarkerLabel($(this).attr("title"));
+			txt = $(this).attr("title");
+		showMarkerLabel(txt, event.pageX, event.pageY, isUnderNeath);
 	};
 	var showLabelMouseMove = function() {
 		$(this).on('mousemove', showLabelMouseEvent);
@@ -47,6 +52,10 @@
 		getPathTypePanel();
 		// 		mapSattelView();
 		// 		popErrorMessage("heeeey");
+	});
+	$(document).on("mobileinit", function() {
+		$.mobile.defaultPageTransition = 'slide';
+		$.mobile.page.prototype.options.domCache = true;
 	});
 </script>
 
@@ -83,7 +92,7 @@
 		height="48" id="mapSatelViewImage" class="showLabelMouseOverTrue" />
 </div>
 
-<a href="#" data-mini="true" data-role="button" title="Create New"
+<a href="#" data-mini="true" data-role="button" title="New"
 	class="showLabelMouseOverTrue" id="createNewButton"
 	onclick="createNew(0);"><img width='27' height='27'
 	src='images/icons/add.png'>NEW</a>
@@ -193,8 +202,8 @@
 <input type='hidden' readonly id='parentLocationTypeId' value="0">
 <input type='hidden' readonly class="locationFields" name="locationGPS"
 	id="locationGPS">
-<input type='hidden' readonly class="locationFields" name="markerId"
-	id="markerId">
+<input type='hidden' readonly class="locationFields" name="locationId"
+	id="locationId">
 <input type='hidden' readonly class="locationFields" name="icon"
 	id="icon" value="">
 <input type='hidden' readonly class="locationFields" name="boundary"
@@ -236,7 +245,7 @@
 				src="images/icons/delete.png">Delete</a></li>
 		<li data-role="list-divider"></li>
 		<li data-icon="false"><a class="editInfo" href="#"
-			onclick="printBarcode($('#markerId').val(),$('#markerName').val());"><img
+			onclick="printBarcode($('#locationId').val(),$('#locationName').val());"><img
 				alt="" src="images/icons/QRCodeIcon.png">Print QR</a></li>
 		<li data-role="list-divider"></li>
 		<li><a href="#" data-rel="back" class="editInfo"
@@ -276,7 +285,7 @@
 	<div class="ui-grid-a editlocationFormRow SaveCancelBTNPanel">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveMarker()">Save</a>
+				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveLocation()">Save</a>
 		</div>
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
@@ -298,9 +307,9 @@
 		data-iconpos="notext" class="ui-btn-right closeMessageButtonIcon"
 		onclick="closeAMenuPopup();">Cancel</a>
 	<div class="ui-block-solo editlocationFormRow">
-		<label for="markerName" id="markerLabel">Label</label> <input
+		<label for="locationName" id="markerLabel">Label</label> <input
 			class="pathMenu locationFields" type="text" placeholder="Label"
-			name="markerName" id="markerName" value="">
+			name="locationName" id="locationName" value="">
 	</div>
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="locationDescription">Description</label>
@@ -311,7 +320,7 @@
 	<div class="ui-grid-a editlocationFormRow SaveCancelBTNPanel">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveMarker()">Save</a>
+				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveLocation()">Save</a>
 		</div>
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
@@ -347,7 +356,7 @@
 	<div class="ui-grid-a editlocationFormRow SaveCancelBTNPanel">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
-				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveMarker()">Save</a>
+				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveLocation()">Save</a>
 		</div>
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
@@ -420,7 +429,7 @@
 	style="display: none">
 	<div class="ui-block-a">
 		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn save-icon" onclick="saveMarker()">Save</a>
+			class="ui-btn save-icon" onclick="saveLocation()">Save</a>
 	</div>
 	<div class="ui-block-b">
 		<a style="cursor: pointer;" data-role="button" href="#"
@@ -616,7 +625,7 @@
 
 
 
-<div id="googleMapMarkerLabel" class="labelStyleClass"></div>
+<div id="googleMapMarkerLabel"></div>
 
 
 

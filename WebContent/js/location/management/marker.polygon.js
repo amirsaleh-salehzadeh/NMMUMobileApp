@@ -49,6 +49,12 @@ function createDrawingManager() {
 				// // alert("test2");
 				// });
 				// alert("test1");
+				$("#actionBarNextButton").attr("onclick", "createNew(4)")
+						.trigger("create");
+				$("#actionBarBackButton").attr("onclick", "createNew(2)");
+				$("#actionBarSaveButton").removeClass("disabledBTN").trigger(
+						"create");
+				$("#actionBarSaveButton").attr("onclick", "saveLocation()");
 				selectedShape = newShape;
 				map.setOptions({
 					draggableCursor : 'crosshair'
@@ -164,7 +170,7 @@ function drawPolygons(location) {
 		// });
 		// } else {
 		// for ( var int = 0; int < polygons.length; int++) {
-		// if (polygons[int].id != $("#markerId").val())
+		// if (polygons[int].id != $("#locationId").val())
 		// polygons[int].setMap(null);
 		// }
 		showLocationInfo();
@@ -328,7 +334,7 @@ function showHideColors() {
 
 function deletePolygon() {
 	if (confirm("are u sure u want to delete this polygon?")) {
-		var id = $("#markerId").val();
+		var id = $("#locationId").val();
 		for ( var i = 0; i < polygons.length; i++) {
 			if (polygons[i].id == id) {
 				polygons[i].setMap(null);
@@ -337,7 +343,7 @@ function deletePolygon() {
 				return;
 			}
 		}
-//		hideMainBoundary();
+		// hideMainBoundary();
 	}
 	// unselectBoundary();
 }
