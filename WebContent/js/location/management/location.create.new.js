@@ -1,4 +1,8 @@
 var tmpCreateNewlocation;
+function cancelCreateNewBuilding() {
+
+}
+
 function createNew(seq) {// a number to indicate the sequence of next
 	// procedures
 	// closeAMenuPopup();
@@ -7,7 +11,12 @@ function createNew(seq) {// a number to indicate the sequence of next
 	var mapOptions = {
 		draggableCursor : "url('images/map-markers/mouse-cursors/pin.png'), auto"
 	};
-	$("#locationCreateNewNextPanel").css("display", "none").trigger("create");
+//	$("#locationCreateNewNextPanel").css("display", "none").trigger("create");
+	map.setOptions({
+		draggableCursor : 'default'
+	});
+	$("#map_canvas").unbind('mousemove');
+	clearActionBarLabel();
 	switch (seq) {
 	case 0:
 		if (tmpCreateNewlocation != null) {
@@ -26,57 +35,22 @@ function createNew(seq) {// a number to indicate the sequence of next
 			if (e.keyCode == 27) {
 				removeDrawingMode();
 				// hideMainBoundary();
+				$('img').unbind('mouseover');
 			}
 		});
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			mapOptions = {
-				draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
-			};
-			map.setOptions(mapOptions);
-			// var mouseX;
-			// var mouseY;
-			$("#map_canvas").mousemove(function(event) {
-				showActionBarLabel("Pin Property", event.pageX, event.pageY);
-			});
-
-			$("#actionBarMessage")
-					.html(
-							"Please find the area of the property on the map, place a marker point on the map and press next.");
-			var mapClickListener = function(event) {
-				var lat = event.latLng.lat();
-				var lng = event.latLng.lng();
-				map.panTo({
-					lat : parseFloat(lat),
-					lng : parseFloat(lng)
-				});
-				tmpCreateNewlocation = new google.maps.Marker({
-					map : map,
-					position : {
-						lat : parseFloat(lat),
-						lng : parseFloat(lng)
-					}
-				});
-				if (confirm("Are u sure u want to place a property here?")) {
-					$("#locationGPS").val(lat + "," + lng);
-					createNew(1);
-				} else {
-					tmpCreateNewlocation.setMap(null);
-					tmpCreateNewlocation = null;
-					return;
-				}
-			};
-			google.maps.event.addListener(map, "click", mapClickListener);
+			setAPointOnMap();
 			break;
 		} else {
 			$("#map_canvas").css("cursor",
 					"url(images/map-markers/mouse-cursors/pin.png) , auto");
 			map.setOptions(mapOptions);
 		}
-	case 1:// CTREATE TYPE
+	case 1:// SET TYPE
 		$("#actionBarNextButtonDiv").css("display", "block");
-		map.setOptions({
-			draggableCursor : 'crosshair'
-		});
+		mapOptions = {
+			draggableCursor : "default"
+		};
 		map.setOptions(mapOptions);
 		selectThisLocationType(null);
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
@@ -88,11 +62,11 @@ function createNew(seq) {// a number to indicate the sequence of next
 					history : false
 				}).trigger('create').popup('open');
 			}, 100);
-			$("#actionBarNextButton").attr("onclick", "createNew(2)")
-					.trigger("create");
-			$("#actionBarBackButton").attr("onclick", "createNew(1)");
-			$("#actionBarBackButton").removeClass("disabledBTN")
-			.trigger("create");
+			$("#actionBarNextButton").attr("onclick", "createNew(2)").trigger(
+					"create");
+			$("#actionBarBackButton").attr("onclick", "createNew(0)");
+			$("#actionBarBackButton").removeClass("disabledBTN").trigger(
+					"create");
 			break;
 		} else {
 			$("#map_canvas").css("cursor",
@@ -114,6 +88,9 @@ function createNew(seq) {// a number to indicate the sequence of next
 						}, 100);
 					});
 			$("#editLocationTypePopup").popup("close");
+			$("#actionBarNextButton").attr("onclick", "createNew(3)").trigger(
+					"create");
+			$("#actionBarBackButton").attr("onclick", "createNew(1)");
 			$(".locationSaveNextButton").attr("onclick", "createNew(3)")
 					.trigger("create");
 		} else {
@@ -157,6 +134,46 @@ function createNew(seq) {// a number to indicate the sequence of next
 		}
 		break;
 	}
+}
+
+function setAPointOnMap() {
+	mapOptions = {
+		draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
+	};
+	map.setOptions(mapOptions);
+	// var mouseX;
+	// var mouseY;
+	$("#map_canvas").mousemove(function(event) {
+		showActionBarLabel("Pin Property", event.pageX, event.pageY);
+	});
+
+	$("#actionBarMessage")
+			.html(
+					"Please find the area of the property on the map, place a marker point on the map and press next.");
+	var mapClickListener = function(event) {
+		var lat = event.latLng.lat();
+		var lng = event.latLng.lng();
+		map.panTo({
+			lat : parseFloat(lat),
+			lng : parseFloat(lng)
+		});
+		tmpCreateNewlocation = new google.maps.Marker({
+			map : map,
+			position : {
+				lat : parseFloat(lat),
+				lng : parseFloat(lng)
+			}
+		});
+		if (confirm("Are u sure u want to place a property here?")) {
+			$("#locationGPS").val(lat + "," + lng);
+			createNew(1);
+		} else {
+			tmpCreateNewlocation.setMap(null);
+			tmpCreateNewlocation = null;
+			return;
+		}
+	};
+	google.maps.event.addListener(map, "click", mapClickListener);
 }
 
 function showActionBarLabel(text, posX, posY) {

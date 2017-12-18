@@ -355,6 +355,9 @@ function startDrawingMode() {
 
 function removeDrawingMode() {
 	drawingManager.setDrawingMode(null);
+	map.setOptions({
+		draggableCursor : 'closedhand'
+	});
 	// boundaryEditable = false;
 }
 

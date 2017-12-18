@@ -78,6 +78,7 @@ public class LocationServicesWS {
 		return json;
 	}
 
+	
 	@GET
 	@Path("/CreateTFCLevels")
 	@Produces("application/json")
@@ -120,6 +121,7 @@ public class LocationServicesWS {
 		return json;
 	}
 
+	
 	@GET
 	@Path("/GetAllLocationsForUser")
 	@Produces("application/json")
@@ -144,7 +146,29 @@ public class LocationServicesWS {
 		}
 		return json;
 	}
+	
+	
+	@GET
+	@Path("/GetLocationWithChildren")
+	@Produces("application/json")
+	public String getLocationWithChildren(
+			@QueryParam("locationID") long locationID) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			json = mapper.writeValueAsString(getLocationDAO()
+					.getLocationWithChildren(new LocationENT(locationID)));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
 
+	
 	@GET
 	@Path("/SearchForALocation")
 	@Produces("application/json")

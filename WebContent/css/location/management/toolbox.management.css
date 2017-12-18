@@ -6,7 +6,7 @@
 
 #actionBar {
 	position: absolute;
-	display: inline-block;
+	display: none;
 	width: auto;
 	z-index: 200;
 	background-color: rgb(8, 27, 44) !important;

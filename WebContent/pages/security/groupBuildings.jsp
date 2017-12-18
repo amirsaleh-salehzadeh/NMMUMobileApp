@@ -11,8 +11,6 @@
 	href="TreeViewPlugin/trunk/src/jquery.treefilter.css">
 </head>
 <body>
-	<script type="text/javascript"
-		src="js/location/management/location.access.js"></script>
 	<form id="dataFilterGridMainPage" action="security.do">
 		<ams:message messageEntity="${message}"></ams:message>
 		<input type="hidden" name="groupID"
@@ -45,20 +43,16 @@
 				</li>
 			</ul>
 		</div>
-
-
-
-
-		<script type="text/javascript">
-			getAllLocationsTree(360);
-		</script>
 		<script src="TreeViewPlugin/trunk/src/jquery.treefilter.js"></script>
-		<!-- end of heirachy -->
-
-
-
 		<script type="text/javascript"
-			src="js/location/management/management.general.js"></script>
+			src="js/location/management/location.access.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				getAllLocationsTree(360);
+				$("#my-tree").trigger("create");
+			});
+		</script>
+		<!-- end of heirachy -->
 	</form>
 </body>
 

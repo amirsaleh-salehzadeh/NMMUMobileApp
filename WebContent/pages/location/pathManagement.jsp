@@ -245,17 +245,17 @@
 	</ul>
 </div>
 
-<div class="ui-grid-a SaveCancelBTNPanel SaveNextBTNPanel" style=""
-	id="locationCreateNewNextPanel">
-	<div class="ui-block-a">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn next-icon locationSaveNextButton" onclick="">Next</a>
-	</div>
-	<div class="ui-block-b">
-		<a style="cursor: pointer;" data-role="button" href="#"
-			class="ui-btn cancel-icon" onclick="closeAMenuPopup();">Cancel</a>
-	</div>
-</div>
+<!-- <div class="ui-grid-a SaveCancelBTNPanel SaveNextBTNPanel" style="" -->
+<!-- 	id="locationCreateNewNextPanel"> -->
+<!-- 	<div class="ui-block-a"> -->
+<!-- 		<a style="cursor: pointer;" data-role="button" href="#" -->
+<!-- 			class="ui-btn next-icon locationSaveNextButton" onclick="">Next</a> -->
+<!-- 	</div> -->
+<!-- 	<div class="ui-block-b"> -->
+<!-- 		<a style="cursor: pointer;" data-role="button" href="#" -->
+<!-- 			class="ui-btn cancel-icon" onclick="closeAMenuPopup();">Cancel</a> -->
+<!-- 	</div> -->
+<!-- </div> -->
 
 <!-- LOCATION TYPE POPUP LOCATION TYPE POPUP LOCATION TYPE POPUP LOCATION TYPE POPUP LOCATION TYPE POPUP -->
 
