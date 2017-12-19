@@ -217,23 +217,23 @@ function addMarker(l) {
 			addAPath(l);
 		}
 	});
-	marker.addListener('dragend', function(point) {
-		$("#locationTypeId").val(l.locationType.locationTypeId);
-		if (confirm("Are you sure you want to move the marker?")) {
-			$("#locationGPS")
-					.val(point.latLng.lat() + "," + point.latLng.lng());
-			$("#locationId").val(l.locationID);
-			$("#parentLocationId").val(l.parentId);
-			$("#locationName").val(l.locationName);
-			$("#locationTypeId").val(l.locationType.locationTypeId);
-			$("#locationDescription").val(l.description);
-			saveLocation();
-		} else {
-			this.setPosition(pos);
-		}
-	});
+	// marker.addListener('dragend', function(point) {
+	// $("#locationTypeId").val(l.locationType.locationTypeId);
+	// if (confirm("Are you sure you want to move the marker?")) {
+	// $("#locationGPS")
+	// .val(point.latLng.lat() + "," + point.latLng.lng());
+	// $("#locationId").val(l.locationID);
+	// $("#parentLocationId").val(l.parentId);
+	// $("#locationName").val(l.locationName);
+	// $("#locationTypeId").val(l.locationType.locationTypeId);
+	// $("#locationDescription").val(l.description);
+	// saveLocation();
+	// } else {
+	// this.setPosition(pos);
+	// }
+	// });
 	marker.setPosition(pos);
-	if (l.boundary != null && l.boundary.length > 2) {
+	if (l.boundary != null && l.boundary.length > 13) {
 		drawPolygons(l);
 		marker.setVisible(false);
 	} else
@@ -265,12 +265,12 @@ function setMapOnAllPathMarkers(map) {
 function addAMarker(location, gps) {
 	$("#upload").val("");
 	$("#main-cropper").empty();
-	// $("#iconCropDiv").empty();
 	google.maps.event.clearInstanceListeners(map);
 	$("#locationName").val(location.locationName);
 	$("#locationGPS").val(location.gps);
-	$("#boundary").val(getArrayBoundary(location.boundary));
-	if (getBoundaryColour(location.boundary) == "") {
+	if (location.boundary != null && location.boundary.length > 13)
+		$("#boundary").val(getArrayBoundary(location.boundary));
+	if (location.boundary == null) {
 		$("#tempBoundaryColors").val("1E90FF,1E90FF");
 		$("#boundaryColors").val("1E90FF,1E90FF");
 	} else {

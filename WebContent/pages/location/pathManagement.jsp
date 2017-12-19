@@ -231,7 +231,7 @@
 				src="images/icons/location.png">Set Location Type</a></li>
 		<li data-icon="false"><a class="editInfo" href="#"
 			onclick="openEditBoundaryPopup();"><img alt=""
-				src="images/icons/polygon.png">Boundary </a></li>
+				src="images/icons/polygon.png">Boundary</a></li>
 		<li data-role="list-divider"></li>
 
 		<li data-icon="false"><a class="editInfo" href="#"

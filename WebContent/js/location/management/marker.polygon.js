@@ -122,6 +122,7 @@ function createDrawingManager() {
 }
 
 function drawPolygons(location) {
+	// if (location.boundary.length > 13)
 	var arrayBoundary = getArrayBoundary(location.boundary).split("_");
 	var CoordinatesArray = new Array();
 	for ( var i = 0; i < arrayBoundary.length; i++) {
@@ -162,53 +163,47 @@ function drawPolygons(location) {
 		// map.setZoom(minZoomLevel);
 		// });
 		// } else {
-		// for ( var int = 0; int < polygons.length; int++) {
-		// if (polygons[int].id != $("#locationId").val())
-		// polygons[int].setMap(null);
-		// }
 		showLocationInfo();
-		// if (boundarySelected) { // boundary selected
-		// if (DRAWPolygon == selectedShape) {
-		// clearBoundarySelection();
-		// } else { // previous boundary selected but now selecting new
-		// boundary
-		// }
-
-		// google.maps.event.addListener(this, 'mousemove', function(event) {
-		// $("#googleMapMarkerLabel").html(location.locationName);
-		// $('#googleMapMarkerLabel').css("display", "block");
-		// $('#googleMapMarkerLabel').css("position", "absolute");
-		// $('#googleMapMarkerLabel').css("left", event.xa.x + 17 + 'px');
-		// $('#googleMapMarkerLabel').css("top", event.xa.y + 17 + 'px');
-		// $('#googleMapMarkerLabel').trigger("create");
-		// });
-		setBoundarySelection(this);
-
-		clearMarkerLabel();
 		addAMarker(location, location.gps);
+		for ( var int = 0; int < polygons.length; int++) {
+			if (polygons[int].id != $("#locationId").val())
+				polygons[int].setMap(null);
+		}
+		selectedShape = this;
+		this.setMap(map);
+		// this.getPaths().forEach(function(path, index) {
+		//
+		// google.maps.event.addListener(path, 'insert_at', function() {
+		// // New point
+		// });
+		//
+		// google.maps.event.addListener(path, 'remove_at', function() {
+		// console.log(this.toString());
+		// });
+		//
+		// google.maps.event.addListener(path, 'set_at', function(i, obj) {
+		// console.log(">>" + i);
+		// console.log(">>>" + obj.toString());
+		// });
+		//
+		// });
 		google.maps.event.addListener(this.getPath(), "insert_at", function(e) {
-			alert("ins" + e);
+			var newBoundaryString = this.getArray()[0].lat() + ","
+					+ this.getArray()[0].lng();
+			for ( var int2 = 1; int2 < this.getArray().length; int2++) {
+				newBoundaryString += "_" + this.getArray()[int2].lat() + ","
+						+ this.getArray()[int2].lng();
+			}
+			$("#boundary").val(newBoundaryString);
 		});
 		google.maps.event.addListener(this.getPath(), "set_at",
 				function(i, obj) {
-					alert("set" + i + "  >>  " + obj.lat());
 					var pathLtnLngZ = $("#boundary").val().split("_");
-					pathLtnLngZ[i] = obj.lat() + "," + obj.lng();
+					console.log($("#boundary").val());
+					pathLtnLngZ[i] = this.getArray()[i].lat() + ","
+							+ this.getArray()[i].lng();
 					$("#boundary").val(pathLtnLngZ.join("_"));
 				});
-		google.maps.event.addListener(this.getPath(), "remove_at", function() {
-			alert(3);
-		});
-		// }
-		// } else { // boundary not selected
-		// setBoundarySelection(DRAWPolygon);
-		// clearMarkerLabel();
-		// addAMarker(location, location.gps);
-		// }
-		// }
-		// $('#editBoundary').on('click', function() {
-		// editPolygon(DRAWPolygon);
-		// });
 		$('#boundaryColour').css('background-color', FillColour);
 		$('#boundaryColour').css('border-color', BorderColour)
 				.trigger("create");
@@ -218,48 +213,19 @@ function drawPolygons(location) {
 		$('#colorSelectorBorder').ColorPickerSetColor(BorderColour);
 	});
 
-	// google.maps.event.addListener(DRAWPolygon, 'mousedown', function(event) {
-	// start = new Date().getTime();
-	// });
-	// google.maps.event.addListener(DRAWPolygon, 'mouseup', function(event) {
-	// end = new Date().getTime();
-	// longpress = (end - start < 500) ? false : true;
-	// // $("#boundary").val(getPolygonCoords(DRAWPolygon));
-	// });
 	google.maps.event.addListener(DRAWPolygon, 'mousemove', function(event) {
-//		$("#googleMapMarkerLabel").html(location.locationName);
-//		$('#googleMapMarkerLabel').css("display", "block");
-//		$('#googleMapMarkerLabel').css("position", "absolute");
-		showMarkerLabel(location.locationName, event.xa.x, event.xa.y, false);
-//		$('#googleMapMarkerLabel').trigger("create");
+		// $("#googleMapMarkerLabel").html(location.locationName);
+		// $('#googleMapMarkerLabel').css("display", "block");
+		// $('#googleMapMarkerLabel').css("position", "absolute");
+		if (event.xa != null)
+			showMarkerLabel(location.locationName, event.xa.x, event.xa.y,
+					false);
+		// $('#googleMapMarkerLabel').trigger("create");
 	});
 	google.maps.event.addListener(DRAWPolygon, 'mouseout', function(event) {
 		clearMarkerLabel();
 	});
 	polygons.push(DRAWPolygon);
-}
-
-function determineQuadrant(event) {
-	var width = $(window).width();
-	var height = $(window).height();
-
-	// Quadrant
-	// 1 2
-	// 3 4
-
-	if (event.xa.x < width / 2) {
-		if (event.xa.y < height / 2) {
-			return 1;
-		} else {
-			return 3;
-		}
-	} else {
-		if (event.xa.y < height / 2) {
-			return 2;
-		} else {
-			return 4;
-		}
-	}
 }
 
 function undoColourChange() {
@@ -357,23 +323,23 @@ function removeDrawingMode() {
 // boundarySelected = false;
 // }
 
-function setBoundarySelection(shape) {
-	if (shape.type !== 'marker') {
-		// clearBoundarySelection();
-		// for ( var i = 0; i < polygons.length; i++) {
-		// polygons[i].setEditable(false);
-		// polygons[i].setMap(null);
-		// }
-		// shape.setEditable(true);
-		// shape.setDraggable(true);
-		selectedShape = shape;
-	} else {
-		selectedShape = null;
-		// alert("NOS");
-	}
+// function setBoundarySelection(shape) {
+// if (shape.type !== 'marker') {
+// clearBoundarySelection();
+// for ( var i = 0; i < polygons.length; i++) {
+// polygons[i].setEditable(false);
+// polygons[i].setMap(null);
+// }
+// shape.setEditable(true);
+// shape.setDraggable(true);
+// selectedShape = shape;
+// } else {
+// selectedShape = null;
+// alert("NOS");
+// }
 
-	// boundarySelected = true;
-}
+// boundarySelected = true;
+// }
 
 function editPolygon() {
 	// if (boundaryEditable) {
@@ -388,6 +354,7 @@ function editPolygon() {
 		}
 		selectedShape.setEditable(true);
 	}
+	closeAMenuPopup();
 	// selectedShape = shape;
 	// boundarySelected = true;
 	// }

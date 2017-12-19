@@ -249,10 +249,6 @@ function openIconPopup() {
 // }
 
 function openEditBoundaryPopup() {
-	$('#editBoundaryPopup').popup("option", {
-		x : event.pageX,
-		y : event.pageY
-	});
 	$("#locationSaveCancelPanel").css("display", "inline-block").trigger(
 			"create");
 	$("#locationSaveCancelPanel").css(
@@ -265,6 +261,15 @@ function openEditBoundaryPopup() {
 			parseInt(parseInt($(window).width() / 2)
 					- parseInt($("#locationSaveCancelPanel").width() / 2)))
 			.trigger("create");
+	if ($("#boundary").val() <= 0) {
+		startDrawingMode();
+		return;
+	}
+
+	$('#editBoundaryPopup').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
 	$("#locationEditMenu").on("popupafterclose", function() {
 		setTimeout(function() {
 			$("#editBoundaryPopup").trigger('create').popup('open');
@@ -274,11 +279,11 @@ function openEditBoundaryPopup() {
 }
 
 function showLocationInfo() {
+	hidePathInfo();
 	$("#locationEditMenu").popup("close");
 	$("#locationInfoFooter").css("display", "inline-block").trigger("create");
 	// $("#locationSaveCancelPanel").css("display",
 	// "inline-block").trigger("create");
-	hidePathInfo();
 	// $("#locationSaveCancelPanel").css(
 	// "top",
 	// parseInt(parseInt($(".jqm-header").height())
@@ -298,7 +303,7 @@ function hideLocationInfo() {
 		polygons[i].setEditable(false);
 		polygons[i].setMap(map);
 	}
-//	selectedShape = null;
+	// selectedShape = null;
 	// $("#locationSaveCancelPanel").css("display", "none");
 }
 
