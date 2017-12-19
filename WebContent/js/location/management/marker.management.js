@@ -202,7 +202,6 @@ function addMarker(l) {
 	google.maps.event.addListener(marker, "mouseout", function() {
 		this.setIcon(this.originalicon);
 	});
-	marker.setLabel(null);
 	var pos = {
 		lat : parseFloat(l.gps.split(",")[0]),
 		lng : parseFloat(l.gps.split(",")[1])
@@ -268,79 +267,54 @@ function addAMarker(location, gps) {
 	$("#main-cropper").empty();
 	// $("#iconCropDiv").empty();
 	google.maps.event.clearInstanceListeners(map);
-	if (location == null) {
-		gps = gps.replace(" ", "");
-		$("#locationId").val("");
-		$("#locationName").val("");
-		$("#locationGPS").val(gps);
-		$("#boundary").val("");
-		$("#locationDescription").val("");
+	$("#locationName").val(location.locationName);
+	$("#locationGPS").val(location.gps);
+	$("#boundary").val(getArrayBoundary(location.boundary));
+	if (getBoundaryColour(location.boundary) == "") {
+		$("#tempBoundaryColors").val("1E90FF,1E90FF");
+		$("#boundaryColors").val("1E90FF,1E90FF");
 	} else {
-		$("#locationName").val(location.locationName);
-		$("#locationGPS").val(location.gps);
-		$("#boundary").val(getArrayBoundary(location.boundary));
-		if (getBoundaryColour(location.boundary) == "") {
-			$("#tempBoundaryColors").val("1E90FF,1E90FF");
-			$("#boundaryColors").val("1E90FF,1E90FF");
-		} else {
-			$("#tempBoundaryColors").val(getBoundaryColour(location.boundary));
-			$("#boundaryColors").val(getBoundaryColour(location.boundary));
-		}
-		$("#locationId").val(location.locationID);
-		$("#croppedIcon").attr("src", location.icon);
-		$("#icon").val(location.icon);
-		$("#locationLabel").val(location.locationName);
-		$("#locationInfoDescriptionLabel").val(location.description);
-		$("#locationThumbnail").val(location.icon);
-		$("#locationTypeLabel").val(location.locationType.locationType);
-		$("#locationBoundary").html(location.boundary);
-		var icn = location.icon;
-		if (icn != null && icn.length > 5)
-			$("#editIconIcon").attr("src", location.icon);
-		else
-			$("#editIconIcon").attr("src", "images/icons/image.png");
-		$("#parentLocationId").val(location.parentId);
-		$("#locationDescription").val(location.description);
-		$("#locationTypeId").val(location.locationType.locationTypeId);
-		locationEditPanelOpen(location.locationName,
-				location.locationType.locationType);
+		$("#tempBoundaryColors").val(getBoundaryColour(location.boundary));
+		$("#boundaryColors").val(getBoundaryColour(location.boundary));
 	}
+	$("#locationId").val(location.locationID);
+	$("#croppedIcon").attr("src", location.icon);
+	$("#icon").val(location.icon);
+	$("#locationLabel").val(location.locationName);
+	$("#locationInfoDescriptionLabel").val(location.description);
+	$("#locationDescription").val(location.description);
+	$("#locationThumbnail").val(location.icon);
+	$("#locationTypeLabel").val(location.locationType.locationType);
+	$("#locationBoundary").html(location.boundary);
+	var icn = location.icon;
+	if (icn != null && icn.length > 5)
+		$("#editIconIcon").attr("src", location.icon);
+	else
+		$("#editIconIcon").attr("src", "images/icons/image.png");
+	$("#parentLocationId").val(location.parentId);
+	$("#locationTypeId").val(location.locationType.locationTypeId);
+	locationEditPanelOpen(location.locationName,
+			location.locationType.locationType);
 }
 
 function showMarkerLabel(text, posX, posY, isPresentUnderneath) {
+	$("#googleMapMarkerLabel").html(text);
+	$('#googleMapMarkerLabel').css("display", "block");
+	$('#googleMapMarkerLabel').css("position", "absolute").trigger("create");
 	if (isPresentUnderneath) {
-		$("#googleMapMarkerLabel").html(text);
-		$('#googleMapMarkerLabel').css("display", "block");
-		$('#googleMapMarkerLabel').css("position", "absolute");
-
 		$('#googleMapMarkerLabel').css("top", posY + 25 + 'px');
-		// $('#googleMapMarkerLabel').fadeIn();
-//		if (posX - ($("#googleMapMarkerLabel").width() / 2) < 0) {//LEFT SIDE
-//			$('#googleMapMarkerLabel').css("left", '2px');
-//		} else if ($(window).width() - posX < $("#googleMapMarkerLabel")
-//				.width() + 3) {
-//			$('#googleMapMarkerLabel').css("right", '0px');
-//			$('#googleMapMarkerLabel')
-//					.css("left", $(window).width() + 3 + 'px');
-//		} else if ($(window).width() - $("#googleMapMarkerLabel").width() > posX) {
-//			$('#googleMapMarkerLabel')
-//					.css(
-//							"left",
-//							($(window).width()
-//									- $("#googleMapMarkerLabel").width() - 5)
-//									+ 'px');
-//		} else
-//			$('#googleMapMarkerLabel').css("right",
-//					$("#googleMapMarkerLabel").width() + 5 + 'px');
-		if (posX - ($("#googleMapMarkerLabel").width() / 2) < 0) {//LEFT SIDE
+		if (posX - $("#googleMapMarkerLabel").width() < 0) {
 			$('#googleMapMarkerLabel').css("left", '2px');
-		} else if (posX - $("#googleMapMarkerLabel").width() + 3 > $(window).width() ) {
-			$('#googleMapMarkerLabel').css("right", '0px');
-//			$('#googleMapMarkerLabel')
-//					.css("left", $(window).width() + 3 + 'px');
-		} else 
-			$('#googleMapMarkerLabel').css("right",
-					$("#googleMapMarkerLabel").width() + 5 + 'px');
+		} else if (posX + $("#googleMapMarkerLabel").width() + 3 > $(window)
+				.width()) {
+			$('#googleMapMarkerLabel').css("right", '3px');
+			$('#googleMapMarkerLabel').css(
+					"left",
+					$(window).width() - $("#googleMapMarkerLabel").width() - 3
+							+ 'px');
+		} else
+			$('#googleMapMarkerLabel').css("left",
+					posX - ($("#googleMapMarkerLabel").width() / 2) + 'px');
 	} else {
 		if (posY < $(window).height() / 2) {
 			$('#googleMapMarkerLabel').css("top", posY + 25 + 'px');

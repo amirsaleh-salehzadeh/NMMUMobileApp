@@ -36,11 +36,7 @@ function mapSattelView() {
 
 function selectActionType() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
-		var gps = map.getCenter().toString();
-		gps = gps.replace("(", "");
-		gps = gps.replace(")", "");
-		gps = gps.replace(" ", "");
-		addAMarker(null, gps);
+		cancelCreatingNew();
 		getAllMarkers($("#parentLocationId").val(), false);
 		hidePathInfo();
 	} else {

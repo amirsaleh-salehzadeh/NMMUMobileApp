@@ -227,11 +227,11 @@ function drawPolygons(location) {
 	// // $("#boundary").val(getPolygonCoords(DRAWPolygon));
 	// });
 	google.maps.event.addListener(DRAWPolygon, 'mousemove', function(event) {
-		$("#googleMapMarkerLabel").html(location.locationName);
-		$('#googleMapMarkerLabel').css("display", "block");
-		$('#googleMapMarkerLabel').css("position", "absolute");
+//		$("#googleMapMarkerLabel").html(location.locationName);
+//		$('#googleMapMarkerLabel').css("display", "block");
+//		$('#googleMapMarkerLabel').css("position", "absolute");
 		showMarkerLabel(location.locationName, event.xa.x, event.xa.y, false);
-		$('#googleMapMarkerLabel').trigger("create");
+//		$('#googleMapMarkerLabel').trigger("create");
 	});
 	google.maps.event.addListener(DRAWPolygon, 'mouseout', function(event) {
 		clearMarkerLabel();

@@ -20,6 +20,7 @@ function cancelCreatingNew() {
 	$("#actionBar").css("display", "none");
 	clearActionBarLabel();
 	$("#map_canvas").unbind('mousemove');
+	$(".locationFields").val("");
 	removeDrawingMode();
 }
 
