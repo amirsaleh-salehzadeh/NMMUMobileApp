@@ -105,7 +105,6 @@ function drawPolygons(location) {
 		google.maps.event.addListener(this.getPath(), "set_at",
 				function(i, obj) {
 					var pathLtnLngZ = $("#boundary").val().split("_");
-					console.log($("#boundary").val());
 					pathLtnLngZ[i] = this.getArray()[i].lat() + ","
 							+ this.getArray()[i].lng();
 					$("#boundary").val(pathLtnLngZ.join("_"));
