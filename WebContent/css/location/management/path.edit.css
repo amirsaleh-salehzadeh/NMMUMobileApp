@@ -1,6 +1,35 @@
-#pathEditMenu{
+#pathEditMenu {
 	width: 222px;
 	position: absolute;
-	display: block;
+	display: none;
 	z-index: 666;
+	border-top: solid 3px;
+	border-radius: 7px;
+	border-color: rgb(248, 182, 36) !important;
+}
+
+#pathEditMenu ul {
+	background-color: rgba(8, 27, 44, 1) !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	padding-left: 0 !important;
+}
+
+#pathEditMenu ul li {
+	margin: 0 !important;
+	padding: 0 !important;
+/* 	min-height: 30px; */
+	padding-left: 38px !important;
+	padding-top: 11px !important;
+	padding-bottom: 11px !important;
+	cursor: pointer;
+}
+
+#pathEditMenu ul li div.ui-input-text, #pathEditMenu ul li textarea {
+	margin-left: -33px !important;
+	width: auto;
+}
+
+#pathEditMenu .ui-li-divider {
+	max-height: 13px;
 }

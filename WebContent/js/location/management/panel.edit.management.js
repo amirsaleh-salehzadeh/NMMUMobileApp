@@ -303,7 +303,22 @@ function hideLocationInfo() {
 
 function pathEditPanelOpen(title) {
 	$("#pathEditMenuTitle").html(title);
+	$("#pathEditMenu").css(
+			"top",
+			parseInt(parseInt($(".jqm-header").height())
+					+ parseInt($("#locPathModeRadiobtn").height()) + 2))
+			.trigger("create");
 	$("#pathEditMenu").css("display","block");
+	$("#locationSaveCancelPanel").css(
+			"top",
+			parseInt(parseInt($(".jqm-header").height())
+					+ parseInt($("#locPathModeRadiobtn").height()) + 3))
+			.trigger("create");
+	$("#locationSaveCancelPanel").css(
+			"left",
+			parseInt(parseInt($(window).width() / 2)
+					- parseInt($("#locationSaveCancelPanel").width() / 2)))
+			.trigger("create");
 }
 
 function showPathInfo() {
@@ -336,12 +351,12 @@ function openPathTypePopup() {
 		y : event.pageY
 	});
 	$("#mainBodyContents").trigger('create');
-	$("#pathEditMenu").on("popupafterclose", function() {
-		setTimeout(function() {
+//	$("#pathEditMenu").on("popupafterclose", function() {
+//		setTimeout(function() {
 			$("#editPathTypePopup").trigger('create').popup('open');
-		}, 100);
-	});
-	$("#pathEditMenu").popup("close");
+//		}, 100);
+//	});
+//	$("#pathEditMenu").popup("close");
 	$("#mainBodyContents").trigger('create');
 }
 

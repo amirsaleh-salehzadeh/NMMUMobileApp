@@ -511,34 +511,29 @@
 
 
 <div id="pathEditMenu">
-	<ul data-role="listview" style="min-width: 210px;" data-mini="true">
+	<ul data-role="listview" data-mini="true">
 		<!-- 		<li data-icon="false"><a href="#" onclick="openPathTypePopup();" class="editInfo"><img alt="" -->
 		<!-- 				src="images/icons/path.png">Path Type</a></li> -->
-		<li data-icon="false"><a href="#" onclick="openPathInfoPopup();"
-			class="editInfo"><img alt="" src="images/icons/info.png">Info</a></li>
-		<li data-icon="false"><a href="#" class="editInfo"><label
-				for="pathWidth">Path Width (Meters)</label> <input type="range"
-				placeholder="Label" name="pathWidth" id="pathWidth" value="5"
-				min="0" max="50"> </a></li>
+		<!-- 		<li data-icon="false"><a href="#" onclick="openPathInfoPopup();" -->
+		<!-- 			class="editInfo"><img alt="" src="images/icons/info.png">Info</a></li> -->
+		<li data-icon="false"><label for="pathWidth">Path Width
+				(Meters)</label> <input type="range" placeholder="Label" name="pathWidth"
+			id="pathWidth" value="5" min="0" max="50"></li>
 		<!-- 		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit -->
 		<!-- 				Thumbnail</a></li> -->
 		<li data-role="list-divider"></li>
-		<li data-icon="false"><a href="#" onclick="removePath();"
-			class="editInfo"><img alt="" src="images/icons/delete-icon.png">Delete</a></li>
-		<li><a href="#" class="editInfo"
-			onclick="hideLocationInfo();"><img alt=""
-				src="images/icons/clearInput.png"><input class="pathMenu"
-				type="text" placeholder="Label" name="pathName" id="pathName"
-				value=""></a></li>
-		<li><a href="#" class="editInfo"
-			onclick="hideLocationInfo();"><img alt=""
-				src="images/icons/clearInput.png"> <textarea type="text"
-					placeholder="Description" name="pathDescription"
-					id="pathDescription" value="" rows="5"></textarea></a></li>
-		<li onclick="saveThePath();" class="editInfo"><img alt=""
-				src="images/icons/clearInput.png">Save</li>
-				<li onclick="hidePathInfo();" class="editInfo"><img alt=""
-				src="images/icons/clearInput.png">Cancel</li>
+		<li data-icon="false" class="editInfo" onclick="removePath();"><img
+			alt="" src="images/icons/delete-icon.png">Delete</li>
+		<li data-icon="false" class="editInfo" onclick="hideLocationInfo();"><input
+				class="pathMenu" type="text" placeholder="Label" name="pathName"
+				id="pathName" value=""></li>
+		<li data-icon="false" class="editInfo"><textarea
+					type="text" placeholder="Description" name="pathDescription"
+					id="pathDescription" value="" rows="5"></textarea></li>
+		<li data-icon="false" onclick="saveThePath();" class="editInfo"><img alt=""
+			src="images/icons/save.png">Save</li>
+		<li data-icon="false" onclick="hidePathInfo();" class="editInfo"><img alt=""
+			src="images/icons/clearInput.png">Cancel</li>
 	</ul>
 </div>
 
