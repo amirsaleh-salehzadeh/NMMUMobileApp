@@ -118,8 +118,8 @@ function getAllMarkers(parentId, refreshMarkers) {
 			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllPolylines(null);
 	if (!refreshMarkers && markers.length > 0) {
-		setMapOnAllMarkers(map);
 		setMapOnAllPathMarkers(null);
+		setMapOnAllMarkers(map);
 		$("input[name='radio-choice']").checkboxradio('enable');
 		return;
 	}
@@ -130,9 +130,9 @@ function getAllMarkers(parentId, refreshMarkers) {
 				async : true,
 				beforeSend : function() {
 					ShowLoadingScreen("Fetching locations");
+					setMapOnAllPathMarkers(null);
 					setMapOnAllMarkers(null);
 					setMapOnAllPolygons(null);
-					setMapOnAllPathMarkers(null);
 					for ( var int = 0; int < polygonsEdit.length; int++) {
 						polygonsEdit[int].setMap(null);
 					}
@@ -155,7 +155,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 				},
 				complete : function() {
 					HideLoadingScreen();
-					setMapOnAllPathMarkers(null);
+//					setMapOnAllPathMarkers(null);
 					$("input[name='radio-choice']").checkboxradio('enable');
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
@@ -183,27 +183,17 @@ function getMarkerInfo(location) {
 }
 
 function addMarker(l) {
+	marker = new google.maps.Marker({
+		icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
+		hovericon : refreshMap(l.locationType.locationTypeId, l.gps, "hover"),
+		originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
+				"normal"),
+		draggable : true,
+		zIndex : 666,
+		map : map
+	});
 	if (l.locationType.locationTypeId != 5)
-		marker = new google.maps.Marker({
-			icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
-			hovericon : refreshMap(l.locationType.locationTypeId, l.gps,
-					"hover"),
-			originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
-					"normal"),
-			draggable : true,
-			title : l.locationName + " " + l.locationType.locationType,
-			zIndex : 666
-		});
-	else
-		marker = new google.maps.Marker({
-			icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
-			hovericon : refreshMap(l.locationType.locationTypeId, l.gps,
-					"hover"),
-			originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
-					"normal"),
-			draggable : true,
-			zIndex : 666,
-		});
+		marker.setTitle(l.locationName + " " + l.locationType.locationType);
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
 	});
@@ -216,17 +206,6 @@ function addMarker(l) {
 	};
 
 	marker.id = l.locationID;
-	google.maps.event.addListener(marker, 'click', function(point) {
-		$("#locationTypeId").val(l.locationType.locationTypeId);
-		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			hideLocationInfo();
-			showLocationInfo();
-			setInputsForLocation(l, l.gps);
-			locationEditPanelOpen(l.locationName, l.locationType.locationType);
-		} else {
-			addAPath(l);
-		}
-	});
 	marker.addListener('dragend', function(point) {
 		$("#locationTypeId").val(l.locationType.locationTypeId);
 		if (confirm("Are you sure you want to move the marker?")) {
@@ -248,14 +227,43 @@ function addMarker(l) {
 		marker.setVisible(false);
 	} else
 		marker.setMap(map);
-	if (l.locationType.locationTypeId == 11) {
+	if (l.locationType.locationTypeId != 5
+			&& l.locationType.locationTypeId != 11) {
+		google.maps.event.addListener(marker, 'click', function(point) {
+			$("#locationTypeId").val(l.locationType.locationTypeId);
+			hideLocationInfo();
+			showLocationInfo();
+			setInputsForLocation(l, l.gps);
+			locationEditPanelOpen(l.locationName, l.locationType.locationType);
+		});
+		markers.push(marker);
+	} else if (l.locationType.locationTypeId == 11) {
+		google.maps.event.addListener(marker, 'click', function(point) {
+			if ($('[name="optionType"] :radio:checked').val() == "marker") {
+				hideLocationInfo();
+				showLocationInfo();
+				setInputsForLocation(l, l.gps);
+				locationEditPanelOpen(l.locationName,
+						l.locationType.locationType);
+			} else {
+				addAPath(l);
+			}
+		});
 		markers.push(marker);
 		pathMarkers.push(marker);
-	} else if (l.locationType.locationTypeId != 5
-			&& l.locationType.locationTypeId != 11)
-		markers.push(marker);
-	else {
+	} else {
 		marker.setMap(null);
+		google.maps.event.addListener(marker, 'click', function(point) {
+			if ($('[name="optionType"] :radio:checked').val() == "marker") {
+				hideLocationInfo();
+				showLocationInfo();
+				setInputsForLocation(l, l.gps);
+				locationEditPanelOpen(l.locationName,
+						l.locationType.locationType);
+			} else {
+				addAPath(l);
+			}
+		});
 		pathMarkers.push(marker);
 	}
 }

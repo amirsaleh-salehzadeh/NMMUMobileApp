@@ -554,7 +554,7 @@
 		<textarea type="text" placeholder="Description" name="pathDescription"
 			id="pathDescription" value="" rows="5"></textarea>
 	</div>
-	<div class="ui-grid-a editlocationFormRow">
+	<div class="ui-grid-a editlocationFormRow SaveCancelBTNPanel">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveThePath()">Save</a>
@@ -643,10 +643,11 @@
 
 
 
-<div id="editPathTypePopup" data-role="popup" class="menuItemPopupClass">
-	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext"
-		class="ui-btn-right closeMessageButtonIcon"
-		onclick="$('#editPathTypePopup').popup('close');">Cancel</a>
+<div id="editPathTypePopup" data-role="popup" class="menuItemPopupClass"  data-position-to="window"
+	style="padding: 7px 7px 7px 7px; width: auto;" >
+<!-- 	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext" -->
+<!-- 		class="ui-btn-right closeMessageButtonIcon" -->
+<!-- 		onclick="$('#editPathTypePopup').popup('close');">Cancel</a> -->
 	<logic:iterate id="pathTIteration" name="pathTypes"
 		type="common.location.PathTypeENT">
 		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
@@ -654,7 +655,7 @@
 			title="<%=pathTIteration.getPathType()%>"
 			onclick="selectIcon('<%=pathTIteration.getPathTypeId()%>');">
 	</logic:iterate>
-	<div class="ui-grid-a editlocationFormRow">
+	<div class="ui-grid-a editlocationFormRow SaveCancelBTNPanel">
 		<div class="ui-block-a">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveThePath()">Save</a>

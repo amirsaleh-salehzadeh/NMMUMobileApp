@@ -10,7 +10,7 @@
 }
 
 .SaveCancelBTNPanel, #locationSaveCancelPanel {
-	width: 333px;
+	width: auto;
 	background-color: rgba(8, 27, 44, 1) !important;
 	z-index: 33 !important;
 /* 	position: fixed; */
@@ -26,6 +26,7 @@
 #locationSaveCancelPanel{
 	position: absolute;
 	display: inline-block;
+	width: 333px;
 }
 .SaveNextBTNPanel {
 	display: none;

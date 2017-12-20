@@ -1,5 +1,4 @@
-var minZoomLevel;
-var drawingManager;
+var minZoomLevel, drawingManager, selectedShape;
 
 function createDrawingManager() {
 	var polyOptions = {

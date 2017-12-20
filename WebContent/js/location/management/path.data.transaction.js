@@ -137,6 +137,8 @@ function addAPath(location) {
 		alert("A path can only be drawn between two locations");
 		return;
 	}
+	if(!newPathInProgress)
+		return;
 	if ($("#departure").val() == "") {
 		mapDrawingClickCounter = 1;
 		$("#departure").val(location.locationName);
@@ -171,7 +173,6 @@ function addAPath(location) {
 	} else if ($("#destinationId").val() == "") {
 		$("#destination").val(location.locationName);
 		$("#destinationId").val(location.locationID);
-		google.maps.event.clearInstanceListeners(map);
 		$("#destinationGPS").val(location.gps);
 		pathDrawingCircle.setMap(null);
 		google.maps.event.clearInstanceListeners(map);
@@ -193,5 +194,12 @@ function addAPath(location) {
 		$("#editPathTypePopup").trigger('create').popup('open');
 		$("#pathEditMenu").popup("close");
 		$("#mainBodyContents").trigger('create');
+		$("#actionBarMessage").html("Place set the path types");
+		$("#actionBarNextButton").attr("onclick", "createNew(1)").trigger("create");
+		$("#actionBarBackButton").attr("onclick", "createNew(0)");
+		// $(".locationSaveNextButton").attr("onclick", "createNew(3)").trigger(
+		// "create");
+		$("#actionBarNextButton").removeClass("disabledBTN").trigger("create");
+		$("#actionBarBackButton").removeClass("disabledBTN").trigger("create");
 	}
 }

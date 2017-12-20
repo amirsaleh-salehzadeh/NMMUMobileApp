@@ -1,9 +1,12 @@
 var tmpCreateNewlocation;
+var newPathInProgress;
 function cancelCreatingNew() {
+	newPathInProgress = false;
 	$('.menuItemPopupClass').popup('close');
 	$("#locationEditMenu").unbind("popupafterclose");
 	$("#pathEditMenu").unbind("popupafterclose");
 	hideLocationInfo();
+	hidePathInfo();
 	if (tmpCreateNewlocation != null) {
 		tmpCreateNewlocation.setMap(null);
 		tmpCreateNewlocation = null;
@@ -22,6 +25,8 @@ function cancelCreatingNew() {
 	$("#map_canvas").unbind('mousemove');
 	$(".locationFields").val("");
 	removeDrawingMode();
+	cancelADrawnPath();
+	clearActionBarLabel();
 }
 
 function createNew(seq) {
@@ -62,10 +67,14 @@ function createNew(seq) {
 		$(".locationFields").val("");
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			setALocationTypeNew();
-			break;
 		} else {
-			$("#map_canvas").css("cursor",
-					"url(images/map-markers/mouse-cursors/pin.png) , auto");
+			$("#map_canvas").mousemove(
+					function(event) {
+						showActionBarLabel("Select the Departure", event.pageX,
+								event.pageY);
+					});
+			newPathInProgress = true;
+			// setAPathTypeNew();
 		}
 		break;
 	case 1:
@@ -75,10 +84,8 @@ function createNew(seq) {
 				draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
 			};
 			setAPointOnMap();
-			break;
 		} else {
-			$("#map_canvas").css("cursor",
-					"url(images/map-markers/mouse-cursors/pin.png) , auto");
+			return;
 		}
 		break;
 	case 2: // SET INFO
@@ -91,17 +98,11 @@ function createNew(seq) {
 		break;
 	case 3:
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			// showMainBoundary();
-			// $('.menuItemPopupClass').popup('close');
-			// locationEditPanelOpen("", "");
 			$("#editLocationInfoPopup").popup("close");
 			$("#actionBarMessage")
-					.html(
-							"Please draw a boundary around the property. "
+					.html("Please draw a boundary around the property. "
 									+ "Make sure to place the pins at an accurate geographical position");
 			$("#actionBarSaveButtonDiv").css("display", "block");
-			// openEditBoundaryPopup();
-			// $(".locationSaveNextButton").attr("onclick", "createNew(4)");
 			startDrawingMode();
 		} else {
 			$("#map_canvas").css("cursor",
@@ -124,8 +125,8 @@ function setLocationInfoNew() {
 	// $("#editLocationTypePopup").popup("close");
 	$("#actionBarNextButton").attr("onclick", "createNew(3)").trigger("create");
 	$("#actionBarBackButton").attr("onclick", "createNew(1)");
-	$(".locationSaveNextButton").attr("onclick", "createNew(3)").trigger(
-			"create");
+	// $(".locationSaveNextButton").attr("onclick", "createNew(3)").trigger(
+	// "create");
 }
 
 function setALocationTypeNew() {
@@ -137,6 +138,49 @@ function setALocationTypeNew() {
 			transition : "pop",
 			history : false
 		}).trigger('create').popup('open');
+	}, 100);
+}
+
+function setAPathTypeNew() {
+	$("#actionBarMessage").html("Place set the path types");
+	$("#actionBarNextButton").attr("onclick", "createNew(1)").trigger("create");
+	$("#actionBarBackButton").attr("onclick", "createNew(0)");
+	// $(".locationSaveNextButton").attr("onclick", "createNew(3)").trigger(
+	// "create");
+	$("#actionBarNextButton").removeClass("disabledBTN").trigger("create");
+	$("#actionBarBackButton").removeClass("disabledBTN").trigger("create");
+	$(".pathTypeIcon").each(function() {
+		if ($(this).hasClass("pathTypeIconSelected")) {
+			$(this).removeClass("pathTypeIconSelected");
+		}
+		$(this).trigger("create");
+	});
+	$("#editPathTypePopup").css("position", "absolute").trigger("create");
+	$("#editPathTypePopup").css(
+			"top",
+			parseInt($(".jqm-header").height())
+					+ parseInt($("#locPathModeRadiobtn").height() + 3) + 'px');
+	setTimeout(function() {
+		$("#editPathTypePopup").trigger('create').popup('open');
+	}, 100);
+}
+
+function setPathInfoNew() {
+	$("#actionBarMessage").html(
+			"Place the start point on an intersection or entrance");
+	$(".pathTypeIcon").each(function() {
+		if ($(this).hasClass("pathTypeIconSelected")) {
+			$(this).removeClass("pathTypeIconSelected");
+		}
+		$(this).trigger("create");
+	});
+	$("#editPathTypePopup").css("position", "absolute").trigger("create");
+	$("#editPathTypePopup").css(
+			"top",
+			parseInt($(".jqm-header").height())
+					+ parseInt($("#locPathModeRadiobtn").height() + 3) + 'px');
+	setTimeout(function() {
+		$("#editPathTypePopup").trigger('create').popup('open');
 	}, 100);
 }
 

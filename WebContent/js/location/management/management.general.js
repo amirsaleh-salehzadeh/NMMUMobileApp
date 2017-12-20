@@ -74,8 +74,8 @@ function getPathTypePanel() {
 }
 
 $(document).ready(function() {
-	$('#pathTypePopup').fadeOut();
-	$('#locationEditPanel').fadeOut();
+//	$('#pathTypePopup').fadeOut();
+//	$('#locationEditPanel').fadeOut();
 	// $(".jqm-demos").css("max-height",$(window).height());
 });
 
