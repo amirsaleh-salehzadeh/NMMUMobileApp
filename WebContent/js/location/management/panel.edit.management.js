@@ -206,7 +206,6 @@ function openLocationInfoPopup() {
 function closeAMenuPopup() {
 	$('.menuItemPopupClass').popup('close');
 	$("#locationEditMenu").unbind("popupafterclose");
-	$("#pathEditMenu").unbind("popupafterclose");
 	map.setOptions({
 		draggableCursor : 'default'
 	});
@@ -297,28 +296,24 @@ function hideLocationInfo() {
 		polygons[i].setMap(map);
 	}
 	for ( var int = 0; int < polygonsEdit.length; int++) {
-			polygonsEdit[int].setMap(null);
+		polygonsEdit[int].setMap(null);
 	}
 	removeDrawingMode();
 }
 
 function pathEditPanelOpen(title) {
 	$("#pathEditMenuTitle").html(title);
-	$('#pathEditMenu').popup("option", {
-		x : event.pageX,
-		y : event.pageY
-	});
-	$("#pathEditMenu").popup("open").trigger("create");
+	$("#pathEditMenu").css("display","block");
 }
 
 function showPathInfo() {
-	$("#pathEditMenu").popup("close");
 	$("#pathInfoFooter").css("display", "inline-block").trigger("create");
 	hideLocationInfo();
 }
 
 function hidePathInfo() {
 	$("#pathInfoFooter").css("display", "none");
+	$("#pathEditMenu").css("display", "none");
 }
 
 function openPathInfoPopup() {
@@ -326,14 +321,7 @@ function openPathInfoPopup() {
 		x : event.pageX,
 		y : event.pageY
 	});
-	$("#mainBodyContents").trigger('create');
-	$("#pathEditMenu").on("popupafterclose", function() {
-		setTimeout(function() {
-			$("#editPathInfoPopup").trigger('create').popup('open');
-		}, 100);
-	});
-	$("#pathEditMenu").popup("close");
-	$("#mainBodyContents").trigger('create');
+	$("#editPathInfoPopup").trigger('create').popup('open');
 }
 
 function openPathTypePopup() {

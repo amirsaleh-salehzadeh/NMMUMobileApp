@@ -192,7 +192,6 @@ function addAPath(location) {
 			y : event.pageY
 		});
 		$("#editPathTypePopup").trigger('create').popup('open');
-		$("#pathEditMenu").popup("close");
 		$("#mainBodyContents").trigger('create');
 		$("#actionBarMessage").html("Place set the path types");
 		$("#actionBarNextButton").attr("onclick", "createNew(1)").trigger("create");

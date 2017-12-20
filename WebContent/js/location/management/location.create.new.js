@@ -4,7 +4,7 @@ function cancelCreatingNew() {
 	newPathInProgress = false;
 	$('.menuItemPopupClass').popup('close');
 	$("#locationEditMenu").unbind("popupafterclose");
-	$("#pathEditMenu").unbind("popupafterclose");
+	$("#pathEditMenu").css("display", "none");
 	hideLocationInfo();
 	hidePathInfo();
 	if (tmpCreateNewlocation != null) {
@@ -100,7 +100,8 @@ function createNew(seq) {
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			$("#editLocationInfoPopup").popup("close");
 			$("#actionBarMessage")
-					.html("Please draw a boundary around the property. "
+					.html(
+							"Please draw a boundary around the property. "
 									+ "Make sure to place the pins at an accurate geographical position");
 			$("#actionBarSaveButtonDiv").css("display", "block");
 			startDrawingMode();
@@ -138,49 +139,6 @@ function setALocationTypeNew() {
 			transition : "pop",
 			history : false
 		}).trigger('create').popup('open');
-	}, 100);
-}
-
-function setAPathTypeNew() {
-	$("#actionBarMessage").html("Place set the path types");
-	$("#actionBarNextButton").attr("onclick", "createNew(1)").trigger("create");
-	$("#actionBarBackButton").attr("onclick", "createNew(0)");
-	// $(".locationSaveNextButton").attr("onclick", "createNew(3)").trigger(
-	// "create");
-	$("#actionBarNextButton").removeClass("disabledBTN").trigger("create");
-	$("#actionBarBackButton").removeClass("disabledBTN").trigger("create");
-	$(".pathTypeIcon").each(function() {
-		if ($(this).hasClass("pathTypeIconSelected")) {
-			$(this).removeClass("pathTypeIconSelected");
-		}
-		$(this).trigger("create");
-	});
-	$("#editPathTypePopup").css("position", "absolute").trigger("create");
-	$("#editPathTypePopup").css(
-			"top",
-			parseInt($(".jqm-header").height())
-					+ parseInt($("#locPathModeRadiobtn").height() + 3) + 'px');
-	setTimeout(function() {
-		$("#editPathTypePopup").trigger('create').popup('open');
-	}, 100);
-}
-
-function setPathInfoNew() {
-	$("#actionBarMessage").html(
-			"Place the start point on an intersection or entrance");
-	$(".pathTypeIcon").each(function() {
-		if ($(this).hasClass("pathTypeIconSelected")) {
-			$(this).removeClass("pathTypeIconSelected");
-		}
-		$(this).trigger("create");
-	});
-	$("#editPathTypePopup").css("position", "absolute").trigger("create");
-	$("#editPathTypePopup").css(
-			"top",
-			parseInt($(".jqm-header").height())
-					+ parseInt($("#locPathModeRadiobtn").height() + 3) + 'px');
-	setTimeout(function() {
-		$("#editPathTypePopup").trigger('create').popup('open');
 	}, 100);
 }
 
