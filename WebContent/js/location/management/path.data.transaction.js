@@ -6,15 +6,15 @@ function getAllPaths(newPaths, refreshPaths) {
 	overlay.draw = function() {
 	};
 	overlay.setMap(map);
-	$("input[name='radio-choice']").each(function(){
+	$("input[name='radio-choice']").each(function() {
 		$(this).checkboxradio('disable');
 	});
 	setMapOnAllMarkers(null);
 	setMapOnAllPathMarkers(map);
 	if (!refreshPaths && paths.length > 0) {
 		setMapOnAllPolylines(map);
-//		$("input[name='radio-choice']").checkboxradio('enable');
-		$("input[name='radio-choice']").each(function(){
+		// $("input[name='radio-choice']").checkboxradio('enable');
+		$("input[name='radio-choice']").each(function() {
 			$(this).checkboxradio('enable');
 		});
 		return;
@@ -23,31 +23,34 @@ function getAllPaths(newPaths, refreshPaths) {
 	path = [];
 	var url = "REST/GetPathWS/GetPathsForUserAndParent?userName=NMMU&parentId="
 			+ $("#parentLocationId").val();
-	$.ajax({
-		url : url,
-		cache : false,
-		async : true,
-		beforeSend : function() {
-			ShowLoadingScreen("Fetching paths");
-		},
-		success : function(data) {
-			$.each(data, function(k, l) {
-				drawApath(l);
+	$
+			.ajax({
+				url : url,
+				cache : true,
+				async : true,
+				beforeSend : function() {
+					ShowLoadingScreen("Fetching paths");
+				},
+				success : function(data) {
+					$.each(data, function(k, l) {
+						drawApath(l);
+					});
+				},
+				complete : function() {
+					HideLoadingScreen();
+					// $("input[name='radio-choice']").checkboxradio('enable');
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					popErrorMessage("An error occured while fetching the paths from the server. "
+							+ thrownError);
+					// alert("getAllPaths");
+					// $("input[name='radio-choice']").checkboxradio('enable');
+				}
 			});
-		},
-		complete : function() {
-			HideLoadingScreen();
-//			$("input[name='radio-choice']").checkboxradio('enable');
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-			popErrorMessage("An error occured while fetching the paths from the server. "+ thrownError);
-//			alert("getAllPaths");
-//			$("input[name='radio-choice']").checkboxradio('enable');
-		}
-	});
-	$("input[name='radio-choice']").each(function(){
+	$("input[name='radio-choice']").each(function() {
 		$(this).checkboxradio('enable');
-	});}
+	});
+}
 
 // SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH CONTAINS MANY POINTS
 function saveThePath() {
@@ -81,10 +84,11 @@ function saveAPath() {
 			HideLoadingScreen();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-//			alert(xhr.status);
-//			alert(thrownError);
-//			alert("savePath");
-			popErrorMessage("An error occured while saving the path. "+ thrownError);
+			// alert(xhr.status);
+			// alert(thrownError);
+			// alert("savePath");
+			popErrorMessage("An error occured while saving the path. "
+					+ thrownError);
 		}
 	});
 }
@@ -115,10 +119,11 @@ function removePath() {
 				HideLoadingScreen();
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
-//				alert(xhr.status);
-//				alert(thrownError);
-//				alert("removePath");
-				popErrorMessage("An error occured while removing the path. "+ thrownError);
+				// alert(xhr.status);
+				// alert(thrownError);
+				// alert("removePath");
+				popErrorMessage("An error occured while removing the path. "
+						+ thrownError);
 			}
 		});
 	} else {
@@ -175,6 +180,18 @@ function addAPath(location) {
 			movingLine = undefined;
 		}
 		updateConstantLine();
-		openPathTypePopup();
+		$(".pathTypeIcon").each(function() {
+			if ($(this).hasClass("pathTypeIconSelected")) {
+				$(this).removeClass("pathTypeIconSelected");
+			}
+			$(this).trigger("create");
+		});
+		$('#editPathTypePopup').popup("option", {
+			x : event.pageX,
+			y : event.pageY
+		});
+		$("#editPathTypePopup").trigger('create').popup('open');
+		$("#pathEditMenu").popup("close");
+		$("#mainBodyContents").trigger('create');
 	}
 }

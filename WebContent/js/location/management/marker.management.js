@@ -53,6 +53,11 @@ function deleteMarker(id) {
 
 function saveLocation() {
 	var loadingContent;
+	if (selectedShape == null
+			&& ($("#locationId").val() != "" || $("#locationId").val() <= 0)) {
+		selectedShape.setMap(null);
+		selectedShape = null;
+	}
 	if ($("#locationTypeId").val() == 3) {
 		loadingContent = "Saving Building";
 	} else {
@@ -121,13 +126,16 @@ function getAllMarkers(parentId, refreshMarkers) {
 	$
 			.ajax({
 				url : url,
-				cache : false,
+				cache : true,
 				async : true,
 				beforeSend : function() {
 					ShowLoadingScreen("Fetching locations");
 					setMapOnAllMarkers(null);
 					setMapOnAllPolygons(null);
 					setMapOnAllPathMarkers(null);
+					for ( var int = 0; int < polygonsEdit.length; int++) {
+						polygonsEdit[int].setMap(null);
+					}
 				},
 				success : function(data) {
 					str = "";
@@ -211,27 +219,29 @@ function addMarker(l) {
 	google.maps.event.addListener(marker, 'click', function(point) {
 		$("#locationTypeId").val(l.locationType.locationTypeId);
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+			hideLocationInfo();
 			showLocationInfo();
-			addAMarker(l, l.gps);
+			setInputsForLocation(l, l.gps);
+			locationEditPanelOpen(l.locationName, l.locationType.locationType);
 		} else {
 			addAPath(l);
 		}
 	});
-	// marker.addListener('dragend', function(point) {
-	// $("#locationTypeId").val(l.locationType.locationTypeId);
-	// if (confirm("Are you sure you want to move the marker?")) {
-	// $("#locationGPS")
-	// .val(point.latLng.lat() + "," + point.latLng.lng());
-	// $("#locationId").val(l.locationID);
-	// $("#parentLocationId").val(l.parentId);
-	// $("#locationName").val(l.locationName);
-	// $("#locationTypeId").val(l.locationType.locationTypeId);
-	// $("#locationDescription").val(l.description);
-	// saveLocation();
-	// } else {
-	// this.setPosition(pos);
-	// }
-	// });
+	marker.addListener('dragend', function(point) {
+		$("#locationTypeId").val(l.locationType.locationTypeId);
+		if (confirm("Are you sure you want to move the marker?")) {
+			$("#locationGPS")
+					.val(point.latLng.lat() + "," + point.latLng.lng());
+			$("#locationId").val(l.locationID);
+			$("#parentLocationId").val(l.parentId);
+			$("#locationName").val(l.locationName);
+			$("#locationTypeId").val(l.locationType.locationTypeId);
+			$("#locationDescription").val(l.description);
+			saveLocation();
+		} else {
+			this.setPosition(pos);
+		}
+	});
 	marker.setPosition(pos);
 	if (l.boundary != null && l.boundary.length > 13) {
 		drawPolygons(l);
@@ -262,7 +272,7 @@ function setMapOnAllPathMarkers(map) {
 	}
 }
 
-function addAMarker(location, gps) {
+function setInputsForLocation(location, gps) {
 	$("#upload").val("");
 	$("#main-cropper").empty();
 	google.maps.event.clearInstanceListeners(map);
@@ -293,8 +303,6 @@ function addAMarker(location, gps) {
 		$("#editIconIcon").attr("src", "images/icons/image.png");
 	$("#parentLocationId").val(location.parentId);
 	$("#locationTypeId").val(location.locationType.locationTypeId);
-	locationEditPanelOpen(location.locationName,
-			location.locationType.locationType);
 }
 
 function showMarkerLabel(text, posX, posY, isPresentUnderneath) {

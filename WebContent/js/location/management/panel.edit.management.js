@@ -1,8 +1,4 @@
 var locationTypeJSONData;
-var arrAreas = [ 'South_369_2', 'North_371_2' ];
-var arrLocationTypesTest = [ 'Client_0_1', 'Area_1_2', 'Building_2_3',
-		'Level_3_4', 'Outdoor Intersection_2_5', 'Staircase_4_6', 'Room_4_7',
-		'Elevator_4_8', 'Indoor Intersection_4_9', 'Entrance_4_10' ];
 
 function getAllLocationTypes() {
 	var url = "REST/GetLocationWS/GetAllLocationTypes";
@@ -15,9 +11,6 @@ function getAllLocationTypes() {
 					setCookie('TripPathIdsCookie', JSON.stringify(data), 1);
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
-					// alert(xhr.status);
-					// alert(thrownError);
-					// alert("getAllLocationTypes");
 					popErrorMessage("An error occured while fetching the location types from the server. "
 							+ thrownError);
 				}
@@ -155,6 +148,13 @@ function locationEditPanelOpen(title, info) {
 	// parseInt(parseInt($(window).width()) / 2
 	// - +parseInt($(".SaveCancelBTNPanel").width()) / 2))
 	// .trigger("create");
+	if ($("#boundary").val().length > 13) {
+		$("#addBoundaryMenuItem").css("display", "none").trigger("create");
+		$("#editBoundaryMenuItem").css("display", "block").trigger("create");
+	} else {
+		$("#addBoundaryMenuItem").css("display", "block").trigger("create");
+		$("#editBoundaryMenuItem").css("display", "none").trigger("create");
+	}
 	$("#locationInfo").html('');
 	$("#locationEditMenuTitle").html(title + " (" + info + ")");
 	$("#locationInfo").prepend(title);
@@ -211,7 +211,6 @@ function closeAMenuPopup() {
 		draggableCursor : 'default'
 	});
 	$("#map_canvas").unbind('mousemove');
-	removeDrawingMode();
 }
 
 function openIconPopup() {
@@ -263,6 +262,7 @@ function openEditBoundaryPopup() {
 			.trigger("create");
 	if ($("#boundary").val() <= 0) {
 		startDrawingMode();
+		$("#locationEditMenu").popup("close");
 		return;
 	}
 
@@ -279,20 +279,13 @@ function openEditBoundaryPopup() {
 }
 
 function showLocationInfo() {
-	hidePathInfo();
 	$("#locationEditMenu").popup("close");
 	$("#locationInfoFooter").css("display", "inline-block").trigger("create");
-	// $("#locationSaveCancelPanel").css("display",
-	// "inline-block").trigger("create");
-	// $("#locationSaveCancelPanel").css(
-	// "top",
-	// parseInt(parseInt($(".jqm-header").height())
-	// + parseInt($("#locPathModeRadiobtn")
-	// .height()) + 3));
 }
 
 function hideLocationInfo() {
 	$("#locationInfoFooter").css("display", "none");
+	$(".locationFields").val("");
 	$("#locationLabel").val("");
 	$("#locationInfoDescriptionLabel").val("");
 	$("#locationThumbnail").val("");
@@ -303,8 +296,10 @@ function hideLocationInfo() {
 		polygons[i].setEditable(false);
 		polygons[i].setMap(map);
 	}
-	// selectedShape = null;
-	// $("#locationSaveCancelPanel").css("display", "none");
+	for ( var int = 0; int < polygonsEdit.length; int++) {
+			polygonsEdit[int].setMap(null);
+	}
+	removeDrawingMode();
 }
 
 function pathEditPanelOpen(title) {

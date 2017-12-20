@@ -90,9 +90,37 @@ function drawPolygons(location) {
 		title : location.locationName + " "
 				+ location.locationType.locationType
 	});
+	var editPolygon = new google.maps.Polygon({
+		paths : CoordinatesArray,
+		strokeOpacity : 2,
+		fillOpacity : 0,
+		strokeColor : "#FF0000",
+		strokeWeight : 2,
+		title : location.locationName + " "
+				+ location.locationType.locationType
+	});
+	editPolygon.id = location.locationID;
+	editPolygon.setMap(null);
+	polygonsEdit.push(editPolygon);
 	DRAWPolygon.setMap(map);
 	DRAWPolygon.id = location.locationID;
 	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
+		showLocationInfo();
+		selectedShape = this;
+		this.setMap(map);
+		setInputsForLocation(location, location.gps);
+		for ( var int = 0; int < polygons.length; int++) {
+			if (polygons[int].id != $("#locationId").val())
+				polygons[int].setMap(null);
+		}
+		for ( var int = 0; int < polygonsEdit.length; int++) {
+			if (polygonsEdit[int].id == $("#locationId").val())
+				polygonsEdit[int].setMap(null);
+			else
+				polygonsEdit[int].setMap(map);
+		}
+		locationEditPanelOpen(location.locationName,
+				location.locationType.locationType);
 		google.maps.event.addListener(this.getPath(), "insert_at", function(e) {
 			var newBoundaryString = this.getArray()[0].lat() + ","
 					+ this.getArray()[0].lng();
@@ -183,6 +211,7 @@ function setMapOnAllPolygons(map) {
 	for ( var i = 0; i < polygons.length; i++) {
 		polygons[i].setMap(map);
 	}
+	
 }
 
 function startDrawingMode() {
@@ -196,7 +225,6 @@ function removeDrawingMode() {
 		draggableCursor : 'default'
 	});
 }
-
 
 function editPolygon() {
 	if (selectedShape.type !== 'marker') {

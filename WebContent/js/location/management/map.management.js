@@ -2,6 +2,7 @@ var map, marker, infoWindow;
 var markers = [];
 var paths = [];
 var polygons = [];
+var polygonsEdit = [];
 var myStyle = [ {
 	featureType : "administrative",
 	elementType : "labels",

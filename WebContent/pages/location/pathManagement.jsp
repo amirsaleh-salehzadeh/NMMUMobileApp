@@ -115,7 +115,7 @@
 	</div>
 	<div class="ui-block-solo">
 		<a data-role="button" href="#" data-rel="close"
-			class="pathMenu ui-btn ui-shadow cancel-icon">Close</a>
+			class="pathMenu ui-btn ui-shadow cancel-icon">Cancel</a>
 	</div>
 	<div class="ui-block-solo" id="resultsListViewDiv">
 		<div data-role="content">
@@ -229,9 +229,12 @@
 		<li data-icon="false"><a class="editInfo location" href="#"
 			onclick="openLocationTypePopup();"><img alt=""
 				src="images/icons/location.png">Set Location Type</a></li>
-		<li data-icon="false"><a class="editInfo" href="#"
-			onclick="openEditBoundaryPopup();"><img alt=""
-				src="images/icons/polygon.png">Boundary</a></li>
+		<li data-icon="false" id="editBoundaryMenuItem"><a class="editInfo" href="#"
+			onclick="openEditBoundaryPopup();" ><img alt=""
+				src="images/icons/polygon.png" >Boundary</a></li>
+		<li data-icon="false" id="addBoundaryMenuItem"><a class="editInfo" href="#"
+			onclick="openEditBoundaryPopup();"><img
+				alt="" src="images/icons/polygon.png">Add Boundary</a></li>
 		<li data-role="list-divider"></li>
 
 		<li data-icon="false"><a class="editInfo" href="#"
@@ -378,7 +381,7 @@
 	data-dismissible="false">
 	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext"
 		class="ui-btn-right closeMessageButtonIcon"
-		onclick="closeAMenuPopup();">Cancel</a>
+		onclick="closeAMenuPopup();$('#locationSaveCancelPanel').css('display','none');hideLocationInfo();">Cancel</a>
 	<!-- 	<div class="ams"> -->
 	<!-- 		<img src='images/icons/cursor-pointer.png' -->
 	<!-- 			class="pathMenu showLabelMouseOverTrue" width="48" height="48" -->
@@ -435,7 +438,7 @@
 	<div class="ui-block-b">
 		<a style="cursor: pointer;" data-role="button" href="#"
 			class="ui-btn cancel-icon"
-			onclick="closeAMenuPopup();$('#locationSaveCancelPanel').css('display','none');removeDrawingMode();">Cancel</a>
+			onclick="closeAMenuPopup();$('#locationSaveCancelPanel').css('display','none');hideLocationInfo();">Cancel</a>
 	</div>
 </div>
 
@@ -510,18 +513,24 @@
 	<ul data-role="listview" style="min-width: 210px;">
 		<li data-role="list-divider" id="pathEditMenuTitle">Choose an
 			action</li>
-		<li data-icon="false"><a href="#" onclick="openPathTypePopup();">Edit
+		<li data-icon="false"><a href="#" onclick="openPathTypePopup();" class="editInfo"><img alt=""
+				src="images/icons/path.png">Edit
 				Path Type</a></li>
-		<li data-icon="false"><a href="#" onclick="openPathInfoPopup();">Edit
+		<li data-icon="false"><a href="#" onclick="openPathInfoPopup();" class="editInfo"><img alt=""
+				src="images/icons/info.png">Edit
 				Info</a></li>
-		<li data-icon="false"><a href="#"><label for="pathWidth">Path
+		<li data-icon="false"><a href="#" class="editInfo"><label for="pathWidth">Path
 					Width (Meters)</label> <input type="range" placeholder="Label"
 				name="pathWidth" id="pathWidth" value="5" min="0" max="50">
 		</a></li>
 		<!-- 		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit -->
 		<!-- 				Thumbnail</a></li> -->
 		<li data-role="list-divider"></li>
-		<li data-icon="false"><a href="#" onclick="removePath();">Delete</a></li>
+		<li data-icon="false"><a href="#" onclick="removePath();" class="editInfo"><img alt=""
+				src="images/icons/delete-icon.png">Delete</a></li>
+		<li><a href="#" data-rel="back" class="editInfo"
+			onclick="hideLocationInfo();"><img alt=""
+				src="images/icons/clearInput.png">Cancel</a></li>
 	</ul>
 </div>
 
@@ -534,7 +543,7 @@
 <div data-role="popup" id="editPathInfoPopup" class="menuItemPopupClass">
 	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext"
 		class="ui-btn-right closeMessageButtonIcon"
-		onclick="$('#editPathInfoPopup').popup('close');">Close</a>
+		onclick="$('#editPathInfoPopup').popup('close');">Cancel</a>
 	<div class="ui-block-solo editlocationFormRow">
 		<label for="pathName" id="markerLabel">Label</label> <input
 			class="pathMenu" type="text" placeholder="Label" name="pathName"
@@ -553,7 +562,7 @@
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow cancel-icon"
-				onclick="closeAMenuPopup();">Close</a>
+				onclick="closeAMenuPopup();">Cancel</a>
 		</div>
 	</div>
 </div>
@@ -637,7 +646,7 @@
 <div id="editPathTypePopup" data-role="popup" class="menuItemPopupClass">
 	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext"
 		class="ui-btn-right closeMessageButtonIcon"
-		onclick="$('#editPathTypePopup').popup('close');">Close</a>
+		onclick="$('#editPathTypePopup').popup('close');">Cancel</a>
 	<logic:iterate id="pathTIteration" name="pathTypes"
 		type="common.location.PathTypeENT">
 		<img src='images/icons/cursor-pointer.png' class="pathTypeIcon"
@@ -653,7 +662,7 @@
 		<div class="ui-block-b">
 			<a style="cursor: pointer;" data-role="button" href="#"
 				class="pathMenu ui-btn ui-shadow cancel-icon"
-				onclick="closeAMenuPopup();">Close</a>
+				onclick="closeAMenuPopup();">Cancel</a>
 		</div>
 	</div>
 </div>
