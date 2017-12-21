@@ -40,6 +40,30 @@ public class PathServicesWS {
 		}
 		return json;
 	}
+	
+	@GET
+	@Path("/UpdatePathWidth")
+	@Produces("application/json")
+	public String updatePathWidth(
+			@QueryParam("userName") String userName,
+			@QueryParam("pathId") long pathId,
+			@QueryParam("width") int width) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			PathENT p = getPathDAO().getAPath(new PathENT(pathId), null);
+			p.setWidth(width);
+			json = mapper.writeValueAsString(getPathDAO()
+					.savePath(p, null));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
 
 	@GET
 	@Path("/SavePath")

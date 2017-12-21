@@ -512,15 +512,9 @@
 
 <div id="pathEditMenu">
 	<ul data-role="listview" data-mini="true">
-		<!-- 		<li data-icon="false"><a href="#" onclick="openPathTypePopup();" class="editInfo"><img alt="" -->
-		<!-- 				src="images/icons/path.png">Path Type</a></li> -->
-		<!-- 		<li data-icon="false"><a href="#" onclick="openPathInfoPopup();" -->
-		<!-- 			class="editInfo"><img alt="" src="images/icons/info.png">Info</a></li> -->
 		<li data-icon="false"><label for="pathWidth">Path Width
 				(Meters)</label> <input type="range" placeholder="Label" name="pathWidth"
-			id="pathWidth" value="5" min="0" max="50"></li>
-		<!-- 		<li data-icon="false"><a href="#" onclick="openIconPopup();">Edit -->
-		<!-- 				Thumbnail</a></li> -->
+			id="pathWidth" value="5" min="1" max="50" onchange="changePathWith(this);"></li>
 		<li data-role="list-divider"></li>
 		<li data-icon="false" class="editInfo" onclick="removePath();"><img
 			alt="" src="images/icons/delete-icon.png">Delete</li>

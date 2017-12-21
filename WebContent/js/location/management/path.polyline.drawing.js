@@ -4,39 +4,63 @@ function setMapOnAllPolylines(map) {
 	}
 }
 
-function updatePathWeight() {
-	if (paths != null)
-		for ( var i = 0; i < paths.length; i++) {
-			var tmpCircle = new google.maps.Circle({
-				strokeColor : '#00FF00',
-				strokeOpacity : 0.3,
-				strokeWeight : 1,
-				fillOpacity : 0,
-				center : map.getCenter(),
-				map : map,
-				radius : parseFloat(paths[i].customInfo.split(";")[0]) / 2
-			});
-			var pathWidthScale = 1;
-			if (overlay.getProjection() != undefined) {
-				var point1 = overlay.getProjection().fromLatLngToDivPixel(
-						tmpCircle.getBounds().getNorthEast());
-				var point2 = overlay.getProjection().fromLatLngToDivPixel(
-						tmpCircle.getBounds().getCenter());
-				pathWidthScale = Math.round(Math.sqrt(Math.pow(point1.x
-						- point2.x, 2)
-						+ Math.pow(point1.y - point2.y, 2))) * 2;
-			}
-			tmpCircle.setMap(null);
-			if (pathWidthScale <= 10)
-				pathWidthScale = 5;
-			if (pathWidthScale >= 27)
-				pathWidthScale = 27;
-			paths[i].setOptions({
-				strokeWeight : pathWidthScale
-			});
-			paths[i].setMap(null);
-			paths[i].setMap(map);
+var tmpModifiedPathPolygon;
+function changePathWith(slider) {
+	var pathRouteTMP;
+	var index = -1;
+	for ( var i = 0; i < paths.length; i++) {
+		if (paths[i].id == $("#pathId").val()) {
+			pathRouteTMP = paths[i].getPath();
+			index = i;
+			// tmpModifiedPathPolygon = pathRouteTMP;
 		}
+	}
+	var pathCoorPolygon = [];
+	for ( var i = 0; i < pathRouteTMP.getArray().length; i++) {
+		// var coord = pathRouteTMP.getArray()[i].replace("(", "");
+		// coord = coord.replace(")", "");
+		// coord = coord.split(",");
+		// pathCoorPolygon.push([ parseFloat(coord[1]),
+		// parseFloat(coord[0]) ]);
+		pathCoorPolygon.push([ parseFloat(pathRouteTMP.getArray()[i].lng()),
+				parseFloat(pathRouteTMP.getArray()[i].lat()) ]);
+	}
+	// paths[index].setPath(measurePolygonForAPath(pathCoorPolygon,
+	// $(slider).val()));
+	if (tmpModifiedPathPolygon != null) {
+//		tmpModifiedPathPolygon.setMap = null;
+//		tmpModifiedPathPolygon = null;
+		tmpModifiedPathPolygon.setPath(measurePolygonForAPath(pathCoorPolygon, $(slider).val()));
+	} else
+		tmpModifiedPathPolygon = new google.maps.Polygon({
+			paths : measurePolygonForAPath(pathCoorPolygon, $(slider).val()),
+			map : map,
+			strokeColor : "#081B2C",
+			strokeWeight : 2,
+			fillColor : "#081B2C",
+			// customInfo : l.width + ";" + l.pathType,
+			zIndex : 10
+		});
+}
+
+function measurePolygonForAPath(coorPoly, width) {
+	var distance = parseFloat(width) / 222240, geoInput = {
+		type : "LineString",
+		coordinates : coorPoly
+	};
+	var geoReader = new jsts.io.GeoJSONReader(), geoWriter = new jsts.io.GeoJSONWriter();
+	var geometry = geoReader.read(geoInput).buffer(distance);
+	var polygon = geoWriter.write(geometry);
+
+	var oLanLng = [];
+	var oCoordinates;
+	oCoordinates = polygon.coordinates[0];
+	for ( var i = 0; i < oCoordinates.length; i++) {
+		var oItem;
+		oItem = oCoordinates[i];
+		oLanLng.push(new google.maps.LatLng(oItem[1], oItem[0]));
+	}
+	return oLanLng;
 }
 
 var tmpIntersectionMarker = undefined;
@@ -54,31 +78,32 @@ function drawApath(l) {
 		}
 		for ( var i = 0; i < tm.length; i++) {
 			pathCoorPolygon.push([ parseFloat(tm[i].split(',')[1]),
-			   					parseFloat(tm[i].split(',')[0]) ]);
+					parseFloat(tm[i].split(',')[0]) ]);
 		}
 	}
-	pathCoorPolygon.push([ parseFloat(l.destination.gps
-			.split(',')[1]), parseFloat(l.destination.gps.split(',')[0]) ]);
-	var distance = parseFloat(l.width) / 222240, 
-	geoInput = {
-		type : "LineString",
-		coordinates : pathCoorPolygon
-	};
-	var geoReader = new jsts.io.GeoJSONReader(), geoWriter = new jsts.io.GeoJSONWriter();
-	var geometry = geoReader.read(geoInput).buffer(distance);
-	var polygon = geoWriter.write(geometry);
-
-	var oLanLng = [];
-	var oCoordinates;
-	oCoordinates = polygon.coordinates[0];
-	for (i = 0; i < oCoordinates.length; i++) {
-		var oItem;
-		oItem = oCoordinates[i];
-		oLanLng.push(new google.maps.LatLng(oItem[1], oItem[0]));
-	}
+	pathCoorPolygon.push([ parseFloat(l.destination.gps.split(',')[1]),
+			parseFloat(l.destination.gps.split(',')[0]) ]);
+	// var distance = parseFloat(l.width) / 222240,
+	// geoInput = {
+	// type : "LineString",
+	// coordinates : pathCoorPolygon
+	// };
+	// var geoReader = new jsts.io.GeoJSONReader(), geoWriter = new
+	// jsts.io.GeoJSONWriter();
+	// var geometry = geoReader.read(geoInput).buffer(distance);
+	// var polygon = geoWriter.write(geometry);
+	//
+	// var oLanLng = [];
+	// var oCoordinates;
+	// oCoordinates = polygon.coordinates[0];
+	// for (i = 0; i < oCoordinates.length; i++) {
+	// var oItem;
+	// oItem = oCoordinates[i];
+	// oLanLng.push(new google.maps.LatLng(oItem[1], oItem[0]));
+	// }
 
 	var polygon = new google.maps.Polygon({
-		paths : oLanLng,
+		paths : measurePolygonForAPath(pathCoorPolygon, l.width),
 		map : map,
 		strokeColor : "#081B2C",
 		strokeWeight : 2,
