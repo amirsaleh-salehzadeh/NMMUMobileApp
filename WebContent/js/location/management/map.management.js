@@ -1,6 +1,7 @@
 var map, marker, infoWindow;
 var markers = [];
 var paths = [];
+var pathPolylines = [];
 var polygons = [];
 var polygonsEdit = [];
 var myStyle = [ {

@@ -8,9 +8,9 @@ var tmpModifiedPathPolygon;
 function changePathWith(slider) {
 	var pathRouteTMP;
 	var index = -1;
-	for ( var i = 0; i < paths.length; i++) {
-		if (paths[i].id == $("#pathId").val()) {
-			pathRouteTMP = paths[i].getPath();
+	for ( var i = 0; i < pathPolylines.length; i++) {
+		if (pathPolylines[i].id == $("#pathId").val()) {
+			pathRouteTMP = pathPolylines[i].getPath();
 			index = i;
 			// tmpModifiedPathPolygon = pathRouteTMP;
 		}
@@ -83,25 +83,6 @@ function drawApath(l) {
 	}
 	pathCoorPolygon.push([ parseFloat(l.destination.gps.split(',')[1]),
 			parseFloat(l.destination.gps.split(',')[0]) ]);
-	// var distance = parseFloat(l.width) / 222240,
-	// geoInput = {
-	// type : "LineString",
-	// coordinates : pathCoorPolygon
-	// };
-	// var geoReader = new jsts.io.GeoJSONReader(), geoWriter = new
-	// jsts.io.GeoJSONWriter();
-	// var geometry = geoReader.read(geoInput).buffer(distance);
-	// var polygon = geoWriter.write(geometry);
-	//
-	// var oLanLng = [];
-	// var oCoordinates;
-	// oCoordinates = polygon.coordinates[0];
-	// for (i = 0; i < oCoordinates.length; i++) {
-	// var oItem;
-	// oItem = oCoordinates[i];
-	// oLanLng.push(new google.maps.LatLng(oItem[1], oItem[0]));
-	// }
-
 	var polygon = new google.maps.Polygon({
 		paths : measurePolygonForAPath(pathCoorPolygon, l.width),
 		map : map,
@@ -199,6 +180,7 @@ function drawApath(l) {
 	});
 	polygon.setMap(map);
 	paths.push(polygon);
+	pathPolylines.push(pathPolyline);
 }
 
 $(document).keyup(function(e) {
