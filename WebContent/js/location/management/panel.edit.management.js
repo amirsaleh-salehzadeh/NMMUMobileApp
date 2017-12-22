@@ -361,10 +361,10 @@ function openPathTypePopup() {
 		}
 		$(this).trigger("create");
 	});
-	$('#editPathTypePopup').popup("option", {
-		x : event.pageX,
-		y : event.pageY
-	});
+//	$('#editPathTypePopup').popup("option", {
+//		x : event.pageX,
+//		y : event.pageY
+//	});
 	$("#mainBodyContents").trigger('create');
 	// $("#pathEditMenu").on("popupafterclose", function() {
 	// setTimeout(function() {

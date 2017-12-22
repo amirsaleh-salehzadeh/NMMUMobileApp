@@ -1,5 +1,5 @@
 function setAPathTypeNew() {
-	$("#actionBarMessage").html("Place set the path types");
+//	$("#actionBarMessage").html("Place set the path types");
 	$("#actionBarNextButton").attr("onclick", "createNew(1)").trigger("create");
 	$("#actionBarBackButton").attr("onclick", "createNew(0)");
 	// $(".locationSaveNextButton").attr("onclick", "createNew(3)").trigger(
