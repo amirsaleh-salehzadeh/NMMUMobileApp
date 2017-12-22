@@ -314,7 +314,7 @@ function openPathEditPanel() {
 }
 
 function openPathTypePopup() {
-	$("#pathTypePopupMenuBTN").attr("onclick", "closePathTypePopup");
+	$("#pathTypePopupMenuBTN").attr("onclick", "closePathTypePopup()");
 	$(".pathTypeIcon").each(function() {
 		if ($(this).hasClass("pathTypeIconSelected")) {
 			$(this).removeClass("pathTypeIconSelected");
