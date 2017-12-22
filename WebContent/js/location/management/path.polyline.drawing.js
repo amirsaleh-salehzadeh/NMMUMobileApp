@@ -17,28 +17,19 @@ function changePathWith(slider) {
 	}
 	var pathCoorPolygon = [];
 	for ( var i = 0; i < pathRouteTMP.getArray().length; i++) {
-		// var coord = pathRouteTMP.getArray()[i].replace("(", "");
-		// coord = coord.replace(")", "");
-		// coord = coord.split(",");
-		// pathCoorPolygon.push([ parseFloat(coord[1]),
-		// parseFloat(coord[0]) ]);
 		pathCoorPolygon.push([ parseFloat(pathRouteTMP.getArray()[i].lng()),
 				parseFloat(pathRouteTMP.getArray()[i].lat()) ]);
 	}
-	// paths[index].setPath(measurePolygonForAPath(pathCoorPolygon,
-	// $(slider).val()));
 	if (tmpModifiedPathPolygon != null) {
-//		tmpModifiedPathPolygon.setMap = null;
-//		tmpModifiedPathPolygon = null;
-		tmpModifiedPathPolygon.setPath(measurePolygonForAPath(pathCoorPolygon, $(slider).val()));
+		tmpModifiedPathPolygon.setPath(measurePolygonForAPath(pathCoorPolygon,
+				$(slider).val()));
 	} else
 		tmpModifiedPathPolygon = new google.maps.Polygon({
 			paths : measurePolygonForAPath(pathCoorPolygon, $(slider).val()),
 			map : map,
-			strokeColor : "#081B2C",
+			strokeColor : "#027B2C",
 			strokeWeight : 2,
 			fillColor : "#081B2C",
-			// customInfo : l.width + ";" + l.pathType,
 			zIndex : 10
 		});
 }
@@ -51,7 +42,6 @@ function measurePolygonForAPath(coorPoly, width) {
 	var geoReader = new jsts.io.GeoJSONReader(), geoWriter = new jsts.io.GeoJSONWriter();
 	var geometry = geoReader.read(geoInput).buffer(distance);
 	var polygon = geoWriter.write(geometry);
-
 	var oLanLng = [];
 	var oCoordinates;
 	oCoordinates = polygon.coordinates[0];
@@ -70,19 +60,18 @@ function drawApath(l) {
 	var pathCoorPolygon = [];
 	pathCoorPolygon.push([ parseFloat(l.departure.gps.split(',')[1]),
 			parseFloat(l.departure.gps.split(',')[0]) ]);
+	pathCoor.push(getGoogleMapPosition(l.departure.gps));
 	if (l.pathRoute != null && l.pathRoute.length > 0) {
 		var tm = l.pathRoute.split("_");
-		if (tm.length == 1) {
-			pathCoorPolygon.push([ parseFloat(tm[0].split(',')[1]),
-					parseFloat(tm[0].split(',')[0]) ]);
-		}
-		for ( var i = 0; i < tm.length; i++) {
-			pathCoorPolygon.push([ parseFloat(tm[i].split(',')[1]),
-					parseFloat(tm[i].split(',')[0]) ]);
-		}
+			for ( var i = 0; i < tm.length; i++) {
+				pathCoorPolygon.push([ parseFloat(tm[i].split(',')[1]),
+						parseFloat(tm[i].split(',')[0]) ]);
+				pathCoor.push(getGoogleMapPosition(tm[i]));
+			}
 	}
 	pathCoorPolygon.push([ parseFloat(l.destination.gps.split(',')[1]),
 			parseFloat(l.destination.gps.split(',')[0]) ]);
+	pathCoor.push(getGoogleMapPosition(l.destination.gps));
 	var polygon = new google.maps.Polygon({
 		paths : measurePolygonForAPath(pathCoorPolygon, l.width),
 		map : map,
@@ -106,22 +95,12 @@ function drawApath(l) {
 	polygon.id = l.pathId;
 	polygon.addListener('click', function(event) {
 		if (pathSelected) {
-			if (paths != null) {
-				for ( var i = 0; i < paths.length; i++) {
-					if (paths[i] != null) {
-						paths[i].setOptions({
-							strokeColor : '#081B2C'
-						});
-						paths[i].setMap(null);
-						paths[i].setMap(map);
-					}
-				}
-			}
+			hidePathInfo();
 			pathSelected = false;
 		} else {
 			var lat = event.latLng.lat();
 			var lng = event.latLng.lng();
-			pathEditPanelOpen(l.pathName);
+			openPathEditPanel();
 			if ($('#destination').val().length <= 0
 					&& $('#departure').val().length > 0) {
 				createAPointOnAnExistingPath(l, lat + "," + lng, pathPolyline);
@@ -209,6 +188,7 @@ function updateMovingLine(event) {
 		pathWidthScale = 1;
 	if (pathWidthScale >= 27)
 		pathWidthScale = 27;
+	pathDrawingCircle.setRadius(parseFloat($("#pathWidth").val()) / 2);
 	if (movingLine == null) {
 		movingLine = new google.maps.Polyline({
 			path : tmpPathCoor,

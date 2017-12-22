@@ -101,7 +101,7 @@ function refreshMap(locationTypeId, gpsStr, folderName) {
 		lat : parseFloat(gpsStr.split(",")[0]),
 		lng : parseFloat(gpsStr.split(",")[1])
 	};
-	var icon = 'images/map-markers/'+ folderName + '/';
+	var icon = 'images/map-markers/' + folderName + '/';
 	if (locationTypeId == "1") {
 		icon += 'marker-blue.png';
 	} else if (locationTypeId == "11") {
@@ -123,13 +123,13 @@ function refreshMap(locationTypeId, gpsStr, folderName) {
 		icon = {
 			path : google.maps.SymbolPath.CIRCLE,
 			scale : 4,
-			fillOpacity: 1
+			fillOpacity : 1
 		};
-		if(folderName.indexOf("hover")!=-1)
+		if (folderName.indexOf("hover") != -1)
 			icon = {
 				path : google.maps.SymbolPath.CIRCLE,
 				scale : 16,
-				fillOpacity: 1
+				fillOpacity : 1
 			};
 		map.setCenter(gps);
 		// map.setZoom(15);
@@ -156,18 +156,18 @@ function animateCircle(line) {
 
 function initMap() {
 	var myLatLng = {
-			lat : -33.5343803,
-			lng : 24.2683424
+		lat : -33.5343803,
+		lng : 24.2683424
 	};
 
 	map = new google.maps.Map(document.getElementById('map_canvas'), {
 		fullscreenControl : false,
 		streetViewControl : false,
-		mapTypeControl: false,
+		mapTypeControl : false,
 		scrollwheel : true,
-		disableDoubleClickZoom: true,
+		disableDoubleClickZoom : true,
 		gestureHandling : 'greedy'
-//        styles: myStyle
+	// styles: myStyle
 	});
 	map.mapTypes.set('mystyle', new google.maps.StyledMapType(myStyle, {
 		name : 'My Style'
@@ -176,11 +176,11 @@ function initMap() {
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
-//	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
-//			.getElementById('editBoundaryPopup'));
+	// map.controls[google.maps.ControlPosition.TOP_CENTER].push(document
+	// .getElementById('editBoundaryPopup'));
 	createDrawingManager();
 	createColorPicker();
-	
+
 	google.maps.LatLng.prototype.kmTo = function(a) {
 		var e = Math, ra = e.PI / 180;
 		var b = this.lat() * ra, c = a.lat() * ra, d = b - c;
@@ -197,4 +197,15 @@ function initMap() {
 		}
 		return dist;
 	};
+
+	google.maps.event.addDomListener(window, 'resize', function() {
+		$("#map_canvas").css("bottom", "0");
+		$("#map_canvas").css("height", "100%").trigger("create");
+		google.maps.event.trigger(map, "resize");
+		map.setCenter(map.getCenter());
+	});
+	// $("#map_canvas").resize(function() {
+	// google.maps.event.trigger(map, 'resize');
+	// });
+
 }

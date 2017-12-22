@@ -30,7 +30,7 @@
 			function() {
 				// 						$("#editBoundaryPopup").css("display", "none");
 				$("#pathInfoFooter").css("display", "none");
-				$("#map_canvas").css("min-width",
+				$("#map_canvas").css("width",
 						parseInt($("#mainBodyContents").css("width")));
 				$("#map_canvas").css(
 						"height",
@@ -514,20 +514,21 @@
 	<ul data-role="listview" data-mini="true">
 		<li data-icon="false"><label for="pathWidth">Path Width
 				(Meters)</label> <input type="range" placeholder="Label" name="pathWidth"
-			id="pathWidth" value="5" min="1" max="50" onchange="changePathWith(this);"></li>
+			id="pathWidth" value="5" min="1" max="50"
+			onchange="changePathWith(this);"></li>
 		<li data-role="list-divider"></li>
 		<li data-icon="false" class="editInfo" onclick="removePath();"><img
 			alt="" src="images/icons/delete-icon.png">Delete</li>
 		<li data-icon="false" class="editInfo" onclick="hideLocationInfo();"><input
-				class="pathMenu" type="text" placeholder="Label" name="pathName"
-				id="pathName" value=""></li>
-		<li data-icon="false" class="editInfo"><textarea
-					type="text" placeholder="Description" name="pathDescription"
-					id="pathDescription" value="" rows="5"></textarea></li>
-		<li data-icon="false" onclick="saveThePath();" class="editInfo"><img alt=""
-			src="images/icons/save.png">Save</li>
-		<li data-icon="false" onclick="hidePathInfo();" class="editInfo"><img alt=""
-			src="images/icons/clearInput.png">Cancel</li>
+			class="pathMenu" type="text" placeholder="Label" name="pathName"
+			id="pathName" value=""></li>
+		<li data-icon="false" class="editInfo"><textarea type="text"
+				placeholder="Description" name="pathDescription"
+				id="pathDescription" value="" rows="5"></textarea></li>
+		<li data-icon="false" onclick="saveThePath();" class="editInfo"><img
+			alt="" src="images/icons/save.png">Save</li>
+		<li data-icon="false" onclick="hidePathInfo();" class="editInfo"><img
+			alt="" src="images/icons/clearInput.png">Cancel</li>
 	</ul>
 </div>
 

@@ -78,15 +78,24 @@ function saveAPath() {
 			ShowLoadingScreen("Saving the path");
 		},
 		success : function(data) {
+			for ( var i = 0; i < paths.length; i++) {
+				if (paths[i].id == data.pathId) {
+					paths[i].setMap(null);
+					paths.splice(i, 1);
+				}
+			}
 			drawApath(data);
+			toast("The path saved successfully");
 		},
 		complete : function() {
 			HideLoadingScreen();
+			if (tmpModifiedPathPolygon != null) {
+				tmpModifiedPathPolygon.setMap(null);
+				tmpModifiedPathPolygon = null;
+			}
+			hidePathInfo();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			// alert(xhr.status);
-			// alert(thrownError);
-			// alert("savePath");
 			popErrorMessage("An error occured while saving the path. "
 					+ thrownError);
 		}
@@ -119,9 +128,6 @@ function removePath() {
 				HideLoadingScreen();
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
-				// alert(xhr.status);
-				// alert(thrownError);
-				// alert("removePath");
 				popErrorMessage("An error occured while removing the path. "
 						+ thrownError);
 			}
@@ -137,7 +143,7 @@ function addAPath(location) {
 		alert("A path can only be drawn between two locations");
 		return;
 	}
-	if(!newPathInProgress)
+	if (!newPathInProgress)
 		return;
 	if ($("#departure").val() == "") {
 		mapDrawingClickCounter = 1;
@@ -187,14 +193,15 @@ function addAPath(location) {
 			}
 			$(this).trigger("create");
 		});
-		$('#editPathTypePopup').popup("option", {
-			x : event.pageX,
-			y : event.pageY
-		});
-		$("#editPathTypePopup").trigger('create').popup('open');
+		// $('#editPathTypePopup').popup("option", {
+		// x : event.pageX,
+		// y : event.pageY
+		// });
+		// $("#editPathTypePopup").trigger('create').popup('open');
 		$("#mainBodyContents").trigger('create');
 		$("#actionBarMessage").html("Place set the path types");
-		$("#actionBarNextButton").attr("onclick", "createNew(1)").trigger("create");
+		$("#actionBarNextButton").attr("onclick", "createNew(1)").trigger(
+				"create");
 		$("#actionBarBackButton").attr("onclick", "createNew(0)");
 		// $(".locationSaveNextButton").attr("onclick", "createNew(3)").trigger(
 		// "create");

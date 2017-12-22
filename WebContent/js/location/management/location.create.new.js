@@ -4,7 +4,6 @@ function cancelCreatingNew() {
 	newPathInProgress = false;
 	$('.menuItemPopupClass').popup('close');
 	$("#locationEditMenu").unbind("popupafterclose");
-	$("#pathEditMenu").css("display", "none");
 	hideLocationInfo();
 	hidePathInfo();
 	if (tmpCreateNewlocation != null) {
@@ -73,8 +72,13 @@ function createNew(seq) {
 						showActionBarLabel("Select the Departure", event.pageX,
 								event.pageY);
 					});
+			$("#map_canvas").mouseout(
+					function(event) {
+						clearActionBarLabel();
+					});
 			newPathInProgress = true;
 			// setAPathTypeNew();
+			openPathEditPanel();
 		}
 		break;
 	case 1:

@@ -301,24 +301,28 @@ function hideLocationInfo() {
 	removeDrawingMode();
 }
 
-function pathEditPanelOpen(title) {
-	$("#pathEditMenuTitle").html(title);
+function openPathEditPanel() {
+	$("#pathEditMenu").css("display", "block");
 	$("#pathEditMenu").css(
 			"top",
 			parseInt(parseInt($(".jqm-header").height())
 					+ parseInt($("#locPathModeRadiobtn").height()) + 2))
 			.trigger("create");
-	$("#pathEditMenu").css("display","block");
-	$("#locationSaveCancelPanel").css(
-			"top",
-			parseInt(parseInt($(".jqm-header").height())
-					+ parseInt($("#locPathModeRadiobtn").height()) + 3))
-			.trigger("create");
-	$("#locationSaveCancelPanel").css(
-			"left",
-			parseInt(parseInt($(window).width() / 2)
-					- parseInt($("#locationSaveCancelPanel").width() / 2)))
-			.trigger("create");
+	// $("#locationSaveCancelPanel").css(
+	// "top",
+	// parseInt(parseInt($(".jqm-header").height())
+	// + parseInt($("#locPathModeRadiobtn").height()) + 3))
+	// .trigger("create");
+	// $("#locationSaveCancelPanel").css(
+	// "left",
+	// parseInt(parseInt($(window).width() / 2)
+	// - parseInt($("#locationSaveCancelPanel").width() / 2)))
+	// .trigger("create");
+	$("#map_canvas").css("left", $("#pathEditMenu").width());
+	$("#map_canvas").css("width",
+			$(window).width() - $("#pathEditMenu").width());
+	$("#map_canvas").css("right", "0px").trigger("create");
+	google.maps.event.trigger(map, "resize");
 }
 
 function showPathInfo() {
@@ -327,8 +331,19 @@ function showPathInfo() {
 }
 
 function hidePathInfo() {
+	if (paths != null) {
+		for ( var i = 0; i < paths.length; i++) {
+			paths[i].setOptions({
+				strokeColor : '#081B2C'
+			});
+			paths[i].setMap(map);
+		}
+	}
+	pathSelected = false;
 	$("#pathInfoFooter").css("display", "none");
 	$("#pathEditMenu").css("display", "none");
+	$("#map_canvas").css("width", $(window).width());
+	$("#map_canvas").css("left", "0px");
 }
 
 function openPathInfoPopup() {
@@ -351,12 +366,12 @@ function openPathTypePopup() {
 		y : event.pageY
 	});
 	$("#mainBodyContents").trigger('create');
-//	$("#pathEditMenu").on("popupafterclose", function() {
-//		setTimeout(function() {
-			$("#editPathTypePopup").trigger('create').popup('open');
-//		}, 100);
-//	});
-//	$("#pathEditMenu").popup("close");
+	// $("#pathEditMenu").on("popupafterclose", function() {
+	// setTimeout(function() {
+	$("#editPathTypePopup").trigger('create').popup('open');
+	// }, 100);
+	// });
+	// $("#pathEditMenu").popup("close");
 	$("#mainBodyContents").trigger('create');
 }
 
