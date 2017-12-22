@@ -6,6 +6,8 @@ function setMapOnAllPolylines(map) {
 
 var tmpModifiedPathPolygon;
 function changePathWith(slider) {
+	if ($("#pathId").val() == 0 || $("#pathId").val().length <= 0)
+		return;
 	var pathRouteTMP;
 	var index = -1;
 	for ( var i = 0; i < pathPolylines.length; i++) {
@@ -63,11 +65,11 @@ function drawApath(l) {
 	pathCoor.push(getGoogleMapPosition(l.departure.gps));
 	if (l.pathRoute != null && l.pathRoute.length > 0) {
 		var tm = l.pathRoute.split("_");
-			for ( var i = 0; i < tm.length; i++) {
-				pathCoorPolygon.push([ parseFloat(tm[i].split(',')[1]),
-						parseFloat(tm[i].split(',')[0]) ]);
-				pathCoor.push(getGoogleMapPosition(tm[i]));
-			}
+		for ( var i = 0; i < tm.length; i++) {
+			pathCoorPolygon.push([ parseFloat(tm[i].split(',')[1]),
+					parseFloat(tm[i].split(',')[0]) ]);
+			pathCoor.push(getGoogleMapPosition(tm[i]));
+		}
 	}
 	pathCoorPolygon.push([ parseFloat(l.destination.gps.split(',')[1]),
 			parseFloat(l.destination.gps.split(',')[0]) ]);

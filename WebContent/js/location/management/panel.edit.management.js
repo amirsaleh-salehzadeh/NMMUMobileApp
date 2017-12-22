@@ -178,14 +178,12 @@ function openLocationTypePopup() {
 		x : event.pageX,
 		y : event.pageY
 	});
-	$("#mainBodyContents").trigger('create');
 	$("#locationEditMenu").on("popupafterclose", function() {
 		setTimeout(function() {
 			$("#editLocationTypePopup").trigger('create').popup('open');
 		}, 100);
 	});
 	$("#locationEditMenu").popup("close");
-	$("#mainBodyContents").trigger('create');
 }
 
 function openLocationInfoPopup() {
@@ -222,7 +220,6 @@ function openIconPopup() {
 			$("#editIconPopup").popup('open').trigger('create');
 		}, 100);
 	}).trigger('create');
-	$("#mainBodyContents").trigger('create');
 	$("#locationEditMenu").popup("close");
 }
 
@@ -308,24 +305,42 @@ function openPathEditPanel() {
 			parseInt(parseInt($(".jqm-header").height())
 					+ parseInt($("#locPathModeRadiobtn").height()) + 2))
 			.trigger("create");
-	// $("#locationSaveCancelPanel").css(
-	// "top",
-	// parseInt(parseInt($(".jqm-header").height())
-	// + parseInt($("#locPathModeRadiobtn").height()) + 3))
-	// .trigger("create");
-	// $("#locationSaveCancelPanel").css(
-	// "left",
-	// parseInt(parseInt($(window).width() / 2)
-	// - parseInt($("#locationSaveCancelPanel").width() / 2)))
-	// .trigger("create");
 	$("#map_canvas").css("left", $("#pathEditMenu").width());
 	$("#map_canvas").css("width",
 			$(window).width() - $("#pathEditMenu").width());
 	$("#map_canvas").css("right", "0px").trigger("create");
 	google.maps.event.trigger(map, "resize");
+	showPathInfo();
+}
+
+function openPathTypePopup() {
+	$("#pathTypePopupMenuBTN").attr("onclick", "closePathTypePopup");
+	$(".pathTypeIcon").each(function() {
+		if ($(this).hasClass("pathTypeIconSelected")) {
+			$(this).removeClass("pathTypeIconSelected");
+		}
+		$(this).trigger("create");
+	});
+	$("#editPathTypePopup").css(
+			"top",
+			parseInt(parseInt($(".jqm-header").height())
+					+ parseInt($("#locPathModeRadiobtn").height()) + 3))
+			.trigger("create");
+	$("#editPathTypePopup").css("left", $("#pathEditMenu").width());
+	$("#pathInfoFooter").css("width", $("#map_canvas").width());
+	$("#editPathTypePopup").css('display', "block").trigger('create');
+}
+
+function closePathTypePopup() {
+	$("#pathTypePopupMenuBTN").attr("onclick", "openPathTypePopup()");
+	$("#editPathTypePopup").css('display', "none").trigger('create');
 }
 
 function showPathInfo() {
+	$("#pathInfoFooter").css("left", $("#pathEditMenu").width());
+	$("#pathInfoFooter").css("right", "0px");
+	$("#pathInfoFooter").css("bottom", "0px");
+	$("#pathInfoFooter").css("position", "absolute");
 	$("#pathInfoFooter").css("display", "inline-block").trigger("create");
 	hideLocationInfo();
 }
@@ -344,6 +359,7 @@ function hidePathInfo() {
 	$("#pathEditMenu").css("display", "none");
 	$("#map_canvas").css("width", $(window).width());
 	$("#map_canvas").css("left", "0px");
+	closePathTypePopup();
 }
 
 function openPathInfoPopup() {
@@ -352,27 +368,6 @@ function openPathInfoPopup() {
 		y : event.pageY
 	});
 	$("#editPathInfoPopup").trigger('create').popup('open');
-}
-
-function openPathTypePopup() {
-	$(".pathTypeIcon").each(function() {
-		if ($(this).hasClass("pathTypeIconSelected")) {
-			$(this).removeClass("pathTypeIconSelected");
-		}
-		$(this).trigger("create");
-	});
-//	$('#editPathTypePopup').popup("option", {
-//		x : event.pageX,
-//		y : event.pageY
-//	});
-	$("#mainBodyContents").trigger('create');
-	// $("#pathEditMenu").on("popupafterclose", function() {
-	// setTimeout(function() {
-	$("#editPathTypePopup").trigger('create').popup('open');
-	// }, 100);
-	// });
-	// $("#pathEditMenu").popup("close");
-	$("#mainBodyContents").trigger('create');
 }
 
 function openSearchPanel() {
