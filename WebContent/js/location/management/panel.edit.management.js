@@ -223,26 +223,6 @@ function openIconPopup() {
 	$("#locationEditMenu").popup("close");
 }
 
-// function showMainBoundary() {
-// setMapOnAllPolygons(null);
-// var i = 0;
-// for ( var int = 0; int < polygons.length; int++) {
-// if (polygons[int].id == $("#locationId").val())
-// i = int;
-// }
-// if (i > 0)
-// polygons[i].setMap(map);
-// $("#locationEditMenu").popup("close");
-// $("#editBoundaryPopup").css("left",($("#map_canvas").width()/2)-($("#editBoundaryPopup").width()/2));
-// $("#editBoundaryPopup").css("display", "block");
-// }
-//
-// function hideMainBoundary() {
-// setMapOnAllPolygons(map);
-// $("#locationEditMenu").popup("close");
-// $("#editBoundaryPopup").css("display", "none");
-// }
-
 function openEditBoundaryPopup() {
 	$("#locationSaveCancelPanel").css("display", "inline-block").trigger(
 			"create");
@@ -276,6 +256,10 @@ function openEditBoundaryPopup() {
 
 function showLocationInfo() {
 	$("#locationEditMenu").popup("close");
+	$("#locationInfoFooter").css("width", $("#map_canvas").width());
+	$("#locationInfoFooter").css("right", "0px");
+	$("#locationInfoFooter").css("bottom", "0px");
+	$("#locationInfoFooter").css("position", "absolute");
 	$("#locationInfoFooter").css("display", "inline-block").trigger("create");
 }
 
@@ -329,6 +313,19 @@ function openPathTypePopup() {
 	$("#editPathTypePopup").css("left", $("#pathEditMenu").width());
 	$("#pathInfoFooter").css("width", $("#map_canvas").width());
 	$("#editPathTypePopup").css('display', "block").trigger('create');
+	var ptids = $("#pathTypeIds").val().split(",");
+	for ( var int = 0; int < ptids.length; int++)
+		$(".pathTypeIcon").each(function() {
+			var pathTypeId = $(this).attr("alt");
+			if (pathTypeId == ptids[int]) {
+				if (!$(this).hasClass("pathTypeIconSelected")) {
+					$(this).addClass("pathTypeIconSelected");
+				} else {
+					$(this).removeClass("pathTypeIconSelected");
+				}
+				$(this).trigger("create");
+			}
+		});
 }
 
 function closePathTypePopup() {
@@ -338,6 +335,8 @@ function closePathTypePopup() {
 
 function showPathInfo() {
 	$("#pathInfoFooter").css("left", $("#pathEditMenu").width());
+	$("#pathInfoFooter").css("width", $("#map_canvas").width());
+	google.maps.event.trigger(map, "resize");
 	$("#pathInfoFooter").css("right", "0px");
 	$("#pathInfoFooter").css("bottom", "0px");
 	$("#pathInfoFooter").css("position", "absolute");
@@ -360,6 +359,8 @@ function hidePathInfo() {
 	$("#map_canvas").css("width", $(window).width());
 	$("#map_canvas").css("left", "0px");
 	closePathTypePopup();
+	$("#actionBar").css("display", "none");
+	cancelADrawnPath();
 }
 
 function openPathInfoPopup() {

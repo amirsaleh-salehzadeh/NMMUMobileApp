@@ -118,7 +118,10 @@ function removePath() {
 				ShowLoadingScreen("Removing the path");
 			},
 			success : function(data) {
-				var i = paths.indexOf($("#pathId").val());
+				for ( var int = 0; int < paths.length; int++) {
+					if ($("#pathId").val() == paths[int].id)
+						i = int;
+				}
 				paths[i].setMap(null);
 				paths.splice(i, 1);
 				toast("remove successful");

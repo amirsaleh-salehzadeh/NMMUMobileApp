@@ -41,7 +41,8 @@ function selectActionType() {
 		hidePathInfo();
 	} else {
 		getAllPaths(false);
-		showPathInfo();
+//		showPathInfo();
+		hideLocationInfo();
 	}
 }
 

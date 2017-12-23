@@ -53,7 +53,7 @@
 #actionBarButtonGroup {
 	float: right;
 	min-width: 500px !important;
-	display: inline-block !important;
+	display: inline-block;
 	margin: 0px !important;
 	padding-right: 2px !important;
 }
@@ -65,10 +65,9 @@
 /* } */
 .pathManagementInfoFooter {
 	bottom: 0;
-	min-width: 100%;
 	background-color: rgba(8, 27, 44, .7) !important;
-	right: 0;
-	left: 0 !important;
+	right: 0 !important;
+/* 	left: 0 !important; */
 	margin: 0 !important;
 	z-index: 166 !important;
 	position: absolute !important;

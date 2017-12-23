@@ -512,60 +512,32 @@
 
 <div id="pathEditMenu">
 	<ul data-role="listview" data-mini="true">
-	<li data-icon="false" class="editInfo" onclick="openPathTypePopup();" id="pathTypePopupMenuBTN"><img
-			alt="" src="images/icons/path.png">Path Type</li>
+		<li data-icon="false" class="editInfo" onclick="openPathTypePopup();"
+			id="pathTypePopupMenuBTN"><img alt=""
+			src="images/icons/path.png">Path Type</li>
 		<li data-icon="false"><label for="pathWidth">Path Width
 				(Meters)</label> <input type="range" placeholder="Label" name="pathWidth"
 			id="pathWidth" value="5" min="1" max="50"
 			onchange="changePathWith(this);"></li>
 		<li data-role="list-divider"></li>
-		<li data-icon="false" class="editInfo" onclick="removePath();"><img
-			alt="" src="images/icons/delete-icon.png">Delete</li>
 		<li data-icon="false" class="editInfo" onclick="hideLocationInfo();"><input
 			class="pathMenu" type="text" placeholder="Label" name="pathName"
 			id="pathName" value=""></li>
 		<li data-icon="false" class="editInfo"><textarea type="text"
 				placeholder="Description" name="pathDescription"
 				id="pathDescription" value="" rows="5"></textarea></li>
+		<li data-role="list-divider"></li>
+
 		<li data-icon="false" onclick="saveThePath();" class="editInfo"><img
 			alt="" src="images/icons/save.png">Save</li>
+		<li data-icon="false" class="editInfo" onclick="removePath();"><img
+			alt="" src="images/icons/delete-icon.png">Delete</li>
 		<li data-icon="false" onclick="hidePathInfo();" class="editInfo"><img
 			alt="" src="images/icons/clearInput.png">Cancel</li>
 	</ul>
 </div>
 
 
-
-<!-- PATH INFO POPUP PATH INFO POPUP PATH INFO POPUP PATH INFO POPUP PATH INFO POPUP -->
-
-
-
-<!-- <div data-role="popup" id="editPathInfoPopup" class="menuItemPopupClass"> -->
-<!-- 	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext" -->
-<!-- 		class="ui-btn-right closeMessageButtonIcon" -->
-<!-- 		onclick="$('#editPathInfoPopup').popup('close');">Cancel</a> -->
-<!-- 	<div class="ui-block-solo editlocationFormRow"> -->
-<!-- 		<label for="pathName" id="markerLabel">Label</label> <input -->
-<!-- 			class="pathMenu" type="text" placeholder="Label" name="pathName" -->
-<!-- 			id="pathName" value=""> -->
-<!-- 	</div> -->
-<!-- 	<div class="ui-block-solo editlocationFormRow"> -->
-<!-- 		<label for="pathDescription">Description</label> -->
-<!-- 		<textarea type="text" placeholder="Description" name="pathDescription" -->
-<!-- 			id="pathDescription" value="" rows="5"></textarea> -->
-<!-- 	</div> -->
-<!-- 	<div class="ui-grid-a editlocationFormRow SaveCancelBTNPanel"> -->
-<!-- 		<div class="ui-block-a"> -->
-<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-<!-- 				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveThePath()">Save</a> -->
-<!-- 		</div> -->
-<!-- 		<div class="ui-block-b"> -->
-<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-<!-- 				class="pathMenu ui-btn ui-shadow cancel-icon" -->
-<!-- 				onclick="closeAMenuPopup();">Cancel</a> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- </div> -->
 
 
 
@@ -594,22 +566,6 @@
 		<label for="pathLength">Length</label> <span id="pathLength"></span>
 	</div>
 </div>
-
-<!-- 	<div class="ui-grid-a editlocationFormRow"> -->
-<!-- 		<div class="ui-block-a"> -->
-<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-<!-- 				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveThePath()">Save</a> -->
-<!-- 		</div> -->
-<!-- 		<div class="ui-block-b"> -->
-<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-<!-- 				class="pathMenu ui-btn ui-shadow cancel-icon" -->
-<!-- 				onclick="removePath()">Remove</a> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- 	<a href="#" onclick="pathEditPanelClose()" -->
-<!-- 		class="pathMenu ui-btn ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-left editlocationFormRow" -->
-<!-- 		id="closeLocationEditMenu">Close Settings</a> -->
-
 
 
 <!-- MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP  -->
@@ -643,7 +599,8 @@
 
 
 
-<div id="editPathTypePopup" style="padding: 7px 7px 7px 7px; position: absolute; display: none;">
+<div id="editPathTypePopup"
+	style="padding: 7px 7px 7px 7px; position: absolute; display: none;">
 	<!-- 	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext" -->
 	<!-- 		class="ui-btn-right closeMessageButtonIcon" -->
 	<!-- 		onclick="$('#editPathTypePopup').popup('close');">Cancel</a> -->
@@ -654,17 +611,17 @@
 			title="<%=pathTIteration.getPathType()%>"
 			onclick="selectIcon('<%=pathTIteration.getPathTypeId()%>');">
 	</logic:iterate>
-<!-- 	<div class="ui-grid-a editlocationFormRow SaveCancelBTNPanel"> -->
-<!-- 		<div class="ui-block-a"> -->
-<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-<!-- 				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveThePath()">Save</a> -->
-<!-- 		</div> -->
-<!-- 		<div class="ui-block-b"> -->
-<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
-<!-- 				class="pathMenu ui-btn ui-shadow cancel-icon" -->
-<!-- 				onclick="closeAMenuPopup();">Cancel</a> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
+	<!-- 	<div class="ui-grid-a editlocationFormRow SaveCancelBTNPanel"> -->
+	<!-- 		<div class="ui-block-a"> -->
+	<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
+	<!-- 				class="pathMenu ui-btn ui-shadow save-icon" onclick="saveThePath()">Save</a> -->
+	<!-- 		</div> -->
+	<!-- 		<div class="ui-block-b"> -->
+	<!-- 			<a style="cursor: pointer;" data-role="button" href="#" -->
+	<!-- 				class="pathMenu ui-btn ui-shadow cancel-icon" -->
+	<!-- 				onclick="closeAMenuPopup();">Cancel</a> -->
+	<!-- 		</div> -->
+	<!-- 	</div> -->
 </div>
 
 

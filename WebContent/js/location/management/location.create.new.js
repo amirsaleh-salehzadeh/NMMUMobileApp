@@ -67,15 +67,19 @@ function createNew(seq) {
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			setALocationTypeNew();
 		} else {
-			$("#map_canvas").mousemove(
-					function(event) {
-						showActionBarLabel("Select the Departure", event.pageX,
-								event.pageY);
-					});
-			$("#map_canvas").mouseout(
-					function(event) {
-						clearActionBarLabel();
-					});
+			$(".pahtFields").val("");
+			openPathTypePopup();
+			$("#actionBarButtonGroup").css("display", "none").trigger("create");
+			$("#actionBarTitle").html("Create a Path");
+//			$("#map_canvas").mousemove(
+//					function(event) {
+//						showActionBarLabel("Select the Departure", event.pageX,
+//								event.pageY);
+//					});
+			$("#actionBarMessage").html("Select the Departure");
+//			$("#map_canvas").mouseout(function(event) {
+//				clearActionBarLabel();
+//			});
 			newPathInProgress = true;
 			// setAPathTypeNew();
 			openPathEditPanel();
