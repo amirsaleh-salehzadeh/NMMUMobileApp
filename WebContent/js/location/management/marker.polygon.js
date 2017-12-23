@@ -91,9 +91,10 @@ function drawPolygons(location) {
 	});
 	var editPolygon = new google.maps.Polygon({
 		paths : CoordinatesArray,
-		strokeOpacity : 2,
+		strokeOpacity : 1,
 		fillOpacity : 0,
 		strokeColor : "#FF0000",
+		fillColor : "#000000",
 		strokeWeight : 2,
 		title : location.locationName + " "
 				+ location.locationType.locationType
@@ -206,9 +207,9 @@ function deletePolygon() {
 	}
 }
 
-function setMapOnAllPolygons(map) {
+function setMapOnAllPolygons(value) {
 	for ( var i = 0; i < polygons.length; i++) {
-		polygons[i].setMap(map);
+		polygons[i].setMap(value);
 	}
 	
 }

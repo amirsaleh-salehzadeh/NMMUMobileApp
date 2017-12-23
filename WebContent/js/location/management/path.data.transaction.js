@@ -1,7 +1,7 @@
 var movingLine, pathPolylineConstant, lastOne, overlay, pathDrawingCircle;
 var pathWidthScale = 0;
 
-function getAllPaths(newPaths, refreshPaths) {
+function getAllPaths(refreshPaths) {
 	overlay = new google.maps.OverlayView();
 	overlay.draw = function() {
 	};
@@ -21,6 +21,7 @@ function getAllPaths(newPaths, refreshPaths) {
 	}
 	setMapOnAllPolylines(null);
 	path = [];
+	pathPolylines = [];
 	var url = "REST/GetPathWS/GetPathsForUserAndParent?userName=NMMU&parentId="
 			+ $("#parentLocationId").val();
 	$

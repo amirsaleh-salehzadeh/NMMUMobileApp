@@ -37,8 +37,8 @@ function mapSattelView() {
 function selectActionType() {
 	if ($('[name="optionType"] :radio:checked').val() == "marker") {
 		cancelCreatingNew();
-		getAllMarkers($("#parentLocationId").val(), false);
 		hidePathInfo();
+		getAllMarkers($("#parentLocationId").val(), false);
 	} else {
 		getAllPaths(false);
 //		showPathInfo();

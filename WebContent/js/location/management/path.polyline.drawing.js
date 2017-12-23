@@ -1,6 +1,9 @@
-function setMapOnAllPolylines(map) {
+function setMapOnAllPolylines(value) {
 	for ( var i = 0; i < paths.length; i++) {
-		paths[i].setMap(map);
+		paths[i].setMap(value);
+	}
+	for ( var i = 0; i < pathPolylines.length; i++) {
+		pathPolylines[i].setMap(value);
 	}
 }
 
@@ -14,7 +17,6 @@ function changePathWith(slider) {
 		if (pathPolylines[i].id == $("#pathId").val()) {
 			pathRouteTMP = pathPolylines[i].getPath();
 			index = i;
-			// tmpModifiedPathPolygon = pathRouteTMP;
 		}
 	}
 	var pathCoorPolygon = [];
@@ -76,7 +78,6 @@ function drawApath(l) {
 	pathCoor.push(getGoogleMapPosition(l.destination.gps));
 	var polygon = new google.maps.Polygon({
 		paths : measurePolygonForAPath(pathCoorPolygon, l.width),
-		map : map,
 		strokeColor : "#081B2C",
 		strokeWeight : 2,
 		fillColor : "#081B2C",

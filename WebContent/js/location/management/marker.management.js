@@ -1,4 +1,5 @@
 var pathMarkers = [];
+var parentAreaPolygon;
 function removeMarker() {
 	var url = "REST/GetLocationWS/RemoveALocation?locationId="
 			+ $("#locationId").val();
@@ -111,6 +112,10 @@ function saveLocation() {
 
 var str = "";
 function getAllMarkers(parentId, refreshMarkers) {
+	if (parentAreaPolygon != null) {
+		parentAreaPolygon.setMap(null);
+		parentAreaPolygon = null;
+	}
 	minZoomLevel = 1;
 	$("input[name='radio-choice']").checkboxradio();
 	$("input[name='radio-choice']").checkboxradio('disable');
@@ -143,9 +148,31 @@ function getAllMarkers(parentId, refreshMarkers) {
 					polygons = [];
 					pathMarkers = [];
 					paths = [];
+					pathPolylines = [];
+					polygonsEdit = [];
 					$.each(data, function(k, l) {
 						if (k == 0) {
 							getMarkerInfo(l);
+							if (l.parent.boundary != null
+									&& l.parent.boundary.length > 3) {
+								var bnd = l.parent.boundary.split(";")[0].split("_");
+								var coordinatesArray = [];
+								for ( var i = 0; i < bnd.length; i++) {
+									var LatAndLng = bnd[i].split(",");
+									var LatLng = new google.maps.LatLng(
+											LatAndLng[0], LatAndLng[1]);
+									coordinatesArray.push(LatLng);
+								}
+								parentAreaPolygon = new google.maps.Polygon({
+									paths : coordinatesArray,
+									strokeColor : "#000000",
+									strokeWeight : 1,
+									fillColor : "transparent",
+									opacity : .66,
+									zIndex : -1,
+									map : map
+								});
+							}
 							getParentLocationTypeId(null,
 									l.locationType.locationTypeId);
 							getLocationTypeDropDown(null);
@@ -155,7 +182,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 				},
 				complete : function() {
 					HideLoadingScreen();
-//					setMapOnAllPathMarkers(null);
+					// setMapOnAllPathMarkers(null);
 					$("input[name='radio-choice']").checkboxradio('enable');
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
@@ -268,15 +295,15 @@ function addMarker(l) {
 	}
 }
 
-function setMapOnAllMarkers(map) {
+function setMapOnAllMarkers(value) {
 	for ( var i = 0; i < markers.length; i++) {
-		markers[i].setMap(map);
+		markers[i].setMap(value);
 	}
 }
 
-function setMapOnAllPathMarkers(map) {
+function setMapOnAllPathMarkers(value) {
 	for ( var i = 0; i < pathMarkers.length; i++) {
-		pathMarkers[i].setMap(map);
+		pathMarkers[i].setMap(value);
 	}
 }
 
