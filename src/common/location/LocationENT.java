@@ -28,6 +28,7 @@ public class LocationENT {
 	private String boundary = "";
 	private String description = "";
 	private long parentId;
+	private ArrayList<LevelENT> levels;
 	public ArrayList<LocationENT> childrenENT = new ArrayList<LocationENT>();
 	private LocationENT parent;
 
@@ -49,6 +50,20 @@ public class LocationENT {
 		this.parentId = parentId;
 		this.childrenENT = childrenENT;
 		this.parent = parent;
+	}
+
+	/**
+	 * @return the floors
+	 */
+	public ArrayList<LevelENT> getLevels() {
+		return levels;
+	}
+
+	/**
+	 * @param floors the floors to set
+	 */
+	public void setLevels(ArrayList<LevelENT> levels) {
+		this.levels = levels;
 	}
 
 	/**

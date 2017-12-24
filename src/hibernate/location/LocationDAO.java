@@ -23,6 +23,7 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import com.mysql.jdbc.Statement;
 
 import common.DropDownENT;
+import common.location.LevelENT;
 import common.location.LocationENT;
 import common.location.LocationLightENT;
 import common.location.LocationLST;
@@ -793,5 +794,66 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return ent;
 	}
 
-	
+	public LevelENT saveFloor(LevelENT level, Connection conn) {
+		try {
+			boolean isnew = false;
+			if (conn == null)
+				try {
+					conn = getConnection();
+					isnew = true;
+				} catch (AMSException e) {
+					e.printStackTrace();
+				}
+			String query = "";
+			query = "insert into location_level (description, parent_location_id, plan_id)"
+					+ " values (?, ?, ?)";
+			if (level.getLevelId() > 0)
+				query = "update location_level set parent_location_id= ?, plan_id = ?, description = ? where location_level_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, level.getDescription());
+			ps.setLong(2, level.getParent_id());
+			ps.setLong(3, level.getPlanId());
+			if (level.getLevelId() > 0)
+				ps.setLong(4, level.getLevelId());
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				level.setLevelId(rs.getLong("location_level_id"));
+			}
+			rs.close();
+			ps.close();
+			if (isnew)
+				conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return level;
+	}
+
+	public boolean deletefloor(LevelENT level, Connection conn)
+			throws AMSException {
+		try {
+			boolean isnew = false;
+			if (conn == null)
+				try {
+					conn = getConnection();
+					isnew = true;
+				} catch (AMSException e) {
+					e.printStackTrace();
+				}
+			String query = "delete from location_level where location_level_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setLong(1, level.getLevelId());
+			ps.execute();
+			ps.close();
+			if (isnew)
+				conn.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+	}
+
 }

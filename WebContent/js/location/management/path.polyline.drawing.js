@@ -87,7 +87,6 @@ function drawApath(l) {
 
 	var pathPolyline = new google.maps.Polyline({
 		path : pathCoor,
-		geodesic : true,
 		strokeColor : '#081B2C',
 		strokeOpacity : 0.6,
 		strokeWeight : pathWidthScale,

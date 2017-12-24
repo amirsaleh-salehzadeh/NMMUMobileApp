@@ -197,7 +197,6 @@
 <!-- HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS  -->
 
 
-
 <input type="hidden" readonly id="parentLocationId" value="360">
 <input type='hidden' readonly class="locationFields" id='locationTypeId'
 	value="0">

@@ -112,10 +112,6 @@ function saveLocation() {
 
 var str = "";
 function getAllMarkers(parentId, refreshMarkers) {
-	if (parentAreaPolygon != null) {
-		parentAreaPolygon.setMap(null);
-		parentAreaPolygon = null;
-	}
 	minZoomLevel = 1;
 	$("input[name='radio-choice']").checkboxradio();
 	$("input[name='radio-choice']").checkboxradio('disable');
@@ -141,6 +137,10 @@ function getAllMarkers(parentId, refreshMarkers) {
 					for ( var int = 0; int < polygonsEdit.length; int++) {
 						polygonsEdit[int].setMap(null);
 					}
+					if (parentAreaPolygon != null) {
+						parentAreaPolygon.setMap(null);
+						parentAreaPolygon = null;
+					}
 				},
 				success : function(data) {
 					str = "";
@@ -158,19 +158,17 @@ function getAllMarkers(parentId, refreshMarkers) {
 								var bnd = l.parent.boundary.split(";")[0].split("_");
 								var coordinatesArray = [];
 								for ( var i = 0; i < bnd.length; i++) {
-									var LatAndLng = bnd[i].split(",");
-									var LatLng = new google.maps.LatLng(
-											LatAndLng[0], LatAndLng[1]);
-									coordinatesArray.push(LatLng);
+									coordinatesArray.push(getGoogleMapPosition(bnd[i]));
 								}
-								parentAreaPolygon = new google.maps.Polygon({
-									paths : coordinatesArray,
-									strokeColor : "#000000",
+								coordinatesArray.push(getGoogleMapPosition(bnd[0]));
+								parentAreaPolygon = new google.maps.Polyline({
+									path : coordinatesArray,
+									strokeColor : "#FF0000",
+									strokeOpacity : 1,
 									strokeWeight : 1,
-									fillColor : "transparent",
-									opacity : .66,
-									zIndex : -1,
+									zIndex: 1,
 									map : map
+									
 								});
 							}
 							getParentLocationTypeId(null,

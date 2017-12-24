@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.sql.Connection;
 
 import common.DropDownENT;
+import common.location.LevelENT;
 import common.location.LocationENT;
 import common.location.LocationLST;
 import common.location.LocationTypeENT;
@@ -47,6 +48,9 @@ public interface LocationDAOInterface {
 
 	public LocationENT getLocationWithChildren(LocationENT parent);
 
-	
+	public LevelENT saveFloor(LevelENT level, Connection conn);
+
+	public boolean deletefloor(LevelENT level, Connection conn)
+			throws AMSException;
 
 }

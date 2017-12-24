@@ -1,0 +1,2 @@
+CREATE TABLE `nmmumobile`.`location_level` ( `location_level_Id` BIGINT NOT NULL AUTO_INCREMENT , `description` VARCHAR(255) NOT NULL , `parent_location_id` BIGINT NOT NULL , `plan_id` BIGINT NOT NULL , PRIMARY KEY (`location_level_Id`), INDEX (`parent_location_id`)) ENGINE = InnoDB;
+ALTER TABLE `location_level` ADD FOREIGN KEY (`parent_location_id`) REFERENCES `nmmumobile`.`location`(`location_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
