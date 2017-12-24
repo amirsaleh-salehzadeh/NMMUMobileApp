@@ -197,18 +197,11 @@ function addAPath(location) {
 			}
 			$(this).trigger("create");
 		});
-		// $('#editPathTypePopup').popup("option", {
-		// x : event.pageX,
-		// y : event.pageY
-		// });
-		// $("#editPathTypePopup").trigger('create').popup('open');
 		$("#mainBodyContents").trigger('create');
 		$("#actionBarMessage").html("Place set the path types");
 		$("#actionBarNextButton").attr("onclick", "createNew(1)").trigger(
 				"create");
 		$("#actionBarBackButton").attr("onclick", "createNew(0)");
-		// $(".locationSaveNextButton").attr("onclick", "createNew(3)").trigger(
-		// "create");
 		$("#actionBarNextButton").removeClass("disabledBTN").trigger("create");
 		$("#actionBarBackButton").removeClass("disabledBTN").trigger("create");
 	}

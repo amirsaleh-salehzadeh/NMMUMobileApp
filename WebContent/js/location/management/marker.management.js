@@ -180,7 +180,6 @@ function getAllMarkers(parentId, refreshMarkers) {
 				},
 				complete : function() {
 					HideLoadingScreen();
-					// setMapOnAllPathMarkers(null);
 					$("input[name='radio-choice']").checkboxradio('enable');
 				},
 				error : function(xhr, ajaxOptions, thrownError) {

@@ -105,7 +105,11 @@ function drawApath(l) {
 			openPathEditPanel();
 			if ($('#destination').val().length <= 0
 					&& $('#departure').val().length > 0) {
-				createAPointOnAnExistingPath(l, lat + "," + lng, pathPolyline);
+				createAPointOnAnExistingPath(l, {
+					x : parseFloat(lat),
+					y : parseFloat(lng)
+				}, pathPolyline);
+//				createAPointOnAnExistingPath(l, lat + "," + lng, pathPolyline);
 			} else {
 				selectAPath(l);
 			}

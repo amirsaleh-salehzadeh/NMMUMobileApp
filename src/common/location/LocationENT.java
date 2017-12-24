@@ -29,6 +29,23 @@ public class LocationENT {
 	private String description = "";
 	private long parentId;
 	private ArrayList<LevelENT> levels;
+	private ArrayList<EntranceENT> entrances;
+
+	/**
+	 * @return the entrances
+	 */
+	public ArrayList<EntranceENT> getEntrances() {
+		return entrances;
+	}
+
+	/**
+	 * @param entrances
+	 *            the entrances to set
+	 */
+	public void setEntrances(ArrayList<EntranceENT> entrances) {
+		this.entrances = entrances;
+	}
+
 	public ArrayList<LocationENT> childrenENT = new ArrayList<LocationENT>();
 	private LocationENT parent;
 
@@ -60,7 +77,8 @@ public class LocationENT {
 	}
 
 	/**
-	 * @param floors the floors to set
+	 * @param floors
+	 *            the floors to set
 	 */
 	public void setLevels(ArrayList<LevelENT> levels) {
 		this.levels = levels;

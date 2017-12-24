@@ -103,7 +103,9 @@
 	id="searchButton" onclick="openSearchPanel();"><img width='27'
 	height='27' src='images/icons/search.png'>SEARCH</a>
 
+
 <!-- SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL SEARCH PANEL -->
+
 
 <div data-role="panel" id="locationSearchPanel" data-position="right"
 	data-display="overlay" data-swipe-close="false"
@@ -127,12 +129,13 @@
 	</div>
 </div>
 
+
 <!-- PATH/LOCATION SELECT PATH/LOCATION SELECT PATH/LOCATION  -->
 
 
 <fieldset data-role="controlgroup" data-mini="true"
 	data-type="horizontal" name="optionType" id="locPathModeRadiobtn">
-	<div id="settingTabLabel">MANAGEMENT TAB</div>
+	<div id="settingTabLabel">MANAGEMENT</div>
 	<!-- 	LOCATION -->
 	<label for="marker" id="ui-icon-map-marker"><span
 		class="inlineIcon showLabelMouseOverTrue"
@@ -232,9 +235,16 @@
 		<li data-icon="false" id="editBoundaryMenuItem"><a
 			class="editInfo" href="#" onclick="openEditBoundaryPopup();"><img
 				alt="" src="images/icons/polygon.png">Boundary</a></li>
+		<li data-icon="false" id="editBoundaryMenuItem"><a
+			class="editInfo" href="#" onclick="openEditBoundaryPopup();"><img
+				alt="" src="images/icons/pathType/elevator.png">Level</a></li>
+		<li data-icon="false" id="editBoundaryMenuItem"><a
+			class="editInfo" href="#" onclick="addEntrance();"><img
+				alt="" src="images/map-markers/door.png">Add Entrance</a></li>
 		<li data-icon="false" id="addBoundaryMenuItem"><a
 			class="editInfo" href="#" onclick="openEditBoundaryPopup();"><img
 				alt="" src="images/icons/polygon.png">Add Boundary</a></li>
+
 		<li data-role="list-divider"></li>
 
 		<li data-icon="false"><a class="editInfo" href="#"

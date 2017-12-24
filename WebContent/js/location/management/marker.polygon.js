@@ -62,7 +62,6 @@ function createDrawingManager() {
 }
 
 function drawPolygons(location) {
-	// if (location.boundary.length > 13)
 	var arrayBoundary = getArrayBoundary(location.boundary).split("_");
 	var CoordinatesArray = new Array();
 	for ( var i = 0; i < arrayBoundary.length; i++) {

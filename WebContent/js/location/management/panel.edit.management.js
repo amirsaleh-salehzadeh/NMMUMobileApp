@@ -138,16 +138,6 @@ function getLocationTypeImage(locationTypeId) {
 }
 
 function locationEditPanelOpen(title, info) {
-	// $(".SaveCancelBTNPanel").css(
-	// "top",
-	// parseInt(parseInt($(".jqm-header").height())
-	// + parseInt($("#locPathModeRadiobtn").height()) + 3))
-	// .trigger("create");
-	// $(".SaveCancelBTNPanel").css(
-	// "left",
-	// parseInt(parseInt($(window).width()) / 2
-	// - +parseInt($(".SaveCancelBTNPanel").width()) / 2))
-	// .trigger("create");
 	if ($("#boundary").val().length > 13) {
 		$("#addBoundaryMenuItem").css("display", "none").trigger("create");
 		$("#editBoundaryMenuItem").css("display", "block").trigger("create");
@@ -202,6 +192,14 @@ function openLocationInfoPopup() {
 }
 
 function closeAMenuPopup() {
+	if (tmpEntrancePolygon != null) {
+		tmpEntrancePolygon.setMap(null);
+		tmpEntrancePolygon = null;
+	}
+	if (entranceMarker != null) {
+		entranceMarker.setMap(null);
+		entranceMarker = null;
+	}
 	$('.menuItemPopupClass').popup('close');
 	$("#locationEditMenu").unbind("popupafterclose");
 	map.setOptions({
@@ -251,6 +249,112 @@ function openEditBoundaryPopup() {
 			$("#editBoundaryPopup").trigger('create').popup('open');
 		}, 100);
 	});
+	$("#locationEditMenu").popup("close");
+}
+var tmpEntrancePolygon, entranceMarker;
+function addEntrance() {
+	var pointsInLine = [];
+	var bndPos = $("#boundary").val().split("_");
+	var coordinatesArray = [];
+	for ( var int = 0; int < bndPos.length; int++) {
+		var LatAndLng = bndPos[int].split(",");
+		var point = {
+			x : parseFloat(LatAndLng[0]),
+			y : parseFloat(LatAndLng[1])
+		};
+		pointsInLine.push(point);
+		var LatLng = new google.maps.LatLng(LatAndLng[0], LatAndLng[1]);
+		coordinatesArray.push(LatLng);
+	}
+	setMapOnAllPolygons(null);
+	for ( var int = 0; int < polygonsEdit.length; int++) {
+		polygonsEdit[int].setMap(null);
+	}
+	tmpEntrancePolygon = new google.maps.Polygon({
+		paths : coordinatesArray,
+		strokeColor : "#000000",
+		fillOpacity : 0,
+		strokeWeight : 1,
+		map : map
+	});
+	marker.addListener('dragend', function(point) {
+		$("#locationTypeId").val(l.locationType.locationTypeId);
+		if (confirm("Are you sure you want to move the marker?")) {
+			$("#locationGPS")
+					.val(point.latLng.lat() + "," + point.latLng.lng());
+			$("#locationId").val(l.locationID);
+			$("#parentLocationId").val(l.parentId);
+			$("#locationName").val(l.locationName);
+			$("#locationTypeId").val(l.locationType.locationTypeId);
+			$("#locationDescription").val(l.description);
+			saveLocation();
+		} else {
+			this.setPosition(pos);
+		}
+	});
+	if (entranceMarker == null)
+		entranceMarker = new google.maps.Marker({
+			icon : refreshMap(11, "", "normal"),
+			zIndex : 666,
+			map : map
+		});
+	google.maps.event.addListener(map, 'mousemove', function(ev) {
+		var destGPS = {
+			x : ev.latLng.lat(),
+			y : ev.latLng.lng()
+		};
+		var intersectionpoint = getClosestPointOnLines(destGPS, pointsInLine);
+		var pos = {
+			lat : parseFloat(intersectionpoint.x),
+			lng : parseFloat(intersectionpoint.y)
+		};
+		entranceMarker.setPosition(pos);
+	});
+	google.maps.event.addListener(map, 'click', function(ev) {
+		var destGPS = {
+			x : ev.latLng.lat(),
+			y : ev.latLng.lng()
+		};
+		if (confirm("Are you sure you want to create the entrance?")) {
+//			var url = "REST/GetLocationWS/CreateTFCEntrance?username=NMMU&parentId="+$("#locationId").val()+"&locationName=Entrance&coordinate="+entranceMarker.getPosition().;
+			$.ajax({
+				url : url,
+				cache : false,
+				async : true,
+				type : 'POST',
+				beforeSend : function() {
+					ShowLoadingScreen("Saving Entrance");
+				},
+				success : function(data) {
+//					$("#locationId").val(data.locationID);
+					addMarker(data);
+					toast('Saved Successfully');
+				},
+				complete : function() {
+					HideLoadingScreen();
+					closeAMenuPopup();
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					popErrorMessage("An error occured while saving the marker. "
+							+ thrownError);
+				},
+			});
+		} else {
+			return;
+		}
+	});
+	$("#locationSaveCancelPanel").css("display", "inline-block").trigger(
+			"create");
+	$("#locationSaveCancelPanel").css(
+			"top",
+			parseInt(parseInt($(".jqm-header").height())
+					+ parseInt($("#locPathModeRadiobtn").height()) + 3))
+			.trigger("create");
+	$("#locationSaveCancelPanel").css(
+			"left",
+			parseInt(parseInt($(window).width() / 2)
+					- parseInt($("#locationSaveCancelPanel").width() / 2)))
+			.trigger("create");
 	$("#locationEditMenu").popup("close");
 }
 

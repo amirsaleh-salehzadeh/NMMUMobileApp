@@ -23,6 +23,7 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import com.mysql.jdbc.Statement;
 
 import common.DropDownENT;
+import common.location.EntranceENT;
 import common.location.LevelENT;
 import common.location.LocationENT;
 import common.location.LocationLightENT;
@@ -199,6 +200,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setDescription(rs.getString("description"));
 				ent.setIcon(rs.getString("icon"));
 				ent.setPlan(rs.getString("plan"));
+				ent.setLevels(getLevelsForALocation(ent, conn));
+				ent.setEntrances(getEntrancesForALocation(ent, conn));
 				if (rs.getLong("parent_id") > 0)
 					ent.setParent(getLocationENT(
 							new LocationENT(rs.getLong("parent_id")), conn));
@@ -794,7 +797,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return ent;
 	}
 
-	public LevelENT saveFloor(LevelENT level, Connection conn) {
+	public LevelENT saveLevel(LevelENT level, Connection conn) {
 		try {
 			boolean isnew = false;
 			if (conn == null)
@@ -831,7 +834,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return level;
 	}
 
-	public boolean deletefloor(LevelENT level, Connection conn)
+	public boolean deleteLevel(LevelENT level, Connection conn)
 			throws AMSException {
 		try {
 			boolean isnew = false;
@@ -856,4 +859,127 @@ public class LocationDAO extends BaseHibernateDAO implements
 		}
 	}
 
+	public ArrayList<LevelENT> getLevelsForALocation(LocationENT parent,
+			Connection conn) {
+		ArrayList<LevelENT> res = new ArrayList<LevelENT>();
+		boolean isnew = false;
+		if (conn == null)
+			try {
+				conn = getConnection();
+				isnew = true;
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+		try {
+			String query = "select * from location_level where parent_location_id = "
+					+ parent.getLocationID();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				res.add(new LevelENT(rs.getLong("location_level_Id"), rs
+						.getLong("parent_location_id"), rs
+						.getString("description"), rs.getLong("plan_id")));
+			}
+			rs.close();
+			ps.close();
+			if (isnew)
+				conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public ArrayList<EntranceENT> getEntrancesForALocation(LocationENT parent,
+			Connection conn) {
+		ArrayList<EntranceENT> res = new ArrayList<EntranceENT>();
+		boolean isnew = false;
+		if (conn == null)
+			try {
+				conn = getConnection();
+				isnew = true;
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+		try {
+			String query = "select * from location_entrance where parent_id = "
+					+ parent.getLocationID();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				res.add(new EntranceENT(rs.getLong("entrance_id"), rs
+						.getLong("parent_id"), rs.getString("gps"), rs
+						.getString("description")));
+			}
+			rs.close();
+			ps.close();
+			if (isnew)
+				conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public boolean deleteEntrance(EntranceENT entrance, Connection conn)
+			throws AMSException {
+		try {
+			boolean isnew = false;
+			if (conn == null)
+				try {
+					conn = getConnection();
+					isnew = true;
+				} catch (AMSException e) {
+					e.printStackTrace();
+				}
+			String query = "delete from location_entrance where entrance_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setLong(1, entrance.getEntranceId());
+			ps.execute();
+			ps.close();
+			if (isnew)
+				conn.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+	}
+
+	public EntranceENT saveEntrance(EntranceENT entrance, Connection conn) {
+		try {
+			boolean isnew = false;
+			if (conn == null)
+				try {
+					conn = getConnection();
+					isnew = true;
+				} catch (AMSException e) {
+					e.printStackTrace();
+				}
+			String query = "";
+			query = "insert into location_entrance (description, parent_id, gps)"
+					+ " values (?, ?, ?)";
+			if (entrance.getEntranceId() > 0)
+				query = "update location_entrance set parent_id= ?, gps = ?, description = ? where entrance_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, entrance.getDescription());
+			ps.setLong(2, entrance.getParent_id());
+			ps.setString(3, entrance.getGps());
+			if (entrance.getEntranceId() > 0)
+				ps.setLong(4, entrance.getEntranceId());
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				entrance.setEntranceId(rs.getLong("entrance_id"));
+			}
+			rs.close();
+			ps.close();
+			if (isnew)
+				conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return entrance;
+	}
 }

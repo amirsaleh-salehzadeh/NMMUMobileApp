@@ -24,6 +24,8 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
 
+import common.location.EntranceENT;
+import common.location.LevelENT;
 import common.location.LocationENT;
 import common.location.LocationLST;
 import common.location.LocationTypeENT;
@@ -41,44 +43,27 @@ public class LocationServicesWS {
 	@Produces("application/json")
 	public String createTFCEntrance(
 			@QueryParam("locationName") String locationName,
-			@QueryParam("coordinate") String grpsString,
-			@QueryParam("locationType") String parentLocationIds,
+			@QueryParam("coordinate") String coordinate,
 			@QueryParam("username") String userName,
 			@QueryParam("parentId") long parentId) {
 		ObjectMapper mapper = new ObjectMapper();
-
-		int locationid = 0;
 		String json = "";
-
 		try {
-
-			LocationENT ent = new LocationENT(userName);
-			if (locationName.equalsIgnoreCase("Entrance"))
-				ent.setLocationType(new LocationTypeENT(10));
-			ent.setBoundary(null);
-			ent.setLocationName(locationName);
-			ent.setGps(grpsString);
-			ent.setParentId(parentId);
-			ent.setIcon(null);
-			ent.setPlan(null);
-			ent.setDescription(null);
-			json = mapper.writeValueAsString(getLocationDAO()
-					.saveUpdateLocation(ent, null));
+			EntranceENT ent = new EntranceENT(0, parentId, locationName,
+					coordinate);
+			json = mapper.writeValueAsString(getLocationDAO().saveEntrance(ent,
+					null));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (AMSException e) {
-			// TODO: handle exception
-			e.printStackTrace();
 		}
 
 		return json;
 	}
 
-	
 	@GET
 	@Path("/CreateTFCLevels")
 	@Produces("application/json")
@@ -121,7 +106,6 @@ public class LocationServicesWS {
 		return json;
 	}
 
-	
 	@GET
 	@Path("/GetAllLocationsForUser")
 	@Produces("application/json")
@@ -146,8 +130,7 @@ public class LocationServicesWS {
 		}
 		return json;
 	}
-	
-	
+
 	@GET
 	@Path("/GetLocationWithChildren")
 	@Produces("application/json")
@@ -168,7 +151,6 @@ public class LocationServicesWS {
 		return json;
 	}
 
-	
 	@GET
 	@Path("/SearchForALocation")
 	@Produces("application/json")
@@ -414,16 +396,15 @@ public class LocationServicesWS {
 		String json = "[]";
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			if(getLocationDAO().deleteLocation(
-					new LocationENT(locationId))){
-				json= "{\"errorMSG\": null}";
-			}else{
+			if (getLocationDAO().deleteLocation(new LocationENT(locationId))) {
+				json = "{\"errorMSG\": null}";
+			} else {
 				json = "{\"errorMSG\": \"Problem while removing the location\"}";
 			}
 		} catch (AMSException e) {
 			e.printStackTrace();
 			return "{\"errorMSG\": \"Please remove the path first\"}";
-		} 
+		}
 		return json;
 	}
 
