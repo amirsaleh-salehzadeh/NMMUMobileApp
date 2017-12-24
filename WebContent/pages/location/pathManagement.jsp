@@ -591,7 +591,7 @@
 
 
 
-<div id="googleMapMarkerLabel"></div>
+<div id="googleMapMarkerLabel" class="labelStyleClass"></div>
 
 
 
