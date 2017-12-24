@@ -350,7 +350,7 @@ function showMarkerLabel(text, posX, posY, isPresentUnderneath) {
 			$('#googleMapMarkerLabel').css("left", '2px');
 		} else if (posX + $("#googleMapMarkerLabel").width() + 3 > $(window)
 				.width()) {
-			$('#googleMapMarkerLabel').css("right", '3px');
+//			$('#googleMapMarkerLabel').css("right", '3px');
 			$('#googleMapMarkerLabel').css(
 					"left",
 					$(window).width() - $("#googleMapMarkerLabel").width() - 3
@@ -368,7 +368,7 @@ function showMarkerLabel(text, posX, posY, isPresentUnderneath) {
 			$('#googleMapMarkerLabel').css("left", '2px');
 		} else if ($(window).width() - posX < $("#googleMapMarkerLabel")
 				.width() + 3) {
-			$('#googleMapMarkerLabel').css("right", '0px');
+//			$('#googleMapMarkerLabel').css("right", '0px');
 			$('#googleMapMarkerLabel')
 					.css("left", $(window).width() + 3 + 'px');
 		} else
