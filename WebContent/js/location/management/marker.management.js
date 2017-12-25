@@ -344,13 +344,13 @@ function showMarkerLabel(text, posX, posY, isPresentUnderneath) {
 	if (isPresentUnderneath) {
 		$('#googleMapMarkerLabel').css("top", posY + 25 + 'px');
 		if (posX - $("#googleMapMarkerLabel").width() < 0) {
-			$('#googleMapMarkerLabel').css("left", '2px');
-		} else if (posX + $("#googleMapMarkerLabel").width() + 3 > $(window)
+			$('#googleMapMarkerLabel').css("left", '4px');
+		} else if (posX + $("#googleMapMarkerLabel").width() > $(window)
 				.width()) {
 //			$('#googleMapMarkerLabel').css("right", '3px');
 			$('#googleMapMarkerLabel').css(
 					"left",
-					$(window).width() - $("#googleMapMarkerLabel").width() - 3
+					$(window).width() - $("#googleMapMarkerLabel").width() - 22
 							+ 'px');
 		} else
 			$('#googleMapMarkerLabel').css("left",
@@ -362,12 +362,14 @@ function showMarkerLabel(text, posX, posY, isPresentUnderneath) {
 			$('#googleMapMarkerLabel').css("top", posY - 25 + 'px');
 		}
 		if (posX - ($("#googleMapMarkerLabel").width() / 2) < 0) {
-			$('#googleMapMarkerLabel').css("left", '2px');
+			$('#googleMapMarkerLabel').css("left", '4px');
 		} else if ($(window).width() - posX < $("#googleMapMarkerLabel")
-				.width() + 3) {
+				.width()) {
 //			$('#googleMapMarkerLabel').css("right", '0px');
-			$('#googleMapMarkerLabel')
-					.css("left", $(window).width() + 3 + 'px');
+			$('#googleMapMarkerLabel').css(
+					"left",
+					$(window).width() - $("#googleMapMarkerLabel").width() - 22
+							+ 'px');
 		} else
 			$('#googleMapMarkerLabel').css("left",
 					posX - ($("#googleMapMarkerLabel").width() / 2) + 'px');
