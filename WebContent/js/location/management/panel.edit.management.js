@@ -266,31 +266,17 @@ function addEntrance() {
 		var LatLng = new google.maps.LatLng(LatAndLng[0], LatAndLng[1]);
 		coordinatesArray.push(LatLng);
 	}
+	coordinatesArray.push(new google.maps.LatLng(bndPos[0].split(",")[0],
+			bndPos[0].split(",")[1]));
 	setMapOnAllPolygons(null);
 	for ( var int = 0; int < polygonsEdit.length; int++) {
 		polygonsEdit[int].setMap(null);
 	}
-	tmpEntrancePolygon = new google.maps.Polygon({
-		paths : coordinatesArray,
+	tmpEntrancePolygon = new google.maps.Polyline({
+		path : coordinatesArray,
 		strokeColor : "#000000",
-		fillOpacity : 0,
 		strokeWeight : 1,
 		map : map
-	});
-	marker.addListener('dragend', function(point) {
-		$("#locationTypeId").val(l.locationType.locationTypeId);
-		if (confirm("Are you sure you want to move the marker?")) {
-			$("#locationGPS")
-					.val(point.latLng.lat() + "," + point.latLng.lng());
-			$("#locationId").val(l.locationID);
-			$("#parentLocationId").val(l.parentId);
-			$("#locationName").val(l.locationName);
-			$("#locationTypeId").val(l.locationType.locationTypeId);
-			$("#locationDescription").val(l.description);
-			saveLocation();
-		} else {
-			this.setPosition(pos);
-		}
 	});
 	if (entranceMarker == null)
 		entranceMarker = new google.maps.Marker({
@@ -310,39 +296,47 @@ function addEntrance() {
 		};
 		entranceMarker.setPosition(pos);
 	});
-	google.maps.event.addListener(map, 'click', function(ev) {
-		var destGPS = {
-			x : ev.latLng.lat(),
-			y : ev.latLng.lng()
-		};
-		if (confirm("Are you sure you want to create the entrance?")) {
-//			var url = "REST/GetLocationWS/CreateTFCEntrance?username=NMMU&parentId="+$("#locationId").val()+"&locationName=Entrance&coordinate="+entranceMarker.getPosition().;
-			$.ajax({
-				url : url,
-				cache : false,
-				async : true,
-				type : 'POST',
-				beforeSend : function() {
-					ShowLoadingScreen("Saving Entrance");
-				},
-				success : function(data) {
-//					$("#locationId").val(data.locationID);
-					addMarker(data);
-					toast('Saved Successfully');
-				},
-				complete : function() {
-					HideLoadingScreen();
-					closeAMenuPopup();
-				},
-				error : function(xhr, ajaxOptions, thrownError) {
-					popErrorMessage("An error occured while saving the marker. "
-							+ thrownError);
-				},
-			});
-		} else {
-			return;
-		}
-	});
+	google.maps.event
+			.addListener(
+					map,
+					'click',
+					function(ev) {
+						if (confirm("Are you sure you want to create the entrance?")) {
+							var url = "REST/GetLocationWS/CreateTFCEntrance?username=NMMU&parentId="
+									+ $("#locationId").val()
+									+ "&locationName=Entrance&coordinate="
+									+ entranceMarker.getPosition().lat()
+									+ ","
+									+ entranceMarker.getPosition().lng();
+							$
+									.ajax({
+										url : url,
+										cache : false,
+										async : true,
+										beforeSend : function() {
+											ShowLoadingScreen("Saving Entrance");
+										},
+										success : function(data) {
+											// $("#locationId").val(data.locationID);
+											// addMarker(data);
+											google.maps.event.clearInstanceListeners(map);
+											closeAMenuPopup();
+											toast('Saved Successfully');
+										},
+										complete : function() {
+											HideLoadingScreen();
+											closeAMenuPopup();
+										},
+										error : function(xhr, ajaxOptions,
+												thrownError) {
+											popErrorMessage("An error occured while saving the marker. "
+													+ thrownError);
+										},
+									});
+						} else {
+							return;
+						}
+					});
 	$("#locationSaveCancelPanel").css("display", "inline-block").trigger(
 			"create");
 	$("#locationSaveCancelPanel").css(
