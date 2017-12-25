@@ -252,7 +252,7 @@ function openEditBoundaryPopup() {
 	$("#locationEditMenu").popup("close");
 }
 var tmpEntrancePolygon, entranceMarker;
-function addEntrance() {
+function editEntrance() {
 	var pointsInLine = [];
 	var bndPos = $("#boundary").val().split("_");
 	var coordinatesArray = [];
@@ -296,47 +296,20 @@ function addEntrance() {
 		};
 		entranceMarker.setPosition(pos);
 	});
-	google.maps.event
-			.addListener(
-					map,
-					'click',
-					function(ev) {
-						if (confirm("Are you sure you want to create the entrance?")) {
-							var url = "REST/GetLocationWS/CreateTFCEntrance?username=NMMU&parentId="
-									+ $("#locationId").val()
-									+ "&locationName=Entrance&coordinate="
-									+ entranceMarker.getPosition().lat()
-									+ ","
-									+ entranceMarker.getPosition().lng();
-							$
-									.ajax({
-										url : url,
-										cache : false,
-										async : true,
-										beforeSend : function() {
-											ShowLoadingScreen("Saving Entrance");
-										},
-										success : function(data) {
-											// $("#locationId").val(data.locationID);
-											// addMarker(data);
-											google.maps.event.clearInstanceListeners(map);
-											closeAMenuPopup();
-											toast('Saved Successfully');
-										},
-										complete : function() {
-											HideLoadingScreen();
-											closeAMenuPopup();
-										},
-										error : function(xhr, ajaxOptions,
-												thrownError) {
-											popErrorMessage("An error occured while saving the marker. "
-													+ thrownError);
-										},
-									});
-						} else {
-							return;
-						}
-					});
+	google.maps.event.addListener(entranceMarker, 'click', function(ev) {
+		if (confirm("Are you sure you want to create the entrance?")) {
+			saveEntrance();
+		} else {
+			return;
+		}
+	});
+	google.maps.event.addListener(map, 'click', function(ev) {
+		if (confirm("Are you sure you want to create the entrance?")) {
+			saveEntrance();
+		} else {
+			return;
+		}
+	});
 	$("#locationSaveCancelPanel").css("display", "inline-block").trigger(
 			"create");
 	$("#locationSaveCancelPanel").css(

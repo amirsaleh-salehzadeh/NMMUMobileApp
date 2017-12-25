@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import tools.AMSException;
 
+import common.location.EntranceIntersectionENT;
 import common.location.LocationENT;
 import common.location.PathENT;
 
@@ -26,12 +27,11 @@ public class DataManagementLocation extends BaseHibernateDAO {
 				null);
 		for (int i = 0; i < all.size(); i++) {
 			LocationENT ent = all.get(i);
-			
 
 			// UPDATE DESCRIPTION
 
 			String descString = ent.getLocationName();
-			final String res = StringEscapeUtils.unescapeXml(descString+ " &") ;
+			final String res = StringEscapeUtils.unescapeXml(descString + " &");
 			if (ent.getLocationName().contains("401"))
 				System.out.println(res);
 
@@ -64,8 +64,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 
 	private static void updateAllGPS() {
 		LocationDAO dao = new LocationDAO();
-		ArrayList<LocationENT> all = dao.getAllLocationsForUser("NMMU", "",
-				"");
+		ArrayList<LocationENT> all = dao.getAllLocationsForUser("NMMU", "", "");
 		for (int i = 0; i < all.size(); i++) {
 			LocationENT ent = all.get(i);
 			String res = "";
@@ -124,7 +123,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 			double lng = Double.parseDouble(gps[1]);
 			if (lat < latTL && lng > lngTL && lat < latTR && lng < lngTR
 					&& lat > latBL && lng > lngBL && lat > latBR && lng < lngBR) {
-				ent.setParentId(367);
+				ent.setParentId(371);
 				System.out.println(ent.getLocationName() + " "
 						+ ent.getLocationID());
 				try {
@@ -154,7 +153,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void getAllPaths() throws AMSException {
 		Connection conn = null;
 		try {
@@ -177,8 +176,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 										.getLong("destination_location_id")),
 								conn), rs.getDouble("distance"),
 						rs.getString("path_type"), rs.getLong("path_id"),
-						rs.getString("path_route"), 2,
-						"", "");
+						rs.getString("path_route"), 2, "", "");
 				ent.setPathId(0);
 				ent.setPathType(rs.getString("path_type"));
 				dao.savePath(ent, conn);
@@ -192,15 +190,15 @@ public class DataManagementLocation extends BaseHibernateDAO {
 	}
 
 	public static void main(String[] args) {
-//		updateAllGPS();
-		 DataManagementLocation daomng = new DataManagementLocation();
+		// updateAllGPS();
+		DataManagementLocation daomng = new DataManagementLocation();
 
-		 try {
-			daomng.getAllPaths();
-		} catch (AMSException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// try {
+		// daomng.getAllPaths();
+		// } catch (AMSException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 		// updateAllDescriptions();
 
 		// NORTH CAMPUS NMMU
@@ -227,7 +225,20 @@ public class DataManagementLocation extends BaseHibernateDAO {
 
 		//
 
-		// LocationDAO dao = new LocationDAO();
+		LocationDAO dao = new LocationDAO();
+
+		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "11",
+				"");
+		for (int i = 0; i < ents.size(); i++) {
+			System.out.println(ents.get(i).getLocationName());
+//			try {
+//				dao.deleteLocation(ents.get(i));
+//			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			dao.saveEntrance(new EntranceIntersectionENT(ents.get(i).getLocationID(), ents.get(i).getParentId(), ents.get(i).getLocationName(), ents.get(i).getGps(), true), null);
+		}
 		// LocationDataManagement daomng = new LocationDataManagement();
 		// ArrayList<PathENT> paths = dao.getAllPaths("NMMU");
 		// for (int i = 0; i < paths.size(); i++) {
@@ -251,6 +262,6 @@ public class DataManagementLocation extends BaseHibernateDAO {
 		// }
 		// }
 
-//		updateAllDescriptions();
+		// updateAllDescriptions();
 	}
 }

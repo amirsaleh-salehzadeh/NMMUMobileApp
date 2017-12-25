@@ -24,7 +24,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
 
-import common.location.EntranceENT;
+import common.location.EntranceIntersectionENT;
 import common.location.LevelENT;
 import common.location.LocationENT;
 import common.location.LocationLST;
@@ -49,7 +49,7 @@ public class LocationServicesWS {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			EntranceENT ent = new EntranceENT(0, parentId, locationName,
+			EntranceIntersectionENT ent = new EntranceIntersectionENT(0, parentId, locationName,
 					coordinate);
 			json = mapper.writeValueAsString(getLocationDAO().saveEntrance(ent,
 					null));

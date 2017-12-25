@@ -239,7 +239,7 @@
 			class="editInfo" href="#" onclick="openEditBoundaryPopup();"><img
 				alt="" src="images/icons/pathType/elevator.png">Level</a></li>
 		<li data-icon="false" id="editBoundaryMenuItem"><a
-			class="editInfo" href="#" onclick="addEntrance();"><img
+			class="editInfo" href="#" onclick="editEntrance();"><img
 				alt="" src="images/map-markers/door.png">Add Entrance</a></li>
 		<li data-icon="false" id="addBoundaryMenuItem"><a
 			class="editInfo" href="#" onclick="openEditBoundaryPopup();"><img

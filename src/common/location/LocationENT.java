@@ -29,12 +29,12 @@ public class LocationENT {
 	private String description = "";
 	private long parentId;
 	private ArrayList<LevelENT> levels;
-	private ArrayList<EntranceENT> entrances;
+	private ArrayList<EntranceIntersectionENT> entrances;
 
 	/**
 	 * @return the entrances
 	 */
-	public ArrayList<EntranceENT> getEntrances() {
+	public ArrayList<EntranceIntersectionENT> getEntrances() {
 		return entrances;
 	}
 
@@ -42,7 +42,7 @@ public class LocationENT {
 	 * @param entrances
 	 *            the entrances to set
 	 */
-	public void setEntrances(ArrayList<EntranceENT> entrances) {
+	public void setEntrances(ArrayList<EntranceIntersectionENT> entrances) {
 		this.entrances = entrances;
 	}
 

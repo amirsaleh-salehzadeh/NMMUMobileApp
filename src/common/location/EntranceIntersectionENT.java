@@ -1,17 +1,42 @@
 package common.location;
 
-public class EntranceENT {
+public class EntranceIntersectionENT {
 	long entranceId;
 	long parent_id;
 	String description;
 	String gps;
+	boolean entranceIntersection;
 	
-	public EntranceENT(long entranceId) {
+	public EntranceIntersectionENT(long entranceId, long parent_id,
+			String description, String gps, boolean entranceIntersection) {
+		super();
+		this.entranceId = entranceId;
+		this.parent_id = parent_id;
+		this.description = description;
+		this.gps = gps;
+		this.entranceIntersection = entranceIntersection;
+	}
+
+	/**
+	 * @return the entranceIntersection
+	 */
+	public boolean isEntranceIntersection() {
+		return entranceIntersection;
+	}
+
+	/**
+	 * @param entranceIntersection the entranceIntersection to set
+	 */
+	public void setEntranceIntersection(boolean entranceIntersection) {
+		this.entranceIntersection = entranceIntersection;
+	}
+
+	public EntranceIntersectionENT(long entranceId) {
 		super();
 		this.entranceId = entranceId;
 	}
 	
-	public EntranceENT(long entranceId, long parent_id, String description,
+	public EntranceIntersectionENT(long entranceId, long parent_id, String description,
 			String gps) {
 		super();
 		this.entranceId = entranceId;

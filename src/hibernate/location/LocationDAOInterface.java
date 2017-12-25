@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.sql.Connection;
 
 import common.DropDownENT;
-import common.location.EntranceENT;
+import common.location.EntranceIntersectionENT;
 import common.location.LevelENT;
 import common.location.LocationENT;
 import common.location.LocationLST;
@@ -51,13 +51,13 @@ public interface LocationDAOInterface {
 
 	public LevelENT saveLevel(LevelENT level, Connection conn);
 
-	public ArrayList<EntranceENT> getEntrancesForALocation(LocationENT parent,
+	public ArrayList<EntranceIntersectionENT> getEntrancesForALocation(LocationENT parent,
 			Connection conn);
 
-	public boolean deleteEntrance(EntranceENT entrance, Connection conn)
+	public boolean deleteEntrance(EntranceIntersectionENT entrance, Connection conn)
 			throws AMSException;
 
-	public EntranceENT saveEntrance(EntranceENT entrance, Connection conn);
+	public EntranceIntersectionENT saveEntrance(EntranceIntersectionENT entrance, Connection conn);
 
 	public ArrayList<LevelENT> getLevelsForALocation(LocationENT parent,
 			Connection conn);

@@ -23,7 +23,7 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import com.mysql.jdbc.Statement;
 
 import common.DropDownENT;
-import common.location.EntranceENT;
+import common.location.EntranceIntersectionENT;
 import common.location.LevelENT;
 import common.location.LocationENT;
 import common.location.LocationLightENT;
@@ -890,9 +890,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public ArrayList<EntranceENT> getEntrancesForALocation(LocationENT parent,
+	public ArrayList<EntranceIntersectionENT> getEntrancesForALocation(LocationENT parent,
 			Connection conn) {
-		ArrayList<EntranceENT> res = new ArrayList<EntranceENT>();
+		ArrayList<EntranceIntersectionENT> res = new ArrayList<EntranceIntersectionENT>();
 		boolean isnew = false;
 		if (conn == null)
 			try {
@@ -907,9 +907,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				res.add(new EntranceENT(rs.getLong("entrance_id"), rs
-						.getLong("parent_id"), rs.getString("gps"), rs
-						.getString("description")));
+				res.add(new EntranceIntersectionENT(rs.getLong("entrance_id"), rs
+						.getLong("parent_id"), rs
+						.getString("description"), rs.getString("gps"), rs.getBoolean("intersection_entrance")));
 			}
 			rs.close();
 			ps.close();
@@ -921,7 +921,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public boolean deleteEntrance(EntranceENT entrance, Connection conn)
+	public boolean deleteEntrance(EntranceIntersectionENT entrance, Connection conn)
 			throws AMSException {
 		try {
 			boolean isnew = false;
@@ -946,7 +946,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 		}
 	}
 
-	public EntranceENT saveEntrance(EntranceENT entrance, Connection conn) {
+	public EntranceIntersectionENT saveEntrance(EntranceIntersectionENT entrance, Connection conn) {
 		try {
 			boolean isnew = false;
 			if (conn == null)
@@ -957,20 +957,21 @@ public class LocationDAO extends BaseHibernateDAO implements
 					e.printStackTrace();
 				}
 			String query = "";
-			query = "insert into location_entrance (description, parent_id, gps)"
-					+ " values (?, ?, ?)";
+			query = "insert into location_entrance (description, parent_id, gps, intersection_entrance, entrance_id)"
+					+ " values (?, ?, ?, ?, ?)";
 			if (entrance.getEntranceId() > 0)
-				query = "update location_entrance set parent_id= ?, gps = ?, description = ? where entrance_id = ?";
+				query = "update location_entrance set parent_id= ?, gps = ?, description = ?, intersection_entrance = ? where entrance_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query,
 					Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, entrance.getDescription());
 			ps.setLong(2, entrance.getParent_id());
 			ps.setString(3, entrance.getGps());
+			ps.setBoolean(4, entrance.isEntranceIntersection());
 			if (entrance.getEntranceId() > 0)
-				ps.setLong(4, entrance.getEntranceId());
+				ps.setLong(5, entrance.getEntranceId());
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
-			if (rs.next()) {
+			if (rs.next() && entrance.getEntranceId() > 0) {
 				entrance.setEntranceId(rs.getLong("entrance_id"));
 			}
 			rs.close();
