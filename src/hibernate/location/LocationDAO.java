@@ -966,7 +966,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps.setString(1, entrance.getDescription());
 			ps.setLong(2, entrance.getParent_id());
 			ps.setString(3, entrance.getGps());
-			ps.setBoolean(4, entrance.isEntranceIntersection());
+			if (entrance.isEntranceIntersection()) {
+				ps.setInt(4, 1);
+			} else
+				ps.setInt(4, 0);
 			if (entrance.getEntranceId() > 0)
 				ps.setLong(5, entrance.getEntranceId());
 			ps.executeUpdate();
