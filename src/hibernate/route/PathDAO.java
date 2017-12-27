@@ -13,6 +13,7 @@ import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
+import common.location.EntranceIntersectionENT;
 import common.location.LocationENT;
 import common.location.LocationLightENT;
 import common.location.LocationTypeENT;
@@ -44,16 +45,29 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 					+ "' and lf.parent_id = "
 					+ parentId
 					+ " group by p.path_id";
+			// String query =
+			// "Select p.*, pt.*, lp.* GROUP_CONCAT(ppt.path_type_id) as pathtypeString from path p "
+			// +
+			// "inner join location_entrance lf on lf.entrance_id = p.destination_location_id "
+			// + "inner join location pl on lf.parent_id = pl.location_id "
+			// + " inner join path_path_type ppt on ppt.path_id = p.path_id"
+			// + " left join path_type pt on pt.path_type_id = ppt.path_type_id"
+			// + " where pl.client_name = '"
+			// + username
+			// + "' and lf.parent_id = "
+			// + parentId
+			// + " group by p.path_id";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			LocationDAO ldao = new LocationDAO();
 			while (rs.next()) {
-				PathENT ent = new PathENT(ldao.getLocationENT(new LocationENT(
-						rs.getLong("departure_location_id")), conn),
-						ldao.getLocationENT(
-								new LocationENT(rs
-										.getLong("destination_location_id")),
-								conn), rs.getDouble("distance"),
+				LocationENT depl = ldao.getEntranceLocation(
+						new EntranceIntersectionENT(rs.getLong("departure_location_id")),
+						conn);
+				LocationENT desl = ldao.getEntranceLocation(
+						new EntranceIntersectionENT(rs.getLong("destination_location_id")),
+						conn);
+				PathENT ent = new PathENT(depl, desl, rs.getDouble("distance"),
 						rs.getString("pathtypeString"), rs.getLong("path_id"),
 						rs.getString("path_route"), rs.getDouble("width"),
 						rs.getString("path_Name"), rs.getString("description"));

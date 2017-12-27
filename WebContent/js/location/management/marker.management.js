@@ -255,7 +255,7 @@ function addMarker(l) {
 		marker.setVisible(false);
 	} else
 		marker.setMap(map);
-	if (l.locationType.locationTypeId != 5) {
+	if (l.locationType.locationTypeId != 5 ) {//|| l.locationType.locationTypeId != 3
 		google.maps.event.addListener(marker, 'click', function(point) {
 			$("#locationTypeId").val(l.locationType.locationTypeId);
 			hideLocationInfo();
@@ -265,6 +265,7 @@ function addMarker(l) {
 		});
 		markers.push(marker);
 	}
+	marker.setMap(null);
 }
 
 
@@ -300,7 +301,7 @@ function saveEntrance() {
 
 function addEntrance(l) {
 	var intersectionEntrance = 5;
-	if(!l.entranceIntersection)
+	if(l.entranceIntersection)
 		intersectionEntrance = 11;
 	var entrance = new google.maps.Marker({
 		icon : refreshMap(intersectionEntrance, l.gps, "normal"),
@@ -407,9 +408,9 @@ function showMarkerLabel(text, posX, posY, isPresentUnderneath) {
 					posX - ($("#googleMapMarkerLabel").width() / 2) + 'px');
 	} else {
 		if (posY < $(window).height() / 2) {
-			$('#googleMapMarkerLabel').css("top", posY + 25 + 'px');
+			$('#googleMapMarkerLabel').css("top", posY + 66 + 'px');
 		} else {
-			$('#googleMapMarkerLabel').css("top", posY - 25 + 'px');
+			$('#googleMapMarkerLabel').css("top", posY - 66 + 'px');
 		}
 		if (posX - ($("#googleMapMarkerLabel").width() / 2) < 0) {
 			$('#googleMapMarkerLabel').css("left", '4px');

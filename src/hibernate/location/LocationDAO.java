@@ -111,6 +111,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setIcon(rs.getString("icon"));
 				ent.setParentId(rs.getLong("parent_id"));
 				ent.setBoundary(rs.getString("boundary"));
+				ent.setEntrances(getEntrancesForALocation(ent, conn));
 				if (rs.getLong("parent_id") > 0)
 					ent.setParent(getLocationENT(
 							new LocationENT(rs.getLong("parent_id")), conn));
@@ -890,8 +891,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public ArrayList<EntranceIntersectionENT> getEntrancesForALocation(LocationENT parent,
-			Connection conn) {
+	public ArrayList<EntranceIntersectionENT> getEntrancesForALocation(
+			LocationENT parent, Connection conn) {
 		ArrayList<EntranceIntersectionENT> res = new ArrayList<EntranceIntersectionENT>();
 		boolean isnew = false;
 		if (conn == null)
@@ -907,9 +908,10 @@ public class LocationDAO extends BaseHibernateDAO implements
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				res.add(new EntranceIntersectionENT(rs.getLong("entrance_id"), rs
-						.getLong("parent_id"), rs
-						.getString("description"), rs.getString("gps"), rs.getBoolean("intersection_entrance")));
+				res.add(new EntranceIntersectionENT(rs.getLong("entrance_id"),
+						rs.getLong("parent_id"), rs.getString("description"),
+						rs.getString("gps"), rs
+								.getBoolean("intersection_entrance")));
 			}
 			rs.close();
 			ps.close();
@@ -920,9 +922,46 @@ public class LocationDAO extends BaseHibernateDAO implements
 		}
 		return res;
 	}
+	
 
-	public boolean deleteEntrance(EntranceIntersectionENT entrance, Connection conn)
-			throws AMSException {
+	public LocationENT getEntranceLocation(EntranceIntersectionENT ent,
+			Connection conn){
+		boolean isnew = false;
+		LocationENT res = getLocationENT(new LocationENT(ent.getParent_id()), conn);
+		if (conn == null)
+			try {
+				conn = getConnection();
+				isnew = true;
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+		try {
+			String query = "select * from location_entrance where entrance_id = "
+					+ ent.getEntranceId();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ent = new EntranceIntersectionENT(rs.getLong("entrance_id"),
+						rs.getLong("parent_id"), rs.getString("description"),
+						rs.getString("gps"), rs
+								.getBoolean("intersection_entrance"));
+				
+			}
+			ArrayList<EntranceIntersectionENT> entrances = new ArrayList<EntranceIntersectionENT>();
+			entrances.add(ent);
+			res.setEntrances(entrances);
+			rs.close();
+			ps.close();
+			if (isnew)
+				conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public boolean deleteEntrance(EntranceIntersectionENT entrance,
+			Connection conn) throws AMSException {
 		try {
 			boolean isnew = false;
 			if (conn == null)
@@ -946,7 +985,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 		}
 	}
 
-	public EntranceIntersectionENT saveEntrance(EntranceIntersectionENT entrance, Connection conn) {
+	public EntranceIntersectionENT saveEntrance(
+			EntranceIntersectionENT entrance, Connection conn) {
 		try {
 			boolean isnew = false;
 			if (conn == null)
@@ -957,12 +997,20 @@ public class LocationDAO extends BaseHibernateDAO implements
 					e.printStackTrace();
 				}
 			String query = "";
-			query = "insert into location_entrance (description, parent_id, gps, intersection_entrance, entrance_id)"
-					+ " values (?, ?, ?, ?, ?)";
-			if (entrance.getEntranceId() > 0)
-				query = "update location_entrance set parent_id= ?, gps = ?, description = ?, intersection_entrance = ? where entrance_id = ?";
-			PreparedStatement ps = conn.prepareStatement(query,
-					Statement.RETURN_GENERATED_KEYS);
+			// query =
+			// "insert into location_entrance (description, parent_id, gps, intersection_entrance, entrance_id)"
+			// + " values (?, ?, ?, ?, ?)";
+			query = "INSERT INTO location_entrance (description, parent_id, gps, intersection_entrance, entrance_id)"
+					+ "VALUES(?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE  description = ?, parent_id = ?, gps = ?, intersection_entrance = ?";
+			// if (entrance.getEntranceId() > 0)
+			// query =
+			// "update location_entrance set parent_id= ?, gps = ?, description = ?, intersection_entrance = ? where entrance_id = ?";
+			// query =
+			// "update location_entrance set intersection_entrance = ? where entrance_id = ?";
+
+			// PreparedStatement ps = conn.prepareStatement(query,
+			// Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, entrance.getDescription());
 			ps.setLong(2, entrance.getParent_id());
 			ps.setString(3, entrance.getGps());
@@ -970,14 +1018,20 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ps.setInt(4, 1);
 			} else
 				ps.setInt(4, 0);
-			if (entrance.getEntranceId() > 0)
-				ps.setLong(5, entrance.getEntranceId());
+			ps.setLong(5, entrance.getEntranceId());
+			ps.setString(6, entrance.getDescription());
+			ps.setLong(7, entrance.getParent_id());
+			ps.setString(8, entrance.getGps());
+			if (entrance.isEntranceIntersection()) {
+				ps.setInt(9, 1);
+			} else
+				ps.setInt(9, 0);
 			ps.executeUpdate();
-			ResultSet rs = ps.getGeneratedKeys();
-			if (rs.next() && entrance.getEntranceId() > 0) {
-				entrance.setEntranceId(rs.getLong("entrance_id"));
-			}
-			rs.close();
+			// ResultSet rs = ps.getGeneratedKeys();
+			// if (rs.next() && entrance.getEntranceId() > 0) {
+			// entrance.setEntranceId(rs.getLong("entrance_id"));
+			// }
+			// rs.close();
 			ps.close();
 			if (isnew)
 				conn.close();
@@ -985,5 +1039,55 @@ public class LocationDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 		}
 		return entrance;
+	}
+
+	public String getClosestPointOnLines(float[] pXy, float[][] aXys) {
+		float fTo = 0, minDist = 0, fFrom = 0, x = 0, y = 0, dist = 0;
+		int i = 0;
+		if (aXys.length > 1) {
+			for (int n = 1; n < aXys.length; n++) {
+				if (aXys[n][0] != aXys[n - 1][0]) {
+					float a = (aXys[n][1] - aXys[n - 1][1])
+							/ (aXys[n][0] - aXys[n - 1][0]);
+					float b = aXys[n][1] - a * aXys[n][0];
+					dist = (float) (Math.abs(a * pXy[0] + b - pXy[1]) / Math
+							.sqrt(a * a + 1));
+				} else
+					dist = Math.abs(pXy[0] - aXys[n][0]);
+				float rl2 = (float) (Math.pow(aXys[n][1] - aXys[n - 1][1], 2) + Math
+						.pow(aXys[n][0] - aXys[n - 1][0], 2));
+				float ln2 = (float) (Math.pow(aXys[n][1] - pXy[1], 2) + Math
+						.pow(aXys[n][0] - pXy[0], 2));
+				float lnm12 = (float) (Math.pow(aXys[n - 1][1] - pXy[1], 2) + Math
+						.pow(aXys[n - 1][0] - pXy[0], 2));
+				float dist2 = (float) Math.pow(dist, 2);
+				float calcrl2 = ln2 - dist2 + lnm12 - dist2;
+				if (calcrl2 > rl2)
+					dist = (float) Math.sqrt(Math.min(ln2, lnm12));
+				if ((minDist == 0) || (minDist > dist)) {
+					if (calcrl2 > rl2) {
+						if (lnm12 < ln2) {
+							fTo = 0;
+							fFrom = 1;
+						} else {
+							fFrom = 0;
+							fTo = 1;
+						}
+					} else {
+						fTo = (float) ((Math.sqrt(lnm12 - dist2)) / Math
+								.sqrt(rl2));
+						fFrom = (float) ((Math.sqrt(ln2 - dist2)) / Math
+								.sqrt(rl2));
+					}
+					minDist = dist;
+					i = n;
+				}
+			}
+			float dx = aXys[i - 1][0] - aXys[i][0];
+			float dy = aXys[i - 1][1] - aXys[i][1];
+			x = aXys[i - 1][0] - (dx * fTo);
+			y = aXys[i - 1][1] - (dy * fTo);
+		}
+		return x + "," + y;
 	}
 }

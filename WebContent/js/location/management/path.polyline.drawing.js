@@ -62,8 +62,8 @@ var pathSelected = false;
 function drawApath(l) {
 	var pathCoor = [];
 	var pathCoorPolygon = [];
-	pathCoorPolygon.push([ parseFloat(l.departure.gps.split(',')[1]),
-			parseFloat(l.departure.gps.split(',')[0]) ]);
+	pathCoorPolygon.push([ parseFloat(l.departure.entrances[0].gps.split(',')[1]),
+			parseFloat(l.departure.entrances[0].gps.split(',')[0]) ]);
 	pathCoor.push(getGoogleMapPosition(l.departure.gps));
 	if (l.pathRoute != null && l.pathRoute.length > 0) {
 		var tm = l.pathRoute.split("_");
@@ -73,8 +73,8 @@ function drawApath(l) {
 			pathCoor.push(getGoogleMapPosition(tm[i]));
 		}
 	}
-	pathCoorPolygon.push([ parseFloat(l.destination.gps.split(',')[1]),
-			parseFloat(l.destination.gps.split(',')[0]) ]);
+	pathCoorPolygon.push([ parseFloat(l.destination.entrances[0].gps.split(',')[1]),
+			parseFloat(l.destination.entrances[0].gps.split(',')[0]) ]);
 	pathCoor.push(getGoogleMapPosition(l.destination.gps));
 	var polygon = new google.maps.Polygon({
 		paths : measurePolygonForAPath(pathCoorPolygon, l.width),

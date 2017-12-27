@@ -189,6 +189,45 @@ public class DataManagementLocation extends BaseHibernateDAO {
 		}
 	}
 
+	private static void updatePointsToBoundary() {
+		LocationDAO dao = new LocationDAO();
+
+		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "5",
+				"");
+		for (int i = 0; i < ents.size(); i++) {
+			float[] pXy = new float[2];
+			dao.saveEntrance(new EntranceIntersectionENT(ents.get(i)
+					.getLocationID(), ents.get(i).getParentId(), ents.get(i)
+					.getLocationName(), ents.get(i).getGps(), false), null);
+			if (ents.get(i).getBoundary() != null
+					&& ents.get(i).getBoundary().length() > 10) {
+				ArrayList<EntranceIntersectionENT> rnt = dao
+						.getEntrancesForALocation(ents.get(i), null);
+				String[] tmp = ents.get(i).getBoundary().split(";")[0]
+						.split("_");
+				float[][] aXys = new float[tmp.length][2];
+				for (int j = 0; j < aXys.length; j++) {
+					aXys[j][0] = Float.parseFloat(tmp[j].split(",")[0]);
+					aXys[j][1] = Float.parseFloat(tmp[j].split(",")[1]);
+				}
+				for (int j = 0; j < rnt.size(); j++) {
+					pXy[0] = Float
+							.parseFloat(rnt.get(j).getGps().split(",")[0]);
+					pXy[1] = Float
+							.parseFloat(rnt.get(j).getGps().split(",")[0]);
+					System.out.println(ents.get(i).getLocationName());
+					dao.saveEntrance(
+							new EntranceIntersectionENT(ents.get(i)
+									.getLocationID(), ents.get(i)
+									.getLocationID(), ents.get(i)
+									.getLocationName(), dao
+									.getClosestPointOnLines(pXy, aXys), true),
+							null);
+				}
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		// updateAllGPS();
 		DataManagementLocation daomng = new DataManagementLocation();
@@ -224,21 +263,66 @@ public class DataManagementLocation extends BaseHibernateDAO {
 		// "-33.987197,22.5592594", "-33.991323,22.5072237");
 
 		//
-
+		updatePointsToBoundary();
 		LocationDAO dao = new LocationDAO();
 
-		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "11",
-				"");
-		for (int i = 0; i < ents.size(); i++) {
-			System.out.println(ents.get(i).getLocationName());
-//			try {
-//				dao.deleteLocation(ents.get(i));
-//			} catch (AMSException e) {
-				// TODO Auto-generated catch block
-//				e.printStackTrace();
+//		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "5",
+//				"");
+//		for (int i = 0; i < ents.size(); i++) {
+			// System.out.println(ents.get(i).getLocationName());
+			// try {
+			// dao.deleteLocation(ents.get(i));
+			// } catch (AMSException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+//			float[] pXy = new float[2];
+//			dao.saveEntrance(new EntranceIntersectionENT(ents.get(i)
+//					.getLocationID(), ents.get(i).getParentId(), ents.get(i)
+//					.getLocationName(), ents.get(i).getGps(), false), null);
+//			if (ents.get(i).getBoundary() != null
+//					&& ents.get(i).getBoundary().length() > 10) {
+//				ArrayList<EntranceIntersectionENT> rnt = dao
+//						.getEntrancesForALocation(ents.get(i), null);
+//				String[] tmp = ents.get(i).getBoundary().split(";")[0]
+//						.split("_");
+//				float[][] aXys = new float[tmp.length][2];
+//				for (int j = 0; j < aXys.length; j++) {
+//					aXys[j][0] = Float.parseFloat(tmp[j].split(",")[0]);
+//					aXys[j][1] = Float.parseFloat(tmp[j].split(",")[1]);
+//				}
+//				for (int j = 0; j < rnt.size(); j++) {
+//					pXy[0] = Float
+//							.parseFloat(rnt.get(j).getGps().split(",")[0]);
+//					pXy[1] = Float
+//							.parseFloat(rnt.get(j).getGps().split(",")[0]);
+//					System.out.println(ents.get(i).getLocationName());
+//					dao.saveEntrance(
+//							new EntranceIntersectionENT(ents.get(i)
+//									.getLocationID(), ents.get(i)
+//									.getLocationID(), ents.get(i)
+//									.getLocationName(), dao
+//									.getClosestPointOnLines(pXy, aXys), true),
+//							null);
+//				}
+//				// Ent
 //			}
-			dao.saveEntrance(new EntranceIntersectionENT(ents.get(i).getLocationID(), ents.get(i).getParentId(), ents.get(i).getLocationName(), ents.get(i).getGps(), true), null);
-		}
+			// float[][] aXys = {
+			// { (float) -34.0087283359749, (float) 25.669569075107574 },
+			// { (float) -34.00872769326653, (float) 25.67026913166046 },
+			// { (float) -34.00857650033025, (float) 25.670275837183 },
+			// { (float) -34.008569830047456, (float) 25.67030668258667 },
+			// { (float) -34.00852647319649, (float) 25.670305341482162 },
+			// { (float) -34.00851202090791, (float) 25.670271813869476 },
+			// { (float) -34.00843975942813, (float) 25.670273154973984 },
+			// { (float) -34.008441982859196, (float) 25.66928744316101 },
+			// { (float) -34.008619857155686, (float) 25.66927805542946 },
+			// { (float) -34.0086131868763, (float) 25.669338405132294 },
+			// { (float) -34.00872769326653, (float) 25.669342428445816 },
+			// { (float) -34.00872324641931, (float) 25.669448375701904 },
+			// { (float) -34.008783278837186, (float) 25.669453740119934 },
+			// { (float) -34.00878550225925, (float) 25.669552981853485 } };
+//		}
 		// LocationDataManagement daomng = new LocationDataManagement();
 		// ArrayList<PathENT> paths = dao.getAllPaths("NMMU");
 		// for (int i = 0; i < paths.size(); i++) {

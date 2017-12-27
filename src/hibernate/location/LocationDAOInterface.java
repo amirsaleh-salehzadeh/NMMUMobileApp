@@ -53,6 +53,9 @@ public interface LocationDAOInterface {
 
 	public ArrayList<EntranceIntersectionENT> getEntrancesForALocation(LocationENT parent,
 			Connection conn);
+	
+	public LocationENT getEntranceLocation(EntranceIntersectionENT ent,
+			Connection conn);
 
 	public boolean deleteEntrance(EntranceIntersectionENT entrance, Connection conn)
 			throws AMSException;
