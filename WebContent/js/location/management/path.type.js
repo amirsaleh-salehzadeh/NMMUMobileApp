@@ -36,30 +36,5 @@ function selectIcon(id) {
 			$(this).trigger("create");
 		}
 	});
-//	$("#pathTypePopup").trigger("create");
 	$("#pathTypeIds").val(pathTypeIds.join(","));
 }
-
-//function showPathTypeMenu() {
-//	$(".pathTypeIcon").each(function() {
-//		if ($(this).hasClass("pathTypeIconSelected")) {
-//			$(this).removeClass("pathTypeIconSelected");
-//		}
-//		$(this).trigger("create");
-//	});
-//	pathTypeIds = [];
-//	$("#pathTypePopup").trigger("create");
-//	$("#pathTypeIds").val(pathTypeIds.join(","));
-//	$('#pathTypePopup').css("position", "absolute");
-//	$('#pathTypePopup').css("left", event.pageX + 'px');
-//	$('#pathTypePopup').css("top", event.pageY + 'px');
-//	$('#pathTypePopup').trigger("create");
-//	var left = event.pageX - Math.round($("#pathTypePopup").width() / 2);
-//	if ((event.pageX + $("#pathTypePopup").width()) >= $(window).width())
-//		left = $(window).width() - $("#pathTypePopup").width();
-//	if (left <= 0)
-//		left = 0;
-//	$('#pathTypePopup').css("left", left + 'px');
-//	$('#pathTypePopup').trigger("create");
-//	$('#pathTypePopup').fadeIn();
-//}

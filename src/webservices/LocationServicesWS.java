@@ -50,8 +50,8 @@ public class LocationServicesWS {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			EntranceIntersectionENT ent = new EntranceIntersectionENT(entranceId, parentId, locationName,
-					coordinate, true);
+			EntranceIntersectionENT ent = new EntranceIntersectionENT(
+					entranceId, parentId, locationName, coordinate, true);
 			json = mapper.writeValueAsString(getLocationDAO().saveEntrance(ent,
 					null));
 		} catch (JsonGenerationException e) {

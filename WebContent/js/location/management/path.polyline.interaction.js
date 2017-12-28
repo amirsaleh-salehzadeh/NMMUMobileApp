@@ -103,9 +103,9 @@ function selectAPath(path) {
 	url = "REST/GetPathWS/SavePath?fLocationId=" + $("#departureId").val()
 			+ "&tLocationId=" + $("#destinationId").val() + "&pathType="
 			+ $("#pathType").val() + "&pathRoute=" + $("#pathLatLng").val();
-	$("#departure").val(path.departure.locationName);
-	$("#departureId").val(path.departure.locationID);
-	$("#departureGPS").val(path.departure.gps);
+	$("#departure").val(path.departure.entrances[0].locationName);
+	$("#departureId").val(path.departure.entrances[0].locationID);
+	$("#departureGPS").val(path.departure.entrances[0].gps);
 	$("#pathLatLng").val(path.pathRoute);
 	var ptids = path.pathType.split(",");
 	for ( var int = 0; int < ptids.length; int++) {
@@ -113,9 +113,9 @@ function selectAPath(path) {
 	}
 	$("#pathTypeIds").val(path.pathType);
 	$("#pathLength").html(getTheLength(path.distance));
-	$("#destination").val(path.destination.locationName);
-	$("#destinationId").val(path.destination.locationID);
-	$("#destinationGPS").val(path.destination.gps);
+	$("#destination").val(path.destination.entrances[0].locationName);
+	$("#destinationId").val(path.destination.entrances[0].locationID);
+	$("#destinationGPS").val(path.destination.entrances[0].gps);
 	$("#pathWidth").val(path.width);
 	$("#pathId").val(path.pathId);
 	$("#pathWidth").slider("refresh");

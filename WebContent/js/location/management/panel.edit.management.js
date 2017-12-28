@@ -148,7 +148,7 @@ function locationEditPanelOpen(title, info) {
 	$("#locationInfo").html('');
 	$("#locationEditMenuTitle").html(title + " (" + info + ")");
 	$("#locationInfo").prepend(title);
-	$("#locationDescriptionLabel").html(info);// +":"
+	$("#locationDescriptionLabel").html(info);
 	$('#locationEditMenu').popup("option", {
 		x : event.pageX,
 		y : event.pageY

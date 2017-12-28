@@ -922,12 +922,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 		}
 		return res;
 	}
-	
 
 	public LocationENT getEntranceLocation(EntranceIntersectionENT ent,
-			Connection conn){
+			Connection conn) {
 		boolean isnew = false;
-		LocationENT res = getLocationENT(new LocationENT(ent.getParentId()), conn);
+		LocationENT res = getLocationENT(new LocationENT(ent.getParentId()),
+				conn);
 		if (conn == null)
 			try {
 				conn = getConnection();
@@ -943,9 +943,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 			while (rs.next()) {
 				ent = new EntranceIntersectionENT(rs.getLong("entrance_id"),
 						rs.getLong("parent_id"), rs.getString("description"),
-						rs.getString("gps"), rs
-								.getBoolean("intersection_entrance"));
-				
+						rs.getString("gps"),
+						rs.getBoolean("intersection_entrance"));
+
 			}
 			ArrayList<EntranceIntersectionENT> entrances = new ArrayList<EntranceIntersectionENT>();
 			entrances.add(ent);
@@ -997,20 +997,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 					e.printStackTrace();
 				}
 			String query = "";
-			// query =
-			// "insert into location_entrance (description, parent_id, gps, intersection_entrance, entrance_id)"
-			// + " values (?, ?, ?, ?, ?)";
-			query = "INSERT INTO location_entrance (description, parent_id, gps, intersection_entrance, entrance_id)"
-					+ "VALUES(?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE  description = ?, parent_id = ?, gps = ?, intersection_entrance = ?";
-			// if (entrance.getEntranceId() > 0)
-			// query =
-			// "update location_entrance set parent_id= ?, gps = ?, description = ?, intersection_entrance = ? where entrance_id = ?";
-			// query =
-			// "update location_entrance set intersection_entrance = ? where entrance_id = ?";
-
-			// PreparedStatement ps = conn.prepareStatement(query,
-			// Statement.RETURN_GENERATED_KEYS);
-			PreparedStatement ps = conn.prepareStatement(query);
+			query = "insert into location_entrance (description, parent_id, gps, intersection_entrance)"
+					+ " values (?, ?, ?, ?)";
+			if (entrance.getEntranceId() > 0)
+				query = "update location_entrance set  description = ?, parent_id= ?, gps = ?, intersection_entrance = ? where entrance_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, entrance.getDescription());
 			ps.setLong(2, entrance.getParentId());
 			ps.setString(3, entrance.getGps());
@@ -1018,20 +1010,14 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ps.setInt(4, 1);
 			} else
 				ps.setInt(4, 0);
-			ps.setLong(5, entrance.getEntranceId());
-			ps.setString(6, entrance.getDescription());
-			ps.setLong(7, entrance.getParentId());
-			ps.setString(8, entrance.getGps());
-			if (entrance.isEntranceIntersection()) {
-				ps.setInt(9, 1);
-			} else
-				ps.setInt(9, 0);
+			if (entrance.getEntranceId() > 0)
+				ps.setLong(5, entrance.getEntranceId());
 			ps.executeUpdate();
-			// ResultSet rs = ps.getGeneratedKeys();
-			// if (rs.next() && entrance.getEntranceId() > 0) {
-			// entrance.setEntranceId(rs.getLong("entrance_id"));
-			// }
-			// rs.close();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				entrance.setEntranceId(rs.getLong(1));
+			}
+			rs.close();
 			ps.close();
 			if (isnew)
 				conn.close();

@@ -64,7 +64,7 @@ function drawApath(l) {
 	var pathCoorPolygon = [];
 	pathCoorPolygon.push([ parseFloat(l.departure.entrances[0].gps.split(',')[1]),
 			parseFloat(l.departure.entrances[0].gps.split(',')[0]) ]);
-	pathCoor.push(getGoogleMapPosition(l.departure.gps));
+	pathCoor.push(getGoogleMapPosition(l.departure.entrances[0].gps));
 	if (l.pathRoute != null && l.pathRoute.length > 0) {
 		var tm = l.pathRoute.split("_");
 		for ( var i = 0; i < tm.length; i++) {
@@ -75,7 +75,7 @@ function drawApath(l) {
 	}
 	pathCoorPolygon.push([ parseFloat(l.destination.entrances[0].gps.split(',')[1]),
 			parseFloat(l.destination.entrances[0].gps.split(',')[0]) ]);
-	pathCoor.push(getGoogleMapPosition(l.destination.gps));
+	pathCoor.push(getGoogleMapPosition(l.destination.entrances[0].gps));
 	var polygon = new google.maps.Polygon({
 		paths : measurePolygonForAPath(pathCoorPolygon, l.width),
 		strokeColor : "#081B2C",

@@ -13,6 +13,8 @@ import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
+import com.mysql.jdbc.Statement;
+
 import common.location.EntranceIntersectionENT;
 import common.location.LocationENT;
 import common.location.LocationLightENT;
@@ -36,7 +38,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			e.printStackTrace();
 		}
 		try {
-			String query = "Select p.*, pt.*, GROUP_CONCAT(ppt.path_type_id) as pathtypeString from paths p "
+			String query = "Select p.*, pt.*, GROUP_CONCAT(ppt.path_type_id) as pathtypeString from path p "
 					+ "inner join location lf on lf.location_id = p.destination_location_id "
 					+ " inner join path_path_type ppt on ppt.path_id = p.path_id"
 					+ " inner join path_type pt on pt.path_type_id = ppt.path_type_id"
@@ -62,11 +64,11 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			LocationDAO ldao = new LocationDAO();
 			while (rs.next()) {
 				LocationENT depl = ldao.getEntranceLocation(
-						new EntranceIntersectionENT(rs.getLong("departure_location_id")),
-						conn);
+						new EntranceIntersectionENT(rs
+								.getLong("departure_location_id")), conn);
 				LocationENT desl = ldao.getEntranceLocation(
-						new EntranceIntersectionENT(rs.getLong("destination_location_id")),
-						conn);
+						new EntranceIntersectionENT(rs
+								.getLong("destination_location_id")), conn);
 				PathENT ent = new PathENT(depl, desl, rs.getDouble("distance"),
 						rs.getString("pathtypeString"), rs.getLong("path_id"),
 						rs.getString("path_route"), rs.getDouble("width"),
@@ -93,43 +95,84 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 					e.printStackTrace();
 				}
 			String query = "";
-			query = "insert into paths (destination_location_id, departure_location_id, distance, path_route, path_name, description, width)"
-					+ " values (?, ?, ?, ?, ?, ?, ?)";
+			query = "insert into path (destination_location_id, departure_location_id, distance, path_route, path_name, description, width)"
+					+ " select ?, ?, ?, ?, ?, ?, ? from path where not exists (select * from path where "
+					+ "(destination_location_id = ? and departure_location_id = ?) or (departure_location_id = ? and destination_location_id = ?)) limit 1";
+			// query =
+			// "if not exists (select * from path where (destination_location_id = ? and departure_location_id = ?) "
+			// +
+			// "or (departure_location_id = ? and destination_location_id = ?)) "
+			// +
+			// "insert into path (destination_location_id, departure_location_id, distance, path_route, path_name, description, width)"
+			// + " values (?, ?, ?, ?, ?, ?, ?)  ";
 			if (path.getPathId() > 0)
-				query = "update paths set destination_location_id = ?, departure_location_id = ?, "
+				query = "update path set destination_location_id = ?, departure_location_id = ?, "
 						+ "distance = ?, path_route = ?,  path_name = ?, description = ?, width = ?"
 						+ " where path_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setLong(1, path.getDestination().getLocationID());
-			ps.setLong(2, path.getDeparture().getLocationID());
-			ps.setDouble(3,
-					reEvaluateDistance(path.getDistance(), path.getPathTypes()));
-			ps.setString(4, path.getPathRoute());
-			ps.setString(5, path.getPathName());
-			ps.setString(6, path.getDescription());
-			ps.setDouble(7, path.getWidth());
-			if (path.getPathId() > 0)
+			// ps.setLong(1, path.getDestination().getLocationID());
+			// ps.setLong(2, path.getDeparture().getLocationID());
+			// ps.setLong(3, path.getDestination().getLocationID());
+			// ps.setLong(4, path.getDeparture().getLocationID());
+			// ps.setLong(5, path.getDestination().getLocationID());
+			// ps.setLong(6, path.getDeparture().getLocationID());
+			// ps.setDouble(7,
+			// reEvaluateDistance(path.getDistance(), path.getPathTypes()));
+			// ps.setString(8, path.getPathRoute());
+			// ps.setString(9, path.getPathName());
+			// ps.setString(10, path.getDescription());
+			// ps.setDouble(11, path.getWidth());1216 371
+
+			if (path.getPathId() > 0) {
+				ps.setLong(1, path.getDestination().getLocationID());
+				ps.setLong(2, path.getDeparture().getLocationID());
+				ps.setDouble(
+						3,
+						reEvaluateDistance(path.getDistance(),
+								path.getPathTypes()));
+				ps.setString(4, path.getPathRoute());
+				ps.setString(5, path.getPathName());
+				ps.setString(6, path.getDescription());
+				ps.setDouble(7, path.getWidth());
 				ps.setLong(8, path.getPathId());
+			} else {
+				ps.setLong(1, path.getDestination().getLocationID());
+				ps.setLong(2, path.getDeparture().getLocationID());
+				ps.setDouble(
+						3,
+						reEvaluateDistance(path.getDistance(),
+								path.getPathTypes()));
+				ps.setString(4, path.getPathRoute());
+				ps.setString(5, path.getPathName());
+				ps.setString(6, path.getDescription());
+				ps.setDouble(7, path.getWidth());
+				ps.setLong(8, path.getDestination().getLocationID());
+				ps.setLong(9, path.getDeparture().getLocationID());
+				ps.setLong(10, path.getDestination().getLocationID());
+				ps.setLong(11, path.getDeparture().getLocationID());
+			}
 			ps.execute();
 			ps.close();
 			LocationDAO ldao = new LocationDAO();
 			if (path.getPathId() <= 0) {
-				query = "select path_id from paths order by path_id desc limit 1";
+				query = "select path_id from path order by path_id desc limit 1";
 				ps = conn.prepareStatement(query);
 				ResultSet rs = ps.executeQuery();
 				while (rs.next())
 					path.setPathId(rs.getLong("path_id"));
+				rs.close();
 			}
-			path = savePathTypes(path, conn);
-			path.setDeparture(ldao.getLocationENT(new LocationENT(path
-					.getDeparture().getLocationID()), conn));
-			path.setDestination(ldao.getLocationENT(new LocationENT(path
-					.getDestination().getLocationID()), conn));
-			ps.close();
 			if (isnew) {
 				conn.commit();
 				conn.close();
 			}
+			path = savePathTypes(path, null);
+			path.setDeparture(ldao.getEntranceLocation(
+					new EntranceIntersectionENT(path.getDeparture()
+							.getLocationID()), null));
+			path.setDestination(ldao.getEntranceLocation(
+					new EntranceIntersectionENT(path.getDestination()
+							.getLocationID()), null));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -210,7 +253,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			query = "delete from path_path_type where path_id = "
 					+ path.getPathId();
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.execute();
+			ps.executeUpdate();
 			ps.close();
 			query = "insert into path_path_type (path_id, path_type_id)"
 					+ " values (? , ?)";
@@ -218,7 +261,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 				ps = conn.prepareStatement(query);
 				ps.setLong(1, path.getPathId());
 				ps.setLong(2, path.getPathTypes().get(i).getPathTypeId());
-				ps.execute();
+				ps.executeUpdate();
 				ps.close();
 			}
 			if (isnew)
@@ -246,7 +289,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.execute();
 			ps.close();
-			query = "delete from paths where path_id = ?";
+			query = "delete from path where path_id = ?";
 			ps = conn.prepareStatement(query);
 			ps.setLong(1, ent.getPathId());
 			ps.execute();
@@ -274,12 +317,12 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 					e.printStackTrace();
 				}
 			String query = "";
-			query = "select * from paths where path_id = " + ent.getPathId();
+			query = "select * from path where path_id = " + ent.getPathId();
 			if (ent.getDeparture() != null
 					&& ent.getDeparture().getLocationID() > 0
 					&& ent.getDestination() != null
 					&& ent.getDestination().getLocationID() > 0)
-				query = "select * from paths where (departure_location_id = "
+				query = "select * from path where (departure_location_id = "
 						+ ent.getDeparture().getLocationID()
 						+ " and destination_location_id = "
 						+ ent.getDestination().getLocationID()

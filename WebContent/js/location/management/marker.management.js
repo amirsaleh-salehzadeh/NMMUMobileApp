@@ -357,10 +357,13 @@ function addEntrance(l) {
 	});
 	entrance.setPosition(pos);
 	google.maps.event.addListener(entrance, 'click', function(point) {
-		hideLocationInfo();
-		showLocationInfo();
-		setInputsForLocation(l, l.gps);
-		locationEditPanelOpen(l.description, "Entrance");
+		if ($('[name="optionType"] :radio:checked').val() == "marker") {
+			hideLocationInfo();
+			showLocationInfo();
+			locationEditPanelOpen(l.description, "Entrance");
+		} else {
+			addAPath(l);
+		}
 	});
 	pathMarkers.push(entrance);
 }

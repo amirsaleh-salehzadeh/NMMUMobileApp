@@ -68,20 +68,11 @@ function createNew(seq) {
 			setALocationTypeNew();
 		} else {
 			$(".pahtFields").val("");
-			openPathTypePopup();
+//			openPathTypePopup();
 			$("#actionBarButtonGroup").css("display", "none").trigger("create");
 			$("#actionBarTitle").html("Create a Path");
-//			$("#map_canvas").mousemove(
-//					function(event) {
-//						showActionBarLabel("Select the Departure", event.pageX,
-//								event.pageY);
-//					});
 			$("#actionBarMessage").html("Select the Departure");
-//			$("#map_canvas").mouseout(function(event) {
-//				clearActionBarLabel();
-//			});
 			newPathInProgress = true;
-			// setAPathTypeNew();
 			openPathEditPanel();
 		}
 		break;

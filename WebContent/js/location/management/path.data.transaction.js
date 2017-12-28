@@ -142,19 +142,19 @@ function removePath() {
 }
 
 var mapDrawingClickCounter;
-function addAPath(location) {
-	if (location == null) {
+function addAPath(entranceIntersection) {
+	if (entranceIntersection == null) {
 		alert("A path can only be drawn between two locations");
 		return;
 	}
 	if (!newPathInProgress)
 		return;
-	if ($("#departure").val() == "") {
+	if ($("#departureId").val() == "") {
 		mapDrawingClickCounter = 1;
-		$("#departure").val(location.locationName);
-		$("#departureId").val(location.locationID);
-		$("#departureGPS").val(location.gps);
-		lastOne = getGoogleMapPosition(location.gps);
+		$("#departure").val(entranceIntersection.description);
+		$("#departureId").val(entranceIntersection.entranceId);
+		$("#departureGPS").val(entranceIntersection.gps);
+		lastOne = getGoogleMapPosition(entranceIntersection.gps);
 		google.maps.event.clearInstanceListeners(map);
 		pathDrawingCircle = new google.maps.Circle({
 			strokeColor : '#00FF00',
@@ -181,9 +181,9 @@ function addAPath(location) {
 		});
 		return;
 	} else if ($("#destinationId").val() == "") {
-		$("#destination").val(location.locationName);
-		$("#destinationId").val(location.locationID);
-		$("#destinationGPS").val(location.gps);
+		$("#destination").val(entranceIntersection.description);
+		$("#destinationId").val(entranceIntersection.entranceId);
+		$("#destinationGPS").val(entranceIntersection.gps);
 		pathDrawingCircle.setMap(null);
 		google.maps.event.clearInstanceListeners(map);
 		if (movingLine != undefined) {
