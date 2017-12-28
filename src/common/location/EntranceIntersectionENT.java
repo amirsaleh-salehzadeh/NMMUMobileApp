@@ -2,16 +2,16 @@ package common.location;
 
 public class EntranceIntersectionENT {
 	long entranceId;
-	long parent_id;
+	long parentId;
 	String description;
 	String gps;
 	boolean entranceIntersection;
 	
-	public EntranceIntersectionENT(long entranceId, long parent_id,
+	public EntranceIntersectionENT(long entranceId, long parentId,
 			String description, String gps, boolean entranceIntersection) {
 		super();
 		this.entranceId = entranceId;
-		this.parent_id = parent_id;
+		this.parentId = parentId;
 		this.description = description;
 		this.gps = gps;
 		this.entranceIntersection = entranceIntersection;
@@ -36,11 +36,11 @@ public class EntranceIntersectionENT {
 		this.entranceId = entranceId;
 	}
 	
-	public EntranceIntersectionENT(long entranceId, long parent_id, String description,
+	public EntranceIntersectionENT(long entranceId, long parentId, String description,
 			String gps) {
 		super();
 		this.entranceId = entranceId;
-		this.parent_id = parent_id;
+		this.parentId = parentId;
 		this.description = description;
 		this.gps = gps;
 	}
@@ -57,16 +57,16 @@ public class EntranceIntersectionENT {
 		this.entranceId = entranceId;
 	}
 	/**
-	 * @return the parent_id
+	 * @return the parentId
 	 */
-	public long getParent_id() {
-		return parent_id;
+	public long getParentId() {
+		return parentId;
 	}
 	/**
-	 * @param parent_id the parent_id to set
+	 * @param parentId the parentId to set
 	 */
-	public void setParent_id(long parent_id) {
-		this.parent_id = parent_id;
+	public void setParentId(long parentId) {
+		this.parentId = parentId;
 	}
 	/**
 	 * @return the description

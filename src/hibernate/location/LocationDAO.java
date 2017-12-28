@@ -927,7 +927,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 	public LocationENT getEntranceLocation(EntranceIntersectionENT ent,
 			Connection conn){
 		boolean isnew = false;
-		LocationENT res = getLocationENT(new LocationENT(ent.getParent_id()), conn);
+		LocationENT res = getLocationENT(new LocationENT(ent.getParentId()), conn);
 		if (conn == null)
 			try {
 				conn = getConnection();
@@ -1012,7 +1012,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			// Statement.RETURN_GENERATED_KEYS);
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, entrance.getDescription());
-			ps.setLong(2, entrance.getParent_id());
+			ps.setLong(2, entrance.getParentId());
 			ps.setString(3, entrance.getGps());
 			if (entrance.isEntranceIntersection()) {
 				ps.setInt(4, 1);
@@ -1020,7 +1020,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ps.setInt(4, 0);
 			ps.setLong(5, entrance.getEntranceId());
 			ps.setString(6, entrance.getDescription());
-			ps.setLong(7, entrance.getParent_id());
+			ps.setLong(7, entrance.getParentId());
 			ps.setString(8, entrance.getGps());
 			if (entrance.isEntranceIntersection()) {
 				ps.setInt(9, 1);

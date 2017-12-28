@@ -268,6 +268,10 @@ function editEntrance() {
 	}
 	coordinatesArray.push(new google.maps.LatLng(bndPos[0].split(",")[0],
 			bndPos[0].split(",")[1]));
+	pointsInLine.push({
+		x : parseFloat(bndPos[0].split(",")[0]),
+		y : parseFloat(bndPos[0].split(",")[1])
+	});
 	setMapOnAllPolygons(null);
 	for ( var int = 0; int < polygonsEdit.length; int++) {
 		polygonsEdit[int].setMap(null);
@@ -296,8 +300,14 @@ function editEntrance() {
 		};
 		entranceMarker.setPosition(pos);
 	});
+	$("#parentLocationId").val($("#locationId").val());
+	$("#locationId").val("0");
+	$("#description").val("Entrance");
 	google.maps.event.addListener(entranceMarker, 'click', function(ev) {
 		if (confirm("Are you sure you want to create the entrance?")) {
+			$("#locationGPS").val(
+					entranceMarker.getPosition().lat() + ","
+							+ entranceMarker.getPosition().lng());
 			saveEntrance();
 		} else {
 			return;
@@ -305,6 +315,9 @@ function editEntrance() {
 	});
 	google.maps.event.addListener(map, 'click', function(ev) {
 		if (confirm("Are you sure you want to create the entrance?")) {
+			$("#locationGPS").val(
+					entranceMarker.getPosition().lat() + ","
+							+ entranceMarker.getPosition().lng());
 			saveEntrance();
 		} else {
 			return;

@@ -45,12 +45,13 @@ public class LocationServicesWS {
 			@QueryParam("locationName") String locationName,
 			@QueryParam("coordinate") String coordinate,
 			@QueryParam("username") String userName,
-			@QueryParam("parentId") long parentId) {
+			@QueryParam("parentId") long parentId,
+			@QueryParam("entranceId") long entranceId) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
-			EntranceIntersectionENT ent = new EntranceIntersectionENT(0, parentId, locationName,
-					coordinate);
+			EntranceIntersectionENT ent = new EntranceIntersectionENT(entranceId, parentId, locationName,
+					coordinate, true);
 			json = mapper.writeValueAsString(getLocationDAO().saveEntrance(ent,
 					null));
 		} catch (JsonGenerationException e) {

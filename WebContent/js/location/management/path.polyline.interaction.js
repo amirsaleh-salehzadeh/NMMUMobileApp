@@ -18,7 +18,7 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 	});
 	var intersectionpoint = getClosestPointOnLines(destinationGPS, pointsInLine);
 	var url = "REST/GetPathWS/CreateAPointOnThePath?pathId=" + path.pathId
-			+ "&pointGPS=" + destinationGPS.x + "," + destinationGPS.y
+			+ "&pointGPS=" + intersectionpoint.x + "," + intersectionpoint.y
 			+ "&index=" + intersectionpoint.i;
 	var intersectId = 0;
 	$.ajax({

@@ -234,28 +234,15 @@ function addMarker(l) {
 	};
 
 	marker.id = l.locationID;
-	marker.addListener('dragend', function(point) {
-		$("#locationTypeId").val(l.locationType.locationTypeId);
-		if (confirm("Are you sure you want to move the marker?")) {
-			$("#locationGPS")
-					.val(point.latLng.lat() + "," + point.latLng.lng());
-			$("#locationId").val(l.locationID);
-			$("#parentLocationId").val(l.parentId);
-			$("#locationName").val(l.locationName);
-			$("#locationTypeId").val(l.locationType.locationTypeId);
-			$("#locationDescription").val(l.description);
-			saveLocation();
-		} else {
-			this.setPosition(pos);
-		}
-	});
 	marker.setPosition(pos);
 	if (l.boundary != null && l.boundary.length > 13) {
 		drawPolygons(l);
 		marker.setVisible(false);
 	} else
 		marker.setMap(map);
-	if (l.locationType.locationTypeId != 5 ) {//|| l.locationType.locationTypeId != 3
+	if (l.locationType.locationTypeId != 5) {// ||
+		// l.locationType.locationTypeId
+		// != 3
 		google.maps.event.addListener(marker, 'click', function(point) {
 			$("#locationTypeId").val(l.locationType.locationTypeId);
 			hideLocationInfo();
@@ -268,12 +255,11 @@ function addMarker(l) {
 	marker.setMap(null);
 }
 
-
 function saveEntrance() {
-	var url = "REST/GetLocationWS/CreateTFCEntrance?username=NMMU&parentId="
-			+ $("#locationId").val() + "&locationName=Entrance&coordinate="
-			+ entranceMarker.getPosition().lat() + ","
-			+ entranceMarker.getPosition().lng();
+	var url = "REST/GetLocationWS/CreateTFCEntrance?entranceId="
+			+ $("#locationId").val() + "&username=NMMU&parentId="
+			+ $("#parentLocationId").val()
+			+ "&locationName=Entrance&coordinate=" + $("#locationGPS").val();
 	$.ajax({
 		url : url,
 		cache : false,
@@ -286,6 +272,7 @@ function saveEntrance() {
 			closeAMenuPopup();
 			$('#locationSaveCancelPanel').css('display', 'none');
 			hideLocationInfo();
+			addEntrance(data);
 			toast('Saved Successfully');
 		},
 		complete : function() {
@@ -300,8 +287,9 @@ function saveEntrance() {
 }
 
 function addEntrance(l) {
+	$("#locationGPS").val("");
 	var intersectionEntrance = 5;
-	if(l.entranceIntersection)
+	if (l.entranceIntersection)
 		intersectionEntrance = 11;
 	var entrance = new google.maps.Marker({
 		icon : refreshMap(intersectionEntrance, l.gps, "normal"),
@@ -323,15 +311,49 @@ function addEntrance(l) {
 	};
 	entrance.id = l.entranceId;
 	entrance.addListener('dragend', function(point) {
-		if (confirm("Are you sure you want to move the marker?")) {
-			$("#locationGPS")
-					.val(point.latLng.lat() + "," + point.latLng.lng());
-			$("#locationId").val(l.entranceId);
-			$("#locationName").val(l.description);
-			saveLocation();
-		} else {
-			this.setPosition(pos);
+		var parentPolygon = null;
+		for ( var i = 0; i < polygons.length; i++) {
+			if (polygons[i].id == l.parentId)
+				parentPolygon = polygons[i];
 		}
+		var oldPoint = {
+			x : parseFloat(point.latLng.lat()),
+			y : parseFloat(point.latLng.lng())
+		};
+		pointsInLine = [];
+		$(parentPolygon.getPath().getArray()).each(function(k, l) {
+			var point = {
+				x : parseFloat(l.lat()),
+				y : parseFloat(l.lng())
+			};
+			pointsInLine.push(point);
+		});
+		pointsInLine.push({
+			x : parseFloat(parentPolygon.getPath().getArray()[0].lat()),
+			y : parseFloat(parentPolygon.getPath().getArray()[0].lng())
+		});
+		var intersectionpoint = getClosestPointOnLines(oldPoint, pointsInLine);
+		this.setPosition({
+			lat : parseFloat(intersectionpoint.x),
+			lng : parseFloat(intersectionpoint.y)
+		});
+		setTimeout(function() {
+			if (confirm("Are you sure you want to move the marker?")) {
+				$("#locationGPS").val(
+						intersectionpoint.x + "," + intersectionpoint.y);
+				$("#locationId").val(l.entranceId);
+				$("#locationName").val(l.description);
+				$("#parentLocationId").val(l.parentId);
+				saveEntrance();
+			} else {
+				entrance.setPosition({
+					lat : parseFloat(l.gps.split(",")[0]),
+					lng : parseFloat(l.gps.split(",")[1])
+				});
+			}
+			;
+		}, 200);
+
 	});
 	entrance.setPosition(pos);
 	google.maps.event.addListener(entrance, 'click', function(point) {
