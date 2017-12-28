@@ -9,7 +9,7 @@ function getAllPaths(refreshPaths) {
 	$("input[name='radio-choice']").each(function() {
 		$(this).checkboxradio('disable');
 	});
-	setMapOnAllMarkers(null);
+//	setMapOnAllMarkers(null);
 	setMapOnAllPathMarkers(map);
 	if (!refreshPaths && paths.length > 0) {
 		setMapOnAllPolylines(map);

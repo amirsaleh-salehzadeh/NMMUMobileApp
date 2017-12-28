@@ -38,15 +38,18 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			e.printStackTrace();
 		}
 		try {
+			LocationDAO ldao = new LocationDAO();
+			String paString  = ldao.getLocationENT(new LocationENT(parentId), null).getParentId()+","+parentId;
 			String query = "Select p.*, pt.*, GROUP_CONCAT(ppt.path_type_id) as pathtypeString from path p "
-					+ "inner join location lf on lf.location_id = p.destination_location_id "
+					+ "inner join location_entrance e on e.entrance_id = p.destination_location_id "
+					+ " inner join location lf on lf.location_id = e.parent_id "
 					+ " inner join path_path_type ppt on ppt.path_id = p.path_id"
 					+ " inner join path_type pt on pt.path_type_id = ppt.path_type_id"
 					+ " where lf.client_name = '"
 					+ username
-					+ "' and lf.parent_id = "
-					+ parentId
-					+ " group by p.path_id";
+					+ "' and lf.parent_id in ("
+					+ paString + ") group by p.path_id";
+			
 			// String query =
 			// "Select p.*, pt.*, lp.* GROUP_CONCAT(ppt.path_type_id) as pathtypeString from path p "
 			// +
@@ -61,7 +64,6 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			// + " group by p.path_id";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
-			LocationDAO ldao = new LocationDAO();
 			while (rs.next()) {
 				LocationENT depl = ldao.getEntranceLocation(
 						new EntranceIntersectionENT(rs
@@ -77,6 +79,9 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			}
 			ps.close();
 			conn.close();
+			if (res.size() > 0)
+				res.addAll(getRoutesForUserAndParent(username, res.get(0)
+						.getPathId()));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -110,19 +115,6 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 						+ "distance = ?, path_route = ?,  path_name = ?, description = ?, width = ?"
 						+ " where path_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
-			// ps.setLong(1, path.getDestination().getLocationID());
-			// ps.setLong(2, path.getDeparture().getLocationID());
-			// ps.setLong(3, path.getDestination().getLocationID());
-			// ps.setLong(4, path.getDeparture().getLocationID());
-			// ps.setLong(5, path.getDestination().getLocationID());
-			// ps.setLong(6, path.getDeparture().getLocationID());
-			// ps.setDouble(7,
-			// reEvaluateDistance(path.getDistance(), path.getPathTypes()));
-			// ps.setString(8, path.getPathRoute());
-			// ps.setString(9, path.getPathName());
-			// ps.setString(10, path.getDescription());
-			// ps.setDouble(11, path.getWidth());1216 371
-
 			if (path.getPathId() > 0) {
 				ps.setLong(1, path.getDestination().getLocationID());
 				ps.setLong(2, path.getDeparture().getLocationID());
@@ -162,11 +154,11 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 					path.setPathId(rs.getLong("path_id"));
 				rs.close();
 			}
+			path = savePathTypes(path, conn);
 			if (isnew) {
 				conn.commit();
 				conn.close();
 			}
-			path = savePathTypes(path, null);
 			path.setDeparture(ldao.getEntranceLocation(
 					new EntranceIntersectionENT(path.getDeparture()
 							.getLocationID()), null));
@@ -253,7 +245,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			query = "delete from path_path_type where path_id = "
 					+ path.getPathId();
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.executeUpdate();
+			ps.execute();
 			ps.close();
 			query = "insert into path_path_type (path_id, path_type_id)"
 					+ " values (? , ?)";
@@ -261,9 +253,9 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 				ps = conn.prepareStatement(query);
 				ps.setLong(1, path.getPathId());
 				ps.setLong(2, path.getPathTypes().get(i).getPathTypeId());
-				ps.executeUpdate();
-				ps.close();
+				ps.execute();
 			}
+			ps.close();
 			if (isnew)
 				conn.close();
 		} catch (SQLException e) {
@@ -466,17 +458,16 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		final PathENT p = getAPath(new PathENT(pathId), null);
 		final long depId = p.getDeparture().getLocationID();
 		final long desId = p.getDestination().getLocationID();
-		LocationENT ent = new LocationENT();
+		EntranceIntersectionENT ent = new EntranceIntersectionENT();
 		ent.setGps(pointGPS);
-		ent.setLocationName("Intersection");
-		ent.setLocationType(new LocationTypeENT(5));
-		ent.setClientName(p.getDeparture().getClientName());
+		ent.setDescription("Intersection");
 		ent.setParentId(p.getDeparture().getParentId());
+		ent.setEntranceIntersection(false);
 		LocationDAO dao = new LocationDAO();
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
-			ent = dao.saveUpdateLocation(ent, conn);
+			ent = dao.saveEntrance(ent, conn);
 			String[] points = p.getPathRoute().split("_");
 			StringJoiner firstRoute = new StringJoiner("_");
 			StringJoiner secondRoute = new StringJoiner("_");
@@ -489,20 +480,37 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			PathENT path = p;
 			path.setPathId(0);
 			path.setDeparture(new LocationENT(depId));
-			path.setDestination(new LocationENT(ent.getLocationID()));
+			path.setDestination(dao.getEntranceLocation(ent, conn));
 			path.setPathRoute(firstRoute.toString());
 			path = savePath(path, conn);
 			res.add(getAPath(new PathENT(path.getPathId()), conn));
 			path.setPathId(0);
-			path.setDeparture(new LocationENT(ent.getLocationID()));
+			path.setDeparture(dao.getEntranceLocation(ent, conn));
 			path.setDestination(new LocationENT(desId));
 			path.setPathRoute(secondRoute.toString());
 			path = savePath(path, conn);
 			res.add(getAPath(new PathENT(path.getPathId()), conn));
 			deletePath(new PathENT(pathId), conn);
+
+			path.setPathId(0);
+			path.setDeparture(dao.getEntranceLocation(
+					new EntranceIntersectionENT(depId), conn));
+			path.setDestination(dao.getEntranceLocation(ent, conn));
+			path.setPathRoute(firstRoute.toString());
+			path = savePath(path, conn);
+			res.add(getAPath(new PathENT(path.getPathId()), conn));
+			path.setPathId(0);
+			path.setDeparture(new LocationENT(ent.getEntranceId()));
+			path.setDestination(new LocationENT(desId));
+			path.setPathRoute(secondRoute.toString());
+			path = savePath(path, conn);
+			res.add(getAPath(new PathENT(path.getPathId()), conn));
+			deletePath(new PathENT(pathId), conn);
+
 			conn.commit();
 			conn.close();
 		} catch (AMSException e) {
+
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -103,13 +103,13 @@ function drawApath(l) {
 			var lat = event.latLng.lat();
 			var lng = event.latLng.lng();
 			openPathEditPanel();
-			if ($('#destination').val().length <= 0
-					&& $('#departure').val().length > 0) {
+			if ($('#destinationId').val().length <= 0
+					&& $('#departureId').val().length > 0) {
 				createAPointOnAnExistingPath(l, {
 					x : parseFloat(lat),
 					y : parseFloat(lng)
 				}, pathPolyline);
-//				createAPointOnAnExistingPath(l, lat + "," + lng, pathPolyline);
+				createAPointOnAnExistingPath(l, lat + "," + lng, pathPolyline);
 			} else {
 				selectAPath(l);
 			}

@@ -7,6 +7,10 @@ public class EntranceIntersectionENT {
 	String gps;
 	boolean entranceIntersection;
 	
+	public EntranceIntersectionENT() {
+		super();
+	}
+	
 	public EntranceIntersectionENT(long entranceId, long parentId,
 			String description, String gps, boolean entranceIntersection) {
 		super();

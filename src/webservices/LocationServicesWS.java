@@ -61,7 +61,6 @@ public class LocationServicesWS {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return json;
 	}
 

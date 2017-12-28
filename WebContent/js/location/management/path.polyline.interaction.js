@@ -32,7 +32,7 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 			$.each(data, function(k, l) {
 				drawApath(l);
 				if (k == 0)
-					intersectId = l.destination.locationID;
+					intersectId = l.destination.entrances[0].locationID;
 			});
 			for ( var i = 0; i < paths.length; i++) {
 				if (paths[i] != null && paths[i].id == path.pathId) {
@@ -103,8 +103,8 @@ function selectAPath(path) {
 	url = "REST/GetPathWS/SavePath?fLocationId=" + $("#departureId").val()
 			+ "&tLocationId=" + $("#destinationId").val() + "&pathType="
 			+ $("#pathType").val() + "&pathRoute=" + $("#pathLatLng").val();
-	$("#departure").val(path.departure.entrances[0].locationName);
-	$("#departureId").val(path.departure.entrances[0].locationID);
+	$("#departure").val(path.departure.entrances[0].description);
+	$("#departureId").val(path.departure.entrances[0].entranceId);
 	$("#departureGPS").val(path.departure.entrances[0].gps);
 	$("#pathLatLng").val(path.pathRoute);
 	var ptids = path.pathType.split(",");
@@ -113,8 +113,8 @@ function selectAPath(path) {
 	}
 	$("#pathTypeIds").val(path.pathType);
 	$("#pathLength").html(getTheLength(path.distance));
-	$("#destination").val(path.destination.entrances[0].locationName);
-	$("#destinationId").val(path.destination.entrances[0].locationID);
+	$("#destination").val(path.destination.entrances[0].description);
+	$("#destinationId").val(path.destination.entrances[0].entranceId);
 	$("#destinationGPS").val(path.destination.entrances[0].gps);
 	$("#pathWidth").val(path.width);
 	$("#pathId").val(path.pathId);
