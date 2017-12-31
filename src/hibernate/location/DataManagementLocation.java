@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -263,7 +264,12 @@ public class DataManagementLocation extends BaseHibernateDAO {
 		// "-33.987197,22.5592594", "-33.991323,22.5072237");
 
 		//
-		updatePointsToBoundary();
+//		updatePointsToBoundary();
+		Random rand = new Random();
+		Random random = new Random();
+        int nextInt = random.nextInt(256*256*256);
+        String colorCode = String.format("%06x", nextInt);
+        System.out.println(colorCode);
 		LocationDAO dao = new LocationDAO();
 
 //		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "5",

@@ -70,7 +70,9 @@ function saveLocation() {
 	}
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$("#boundary").val(
-			$("#boundary").val() + ";" + $("#tempBoundaryColors").val());
+			$("#boundary").val() + ";"
+					+ (Math.random() * 0xFFFFFF << 0).toString(16) + ","
+					+ (Math.random() * 0xFFFFFF << 0).toString(16));
 	$("#boundaryColors").val($("#tempBoundaryColors").val());
 	$.ajax({
 		url : url,
@@ -98,6 +100,8 @@ function saveLocation() {
 			$("#locationId").val(data.locationID);
 			addMarker(data);
 			toast('Saved Successfully');
+			if (selectedShape != null)
+				selectedShape.setEditable(false);
 		},
 		complete : function() {
 			HideLoadingScreen();
@@ -118,7 +122,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
 			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllPolylines(null);
-	if (!refreshMarkers && markers.length > 0) {
+	if (!refreshMarkers) {// && markers.length > 0
 		setMapOnAllPathMarkers(null);
 		setMapOnAllMarkers(map);
 		$("input[name='radio-choice']").checkboxradio('enable');
@@ -131,7 +135,6 @@ function getAllMarkers(parentId, refreshMarkers) {
 				async : true,
 				beforeSend : function() {
 					ShowLoadingScreen("Fetching locations");
-					setMapOnAllPathMarkers(null);
 					setMapOnAllMarkers(null);
 					setMapOnAllPolygons(null);
 					for ( var int = 0; int < polygonsEdit.length; int++) {
@@ -146,11 +149,14 @@ function getAllMarkers(parentId, refreshMarkers) {
 					str = "";
 					markers = [];
 					polygons = [];
-					pathMarkers = [];
+					// pathMarkers = [];
 					paths = [];
 					pathPolylines = [];
 					polygonsEdit = [];
 					$.each(data, createMarkersOnMap);
+					setMapOnAllPathMarkers(null);
+					setMapOnAllMarkers(map);
+					setMapOnAllPolygons(map);
 				},
 				complete : function() {
 					HideLoadingScreen();
@@ -240,19 +246,27 @@ function addMarker(l) {
 		marker.setVisible(false);
 	} else
 		marker.setMap(map);
-	if (l.locationType.locationTypeId != 5) {// ||
-		// l.locationType.locationTypeId
-		// != 3
-		google.maps.event.addListener(marker, 'click', function(point) {
-			$("#locationTypeId").val(l.locationType.locationTypeId);
-			hideLocationInfo();
-			showLocationInfo();
-			setInputsForLocation(l, l.gps);
-			locationEditPanelOpen(l.locationName, l.locationType.locationType);
-		});
-		markers.push(marker);
-	}
+	marker.addListener('dragend', function(point) {
+		$("#locationGPS").val(point.latLng.lat() + "," + point.latLng.lng());
+		if (confirm("Are you sure you want to move the property?"))
+			saveLocation();
+		else
+			return;
+	});
+	// if (l.locationType.locationTypeId != 5) {// ||
+	// l.locationType.locationTypeId
+	// != 3
+	google.maps.event.addListener(marker, 'click', function(point) {
+		$("#locationTypeId").val(l.locationType.locationTypeId);
+		hideLocationInfo();
+		showLocationInfo();
+		setInputsForLocation(l, l.gps);
+		locationEditPanelOpen(l.locationName, l.locationType.locationType);
+	});
 	marker.setMap(null);
+	if (markers.indexOf(marker) <= 0)
+		markers.push(marker);
+	// }
 }
 
 function saveEntrance() {
@@ -365,7 +379,13 @@ function addEntrance(l) {
 			addAPath(l);
 		}
 	});
-	pathMarkers.push(entrance);
+	if (!pathMarkers.indexOf(entrance) <= 0) {
+		pathMarkers.push(entrance);
+	}
+	if (!markers.indexOf(entrance) <= 0 && l.entranceIntersection) {
+		markers.push(entrance);
+	}
+
 }
 
 function setMapOnAllMarkers(value) {

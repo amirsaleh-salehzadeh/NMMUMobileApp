@@ -452,7 +452,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 	}
 
 	public ArrayList<PathENT> createAPointOnPath(long pathId, String pointGPS,
-			int index) {
+			int index, long intersectionEntranceParentId) {
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
 		Connection conn = null;
 		final PathENT p = getAPath(new PathENT(pathId), null);
@@ -461,7 +461,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		EntranceIntersectionENT ent = new EntranceIntersectionENT();
 		ent.setGps(pointGPS);
 		ent.setDescription("Intersection");
-		ent.setParentId(p.getDeparture().getParentId());
+		ent.setParentId(intersectionEntranceParentId);
 		ent.setEntranceIntersection(false);
 		LocationDAO dao = new LocationDAO();
 		try {

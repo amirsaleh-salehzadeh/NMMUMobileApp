@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import javassist.bytecode.stackmap.BasicBlock.Catch;
 
@@ -51,6 +52,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				} catch (AMSException e) {
 					e.printStackTrace();
 				}
+
 			String query = "";
 			query = "insert into location (gps, location_name, client_name, location_type, parent_id, description, boundary, plan, icon)"
 					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";

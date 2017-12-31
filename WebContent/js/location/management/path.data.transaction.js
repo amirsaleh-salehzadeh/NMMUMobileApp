@@ -9,7 +9,8 @@ function getAllPaths(refreshPaths) {
 	$("input[name='radio-choice']").each(function() {
 		$(this).checkboxradio('disable');
 	});
-//	setMapOnAllMarkers(null);
+	console.log(pathMarkers.length);
+	 setMapOnAllMarkers(null);
 	setMapOnAllPathMarkers(map);
 	if (!refreshPaths && paths.length > 0) {
 		setMapOnAllPolylines(map);
@@ -55,23 +56,17 @@ function getAllPaths(refreshPaths) {
 
 // SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH CONTAINS MANY POINTS
 function saveThePath() {
-	if ($("#pathTypeIds").val().length <= 0) {
+	if ($("#pathTypeIds").val().length <= 0 || $("#destinationId").val().length <= 0 || $("#departureId").val().length <= 0) {
 		alert("Select Path Type");
 		return;
 	}
-	saveAPath();
-	cancelADrawnPath();
-}
-
-// SAVE A PATH BETWEEN TWO POINTS
-function saveAPath() {
 	var url = "REST/GetPathWS/SavePath?fLocationId=" + $("#departureId").val()
 			+ "&tLocationId=" + $("#destinationId").val() + "&pathType="
 			+ $("#pathTypeIds").val() + "&pathRoute=" + $("#pathLatLng").val()
 			+ "&width=" + $("#pathWidth").val() + "&pathName="
 			+ $("#pathName").val() + "&description="
-			+ $("#pathDescription").val() + "&pathId=" + $("#pathId").val();
-	$.ajax({
+	+ $("#pathDescription").val() + "&pathId=" + $("#pathId").val();
+$.ajax({
 		url : url,
 		cache : false,
 		async : true,
@@ -101,6 +96,7 @@ function saveAPath() {
 					+ thrownError);
 		}
 	});
+	cancelADrawnPath();
 }
 
 // REMOVE A PATH

@@ -25,5 +25,5 @@ public interface PathDAOInterface {
 	public ArrayList<PathENT> getShortestPath(long dep, long dest,
 			int pathTypeId, String clientName, int areaId);
 	
-	public ArrayList<PathENT> createAPointOnPath(long pathId, String pointGPS, int index);
+	public ArrayList<PathENT> createAPointOnPath(long pathId, String pointGPS, int index, long intersectionEntranceParentId);
 }

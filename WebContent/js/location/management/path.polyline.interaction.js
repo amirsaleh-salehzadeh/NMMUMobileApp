@@ -19,6 +19,7 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 	var intersectionpoint = getClosestPointOnLines(destinationGPS, pointsInLine);
 	var url = "REST/GetPathWS/CreateAPointOnThePath?pathId=" + path.pathId
 			+ "&pointGPS=" + intersectionpoint.x + "," + intersectionpoint.y
+			+ "&intersectionEntranceParentId=" + $("#parentLocationId").val()
 			+ "&index=" + intersectionpoint.i;
 	var intersectId = 0;
 	$.ajax({
@@ -92,7 +93,8 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 			HideLoadingScreen();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			popErrorMessage("An error occured while creating an intersection. "+ thrownError);
+			popErrorMessage("An error occured while creating an intersection. "
+					+ thrownError);
 		}
 	});
 }
