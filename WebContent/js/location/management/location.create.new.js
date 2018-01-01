@@ -29,6 +29,7 @@ function cancelCreatingNew() {
 }
 
 function createNew(seq) {
+	clearActionBarLabel();
 	$("#actionBar").css("display", "inline-block");
 	var mapOptions = {
 		draggableCursor : "default"
@@ -44,11 +45,20 @@ function createNew(seq) {
 		}
 	});
 	$("#map_canvas").unbind('mousemove');
-	clearActionBarLabel();
 	if ($("#locationName").val().length > 0)
 		$("#locationLabel").val($("#locationName").val());
 	if ($("#locationDescription").val().length > 0)
 		$("#locationInfoDescriptionLabel").val($("#locationDescription").val());
+	if ($('[name="optionType"] :radio:checked').val() != "marker") {
+		$(".pahtFields").val("");
+		// openPathTypePopup();
+		$("#actionBarButtonGroup").css("display", "none").trigger("create");
+		$("#actionBarTitle").html("Create a Path");
+		$("#actionBarMessage").html("Select the Departure");
+		newPathInProgress = true;
+		openPathEditPanel();
+		return;
+	}
 	switch (seq) {
 	case 0:
 		if (tmpCreateNewlocation != null) {
@@ -64,50 +74,32 @@ function createNew(seq) {
 		$("#actionBarSaveButton").attr("disabled", true);
 		$("#actionBarSaveButton").addClass("disabledBTN");
 		$(".locationFields").val("");
-		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			setALocationTypeNew();
-		} else {
-			$(".pahtFields").val("");
-//			openPathTypePopup();
-			$("#actionBarButtonGroup").css("display", "none").trigger("create");
-			$("#actionBarTitle").html("Create a Path");
-			$("#actionBarMessage").html("Select the Departure");
-			newPathInProgress = true;
-			openPathEditPanel();
-		}
+		setALocationTypeNew();
 		break;
 	case 1:
 		$("#actionBarNextButtonDiv").css("display", "block");
-		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			mapOptions = {
-				draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
-			};
-			setAPointOnMap();
-		} else {
-			return;
-		}
+		mapOptions = {
+			draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
+		};
+		setAPointOnMap();
 		break;
-	case 2: // SET INFO
-		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			setLocationInfoNew();
-		} else {
-			$("#map_canvas").css("cursor",
-					"url(images/map-markers/mouse-cursors/pin.png) , auto");
-		}
+	case 2:
+		setLocationInfoNew();
 		break;
 	case 3:
-		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			$("#editLocationInfoPopup").popup("close");
-			$("#actionBarMessage")
-					.html(
-							"Please draw a boundary around the property. "
-									+ "Make sure to place the pins at an accurate geographical position");
-			$("#actionBarSaveButtonDiv").css("display", "block");
-			startDrawingMode();
-		} else {
-			$("#map_canvas").css("cursor",
-					"url(images/map-markers/mouse-cursors/pin.png) , auto");
-		}
+		$("#editLocationInfoPopup").popup("close");
+		$("#actionBarMessage")
+				.html("Please draw a boundary around the property. "
+								+ "Make sure to place the pins at an accurate geographical position");
+		$("#actionBarSaveButtonDiv").css("display", "block");
+		$("#actionBarNextButton").attr("onclick", "createNew(4)").trigger("create");
+		$("#actionBarBackButton").attr("onclick", "createNew(2)");
+		startDrawingMode();
+		break;
+	case 4:
+		$("#actionBarNextButton").attr("disabled", true);
+		$("#actionBarBackButton").attr("onclick", "createNew(3)");
+		editEntrance();
 		break;
 	}
 	map.setOptions(mapOptions);

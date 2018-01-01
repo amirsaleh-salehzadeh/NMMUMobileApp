@@ -23,12 +23,6 @@ var myStyle = [ {
 		visibility : "on"
 	} ]
 }, {
-	featureType : "landscape.man_made",
-	elementType : "geometry",
-	stylers : [ {
-		color : "#f7f1df"
-	} ]
-}, {
 	featureType : "landscape.natural",
 	elementType : "geometry",
 	stylers : [ {
@@ -38,7 +32,7 @@ var myStyle = [ {
 	featureType : "landscape.natural.terrain",
 	elementType : "geometry",
 	stylers : [ {
-		visibility : "off"
+		visibility : "on"
 	} ]
 }, {
 	featureType : "poi.business",
@@ -93,6 +87,20 @@ var myStyle = [ {
 	elementType : "geometry",
 	stylers : [ {
 		color : "#a2daf2"
+	} ]
+}, {
+	"featureType" : "landscape.man_made",
+	"elementType" : "geometry",
+	"stylers" : [ {
+		"hue" : "#ff0000"
+	} ]
+}, {
+	"featureType" : "landscape.man_made",
+	"elementType" : "geometry.fill",
+	"stylers" : [ {
+		"hue" : "#f7f1df"
+	}, {
+		"visibility" : "on"
 	} ]
 } ];
 
@@ -173,6 +181,7 @@ function initMap() {
 		name : 'My Style'
 	}));
 	map.setMapTypeId('mystyle');
+	// map.setMapTypeId('terrain');
 	map.setCenter(myLatLng);
 	map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document
 			.getElementById('locationsUnderAType'));
@@ -207,5 +216,5 @@ function initMap() {
 	// $("#map_canvas").resize(function() {
 	// google.maps.event.trigger(map, 'resize');
 	// });
-
+	console.log('Google Maps API version: ' + google.maps.version);
 }

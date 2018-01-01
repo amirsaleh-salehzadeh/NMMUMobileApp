@@ -64,8 +64,8 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 			else
 				intmpIntersectionMarker.setPosition(intersection);
 			intmpIntersectionMarker.id = intersectId;
-			markers.push(intmpIntersectionMarker);
-			if ($("#destinationId").val().length < 1) {
+			pathMarkers.push(intmpIntersectionMarker);
+			if (parseInt($("#destinationId").val()) <= 0) {
 				$("#destination").val("Intersection");
 				$("#destinationId").val(intersectId);
 				$("#destinationGPS").val(

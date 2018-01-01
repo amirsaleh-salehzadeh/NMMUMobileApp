@@ -480,12 +480,12 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			PathENT path = p;
 			path.setPathId(0);
 			path.setDeparture(new LocationENT(depId));
-			path.setDestination(dao.getEntranceLocation(ent, conn));
+			path.setDestination(new LocationENT(ent.getEntranceId()));//dao.getEntranceLocation(ent, conn).getEntrances().get(0).getEntranceId()
 			path.setPathRoute(firstRoute.toString());
 			path = savePath(path, conn);
 			res.add(getAPath(new PathENT(path.getPathId()), conn));
 			path.setPathId(0);
-			path.setDeparture(dao.getEntranceLocation(ent, conn));
+			path.setDeparture(new LocationENT(ent.getEntranceId()));
 			path.setDestination(new LocationENT(desId));
 			path.setPathRoute(secondRoute.toString());
 			path = savePath(path, conn);
@@ -493,9 +493,8 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			deletePath(new PathENT(pathId), conn);
 
 			path.setPathId(0);
-			path.setDeparture(dao.getEntranceLocation(
-					new EntranceIntersectionENT(depId), conn));
-			path.setDestination(dao.getEntranceLocation(ent, conn));
+			path.setDeparture(new LocationENT(depId));
+			path.setDestination(new LocationENT(ent.getEntranceId()));
 			path.setPathRoute(firstRoute.toString());
 			path = savePath(path, conn);
 			res.add(getAPath(new PathENT(path.getPathId()), conn));
