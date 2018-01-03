@@ -41,10 +41,11 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			LocationDAO ldao = new LocationDAO();
 			String paString  = ldao.getLocationENT(new LocationENT(parentId), null).getParentId()+","+parentId;
 			String query = "Select p.*, pt.*, GROUP_CONCAT(ppt.path_type_id) as pathtypeString from path p "
-					+ "inner join location_entrance e on e.entrance_id = p.destination_location_id "
-					+ " inner join location lf on lf.location_id = e.parent_id "
-					+ " inner join path_path_type ppt on ppt.path_id = p.path_id"
-					+ " inner join path_type pt on pt.path_type_id = ppt.path_type_id"
+					+ "inner join location_entrance edep on edep.entrance_id = p.departure_location_id "
+					+ "inner join location_entrance edes on edes.entrance_id = p.destination_location_id "
+					+ " left join location lf on lf.location_id = edes.parent_id "
+					+ " left join path_path_type ppt on ppt.path_id = p.path_id"
+					+ " left join path_type pt on pt.path_type_id = ppt.path_type_id"
 					+ " where lf.client_name = '"
 					+ username
 					+ "' and lf.parent_id in ("
@@ -65,12 +66,10 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				LocationENT depl = ldao.getEntranceLocation(
-						new EntranceIntersectionENT(rs
-								.getLong("departure_location_id")), conn);
-				LocationENT desl = ldao.getEntranceLocation(
-						new EntranceIntersectionENT(rs
-								.getLong("destination_location_id")), conn);
+				LocationENT depl = ldao.getEntranceLocation(ldao.getEntranceIntersectionENT(rs
+						.getLong("departure_location_id"), conn), conn);
+				LocationENT desl = ldao.getEntranceLocation(ldao.getEntranceIntersectionENT(rs
+						.getLong("destination_location_id"), conn), conn);
 				PathENT ent = new PathENT(depl, desl, rs.getDouble("distance"),
 						rs.getString("pathtypeString"), rs.getLong("path_id"),
 						rs.getString("path_route"), rs.getDouble("width"),

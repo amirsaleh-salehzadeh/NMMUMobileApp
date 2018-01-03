@@ -62,6 +62,9 @@ var pathSelected = false;
 function drawApath(l) {
 	var pathCoor = [];
 	var pathCoorPolygon = [];
+	if(l.pathId == 6790){
+		console.log(l.destination.entrances[0].gps.split(',')[1]);
+	}
 	pathCoorPolygon.push([ parseFloat(l.departure.entrances[0].gps.split(',')[1]),
 			parseFloat(l.departure.entrances[0].gps.split(',')[0]) ]);
 	pathCoor.push(getGoogleMapPosition(l.departure.entrances[0].gps));
@@ -73,6 +76,7 @@ function drawApath(l) {
 			pathCoor.push(getGoogleMapPosition(tm[i]));
 		}
 	}
+	
 	pathCoorPolygon.push([ parseFloat(l.destination.entrances[0].gps.split(',')[1]),
 			parseFloat(l.destination.entrances[0].gps.split(',')[0]) ]);
 	pathCoor.push(getGoogleMapPosition(l.destination.entrances[0].gps));

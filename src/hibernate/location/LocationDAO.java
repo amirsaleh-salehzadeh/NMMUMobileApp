@@ -1078,4 +1078,37 @@ public class LocationDAO extends BaseHibernateDAO implements
 		}
 		return x + "," + y;
 	}
+
+	public EntranceIntersectionENT getEntranceIntersectionENT(
+			long entranceIntersectionId, Connection conn) {
+		boolean isnew = false;
+		EntranceIntersectionENT res = new EntranceIntersectionENT();
+		if (conn == null)
+			try {
+				conn = getConnection();
+				isnew = true;
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+		try {
+			String query = "select * from location_entrance where entrance_id = "
+					+ entranceIntersectionId;
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				res = new EntranceIntersectionENT(rs.getLong("entrance_id"),
+						rs.getLong("parent_id"), rs.getString("description"),
+						rs.getString("gps"),
+						rs.getBoolean("intersection_entrance"));
+
+			}
+			rs.close();
+			ps.close();
+			if (isnew)
+				conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
 }
