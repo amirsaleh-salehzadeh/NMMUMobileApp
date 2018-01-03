@@ -557,4 +557,100 @@ public class SecurityDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
+	public boolean removeLocationUser(String username)  throws AMSException{
+		
+		
+		// TODO Auto-generated method stub
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "delete from user_location where username = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setString(1,username);
+			ps.execute();
+			ps.close();
+			conn.close();
+			return true ;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+			
+		}
+		
+		
+		
+		
+		
+	}
+
+	public boolean updateLocationUser(String username, long[] locationIds)  throws AMSException{
+		// TODO Auto-generated method stub
+		
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			PreparedStatement ps = null ;
+			
+			
+			query = "update user_location set username = ? , location_id = ?" +
+					"where location_id = ?";
+			ps.close();
+			for (int i = 0; i < locationIds.length; i++) {
+				ps = conn.prepareStatement(query);
+				ps.setString(1, username);
+				ps.setLong(2,locationIds[i]);
+				ps.execute();
+			}
+			ps.close();
+			conn.close();
+			return true ;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+
+	}
+
+		
+	
+
+	public boolean addLocationUser(String username, long[] locationIds)  throws AMSException{
+		// TODO Auto-generated method stub
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			PreparedStatement ps = null;
+		
+			query = "insert into user_location (username,location_id) values (?,?)";
+			
+			for (int i = 0; i < locationIds.length; i++) {
+				ps = conn.prepareStatement(query);
+				ps.setString(1,username);
+				ps.setLong(2,locationIds[i]);
+				ps.execute();
+			}
+			ps.close();
+			conn.close();
+			return true ;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw getAMSException("", e);
+		}
+	}
+
 }
