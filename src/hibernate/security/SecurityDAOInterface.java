@@ -44,5 +44,12 @@ public interface SecurityDAOInterface {
 	public boolean changePassword(UserPassword ent) throws AMSException;
 
 	public UserPassword register(UserPassword userPassword) throws AMSException;
+	
+	public boolean  removeLocationUser(String username) throws AMSException;
+	
+	public boolean updateLocationUser( String username, long[] locationIds)  throws AMSException;
+	
+	public boolean addLocationUser(String username,long[] locationIds) throws AMSException ;
+
 
 }
