@@ -165,7 +165,6 @@
 </div>
 
 
-
 <!-- ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR ACTION BAR -->
 
 
@@ -213,7 +212,7 @@
 <input type='hidden' readonly class="locationFields" name="boundary"
 	id="boundary" value="">
 <input type='hidden' readonly name="boundaryColors" id="boundaryColors">
-
+<input type='hidden' readonly name="tempBoundaryColors" id="tempBoundaryColors">
 
 
 <!-- LOCATION EDIT MENU LOCATION EDIT MENU LOCATION EDIT MENU LOCATION EDIT MENU -->
@@ -420,7 +419,7 @@
 		<li data-icon="false"><a class="editInfo location" href="#"
 			onclick="showHideColors();"><img alt=""
 				src="images/icons/location.png">Color</a></li>
-		<li><a href="#" class="editInfo" onclick="closeAMenuPopup();"><img
+		<li><a href="#" class="editInfo" onclick="closeAMenuPopup();$('#locationSaveCancelPanel').css('display','none');hideLocationInfo();"><img
 				alt="" src="images/icons/clearInput.png">Cancel</a></li>
 	</ul>
 	<!-- 	</div> -->
@@ -507,8 +506,6 @@
 <input type='hidden' readonly class="pahtFields" id="pathLatLng">
 <input type='hidden' readonly class="pahtFields" name="pathTypeIds"
 	id="pathTypeIds">
-<input type='hidden' readonly class="pahtFields"
-	name="tempBoundaryColors" id="tempBoundaryColors">
 <input type='hidden' readonly class="pahtFields" name="destinationId"
 	id="destinationId">
 <input type='hidden' readonly class="pahtFields" name="destinationGPS"
