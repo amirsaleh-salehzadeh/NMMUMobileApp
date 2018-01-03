@@ -91,13 +91,21 @@ public class UserAction extends Action {
 			return userRoleView(request, mapping);
 		} else if (reqCode.equalsIgnoreCase("userGroupView")) {
 			return userGroupView(request, mapping);
-		} else if (reqCode.equalsIgnoreCase("passwordChange")) {
+		} else if (reqCode.equals("userBuildings")) {
+			return userBuildings(request, mapping);}
+		else if (reqCode.equalsIgnoreCase("passwordChange")) {
 			return passwordChange(request, mapping);
 		}
 
 		return af;
 	}
+	private ActionForward userBuildings(HttpServletRequest request,
+			ActionMapping mapping) {
+		int uName = Integer.parseInt(request.getParameter("userName"));
+		
+		return mapping.findForward("userBuildings");
 
+	}
 	private ActionForward saveNewPassword(HttpServletRequest request,
 			ActionMapping mapping) {
 
@@ -355,6 +363,11 @@ public class UserAction extends Action {
 						"group-item",
 						"callAnAction(\"user.do?reqCode=userGroupView&parentPage=userList&userName=REPLACEME\");",
 						"View Groups", "#"));
+		popupGridEnts
+		.add(new PopupENT(
+				"group-item",
+				"callAnAction(\"security.do?reqCode=groupBuildings&userName=REPLACEME\");",
+				"View Buildings", "#"));
 		request.setAttribute("settingMenuItem", popupEnts);
 		request.setAttribute("gridMenuItem", popupGridEnts);
 	}

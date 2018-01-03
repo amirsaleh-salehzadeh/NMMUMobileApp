@@ -79,29 +79,10 @@ public class SecurityAction extends Action {
 			return editGroup(request, mapping, form);
 		} else if (reqCode.equals("saveUpdateGroup")) {
 			return saveUpdateGroup(request, mapping);
-		} else if (reqCode.equals("groupBuildings")) {
-			return groupBuildings(request, mapping);
 		} else if (reqCode.equalsIgnoreCase("groupRoleView")) {
 			return groupRoleView(request, mapping);
 		}
 		return af;
-	}
-
-	private ActionForward groupBuildings(HttpServletRequest request,
-			ActionMapping mapping) {
-		int gid = Integer.parseInt(request.getParameter("groupID"));
-		try {
-			request.setAttribute("groupENT",
-					getSecurityDAO().getGroup(new GroupENT(gid)));
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (AMSException e) {
-			e.printStackTrace();
-		}
-		request.setAttribute("groupENTRoles", getSecurityDAO()
-				.getAllRolesForAGroup(gid));
-		return mapping.findForward("groupBuildings");
-
 	}
 
 	private void saveUpdateGroupRole(HttpServletRequest request,
