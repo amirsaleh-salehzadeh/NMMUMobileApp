@@ -14,7 +14,7 @@
 			<forward name="groupManagement" path="/pages/security/groupManagement.jsp" />
 			<forward name="groupEdit" path="/pages/security/groupEdit.jsp" />
 			<forward name="groupRole" path="/pages/security/groupRole.jsp" />
-			<forward name="groupBuildings" path="/pages/security/groupBuildings.jsp" />
+		
 			<forward name="gridJson" path="/pages/json.jsp" />
 		</action>
 		<action path="/location" type="struts.actions.LocationAction">
@@ -37,7 +37,7 @@
 			<forward name="login" path="/login.html" />
 			<forward name="register" path="/pages/user/register.html" />
 			<forward name="gridJson" path="/pages/json.jsp" />
-
+	<forward name="userBuildings" path="/pages/user/userBuildings.jsp" />
 		</action>
 		<action path="/newsfeed" type="struts.actions.NEWSFeedAction">
 			<set-property property="cancellable" value="true" />

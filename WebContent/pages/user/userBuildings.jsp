@@ -11,7 +11,7 @@
 	href="TreeViewPlugin/trunk/src/jquery.treefilter.css">
 </head>
 <body>
-	<form id="dataFilterGridMainPage" action="security.do">
+	<form id="dataFilterGridMainPage" action="user.do">
 		<ams:message messageEntity="${message}"></ams:message>
 		<input type="hidden" name="groupID"
 			value="<%=request.getParameter("groupID")%>"> <input
