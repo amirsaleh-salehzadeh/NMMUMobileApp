@@ -199,13 +199,13 @@
 <!-- HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS  -->
 
 
-<input type="text" readonly id="parentLocationId" value="360">
+<input type="hidden" readonly id="parentLocationId" value="360">
 <input type='hidden' readonly class="locationFields" id='locationTypeId'
 	value="0">
 <input type='hidden' readonly id='parentLocationTypeId' value="0">
 <input type='hidden' readonly class="locationFields" name="locationGPS"
 	id="locationGPS">
-<input type='text' readonly class="locationFields" name="locationId"
+<input type='hidden' readonly class="locationFields" name="locationId"
 	id="locationId">
 <input type='hidden' readonly class="locationFields" name="icon"
 	id="icon" value="">

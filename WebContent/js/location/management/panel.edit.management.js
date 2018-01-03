@@ -308,7 +308,7 @@ function editEntrance() {
 			$("#locationGPS").val(
 					entranceMarker.getPosition().lat() + ","
 							+ entranceMarker.getPosition().lng());
-			saveEntrance();
+			saveEntrance(0);
 		} else {
 			return;
 		}
@@ -318,7 +318,7 @@ function editEntrance() {
 			$("#locationGPS").val(
 					entranceMarker.getPosition().lat() + ","
 							+ entranceMarker.getPosition().lng());
-			saveEntrance();
+			saveEntrance(0);
 		} else {
 			return;
 		}

@@ -265,8 +265,8 @@ function addMarker(l) {
 	// }
 }
 
-function saveEntrance() {
-	if (parseInt($("#locationId").val()) <= 0) {
+function saveEntrance(entranceId) {
+	if (parseInt($("#locationId").val()) <= 0 || $("#locationId").val().length == 0) {
 		var url = "REST/GetLocationWS/SaveUpdateLocation";
 		$("#boundary").val(
 				$("#boundary").val() + ";"
@@ -277,7 +277,7 @@ function saveEntrance() {
 				.ajax({
 					url : url,
 					cache : false,
-					async : true,
+					async : false,
 					dataType : 'text',
 					type : 'POST',
 					data : {
@@ -296,15 +296,15 @@ function saveEntrance() {
 						ShowLoadingScreen("Saving Location");
 					},
 					success : function(data) {
-						data = JSON.parse(data);
-						addMarker(data);
+						var dataJson = JSON.parse(data);
+						addMarker(dataJson);
 //						toast('Saved Successfully');
 						if (selectedShape != null)
 							selectedShape.setEditable(false);
 						url = "REST/GetLocationWS/CreateTFCEntrance?entranceId="
 								+ 0
 								+ "&username=NMMU&parentId="
-								+ data.locationID
+								+ dataJson.locationID
 								+ "&locationName=Entrance&coordinate="
 								+ entranceMarker.getPosition().lat() + ","
 								+ entranceMarker.getPosition().lng();
@@ -312,24 +312,20 @@ function saveEntrance() {
 								.ajax({
 									url : url,
 									cache : false,
-									async : true,
+									async : false,
 									beforeSend : function() {
 										ShowLoadingScreen("Saving Entrance");
 									},
-									success : function(data) {
+									success : function(dataEntrance) {
 										google.maps.event
 												.clearInstanceListeners(map);
-										closeAMenuPopup();
+//										closeAMenuPopup();
 										$('#locationSaveCancelPanel').css(
 												'display', 'none');
 										hideLocationInfo();
-										addEntrance(data);
+										addEntrance(dataEntrance);
 										toast('Saved Successfully');
 										cancelCreatingNew();
-									},
-									complete : function() {
-										HideLoadingScreen();
-										closeAMenuPopup();
 									},
 									error : function(xhr, ajaxOptions,
 											thrownError) {
@@ -350,8 +346,8 @@ function saveEntrance() {
 				});
 	}
 	var url = "REST/GetLocationWS/CreateTFCEntrance?entranceId="
-			+ $("#locationId").val() + "&username=NMMU&parentId="
-			+ $("#parentLocationId").val()
+			+ entranceId + "&username=NMMU&parentId="
+			+ $("#locationId").val()
 			+ "&locationName=Entrance&coordinate=" + $("#locationGPS").val();
 	$.ajax({
 		url : url,
@@ -434,10 +430,10 @@ function addEntrance(l) {
 			if (confirm("Are you sure you want to move the marker?")) {
 				$("#locationGPS").val(
 						intersectionpoint.x + "," + intersectionpoint.y);
-				$("#locationId").val(l.entranceId);
+//				$("#locationId").val(l.entranceId);
 				$("#locationName").val(l.description);
 				$("#parentLocationId").val(l.parentId);
-				saveEntrance();
+				saveEntrance(l.entranceId);
 			} else {
 				entrance.setPosition({
 					lat : parseFloat(l.gps.split(",")[0]),
