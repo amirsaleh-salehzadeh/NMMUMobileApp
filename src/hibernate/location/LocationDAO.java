@@ -74,7 +74,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 			if (rs.next()) {
-				ent.setLocationID(rs.getLong("location_id"));
+				ent.setLocationID(rs.getLong(1));
 			}
 			rs.close();
 			ps.close();

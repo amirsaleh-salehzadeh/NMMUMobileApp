@@ -60,7 +60,7 @@ function saveLocation() {
 	}
 	if ($("#locationName").val() == "") {
 		alert("Please select a name for the location");
-		return;
+		return -1;
 	}
 	var url = "REST/GetLocationWS/SaveUpdateLocation";
 	$("#boundary").val(
@@ -96,6 +96,7 @@ function saveLocation() {
 			toast('Saved Successfully');
 			if (selectedShape != null)
 				selectedShape.setEditable(false);
+			setInputsForLocation(data, data.gps);
 		},
 		complete : function() {
 			HideLoadingScreen();
@@ -246,7 +247,7 @@ function addMarker(l) {
 		if (confirm("Are you sure you want to move the property?"))
 			saveLocation();
 		else
-			return;
+			return -1;
 	});
 	// if (l.locationType.locationTypeId != 5) {// ||
 	// l.locationType.locationTypeId
@@ -258,7 +259,6 @@ function addMarker(l) {
 		setInputsForLocation(l, l.gps);
 		locationEditPanelOpen(l.locationName, l.locationType.locationType);
 	});
-	setInputsForLocation(l, l.gps);
 	marker.setMap(null);
 	if (markers.indexOf(marker) <= 0)
 		markers.push(marker);
@@ -266,12 +266,93 @@ function addMarker(l) {
 }
 
 function saveEntrance() {
+	if (parseInt($("#locationId").val()) <= 0) {
+		var url = "REST/GetLocationWS/SaveUpdateLocation";
+		$("#boundary").val(
+				$("#boundary").val() + ";"
+						+ (Math.random() * 0xFFFFFF << 0).toString(16) + ","
+						+ (Math.random() * 0xFFFFFF << 0).toString(16));
+		$("#boundaryColors").val($("#tempBoundaryColors").val());
+		$
+				.ajax({
+					url : url,
+					cache : false,
+					async : true,
+					dataType : 'text',
+					type : 'POST',
+					data : {
+						icon : $("#icon").val(),
+						locationName : $("#locationName").val(),
+						parentId : $("#parentLocationId").val(),
+						coordinate : $("#locationGPS").val(),
+						locationTypeId : $("#locationTypeId").val(),
+						locationId : 0,
+						description : $("#locationDescription").val(),
+						plan : "",
+						boundary : $("#boundary").val(),
+						userName : "NMMU"
+					},
+					beforeSend : function() {
+						ShowLoadingScreen("Saving Location");
+					},
+					success : function(data) {
+						data = JSON.parse(data);
+						addMarker(data);
+//						toast('Saved Successfully');
+						if (selectedShape != null)
+							selectedShape.setEditable(false);
+						url = "REST/GetLocationWS/CreateTFCEntrance?entranceId="
+								+ 0
+								+ "&username=NMMU&parentId="
+								+ data.locationID
+								+ "&locationName=Entrance&coordinate="
+								+ entranceMarker.getPosition().lat() + ","
+								+ entranceMarker.getPosition().lng();
+						$
+								.ajax({
+									url : url,
+									cache : false,
+									async : true,
+									beforeSend : function() {
+										ShowLoadingScreen("Saving Entrance");
+									},
+									success : function(data) {
+										google.maps.event
+												.clearInstanceListeners(map);
+										closeAMenuPopup();
+										$('#locationSaveCancelPanel').css(
+												'display', 'none');
+										hideLocationInfo();
+										addEntrance(data);
+										toast('Saved Successfully');
+										cancelCreatingNew();
+									},
+									complete : function() {
+										HideLoadingScreen();
+										closeAMenuPopup();
+									},
+									error : function(xhr, ajaxOptions,
+											thrownError) {
+										popErrorMessage("An error occured while saving the marker. "
+												+ thrownError);
+									},
+								});
+					},
+					complete : function() {
+						HideLoadingScreen();
+						closeAMenuPopup();
+						return;
+					},
+					error : function(xhr, ajaxOptions, thrownError) {
+						popErrorMessage("An error occured while saving the marker. "
+								+ thrownError);
+					},
+				});
+	}
 	var url = "REST/GetLocationWS/CreateTFCEntrance?entranceId="
 			+ $("#locationId").val() + "&username=NMMU&parentId="
 			+ $("#parentLocationId").val()
 			+ "&locationName=Entrance&coordinate=" + $("#locationGPS").val();
-	if(parseInt($("#locationId").val()) <= 0)
-		saveLocation();
 	$.ajax({
 		url : url,
 		cache : false,

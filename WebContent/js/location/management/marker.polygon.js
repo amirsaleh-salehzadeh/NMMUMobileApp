@@ -35,7 +35,7 @@ function createDrawingManager() {
 				$("#boundary").val(getPolygonCoords(newShape));
 				$("#actionBarNextButton").attr("onclick", "createNew(4)")
 						.trigger("create");
-				$("#actionBarBackButton").html("Save & Next");
+//				$("#actionBarNextButton").html("Next");
 				$("#actionBarBackButton").attr("onclick", "createNew(2)");
 				$("#actionBarSaveButton").removeClass("disabledBTN").trigger(
 						"create");

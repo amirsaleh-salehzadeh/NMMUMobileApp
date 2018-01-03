@@ -71,7 +71,7 @@
 	rel="stylesheet">
 <style type="text/css">
 #map_canvas div[style*='crosshair'] {
-	cursor: url("images/map-markers/mouse-cursors/pin.png") 32 32, crosshair
+	cursor: url("images/icons/map-markers/mouse-cursors/pin.png") 32 32, crosshair
 		!important;
 }
 </style>
@@ -200,13 +200,13 @@
 <!-- HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS  -->
 
 
-<input type="hidden" readonly id="parentLocationId" value="360">
+<input type="text" readonly id="parentLocationId" value="360">
 <input type='hidden' readonly class="locationFields" id='locationTypeId'
 	value="0">
 <input type='hidden' readonly id='parentLocationTypeId' value="0">
 <input type='hidden' readonly class="locationFields" name="locationGPS"
 	id="locationGPS">
-<input type='hidden' readonly class="locationFields" name="locationId"
+<input type='text' readonly class="locationFields" name="locationId"
 	id="locationId">
 <input type='hidden' readonly class="locationFields" name="icon"
 	id="icon" value="">
@@ -241,7 +241,7 @@
 				alt="" src="images/icons/pathType/elevator.png">Level</a></li>
 		<li data-icon="false" id="editBoundaryMenuItem"><a
 			class="editInfo" href="#" onclick="editEntrance();"><img
-				alt="" src="images/map-markers/door.png">Add Entrance</a></li>
+				alt="" src="images/icons/map-markers/door.png">Add Entrance</a></li>
 		<li data-icon="false" id="addBoundaryMenuItem"><a
 			class="editInfo" href="#" onclick="openEditBoundaryPopup();"><img
 				alt="" src="images/icons/polygon.png">Add Boundary</a></li>

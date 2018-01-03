@@ -90,12 +90,13 @@ function createNew(seq) {
 		$("#actionBarMessage")
 				.html("Please draw a boundary around the property. "
 								+ "Make sure to place the pins at an accurate geographical position");
-		$("#actionBarSaveButtonDiv").css("display", "block");
-		$("#actionBarNextButton").attr("onclick", "createNew(4)").trigger("create");
-		$("#actionBarBackButton").attr("onclick", "createNew(2)");
+//		$("#actionBarSaveButtonDiv").css("display", "block");
+//		$("#actionBarNextButton").attr("onclick", "createNew(4)").trigger("create");
+//		$("#actionBarBackButton").attr("onclick", "createNew(2)");
 		startDrawingMode();
 		break;
 	case 4:
+//		saveLocation();
 		$("#actionBarNextButton").attr("disabled", true);
 		$("#actionBarBackButton").attr("onclick", "createNew(3)");
 		editEntrance();
