@@ -109,9 +109,11 @@ function refreshMap(locationTypeId, gpsStr, folderName) {
 		lat : parseFloat(gpsStr.split(",")[0]),
 		lng : parseFloat(gpsStr.split(",")[1])
 	};
-	var icon = 'images/map-markers/' + folderName + '/';
+	var icon = 'images/icons/map-markers/' + folderName + '/';
 	if (locationTypeId == "1") {
 		icon += 'marker-blue.png';
+	} else if (locationTypeId == "10") {
+		icon += 'parking.png';
 	} else if (locationTypeId == "11") {
 		icon += 'door.png';
 	} else if (locationTypeId == "2") {

@@ -27,7 +27,7 @@ function getLocationTypePanel() {
 							+ y.locationType.locationType + " "
 							+ y.locationName + "\")' data-icon='false'>"
 							+ "<a href='#' class='resultsListViewContent'>";
-					var src = "images/map-markers/building.png";
+					var src = "images/icons/map-markers/building.png";
 					if (y.icon != null)
 						src = y.icon;
 					list_items += "<img src='" + src
@@ -79,7 +79,7 @@ function selectDestination(destination, content) {
 		markerDepart = new google.maps.Marker({
 			position : departPoint,
 			map : map,
-			icon : 'images/map-markers/marker-green.png'
+			icon : 'images/icons/map-markers/marker-green.png'
 		});
 		bounds.extend(markerDest.getPosition());
 		bounds.extend(markerDepart.getPosition());
@@ -99,7 +99,7 @@ function selectDestination(destination, content) {
 		markerDest = new google.maps.Marker({
 			position : destPoint,
 			map : map,
-			icon : 'images/map-markers/marker-orange.png'
+			icon : 'images/icons/map-markers/marker-orange.png'
 		});
 		markerDest.addListener('click', function() {
 			selectDestination(destination);

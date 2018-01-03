@@ -119,11 +119,11 @@ function selectThisLocationType(ltype) {
 }
 
 function getLocationTypeImage(locationTypeId) {
-	var icon = 'images/map-markers/';
+	var icon = 'images/icons/map-markers/';
 	if (locationTypeId == "1") {
 		icon += 'marker-blue.png';
-	} else if (locationTypeId == "11") {
-		icon += 'door.png';
+	} else if (locationTypeId == "10") {
+		icon += 'parking.png';
 	} else if (locationTypeId == "2") {
 		icon += 'area.png';
 	} else if (locationTypeId == "3") {
@@ -488,7 +488,7 @@ function getLocationTypeList() {
 							+ y.locationType.locationType + " "
 							+ y.locationName + "\")' data-icon='false'>"
 							+ "<a href='#' class='resultsListViewContent'>";
-					var src = "images/map-markers/building.png";
+					var src = "images/icons/map-markers/building.png";
 					if (y.icon != null)
 						src = y.icon;
 					list_items += "<img src='" + src

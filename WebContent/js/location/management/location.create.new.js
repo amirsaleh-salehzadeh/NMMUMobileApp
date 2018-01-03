@@ -20,7 +20,6 @@ function cancelCreatingNew() {
 		draggableCursor : 'default'
 	});
 	$("#actionBar").css("display", "none");
-	clearActionBarLabel();
 	$("#map_canvas").unbind('mousemove');
 	$(".locationFields").val("");
 	removeDrawingMode();
@@ -79,7 +78,7 @@ function createNew(seq) {
 	case 1:
 		$("#actionBarNextButtonDiv").css("display", "block");
 		mapOptions = {
-			draggableCursor : "url('images/map-markers/mouse-cursors/buildingss.png'), auto"
+			draggableCursor : "url('images/icons/map-markers/mouse-cursors/buildingss.png'), auto"
 		};
 		setAPointOnMap();
 		break;

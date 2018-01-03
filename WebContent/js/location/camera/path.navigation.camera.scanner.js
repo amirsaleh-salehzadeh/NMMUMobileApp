@@ -82,7 +82,7 @@ function getBCodeInfo(x) {
 					if (data['i'] != null && data['i'].length > 0)
 						stringIMG = '<img src="' + data['i'] + '" width="66" heigh="66"/>';
 					else
-						stringIMG = '<img src="images/map-markers/building.png"/></br>';
+						stringIMG = '<img src="images/icons/map-markers/building.png"/></br>';
 					$("#arrivalMessageContent").append(
 							stringIMG + '<span class="heading">' + data['t']
 									+ ': </span><span class="locationText">'

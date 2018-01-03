@@ -57,7 +57,7 @@ function getThePath() {
 			position : getGoogleMapPosition(GPSCook.split("_")[GPSCook
 					.split("_").length - 1]),
 			map : map,
-			icon : 'images/map-markers/marker-orange.png'
+			icon : 'images/icons/map-markers/marker-orange.png'
 		});
 		resetWalking();
 		drawConstantPolyline();
@@ -80,7 +80,7 @@ function getThePath() {
 		markerDest = new google.maps.Marker({
 			position : destPoint,
 			map : map,
-			icon : 'images/map-markers/marker-orange.png'
+			icon : 'images/icons/map-markers/marker-orange.png'
 		});
 	}
 	var dataLength = 0;

@@ -53,16 +53,10 @@ function deleteMarker(id) {
 }
 
 function saveLocation() {
-	var loadingContent;
-	if (selectedShape == null
-			&& ($("#locationId").val() != "" || $("#locationId").val() <= 0)) {
+	if (selectedShape != null
+			&& ($("#locationId").val() == "" || $("#locationId").val() <= 0)) {
 		selectedShape.setMap(null);
 		selectedShape = null;
-	}
-	if ($("#locationTypeId").val() == 3) {
-		loadingContent = "Saving Building";
-	} else {
-		loadingContent = "Saving Intersection";
 	}
 	if ($("#locationName").val() == "") {
 		alert("Please select a name for the location");
@@ -93,7 +87,7 @@ function saveLocation() {
 			userName : "NMMU"
 		},
 		beforeSend : function() {
-			ShowLoadingScreen(loadingContent);
+			ShowLoadingScreen("Saving Location");
 		},
 		success : function(data) {
 			data = JSON.parse(data);
@@ -161,6 +155,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 				complete : function() {
 					HideLoadingScreen();
 					$("input[name='radio-choice']").checkboxradio('enable');
+					$(".locationFields").val("");
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 					$("input[name='radio-choice']").checkboxradio('enable');
@@ -263,6 +258,7 @@ function addMarker(l) {
 		setInputsForLocation(l, l.gps);
 		locationEditPanelOpen(l.locationName, l.locationType.locationType);
 	});
+	setInputsForLocation(l, l.gps);
 	marker.setMap(null);
 	if (markers.indexOf(marker) <= 0)
 		markers.push(marker);
@@ -274,6 +270,8 @@ function saveEntrance() {
 			+ $("#locationId").val() + "&username=NMMU&parentId="
 			+ $("#parentLocationId").val()
 			+ "&locationName=Entrance&coordinate=" + $("#locationGPS").val();
+	if(parseInt($("#locationId").val()) <= 0)
+		saveLocation();
 	$.ajax({
 		url : url,
 		cache : false,
