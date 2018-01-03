@@ -18,6 +18,7 @@
 	border-color: rgb(248, 182, 36) !important;
 	white-space: nowrap;
 	/* 	top: -3px; */
+	left: 60px !important;
 }
 
 .disabledBTN {

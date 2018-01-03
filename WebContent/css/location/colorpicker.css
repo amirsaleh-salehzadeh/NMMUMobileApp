@@ -45,6 +45,7 @@
 		url("../../images/colorPicker/colorpicker_background.png") !important;
 	font-family: Arial, Helvetica, sans-serif;
 	display: none;
+	z-index: 1150;
 }
 
 .colorpicker_color {

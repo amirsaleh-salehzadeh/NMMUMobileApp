@@ -304,13 +304,14 @@ function setBoundaryFillColour(HexFillColour) {
 	var polygonOptions = drawingManager.get('polygonOptions');
 	polygonOptions.fillColor = HexFillColour;
 	drawingManager.set('polygonOptions', polygonOptions);
-	// selectedShape.set('fillColor', HexFillColour);
+	selectedShape.set('fillColor', HexFillColour);
 }
 
 function setBoundaryBorderColour(HexBorderColour) {
 	var polygonOptions = drawingManager.get('polygonOptions');
 	polygonOptions.strokeColor = HexBorderColour;
 	drawingManager.set('polygonOptions', polygonOptions);
+	selectedShape.set('strokeColor', HexBorderColour);
 }
 
 function updateFillColourValue(FillColour) {
