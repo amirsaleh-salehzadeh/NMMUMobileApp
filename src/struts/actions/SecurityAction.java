@@ -81,6 +81,8 @@ public class SecurityAction extends Action {
 			return saveUpdateGroup(request, mapping);
 		} else if (reqCode.equalsIgnoreCase("groupRoleView")) {
 			return groupRoleView(request, mapping);
+		}else if (reqCode.equalsIgnoreCase("groupBuildings")) {
+			return groupRoleView(request, mapping);
 		}
 		return af;
 	}

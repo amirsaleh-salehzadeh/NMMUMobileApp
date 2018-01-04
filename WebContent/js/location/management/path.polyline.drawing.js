@@ -113,7 +113,7 @@ function drawApath(l) {
 					x : parseFloat(lat),
 					y : parseFloat(lng)
 				}, pathPolyline);
-				createAPointOnAnExistingPath(l, lat + "," + lng, pathPolyline);
+//				createAPointOnAnExistingPath(l, lat + "," + lng, pathPolyline);
 			} else {
 				selectAPath(l);
 			}
@@ -121,6 +121,47 @@ function drawApath(l) {
 		}
 	});
 	polygon.addListener('mousemove', function(event) {
+		if (tmpIntersectionMarker != undefined) {
+			tmpIntersectionMarker.setMap(null);
+			tmpIntersectionMarker = null;
+		}
+		if ($('#destination').val().length <= 0
+				&& $('#departure').val().length > 0) {
+			updateMovingLine(event);
+			var lat = event.latLng.lat();
+			var lng = event.latLng.lng();
+			var pos = {
+				lat : parseFloat(lat),
+				lng : parseFloat(lng)
+			};
+			if (tmpIntersectionMarker == undefined)
+				tmpIntersectionMarker = new google.maps.Marker({
+					map : map,
+					icon : {
+						path : google.maps.SymbolPath.CIRCLE,
+						scale : 10,
+						color : 'green',
+						fillOpacity : 1
+					},
+					labelStyle : {
+						opacity : 1.0
+					},
+					position : pos,
+					title : "Create New Intersetion"
+				});
+			else
+				tmpIntersectionMarker.setPosition(pos);
+			google.maps.event.addListener(tmpIntersectionMarker, "click",
+					function(event) {
+						openPathTypePopup();
+						createAPointOnAnExistingPath(l, {
+							x : parseFloat(lat),
+							y : parseFloat(lng)
+						}, pathPolyline);
+					});
+		}
+	});
+	polygon.addListener('mouseover', function(event) {
 		if (tmpIntersectionMarker != undefined) {
 			tmpIntersectionMarker.setMap(null);
 			tmpIntersectionMarker = null;

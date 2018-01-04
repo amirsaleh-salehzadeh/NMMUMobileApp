@@ -266,7 +266,8 @@ function addMarker(l) {
 }
 
 function saveEntrance(entranceId) {
-	if (parseInt($("#locationId").val()) <= 0 || $("#locationId").val().length == 0) {
+	if (parseInt($("#locationId").val()) <= 0
+			|| $("#locationId").val().length == 0) {
 		var url = "REST/GetLocationWS/SaveUpdateLocation";
 		$("#boundary").val(
 				$("#boundary").val() + ";"
@@ -298,7 +299,7 @@ function saveEntrance(entranceId) {
 					success : function(data) {
 						var dataJson = JSON.parse(data);
 						addMarker(dataJson);
-//						toast('Saved Successfully');
+						// toast('Saved Successfully');
 						if (selectedShape != null)
 							selectedShape.setEditable(false);
 						url = "REST/GetLocationWS/CreateTFCEntrance?entranceId="
@@ -306,7 +307,8 @@ function saveEntrance(entranceId) {
 								+ "&username=NMMU&parentId="
 								+ dataJson.locationID
 								+ "&locationName=Entrance&coordinate="
-								+ entranceMarker.getPosition().lat() + ","
+								+ entranceMarker.getPosition().lat()
+								+ ","
 								+ entranceMarker.getPosition().lng();
 						$
 								.ajax({
@@ -319,7 +321,7 @@ function saveEntrance(entranceId) {
 									success : function(dataEntrance) {
 										google.maps.event
 												.clearInstanceListeners(map);
-//										closeAMenuPopup();
+										// closeAMenuPopup();
 										$('#locationSaveCancelPanel').css(
 												'display', 'none');
 										hideLocationInfo();
@@ -344,35 +346,36 @@ function saveEntrance(entranceId) {
 								+ thrownError);
 					},
 				});
+	} else {
+		var url = "REST/GetLocationWS/CreateTFCEntrance?entranceId="
+				+ entranceId + "&username=NMMU&parentId="
+				+ $("#parentLocationId").val() + "&locationName=Entrance&coordinate="
+				+ $("#locationGPS").val();
+		$.ajax({
+			url : url,
+			cache : false,
+			async : true,
+			beforeSend : function() {
+				ShowLoadingScreen("Saving Entrance");
+			},
+			success : function(data) {
+				google.maps.event.clearInstanceListeners(map);
+				closeAMenuPopup();
+				$('#locationSaveCancelPanel').css('display', 'none');
+				hideLocationInfo();
+				addEntrance(data);
+				toast('Saved Successfully');
+			},
+			complete : function() {
+				HideLoadingScreen();
+				closeAMenuPopup();
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				popErrorMessage("An error occured while saving the marker. "
+						+ thrownError);
+			},
+		});
 	}
-	var url = "REST/GetLocationWS/CreateTFCEntrance?entranceId="
-			+ entranceId + "&username=NMMU&parentId="
-			+ $("#locationId").val()
-			+ "&locationName=Entrance&coordinate=" + $("#locationGPS").val();
-	$.ajax({
-		url : url,
-		cache : false,
-		async : true,
-		beforeSend : function() {
-			ShowLoadingScreen("Saving Entrance");
-		},
-		success : function(data) {
-			google.maps.event.clearInstanceListeners(map);
-			closeAMenuPopup();
-			$('#locationSaveCancelPanel').css('display', 'none');
-			hideLocationInfo();
-			addEntrance(data);
-			toast('Saved Successfully');
-		},
-		complete : function() {
-			HideLoadingScreen();
-			closeAMenuPopup();
-		},
-		error : function(xhr, ajaxOptions, thrownError) {
-			popErrorMessage("An error occured while saving the marker. "
-					+ thrownError);
-		},
-	});
 }
 
 function addEntrance(l) {
@@ -410,27 +413,33 @@ function addEntrance(l) {
 			y : parseFloat(point.latLng.lng())
 		};
 		pointsInLine = [];
-		$(parentPolygon.getPath().getArray()).each(function(k, l) {
-			var point = {
-				x : parseFloat(l.lat()),
-				y : parseFloat(l.lng())
-			};
-			pointsInLine.push(point);
-		});
-		pointsInLine.push({
-			x : parseFloat(parentPolygon.getPath().getArray()[0].lat()),
-			y : parseFloat(parentPolygon.getPath().getArray()[0].lng())
-		});
-		var intersectionpoint = getClosestPointOnLines(oldPoint, pointsInLine);
-		this.setPosition({
-			lat : parseFloat(intersectionpoint.x),
-			lng : parseFloat(intersectionpoint.y)
-		});
+		if (l.entranceIntersection) {
+			$(parentPolygon.getPath().getArray()).each(function(k, l) {
+				var point = {
+					x : parseFloat(l.lat()),
+					y : parseFloat(l.lng())
+				};
+				pointsInLine.push(point);
+			});
+			pointsInLine.push({
+				x : parseFloat(parentPolygon.getPath().getArray()[0].lat()),
+				y : parseFloat(parentPolygon.getPath().getArray()[0].lng())
+			});
+			var intersectionpoint = getClosestPointOnLines(oldPoint,
+					pointsInLine);
+			this.setPosition({
+				lat : parseFloat(intersectionpoint.x),
+				lng : parseFloat(intersectionpoint.y)
+			});
+			$("#locationGPS").val(
+					intersectionpoint.x + "," + intersectionpoint.y);
+		} else
+			$("#locationGPS").val(
+					entrance.getPosition().lat() + ","
+							+ entrance.getPosition().lng());
 		setTimeout(function() {
 			if (confirm("Are you sure you want to move the marker?")) {
-				$("#locationGPS").val(
-						intersectionpoint.x + "," + intersectionpoint.y);
-//				$("#locationId").val(l.entranceId);
+				// $("#locationId").val(l.entranceId);
 				$("#locationName").val(l.description);
 				$("#parentLocationId").val(l.parentId);
 				saveEntrance(l.entranceId);
