@@ -196,6 +196,35 @@
 <div id="actionBarLabel"></div>
 
 
+
+<!-- POPUP CONFIRMATION POPUP CONFIRMATION POPUP CONFIRMATION POPUP CONFIRMATION POPUP CONFIRMATION POPUP CONFIRMATION POPUP CONFIRMATION -->
+
+
+
+<div data-role="popup" id="popupConfirmation"
+	data-overlay-theme="b" data-theme="a" data-dismissible="false"
+	style="max-width: 400px;" class="ui-corner-all">
+	<div id="popupConfirmation_header" data-role="header" data-theme="b" class="ui-corner-top">
+		<h1>Confirm Action ?</h1>
+	</div>
+	<div id="popupConfirmation_content" data-role="content" data-theme="d"
+		class="ui-corner-bottom ui-content">
+		<div id="confirmationMessage" class="ui-title"></div>
+		<div id="confirmationWarning">This action cannot be undone.</div>
+		<div class="ui-grid-a" >
+			<div class="ui-block-b" >
+				<a id="popupConfirmation_confirmBTN" href="#" data-role="button" data-inline="true" data-rel="back" data-transition="flow"
+					data-theme="b" rel="external" onclick="confirmClicked();">Confirm</a>
+			</div>
+			<div class="ui-block-b" >
+				<a id="popupConfirmation_cancelBTN" href="#" data-role="button" data-inline="true" data-rel="back" data-theme="b">Cancel</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 <!-- HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS  -->
 
 
@@ -633,7 +662,6 @@
 	<!-- 		</div> -->
 	<!-- 	</div> -->
 </div>
-
 
 <script src="js/croppie.js"></script>
 <script src="js/colorpicker.js"></script>

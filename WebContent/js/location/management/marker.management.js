@@ -1,5 +1,6 @@
 var pathMarkers = [];
 var parentAreaPolygon;
+var confirmSelected = false;
 function removeMarker() {
 	var url = "REST/GetLocationWS/RemoveALocation?locationId="
 			+ $("#locationId").val();
@@ -9,7 +10,9 @@ function removeMarker() {
 	} else {
 		loadingContent = "Removing Intersection";
 	}
-	if (confirm('Are you sure you want to remove this location?'))
+	showPopupConfirmation('Are you sure you want to remove this location?');
+	if (confirmSelected) {
+		alert("hi");
 		$.ajax({
 			url : url,
 			cache : false,
@@ -43,6 +46,19 @@ function removeMarker() {
 						+ thrownError);
 			}
 		});
+	}
+}
+
+function showPopupConfirmation(message) {
+	$.mobile.changePage("#popupConfirmation");
+	$("#popupConfirmation").trigger("create");
+	$("#popupConfirmation").popup("open");
+	$("#confirmationMessage").html(message);
+	confirmSelected = false;
+}
+
+function confirmClicked() {
+	confirmSelected = true;
 }
 
 function deleteMarker(id) {

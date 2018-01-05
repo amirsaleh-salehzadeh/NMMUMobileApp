@@ -105,7 +105,8 @@ function removePath() {
 		alert("please select a path");
 		return;
 	}
-	if (confirm('Are you sure you want to remove this path?')) {
+	showPopupConfirmation('Are you sure you want to remove this path?');
+	if (confirmSelected) {
 		var url = "REST/GetPathWS/RemoveAPath?pathId=" + $("#pathId").val();
 		$.ajax({
 			url : url,
