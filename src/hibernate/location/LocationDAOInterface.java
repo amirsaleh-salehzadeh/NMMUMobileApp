@@ -17,7 +17,6 @@ public interface LocationDAOInterface {
 	public LocationENT saveUpdateLocation(LocationENT ent, Connection conn)
 			throws AMSException;
 
-	public ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type);
 
 	public LocationENT getLocationENT(LocationENT ent, Connection conn);
 
@@ -31,22 +30,9 @@ public interface LocationDAOInterface {
 
 	public ArrayList<DropDownENT> getAllCountrirs();
 
-	public ArrayList<PathTypeENT> getAllPathTypes();
-
 	public LocationTypeENT getAllLocationTypeChildren(LocationTypeENT parent);
 
-	public LocationENT findClosestLocation(String GPSCoordinates,
-			String locationTypeIds, String parentIds, String clientName);
-
-	public long saveTrip(long deptLocationId, long destLocationId);
-
-	public void deleteTrip(long tripId);
-
-	public PathENT getTrip(long tripId);
-
 	public String getQRCodeForLocationENT(long locationId);
-
-	public LocationLST getParentLocationsOfaType(int locationTypeId);
 
 	public LocationENT getLocationENTAncestors(long locationId);
 

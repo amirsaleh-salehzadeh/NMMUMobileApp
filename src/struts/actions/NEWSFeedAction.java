@@ -20,7 +20,7 @@ public class NEWSFeedAction extends Action {
 			HttpServletRequest request, HttpServletResponse response) {
 		ActionForward af = null;
 		String reqCode = request.getParameter("reqCode");
-		af = mapping.findForward(reqCode);
+		af = mapping.findForward("mapView");
 		return af;
 	}
 }

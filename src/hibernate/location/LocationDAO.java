@@ -219,31 +219,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return locationENTs;
 	}
 
-	public ArrayList<PathTypeENT> getAllPathTypes() {
-		ArrayList<PathTypeENT> res = new ArrayList<PathTypeENT>();
-		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-			String query = "Select * from path_type";
-			PreparedStatement ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				PathTypeENT p = new PathTypeENT(rs.getInt("path_type_id"),
-						rs.getString("path_type"));
-				res.add(p);
-			}
-			rs.close();
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
 
 	public LocationTypeENT getAllLocationTypeChildren(LocationTypeENT parent) {
 		LocationTypeENT ent = null;
@@ -395,179 +370,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type) {
-		ArrayList<PathENT> res = new ArrayList<PathENT>();
-		Connection conn = null;
-		try {
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-			String query = "";
-			if (type == 0)
-				query = "Select * from paths "
-						+ "where destination_location_id = '" + locationId
-						+ "' or departure_location_id = '" + locationId + "'";
-			else
-				query = "Select * from paths where path_type != " + type
-						+ " and (destination_location_id = '" + locationId
-						+ "' or departure_location_id = '" + locationId + "')";
-			PreparedStatement ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				PathENT p = new PathENT(getLocationENT(
-						new LocationENT(rs.getLong("departure_location_id")),
-						conn), getLocationENT(
-						new LocationENT(rs.getLong("destination_location_id")),
-						conn), rs.getDouble("distance"), new PathTypeENT(
-						rs.getInt("path_type")), rs.getLong("path_id"));
-				p.setPathRoute(rs.getString("path_route"));
-				res.add(p);
-			}
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			try {
-				conn.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		}
-		return res;
-	}
-
-	public LocationENT findClosestLocation(String GPSCoordinates,
-			String locationTypeIds, String parentIds, String clientName) {
-		LocationDAO dao = new LocationDAO();
-		LocationENT ent = new LocationENT();
-		ent.setGps(GPSCoordinates);
-		ent = getLocationENT(ent, null);
-		if (ent.getLocationID() > 0)
-			return ent;
-		ArrayList<LocationENT> points = dao.getAllLocationsForUser(clientName,
-				locationTypeIds, parentIds);
-		int closest = -1;
-		double[] distances = new double[points.size()];
-		for (int i = 0; i < points.size(); i++) {
-			distances[i] = PathDAO.calculateDistanceBetweenTwoPoints(points
-					.get(i).getGps(), GPSCoordinates);
-			if (closest == -1 || distances[i] < distances[closest]) {
-				closest = i;
-			}
-		}
-		return points.get(closest);
-	}
-
-	public static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
-			int pathTypeId, String clientName) {
-		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = null;
-		g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
-				DefaultWeightedEdge.class);
-		LocationDAO dao = new LocationDAO();
-		ArrayList<LocationENT> points = dao.getAllLocationsForUser(clientName,
-				"11,3,5", null);
-		for (int i = 0; i < points.size(); i++) {
-			long depTMP = points.get(i).getLocationID();
-			if (!g.containsVertex(depTMP))
-				g.addVertex(depTMP);
-			ArrayList<PathENT> ptz = dao.getAllPathsForOnePoint(depTMP,
-					pathTypeId);
-			for (int j = 0; j < ptz.size(); j++) {
-				long destTMP = ptz.get(j).getDestination().getLocationID();
-				depTMP = ptz.get(j).getDeparture().getLocationID();
-				if (!g.containsVertex(destTMP)) {
-					g.addVertex(destTMP);
-				}
-				if (!g.containsVertex(depTMP)) {
-					g.addVertex(depTMP);
-				}
-				DefaultWeightedEdge edg = g.addEdge(depTMP, destTMP);
-				if (edg != null)
-					g.setEdgeWeight(edg, ptz.get(j).getDistance());
-			}
-		}
-		return g;
-	}
-
-	public long saveTrip(long deptLocationId, long destLocationId) {
-		long res = 0;
-		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-			String query = "";
-			query = "insert into trips (departure_location_id, destination_location_id)"
-					+ " values (?, ?)";
-			PreparedStatement ps = conn.prepareStatement(query,
-					Statement.RETURN_GENERATED_KEYS);
-			ps.setLong(1, deptLocationId);
-			ps.setLong(2, destLocationId);
-			ps.executeUpdate();
-			ResultSet rs = ps.getGeneratedKeys();
-			if (rs.next()) {
-				res = rs.getLong(1);
-			}
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
-
-	public void deleteTrip(long tripId) {
-		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			String query = "delete from trips where trip_id = ?";
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setLong(1, tripId);
-			ps.execute();
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public PathENT getTrip(long tripId) {
-		PathENT res = new PathENT();
-		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				e.printStackTrace();
-			}
-			String query = "Select * from trips where trip_id = " + tripId;
-			PreparedStatement ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				res = new PathENT(getLocationENT(
-						new LocationENT(rs.getLong("departure_location_id")),
-						conn), getLocationENT(
-						new LocationENT(rs.getLong("destination_location_id")),
-						conn));
-			}
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
-
 	public String getQRCodeForLocationENT(long locationId) {
 		LocationLightENT qrent = null;
 		try {
@@ -668,39 +470,6 @@ public class LocationDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 		}
 		return ent;
-	}
-
-	public LocationLST getParentLocationsOfaType(int locationTypeId) {
-		LocationLST res = new LocationLST();
-		try {
-			Connection conn = null;
-			conn = getConnection();
-			String query = "";
-			query = "select l.location_name, l.location_id, ltt.location_type from location_type lt"
-					+ " inner join location l on lt.parent_id = l.location_type"
-					+ " left join location_type ltt on ltt.location_type_id = lt.parent_id"
-					+ " where lt.location_type_id ="
-					+ locationTypeId
-					+ " order by l.location_name asc";
-			PreparedStatement ps = conn.prepareStatement(query);
-			ArrayList<LocationLightENT> ents = new ArrayList<LocationLightENT>();
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				LocationLightENT ent = new LocationLightENT(
-						rs.getLong("location_id"),
-						rs.getString("location_type"),
-						rs.getString("location_name"), "", null);
-				ents.add(ent);
-			}
-			ps.close();
-			conn.close();
-			res.setLocationLightENTs(ents);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (AMSException e) {
-			e.printStackTrace();
-		}
-		return res;
 	}
 
 	public LocationENT getLocationENTAncestors(long locationId) {
@@ -947,8 +716,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 						rs.getString("gps"),
 						rs.getBoolean("intersection_entrance"));
 			}
-			res = getLocationENT(new LocationENT(ent.getParentId()),
-					conn);
+			res = getLocationENT(new LocationENT(ent.getParentId()), conn);
 			ArrayList<EntranceIntersectionENT> entrances = new ArrayList<EntranceIntersectionENT>();
 			entrances.add(ent);
 			res.setEntrances(entrances);

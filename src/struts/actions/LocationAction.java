@@ -43,10 +43,6 @@ public class LocationAction extends Action {
 		String reqCode = request.getParameter("reqCode");
 		if (reqCode.equalsIgnoreCase("searchLocations")) {
 			af = mapping.findForward(reqCode);
-		} else if (reqCode.equalsIgnoreCase("mapView")) {
-			setAllLocationTypes(request);
-			setAllPathTypes(request);
-			af = mapping.findForward(reqCode);
 		} else if (reqCode.equalsIgnoreCase("pathManagement")) {
 			setAllLocationTypes(request);
 			setAllPathTypes(request);

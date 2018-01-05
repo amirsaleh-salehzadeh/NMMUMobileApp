@@ -1,9 +1,12 @@
 package webservices;
 
 import hibernate.config.NMMUMobileDAOManager;
+import hibernate.location.LocationDAOInterface;
 import hibernate.route.PathDAOInterface;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -40,21 +43,62 @@ public class PathServicesWS {
 		}
 		return json;
 	}
-	
+
+
+	@GET
+	@Path("/GetADirectionFromTo")
+	@Produces("application/json")
+	public String getADirectionFromTo(
+			@QueryParam("clientName") String clientName,
+			@QueryParam("from") String from, @QueryParam("to") String to,
+			@QueryParam("pathType") int pathType,
+			@QueryParam("destinationId") long destinationId,
+			@QueryParam("departureId") long departureId) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			LocationENT destENT = new LocationENT();
+			if (destinationId <= 0) {
+				destENT = getPathDAO().findClosestLocation(to, "11,3,5", null,
+						"NMMU");
+				destinationId = destENT.getLocationID();
+			}
+			// building and external intersection
+			if (departureId <= 0) {
+				destENT = getLocationDAO().getLocationENT(
+						new LocationENT(destinationId), null);
+				String parentId = destENT.getParentId() + "";
+				departureId = getPathDAO().findClosestLocation(from, "11,3,5",
+						parentId, "NMMU").getLocationID();
+			}
+			ArrayList<PathENT> res = getPathDAO().getShortestPath(departureId,
+					destinationId, pathType, clientName, pathType);
+//			if (res.size() == 0)
+//				getPathDAO().saveTrip(departureId, destinationId);
+			json = mapper.writeValueAsString(res);
+
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(json);
+		return json;
+	}
+
 	@GET
 	@Path("/UpdatePathWidth")
 	@Produces("application/json")
-	public String updatePathWidth(
-			@QueryParam("userName") String userName,
-			@QueryParam("pathId") long pathId,
-			@QueryParam("width") int width) {
+	public String updatePathWidth(@QueryParam("userName") String userName,
+			@QueryParam("pathId") long pathId, @QueryParam("width") int width) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
 			PathENT p = getPathDAO().getAPath(new PathENT(pathId), null);
 			p.setWidth(width);
-			json = mapper.writeValueAsString(getPathDAO()
-					.savePath(p, null));
+			json = mapper.writeValueAsString(getPathDAO().savePath(p, null));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -130,7 +174,8 @@ public class PathServicesWS {
 	@GET
 	@Path("/CreateAPointOnThePath")
 	@Produces("application/json")
-	public String createAPointOnThePath(@QueryParam("pathId") long pathId,
+	public String createAPointOnThePath(
+			@QueryParam("pathId") long pathId,
 			@QueryParam("pointGPS") String pointGPS,
 			@QueryParam("index") int index,
 			@QueryParam("intersectionEntranceParentId") long intersectionEntranceParentId) {
@@ -164,5 +209,9 @@ public class PathServicesWS {
 
 	private static PathDAOInterface getPathDAO() {
 		return NMMUMobileDAOManager.getPathDAOInterface();
+	}
+	
+	private static LocationDAOInterface getLocationDAO() {
+		return NMMUMobileDAOManager.getLocationDAOInterface();
 	}
 }

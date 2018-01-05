@@ -216,24 +216,6 @@ public class LocationServicesWS {
 		return json;
 	}
 
-	@GET
-	@Path("/GetParentLocationsOfaType")
-	@Produces("application/json")
-	public String getLocationsOfaType(@QueryParam("typeId") int typeId) {
-		ObjectMapper mapper = new ObjectMapper();
-		String json = "";
-		try {
-			json = mapper.writeValueAsString(getLocationDAO()
-					.getParentLocationsOfaType(typeId).getLocationLightENTs());
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return json;
-	}
 
 	@GET
 	@Path("/GetAllPathTypes")
@@ -243,7 +225,7 @@ public class LocationServicesWS {
 		String json = "";
 		try {
 			json = mapper
-					.writeValueAsString(getLocationDAO().getAllPathTypes());
+					.writeValueAsString(getPathDAO().getAllPathTypes());
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -251,52 +233,6 @@ public class LocationServicesWS {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return json;
-	}
-
-	@GET
-	@Path("/GetADirectionFromTo")
-	@Produces("application/json")
-	public String getADirectionFromTo(
-			@QueryParam("clientName") String clientName,
-			@QueryParam("from") String from, @QueryParam("to") String to,
-			@QueryParam("pathType") int pathType,
-			@QueryParam("destinationId") long destinationId,
-			@QueryParam("departureId") long departureId) {
-		ObjectMapper mapper = new ObjectMapper();
-		String json = "";
-		try {
-			LocationENT destENT = new LocationENT();
-			if (destinationId <= 0) {
-				destENT = getLocationDAO().findClosestLocation(to, "11,3,5",
-						null, "NMMU");
-				destinationId = destENT.getLocationID();
-			}
-			// building and external intersection
-			if (departureId <= 0) {
-				destENT = getLocationDAO().getLocationENT(
-						new LocationENT(destinationId), null);
-				String parentId = destENT.getParentId() + "";
-				if (destENT.getParentId() == 369
-						|| destENT.getParentId() == 371)
-					parentId = "369,371";
-				departureId = getLocationDAO().findClosestLocation(from,
-						"11,3,5", parentId, "NMMU").getLocationID();
-			}
-			ArrayList<PathENT> res = getPathDAO().getShortestPath(departureId,
-					destinationId, pathType, clientName, pathType);
-			if (res.size() == 0)
-				getLocationDAO().saveTrip(departureId, destinationId);
-			json = mapper.writeValueAsString(res);
-
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println(json);
 		return json;
 	}
 
@@ -309,7 +245,7 @@ public class LocationServicesWS {
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
 					.getLocationENTAncestors(
-							getLocationDAO().findClosestLocation(from, "3,5",
+							getPathDAO().findClosestLocation(from, "3,5",
 									null, "NMMU").getLocationID()));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
@@ -448,25 +384,25 @@ public class LocationServicesWS {
 		return json;
 	}
 
-	@GET
-	@Path("/StartTrip")
-	@Produces("application/json")
-	public String startTrip(@QueryParam("from") long from,
-			@QueryParam("to") long to) {
-		String json = "[]";
-		json = "[{\"tripId\" : \"" + getLocationDAO().saveTrip(from, to)
-				+ "\"}]";
-		return json;
-	}
+//	@GET
+//	@Path("/StartTrip")
+//	@Produces("application/json")
+//	public String startTrip(@QueryParam("from") long from,
+//			@QueryParam("to") long to) {
+//		String json = "[]";
+//		json = "[{\"tripId\" : \"" + getLocationDAO().saveTrip(from, to)
+//				+ "\"}]";
+//		return json;
+//	}
 
-	@GET
-	@Path("/RemoveTrip")
-	@Produces("application/json")
-	public String removeTrip(@QueryParam("tripId") long tripId) {
-		String json = "[]";
-		getLocationDAO().deleteTrip(tripId);
-		return json;
-	}
+//	@GET
+//	@Path("/RemoveTrip")
+//	@Produces("application/json")
+//	public String removeTrip(@QueryParam("tripId") long tripId) {
+//		String json = "[]";
+//		getLocationDAO().deleteTrip(tripId);
+//		return json;
+//	}
 
 	private static LocationDAOInterface getLocationDAO() {
 		return NMMUMobileDAOManager.getLocationDAOInterface();

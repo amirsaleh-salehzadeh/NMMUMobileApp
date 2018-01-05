@@ -22,7 +22,6 @@
 			<forward name="locationManagement" path="/pages/location/locationManagement.jsp" />
 			<forward name="locationEdit" path="/pages/location/locationEdit.jsp" />
 			<forward name="searchLocations" path="/pages/location/searchLocations.jsp" />
-			<forward name="mapView" path="/pages/location/map.jsp" />
 			<forward name="pathManagement" path="/pages/location/pathManagement.jsp" />
 			<forward name="cameraNavigation" path="/pages/location/cameraNavigation.jsp" />
 			<forward name="gridJson" path="/pages/json.jsp" />
@@ -42,6 +41,7 @@
 		<action path="/newsfeed" type="struts.actions.NEWSFeedAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="newsFeedList" path="/pages/newsFeed/newsFeedList.jsp" />
+			<forward name="mapView" path="/pages/location/map.jsp" />
 		</action>
 		<action parameter="reqCode" path="/logOut" type="struts.actions.LogOutAction">
 			<set-property property="cancellable" value="true" />

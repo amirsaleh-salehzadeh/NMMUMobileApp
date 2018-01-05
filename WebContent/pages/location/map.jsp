@@ -51,12 +51,13 @@
 </style>
 <script type="text/javascript">
 	$(window).bind('load', function() {
-// 		browserCheck();
+		// 		browserCheck();
 		// 										errorMessagePopupOpen('hi');
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(266);
 		// 		var myTimer = setInterval(test, 60);
 		// 		test();
+		searchResultPopupOpen('FIND A PLACE');
 		if (getCookie("TripPathGPSCookie") != "")
 			getThePath();
 		else
@@ -101,9 +102,9 @@
 			platform = "desktop";
 		}
 
-// 		if (platform == "iOS" || platform == "desktop") {
-			$('#dualModeSelect').css('display', 'none');
-// 		}
+		// 		if (platform == "iOS" || platform == "desktop") {
+		$('#dualModeSelect').css('display', 'none');
+		// 		}
 		if (browser == null) {
 			errorMessagePopupOpen("For better performance please use either Google Chrome, Firefox or Safari web browsers.");
 		}
@@ -274,8 +275,8 @@
 		<div id="barcodeDescription">
 			<div class="ui-block-solo">
 				<div style="display: inline-block; right: 48;">
-					<span id="distanceLeftInf"></span> 
-<!-- 					<span id="arrivalTimeInf">4':14"</span> -->
+					<span id="distanceLeftInf"></span>
+					<!-- 					<span id="arrivalTimeInf">4':14"</span> -->
 					<div class="ui-block-solo" style="display: inline;">
 						<span id="departureDescriptionSpan"></span><br> <img
 							alt="Dest" src="images/icons/finish.png" width="32" height="32">

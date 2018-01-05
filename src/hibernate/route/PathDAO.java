@@ -1,6 +1,7 @@
 package hibernate.route;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.util.StringJoiner;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.SimpleWeightedGraph;
 
 import com.mysql.jdbc.Statement;
 
@@ -28,6 +30,104 @@ import tools.AMSException;
 
 public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 
+	public long saveTrip(long deptLocationId, long destLocationId) {
+		long res = 0;
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			query = "insert into trips (departure_location_id, destination_location_id)"
+					+ " values (?, ?)";
+			PreparedStatement ps = conn.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
+			ps.setLong(1, deptLocationId);
+			ps.setLong(2, destLocationId);
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				res = rs.getLong(1);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public void deleteTrip(long tripId) {
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query = "delete from trips where trip_id = ?";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setLong(1, tripId);
+			ps.execute();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public PathENT getTrip(long tripId) {
+		PathENT res = new PathENT();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "Select * from trips where trip_id = " + tripId;
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				// res = new PathENT(getLocationENT(
+				// new LocationENT(rs.getLong("departure_location_id")),
+				// conn), getLocationENT(
+				// new LocationENT(rs.getLong("destination_location_id")),
+				// conn));
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public LocationENT findClosestLocation(String GPSCoordinates,
+			String locationTypeIds, String parentIds, String clientName) {
+		LocationDAO dao = new LocationDAO();
+		LocationENT ent = new LocationENT();
+		ent.setGps(GPSCoordinates);
+		ent = dao.getLocationENT(ent, null);
+		if (ent.getLocationID() > 0)
+			return ent;
+		ArrayList<LocationENT> points = dao.getAllLocationsForUser(clientName,
+				locationTypeIds, parentIds);
+		int closest = -1;
+		double[] distances = new double[points.size()];
+		for (int i = 0; i < points.size(); i++) {
+			distances[i] = PathDAO.calculateDistanceBetweenTwoPoints(points
+					.get(i).getGps(), GPSCoordinates);
+			if (closest == -1 || distances[i] < distances[closest]) {
+				closest = i;
+			}
+		}
+		return points.get(closest);
+	}
+
 	public ArrayList<PathENT> getRoutesForUserAndParent(String username,
 			long parentId) {
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
@@ -39,7 +139,9 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		}
 		try {
 			LocationDAO ldao = new LocationDAO();
-			String paString  = ldao.getLocationENT(new LocationENT(parentId), null).getParentId()+","+parentId;
+			String paString = ldao.getLocationENT(new LocationENT(parentId),
+					null).getParentId()
+					+ "," + parentId;
 			String query = "Select p.*, pt.*, GROUP_CONCAT(ppt.path_type_id) as pathtypeString from path p "
 					+ "inner join location_entrance edep on edep.entrance_id = p.departure_location_id "
 					+ "inner join location_entrance edes on edes.entrance_id = p.destination_location_id "
@@ -49,8 +151,9 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 					+ " where lf.client_name = '"
 					+ username
 					+ "' and lf.parent_id in ("
-					+ paString + ") group by p.path_id";
-			
+					+ paString
+					+ ") group by p.path_id";
+
 			// String query =
 			// "Select p.*, pt.*, lp.* GROUP_CONCAT(ppt.path_type_id) as pathtypeString from path p "
 			// +
@@ -66,10 +169,14 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				LocationENT depl = ldao.getEntranceLocation(ldao.getEntranceIntersectionENT(rs
-						.getLong("departure_location_id"), conn), conn);
-				LocationENT desl = ldao.getEntranceLocation(ldao.getEntranceIntersectionENT(rs
-						.getLong("destination_location_id"), conn), conn);
+				LocationENT depl = ldao.getEntranceLocation(
+						ldao.getEntranceIntersectionENT(
+								rs.getLong("departure_location_id"), conn),
+						conn);
+				LocationENT desl = ldao.getEntranceLocation(
+						ldao.getEntranceIntersectionENT(
+								rs.getLong("destination_location_id"), conn),
+						conn);
 				PathENT ent = new PathENT(depl, desl, rs.getDouble("distance"),
 						rs.getString("pathtypeString"), rs.getLong("path_id"),
 						rs.getString("path_route"), rs.getDouble("width"),
@@ -326,11 +433,11 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			LocationDAO dao = new LocationDAO();
 			while (rs.next()) {
 				LocationENT dep = dao.getEntranceLocation(
-						new EntranceIntersectionENT(rs.getLong("departure_location_id")),
-						conn);
+						new EntranceIntersectionENT(rs
+								.getLong("departure_location_id")), conn);
 				LocationENT des = dao.getEntranceLocation(
-						new EntranceIntersectionENT(rs.getLong("destination_location_id")),
-						conn);
+						new EntranceIntersectionENT(rs
+								.getLong("destination_location_id")), conn);
 				ent = new PathENT(dep, des);
 				ent.setPathRoute(rs.getString("path_route"));
 				ent.setPathId(rs.getLong("path_id"));
@@ -450,13 +557,156 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		return res;
 	}
 
+	public ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type) {
+		ArrayList<PathENT> res = new ArrayList<PathENT>();
+		Connection conn = null;
+		try {
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			// if (type == 0)
+			query = "Select p.* from path p "
+					+ " inner join path_path_type ppt on ppt.path_id = p.path_id "
+					+ "where ppt.path_type_id = ? and (p.destination_location_id = ? or p.departure_location_id = ?)";
+			// else
+			// query = "Select * from path where path_type != " + type
+			// + " and (destination_location_id = '" + locationId
+			// + "' or departure_location_id = '" + locationId + "')";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, type);
+			ps.setLong(2, locationId);
+			ps.setLong(3, locationId);
+			ResultSet rs = ps.executeQuery();
+			LocationDAO dao = new LocationDAO();
+			while (rs.next()) {
+				LocationENT dep = dao.getEntranceLocation(
+						new EntranceIntersectionENT(rs
+								.getLong("departure_location_id")), conn);
+				LocationENT des = dao.getEntranceLocation(
+						new EntranceIntersectionENT(rs
+								.getLong("destination_location_id")), conn);
+				PathENT ent = new PathENT(dep, des);
+				ent.setPathRoute(rs.getString("path_route"));
+				ent.setPathId(rs.getLong("path_id"));
+				ent.setPathTypes(getPathTypesOfAPath(rs.getLong("path_id"),
+						conn));
+				ent.setWidth(rs.getDouble("width"));
+				ent.setPathName(rs.getString("path_Name"));
+				ent.setDescription(rs.getString("description"));
+				res.add(ent);
+			}
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			try {
+				conn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public static UndirectedGraph<Long, DefaultWeightedEdge> createGraph(
+			int pathTypeId, String clientName) {
+		SimpleWeightedGraph<Long, DefaultWeightedEdge> g = null;
+		g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
+				DefaultWeightedEdge.class);
+		PathDAO pdao = new PathDAO();
+		ArrayList<LocationENT> points = getAllPointsForGraph(clientName);
+		for (int i = 0; i < points.size(); i++) {
+			long depTMP = points.get(i).getEntrances().get(0).getEntranceId();
+			if (!g.containsVertex(depTMP))
+				g.addVertex(depTMP);
+			ArrayList<PathENT> ptz = pdao.getAllPathsForOnePoint(depTMP,
+					pathTypeId);
+			for (int j = 0; j < ptz.size(); j++) {
+				long destTMP = ptz.get(j).getDestination().getEntrances()
+						.get(0).getEntranceId();
+				depTMP = ptz.get(j).getDeparture().getEntrances().get(0)
+						.getEntranceId();
+				if (!g.containsVertex(destTMP)) {
+					g.addVertex(destTMP);
+				}
+				if (!g.containsVertex(depTMP)) {
+					g.addVertex(depTMP);
+				}
+				DefaultWeightedEdge edg = g.addEdge(depTMP, destTMP);
+				if (edg != null)
+					g.setEdgeWeight(edg, ptz.get(j).getDistance());
+			}
+		}
+		return g;
+	}
+
+	private static ArrayList<LocationENT> getAllPointsForGraph(String clientName) {
+		ArrayList<LocationENT> res = new ArrayList<LocationENT>();
+		try {
+			Connection conn = null;
+			try {
+				Class.forName(DBDRIVER);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			conn = DriverManager.getConnection(DBADDRESS, USERNAME, PASSWORD);
+			String query = "Select * from location_entrance";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			LocationDAO dao = new LocationDAO();
+			while (rs.next()) {
+				res.add(dao.getEntranceLocation(
+						new EntranceIntersectionENT(rs.getLong("entrance_id")),
+						conn));
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	public ArrayList<PathTypeENT> getAllPathTypes() {
+		ArrayList<PathTypeENT> res = new ArrayList<PathTypeENT>();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "Select * from path_type";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				PathTypeENT p = new PathTypeENT(rs.getInt("path_type_id"),
+						rs.getString("path_type"));
+				res.add(p);
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 	public ArrayList<PathENT> createAPointOnPath(long pathId, String pointGPS,
 			int index, long intersectionEntranceParentId) {
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
 		Connection conn = null;
 		final PathENT p = getAPath(new PathENT(pathId), null);
-		final long depId = p.getDeparture().getEntrances().get(0).getEntranceId();
-		final long desId = p.getDestination().getEntrances().get(0).getEntranceId();
+		final long depId = p.getDeparture().getEntrances().get(0)
+				.getEntranceId();
+		final long desId = p.getDestination().getEntrances().get(0)
+				.getEntranceId();
 		EntranceIntersectionENT ent = new EntranceIntersectionENT();
 		ent.setGps(pointGPS);
 		ent.setDescription("Intersection");
@@ -479,7 +729,8 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			PathENT path = p;
 			path.setPathId(0);
 			path.setDeparture(new LocationENT(depId));
-			path.setDestination(new LocationENT(ent.getEntranceId()));//dao.getEntranceLocation(ent, conn).getEntrances().get(0).getEntranceId()
+			path.setDestination(new LocationENT(ent.getEntranceId()));// dao.getEntranceLocation(ent,
+																		// conn).getEntrances().get(0).getEntranceId()
 			path.setPathRoute(firstRoute.toString());
 			path = savePath(path, conn);
 			res.add(getAPath(new PathENT(path.getPathId()), conn));

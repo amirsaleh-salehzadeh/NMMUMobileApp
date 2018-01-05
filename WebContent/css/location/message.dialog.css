@@ -114,9 +114,10 @@ HEADER*/
 .closePopupMessage {
 	cursor: pointer;
 	margin: 0px auto !important;
-	background-color: rgba(248, 182, 36, 1) !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+/* 	background-color: transparent */
 	border: 1px solid;
-	color: rgba(8, 27, 44, 1) !important;
+	color: rgba(248, 182, 36, 1) !important;
 	border-color: transparent !important;
 	border-radius: 7px !important;
 	text-shadow: none !important;

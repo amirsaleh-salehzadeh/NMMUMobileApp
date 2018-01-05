@@ -31,7 +31,7 @@ function getLocationTypePanel() {
 					if (y.icon != null)
 						src = y.icon;
 					list_items += "<img src='" + src
-							+ "' class='listViewIcons'><h2>"
+							+ "' class='listViewIcons' style='display: none;'><h2>"
 							+ y.locationType.locationType + " "
 							+ y.locationName + "</h2><p>";
 					var desc = "&nbsp;";

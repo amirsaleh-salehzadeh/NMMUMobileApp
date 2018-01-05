@@ -12,11 +12,12 @@ import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 import hibernate.location.LocationDAO;
+import hibernate.route.PathDAO;
 
 public class GraphGenerator {
 
 	public void generateGraph(String clientName, int areaId, int pathTypeId) {
-		UndirectedGraph<Long, DefaultWeightedEdge> graph = LocationDAO
+		UndirectedGraph<Long, DefaultWeightedEdge> graph = PathDAO
 				.createGraph(1, clientName);
 		FileOutputStream fout;
 		try {

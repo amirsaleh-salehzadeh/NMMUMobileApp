@@ -63,7 +63,7 @@ function searchResultPopupOpen(headerText) {
 						headerText
 								+ "<br/><span id='destinationNameHeader' style='display: none;'>To "
 								+ $("#destinationName").html() + "</span>");
-		$("#searchField").attr("placeholder", "Departure");
+		$("#searchField").attr("placeholder", "Search for a place");
 		$("#searchPopupHeaderIcon").attr("src", "images/icons/departure.png");
 		$("#destinationDefVal").css("cssText",
 				"background-color: #22b800 !important").trigger("create");
@@ -73,7 +73,7 @@ function searchResultPopupOpen(headerText) {
 		$("#destinationButtonGroup").css("display", "block").trigger("create");
 		$("#departureButtonGroup").css("display", "none").trigger("create");
 		$("#destinationDefVal").html(headerText);
-		$("#searchField").attr("placeholder", "Destination");
+		$("#searchField").attr("placeholder", "Search for a place");
 		$("#searchPopupHeaderIcon").attr("src", "images/icons/destination.png");
 		$("#destinationDefVal").css("cssText",
 				"background-color: #0091FF !important").trigger("create");
