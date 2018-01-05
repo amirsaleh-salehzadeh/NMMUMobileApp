@@ -10,6 +10,7 @@ import java.util.List;
 
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.location.LocationDAOInterface;
+import hibernate.security.SecurityDAOInterface;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,6 +50,12 @@ public class LocationAction extends Action {
 		} else if (reqCode.equalsIgnoreCase("pathManagement")) {
 			setAllLocationTypes(request);
 			setAllPathTypes(request);
+			try {
+				request.setAttribute("userLocationIds", getSecurityDAO()
+						.getLocationUser(request.getRemoteUser()));
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
 			af = mapping.findForward(reqCode);
 		} else if (reqCode.equalsIgnoreCase("cameraNavigation")) {
 			af = mapping.findForward(reqCode);
@@ -244,6 +251,10 @@ public class LocationAction extends Action {
 
 	private static LocationDAOInterface getLocationDAO() {
 		return NMMUMobileDAOManager.getLocationDAOInterface();
+	}
+
+	private static SecurityDAOInterface getSecurityDAO() {
+		return NMMUMobileDAOManager.getSecuirtyDAOInterface();
 	}
 
 }

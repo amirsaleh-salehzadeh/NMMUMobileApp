@@ -37,11 +37,11 @@ function generateTree(data) {
 		// || (l.locationType.locationTypeId == 7)) {
 		str = "<li><div class='tf-div'>"
 				+ '<input type="checkbox" name="locationIDs" id="'
-				+ l.locationID + '" data-mini="true">' + l.locationName
-				+ "</div><ul id='loc" + l.locationID + "'></ul></li>";
+				+ l.locationID + '" value="' + l.locationID
+				+ '" data-mini="true">' + l.locationName + "</div><ul id='loc"
+				+ l.locationID + "'></ul></li>";
 		$("ul#loc" + l.parentId).append(str);
 		// }
-		console.log(l.locationName);
 		if (l.childrenENT != null)
 			generateTree(l.childrenENT);
 		// else
@@ -52,10 +52,17 @@ function generateTree(data) {
 
 function initiateTree() {
 	var tree = new treefilter($("#loc360"), {
-		// OPTIONS
 		searcher : $("input#my-search")
 	});
-	// alert("done");
+	var userLIDs = $("#userLocationIds").val().split(",");
+	$('[name="locationIDs"]').each(function() {
+		for ( var int = 0; int < userLIDs.length; int++) {
+			if ($(this).attr("id") == userLIDs[int]) {
+				// $(this).checkboxradio();
+				$(this).prop('checked', true);// .checkboxradio('refresh')
+			}
+		}
+	});
 }
 function ShowLoadingScreen(loadingContent) {
 	if (loadingContent == null) {

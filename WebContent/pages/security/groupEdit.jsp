@@ -46,9 +46,6 @@
 					<a href="#" data-role="button" id="group-item"
 						onclick="callAnAction('security.do?reqCode=groupRoleView&groupID=<%=groupIDVal%>');"
 						data-mini="true">Group Roles</a>
-					<a href="#" data-role="button" id="group-item"
-						onclick="callAnAction('security.do?reqCode=groupBuildings&groupID=<%=groupIDVal%>');"
-						data-mini="true">Group Buildings</a>
 					<%
 						}
 					%>

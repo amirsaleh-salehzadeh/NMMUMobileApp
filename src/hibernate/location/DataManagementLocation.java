@@ -193,13 +193,13 @@ public class DataManagementLocation extends BaseHibernateDAO {
 	private static void updatePointsToBoundary() {
 		LocationDAO dao = new LocationDAO();
 
-		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "5",
+		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "3",
 				"");
 		for (int i = 0; i < ents.size(); i++) {
 			float[] pXy = new float[2];
-			dao.saveEntrance(new EntranceIntersectionENT(ents.get(i)
-					.getLocationID(), ents.get(i).getParentId(), ents.get(i)
-					.getLocationName(), ents.get(i).getGps(), false), null);
+//			dao.saveEntrance(new EntranceIntersectionENT(ents.get(i)
+//					.getLocationID(), ents.get(i).getParentId(), ents.get(i)
+//					.getLocationName(), ents.get(i).getGps(), false), null);
 			if (ents.get(i).getBoundary() != null
 					&& ents.get(i).getBoundary().length() > 10) {
 				ArrayList<EntranceIntersectionENT> rnt = dao
@@ -264,12 +264,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 		// "-33.987197,22.5592594", "-33.991323,22.5072237");
 
 		//
-//		updatePointsToBoundary();
-		Random rand = new Random();
-		Random random = new Random();
-        int nextInt = random.nextInt(256*256*256);
-        String colorCode = String.format("%06x", nextInt);
-        System.out.println(colorCode);
+		updatePointsToBoundary();
 		LocationDAO dao = new LocationDAO();
 
 //		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", "5",

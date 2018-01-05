@@ -111,11 +111,8 @@ function saveLocation() {
 
 var str = "";
 function getAllMarkers(parentId, refreshMarkers) {
-	minZoomLevel = 1;
 	$("input[name='radio-choice']").checkboxradio();
 	$("input[name='radio-choice']").checkboxradio('disable');
-	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-			+ parentId + "&locationTypeId=&userName=NMMU";
 	setMapOnAllPolylines(null);
 	if (!refreshMarkers) {// && markers.length > 0
 		setMapOnAllPathMarkers(null);
@@ -123,6 +120,8 @@ function getAllMarkers(parentId, refreshMarkers) {
 		$("input[name='radio-choice']").checkboxradio('enable');
 		return;
 	}
+	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
+		+ parentId + "&locationTypeId=&userName=NMMU";
 	$
 			.ajax({
 				url : url,
@@ -141,6 +140,57 @@ function getAllMarkers(parentId, refreshMarkers) {
 					}
 				},
 				success : function(data) {
+//					console.log(data.length);
+					str = "";
+					markers = [];
+					polygons = [];
+					// pathMarkers = [];
+					paths = [];
+					pathPolylines = [];
+					polygonsEdit = [];
+					$.each(data, createMarkersOnMap);
+					setMapOnAllPathMarkers(null);
+					setMapOnAllMarkers(map);
+					setMapOnAllPolygons(map);
+				},
+				complete : function() {
+					HideLoadingScreen();
+					$("input[name='radio-choice']").checkboxradio('enable');
+					$(".locationFields").val("");
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					$("input[name='radio-choice']").checkboxradio('enable');
+					popErrorMessage("An error occured while fetching the markers from the server. "
+							+ thrownError);
+				}
+			});
+}
+
+function getIntoALocation(parentId) {
+	$("input[name='radio-choice']").checkboxradio();
+	$("input[name='radio-choice']").checkboxradio('disable');
+	setMapOnAllPolylines(null);
+	var url = "REST/GetLocationWS/GetChildrenOfALocation?parentLocationId="
+		+ parentId + "&locationTypeId=&userName=NMMU";
+	$
+			.ajax({
+				url : url,
+				cache : true,
+				async : true,
+				beforeSend : function() {
+					ShowLoadingScreen("Fetching locations");
+					setMapOnAllMarkers(null);
+					setMapOnAllPolygons(null);
+					for ( var int = 0; int < polygonsEdit.length; int++) {
+						polygonsEdit[int].setMap(null);
+					}
+					if (parentAreaPolygon != null) {
+						parentAreaPolygon.setMap(null);
+						parentAreaPolygon = null;
+					}
+				},
+				success : function(data) {
+//					console.log(data.length);
 					str = "";
 					markers = [];
 					polygons = [];
@@ -169,6 +219,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 function createMarkersOnMap(k, l) {
 	if (k == 0) {
 		getMarkerInfo(l);
+		$("#parentLocationId").val(l.parentId);
 		if (l.parent.boundary != null && l.parent.boundary.length > 3) {
 			var bnd = l.parent.boundary.split(";")[0].split("_");
 			var coordinatesArray = [];
@@ -195,12 +246,12 @@ function createMarkersOnMap(k, l) {
 function getMarkerInfo(location) {
 	do {
 		if (location.parent.parentId > 0) {
-			str += "<li onclick='getAllMarkers(\"" + location.parent.locationID
-					+ "\", true)'>&nbsp;> " + location.parent.locationName
+			str += "<li onclick='getIntoALocation(\"" + location.parent.locationID
+					+ "\")'>&nbsp;> " + location.parent.locationName
 					+ " " + location.parent.locationType.locationType + "</li>"
 					+ str;
 		} else
-			str = "<li onclick='getAllMarkers(\"" + location.parent.locationID
+			str = "<li onclick='getAllMarkers(\"" + $("#userLocationIds").val()
 					+ "\", true)'>" + location.parent.locationName + "</li>"
 					+ str;
 		location = location.parent;
@@ -219,7 +270,7 @@ function addMarker(l) {
 		originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
 				"normal"),
 		draggable : true,
-		zIndex : 666,
+		zIndex : 1667,
 		map : map
 	});
 	if (l.locationType.locationTypeId != 5)
@@ -388,7 +439,7 @@ function addEntrance(l) {
 		hovericon : refreshMap(intersectionEntrance, l.gps, "hover"),
 		originalicon : refreshMap(intersectionEntrance, l.gps, "normal"),
 		draggable : true,
-		zIndex : 666,
+		zIndex : 1666,
 		map : map
 	});
 	google.maps.event.addListener(entrance, "mouseover", function() {
@@ -397,6 +448,10 @@ function addEntrance(l) {
 	google.maps.event.addListener(entrance, "mouseout", function() {
 		this.setIcon(this.originalicon);
 	});
+	google.maps.event.addListener(entrance, "drag", function() {
+		$("#locationId").val(l.entranceId);
+	});
+	
 	var pos = {
 		lat : parseFloat(l.gps.split(",")[0]),
 		lng : parseFloat(l.gps.split(",")[1])

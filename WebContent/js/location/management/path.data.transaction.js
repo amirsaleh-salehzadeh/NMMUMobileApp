@@ -1,4 +1,4 @@
-var movingLine, pathPolylineConstant, lastOne, overlay, pathDrawingCircle;
+var movingLine, pathPolylineConstant, lastOne, overlay;
 var pathWidthScale = 0;
 
 function getAllPaths(refreshPaths) {
@@ -152,27 +152,10 @@ function addAPath(entranceIntersection) {
 		$("#departureGPS").val(entranceIntersection.gps);
 		lastOne = getGoogleMapPosition(entranceIntersection.gps);
 		google.maps.event.clearInstanceListeners(map);
-		pathDrawingCircle = new google.maps.Circle({
-			strokeColor : '#00FF00',
-			strokeOpacity : 0.3,
-			strokeWeight : 2,
-			fillColor : '#00FF00',
-			fillOpacity : 0.35,
-			map : map,
-			radius : parseFloat($("#pathWidth").val()) / 2
-		});
 		google.maps.event.addListener(map, "mousemove", function(event) {
 			updateMovingLine(event);
 		});
-		google.maps.event.addListener(pathDrawingCircle, "mousemove", function(
-				event) {
-			updateMovingLine(event);
-		});
 		google.maps.event.addListener(map, "click", function(event) {
-			addAPathInnerConnection(event);
-		});
-		google.maps.event.addListener(pathDrawingCircle, "click", function(
-				event) {
 			addAPathInnerConnection(event);
 		});
 		return;
@@ -180,7 +163,6 @@ function addAPath(entranceIntersection) {
 		$("#destination").val(entranceIntersection.description);
 		$("#destinationId").val(entranceIntersection.entranceId);
 		$("#destinationGPS").val(entranceIntersection.gps);
-		pathDrawingCircle.setMap(null);
 		google.maps.event.clearInstanceListeners(map);
 		if (movingLine != undefined) {
 			movingLine.setMap(null);

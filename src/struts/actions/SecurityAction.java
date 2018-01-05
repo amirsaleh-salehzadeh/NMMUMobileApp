@@ -67,6 +67,10 @@ public class SecurityAction extends Action {
 			deleteGroup(request);
 			reqCode = "groupManagement";
 		}
+		if (reqCode.equalsIgnoreCase("saveUpdateUserBuildings")) {
+			saveUpdateUserBuildings(request);
+			reqCode = "userBuildings";
+		}
 		if (reqCode.equalsIgnoreCase("roleManagement")) {
 			return roleManagement(request, mapping);
 		} else if (reqCode.equals("roleEdit")) {
@@ -81,26 +85,40 @@ public class SecurityAction extends Action {
 			return saveUpdateGroup(request, mapping);
 		} else if (reqCode.equalsIgnoreCase("groupRoleView")) {
 			return groupRoleView(request, mapping);
-		}else if (reqCode.equalsIgnoreCase("groupBuildings")) {
-			return groupBuildings(request, mapping);
+		} else if (reqCode.equalsIgnoreCase("userBuildings")) {
+			return userBuildings(request, mapping);
 		}
 		return af;
 	}
-	
-	private ActionForward groupBuildings(HttpServletRequest request,
-			ActionMapping mapping) {
-		int gid = Integer.parseInt(request.getParameter("groupID"));
+
+	private void saveUpdateUserBuildings(HttpServletRequest request) {
+		String[] t = request.getParameterValues("locationIDs");
+		long[] locationIds = new long[t.length];
+		for (int i = 0; i < t.length; i++) {
+			locationIds[i] = Long.parseLong(t[i]);
+		}
 		try {
-			request.setAttribute("groupENT",
-					getSecurityDAO().getGroup(new GroupENT(gid)));
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			getSecurityDAO().addLocationUser(request.getParameter("userName"), locationIds);
 		} catch (AMSException e) {
 			e.printStackTrace();
 		}
-		request.setAttribute("groupENTRoles", getSecurityDAO()
-				.getAllRolesForAGroup(gid));
-		return mapping.findForward("groupBuildings");
+		success = "saved successfully";
+		MessageENT m = new MessageENT(success, error);
+		request.setAttribute("message", m);
+		
+	}
+
+	private ActionForward userBuildings(HttpServletRequest request,
+			ActionMapping mapping) {
+		request.setAttribute("userName", request.getParameter("userName"));
+		long[] locationIds;
+		try {
+			request.setAttribute("userLocationIds", getSecurityDAO().getLocationUser(
+					request.getParameter("userName")));
+		} catch (AMSException e) {
+			e.printStackTrace();
+		}
+		return mapping.findForward("userBuildings");
 
 	}
 

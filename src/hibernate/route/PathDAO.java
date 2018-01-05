@@ -325,11 +325,11 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			ResultSet rs = ps.executeQuery();
 			LocationDAO dao = new LocationDAO();
 			while (rs.next()) {
-				LocationENT dep = dao.getLocationENT(
-						new LocationENT(rs.getLong("departure_location_id")),
+				LocationENT dep = dao.getEntranceLocation(
+						new EntranceIntersectionENT(rs.getLong("departure_location_id")),
 						conn);
-				LocationENT des = dao.getLocationENT(
-						new LocationENT(rs.getLong("destination_location_id")),
+				LocationENT des = dao.getEntranceLocation(
+						new EntranceIntersectionENT(rs.getLong("destination_location_id")),
 						conn);
 				ent = new PathENT(dep, des);
 				ent.setPathRoute(rs.getString("path_route"));
@@ -455,8 +455,8 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		ArrayList<PathENT> res = new ArrayList<PathENT>();
 		Connection conn = null;
 		final PathENT p = getAPath(new PathENT(pathId), null);
-		final long depId = p.getDeparture().getLocationID();
-		final long desId = p.getDestination().getLocationID();
+		final long depId = p.getDeparture().getEntrances().get(0).getEntranceId();
+		final long desId = p.getDestination().getEntrances().get(0).getEntranceId();
 		EntranceIntersectionENT ent = new EntranceIntersectionENT();
 		ent.setGps(pointGPS);
 		ent.setDescription("Intersection");
@@ -508,7 +508,6 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			conn.commit();
 			conn.close();
 		} catch (AMSException e) {
-
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();

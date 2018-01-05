@@ -1,4 +1,4 @@
-var minZoomLevel, drawingManager, selectedShape;
+var drawingManager, selectedShape;
 
 function createDrawingManager() {
 	var polyOptions = {
@@ -35,7 +35,7 @@ function createDrawingManager() {
 				$("#boundary").val(getPolygonCoords(newShape));
 				$("#actionBarNextButton").attr("onclick", "createNew(4)")
 						.trigger("create");
-//				$("#actionBarNextButton").html("Next");
+				// $("#actionBarNextButton").html("Next");
 				$("#actionBarBackButton").attr("onclick", "createNew(2)");
 				$("#actionBarSaveButton").removeClass("disabledBTN").trigger(
 						"create");
@@ -211,7 +211,7 @@ function setMapOnAllPolygons(value) {
 	for ( var i = 0; i < polygons.length; i++) {
 		polygons[i].setMap(value);
 	}
-	
+
 }
 
 function startDrawingMode() {
@@ -220,7 +220,8 @@ function startDrawingMode() {
 }
 
 function removeDrawingMode() {
-	drawingManager.setDrawingMode(null);
+	if (drawingManager != null)
+		drawingManager.setDrawingMode(null);
 	map.setOptions({
 		draggableCursor : 'default'
 	});

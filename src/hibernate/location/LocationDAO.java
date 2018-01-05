@@ -186,7 +186,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 					+ " left join location_type lt on lt.location_type_id = l.location_type";
 			query += " where l.client_name = '" + username + "'";
 			if (parentLocationIds != null && parentLocationIds.length() >= 1)
-				query += " and l.parent_id in (" + parentLocationIds + ")";
+				query += " and l.location_id in (" + parentLocationIds + ")";
 			if (locationTypeIds != null && locationTypeIds.length() >= 1)
 				query += " and l.location_type in (" + locationTypeIds + ")";
 			query += " order by l.location_name asc";
@@ -928,8 +928,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 	public LocationENT getEntranceLocation(EntranceIntersectionENT ent,
 			Connection conn) {
 		boolean isnew = false;
-		LocationENT res = getLocationENT(new LocationENT(ent.getParentId()),
-				conn);
+		LocationENT res = new LocationENT();
 		if (conn == null)
 			try {
 				conn = getConnection();
@@ -947,8 +946,9 @@ public class LocationDAO extends BaseHibernateDAO implements
 						rs.getLong("parent_id"), rs.getString("description"),
 						rs.getString("gps"),
 						rs.getBoolean("intersection_entrance"));
-
 			}
+			res = getLocationENT(new LocationENT(ent.getParentId()),
+					conn);
 			ArrayList<EntranceIntersectionENT> entrances = new ArrayList<EntranceIntersectionENT>();
 			entrances.add(ent);
 			res.setEntrances(entrances);
@@ -1110,5 +1110,53 @@ public class LocationDAO extends BaseHibernateDAO implements
 			e.printStackTrace();
 		}
 		return res;
+	}
+
+	public ArrayList<LocationENT> getChildrenOfAlocationUser(String username,
+			String locationTypeIds, String parentLocationIds) {
+		ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			query = "select l.*, lt.location_type as locaName from location l "
+					+ " left join location_type lt on lt.location_type_id = l.location_type";
+			query += " where l.client_name = '" + username + "'";
+			if (parentLocationIds != null && parentLocationIds.length() >= 1)
+				query += " and l.parent_id in (" + parentLocationIds + ")";
+			if (locationTypeIds != null && locationTypeIds.length() >= 1)
+				query += " and l.location_type in (" + locationTypeIds + ")";
+			query += " order by l.location_name asc";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				LocationENT ent = new LocationENT(rs.getLong("location_id"),
+						rs.getString("client_name"), new LocationTypeENT(
+								rs.getInt("location_type"),
+								rs.getString("locaName")), rs.getString("gps"),
+						rs.getString("location_name"), rs.getLong("parent_id"),
+						null);
+				ent.setBoundary(rs.getString("boundary"));
+				ent.setDescription(rs.getString("description"));
+				ent.setIcon(rs.getString("icon"));
+				ent.setPlan(rs.getString("plan"));
+				ent.setLevels(getLevelsForALocation(ent, conn));
+				ent.setEntrances(getEntrancesForALocation(ent, conn));
+				if (rs.getLong("parent_id") > 0)
+					ent.setParent(getLocationENT(
+							new LocationENT(rs.getLong("parent_id")), conn));
+				locationENTs.add(ent);
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return locationENTs;
 	}
 }

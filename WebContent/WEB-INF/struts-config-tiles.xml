@@ -13,7 +13,7 @@
 			<forward name="roleEdit" path="page.security" />
 			<forward name="groupManagement" path="page.security" />
 			<forward name="groupEdit" path="page.security" />
-			<forward name="groupBuildings" path="page.security" />
+			<forward name="userBuildings" path="page.security" />
 		</action>
 		<action path="/t_newsfeed" type="struts.actions.tiles.T_NEWSFeedAction">
 			<set-property property="cancellable" value="true" />
