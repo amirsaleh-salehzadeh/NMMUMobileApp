@@ -121,6 +121,28 @@
 	animation: sk-scaleout 1.0s infinite ease-in-out;
 }
 
+#popupConfirmation_header {
+	background-color: transparent;
+}
+#popupConfirmation_content {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#confirmationMessage {
+	color: #fff;
+	text-align: center;
+}
+#confirmationWarning {
+	color: #fff;
+	text-align: center;
+}
+#popupConfirmation_confirmBTN {
+	float: right;
+}
+#popupConfirmation_cancelBTN {
+	float: left;
+}
+
 @
 -webkit-keyframes sk-scaleout { 0% {
 	-webkit-transform: scale(0)
