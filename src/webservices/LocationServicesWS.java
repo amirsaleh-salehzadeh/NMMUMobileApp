@@ -3,41 +3,29 @@ package webservices;
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.location.LocationDAOInterface;
 import hibernate.route.PathDAOInterface;
-import hibernate.security.SecurityDAOInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
-
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jettison.json.JSONException;
-
 import common.location.EntranceIntersectionENT;
-import common.location.LevelENT;
 import common.location.LocationENT;
-import common.location.LocationLST;
 import common.location.LocationTypeENT;
 import common.location.PathENT;
-import common.location.PathTypeENT;
-
 import tools.AMSException;
-import tools.QRBarcodeGen;
+
 
 @Path("GetLocationWS")
 public class LocationServicesWS {
-
 	@GET
 	@Path("/CreateTFCEntrance")
 	@Produces("application/json")
@@ -74,22 +62,18 @@ public class LocationServicesWS {
 			@QueryParam("parentId") long parentId) {
 		ObjectMapper mapper = new ObjectMapper();
 
-		int locationid = 0;
 		String json = "";
 
 		try {
-
 			LocationENT ent = new LocationENT(userName);
 			if (locationName.equalsIgnoreCase("Level"))
 				ent.setLocationType(new LocationTypeENT(4));
 			ent.setBoundary(null);
 			ent.setLocationName(locationName);
-
 			ent.setParentId(parentId);
 			ent.setIcon(null);
 			ent.setPlan(null);
 			ent.setDescription(null);
-
 			json = mapper.writeValueAsString(getLocationDAO()
 					.saveUpdateLocation(ent, null));
 		} catch (JsonGenerationException e) {
@@ -99,7 +83,6 @@ public class LocationServicesWS {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (AMSException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 
@@ -120,6 +103,32 @@ public class LocationServicesWS {
 				parentLocationIds = null;
 			json = mapper.writeValueAsString(getLocationDAO()
 					.getAllLocationsForUser(userName, locationTypeIds,
+							parentLocationIds));
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+	
+	
+	@GET
+	@Path("/GetChildrenOfALocation")
+	@Produces("application/json")
+	public String getChildrenOfALocation(
+			@QueryParam("userName") String userName,
+			@QueryParam("locationTypeId") String locationTypeIds,
+			@QueryParam("parentLocationId") String parentLocationIds) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = "";
+		try {
+			if (parentLocationIds.equalsIgnoreCase("0"))
+				parentLocationIds = null;
+			json = mapper.writeValueAsString(getLocationDAO()
+					.getChildrenOfAlocationUser(userName, locationTypeIds,
 							parentLocationIds));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
@@ -394,7 +403,6 @@ public class LocationServicesWS {
 	@Produces("application/json")
 	public String removeALocation(@QueryParam("locationId") long locationId) {
 		String json = "[]";
-		ObjectMapper mapper = new ObjectMapper();
 		try {
 			if (getLocationDAO().deleteLocation(new LocationENT(locationId))) {
 				json = "{\"errorMSG\": null}";

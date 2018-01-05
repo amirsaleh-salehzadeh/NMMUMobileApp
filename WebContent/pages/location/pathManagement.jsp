@@ -44,9 +44,9 @@
 				$(".showLabelMouseOverTrue").each(showLabelMouseMove);
 			});
 	$(window).bind('load', function() {
-		getAllMarkers("360", true);
-		$("#parentLocationId").val("360");
-		hideLocationInfo();
+		getAllMarkers("<%=request.getAttribute("userLocationIds")%>", true);
+// 		$("#parentLocationId").val("360");
+// 		hideLocationInfo();
 		getAllLocationTypes();
 		setPathTypeButtonIcon();
 		getPathTypePanel();
@@ -135,7 +135,7 @@
 
 <fieldset data-role="controlgroup" data-mini="true"
 	data-type="horizontal" name="optionType" id="locPathModeRadiobtn">
-	<div id="settingTabLabel">MANAGEMENT</div>
+	<div id="settingTabLabel" align="center">MANAGEMENT</div>
 	<!-- 	LOCATION -->
 	<label for="marker" id="ui-icon-map-marker"><span
 		class="inlineIcon showLabelMouseOverTrue"
@@ -228,9 +228,12 @@
 <!-- HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS HIDDEN INPUTS  -->
 
 
-<input type="hidden" readonly id="parentLocationId" value="360">
+<input type="hidden" readonly id="parentLocationId" value="">
 <input type='hidden' readonly class="locationFields" id='locationTypeId'
 	value="0">
+	<input type='hidden' readonly id='userLocationIds'
+	value="<%=request.getAttribute("userLocationIds")%>">
+	
 <input type='hidden' readonly id='parentLocationTypeId' value="0">
 <input type='hidden' readonly class="locationFields" name="locationGPS"
 	id="locationGPS">

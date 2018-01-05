@@ -23,6 +23,9 @@ public interface LocationDAOInterface {
 
 	public ArrayList<LocationENT> getAllLocationsForUser(String username,
 			String locationTypeIds, String parentLocationIds);
+	
+	public ArrayList<LocationENT> getChildrenOfAlocationUser(String username,
+			String locationTypeIds, String parentLocationIds);
 
 	public boolean deleteLocation(LocationENT ent) throws AMSException;
 

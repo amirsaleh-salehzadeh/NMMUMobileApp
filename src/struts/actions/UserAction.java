@@ -366,7 +366,7 @@ public class UserAction extends Action {
 		popupGridEnts
 		.add(new PopupENT(
 				"group-item",
-				"callAnAction(\"security.do?reqCode=groupBuildings&userName=REPLACEME\");",
+				"callAnAction(\"security.do?reqCode=userBuildings&userName=REPLACEME\");",
 				"View Buildings", "#"));
 		request.setAttribute("settingMenuItem", popupEnts);
 		request.setAttribute("gridMenuItem", popupGridEnts);

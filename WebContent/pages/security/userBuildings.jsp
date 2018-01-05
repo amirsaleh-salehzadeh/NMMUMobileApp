@@ -13,16 +13,18 @@
 <body>
 	<form id="dataFilterGridMainPage" action="security.do">
 		<ams:message messageEntity="${message}"></ams:message>
-		<input type="hidden" name="groupID"
-			value="<%=request.getParameter("groupID")%>"> <input
-			type="hidden" name="reqCode" value="saveUpdateGroupRole">
-		Locations allowed for group "<span
+		<input type="hidden" name="userLocationIds"
+			value="<%=request.getAttribute("userLocationIds")%>" id="userLocationIds">
+			<input type="hidden" name="userName"
+			value="<%=request.getParameter("userName")%>"> <input
+			type="hidden" name="reqCode" value="saveUpdateUserBuildings">
+		Locations allowed for the user "<span
 			style="font-weight: bold; text-shadow: none; font-style: italic;"><bean:write
-				name="groupENT" property="groupName" /></span>"
+				name="userName" /></span>"
 		<div class=ui-grid-a>
 			<div class=ui-block-a>
 				<a href="#" data-role="button" class="cancel-icon" data-mini="true"
-					onclick="callAnAction('security.do?reqCode=groupEdit&groupID=<%=request.getParameter("groupID")%>');">Cancel</a>
+					onclick="callAnAction('user.do?reqCode=userManagement');">Cancel</a>
 			</div>
 			<div class=ui-block-b>
 				<a href="#" data-role="button" class="save-icon" data-mini="true"

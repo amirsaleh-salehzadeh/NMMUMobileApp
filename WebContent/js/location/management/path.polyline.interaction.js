@@ -71,8 +71,6 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 				$("#destinationGPS").val(
 						destinationGPS.x + "," + destinationGPS.y);
 				google.maps.event.clearInstanceListeners(map);
-				pathDrawingCircle.setMap(null);
-				google.maps.event.clearInstanceListeners(map);
 				if (movingLine != undefined) {
 					movingLine.setMap(null);
 					movingLine = undefined;

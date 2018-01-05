@@ -41,7 +41,6 @@ function selectActionType() {
 		getAllMarkers($("#parentLocationId").val(), false);
 	} else {
 		getAllPaths(false);
-//		showPathInfo();
 		hideLocationInfo();
 	}
 }

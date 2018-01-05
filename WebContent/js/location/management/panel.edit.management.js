@@ -159,7 +159,7 @@ function locationEditPanelOpen(title, info) {
 function openALocation() {
 	$("#locationEditMenu").popup("close");
 	$("#parentLocationId").val($("#locationId").val());
-	getAllMarkers($("#locationId").val(), true);
+	getIntoALocation($("#locationId").val());
 }
 
 function openLocationTypePopup() {

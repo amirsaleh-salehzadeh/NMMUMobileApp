@@ -75,7 +75,7 @@
 	color: rgb(248, 182, 36) !important;
 	text-shadow: none;
 	text-align: center;
-	/* 	display: none !important; */
+		display: none;
 }
 
 .pathManagementInfoFooter>div>label {
