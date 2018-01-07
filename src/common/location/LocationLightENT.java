@@ -51,10 +51,10 @@ public class LocationLightENT {
 	
 	public LocationLightENT(LocationENT ent) {
 		super();
-		this.id = ent.getLocationID();
+		this.id = ent.getEntrances().get(0).getEntranceId();
 		this.t = ent.getLocationType().getLocationType();
 		this.n = ent.getLocationName();
-		this.g = ent.getGps();
+		this.g = ent.getEntrances().get(0).getGps();
 		this.p = null;
 	}
 	

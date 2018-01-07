@@ -10,7 +10,7 @@ function getAllPaths(refreshPaths) {
 		$(this).checkboxradio('disable');
 	});
 	console.log(pathMarkers.length);
-	 setMapOnAllMarkers(null);
+	setMapOnAllMarkers(null);
 	setMapOnAllPathMarkers(map);
 	if (!refreshPaths && paths.length > 0) {
 		setMapOnAllPolylines(map);
@@ -56,7 +56,9 @@ function getAllPaths(refreshPaths) {
 
 // SAVE THE PATH BETWEEN A DESTINATION AND DEPARTURE WHICH CONTAINS MANY POINTS
 function saveThePath() {
-	if ($("#pathTypeIds").val().length <= 0 || $("#destinationId").val().length <= 0 || $("#departureId").val().length <= 0) {
+	if ($("#pathTypeIds").val().length <= 0
+			|| $("#destinationId").val().length <= 0
+			|| $("#departureId").val().length <= 0) {
 		alert("Select Path Type");
 		return;
 	}
@@ -65,8 +67,8 @@ function saveThePath() {
 			+ $("#pathTypeIds").val() + "&pathRoute=" + $("#pathLatLng").val()
 			+ "&width=" + $("#pathWidth").val() + "&pathName="
 			+ $("#pathName").val() + "&description="
-	+ $("#pathDescription").val() + "&pathId=" + $("#pathId").val();
-$.ajax({
+			+ $("#pathDescription").val() + "&pathId=" + $("#pathId").val();
+	$.ajax({
 		url : url,
 		cache : false,
 		async : true,
@@ -105,37 +107,37 @@ function removePath() {
 		alert("please select a path");
 		return;
 	}
+	$("#popupConfirmation_confirmBTN").attr("onclick", "removePathFn()");
 	showPopupConfirmation('Are you sure you want to remove this path?');
-	if (confirmSelected) {
-		var url = "REST/GetPathWS/RemoveAPath?pathId=" + $("#pathId").val();
-		$.ajax({
-			url : url,
-			cache : false,
-			async : true,
-			beforeSend : function() {
-				ShowLoadingScreen("Removing the path");
-			},
-			success : function(data) {
-				for ( var int = 0; int < paths.length; int++) {
-					if ($("#pathId").val() == paths[int].id)
-						i = int;
-				}
-				paths[i].setMap(null);
-				paths.splice(i, 1);
-				toast("remove successful");
-				cancelADrawnPath();
-			},
-			complete : function() {
-				HideLoadingScreen();
-			},
-			error : function(xhr, ajaxOptions, thrownError) {
-				popErrorMessage("An error occured while removing the path. "
-						+ thrownError);
+}
+
+var removePathFn = function() {
+	var url = "REST/GetPathWS/RemoveAPath?pathId=" + $("#pathId").val();
+	$.ajax({
+		url : url,
+		cache : false,
+		async : true,
+		beforeSend : function() {
+			ShowLoadingScreen("Removing the path");
+		},
+		success : function(data) {
+			for ( var int = 0; int < paths.length; int++) {
+				if ($("#pathId").val() == paths[int].id)
+					i = int;
 			}
-		});
-	} else {
-		return;
-	}
+			paths[i].setMap(null);
+			paths.splice(i, 1);
+			toast("remove successful");
+			cancelADrawnPath();
+		},
+		complete : function() {
+			HideLoadingScreen();
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			popErrorMessage("An error occured while removing the path. "
+					+ thrownError);
+		}
+	});
 }
 
 var mapDrawingClickCounter;

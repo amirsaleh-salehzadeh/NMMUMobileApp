@@ -12,7 +12,6 @@ function removeMarker() {
 	}
 	showPopupConfirmation('Are you sure you want to remove this location?');
 	if (confirmSelected) {
-		alert("hi");
 		$.ajax({
 			url : url,
 			cache : false,

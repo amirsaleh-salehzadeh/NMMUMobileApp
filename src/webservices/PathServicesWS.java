@@ -61,7 +61,7 @@ public class PathServicesWS {
 			if (destinationId <= 0) {
 				destENT = getPathDAO().findClosestLocation(to, "11,3,5", null,
 						"NMMU");
-				destinationId = destENT.getLocationID();
+				destinationId = destENT.getEntrances().get(0).getEntranceId();
 			}
 			// building and external intersection
 			if (departureId <= 0) {
@@ -69,7 +69,7 @@ public class PathServicesWS {
 						new LocationENT(destinationId), null);
 				String parentId = destENT.getParentId() + "";
 				departureId = getPathDAO().findClosestLocation(from, "11,3,5",
-						parentId, "NMMU").getLocationID();
+						parentId, "NMMU").getEntrances().get(0).getEntranceId();
 			}
 			ArrayList<PathENT> res = getPathDAO().getShortestPath(departureId,
 					destinationId, pathType, clientName, pathType);

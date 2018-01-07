@@ -72,7 +72,7 @@ function getThePath() {
 			+ "&from="
 			+ $("#from").val()
 			+ "&to="
-			+ $("#to").val() + "&pathType=1";
+			+ $("#to").val() + "&pathType=2";
 	if ($("#to").val().length > 2) {
 		var destPoint = getGoogleMapPosition($("#to").val());
 		if (markerDest != null)
