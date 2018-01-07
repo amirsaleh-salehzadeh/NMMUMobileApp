@@ -156,6 +156,16 @@ function locationEditPanelOpen(title, info) {
 	$("#locationEditMenu").popup("open").trigger("create");
 }
 
+function locationEntranceIntersectionEditPanelOpen(title, info) {
+	$("#locationInfo").prepend(title);
+	$("#locationDescriptionLabel").html(info);
+	$('#locationEntranceIntersectionEditMenu').popup("option", {
+		x : event.pageX,
+		y : event.pageY
+	});
+	$("#locationEntranceIntersectionEditMenu").popup("open").trigger("create");
+}
+
 function openALocation() {
 	$("#locationEditMenu").popup("close");
 	$("#parentLocationId").val($("#locationId").val());

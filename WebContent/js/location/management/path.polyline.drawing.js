@@ -87,6 +87,15 @@ function drawApath(l) {
 		customInfo : l.width + ";" + l.pathType,
 		zIndex : 2
 	});
+	
+	var polyTMP = new google.maps.Polygon({
+		paths : measurePolygonForAPath(pathCoorPolygon, l.width),
+		strokeColor : "#081B2C",
+		strokeWeight : 2,
+		fillColor : "#081B2C",
+		customInfo : l.width + ";" + l.pathType,
+		zIndex : 2
+	});
 
 	var pathPolyline = new google.maps.Polyline({
 		path : pathCoor,
@@ -98,6 +107,29 @@ function drawApath(l) {
 	});
 	pathPolyline.id = l.pathId;
 	polygon.id = l.pathId;
+	polyTMP.id = l.pathId;
+//	polygon.addListener('click', function(event) {
+//		if (pathSelected) {
+//			hidePathInfo();
+//			pathSelected = false;
+//		} else {
+//			var lat = event.latLng.lat();
+//			var lng = event.latLng.lng();
+//			openPathEditPanel();
+//			if ($('#destinationId').val().length <= 0
+//					&& $('#departureId').val().length > 0) {
+//				createAPointOnAnExistingPath(l, {
+//					x : parseFloat(lat),
+//					y : parseFloat(lng)
+//				}, pathPolyline);
+//			} else {
+//				selectAPath(l);
+//			}
+//			pathSelected = true;
+//		}
+//	});
+	
+	
 	polygon.addListener('click', function(event) {
 		if (pathSelected) {
 			hidePathInfo();
@@ -106,19 +138,44 @@ function drawApath(l) {
 			var lat = event.latLng.lat();
 			var lng = event.latLng.lng();
 			openPathEditPanel();
+//			if ($('#destinationId').val().length <= 0
+//					&& $('#departureId').val().length > 0) {
+//				createAPointOnAnExistingPath(l, {
+//					x : parseFloat(lat),
+//					y : parseFloat(lng)
+//				}, pathPolyline);
+//			} else {
+				selectAPath(l);
+//			}
+			pathSelected = true;
+		}
+	});
+
+//	polygon.setMap(map);
+	paths.push(polygon);
+//	polygon.setMap(null);
+	polyTMP.addListener('click', function(event) {
+//		if (pathSelected) {
+//			hidePathInfo();
+//			pathSelected = false;
+//		} else {
+			var lat = event.latLng.lat();
+			var lng = event.latLng.lng();
+//			openPathEditPanel();
 			if ($('#destinationId').val().length <= 0
 					&& $('#departureId').val().length > 0) {
 				createAPointOnAnExistingPath(l, {
 					x : parseFloat(lat),
 					y : parseFloat(lng)
 				}, pathPolyline);
-			} else {
-				selectAPath(l);
-			}
-			pathSelected = true;
-		}
+			} 
+//			else {
+//				selectAPath(l);
+//			}
+//			pathSelected = true;
+//		}
 	});
-	polygon.addListener('mousemove', function(event) {
+	polyTMP.addListener('mousemove', function(event) {
 		if (tmpIntersectionMarker != undefined) {
 			tmpIntersectionMarker.setMap(null);
 			tmpIntersectionMarker = null;
@@ -160,7 +217,7 @@ function drawApath(l) {
 					});
 		}
 	});
-	polygon.addListener('mouseover', function(event) {
+	polyTMP.addListener('mouseover', function(event) {
 		if (tmpIntersectionMarker != undefined) {
 			tmpIntersectionMarker.setMap(null);
 			tmpIntersectionMarker = null;
@@ -186,6 +243,7 @@ function drawApath(l) {
 					labelStyle : {
 						opacity : 1.0
 					},
+					zIndex : 777,
 					position : pos,
 					title : "Create New Intersetion"
 				});
@@ -201,14 +259,17 @@ function drawApath(l) {
 					});
 		}
 	});
-	polygon.addListener('mouseout', function(event) {
+	polyTMP.setOptions({
+		strokeColor : '#ffffff',
+		fillColot: 'transparent'
+	});
+	polyTMP.addListener('mouseout', function(event) {
 		if (tmpIntersectionMarker != undefined) {
 			tmpIntersectionMarker.setMap(null);
 			tmpIntersectionMarker = null;
 		}
 	});
-	polygon.setMap(map);
-	paths.push(polygon);
+	pathCreateNewPolygons.push(polyTMP);
 	pathPolylines.push(pathPolyline);
 }
 
@@ -221,45 +282,46 @@ $(document).keyup(function(e) {
 });
 
 function updateMovingLine(event) {
-//	var pointPath = event.latLng;
-//	var tmpPathCoor = [];
-//	tmpPathCoor.push(lastOne);
-//	tmpPathCoor.push(pointPath);
-//	if (movingLine == null) {
-//		movingLine = new google.maps.Polyline({
-//			path : tmpPathCoor,
-//			strokeColor : '#111',
-//			strokeOpacity : 0.1,
-//			zIndex : 1,
-//			map : map
-//		});
-//		google.maps.event.addListener(movingLine, "click", function(event) {
-//			addAPathInnerConnection(event);
-//		});
-//		google.maps.event.addListener(movingLine, "mousemove", function(event) {
-//			updateMovingLine(event);
-//		});
-//	} else
-//		movingLine.setPath(tmpPathCoor);
-//	var km = movingLine.inKm();
-//	if (pathPolylineConstant != null)
-//		km += pathPolylineConstant.inKm();
-//	km = km * 1000;
-//	$("#pathLength").html(getTheLength(km));
-//	movingLine.setMap(null);
+	// var pointPath = event.latLng;
+	// var tmpPathCoor = [];
+	// tmpPathCoor.push(lastOne);
+	// tmpPathCoor.push(pointPath);
+	// if (movingLine == null) {
+	// movingLine = new google.maps.Polyline({
+	// path : tmpPathCoor,
+	// strokeColor : '#111',
+	// strokeOpacity : 0.1,
+	// zIndex : 1,
+	// map : map
+	// });
+	// google.maps.event.addListener(movingLine, "click", function(event) {
+	// addAPathInnerConnection(event);
+	// });
+	// google.maps.event.addListener(movingLine, "mousemove", function(event) {
+	// updateMovingLine(event);
+	// });
+	// } else
+	// movingLine.setPath(tmpPathCoor);
+	// var km = movingLine.inKm();
+	// if (pathPolylineConstant != null)
+	// km += pathPolylineConstant.inKm();
+	// km = km * 1000;
+	// $("#pathLength").html(getTheLength(km));
+	// movingLine.setMap(null);
 	var pathCoorPolygon = [];
-	pathCoorPolygon.push([ parseFloat(lastOne.lng()),
-			parseFloat(lastOne.lat()) ]);
+	pathCoorPolygon
+			.push([ parseFloat(lastOne.lng()), parseFloat(lastOne.lat()) ]);
 	pathCoorPolygon.push([ parseFloat(event.latLng.lng()),
 			parseFloat(event.latLng.lat()) ]);
 	if (movingLine == null) {
 		movingLine = new google.maps.Polygon({
-			paths : measurePolygonForAPath(pathCoorPolygon, $("#pathWidth").val()),
+			paths : measurePolygonForAPath(pathCoorPolygon, $("#pathWidth")
+					.val()),
 			strokeColor : "#00FF00",
 			strokeWeight : 1,
 			fillColor : "#282B1C",
 			zIndex : 0,
-			map: map
+			map : map
 		});
 		google.maps.event.addListener(movingLine, "click", function(event) {
 			addAPathInnerConnection(event);
@@ -268,31 +330,31 @@ function updateMovingLine(event) {
 			updateMovingLine(event);
 		});
 	} else
-		movingLine.setPaths(measurePolygonForAPath(pathCoorPolygon, $("#pathWidth").val()));
-//	movingLine.setMap(null);
-//	var km = movingLine.inKm();
-//	if (pathPolylineConstant != null)
-//		km += pathPolylineConstant.inKm();
-//	km = km * 1000;
-//	$("#pathLength").html(getTheLength(km));
+		movingLine.setPaths(measurePolygonForAPath(pathCoorPolygon, $(
+				"#pathWidth").val()));
+	// movingLine.setMap(null);
+	// var km = movingLine.inKm();
+	// if (pathPolylineConstant != null)
+	// km += pathPolylineConstant.inKm();
+	// km = km * 1000;
+	// $("#pathLength").html(getTheLength(km));
 }
 
 function updateConstantLine() {
 	var nextDestGPS = $("#pathLatLng").val().split("_");
 	polylineConstantLength = 0;
 	var tmpPathCoor = [];
-	tmpPathCoor.push(
-			[ parseFloat($("#departureGPS").val().split(",")[1]),
-			  parseFloat($("#departureGPS").val().split(",")[0]) ]);
+	tmpPathCoor.push([ parseFloat($("#departureGPS").val().split(",")[1]),
+			parseFloat($("#departureGPS").val().split(",")[0]) ]);
 	for ( var i = 0; i < nextDestGPS.length; i++) {
-		tmpPathCoor.push(
-				[ parseFloat(nextDestGPS[i].split(",")[1]),
-				  parseFloat(nextDestGPS[i].split(",")[0]) ]);
+		tmpPathCoor.push([ parseFloat(nextDestGPS[i].split(",")[1]),
+				parseFloat(nextDestGPS[i].split(",")[0]) ]);
 		lastOne = getGoogleMapPosition(nextDestGPS[i]);
 	}
 	if ($("#destinationGPS").val().length > 0)
-		tmpPathCoor.push([ parseFloat($("#destinationGPS").val().split(",")[1]),
-		     			  parseFloat($("#destinationGPS").val().split(",")[0]) ]);
+		tmpPathCoor.push([
+				parseFloat($("#destinationGPS").val().split(",")[1]),
+				parseFloat($("#destinationGPS").val().split(",")[0]) ]);
 	if (tmpPathCoor.length <= 1)
 		return;
 	if (pathPolylineConstant != undefined)
@@ -304,10 +366,11 @@ function updateConstantLine() {
 			strokeWeight : 1,
 			fillColor : "#282B1C",
 			zIndex : 10,
-			map: map
+			map : map
 		});
 	else
-		pathPolylineConstant.setPaths(measurePolygonForAPath(tmpPathCoor, $("#pathWidth").val()));
+		pathPolylineConstant.setPaths(measurePolygonForAPath(tmpPathCoor, $(
+				"#pathWidth").val()));
 	pathPolylineConstant.setMap(map);
 }
 
@@ -321,15 +384,23 @@ function cancelADrawnPath() {
 		pathPolylineConstant.setMap(null);
 		pathPolylineConstant = undefined;
 	}
-	$("#departure").val("");
-	$("#departureId").val("");
-	$("#destination").val("");
-	$("#destinationId").val("");
-	$("#destinationGPS").val("");
-	$("#departureGPS").val("");
-	$("#locationId").val("");
-	$("#pathId").val("");
-	$("#pathLatLng").val("");
+	// $("#departure").val("");
+	// $("#departureId").val("");
+	// $("#destination").val("");
+	// $("#destinationId").val("");
+	// $("#destinationGPS").val("");
+	// $("#departureGPS").val("");
+	// $("#locationId").val("");
+	// $("#pathId").val("");
+	// $("#pathLatLng").val("");
+	// $("#pathTypeIds").val("");
+	$(".pahtFields").val("");
+	for ( var int = 0; int < pathCreateNewPolygons.length; int++) {
+		pathCreateNewPolygons[int].setMap(null);
+	}
+	for ( var int = 0; int < paths.length; int++) {
+		paths[int].setMap(map);
+	}
 }
 
 // DRAW A TEMPORARY PATH WITH JOINTS

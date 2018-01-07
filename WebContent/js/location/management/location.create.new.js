@@ -54,6 +54,12 @@ function createNew(seq) {
 		$("#actionBarButtonGroup").css("display", "none").trigger("create");
 		$("#actionBarTitle").html("Create a Path");
 		$("#actionBarMessage").html("Select the Departure");
+		for ( var int = 0; int < paths.length; int++) {
+			paths[int].setMap(null);
+		}
+		for ( var int = 0; int < pathCreateNewPolygons.length; int++) {
+			pathCreateNewPolygons[int].setMap(map);
+		}
 		newPathInProgress = true;
 		openPathEditPanel();
 		return;
@@ -88,15 +94,17 @@ function createNew(seq) {
 	case 3:
 		$("#editLocationInfoPopup").popup("close");
 		$("#actionBarMessage")
-				.html("Please draw a boundary around the property. "
+				.html(
+						"Please draw a boundary around the property. "
 								+ "Make sure to place the pins at an accurate geographical position");
-//		$("#actionBarSaveButtonDiv").css("display", "block");
-//		$("#actionBarNextButton").attr("onclick", "createNew(4)").trigger("create");
-//		$("#actionBarBackButton").attr("onclick", "createNew(2)");
+		// $("#actionBarSaveButtonDiv").css("display", "block");
+		// $("#actionBarNextButton").attr("onclick",
+		// "createNew(4)").trigger("create");
+		// $("#actionBarBackButton").attr("onclick", "createNew(2)");
 		startDrawingMode();
 		break;
 	case 4:
-//		saveLocation();
+		// saveLocation();
 		$("#actionBarNextButton").attr("disabled", true);
 		$("#actionBarBackButton").attr("onclick", "createNew(3)");
 		editEntrance();

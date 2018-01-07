@@ -245,7 +245,7 @@ public class LocationServicesWS {
 		try {
 			json = mapper.writeValueAsString(getLocationDAO()
 					.getLocationENTAncestors(
-							getPathDAO().findClosestLocation(from, "3,5",
+							getPathDAO().findClosestLocation(from,
 									null, "NMMU").getLocationID()));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();

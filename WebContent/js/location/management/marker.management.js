@@ -463,72 +463,72 @@ function addEntrance(l) {
 	google.maps.event.addListener(entrance, "mouseout", function() {
 		this.setIcon(this.originalicon);
 	});
-	google.maps.event.addListener(entrance, "drag", function() {
-		$("#locationId").val(l.entranceId);
-	});
+//	google.maps.event.addListener(entrance, "drag", function() {
+//		$("#locationId").val(l.entranceId);
+//	});
 	
 	var pos = {
 		lat : parseFloat(l.gps.split(",")[0]),
 		lng : parseFloat(l.gps.split(",")[1])
 	};
 	entrance.id = l.entranceId;
-	entrance.addListener('dragend', function(point) {
-		var parentPolygon = null;
-		for ( var i = 0; i < polygons.length; i++) {
-			if (polygons[i].id == l.parentId)
-				parentPolygon = polygons[i];
-		}
-		var oldPoint = {
-			x : parseFloat(point.latLng.lat()),
-			y : parseFloat(point.latLng.lng())
-		};
-		pointsInLine = [];
-		if (l.entranceIntersection) {
-			$(parentPolygon.getPath().getArray()).each(function(k, l) {
-				var point = {
-					x : parseFloat(l.lat()),
-					y : parseFloat(l.lng())
-				};
-				pointsInLine.push(point);
-			});
-			pointsInLine.push({
-				x : parseFloat(parentPolygon.getPath().getArray()[0].lat()),
-				y : parseFloat(parentPolygon.getPath().getArray()[0].lng())
-			});
-			var intersectionpoint = getClosestPointOnLines(oldPoint,
-					pointsInLine);
-			this.setPosition({
-				lat : parseFloat(intersectionpoint.x),
-				lng : parseFloat(intersectionpoint.y)
-			});
-			$("#locationGPS").val(
-					intersectionpoint.x + "," + intersectionpoint.y);
-		} else
-			$("#locationGPS").val(
-					entrance.getPosition().lat() + ","
-							+ entrance.getPosition().lng());
-		setTimeout(function() {
-			if (confirm("Are you sure you want to move the marker?")) {
-				// $("#locationId").val(l.entranceId);
-				$("#locationName").val(l.description);
-				$("#parentLocationId").val(l.parentId);
-				saveEntrance(l.entranceId);
-			} else {
-				entrance.setPosition({
-					lat : parseFloat(l.gps.split(",")[0]),
-					lng : parseFloat(l.gps.split(",")[1])
-				});
-			}
-			;
-		}, 200);
-
-	});
+//	entrance.addListener('dragend', function(point) {
+//		var parentPolygon = null;
+//		for ( var i = 0; i < polygons.length; i++) {
+//			if (polygons[i].id == l.parentId)
+//				parentPolygon = polygons[i];
+//		}
+//		var oldPoint = {
+//			x : parseFloat(point.latLng.lat()),
+//			y : parseFloat(point.latLng.lng())
+//		};
+//		pointsInLine = [];
+//		if (l.entranceIntersection) {
+//			$(parentPolygon.getPath().getArray()).each(function(k, l) {
+//				var point = {
+//					x : parseFloat(l.lat()),
+//					y : parseFloat(l.lng())
+//				};
+//				pointsInLine.push(point);
+//			});
+//			pointsInLine.push({
+//				x : parseFloat(parentPolygon.getPath().getArray()[0].lat()),
+//				y : parseFloat(parentPolygon.getPath().getArray()[0].lng())
+//			});
+//			var intersectionpoint = getClosestPointOnLines(oldPoint,
+//					pointsInLine);
+//			this.setPosition({
+//				lat : parseFloat(intersectionpoint.x),
+//				lng : parseFloat(intersectionpoint.y)
+//			});
+//			$("#locationGPS").val(
+//					intersectionpoint.x + "," + intersectionpoint.y);
+//		} else
+//			$("#locationGPS").val(
+//					entrance.getPosition().lat() + ","
+//							+ entrance.getPosition().lng());
+//		setTimeout(function() {
+//			if (confirm("Are you sure you want to move the marker?")) {
+//				// $("#locationId").val(l.entranceId);
+//				$("#locationName").val(l.description);
+//				$("#parentLocationId").val(l.parentId);
+//				saveEntrance(l.entranceId);
+//			} else {
+//				entrance.setPosition({
+//					lat : parseFloat(l.gps.split(",")[0]),
+//					lng : parseFloat(l.gps.split(",")[1])
+//				});
+//			}
+//			;
+//		}, 200);
+//
+//	});
 	entrance.setPosition(pos);
 	google.maps.event.addListener(entrance, 'click', function(point) {
 		if ($('[name="optionType"] :radio:checked').val() == "marker") {
 			hideLocationInfo();
 			showLocationInfo();
-			locationEditPanelOpen(l.description, "Entrance");
+			locationEntranceIntersectionEditPanelOpen(l.description, "Entrance");
 		} else {
 			addAPath(l);
 		}

@@ -34,7 +34,7 @@ public interface PathDAOInterface {
 			int index, long intersectionEntranceParentId);
 
 	public LocationENT findClosestLocation(String GPSCoordinates,
-			String locationTypeIds, String parentIds, String clientName);
+			String parentIds, String clientName);
 	
 	public long saveTrip(long deptLocationId, long destLocationId);
 

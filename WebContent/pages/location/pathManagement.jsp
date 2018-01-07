@@ -300,6 +300,22 @@
 	</ul>
 </div>
 
+
+<div data-role="popup" id="locationEntranceIntersectionEditMenu" data-mini="true"
+	data-dismissible="false">
+	<ul data-role="listview" style="min-width: 210px;">
+		<li data-icon="false" id="editBoundaryMenuItem"><a
+			class="editInfo" href="#" onclick="openEditBoundaryPopup();"><img
+				alt="" src="images/icons/polygon.png">Move</a></li>
+		<li data-icon="false" id="editBoundaryMenuItem"><a
+			class="editInfo" href="#" onclick="openEditBoundaryPopup();"><img
+				alt="" src="images/icons/pathType/elevator.png">Remove</a></li>
+		<li><a href="#" data-rel="back" class="editInfo"
+			onclick="hideLocationInfo();"><img alt=""
+				src="images/icons/clearInput.png">Cancel</a></li>
+	</ul>
+</div>
+
 <!-- <div class="ui-grid-a SaveCancelBTNPanel SaveNextBTNPanel" style="" -->
 <!-- 	id="locationCreateNewNextPanel"> -->
 <!-- 	<div class="ui-block-a"> -->

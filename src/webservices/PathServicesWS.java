@@ -59,7 +59,7 @@ public class PathServicesWS {
 		try {
 			LocationENT destENT = new LocationENT();
 			if (destinationId <= 0) {
-				destENT = getPathDAO().findClosestLocation(to, "11,3,5", null,
+				destENT = getPathDAO().findClosestLocation(to, null,
 						"NMMU");
 				destinationId = destENT.getEntrances().get(0).getEntranceId();
 			}
@@ -68,7 +68,7 @@ public class PathServicesWS {
 				destENT = getLocationDAO().getLocationENT(
 						new LocationENT(destinationId), null);
 				String parentId = destENT.getParentId() + "";
-				departureId = getPathDAO().findClosestLocation(from, "11,3,5",
+				departureId = getPathDAO().findClosestLocation(from,
 						parentId, "NMMU").getEntrances().get(0).getEntranceId();
 			}
 			ArrayList<PathENT> res = getPathDAO().getShortestPath(departureId,

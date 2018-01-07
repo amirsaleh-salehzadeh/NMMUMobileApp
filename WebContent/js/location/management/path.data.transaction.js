@@ -22,6 +22,7 @@ function getAllPaths(refreshPaths) {
 	}
 	setMapOnAllPolylines(null);
 	path = [];
+	pathCreateNewPolygons = [];
 	pathPolylines = [];
 	var url = "REST/GetPathWS/GetPathsForUserAndParent?userName=NMMU&parentId="
 			+ $("#parentLocationId").val();
@@ -41,6 +42,7 @@ function getAllPaths(refreshPaths) {
 				complete : function() {
 					HideLoadingScreen();
 					// $("input[name='radio-choice']").checkboxradio('enable');
+					setMapOnAllPolylines(map);
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 					popErrorMessage("An error occured while fetching the paths from the server. "
@@ -62,6 +64,8 @@ function saveThePath() {
 		alert("Select Path Type");
 		return;
 	}
+//	alert($("#pathTypeIds").val());
+//	return;
 	var url = "REST/GetPathWS/SavePath?fLocationId=" + $("#departureId").val()
 			+ "&tLocationId=" + $("#destinationId").val() + "&pathType="
 			+ $("#pathTypeIds").val() + "&pathRoute=" + $("#pathLatLng").val()
@@ -126,7 +130,9 @@ var removePathFn = function() {
 					i = int;
 			}
 			paths[i].setMap(null);
+			pathCreateNewPolygons[i].setMap(null);
 			paths.splice(i, 1);
+			pathCreateNewPolygons.splice(i, 1);
 			toast("remove successful");
 			cancelADrawnPath();
 		},

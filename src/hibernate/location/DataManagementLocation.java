@@ -201,7 +201,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 			if (ents.get(i).getBoundary() != null
 					&& ents.get(i).getBoundary().length() > 10) {
 				ArrayList<EntranceIntersectionENT> rnt = dao
-						.getEntrancesForALocation(ents.get(i), null);
+						.getEntrancesForALocation(ents.get(i), null, false);
 				String[] tmp = ents.get(i).getBoundary().split(";")[0]
 						.split("_");
 				float[][] aXys = new float[tmp.length][2];

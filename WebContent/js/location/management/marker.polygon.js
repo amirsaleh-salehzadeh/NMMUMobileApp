@@ -105,6 +105,9 @@ function drawPolygons(location) {
 	DRAWPolygon.setMap(map);
 	DRAWPolygon.id = location.locationID;
 	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
+		if ($('[name="optionType"] :radio:checked').val() != "marker") {
+			return;
+		}
 		showLocationInfo();
 		selectedShape = this;
 		this.setMap(map);

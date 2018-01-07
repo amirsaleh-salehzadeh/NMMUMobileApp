@@ -25,6 +25,9 @@ public interface LocationDAOInterface {
 	
 	public ArrayList<LocationENT> getChildrenOfAlocationUser(String username,
 			String locationTypeIds, String parentLocationIds);
+	
+	public ArrayList<LocationENT> getAllLocationAndEntrancesForUser(String username,
+			String parentLocationIds);
 
 	public boolean deleteLocation(LocationENT ent) throws AMSException;
 
@@ -41,7 +44,7 @@ public interface LocationDAOInterface {
 	public LevelENT saveLevel(LevelENT level, Connection conn);
 
 	public ArrayList<EntranceIntersectionENT> getEntrancesForALocation(LocationENT parent,
-			Connection conn);
+			Connection conn, boolean onlyEntrance);
 	
 	public LocationENT getEntranceLocation(EntranceIntersectionENT ent,
 			Connection conn);

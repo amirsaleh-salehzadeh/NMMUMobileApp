@@ -113,7 +113,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setIcon(rs.getString("icon"));
 				ent.setParentId(rs.getLong("parent_id"));
 				ent.setBoundary(rs.getString("boundary"));
-				ent.setEntrances(getEntrancesForALocation(ent, conn));
+				ent.setEntrances(getEntrancesForALocation(ent, conn, false));
 				if (rs.getLong("parent_id") > 0)
 					ent.setParent(getLocationENT(
 							new LocationENT(rs.getLong("parent_id")), conn));
@@ -204,7 +204,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setIcon(rs.getString("icon"));
 				ent.setPlan(rs.getString("plan"));
 				ent.setLevels(getLevelsForALocation(ent, conn));
-				ent.setEntrances(getEntrancesForALocation(ent, conn));
+				ent.setEntrances(getEntrancesForALocation(ent, conn, false));
 				if (rs.getLong("parent_id") > 0)
 					ent.setParent(getLocationENT(
 							new LocationENT(rs.getLong("parent_id")), conn));
@@ -219,6 +219,53 @@ public class LocationDAO extends BaseHibernateDAO implements
 		return locationENTs;
 	}
 
+	public ArrayList<LocationENT> getAllLocationAndEntrancesForUser(
+			String username, String parentLocationIds) {
+		ArrayList<LocationENT> locationENTs = new ArrayList<LocationENT>();
+		try {
+			Connection conn = null;
+			try {
+				conn = getConnection();
+			} catch (AMSException e) {
+				e.printStackTrace();
+			}
+			String query = "";
+			query = "select l.*, lt.location_type as locaName from location l "
+					+ " left join location_type lt on lt.location_type_id = l.location_type"
+					+ " inner join location_entrance le on le.parent_id = l.location_id";
+			query += " where l.client_name = '" + username
+					+ "' and le.intersection_entrance = 1";
+			if (parentLocationIds != null && parentLocationIds.length() >= 1)
+				query += " and l.location_id in (" + parentLocationIds + ")";
+			query += " order by l.location_name asc";
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				LocationENT ent = new LocationENT(rs.getLong("location_id"),
+						rs.getString("client_name"), new LocationTypeENT(
+								rs.getInt("location_type"),
+								rs.getString("locaName")), rs.getString("gps"),
+						rs.getString("location_name"), rs.getLong("parent_id"),
+						null);
+				ent.setBoundary(rs.getString("boundary"));
+				ent.setDescription(rs.getString("description"));
+				ent.setIcon(rs.getString("icon"));
+				ent.setPlan(rs.getString("plan"));
+				ent.setLevels(getLevelsForALocation(ent, conn));
+				ent.setEntrances(getEntrancesForALocation(ent, conn, true));
+				if (rs.getLong("parent_id") > 0)
+					ent.setParent(getLocationENT(
+							new LocationENT(rs.getLong("parent_id")), conn));
+				locationENTs.add(ent);
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return locationENTs;
+	}
 
 	public LocationTypeENT getAllLocationTypeChildren(LocationTypeENT parent) {
 		LocationTypeENT ent = null;
@@ -663,7 +710,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 	}
 
 	public ArrayList<EntranceIntersectionENT> getEntrancesForALocation(
-			LocationENT parent, Connection conn) {
+			LocationENT parent, Connection conn, boolean onlyEntrance) {
 		ArrayList<EntranceIntersectionENT> res = new ArrayList<EntranceIntersectionENT>();
 		boolean isnew = false;
 		if (conn == null)
@@ -674,8 +721,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 				e.printStackTrace();
 			}
 		try {
-			String query = "select * from location_entrance where parent_id = "
-					+ parent.getLocationID();
+			String query = "select * from location_entrance where ";
+			if (onlyEntrance) {
+				query += " intersection_entrance = 1 and ";
+			}
+			query += "parent_id = " + parent.getLocationID();
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -913,7 +963,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setIcon(rs.getString("icon"));
 				ent.setPlan(rs.getString("plan"));
 				ent.setLevels(getLevelsForALocation(ent, conn));
-				ent.setEntrances(getEntrancesForALocation(ent, conn));
+				ent.setEntrances(getEntrancesForALocation(ent, conn, false));
 				if (rs.getLong("parent_id") > 0)
 					ent.setParent(getLocationENT(
 							new LocationENT(rs.getLong("parent_id")), conn));
