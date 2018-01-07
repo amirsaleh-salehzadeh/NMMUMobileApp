@@ -125,6 +125,23 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 				closest = i;
 			}
 		}
+		int closestEntrance = -1;
+		distances = new double[points.get(closest).getChildrenENT().size()];
+		for (int i = 0; i < points.get(closest).getChildrenENT().size(); i++) {
+			distances[i] = PathDAO.calculateDistanceBetweenTwoPoints(points
+					.get(i).getGps(), GPSCoordinates);
+			if (closestEntrance == -1
+					|| distances[i] < distances[closestEntrance]) {
+				closestEntrance = i;
+			}
+		}
+		for (int i = 0; i < points.get(closest).getChildrenENT().size(); i++) {
+			if (closestEntrance != i) {
+				points.get(closest).getChildrenENT().set(i, null);
+			} else
+				points.get(closest).getChildrenENT()
+						.set(0, points.get(closest).getChildrenENT().get(i));
+		}
 		return points.get(closest);
 	}
 
@@ -321,7 +338,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		} else {
 			outp = calculateDistanceBetweenTwoPoints(destination, departure);
 		}
-		outp = (double) Double.parseDouble(new DecimalFormat(".##")
+		outp = (double) Double.parseDouble(new DecimalFormat(".###")
 				.format(outp));
 		return outp;
 	}
@@ -576,7 +593,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			// + " and (destination_location_id = '" + locationId
 			// + "' or departure_location_id = '" + locationId + "')";
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setInt(1, type);
+			ps.setString(1, "3,4,7,8," + type);
 			ps.setLong(2, locationId);
 			ps.setLong(3, locationId);
 			ResultSet rs = ps.executeQuery();
@@ -618,18 +635,24 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		g = new SimpleWeightedGraph<Long, DefaultWeightedEdge>(
 				DefaultWeightedEdge.class);
 		PathDAO pdao = new PathDAO();
+		int counter = 0;
 		ArrayList<LocationENT> points = getAllPointsForGraph(clientName);
 		for (int i = 0; i < points.size(); i++) {
 			long depTMP = points.get(i).getEntrances().get(0).getEntranceId();
-			if (!g.containsVertex(depTMP))
-				g.addVertex(depTMP);
+//			counter++;
+//			System.out.println(counter);
 			ArrayList<PathENT> ptz = pdao.getAllPathsForOnePoint(depTMP,
 					pathTypeId);
+			System.out.println(ptz.size() + " " + i);
+			if (!g.containsVertex(depTMP) && ptz.size() > 0)
+				g.addVertex(depTMP);
 			for (int j = 0; j < ptz.size(); j++) {
 				long destTMP = ptz.get(j).getDestination().getEntrances()
 						.get(0).getEntranceId();
 				depTMP = ptz.get(j).getDeparture().getEntrances().get(0)
 						.getEntranceId();
+//				counter++;
+//				System.out.println(counter);
 				if (!g.containsVertex(destTMP)) {
 					g.addVertex(destTMP);
 				}

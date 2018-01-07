@@ -10,6 +10,7 @@ import java.util.List;
 
 import hibernate.config.NMMUMobileDAOManager;
 import hibernate.location.LocationDAOInterface;
+import hibernate.route.PathDAOInterface;
 import hibernate.security.SecurityDAOInterface;
 
 import javax.servlet.http.HttpServletRequest;
@@ -217,7 +218,7 @@ public class LocationAction extends Action {
 	}
 
 	private void setAllPathTypes(HttpServletRequest request) {
-		request.setAttribute("pathTypes", getLocationDAO().getAllPathTypes());
+		request.setAttribute("pathTypes", getPathDAO().getAllPathTypes());
 
 	}
 
@@ -251,6 +252,10 @@ public class LocationAction extends Action {
 
 	private static SecurityDAOInterface getSecurityDAO() {
 		return NMMUMobileDAOManager.getSecuirtyDAOInterface();
+	}
+	
+	private static PathDAOInterface getPathDAO() {
+		return NMMUMobileDAOManager.getPathDAOInterface();
 	}
 
 }

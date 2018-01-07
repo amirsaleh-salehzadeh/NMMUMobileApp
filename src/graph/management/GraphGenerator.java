@@ -18,7 +18,7 @@ public class GraphGenerator {
 
 	public void generateGraph(String clientName, int areaId, int pathTypeId) {
 		UndirectedGraph<Long, DefaultWeightedEdge> graph = PathDAO
-				.createGraph(1, clientName);
+				.createGraph(pathTypeId, clientName);
 		FileOutputStream fout;
 		try {
 			fout = new FileOutputStream("c:\\theFirstCompassGraphFiles\\"
@@ -28,17 +28,14 @@ public class GraphGenerator {
 			oos.close();
 			fout.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public UndirectedGraph<Long, DefaultWeightedEdge> fetchGraph(
 			String clientName, int areaId, int pathTypeId) {
-		// LocationDAO.createGraph(1);
 		FileInputStream fileIn;
 		UndirectedGraph<Long, DefaultWeightedEdge> obj = null;
 		try {
