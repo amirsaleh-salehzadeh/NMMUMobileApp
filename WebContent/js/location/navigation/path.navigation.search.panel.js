@@ -1,6 +1,6 @@
 var locationTypeJSONData;
 var markers = [];
-function getLocationTypePanel() {
+function getAllLocations() {
 	var url = "REST/GetLocationWS/SearchForALocation?clientName=NMMU&locationType=Building&locationName=";
 	$.ajax({
 		url : url,
@@ -20,6 +20,7 @@ function getLocationTypePanel() {
 					text : l.locationName + " Campus"
 				}).appendTo(col);
 				var list_items = '';
+				drawPolygons(l);
 				$.each(children, function(x, y) {
 					list_items += "<li id='" + y.locationID + "_" + y.gps + "_"
 							+ y.locationType.locationType
@@ -38,6 +39,7 @@ function getLocationTypePanel() {
 					if (y.description != null)
 						desc = y.description;
 					list_items += desc + ", " + l.locationName + " Campus</p></a></li>";
+					drawPolygons(y);
 				});
 				var list = $("<ul/>", {
 					"data-role" : "listview",

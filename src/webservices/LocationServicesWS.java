@@ -175,18 +175,8 @@ public class LocationServicesWS {
 			search.setLocationType(new LocationTypeENT(0, locationType));
 			search.setClientName(clientName);
 			search.setLocationID(360);
-			// LocationLST ls = new LocationLST();
-			// ls.setSearchLocation(search);
-			// try {
-			// json = mapper.writeValueAsString(getLocationDAO()
-			// .searchForLocations(ls).getLocationENTs());
 			json = mapper.writeValueAsString(getLocationDAO()
 					.getLocationWithChildren(search));
-			System.out.println(json);
-			// } catch (AMSException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

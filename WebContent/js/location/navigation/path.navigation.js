@@ -30,8 +30,9 @@ function KeyPress(e) {
 	var eventKeys = window.event ? event : e;
 
 	// SHOW/VIEW VISITORS
-
+alert(eventKeys.keyCode);
 	if (eventKeys.keyCode == 86 && eventKeys.ctrlKey && eventKeys.shiftKey) {
+		alert(1);
 		if ($("#visitorCounter").css("display") == "none") {
 			$("#visitorCounter").css("display", "block");
 			$("#visitorCounter").css("display");
@@ -280,7 +281,8 @@ function updatePolyLine(currentPos, altitude) {
 	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath,
 			nextPosition);
 	marker.setIcon(null);
-	marker.setIcon('images/icons/target-old.png');
+//	marker.setIcon('images/icons/target-old.png');
+    marker.setAnimation(google.maps.Animation.BOUNCE);
 	if (nextDestGPS.length > 1) {
 		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
 		var headingTo2st = google.maps.geometry.spherical.computeHeading(
@@ -548,6 +550,6 @@ function createNavigationPoints(generalPathString) {
 
 $(document).ready(function() {
 	$('#destinationName').val("");
-	getLocationTypePanel();
+	getAllLocations();
 	showHideLeftSideMenu();
 });

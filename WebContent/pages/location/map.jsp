@@ -396,6 +396,8 @@
 	</div>
 </body>
 <script type="text/javascript"
+	src="js/location/navigation/path.navigation.locations.polygon.js"></script>
+<script type="text/javascript"
 	src="js/location/navigation/path.navigation.tools.js"></script>
 <script type="text/javascript"
 	src="js/location/camera/path.navigation.camera.scanner.js"></script>

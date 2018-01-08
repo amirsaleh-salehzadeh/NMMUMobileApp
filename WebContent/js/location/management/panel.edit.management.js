@@ -466,11 +466,11 @@ function openPathInfoPopup() {
 }
 
 function openSearchPanel() {
-	getLocationTypeList();
+	getLocationsListToSearch();
 	$("#locationSearchPanel").panel("open");
 }
 
-function getLocationTypeList() {
+function getLocationsListToSearch() {
 	$("#resultsListViewContentDiv").empty();
 	var url = "REST/GetLocationWS/SearchForALocation?clientName=NMMU&locationType=Building&locationName=";
 	$.ajax({

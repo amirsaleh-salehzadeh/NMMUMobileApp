@@ -327,6 +327,8 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setDescription(rs.getString("description"));
 				ent.setParentId(rs.getLong("parent_id"));
 				ent.setChildrenENT(getLocationENTTree(ent));
+				ent.setBoundary(rs.getString("boundary"));
+				System.out.println(rs.getString("boundary"));
 			}
 			ps.close();
 			conn.close();
@@ -361,6 +363,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setIcon(rs.getString("icon"));
 				ent.setParentId(rs.getLong("parent_id"));
 				ent.setDescription(rs.getString("description"));
+				ent.setBoundary(rs.getString("boundary"));
 				ent.setChildrenENT(getLocationENTTree(ent));
 				// if (rs.getInt("location_type_id") > 3)
 				// break;

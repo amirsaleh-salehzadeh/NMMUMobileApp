@@ -126,16 +126,18 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			}
 		}
 		int closestEntrance = -1;
-		distances = new double[points.get(closest).getEntrances().size()];
-		for (int i = 0; i < points.get(closest).getEntrances().size(); i++) {
-			distances[i] = PathDAO.calculateDistanceBetweenTwoPoints(points
-					.get(closest).getEntrances().get(i).getGps(),
-					GPSCoordinates);
-			if (closestEntrance == -1
-					|| distances[i] < distances[closestEntrance]) {
-				closestEntrance = i;
+		if (points.get(closest).getEntrances().size() == 0
+				|| points.get(closest).getEntrances() == null)
+			System.out.println(points.get(closest).getLocationID());
+			for (int i = 0; i < points.get(closest).getEntrances().size(); i++) {
+				distances[i] = PathDAO.calculateDistanceBetweenTwoPoints(points
+						.get(closest).getEntrances().get(i).getGps(),
+						GPSCoordinates);
+				if (closestEntrance == -1
+						|| distances[i] < distances[closestEntrance]) {
+					closestEntrance = i;
+				}
 			}
-		}
 		// for (int i = 0; i < points.get(closest).getEntrances().size(); i++) {
 		// if (closestEntrance != i) {
 		// points.get(closest).getEntrances().set(i, null);
