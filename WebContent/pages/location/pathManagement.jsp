@@ -245,6 +245,8 @@
 	id="boundary" value="">
 <input type='hidden' readonly name="boundaryColors" id="boundaryColors">
 <input type='hidden' readonly name="tempBoundaryColors" id="tempBoundaryColors">
+<input type='hidden' readonly name="isEntranceIntersection" id="isEntranceIntersection">
+
 
 
 <!-- LOCATION EDIT MENU LOCATION EDIT MENU LOCATION EDIT MENU LOCATION EDIT MENU -->
@@ -553,7 +555,7 @@
 	id="pathId">
 <input type='hidden' readonly class="pahtFields" id="pathLatLng">
 <input type='hidden' readonly class="pahtFields" name="pathTypeIds"
-	id="pathTypeIds">
+	id="pathTypeIds" style="position: absolute; z-index: 10000; top:0; right: 0;">
 <input type='hidden' readonly class="pahtFields" name="destinationId"
 	id="destinationId">
 <input type='hidden' readonly class="pahtFields" name="destinationGPS"
@@ -587,7 +589,7 @@
 			alt="" src="images/icons/save.png">Save</li>
 		<li data-icon="false" class="editInfo" onclick="removePath();"><img
 			alt="" src="images/icons/delete-icon.png">Delete</li>
-		<li data-icon="false" onclick="hidePathInfo();" class="editInfo"><img
+		<li data-icon="false" onclick="cancelCreatingNew();" class="editInfo"><img
 			alt="" src="images/icons/clearInput.png">Cancel</li>
 	</ul>
 </div>

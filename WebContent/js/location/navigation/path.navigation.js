@@ -30,7 +30,7 @@ function KeyPress(e) {
 	var eventKeys = window.event ? event : e;
 
 	// SHOW/VIEW VISITORS
-alert(eventKeys.keyCode);
+	alert(eventKeys.keyCode);
 	if (eventKeys.keyCode == 86 && eventKeys.ctrlKey && eventKeys.shiftKey) {
 		alert(1);
 		if ($("#visitorCounter").css("display") == "none") {
@@ -67,13 +67,9 @@ function getThePath() {
 		return;
 	}
 	var url = "REST/GetPathWS/GetADirectionFromTo?clientName=NMMU&departureId="
-			+ $("#departureId").val()
-			+ "&destinationId="
-			+ $("#destinationId").val()
-			+ "&from="
-			+ $("#from").val()
-			+ "&to="
-			+ $("#to").val() + "&pathType=2";
+			+ $("#departureId").val() + "&destinationId="
+			+ $("#destinationId").val() + "&from=" + $("#from").val() + "&to="
+			+ $("#to").val() + "&pathType=" + $("#pathType").val();
 	if ($("#to").val().length > 2) {
 		var destPoint = getGoogleMapPosition($("#to").val());
 		if (markerDest != null)
@@ -152,7 +148,7 @@ function getThePath() {
 	if (markerDest != null && marker != null) {
 		var bounds = new google.maps.LatLngBounds();
 		bounds.extend(markerDest.getPosition());
-		bounds.extend(marker.getPosition());
+		bounds.extend(marker.getCenter());
 		map.fitBounds(bounds);
 	}
 }
@@ -161,7 +157,7 @@ function getNextPosition() {
 	var tripGPSs = getCookie("TripPathGPSCookie").split("_");
 	var closestDest = 0;
 	var closestId = 0;
-	var curGPS = marker.getPosition();
+	var curGPS = marker.getCenter();
 	if (tripGPSs.length > 1)
 		for ( var int = 0; int < tripGPSs.length; int++) {
 			var dist = getDistance(curGPS.lat() + "," + curGPS.lng(),
@@ -280,9 +276,11 @@ function updatePolyLine(currentPos, altitude) {
 
 	var headingTo1st = google.maps.geometry.spherical.computeHeading(pointPath,
 			nextPosition);
-	marker.setIcon(null);
-//	marker.setIcon('images/icons/target-old.png');
-    marker.setAnimation(google.maps.Animation.BOUNCE);
+	// marker.setIcon(null);
+	// marker.setIcon('images/icons/target-old.png');
+	// marker.setAnimation(google.maps.Animation.BOUNCE);
+	// if (circleMarker == null)
+	// circleMarker.setPosition(currentPos);
 	if (nextDestGPS.length > 1) {
 		var secondNextPosition = getGoogleMapPosition(nextDestGPS[1]);
 		var headingTo2st = google.maps.geometry.spherical.computeHeading(
@@ -409,6 +407,20 @@ function handleLocationError(browserHasGeolocation, pos) {
 	errorMessagePopupOpen(browserHasGeolocation ? 'Error: The Geolocation service failed.'
 			: 'Error: Your browser doesn\'t support geolocation.');
 	isLocationAvailable = false;
+	navigator.permissions.query({
+		name : 'geolocation'
+	}).then(function(p) {
+		updatePermission('geolocation', p.state);
+
+		p.onchange = function() {
+			updatePermission('geolocation', this.state);
+		};
+	});
+
+}
+function updatePermission(name, state) {
+	log('update permission for ' + name + ' with ' + state);
+	document.getElementById(name).textContent = state;
 }
 
 function isFullScreen() {
@@ -466,22 +478,30 @@ var successTrackingHandler = function(position) {
 	// }
 	altitude = position.coords.altitude;
 	// if (getCookie("TripPathGPSCookie").length > 5)
-	updatePolyLine(currentPos, altitude);
+
 	if (marker == null) {
-		marker = new google.maps.Marker({
-			map : map
-		});
+		// marker = new google.maps.Marker({
+		// map : map
+		// });
+		// marker.addListener('click', function() {
+		// map.setZoom(17);
+		// map.setCenter(this.getPosition());
+		// resetWalking();
+		// });
+		marker = new google.maps.Circle(circleOption);
 		marker.addListener('click', function() {
 			map.setZoom(17);
-			map.setCenter(this.getPosition());
+			map.setCenter(this.getCenter());
 			resetWalking();
 		});
-	}
-	marker.setIcon(null);
-	marker.setIcon('images/icons/target-old.png');
-	marker.setPosition(currentPos);
+	} else
+		// marker.setIcon(null);
+		// marker.setIcon('images/icons/target-old.png');
+		marker.setCenter(currentPos);
+	updatePolyLine(currentPos, altitude);
 };
 
+// var circleMarker;
 var successGetCurrentPosition = function(position) {
 	isLocationAvailable = true;
 	var currentPos = {
@@ -503,19 +523,49 @@ var successGetCurrentPosition = function(position) {
 			errorMessagePopupOpen(thrownError);
 		}
 	});
+	var circleOption = {
+		center : currentPos,
+		fillColor : '#3878c7',
+		fillOpacity : 0.6,
+		map : map,
+		radius : 5,
+		strokeColor : '#3878c7',
+		strokeOpacity : 1,
+		strokeWeight : 0.5
+	};
 	if (marker == null) {
-		marker = new google.maps.Marker({
-			map : map
-		});
+		marker = new google.maps.Circle(circleOption);
 		marker.addListener('click', function() {
 			map.setZoom(17);
-			map.setCenter(this.getPosition());
+			map.setCenter(currentPos);
 			resetWalking();
 		});
-	}
-	marker.setIcon(null);
-	marker.setIcon('images/icons/target-old.png');
-	marker.setPosition(currentPos);
+	} else
+		marker.setCenter(currentPos);
+	// marker.setIcon(null);
+	// marker.setIcon('images/icons/target-old.png');
+	// var _radius = 5;
+	// var rMin = _radius * 1 / 10;
+	// var rMax = _radius;
+	// var direction = 1;
+
+	// if (circleMarker == null)
+	// circleMarker = new google.maps.Circle(circleOption);
+
+	// var circleTimer = setInterval(function() {
+	// var radius = circleMarker.getRadius();
+	//
+	// if ((radius > rMax) || (radius < rMin)) {
+	// direction *= -0.2;
+	// }
+	//
+	// var _par = (radius / _radius) - 0.7;
+	//
+	// circleOption.radius = radius + direction * 10;
+	// circleOption.fillOpacity = 0.6 * _par;
+	//
+	// circleMarker.setOptions(circleOption);
+	// }, 20);
 	map.panTo(currentPos);
 	map.setCenter(currentPos);
 };
@@ -553,3 +603,10 @@ $(document).ready(function() {
 	getAllLocations();
 	showHideLeftSideMenu();
 });
+
+function setPathType(pathTypeId){
+	$("#pathType").val(pathTypeId);
+	removeTrip();
+	findMyLocation();
+	getThePath();
+}

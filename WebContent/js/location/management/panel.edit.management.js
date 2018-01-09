@@ -310,14 +310,17 @@ function editEntrance() {
 		};
 		entranceMarker.setPosition(pos);
 	});
-//	$("#parentLocationId").val($("#locationId").val());
-//	$("#locationId").val("0");
+	// $("#parentLocationId").val($("#locationId").val());
+	// $("#locationId").val("0");
 	$("#description").val("Entrance");
 	google.maps.event.addListener(entranceMarker, 'click', function(ev) {
 		if (confirm("Are you sure you want to create the entrance?")) {
 			$("#locationGPS").val(
 					entranceMarker.getPosition().lat() + ","
 							+ entranceMarker.getPosition().lng());
+
+			$("#parentLocationId").val($("#locationId").val());
+			$("#isEntranceIntersection").val("true");
 			saveEntrance(0);
 		} else {
 			return;
@@ -328,23 +331,25 @@ function editEntrance() {
 			$("#locationGPS").val(
 					entranceMarker.getPosition().lat() + ","
 							+ entranceMarker.getPosition().lng());
+			$("#isEntranceIntersection").val("true");
+			$("#parentLocationId").val($("#locationId").val());
 			saveEntrance(0);
 		} else {
 			return;
 		}
 	});
-//	$("#locationSaveCancelPanel").css("display", "inline-block").trigger(
-//			"create");
-//	$("#locationSaveCancelPanel").css(
-//			"top",
-//			parseInt(parseInt($(".jqm-header").height())
-//					+ parseInt($("#locPathModeRadiobtn").height()) + 3))
-//			.trigger("create");
-//	$("#locationSaveCancelPanel").css(
-//			"left",
-//			parseInt(parseInt($(window).width() / 2)
-//					- parseInt($("#locationSaveCancelPanel").width() / 2)))
-//			.trigger("create");
+	// $("#locationSaveCancelPanel").css("display", "inline-block").trigger(
+	// "create");
+	// $("#locationSaveCancelPanel").css(
+	// "top",
+	// parseInt(parseInt($(".jqm-header").height())
+	// + parseInt($("#locPathModeRadiobtn").height()) + 3))
+	// .trigger("create");
+	// $("#locationSaveCancelPanel").css(
+	// "left",
+	// parseInt(parseInt($(window).width() / 2)
+	// - parseInt($("#locationSaveCancelPanel").width() / 2)))
+	// .trigger("create");
 	$("#locationEditMenu").popup("close");
 }
 
@@ -441,10 +446,13 @@ function showPathInfo() {
 function hidePathInfo() {
 	if (paths != null) {
 		for ( var i = 0; i < paths.length; i++) {
-			paths[i].setOptions({
-				strokeColor : '#081B2C'
-			});
-			paths[i].setMap(map);
+			if (paths[i] != null) {
+				paths[i].setOptions({
+					strokeColor : '#081B2C'
+				});
+				paths[i].setMap(map);
+			} else
+				pathTypeIds.splice(i, 1);
 		}
 	}
 	pathSelected = false;

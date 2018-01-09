@@ -136,7 +136,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 		return;
 	}
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
-		+ parentId + "&locationTypeId=&userName=NMMU";
+			+ parentId + "&locationTypeId=&userName=NMMU";
 	$
 			.ajax({
 				url : url,
@@ -155,7 +155,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 					}
 				},
 				success : function(data) {
-//					console.log(data.length);
+					// console.log(data.length);
 					str = "";
 					markers = [];
 					polygons = [];
@@ -186,7 +186,7 @@ function getIntoALocation(parentId) {
 	$("input[name='radio-choice']").checkboxradio('disable');
 	setMapOnAllPolylines(null);
 	var url = "REST/GetLocationWS/GetChildrenOfALocation?parentLocationId="
-		+ parentId + "&locationTypeId=&userName=NMMU";
+			+ parentId + "&locationTypeId=&userName=NMMU";
 	$
 			.ajax({
 				url : url,
@@ -205,7 +205,7 @@ function getIntoALocation(parentId) {
 					}
 				},
 				success : function(data) {
-//					console.log(data.length);
+					// console.log(data.length);
 					str = "";
 					markers = [];
 					polygons = [];
@@ -261,10 +261,10 @@ function createMarkersOnMap(k, l) {
 function getMarkerInfo(location) {
 	do {
 		if (location.parent.parentId > 0) {
-			str += "<li onclick='getIntoALocation(\"" + location.parent.locationID
-					+ "\")'>&nbsp;> " + location.parent.locationName
-					+ " " + location.parent.locationType.locationType + "</li>"
-					+ str;
+			str += "<li onclick='getIntoALocation(\""
+					+ location.parent.locationID + "\")'>&nbsp;> "
+					+ location.parent.locationName + " "
+					+ location.parent.locationType.locationType + "</li>" + str;
 		} else
 			str = "<li onclick='getAllMarkers(\"" + $("#userLocationIds").val()
 					+ "\", true)'>" + location.parent.locationName + "</li>"
@@ -306,8 +306,9 @@ function addMarker(l) {
 	if (l.boundary != null && l.boundary.length > 13) {
 		drawPolygons(l);
 		marker.setVisible(false);
-	} else
+	} else {
 		marker.setMap(map);
+	}
 	marker.addListener('dragend', function(point) {
 		$("#locationGPS").val(point.latLng.lat() + "," + point.latLng.lng());
 		if (confirm("Are you sure you want to move the property?"))
@@ -332,8 +333,12 @@ function addMarker(l) {
 }
 
 function saveEntrance(entranceId) {
+	var lName= "Entrance";
+	if($("#isEntranceIntersection").val() != "true")
+		lName= "Intersection";
 	if (parseInt($("#locationId").val()) <= 0
 			|| $("#locationId").val().length == 0) {
+		$("#isEntranceIntersection").val("true");
 		var url = "REST/GetLocationWS/SaveUpdateLocation";
 		$("#boundary").val(
 				$("#boundary").val() + ";"
@@ -372,7 +377,9 @@ function saveEntrance(entranceId) {
 								+ 0
 								+ "&username=NMMU&parentId="
 								+ dataJson.locationID
-								+ "&locationName=Entrance&coordinate="
+								+ "&locationName="+lName+"&isEntrance="
+								+ $("#isEntranceIntersection").val()
+								+ "&coordinate="
 								+ entranceMarker.getPosition().lat()
 								+ ","
 								+ entranceMarker.getPosition().lng();
@@ -415,8 +422,10 @@ function saveEntrance(entranceId) {
 	} else {
 		var url = "REST/GetLocationWS/CreateTFCEntrance?entranceId="
 				+ entranceId + "&username=NMMU&parentId="
-				+ $("#parentLocationId").val() + "&locationName=Entrance&coordinate="
-				+ $("#locationGPS").val();
+				+ $("#parentLocationId").val()
+				+ "&locationName="+lName+"&coordinate="
+				+ $("#locationGPS").val()+"&isEntrance="
+				+ $("#isEntranceIntersection").val();
 		$.ajax({
 			url : url,
 			cache : false,
@@ -454,8 +463,9 @@ function addEntrance(l) {
 		hovericon : refreshMap(intersectionEntrance, l.gps, "hover"),
 		originalicon : refreshMap(intersectionEntrance, l.gps, "normal"),
 		draggable : true,
-		zIndex : 1666,
-		map : map
+		zIndex : 1777,
+		map : map,
+		title: l.description + l.parentId
 	});
 	google.maps.event.addListener(entrance, "mouseover", function() {
 		this.setIcon(this.hovericon);
@@ -463,80 +473,83 @@ function addEntrance(l) {
 	google.maps.event.addListener(entrance, "mouseout", function() {
 		this.setIcon(this.originalicon);
 	});
-//	google.maps.event.addListener(entrance, "drag", function() {
-//		$("#locationId").val(l.entranceId);
-//	});
-	
+	google.maps.event.addListener(entrance, "drag", function() {
+		$("#locationId").val(l.entranceId);
+		$("#isEntranceIntersection").val(l.entranceIntersection);
+	});
+
 	var pos = {
 		lat : parseFloat(l.gps.split(",")[0]),
 		lng : parseFloat(l.gps.split(",")[1])
 	};
 	entrance.id = l.entranceId;
-//	entrance.addListener('dragend', function(point) {
-//		var parentPolygon = null;
-//		for ( var i = 0; i < polygons.length; i++) {
-//			if (polygons[i].id == l.parentId)
-//				parentPolygon = polygons[i];
-//		}
-//		var oldPoint = {
-//			x : parseFloat(point.latLng.lat()),
-//			y : parseFloat(point.latLng.lng())
-//		};
-//		pointsInLine = [];
-//		if (l.entranceIntersection) {
-//			$(parentPolygon.getPath().getArray()).each(function(k, l) {
-//				var point = {
-//					x : parseFloat(l.lat()),
-//					y : parseFloat(l.lng())
-//				};
-//				pointsInLine.push(point);
-//			});
-//			pointsInLine.push({
-//				x : parseFloat(parentPolygon.getPath().getArray()[0].lat()),
-//				y : parseFloat(parentPolygon.getPath().getArray()[0].lng())
-//			});
-//			var intersectionpoint = getClosestPointOnLines(oldPoint,
-//					pointsInLine);
-//			this.setPosition({
-//				lat : parseFloat(intersectionpoint.x),
-//				lng : parseFloat(intersectionpoint.y)
-//			});
-//			$("#locationGPS").val(
-//					intersectionpoint.x + "," + intersectionpoint.y);
-//		} else
-//			$("#locationGPS").val(
-//					entrance.getPosition().lat() + ","
-//							+ entrance.getPosition().lng());
-//		setTimeout(function() {
-//			if (confirm("Are you sure you want to move the marker?")) {
-//				// $("#locationId").val(l.entranceId);
-//				$("#locationName").val(l.description);
-//				$("#parentLocationId").val(l.parentId);
-//				saveEntrance(l.entranceId);
-//			} else {
-//				entrance.setPosition({
-//					lat : parseFloat(l.gps.split(",")[0]),
-//					lng : parseFloat(l.gps.split(",")[1])
-//				});
-//			}
-//			;
-//		}, 200);
-//
-//	});
-	entrance.setPosition(pos);
-	google.maps.event.addListener(entrance, 'click', function(point) {
-		if ($('[name="optionType"] :radio:checked').val() == "marker") {
-			hideLocationInfo();
-			showLocationInfo();
-			locationEntranceIntersectionEditPanelOpen(l.description, "Entrance");
-		} else {
-			addAPath(l);
+	entrance.addListener('dragend', function(point) {
+		var parentPolygon = null;
+		for ( var i = 0; i < polygons.length; i++) {
+			if (polygons[i].id == l.parentId)
+				parentPolygon = polygons[i];
 		}
+		var oldPoint = {
+			x : parseFloat(point.latLng.lat()),
+			y : parseFloat(point.latLng.lng())
+		};
+		pointsInLine = [];
+		if (l.entranceIntersection) {
+			$(parentPolygon.getPath().getArray()).each(function(k, l) {
+				var point = {
+					x : parseFloat(l.lat()),
+					y : parseFloat(l.lng())
+				};
+				pointsInLine.push(point);
+			});
+			pointsInLine.push({
+				x : parseFloat(parentPolygon.getPath().getArray()[0].lat()),
+				y : parseFloat(parentPolygon.getPath().getArray()[0].lng())
+			});
+			var intersectionpoint = getClosestPointOnLines(oldPoint,
+					pointsInLine);
+			this.setPosition({
+				lat : parseFloat(intersectionpoint.x),
+				lng : parseFloat(intersectionpoint.y)
+			});
+			$("#locationGPS").val(
+					intersectionpoint.x + "," + intersectionpoint.y);
+		} else
+			$("#locationGPS").val(
+					entrance.getPosition().lat() + ","
+							+ entrance.getPosition().lng());
+		setTimeout(function() {
+			if (confirm("Are you sure you want to move the marker?")) {
+				// $("#locationId").val(l.entranceId);
+				$("#locationName").val(l.description);
+				$("#parentLocationId").val(l.parentId);
+				saveEntrance(l.entranceId);
+			} else {
+				entrance.setPosition({
+					lat : parseFloat(l.gps.split(",")[0]),
+					lng : parseFloat(l.gps.split(",")[1])
+				});
+			}
+			;
+		}, 200);
+
 	});
-	if (!pathMarkers.indexOf(entrance) <= 0) {
+	entrance.setPosition(pos);
+	google.maps.event.addListener(entrance, 'click',
+			function(point) {
+				if ($('[name="optionType"] :radio:checked').val() == "marker") {
+					hideLocationInfo();
+					showLocationInfo();
+					locationEntranceIntersectionEditPanelOpen(l.description,
+							"Entrance");
+				} else {
+					addAPath(l);
+				}
+			});
+	if (pathMarkers.indexOf(entrance) <= 0) {
 		pathMarkers.push(entrance);
 	}
-	if (!markers.indexOf(entrance) <= 0 && l.entranceIntersection) {
+	if (markers.indexOf(entrance) <= 0 && l.entranceIntersection) {
 		markers.push(entrance);
 	}
 

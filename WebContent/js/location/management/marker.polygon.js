@@ -66,9 +66,7 @@ function drawPolygons(location) {
 	var arrayBoundary = getArrayBoundary(location.boundary).split("_");
 	var CoordinatesArray = new Array();
 	for ( var i = 0; i < arrayBoundary.length; i++) {
-		var LatAndLng = arrayBoundary[i].split(",");
-		var LatLng = new google.maps.LatLng(LatAndLng[0], LatAndLng[1]);
-		CoordinatesArray.push(LatLng);
+		CoordinatesArray.push(new google.maps.LatLng(arrayBoundary[i].split(",")[0], arrayBoundary[i].split(",")[1]));
 	}
 	var boundaryColour = getBoundaryColour(location.boundary);
 	var FillColour;
@@ -89,12 +87,11 @@ function drawPolygons(location) {
 		title : location.locationName + " "
 				+ location.locationType.locationType
 	});
-	var editPolygon = new google.maps.Polygon({
-		paths : CoordinatesArray,
+	CoordinatesArray.push(new google.maps.LatLng(arrayBoundary[0].split(",")[0], arrayBoundary[0].split(",")[1]));
+	var editPolygon = new google.maps.Polyline({
+		path : CoordinatesArray,
 		strokeOpacity : 1,
-		fillOpacity : 0,
-		strokeColor : "#FF0000",
-		fillColor : "#000000",
+		strokeColor : "#000000",
 		strokeWeight : 2,
 		title : location.locationName + " "
 				+ location.locationType.locationType

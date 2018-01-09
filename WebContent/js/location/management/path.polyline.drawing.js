@@ -36,6 +36,9 @@ function changePathWith(slider) {
 			fillColor : "#081B2C",
 			zIndex : 10
 		});
+	// if (pathPolylineConstant != null)
+	// pathPolylineConstant.setPath(measurePolygonForAPath(pathCoorPolygon,
+	// $(slider).val()));
 }
 
 function measurePolygonForAPath(coorPoly, width) {
@@ -87,12 +90,12 @@ function drawApath(l) {
 		customInfo : l.width + ";" + l.pathType,
 		zIndex : 2
 	});
-	
+
 	var polyTMP = new google.maps.Polygon({
 		paths : measurePolygonForAPath(pathCoorPolygon, l.width),
-		strokeColor : "#081B2C",
+		strokeColor : "#ffffff",
 		strokeWeight : 2,
-		fillColor : "#081B2C",
+		fillColor : "#000000",
 		customInfo : l.width + ";" + l.pathType,
 		zIndex : 2
 	});
@@ -108,28 +111,7 @@ function drawApath(l) {
 	pathPolyline.id = l.pathId;
 	polygon.id = l.pathId;
 	polyTMP.id = l.pathId;
-//	polygon.addListener('click', function(event) {
-//		if (pathSelected) {
-//			hidePathInfo();
-//			pathSelected = false;
-//		} else {
-//			var lat = event.latLng.lat();
-//			var lng = event.latLng.lng();
-//			openPathEditPanel();
-//			if ($('#destinationId').val().length <= 0
-//					&& $('#departureId').val().length > 0) {
-//				createAPointOnAnExistingPath(l, {
-//					x : parseFloat(lat),
-//					y : parseFloat(lng)
-//				}, pathPolyline);
-//			} else {
-//				selectAPath(l);
-//			}
-//			pathSelected = true;
-//		}
-//	});
-	
-	
+
 	polygon.addListener('click', function(event) {
 		if (pathSelected) {
 			hidePathInfo();
@@ -138,48 +120,28 @@ function drawApath(l) {
 			var lat = event.latLng.lat();
 			var lng = event.latLng.lng();
 			openPathEditPanel();
-//			if ($('#destinationId').val().length <= 0
-//					&& $('#departureId').val().length > 0) {
-//				createAPointOnAnExistingPath(l, {
-//					x : parseFloat(lat),
-//					y : parseFloat(lng)
-//				}, pathPolyline);
-//			} else {
-				selectAPath(l);
-//			}
+			selectAPath(l);
 			pathSelected = true;
 		}
 	});
 
-//	polygon.setMap(map);
 	paths.push(polygon);
-//	polygon.setMap(null);
 	polyTMP.addListener('click', function(event) {
-//		if (pathSelected) {
-//			hidePathInfo();
-//			pathSelected = false;
-//		} else {
-			var lat = event.latLng.lat();
-			var lng = event.latLng.lng();
-//			openPathEditPanel();
-			if ($('#destinationId').val().length <= 0
-					&& $('#departureId').val().length > 0) {
-				createAPointOnAnExistingPath(l, {
-					x : parseFloat(lat),
-					y : parseFloat(lng)
-				}, pathPolyline);
-			} 
-//			else {
-//				selectAPath(l);
-//			}
-//			pathSelected = true;
-//		}
+		if(!newPathInProgress)
+			return;
+		var lat = event.latLng.lat();
+		var lng = event.latLng.lng();
+		if ($('#destinationId').val().length <= 0
+				&& $('#departureId').val().length > 0) {
+			createAPointOnAnExistingPath(l, {
+				x : parseFloat(lat),
+				y : parseFloat(lng)
+			}, pathPolyline);
+		}
 	});
 	polyTMP.addListener('mousemove', function(event) {
-		if (tmpIntersectionMarker != undefined) {
-			tmpIntersectionMarker.setMap(null);
-			tmpIntersectionMarker = null;
-		}
+		if(!newPathInProgress)
+			return;
 		if ($('#destination').val().length <= 0
 				&& $('#departure').val().length > 0) {
 			updateMovingLine(event);
@@ -195,7 +157,7 @@ function drawApath(l) {
 					icon : {
 						path : google.maps.SymbolPath.CIRCLE,
 						scale : 10,
-						color : 'green',
+						color : '#FFFFFF',
 						fillOpacity : 1
 					},
 					labelStyle : {
@@ -207,21 +169,11 @@ function drawApath(l) {
 				});
 			else
 				tmpIntersectionMarker.setPosition(pos);
-			google.maps.event.addListener(tmpIntersectionMarker, "click",
-					function(event) {
-						openPathTypePopup();
-						createAPointOnAnExistingPath(l, {
-							x : parseFloat(lat),
-							y : parseFloat(lng)
-						}, pathPolyline);
-					});
 		}
 	});
 	polyTMP.addListener('mouseover', function(event) {
-		if (tmpIntersectionMarker != undefined) {
-			tmpIntersectionMarker.setMap(null);
-			tmpIntersectionMarker = null;
-		}
+		if(!newPathInProgress)
+			return;
 		if ($('#destination').val().length <= 0
 				&& $('#departure').val().length > 0) {
 			updateMovingLine(event);
@@ -237,14 +189,14 @@ function drawApath(l) {
 					icon : {
 						path : google.maps.SymbolPath.CIRCLE,
 						scale : 10,
-						color : 'green',
+						color : '#FFFFFF',
 						fillOpacity : 1
 					},
 					labelStyle : {
 						opacity : 1.0
 					},
-					zIndex : 777,
 					position : pos,
+					zIndex : 1666,
 					title : "Create New Intersetion"
 				});
 			else
@@ -258,10 +210,6 @@ function drawApath(l) {
 						}, pathPolyline);
 					});
 		}
-	});
-	polyTMP.setOptions({
-		strokeColor : '#ffffff',
-		fillColot: 'transparent'
 	});
 	polyTMP.addListener('mouseout', function(event) {
 		if (tmpIntersectionMarker != undefined) {
@@ -275,7 +223,7 @@ function drawApath(l) {
 
 $(document).keyup(function(e) {
 	if (e.keyCode == 27) {
-		cancelADrawnPath();
+		 cancelCreatingNew();
 	} else if (e.keyCode == 46) {
 		removePath();
 	}
@@ -346,11 +294,12 @@ function updateConstantLine() {
 	var tmpPathCoor = [];
 	tmpPathCoor.push([ parseFloat($("#departureGPS").val().split(",")[1]),
 			parseFloat($("#departureGPS").val().split(",")[0]) ]);
-	for ( var i = 0; i < nextDestGPS.length; i++) {
-		tmpPathCoor.push([ parseFloat(nextDestGPS[i].split(",")[1]),
-				parseFloat(nextDestGPS[i].split(",")[0]) ]);
-		lastOne = getGoogleMapPosition(nextDestGPS[i]);
-	}
+	if ($("#pathLatLng").val().length > 1)
+		for ( var i = 0; i < nextDestGPS.length; i++) {
+			tmpPathCoor.push([ parseFloat(nextDestGPS[i].split(",")[1]),
+					parseFloat(nextDestGPS[i].split(",")[0]) ]);
+			lastOne = getGoogleMapPosition(nextDestGPS[i]);
+		}
 	if ($("#destinationGPS").val().length > 0)
 		tmpPathCoor.push([
 				parseFloat($("#destinationGPS").val().split(",")[1]),
@@ -396,10 +345,12 @@ function cancelADrawnPath() {
 	// $("#pathTypeIds").val("");
 	$(".pahtFields").val("");
 	for ( var int = 0; int < pathCreateNewPolygons.length; int++) {
-		pathCreateNewPolygons[int].setMap(null);
+		if (pathCreateNewPolygons[int] != null)
+			pathCreateNewPolygons[int].setMap(null);
 	}
 	for ( var int = 0; int < paths.length; int++) {
-		paths[int].setMap(map);
+		if (paths[int] != null)
+			paths[int].setMap(map);
 	}
 }
 

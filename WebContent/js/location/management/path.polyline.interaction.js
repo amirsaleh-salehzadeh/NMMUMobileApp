@@ -1,4 +1,3 @@
-var intmpIntersectionMarker;
 function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 	if (!confirm("create intersection?")) {
 		return;
@@ -20,7 +19,12 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 	var url = "REST/GetPathWS/CreateAPointOnThePath?pathId=" + path.pathId
 			+ "&pointGPS=" + intersectionpoint.x + "," + intersectionpoint.y
 			+ "&intersectionEntranceParentId=" + $("#parentLocationId").val()
-			+ "&index=" + intersectionpoint.i;
+			+ "&index=" + intersectionpoint.i + "&newPathRoute="
+			+ $("#pathLatLng").val() + "&departureId="
+			+ $("#departureId").val() + "&pathType=" + $("#pathTypeIds").val()
+			+ "&width=" + $("#pathWidth").val() + "&pathName="
+			+ $("#pathName").val() + "&description="
+			+ $("#pathDescription").val();
 	var intersectId = 0;
 	$.ajax({
 		url : url,
@@ -33,12 +37,13 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 			$.each(data, function(k, l) {
 				drawApath(l);
 				if (k == 0)
-					intersectId = l.destination.entrances[0].locationID;
+					intersectId = l.destination.entrances[0].entranceId;
 			});
 			for ( var i = 0; i < paths.length; i++) {
 				if (paths[i] != null && paths[i].id == path.pathId) {
 					paths[i].setMap(null);
 					paths[i] = null;
+					paths.splice(i, 1);
 				}
 			}
 			toast("Successful");
@@ -46,8 +51,7 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 				lat : intersectionpoint.x,
 				lng : intersectionpoint.y
 			};
-			if (intmpIntersectionMarker == null)
-				intmpIntersectionMarker = new google.maps.Marker({
+			var intmpIntersectionMarker = new google.maps.Marker({
 					map : map,
 					icon : {
 						path : google.maps.SymbolPath.CIRCLE,
@@ -58,37 +62,36 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 					labelStyle : {
 						opacity : 1.0
 					},
-					position : intersection,
-					title : "Create New Intersetion"
+					position : intersection
 				});
-			else
-				intmpIntersectionMarker.setPosition(intersection);
+//			else
+//				intmpIntersectionMarker.setPosition(intersection);
 			intmpIntersectionMarker.id = intersectId;
 			pathMarkers.push(intmpIntersectionMarker);
-			if (parseInt($("#destinationId").val()) <= 0) {
-				$("#destination").val("Intersection");
-				$("#destinationId").val(intersectId);
-				$("#destinationGPS").val(
-						destinationGPS.x + "," + destinationGPS.y);
-				google.maps.event.clearInstanceListeners(map);
-				if (movingLine != undefined) {
-					movingLine.setMap(null);
-					movingLine = undefined;
-				}
-				updateConstantLine();
-				google.maps.event.clearInstanceListeners(map);
-				saveThePath();
-			} else {
+//			if ($("#destinationId").val().length > 0) {
+//				$("#destination").val("Intersection");
+//				$("#destinationId").val(intersectId);
+//				$("#destinationGPS").val(
+//						destinationGPS.x + "," + destinationGPS.y);
+//				if (movingLine != undefined) {
+//					movingLine.setMap(null);
+//					movingLine = undefined;
+//				}
+//				updateConstantLine();
+//				google.maps.event.clearInstanceListeners(map);
+//				saveThePath();
+//			} else {
 				var location = {
 					locationName : "Intersection",
 					locationID : intersectId,
 					gps : destinationGPS.x + "," + destinationGPS.y
 				};
 				addAPath(location);
-			}
+//			}
 		},
 		complete : function() {
 			HideLoadingScreen();
+			hidePathInfo();
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			popErrorMessage("An error occured while creating an intersection. "
@@ -97,9 +100,7 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 	});
 }
 
-var pathTypeIds = [];
 function selectAPath(path) {
-	pathTypeIds = [];
 	url = "REST/GetPathWS/SavePath?fLocationId=" + $("#departureId").val()
 			+ "&tLocationId=" + $("#destinationId").val() + "&pathType="
 			+ $("#pathType").val() + "&pathRoute=" + $("#pathLatLng").val();

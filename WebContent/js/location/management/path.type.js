@@ -23,8 +23,12 @@ function setPathTypeButtonIcon() {
 }
 
 function selectIcon(id) {
+	var pathTypeIds = [];
 	$(".pathTypeIcon").each(function() {
 		var pathTypeId = $(this).attr("alt");
+		if ($(this).hasClass("pathTypeIconSelected")) {
+			pathTypeIds.push($(this).attr("alt"));
+		}
 		if (pathTypeId == id) {
 			if (!$(this).hasClass("pathTypeIconSelected")) {
 				$(this).addClass("pathTypeIconSelected");

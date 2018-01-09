@@ -154,10 +154,9 @@
 
 
 		<input type="hidden" id="tripLocations"> <input type="hidden"
-			id="from" placeholder="Departure"> <input type="hidden"
-			id="departureId" placeholder="DepartureId" value="0"> <input
-			type="hidden" id="to"> <input type="hidden"
-			id="destinationId" placeholder="DestinationId">
+			id="from"> <input type="hidden" id="departureId" value="0">
+		<input type="hidden" id="to"> <input type="hidden"
+			id="destinationId"> <input type="hidden" id="pathType" value="2">
 
 
 
@@ -291,22 +290,21 @@
 					</div>
 				</div>
 			</div>
-			<div class="ui-block-solo ui-grid-b" id="tripTypeBar"
-				onclick="toast('Under Construction');">
-				<div class="ui-block-a">
+			<div class="ui-block-solo ui-grid-b" id="tripTypeBar">
+				<div class="ui-block-a" onclick="setPathType(1);">
 					<img alt="" src="images/icons/grass.png"
 						style="width: 32px; height: 32px; vertical-align: middle;">
 				</div>
-				<div class="ui-block-b">
+				<div class="ui-block-b" onclick="setPathType(2);">
 					<img alt="" src="images/icons/normalSpeed.png"
 						style="width: 32px; height: 32px; vertical-align: middle;">
 				</div>
-				<div class="ui-block-c">
+				<div class="ui-block-c" onclick="setPathType(6);">
 					<img alt="" src="images/icons/wheelchair.png"
 						style="width: 32px; height: 32px; vertical-align: middle;">
 				</div>
-				<div
-					style="position: absolute; min-height: 100%; min-width: 100%; background-color: rgba(0, 0, 0, 0.5)"></div>
+<!-- 				<div -->
+<!-- 					style="position: absolute; min-height: 100%; min-width: 100%; background-color: rgba(0, 0, 0, 0.5)"></div> -->
 			</div>
 		</div>
 
@@ -394,6 +392,7 @@
 			</div>
 		</div>
 	</div>
+	<div id="googleMapMarkerLabel" class="labelStyleClass"></div>
 </body>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.locations.polygon.js"></script>

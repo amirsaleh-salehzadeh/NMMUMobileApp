@@ -754,6 +754,12 @@ public class LocationDAO extends BaseHibernateDAO implements
 		if (conn == null)
 			try {
 				conn = getConnection();
+				try {
+					conn.setAutoCommit(false);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				isnew = true;
 			} catch (AMSException e) {
 				e.printStackTrace();
@@ -769,18 +775,63 @@ public class LocationDAO extends BaseHibernateDAO implements
 						rs.getString("gps"),
 						rs.getBoolean("intersection_entrance"));
 			}
-			res = getLocationENT(new LocationENT(ent.getParentId()), conn);
+			res = getLocationENTForAPath(new LocationENT(ent.getParentId()), conn);
 			ArrayList<EntranceIntersectionENT> entrances = new ArrayList<EntranceIntersectionENT>();
 			entrances.add(ent);
 			res.setEntrances(entrances);
 			rs.close();
 			ps.close();
-			if (isnew)
+			if (isnew){
+				conn.commit();
+				conn.close();
+			}
+		} catch (SQLException e) {
+			try {
+				if (conn != null) {
+					conn.rollback();
+					conn.close();
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	private LocationENT getLocationENTForAPath(LocationENT ent, Connection conn) {
+		try {
+			boolean isNewCon = false;
+			if (conn == null)
+				try {
+					conn = getConnection();
+					isNewCon = true;
+				} catch (AMSException e) {
+					e.printStackTrace();
+				}
+			String query = "";
+			query = "select l.*, lt.location_type as locaTypeName from location l "
+					+ " left join location_type lt on lt.location_type_id = l.location_type"
+					+ " where l.location_id = "
+					+ ent.getLocationID();
+			PreparedStatement ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ent = new LocationENT(rs.getLong("location_id"),
+						rs.getString("client_name"), new LocationTypeENT(
+								rs.getInt("location_type"),
+								rs.getString("locaTypeName")),
+						rs.getString("gps"), rs.getString("location_name"));
+				ent.setParentId(rs.getLong("parent_id"));
+			}
+			rs.close();
+			ps.close();
+			if (isNewCon)
 				conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return res;
+		return ent;
 	}
 
 	public boolean deleteEntrance(EntranceIntersectionENT entrance,

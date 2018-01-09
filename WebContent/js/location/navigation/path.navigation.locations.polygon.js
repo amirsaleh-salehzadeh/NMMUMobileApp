@@ -1,5 +1,4 @@
 function drawPolygons(location) {
-	console.log(location.boundary);
 	var arrayBoundary = location.boundary.split(";")[0].split("_");
 	var CoordinatesArray = new Array();
 	for ( var i = 0; i < arrayBoundary.length; i++) {
@@ -27,9 +26,21 @@ function drawPolygons(location) {
 				+ location.locationType.locationType,
 		map : map
 	});
-	google.maps.event.addListener(DRAWPolygon, 'click',
-			function(event) {
-				alert(location.locationName + " "
-						+ location.locationType.locationType);
-			});
+	google.maps.event.addListener(DRAWPolygon, 'click', function(event) {
+		showMarkerLabel(location.locationName + " "
+				+ location.locationType.locationType, event.xa.x, event.xa.y);
+	});
+}
+
+function showMarkerLabel(text, posX, posY) {
+	$("#googleMapMarkerLabel").html(text);
+	$('#googleMapMarkerLabel').css("display", "block");
+	$('#googleMapMarkerLabel').css("position", "absolute").trigger("create");
+	$('#googleMapMarkerLabel').css("top", posY + 'px');
+	$('#googleMapMarkerLabel').css("left", posX + 'px');
+	$('#googleMapMarkerLabel').trigger("create");
+	$('#googleMapMarkerLabel').fadeIn();
+	setTimeout(function() {
+		$('#googleMapMarkerLabel').fadeOut();
+	}, 3000);
 }

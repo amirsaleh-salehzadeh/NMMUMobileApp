@@ -34,12 +34,13 @@ public class LocationServicesWS {
 			@QueryParam("coordinate") String coordinate,
 			@QueryParam("username") String userName,
 			@QueryParam("parentId") long parentId,
-			@QueryParam("entranceId") long entranceId) {
+			@QueryParam("entranceId") long entranceId,
+			@QueryParam("isEntrance") boolean isEntrance) {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = "";
 		try {
 			EntranceIntersectionENT ent = new EntranceIntersectionENT(
-					entranceId, parentId, locationName, coordinate, true);
+					entranceId, parentId, locationName, coordinate, isEntrance);
 			json = mapper.writeValueAsString(getLocationDAO().saveEntrance(ent,
 					null));
 		} catch (JsonGenerationException e) {

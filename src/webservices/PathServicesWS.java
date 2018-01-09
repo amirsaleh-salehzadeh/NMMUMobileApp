@@ -178,12 +178,20 @@ public class PathServicesWS {
 			@QueryParam("pathId") long pathId,
 			@QueryParam("pointGPS") String pointGPS,
 			@QueryParam("index") int index,
-			@QueryParam("intersectionEntranceParentId") long intersectionEntranceParentId) {
+			@QueryParam("intersectionEntranceParentId") long intersectionEntranceParentId,
+			@QueryParam("departureId") long departureId,
+			@QueryParam("newPathRoute") String newPathRoute,
+			@QueryParam("pathType") String pathType,
+			@QueryParam("width") int width,
+			@QueryParam("pathName") String pathName,
+			@QueryParam("description") String description) {
+		
 		String json = "[]";
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			json = mapper.writeValueAsString(getPathDAO().createAPointOnPath(
-					pathId, pointGPS, index, intersectionEntranceParentId));
+					pathId, pointGPS, index, intersectionEntranceParentId, departureId, newPathRoute, description, pathName,
+					width, pathType));
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

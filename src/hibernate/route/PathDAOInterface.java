@@ -31,17 +31,19 @@ public interface PathDAOInterface {
 			int pathTypeId, String clientName, int areaId);
 
 	public ArrayList<PathENT> createAPointOnPath(long pathId, String pointGPS,
-			int index, long intersectionEntranceParentId);
+			int index, long intersectionEntranceParentId, long departureId,
+			String newPathRoute, String description, String pathName,
+			int width, String pathType);
 
 	public LocationENT findClosestLocation(String GPSCoordinates,
 			String parentIds, String clientName);
-	
+
 	public long saveTrip(long deptLocationId, long destLocationId);
 
-	public void deleteTrip(long tripId) ;
+	public void deleteTrip(long tripId);
 
-	public PathENT getTrip(long tripId) ;
-	
+	public PathENT getTrip(long tripId);
+
 	public ArrayList<PathENT> getAllPathsForOnePoint(long locationId, int type);
 
 	public ArrayList<PathTypeENT> getAllPathTypes();

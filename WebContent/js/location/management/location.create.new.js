@@ -33,16 +33,7 @@ function createNew(seq) {
 	var mapOptions = {
 		draggableCursor : "default"
 	};
-	$(document).keyup(function(e) {
-		if (e.keyCode == 27) {
-			removeDrawingMode();
-			map.setOptions({
-				draggableCursor : "default"
-			});
-			$('img').unbind('mouseover');
-			clearActionBarLabel();
-		}
-	});
+	hidePathInfo();
 	$("#map_canvas").unbind('mousemove');
 	if ($("#locationName").val().length > 0)
 		$("#locationLabel").val($("#locationName").val());
@@ -62,8 +53,24 @@ function createNew(seq) {
 		}
 		newPathInProgress = true;
 		openPathEditPanel();
+		setMapOnAllMarkers(null);
+		setMapOnAllPolygons(null);
+		setMapOnAllPathMarkers(map);
+		for ( var int = 0; int < polygonsEdit.length; int++) {
+			polygonsEdit[int].setMap(map);
+		}
 		return;
 	}
+	$(document).keyup(function(e) {
+		if (e.keyCode == 27) {
+			removeDrawingMode();
+			map.setOptions({
+				draggableCursor : "default"
+			});
+			$('img').unbind('mouseover');
+			clearActionBarLabel();
+		}
+	});
 	switch (seq) {
 	case 0:
 		if (tmpCreateNewlocation != null) {
