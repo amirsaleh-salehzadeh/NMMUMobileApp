@@ -122,9 +122,9 @@ function getThePath() {
 							$("#destinationDef").html(l.desL.n);
 						}
 					});
-					$("#departureId").val(pathIds.split(",")[0]);
-					$("#destinationId").val(
-							pathIds.split(",")[pathIds.split(",").length - 1]);
+//					$("#departureId").val(pathIds.split(",")[0]);
+//					$("#destinationId").val(
+//							pathIds.split(",")[pathIds.split(",").length - 1]);
 					setCookie('TripPathIdsCookie', pathIds, 1);
 					setCookie('TripPathGPSCookie', pathGPSs, 1);
 					setCookie('TripPathLocationsCookie', pathLocations, 1);
@@ -526,9 +526,9 @@ var successGetCurrentPosition = function(position) {
 	var circleOption = {
 		center : currentPos,
 		fillColor : '#3878c7',
-		fillOpacity : 0.6,
+		fillOpacity : 1,
 		map : map,
-		radius : 5,
+		radius : 10,
 		strokeColor : '#3878c7',
 		strokeOpacity : 1,
 		strokeWeight : 0.5
@@ -536,7 +536,7 @@ var successGetCurrentPosition = function(position) {
 	if (marker == null) {
 		marker = new google.maps.Circle(circleOption);
 		marker.addListener('click', function() {
-			map.setZoom(17);
+			map.setZoom(18);
 			map.setCenter(currentPos);
 			resetWalking();
 		});
@@ -566,37 +566,38 @@ var successGetCurrentPosition = function(position) {
 	//
 	// circleMarker.setOptions(circleOption);
 	// }, 20);
+	map.setZoom(18);
 	map.panTo(currentPos);
 	map.setCenter(currentPos);
 };
 
-function createNavigationPoints(generalPathString) {
-	var tmp = "-34.0090019,25.6698088;-34.0092903,25.6694859;-34.0093029,25.6687217;"
-			+ "-34.0092751750833,25.6693196296691;34.0092751750833,25.669158697128296;"
-			+ "-34.00927831945874,25.668933391571045;-34.0094381,25.6687188;-34.0094874,25.6682917"
-					.split(";");
-	tmp = generalPathString.split("_");
-	var stringOfResZ = "";
-	for ( var i = 0; i < tmp.length - 2; i++) {
-		var x1 = parseFloat(tmp[i].split(",")[0]);
-		var y1 = parseFloat(tmp[i].split(",")[1]);
-		var x2 = parseFloat(tmp[i + 1].split(",")[0]);
-		var y2 = parseFloat(tmp[i + 1].split(",")[1]);
-		var xaxis = (x2 - x1);
-		var yaxis = (y2 - y1);
-		var m = yaxis / xaxis;
-		var length = getDistance(tmp[i], tmp[i + 1]);
-		var noOfPoints = Math.round(length / 5);
-		var xd = xaxis / noOfPoints;
-		for ( var j = 0; j < noOfPoints - 1; j++) {
-			var newX = (j * xd);
-			var newPoint = (x1 + newX) + "," + (m * newX + y1);
-			stringOfResZ += newPoint + "_";
-		}
-	}
-	stringOfResZ = stringOfResZ.substring(0, stringOfResZ.length - 1);
-	return stringOfResZ;
-}
+//function createNavigationPoints(generalPathString) {
+//	var tmp = "-34.0090019,25.6698088;-34.0092903,25.6694859;-34.0093029,25.6687217;"
+//			+ "-34.0092751750833,25.6693196296691;34.0092751750833,25.669158697128296;"
+//			+ "-34.00927831945874,25.668933391571045;-34.0094381,25.6687188;-34.0094874,25.6682917"
+//					.split(";");
+//	tmp = generalPathString.split("_");
+//	var stringOfResZ = "";
+//	for ( var i = 0; i < tmp.length - 2; i++) {
+//		var x1 = parseFloat(tmp[i].split(",")[0]);
+//		var y1 = parseFloat(tmp[i].split(",")[1]);
+//		var x2 = parseFloat(tmp[i + 1].split(",")[0]);
+//		var y2 = parseFloat(tmp[i + 1].split(",")[1]);
+//		var xaxis = (x2 - x1);
+//		var yaxis = (y2 - y1);
+//		var m = yaxis / xaxis;
+//		var length = getDistance(tmp[i], tmp[i + 1]);
+//		var noOfPoints = Math.round(length / 5);
+//		var xd = xaxis / noOfPoints;
+//		for ( var j = 0; j < noOfPoints - 1; j++) {
+//			var newX = (j * xd);
+//			var newPoint = (x1 + newX) + "," + (m * newX + y1);
+//			stringOfResZ += newPoint + "_";
+//		}
+//	}
+//	stringOfResZ = stringOfResZ.substring(0, stringOfResZ.length - 1);
+//	return stringOfResZ;
+//}
 
 $(document).ready(function() {
 	$('#destinationName').val("");
@@ -606,7 +607,13 @@ $(document).ready(function() {
 
 function setPathType(pathTypeId){
 	$("#pathType").val(pathTypeId);
+	var from = $("#from").val();
+	var to = $("#destinationId").val();
+	var dep = $("#departureId").val();
 	removeTrip();
-	findMyLocation();
+	$("#from").val(from);
+	$("#destinationId").val(to);
+	$("#departureId").val(dep);
+//	findMyLocation();
 	getThePath();
 }

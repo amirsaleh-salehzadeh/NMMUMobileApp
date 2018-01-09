@@ -85,17 +85,18 @@ function drawApath(l) {
 	var polygon = new google.maps.Polygon({
 		paths : measurePolygonForAPath(pathCoorPolygon, l.width),
 		strokeColor : "#081B2C",
-		strokeWeight : 2,
-		fillColor : "#081B2C",
+		strokeWeight : 1,
+		fillColor : getPathTypeColorCode(l.pathType),
+		fillOpacity : .66,
 		customInfo : l.width + ";" + l.pathType,
 		zIndex : 2
 	});
 
 	var polyTMP = new google.maps.Polygon({
 		paths : measurePolygonForAPath(pathCoorPolygon, l.width),
-		strokeColor : "#ffffff",
-		strokeWeight : 2,
-		fillColor : "#000000",
+		strokeColor : "#000000",
+		strokeWeight : 1,
+		fillColor : "#FFFFFF",
 		customInfo : l.width + ";" + l.pathType,
 		zIndex : 2
 	});

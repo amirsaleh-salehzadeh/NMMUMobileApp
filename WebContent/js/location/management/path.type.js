@@ -1,3 +1,15 @@
+function getPathTypeColorCode(pathTypeIds) {
+	if (pathTypeIds.indexOf("3") > -1)
+		return "#A569BD";
+	if (pathTypeIds.indexOf("6") > -1 && pathTypeIds.indexOf("5") == -1)
+		return "#3498DB";
+	if (pathTypeIds.indexOf("5") > -1)
+		return "#566573";
+	if (pathTypeIds.indexOf("2") > -1)
+		return "#2ECC71";
+	if (pathTypeIds.indexOf("1") > -1)
+		return "#FF5733";
+}
 function setPathTypeButtonIcon() {
 	$(".pathTypeIcon").each(function() {
 		var pathTypeId = $(this).attr("alt");

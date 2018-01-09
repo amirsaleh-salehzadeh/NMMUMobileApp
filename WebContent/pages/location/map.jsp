@@ -156,7 +156,8 @@
 		<input type="hidden" id="tripLocations"> <input type="hidden"
 			id="from"> <input type="hidden" id="departureId" value="0">
 		<input type="hidden" id="to"> <input type="hidden"
-			id="destinationId"> <input type="hidden" id="pathType" value="2">
+			id="destinationId"> <input type="hidden" id="pathType"
+			value="2">
 
 
 
@@ -291,17 +292,17 @@
 				</div>
 			</div>
 			<div class="ui-block-solo ui-grid-b" id="tripTypeBar">
-				<div class="ui-block-a" onclick="setPathType(1);">
+				<div class="ui-block-a" onclick="setPathType(1);" id="dirtRoadType">
 					<img alt="" src="images/icons/grass.png"
-						style="width: 32px; height: 32px; vertical-align: middle;">
+						style="width: 32px; height: 32px;">
 				</div>
-				<div class="ui-block-b" onclick="setPathType(2);">
+				<div class="ui-block-b" onclick="setPathType(2);" id="walkwayType">
 					<img alt="" src="images/icons/normalSpeed.png"
-						style="width: 32px; height: 32px; vertical-align: middle;">
+						style="width: 32px; height: 32px;">
 				</div>
-				<div class="ui-block-c" onclick="setPathType(6);">
+				<div class="ui-block-c" onclick="setPathType(6);" id="wheelChairType">
 					<img alt="" src="images/icons/wheelchair.png"
-						style="width: 32px; height: 32px; vertical-align: middle;">
+						style="width: 32px; height: 32px;">
 				</div>
 <!-- 				<div -->
 <!-- 					style="position: absolute; min-height: 100%; min-width: 100%; background-color: rgba(0, 0, 0, 0.5)"></div> -->
