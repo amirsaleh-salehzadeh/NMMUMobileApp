@@ -1,4 +1,4 @@
-var map, marker, infoWindow;
+var map, infoWindow;
 var markers = [];
 var paths = [];
 var pathCreateNewPolygons = [];

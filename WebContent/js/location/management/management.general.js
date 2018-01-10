@@ -17,7 +17,7 @@ function toast(msg) {
 
 function printBarcode(id, name) {
 	if (id == "") {
-		alert("The location does not exist yet. Please save the location first");
+		alert("The location does not exist. Please save the location first");
 		return;
 	}
 	window.open("pages/location/barcodePrint.jsp?locationId=" + id);
@@ -73,12 +73,6 @@ function getPathTypePanel() {
 			});
 }
 
-$(document).ready(function() {
-//	$('#pathTypePopup').fadeOut();
-//	$('#locationEditPanel').fadeOut();
-	// $(".jqm-demos").css("max-height",$(window).height());
-});
-
 function ShowLoadingScreen(loadingContent) {
 	if (loadingContent == null) {
 		loadingContent = "Please Wait";
@@ -89,6 +83,7 @@ function ShowLoadingScreen(loadingContent) {
 	$("#loadingContent").html(
 			"</br></br>Loading. . ." + "</br></br></br>" + loadingContent);
 }
+
 function HideLoadingScreen() {
 	$("#loadingOverlay").css("display", "none");
 	$(".markerLoading").css('display', 'none');

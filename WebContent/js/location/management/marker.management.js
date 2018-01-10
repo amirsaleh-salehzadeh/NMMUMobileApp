@@ -2,50 +2,54 @@ var pathMarkers = [];
 var parentAreaPolygon;
 var confirmSelected = false;
 function removeMarker() {
+	$("#popupConfirmation_confirmBTN").attr("onclick", "removeLocationFn()");
+	showPopupConfirmation('Are you sure you want to remove this property?');
+}
+
+var removeLocationFn = function() {
 	var url = "REST/GetLocationWS/RemoveALocation?locationId="
 			+ $("#locationId").val();
-	var loadingContent;
-	if ($("#locationTypeId").val() == 3) {
-		loadingContent = "Removing Building";
-	} else {
-		loadingContent = "Removing Intersection";
-	}
-	showPopupConfirmation('Are you sure you want to remove this location?');
-	if (confirmSelected) {
-		$.ajax({
-			url : url,
-			cache : false,
-			async : true,
-			beforeSend : function() {
-				ShowLoadingScreen(loadingContent);
-			},
-			success : function(data) {
-				if (data.errorMSG != null) {
-					alert(data.errorMSG);
-					return;
-				}
-
-				var id = $("#locationId").val();
-				for ( var i = 0; i < polygons.length; i++) {
-					if (polygons[i].id == id) {
-						polygons[i].setMap(null);
-						polygons.splice(i, 1);
-						$('#locationEditMenu').popup('close');
-						return;
+	var loadingContent = "Removing Proprty";
+	$.ajax({
+		url : url,
+		cache : false,
+		async : true,
+		beforeSend : function() {
+			ShowLoadingScreen(loadingContent);
+		},
+		success : function(data) {
+			if (data.errorMSG != null) {
+				alert(data.errorMSG);
+			}
+			var id = $("#locationId").val();
+			for ( var i = 0; i < polygons.length; i++) {
+				if (polygons[i].id == id) {
+					polygons[i].setMap(null);
+					polygons.splice(i, 1);
+					for ( var int = 0; int < polygonsEdit.length; int++) {
+						polygonsEdit[int].setMap(null);
 					}
 				}
-				deleteMarker(id);
-				$(".locationFields").val("");
-			},
-			complete : function() {
-				HideLoadingScreen();
-			},
-			error : function(xhr, ajaxOptions, thrownError) {
-				popErrorMessage("An error occured while removing the marker. "
-						+ thrownError);
 			}
-		});
-	}
+			for ( var i = 0; i < polygons.length; i++) {
+				if (polygons[i].id == id) {
+					polygons[i].setMap(null);
+					polygons.splice(i, 1);
+				}
+			}
+			$(".locationFields").val("");
+			$('#locationEditMenu').popup('close');
+			toast("The property removed");
+		},
+		complete : function() {
+			HideLoadingScreen();
+			hideLocationInfo();
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			popErrorMessage("An error occured while removing the marker. "
+					+ thrownError);
+		}
+	});
 }
 
 function showPopupConfirmation(message) {
@@ -60,13 +64,6 @@ function confirmClicked() {
 	confirmSelected = true;
 }
 
-function deleteMarker(id) {
-	var i = markers.indexOf(id);
-	markers[i].setMap(null);
-	markers.splice(i, 1);
-	return;
-}
-
 function saveLocation() {
 	if (selectedShape != null
 			&& ($("#locationId").val() == "" || $("#locationId").val() <= 0)) {
@@ -74,6 +71,11 @@ function saveLocation() {
 		selectedShape = null;
 	}
 	if ($("#locationName").val() == "") {
+		alert("Please select a name for the location");
+		return -1;
+	}
+	alert($("#parentId").val());
+	if ($("#parentId").val() == "") {
 		alert("Please select a name for the location");
 		return -1;
 	}
@@ -260,14 +262,14 @@ function createMarkersOnMap(k, l) {
 
 function getMarkerInfo(location) {
 	do {
-		if (location.parent.parentId > 0) {
-			str += "<li onclick='getIntoALocation(\""
-					+ location.parent.locationID + "\")'>&nbsp;> "
-					+ location.parent.locationName + " "
-					+ location.parent.locationType.locationType + "</li>" + str;
-		} else
+//		if (location.parent.locationId > 0) {
+//			str += "<li onclick='getIntoALocation(\""
+//					+ location.parent.locationID + "\")'>&nbsp;> "
+//					+ location.parent.locationName + " "
+//					+ location.parent.locationType.locationType + "</li>" + str;
+//		} else
 			str = "<li onclick='getAllMarkers(\"" + $("#userLocationIds").val()
-					+ "\", true)'>" + location.parent.locationName + "</li>"
+					+ "\", true)'>" + location.parent.locationName + " - </li>"
 					+ str;
 		location = location.parent;
 	} while (location.parent != null);
@@ -275,21 +277,16 @@ function getMarkerInfo(location) {
 }
 
 function addMarker(l) {
-	if (l.entrances != null && l.entrances.length > 0)
-		for ( var int = 0; int < l.entrances.length; int++) {
-			addEntrance(l.entrances[int]);
-		}
-	marker = new google.maps.Marker({
+	var marker = new google.maps.Marker({
 		icon : refreshMap(l.locationType.locationTypeId, l.gps, "normal"),
 		hovericon : refreshMap(l.locationType.locationTypeId, l.gps, "hover"),
 		originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
 				"normal"),
 		draggable : true,
 		zIndex : 1667,
-		map : map
+		// map : map,
+		title : l.locationName + " " + l.locationType.locationType
 	});
-	if (l.locationType.locationTypeId != 5)
-		marker.setTitle(l.locationName + " " + l.locationType.locationType);
 	google.maps.event.addListener(marker, "mouseover", function() {
 		this.setIcon(this.hovericon);
 	});
@@ -300,42 +297,47 @@ function addMarker(l) {
 		lat : parseFloat(l.gps.split(",")[0]),
 		lng : parseFloat(l.gps.split(",")[1])
 	};
-
 	marker.id = l.locationID;
 	marker.setPosition(pos);
-	if (l.boundary != null && l.boundary.length > 13) {
+	if (l.boundary != null && l.boundary.length > 16) {
 		drawPolygons(l);
+		// marker.setVisible(false);
+		if (l.entrances != null && l.entrances.length > 0)
+			for ( var int = 0; int < l.entrances.length; int++) {
+				addEntrance(l.entrances[int]);
+			}
 		marker.setVisible(false);
 	} else {
 		marker.setMap(map);
 	}
+
 	marker.addListener('dragend', function(point) {
 		$("#locationGPS").val(point.latLng.lat() + "," + point.latLng.lng());
-		if (confirm("Are you sure you want to move the property?"))
-			saveLocation();
-		else
-			return -1;
+		$("#popupConfirmation_confirmBTN").attr("onclick", "");
+		$("#popupConfirmation_confirmBTN").on('click', function() {
+			dragLocationMarker(l, point);
+		});
+		showPopupConfirmation('Are you sure you want to move this property?');
 	});
-	// if (l.locationType.locationTypeId != 5) {// ||
-	// l.locationType.locationTypeId
-	// != 3
 	google.maps.event.addListener(marker, 'click', function(point) {
-		$("#locationTypeId").val(l.locationType.locationTypeId);
-		hideLocationInfo();
 		showLocationInfo();
-		setInputsForLocation(l, l.gps);
 		locationEditPanelOpen(l.locationName, l.locationType.locationType);
+		setInputsForLocation(l, l.gps);
 	});
-	marker.setMap(null);
 	if (markers.indexOf(marker) <= 0)
 		markers.push(marker);
-	// }
+}
+
+function dragLocationMarker(l, point) {
+	setInputsForLocation(l, l.gps);
+	$("#locationGPS").val(point.latLng.lat() + "," + point.latLng.lng());
+	saveLocation();
 }
 
 function saveEntrance(entranceId) {
-	var lName= "Entrance";
-	if($("#isEntranceIntersection").val() != "true")
-		lName= "Intersection";
+	var lName = "Entrance";
+	if ($("#isEntranceIntersection").val() != "true")
+		lName = "Intersection";
 	if (parseInt($("#locationId").val()) <= 0
 			|| $("#locationId").val().length == 0) {
 		$("#isEntranceIntersection").val("true");
@@ -377,7 +379,9 @@ function saveEntrance(entranceId) {
 								+ 0
 								+ "&username=NMMU&parentId="
 								+ dataJson.locationID
-								+ "&locationName="+lName+"&isEntrance="
+								+ "&locationName="
+								+ lName
+								+ "&isEntrance="
 								+ $("#isEntranceIntersection").val()
 								+ "&coordinate="
 								+ entranceMarker.getPosition().lat()
@@ -397,10 +401,11 @@ function saveEntrance(entranceId) {
 										// closeAMenuPopup();
 										$('#locationSaveCancelPanel').css(
 												'display', 'none');
-										hideLocationInfo();
 										addEntrance(dataEntrance);
 										toast('Saved Successfully');
-										cancelCreatingNew();
+									},
+									complete : function() {
+										HideLoadingScreen();
 									},
 									error : function(xhr, ajaxOptions,
 											thrownError) {
@@ -411,7 +416,7 @@ function saveEntrance(entranceId) {
 					},
 					complete : function() {
 						HideLoadingScreen();
-						closeAMenuPopup();
+						cancelCreatingNew();
 						return;
 					},
 					error : function(xhr, ajaxOptions, thrownError) {
@@ -422,9 +427,8 @@ function saveEntrance(entranceId) {
 	} else {
 		var url = "REST/GetLocationWS/CreateTFCEntrance?entranceId="
 				+ entranceId + "&username=NMMU&parentId="
-				+ $("#parentLocationId").val()
-				+ "&locationName="+lName+"&coordinate="
-				+ $("#locationGPS").val()+"&isEntrance="
+				+ $("#parentLocationId").val() + "&locationName=" + lName
+				+ "&coordinate=" + $("#locationGPS").val() + "&isEntrance="
 				+ $("#isEntranceIntersection").val();
 		$.ajax({
 			url : url,
@@ -435,15 +439,13 @@ function saveEntrance(entranceId) {
 			},
 			success : function(data) {
 				google.maps.event.clearInstanceListeners(map);
-				closeAMenuPopup();
 				$('#locationSaveCancelPanel').css('display', 'none');
-				hideLocationInfo();
 				addEntrance(data);
 				toast('Saved Successfully');
 			},
 			complete : function() {
 				HideLoadingScreen();
-				closeAMenuPopup();
+				hideLocationInfo();
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				popErrorMessage("An error occured while saving the marker. "
@@ -465,7 +467,7 @@ function addEntrance(l) {
 		draggable : true,
 		zIndex : 1777,
 		map : map,
-		title: l.description + l.parentId
+		title : l.description + l.parentId
 	});
 	google.maps.event.addListener(entrance, "mouseover", function() {
 		this.setIcon(this.hovericon);
@@ -573,7 +575,7 @@ function setInputsForLocation(location, gps) {
 	google.maps.event.clearInstanceListeners(map);
 	$("#locationName").val(location.locationName);
 	$("#locationGPS").val(location.gps);
-	if (location.boundary != null && location.boundary.length > 13)
+	if (location.boundary != null && location.boundary.length > 16)
 		$("#boundary").val(getArrayBoundary(location.boundary));
 	if (location.boundary == null) {
 		$("#tempBoundaryColors").val("1E90FF,1E90FF");
@@ -590,7 +592,6 @@ function setInputsForLocation(location, gps) {
 	$("#locationDescription").val(location.description);
 	$("#locationThumbnail").val(location.icon);
 	$("#locationTypeLabel").val(location.locationType.locationType);
-	$("#locationBoundary").html(location.boundary);
 	var icn = location.icon;
 	if (icn != null && icn.length > 5)
 		$("#editIconIcon").attr("src", location.icon);

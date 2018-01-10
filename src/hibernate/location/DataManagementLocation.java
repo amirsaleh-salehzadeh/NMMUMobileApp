@@ -328,30 +328,72 @@ public class DataManagementLocation extends BaseHibernateDAO {
 		// updateAllDistances();
 
 		// updateAllDescriptions();
-		removeUnwantedIntersections();
+		daomng.removeUnwantedIntersections();
 	}
 
-	private static void removeUnwantedIntersections() {
+	private void removeUnwantedIntersections() {
 		LocationDAO dao = new LocationDAO();
 		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", null,
 				null);
 		PathDAO pdao = new PathDAO();
-		for (int i = 0; i < ents.size(); i++) {
-			LocationENT l = ents.get(i);
-			for (int j = 0; j < l.getEntrances().size(); j++) {
-				ArrayList<PathENT> pz = pdao.getAllPathsForOnePoint(l
-						.getEntrances().get(j).getEntranceId(), 1);
-				
-				if (pz.size() == 0 && !l.getEntrances().get(j).isEntranceIntersection()) {
-					System.out.println(l.getLocationName() + " "
-							+ l.getEntrances().get(j).getEntranceId() + " ");
-					try {
-						dao.deleteEntrance(l.getEntrances().get(j), null);
-					} catch (AMSException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+		Connection conn = null;
+		try {
+			conn = getConnection();
+		} catch (AMSException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			conn.setAutoCommit(false);
+			for (int i = 0; i < ents.size(); i++) {
+				LocationENT l = ents.get(i);
+				for (int j = 0; j < l.getEntrances().size(); j++) {
+					if (!l.getEntrances().get(j).isEntranceIntersection()) {
+						ArrayList<PathENT> pz = pdao.getAllPathsForOnePoint(l
+								.getEntrances().get(j).getEntranceId(), 1);
+						if (pz.size() == 0) {
+							System.out.println(l.getLocationName() + " "
+									+ l.getEntrances().get(j).getEntranceId()
+									+ " ");
+							try {
+								dao.deleteEntrance(l.getEntrances().get(j),
+										conn);
+							} catch (AMSException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						if (pz.size() == 1) {
+							System.out.println(l.getLocationName() + " "
+									+ l.getEntrances().get(j).getEntranceId()
+									+ " ");
+							pdao.deletePath(pz.get(0), conn);
+							dao.deleteEntrance(l.getEntrances().get(j), conn);
+						}
+
 					}
 				}
+			}
+			conn.commit();
+			conn.close();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+				conn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} catch (AMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				conn.rollback();
+				conn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 	}

@@ -42,8 +42,9 @@ function createAPointOnAnExistingPath(path, destinationGPS, polyline) {
 			for ( var i = 0; i < paths.length; i++) {
 				if (paths[i] != null && paths[i].id == path.pathId) {
 					paths[i].setMap(null);
-					paths[i] = null;
 					paths.splice(i, 1);
+					pathCreateNewPolygons[i].setMap(null);
+					pathCreateNewPolygons.splice(i, 1);
 				}
 			}
 			toast("Successful");

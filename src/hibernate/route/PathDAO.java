@@ -425,6 +425,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			ps = conn.prepareStatement(query);
 			ps.setLong(1, ent.getPathId());
 			ps.executeUpdate();
+//			checkForExtraIntersection(ent.getPathId());
 			ps.close();
 			if (isNewCon) {
 				conn.commit();

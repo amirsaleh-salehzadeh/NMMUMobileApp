@@ -6,24 +6,12 @@ function cancelCreatingNew() {
 	$("#locationEditMenu").unbind("popupafterclose");
 	hideLocationInfo();
 	hidePathInfo();
-	if (tmpCreateNewlocation != null) {
-		tmpCreateNewlocation.setMap(null);
-		tmpCreateNewlocation = null;
-	}
-	if (selectedShape != null
-			&& ($("#locationEditMenu").val() != "0" || $("#locationEditMenu")
-					.val().length <= "0")) {
-		selectedShape.setMap(null);
-		selectedShape = null;
-	}
 	map.setOptions({
 		draggableCursor : 'default'
 	});
 	$("#actionBar").css("display", "none");
 	$("#map_canvas").unbind('mousemove');
 	$(".locationFields").val("");
-	removeDrawingMode();
-	cancelADrawnPath();
 	clearActionBarLabel();
 }
 
@@ -33,7 +21,6 @@ function createNew(seq) {
 	var mapOptions = {
 		draggableCursor : "default"
 	};
-	hidePathInfo();
 	$("#map_canvas").unbind('mousemove');
 	if ($("#locationName").val().length > 0)
 		$("#locationLabel").val($("#locationName").val());
@@ -41,7 +28,6 @@ function createNew(seq) {
 		$("#locationInfoDescriptionLabel").val($("#locationDescription").val());
 	if ($('[name="optionType"] :radio:checked').val() != "marker") {
 		$(".pahtFields").val("");
-		// openPathTypePopup();
 		$("#actionBarButtonGroup").css("display", "none").trigger("create");
 		$("#actionBarTitle").html("Create a Path");
 		$("#actionBarMessage").html("Select the Departure");

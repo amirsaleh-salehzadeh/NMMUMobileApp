@@ -45,7 +45,7 @@
 			});
 	$(window).bind('load', function() {
 		getAllMarkers("<%=request.getAttribute("userLocationIds")%>", true);
-// 		$("#parentLocationId").val("360");
+		$("#parentLocationId").val("360");
 // 		hideLocationInfo();
 		getAllLocationTypes();
 		setPathTypeButtonIcon();
@@ -270,7 +270,7 @@
 			class="editInfo" href="#" onclick="openEditBoundaryPopup();"><img
 				alt="" src="images/icons/polygon.png">Boundary</a></li>
 		<li data-icon="false" id="editBoundaryMenuItem"><a
-			class="editInfo" href="#" onclick="openEditBoundaryPopup();"><img
+			class="editInfo" href="#" onclick="toast('UNDER CUNSTRUCTION');"><img
 				alt="" src="images/icons/pathType/elevator.png">Level</a></li>
 		<li data-icon="false" id="editBoundaryMenuItem"><a
 			class="editInfo" href="#" onclick="editEntrance();"><img
@@ -441,7 +441,7 @@
 	data-dismissible="false">
 	<a href="#" data-role="button" data-icon="delete" data-iconpos="notext"
 		class="ui-btn-right closeMessageButtonIcon"
-		onclick="closeAMenuPopup();$('#locationSaveCancelPanel').css('display','none');hideLocationInfo();">Cancel</a>
+		onclick="hideLocationInfo();">Cancel</a>
 	<!-- 	<div class="ams"> -->
 	<!-- 		<img src='images/icons/cursor-pointer.png' -->
 	<!-- 			class="pathMenu showLabelMouseOverTrue" width="48" height="48" -->
@@ -538,8 +538,8 @@
 			id="locationTypeLabelFooter" value="0" readonly>
 	</div>
 	<div class="ui-block-e">
-		<label for="locationBoundary">Boundary</label> <span
-			id="locationBoundary"></span>
+		<label for="locationAera">Boundary</label> <span
+			id="locationAera"></span>
 	</div>
 </div>
 

@@ -96,9 +96,9 @@ function drawApath(l) {
 		paths : measurePolygonForAPath(pathCoorPolygon, l.width),
 		strokeColor : "#000000",
 		strokeWeight : 1,
-		fillColor : "#FFFFFF",
-		customInfo : l.width + ";" + l.pathType,
-		zIndex : 2
+		fillOpacity : .66,
+		fillColor : "#CCCCCC",
+		zIndex : 666
 	});
 
 	var pathPolyline = new google.maps.Polyline({
@@ -128,7 +128,7 @@ function drawApath(l) {
 
 	paths.push(polygon);
 	polyTMP.addListener('click', function(event) {
-		if(!newPathInProgress)
+		if (!newPathInProgress || $("#departureId").val().length == 0)
 			return;
 		var lat = event.latLng.lat();
 		var lng = event.latLng.lng();
@@ -141,7 +141,7 @@ function drawApath(l) {
 		}
 	});
 	polyTMP.addListener('mousemove', function(event) {
-		if(!newPathInProgress)
+		if (!newPathInProgress || $("#departureId").val().length == 0)
 			return;
 		if ($('#destination').val().length <= 0
 				&& $('#departure').val().length > 0) {
@@ -152,7 +152,7 @@ function drawApath(l) {
 				lat : parseFloat(lat),
 				lng : parseFloat(lng)
 			};
-			if (tmpIntersectionMarker == undefined)
+			if (tmpIntersectionMarker == null)
 				tmpIntersectionMarker = new google.maps.Marker({
 					map : map,
 					icon : {
@@ -161,11 +161,8 @@ function drawApath(l) {
 						color : '#FFFFFF',
 						fillOpacity : 1
 					},
-					labelStyle : {
-						opacity : 1.0
-					},
 					position : pos,
-					zIndex : 777,
+					zIndex : 778,
 					title : "Create New Intersetion"
 				});
 			else
@@ -173,7 +170,7 @@ function drawApath(l) {
 		}
 	});
 	polyTMP.addListener('mouseover', function(event) {
-		if(!newPathInProgress)
+		if (!newPathInProgress || $("#departureId").val().length == 0)
 			return;
 		if ($('#destination').val().length <= 0
 				&& $('#departure').val().length > 0) {
@@ -184,7 +181,7 @@ function drawApath(l) {
 				lat : parseFloat(lat),
 				lng : parseFloat(lng)
 			};
-			if (tmpIntersectionMarker == undefined)
+			if (tmpIntersectionMarker == null)
 				tmpIntersectionMarker = new google.maps.Marker({
 					map : map,
 					icon : {
@@ -193,11 +190,8 @@ function drawApath(l) {
 						color : '#FFFFFF',
 						fillOpacity : 1
 					},
-					labelStyle : {
-						opacity : 1.0
-					},
 					position : pos,
-					zIndex : 1666,
+					zIndex : 778,
 					title : "Create New Intersetion"
 				});
 			else
@@ -224,7 +218,7 @@ function drawApath(l) {
 
 $(document).keyup(function(e) {
 	if (e.keyCode == 27) {
-		 cancelCreatingNew();
+		cancelCreatingNew();
 	} else if (e.keyCode == 46) {
 		removePath();
 	}
@@ -269,7 +263,7 @@ function updateMovingLine(event) {
 			strokeColor : "#00FF00",
 			strokeWeight : 1,
 			fillColor : "#282B1C",
-			zIndex : 0,
+			zIndex : 10,
 			map : map
 		});
 		google.maps.event.addListener(movingLine, "click", function(event) {
@@ -324,37 +318,6 @@ function updateConstantLine() {
 	pathPolylineConstant.setMap(map);
 }
 
-function cancelADrawnPath() {
-	google.maps.event.clearInstanceListeners(map);
-	if (movingLine != undefined) {
-		movingLine.setMap(null);
-		movingLine = undefined;
-	}
-	if (pathPolylineConstant != undefined) {
-		pathPolylineConstant.setMap(null);
-		pathPolylineConstant = undefined;
-	}
-	// $("#departure").val("");
-	// $("#departureId").val("");
-	// $("#destination").val("");
-	// $("#destinationId").val("");
-	// $("#destinationGPS").val("");
-	// $("#departureGPS").val("");
-	// $("#locationId").val("");
-	// $("#pathId").val("");
-	// $("#pathLatLng").val("");
-	// $("#pathTypeIds").val("");
-	$(".pahtFields").val("");
-	for ( var int = 0; int < pathCreateNewPolygons.length; int++) {
-		if (pathCreateNewPolygons[int] != null)
-			pathCreateNewPolygons[int].setMap(null);
-	}
-	for ( var int = 0; int < paths.length; int++) {
-		if (paths[int] != null)
-			paths[int].setMap(map);
-	}
-}
-
 // DRAW A TEMPORARY PATH WITH JOINTS
 function addAPathInnerConnection(event) {
 	var lat = event.latLng.lat();
@@ -364,8 +327,8 @@ function addAPathInnerConnection(event) {
 	else
 		$("#pathLatLng").val(lat + "," + lng);
 	updateConstantLine();
-	var bounds = new google.maps.LatLngBounds();
-	bounds.extend(marker.getPosition());
+	// var bounds = new google.maps.LatLngBounds();
+	// bounds.extend(marker.getPosition());
 	mapDrawingClickCounter++;
 }
 

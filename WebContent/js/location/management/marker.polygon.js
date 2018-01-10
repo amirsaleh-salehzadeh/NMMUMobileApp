@@ -53,12 +53,11 @@ function createDrawingManager() {
 					setBoundaryBorderColour("#1E90FF");
 					$("#tempBoundaryColors").val("1E90FF,1E90FF");
 				} else {
-					setBoundaryFillColour(getFillColourValue);
-					setBoundaryBorderColour(getBorderColourValue);
+					setBoundaryFillColour(getFillColourValue());
+					setBoundaryBorderColour(getBorderColourValue());
 				}
 				removeDrawingMode();
 			});
-
 	drawingManager.setDrawingMode(null);
 }
 
@@ -66,7 +65,8 @@ function drawPolygons(location) {
 	var arrayBoundary = getArrayBoundary(location.boundary).split("_");
 	var CoordinatesArray = new Array();
 	for ( var i = 0; i < arrayBoundary.length; i++) {
-		CoordinatesArray.push(new google.maps.LatLng(arrayBoundary[i].split(",")[0], arrayBoundary[i].split(",")[1]));
+		CoordinatesArray.push(new google.maps.LatLng(arrayBoundary[i]
+				.split(",")[0], arrayBoundary[i].split(",")[1]));
 	}
 	var boundaryColour = getBoundaryColour(location.boundary);
 	var FillColour;
@@ -87,11 +87,13 @@ function drawPolygons(location) {
 		title : location.locationName + " "
 				+ location.locationType.locationType
 	});
-	CoordinatesArray.push(new google.maps.LatLng(arrayBoundary[0].split(",")[0], arrayBoundary[0].split(",")[1]));
+	CoordinatesArray.push(new google.maps.LatLng(
+			arrayBoundary[0].split(",")[0], arrayBoundary[0].split(",")[1]));
 	var editPolygon = new google.maps.Polyline({
 		path : CoordinatesArray,
 		strokeOpacity : 1,
-		strokeColor : "#000000",
+		strokeColor : "#FF0000",
+		fillColor : "#FF0000",
 		strokeWeight : 2,
 		title : location.locationName + " "
 				+ location.locationType.locationType
@@ -108,6 +110,9 @@ function drawPolygons(location) {
 		showLocationInfo();
 		selectedShape = this;
 		this.setMap(map);
+		$("#locationAera").html(
+				google.maps.geometry.spherical.computeArea(DRAWPolygon
+						.getPath()));
 		setInputsForLocation(location, location.gps);
 		for ( var int = 0; int < polygons.length; int++) {
 			if (polygons[int].id != $("#locationId").val())
@@ -194,18 +199,22 @@ function showHideColors() {
 }
 
 function deletePolygon() {
-	if (confirm("are u sure u want to delete this polygon?")) {
-		var id = $("#locationId").val();
-		for ( var i = 0; i < polygons.length; i++) {
-			if (polygons[i].id == id) {
-				polygons[i].setMap(null);
-				polygons.splice(i, 1);
-				$('#locationEditMenu').popup('close');
-				return;
-			}
+	$("#popupConfirmation_confirmBTN").attr("onclick", "removePolygonFn()");
+	showPopupConfirmation('Are you sure you want to remove the boundary?');
+}
+var removePolygonFn = function() {
+	var id = $("#locationId").val();
+	for ( var i = 0; i < polygons.length; i++) {
+		if (polygons[i].id == id) {
+			$("#boundary").val("");
+			polygons[i].setMap(null);
+			polygons.splice(i, 1);
+			saveLocation();
+			hideLocationInfo();
+			return;
 		}
 	}
-}
+};
 
 function setMapOnAllPolygons(value) {
 	for ( var i = 0; i < polygons.length; i++) {
@@ -235,13 +244,19 @@ function editPolygon() {
 		selectedShape.setEditable(true);
 	}
 	closeAMenuPopup();
-}
-
-function deleteSelectedShape() {
-	if (confirm("Are you sure you want to delete this polygon?")) {
-		selectedShape.setMap(null);
-		$("#boundary").val("");
-	}
+	// if ($("#locationId").val().length >= 0) {
+	$("#locationSaveCancelPanel").css("display", "inline-block").trigger(
+			"create");
+	$("#locationSaveCancelPanel").css(
+			"top",
+			parseInt(parseInt($(".jqm-header").height())
+					+ parseInt($("#locPathModeRadiobtn").height()) + 3));
+	$("#locationSaveCancelPanel").css(
+			"left",
+			parseInt(parseInt($(window).width() / 2)
+					- parseInt($("#locationSaveCancelPanel").width() / 2)))
+			.trigger("create");
+	// }
 }
 
 function createColorPicker() {

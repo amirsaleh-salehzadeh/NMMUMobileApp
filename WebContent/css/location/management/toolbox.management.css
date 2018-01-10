@@ -3,7 +3,6 @@
 /* 	z-index: 120; */
 /* 	background-color: rgba(8, 27, 44, .7) !important; */
 /* } */
-
 #actionBar {
 	position: absolute;
 	display: none;
@@ -68,14 +67,14 @@
 	bottom: 0;
 	background-color: rgba(8, 27, 44, .7) !important;
 	right: 0 !important;
-/* 	left: 0 !important; */
+	/* 	left: 0 !important; */
 	margin: 0 !important;
 	z-index: 166 !important;
 	position: absolute !important;
 	color: rgb(248, 182, 36) !important;
 	text-shadow: none;
 	text-align: center;
-		display: none;
+	display: none;
 }
 
 .pathManagementInfoFooter>div>label {
@@ -99,7 +98,6 @@
 /* 	border: solid 1px; */
 /* 	padding: 2px; */
 /* } */
-
 #createNewButton,#searchButton {
 	color: rgb(248, 182, 36) !important;
 	background-color: transparent !important;

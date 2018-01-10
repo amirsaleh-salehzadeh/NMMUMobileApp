@@ -138,7 +138,7 @@ function getLocationTypeImage(locationTypeId) {
 }
 
 function locationEditPanelOpen(title, info) {
-	if ($("#boundary").val().length > 13) {
+	if ($("#boundary").val().length > 16) {
 		$("#addBoundaryMenuItem").css("display", "none").trigger("create");
 		$("#editBoundaryMenuItem").css("display", "block").trigger("create");
 	} else {
@@ -216,6 +216,7 @@ function closeAMenuPopup() {
 		draggableCursor : 'default'
 	});
 	$("#map_canvas").unbind('mousemove');
+	$('#locationSaveCancelPanel').css('display', 'none');
 }
 
 function openIconPopup() {
@@ -232,21 +233,20 @@ function openIconPopup() {
 }
 
 function openEditBoundaryPopup() {
-	$("#locationSaveCancelPanel").css("display", "inline-block").trigger(
-			"create");
-	$("#locationSaveCancelPanel").css(
-			"top",
-			parseInt(parseInt($(".jqm-header").height())
-					+ parseInt($("#locPathModeRadiobtn").height()) + 3))
-			.trigger("create");
-	$("#locationSaveCancelPanel").css(
-			"left",
-			parseInt(parseInt($(window).width() / 2)
-					- parseInt($("#locationSaveCancelPanel").width() / 2)))
-			.trigger("create");
-	if ($("#boundary").val() <= 0) {
+	if ($("#boundary").val().length <= 16) {
 		startDrawingMode();
 		$("#locationEditMenu").popup("close");
+		$("#locationSaveCancelPanel").css("display", "inline-block").trigger(
+				"create");
+		$("#locationSaveCancelPanel").css(
+				"top",
+				parseInt(parseInt($(".jqm-header").height())
+						+ parseInt($("#locPathModeRadiobtn").height()) + 3));
+		$("#locationSaveCancelPanel").css(
+				"left",
+				parseInt(parseInt($(window).width() / 2)
+						- parseInt($("#locationSaveCancelPanel").width() / 2)))
+				.trigger("create");
 		return;
 	}
 
@@ -318,8 +318,8 @@ function editEntrance() {
 			$("#locationGPS").val(
 					entranceMarker.getPosition().lat() + ","
 							+ entranceMarker.getPosition().lng());
-
-			$("#parentLocationId").val($("#locationId").val());
+			if ($("#locationId").val().length > 0)
+				$("#parentLocationId").val($("#locationId").val());
 			$("#isEntranceIntersection").val("true");
 			saveEntrance(0);
 		} else {
@@ -332,7 +332,8 @@ function editEntrance() {
 					entranceMarker.getPosition().lat() + ","
 							+ entranceMarker.getPosition().lng());
 			$("#isEntranceIntersection").val("true");
-			$("#parentLocationId").val($("#locationId").val());
+			if ($("#locationId").val().length > 0)
+				$("#parentLocationId").val($("#locationId").val());
 			saveEntrance(0);
 		} else {
 			return;
@@ -369,8 +370,11 @@ function hideLocationInfo() {
 	$("#locationInfoDescriptionLabel").val("");
 	$("#locationThumbnail").val("");
 	$("#locationTypeLabelFooter").val("");
-	$("#locationBoundary").html("");
+	$("#locationAera").html("");
 	$("#locationLabel").val("");
+	closeAMenuPopup();
+	removeDrawingMode();
+	$('#locationSaveCancelPanel').css('display', 'none');
 	for ( var i = 0; i < polygons.length; i++) {
 		polygons[i].setEditable(false);
 		polygons[i].setMap(map);
@@ -378,7 +382,16 @@ function hideLocationInfo() {
 	for ( var int = 0; int < polygonsEdit.length; int++) {
 		polygonsEdit[int].setMap(null);
 	}
-	removeDrawingMode();
+	if (tmpCreateNewlocation != null) {
+		tmpCreateNewlocation.setMap(null);
+		tmpCreateNewlocation = null;
+	}
+	if (selectedShape != null
+			&& ($("#locationEditMenu").val() != "0" || $("#locationEditMenu")
+					.val().length <= "0")) {
+		selectedShape.setMap(null);
+		selectedShape = null;
+	}
 }
 
 function openPathEditPanel() {
@@ -393,6 +406,7 @@ function openPathEditPanel() {
 			$(window).width() - $("#pathEditMenu").width());
 	$("#map_canvas").css("right", "0px").trigger("create");
 	google.maps.event.trigger(map, "resize");
+	openPathTypePopup();
 	showPathInfo();
 }
 
@@ -462,7 +476,21 @@ function hidePathInfo() {
 	$("#map_canvas").css("left", "0px");
 	closePathTypePopup();
 	$("#actionBar").css("display", "none");
-	cancelADrawnPath();
+	google.maps.event.clearInstanceListeners(map);
+	if (movingLine != undefined) {
+		movingLine.setMap(null);
+		movingLine = undefined;
+	}
+	if (pathPolylineConstant != undefined) {
+		pathPolylineConstant.setMap(null);
+		pathPolylineConstant = undefined;
+	}
+	removeDrawingMode();
+	$(".pahtFields").val("");
+	for ( var int = 0; int < pathCreateNewPolygons.length; int++) {
+		if (pathCreateNewPolygons[int] != null)
+			pathCreateNewPolygons[int].setMap(null);
+	}
 }
 
 function openPathInfoPopup() {

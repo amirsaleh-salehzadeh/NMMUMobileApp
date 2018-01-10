@@ -84,6 +84,8 @@ function saveThePath() {
 				if (paths[i].id == data.pathId) {
 					paths[i].setMap(null);
 					paths.splice(i, 1);
+					pathCreateNewPolygons[i].setMap(null);
+					pathCreateNewPolygons.splice(i, 1);
 				}
 			}
 			drawApath(data);
@@ -102,11 +104,15 @@ function saveThePath() {
 					+ thrownError);
 		}
 	});
-	cancelADrawnPath();
+	hidePathInfo();
 }
 
 // REMOVE A PATH
 function removePath() {
+	if ($("#pathId").val().length <= 0) {
+		alert("please select a path");
+		return;
+	}
 	if ($("#pathId").val().length <= 0) {
 		alert("please select a path");
 		return;
@@ -134,7 +140,7 @@ var removePathFn = function() {
 			paths.splice(i, 1);
 			pathCreateNewPolygons.splice(i, 1);
 			toast("remove successful");
-			cancelADrawnPath();
+			hidePathInfo();
 		},
 		complete : function() {
 			HideLoadingScreen();

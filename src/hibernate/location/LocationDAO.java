@@ -129,22 +129,35 @@ public class LocationDAO extends BaseHibernateDAO implements
 	}
 
 	public boolean deleteLocation(LocationENT ent) throws AMSException {
+		Connection conn = null;
 		try {
-			Connection conn = null;
-			try {
-				conn = getConnection();
-			} catch (AMSException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			conn = getConnection();
+			conn.setAutoCommit(false);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			LocationENT l = getLocationENT(ent, conn);
+			for (int i = 0; i < l.getEntrances().size(); i++) {
+				deleteEntrance(l.getEntrances().get(i), conn);
 			}
 			String query = "delete from location where location_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setLong(1, ent.getLocationID());
 			ps.execute();
 			ps.close();
+			conn.commit();
 			conn.close();
 			return true;
 		} catch (SQLException e) {
+			try {
+				if (conn != null) {
+					conn.rollback();
+					conn.close();
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 			throw getAMSException("", e);
 		}
