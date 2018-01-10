@@ -1,7 +1,6 @@
 var tmpCreateNewlocation;
 var newPathInProgress;
 function cancelCreatingNew() {
-	newPathInProgress = false;
 	$('.menuItemPopupClass').popup('close');
 	$("#locationEditMenu").unbind("popupafterclose");
 	hideLocationInfo();

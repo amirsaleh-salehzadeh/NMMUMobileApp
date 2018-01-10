@@ -9,16 +9,19 @@ function setMapOnAllPolylines(value) {
 
 var tmpModifiedPathPolygon;
 function changePathWith(slider) {
-	if ($("#pathId").val() == 0 || $("#pathId").val().length <= 0)
-		return;
 	var pathRouteTMP;
-	var index = -1;
-	for ( var i = 0; i < pathPolylines.length; i++) {
-		if (pathPolylines[i].id == $("#pathId").val()) {
-			pathRouteTMP = pathPolylines[i].getPath();
-			index = i;
+	if (movingLine != null)
+		return;
+	if (($("#pathId").val() == 0 || $("#pathId").val().length <= 0)
+			&& pathPolylineConstant != null) {
+		pathRouteTMP = pathPolylineConstant.getPath();
+		// return;
+	} else
+		for ( var i = 0; i < pathPolylines.length; i++) {
+			if (pathPolylines[i].id == $("#pathId").val()) {
+				pathRouteTMP = pathPolylines[i].getPath();
+			}
 		}
-	}
 	var pathCoorPolygon = [];
 	for ( var i = 0; i < pathRouteTMP.getArray().length; i++) {
 		pathCoorPolygon.push([ parseFloat(pathRouteTMP.getArray()[i].lng()),
@@ -143,8 +146,8 @@ function drawApath(l) {
 	polyTMP.addListener('mousemove', function(event) {
 		if (!newPathInProgress || $("#departureId").val().length == 0)
 			return;
-		if ($('#destination').val().length <= 0
-				&& $('#departure').val().length > 0) {
+		if ($('#destinationId').val().length <= 0
+				&& $('#departureId').val().length > 0) {
 			updateMovingLine(event);
 			var lat = event.latLng.lat();
 			var lng = event.latLng.lng();
@@ -172,8 +175,8 @@ function drawApath(l) {
 	polyTMP.addListener('mouseover', function(event) {
 		if (!newPathInProgress || $("#departureId").val().length == 0)
 			return;
-		if ($('#destination').val().length <= 0
-				&& $('#departure').val().length > 0) {
+		if ($('#destinationId').val().length <= 0
+				&& $('#departureId').val().length > 0) {
 			updateMovingLine(event);
 			var lat = event.latLng.lat();
 			var lng = event.latLng.lng();
@@ -207,7 +210,7 @@ function drawApath(l) {
 		}
 	});
 	polyTMP.addListener('mouseout', function(event) {
-		if (tmpIntersectionMarker != undefined) {
+		if (tmpIntersectionMarker != null) {
 			tmpIntersectionMarker.setMap(null);
 			tmpIntersectionMarker = null;
 		}

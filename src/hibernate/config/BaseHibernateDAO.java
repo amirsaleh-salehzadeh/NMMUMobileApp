@@ -25,10 +25,10 @@ public class BaseHibernateDAO {
 
 	//	LIVE SERVER NEVER USE IT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //	>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-//	private static final String DBADDRESS = "jdbc:mysql://lnxsql-sc1.nmmu.ac.za:3306/findmedb?characterEncoding=utf8";
-//	private static final String DBDRIVER = "com.mysql.jdbc.Driver";
-//	private static final String USERNAME = "findmeuser";
-//	private static final String PASSWORD = "findM32017*&";
+//	protected static final String DBADDRESS = "jdbc:mysql://lnxsql-sc1.nmmu.ac.za:3306/findmedb?characterEncoding=utf8";
+//	protected static final String DBDRIVER = "com.mysql.jdbc.Driver";
+//	protected static final String USERNAME = "findmeuser";
+//	protected static final String PASSWORD = "findM32017*&";
 //	LIVE SERVER NEVER USE IT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 //	>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

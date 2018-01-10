@@ -415,6 +415,36 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 				} catch (AMSException e) {
 					e.printStackTrace();
 				}
+//			ent = getAPath(ent, conn);
+//			LocationDAO dao = new LocationDAO();
+//			long depId = ent.getDeparture().getEntrances().get(0)
+//					.getEntranceId();
+//			long desId = ent.getDestination().getEntrances().get(0)
+//					.getEntranceId();
+//			ArrayList<PathENT> pz = getAllPathsForOnePoint(depId, 1);
+//			if (pz.size() == 0) {
+//				try {
+//					dao.deleteEntrance(new EntranceIntersectionENT(depId), conn);
+//				} catch (AMSException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//			if (pz.size() == 1) {
+//				deletePath(pz.get(0), conn);
+//				dao.deleteEntrance(new EntranceIntersectionENT(depId), conn);
+//			}
+//			pz = getAllPathsForOnePoint(desId, 1);
+//			if (pz.size() == 0) {
+//				try {
+//					dao.deleteEntrance(new EntranceIntersectionENT(desId), conn);
+//				} catch (AMSException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//			if (pz.size() == 1) {
+//				deletePath(pz.get(0), conn);
+//				dao.deleteEntrance(new EntranceIntersectionENT(desId), conn);
+//			}
 			String query = "";
 			query = "delete from path_path_type where path_id = "
 					+ ent.getPathId();
@@ -425,7 +455,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			ps = conn.prepareStatement(query);
 			ps.setLong(1, ent.getPathId());
 			ps.executeUpdate();
-//			checkForExtraIntersection(ent.getPathId());
+			// checkForExtraIntersection(ent.getPathId());
 			ps.close();
 			if (isNewCon) {
 				conn.commit();
@@ -836,7 +866,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 					newPathRoute));
 			path = savePath(path, conn);
 			res.add(getAPath(new PathENT(path.getPathId()), conn));
-			
+
 			path = new PathENT();
 			path = p;
 			path.setPathId(0);
@@ -880,6 +910,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
+			return new ArrayList<PathENT>();
 		} catch (SQLException e) {
 			try {
 				if (conn != null) {
@@ -891,6 +922,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
+			return new ArrayList<PathENT>();
 		}
 		return res;
 	}

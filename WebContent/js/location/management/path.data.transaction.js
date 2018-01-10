@@ -154,12 +154,16 @@ var removePathFn = function() {
 
 var mapDrawingClickCounter;
 function addAPath(entranceIntersection) {
-	if (entranceIntersection == null) {
-		alert("A path can only be drawn between two locations");
-		return;
-	}
 	if (!newPathInProgress)
 		return;
+	if (entranceIntersection == null) {
+		popErrorMessage("A path can only be drawn between two locations");
+		return;
+	}
+	if ($("#pathTypeIds").val().length <= 0) {
+		popErrorMessage("Select at least one path type");
+		return;
+	}
 	if ($("#departureId").val() == "") {
 		mapDrawingClickCounter = 1;
 		$("#departure").val(entranceIntersection.description);
@@ -184,12 +188,12 @@ function addAPath(entranceIntersection) {
 			movingLine = undefined;
 		}
 		updateConstantLine();
-		$(".pathTypeIcon").each(function() {
-			if ($(this).hasClass("pathTypeIconSelected")) {
-				$(this).removeClass("pathTypeIconSelected");
-			}
-			$(this).trigger("create");
-		});
+//		$(".pathTypeIcon").each(function() {
+//			if ($(this).hasClass("pathTypeIconSelected")) {
+//				$(this).removeClass("pathTypeIconSelected");
+//			}
+//			$(this).trigger("create");
+//		});
 		$("#mainBodyContents").trigger('create');
 		$("#actionBarMessage").html("Place set the path types");
 		$("#actionBarNextButton").attr("onclick", "createNew(1)").trigger(

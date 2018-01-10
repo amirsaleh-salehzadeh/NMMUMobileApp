@@ -13,7 +13,6 @@ function getPathTypeColorCode(pathTypeIds) {
 		return "#FF5733";
 }
 
-
 function setPathTypeButtonIcon() {
 	$(".pathTypeIcon").each(function() {
 		var pathTypeId = $(this).attr("alt");

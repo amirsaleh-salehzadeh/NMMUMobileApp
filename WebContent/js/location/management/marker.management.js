@@ -283,7 +283,7 @@ function addMarker(l) {
 		originalicon : refreshMap(l.locationType.locationTypeId, l.gps,
 				"normal"),
 		draggable : true,
-		zIndex : 1667,
+		zIndex : 1777,
 		// map : map,
 		title : l.locationName + " " + l.locationType.locationType
 	});

@@ -458,6 +458,7 @@ function showPathInfo() {
 }
 
 function hidePathInfo() {
+	newPathInProgress = false;
 	if (paths != null) {
 		for ( var i = 0; i < paths.length; i++) {
 			if (paths[i] != null) {

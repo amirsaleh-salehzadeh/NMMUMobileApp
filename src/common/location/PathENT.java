@@ -47,6 +47,16 @@ public class PathENT {
 
 	public void setPathTypes(ArrayList<PathTypeENT> pathTypes) {
 		this.pathTypes = pathTypes;
+		if (pathTypes == null || pathTypes.size() <= 0)
+			return;
+		StringBuilder csvBuilder = new StringBuilder();
+		for (PathTypeENT p : pathTypes) {
+			csvBuilder.append(p.getPathTypeId());
+			csvBuilder.append(",");
+		}
+		String csv = csvBuilder.toString();
+		csv = csv.substring(0, csv.length() - 1);
+		this.setPathType(csv);
 	}
 
 	public double getWidth() {
@@ -133,8 +143,8 @@ public class PathENT {
 	}
 
 	public PathENT(LocationENT departure, LocationENT destination,
-			double distance, String pathType, long pathId,
-			String pathRoute, double width, String pathName, String description) {
+			double distance, String pathType, long pathId, String pathRoute,
+			double width, String pathName, String description) {
 		super();
 		this.departure = departure;
 		this.destination = destination;
