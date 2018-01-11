@@ -210,7 +210,7 @@ var styles = [ {
 	featureType : "administrative",
 	elementType : "labels",
 	stylers : [ {
-		visibility : "on"
+		visibility : "off"
 	} ]
 }, {
 	featureType : "poi",
@@ -294,8 +294,11 @@ var styles = [ {
 	"featureType" : "landscape.man_made",
 	"elementType" : "geometry",
 	"stylers" : [ {
-		"hue" : "#ff0000"
-	} ]
+		"hue" : "#ff0000",
+		
+	} , {
+		"visibility" : "on"
+	}]
 }, {
 	"featureType" : "landscape.man_made",
 	"elementType" : "geometry.fill",

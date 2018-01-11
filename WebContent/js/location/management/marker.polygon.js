@@ -110,9 +110,17 @@ function drawPolygons(location) {
 		showLocationInfo();
 		selectedShape = this;
 		this.setMap(map);
-		$("#locationAera").html(
-				google.maps.geometry.spherical.computeArea(DRAWPolygon
-						.getPath()));
+		var area = google.maps.geometry.spherical.computeArea(DRAWPolygon
+				.getPath())
+				+ "";
+		area = area.split(".")[0];
+		var tmpArea = "";
+		for ( var int = area.length - 1; int >= 0; int--) {
+			tmpArea += area[area.length - 1 - int];
+			if (int % 3 == 0 && int != 0)
+				tmpArea += ",";
+		}
+		$("#locationAera").val(tmpArea);
 		setInputsForLocation(location, location.gps);
 		for ( var int = 0; int < polygons.length; int++) {
 			if (polygons[int].id != $("#locationId").val())

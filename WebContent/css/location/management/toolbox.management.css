@@ -258,12 +258,16 @@ input[name="radio-choice"] {
 	background-color: transparent;
 	font-size: 12pt;
 	color: rgb(248, 182, 36);
+	margin: 2;
 }
 
 ul#infoListView {
 	list-style-type: none;
 	overflow: hidden;
 	margin: 0em !important;
+/* 	position: absolute !; */
+/* 	top: 1; */
+/* 	left: 1; */
 }
 
 ul#infoListView li {

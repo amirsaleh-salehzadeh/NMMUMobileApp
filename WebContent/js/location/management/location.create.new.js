@@ -168,11 +168,12 @@ function setAPointOnMap() {
 			google.maps.event.clearInstanceListeners(map);
 			toast("The property location is set");
 			createNew(2);
-		} else {
-			tmpCreateNewlocation.setMap(null);
-			tmpCreateNewlocation = null;
-			return;
-		}
+		} 
+//		else {
+//			tmpCreateNewlocation.setMap(null);
+//			tmpCreateNewlocation = null;
+//			return;
+//		}
 	};
 	google.maps.event.addListener(map, "click", mapClickListener);
 }

@@ -18,9 +18,9 @@ var removeLocationFn = function() {
 			ShowLoadingScreen(loadingContent);
 		},
 		success : function(data) {
-			if (data.errorMSG != null) {
-				alert(data.errorMSG);
-			}
+//			if (data.errorMSG != null) {
+//				alert(data.errorMSG);
+//			}
 			var id = $("#locationId").val();
 			for ( var i = 0; i < polygons.length; i++) {
 				if (polygons[i].id == id) {
@@ -135,6 +135,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 		setMapOnAllPathMarkers(null);
 		setMapOnAllMarkers(map);
 		$("input[name='radio-choice']").checkboxradio('enable');
+		hideLocationInfo();
 		return;
 	}
 	var url = "REST/GetLocationWS/GetAllLocationsForUser?parentLocationId="
@@ -173,7 +174,8 @@ function getAllMarkers(parentId, refreshMarkers) {
 				complete : function() {
 					HideLoadingScreen();
 					$("input[name='radio-choice']").checkboxradio('enable');
-					$(".locationFields").val("");
+//					$(".locationFields").val("");
+					hideLocationInfo();
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 					$("input[name='radio-choice']").checkboxradio('enable');

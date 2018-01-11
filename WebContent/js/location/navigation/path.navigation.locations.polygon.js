@@ -10,8 +10,8 @@ function drawPolygons(location) {
 	// var FillColour;
 	// var BorderColour;
 	// if (boundaryColour == "") {
-	var FillColour = "#1E90FF";
-	var BorderColour = "#1E90FF";
+	var FillColour = "#F8B624";
+	var BorderColour = "#081B2C";
 	// } else {
 	// var FillColour = '#' + boundaryColour[0];
 	// var BorderColour = '#' + boundaryColour[1];
@@ -21,7 +21,8 @@ function drawPolygons(location) {
 		paths : CoordinatesArray,
 		strokeColor : BorderColour,
 		strokeWeight : 1,
-		fillColor : 'transparent',
+		fillColor : FillColour,
+		fillOpacity: .2,
 		title : location.locationName + " "
 				+ location.locationType.locationType,
 		map : map

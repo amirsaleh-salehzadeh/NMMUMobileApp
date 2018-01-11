@@ -375,13 +375,6 @@ function hideLocationInfo() {
 	closeAMenuPopup();
 	removeDrawingMode();
 	$('#locationSaveCancelPanel').css('display', 'none');
-	for ( var i = 0; i < polygons.length; i++) {
-		polygons[i].setEditable(false);
-		polygons[i].setMap(map);
-	}
-	for ( var int = 0; int < polygonsEdit.length; int++) {
-		polygonsEdit[int].setMap(null);
-	}
 	if (tmpCreateNewlocation != null) {
 		tmpCreateNewlocation.setMap(null);
 		tmpCreateNewlocation = null;
@@ -392,6 +385,28 @@ function hideLocationInfo() {
 		selectedShape.setMap(null);
 		selectedShape = null;
 	}
+	for ( var i = 0; i < polygons.length; i++) {
+		polygons[i].setEditable(false);
+		polygons[i].setMap(map);
+	}
+	for ( var int = 0; int < polygonsEdit.length; int++) {
+		polygonsEdit[int].setMap(null);
+	}
+	if (tmpEntrancePolygon != null) {
+		tmpEntrancePolygon.setMap(null);
+		tmpEntrancePolygon = null;
+	}
+	if (entranceMarker != null) {
+		entranceMarker.setMap(null);
+		entranceMarker = null;
+	}
+	$('.menuItemPopupClass').popup('close');
+	$("#locationEditMenu").unbind("popupafterclose");
+	map.setOptions({
+		draggableCursor : 'default'
+	});
+	$("#map_canvas").unbind('mousemove');
+	$('#locationSaveCancelPanel').css('display', 'none');
 }
 
 function openPathEditPanel() {

@@ -538,8 +538,10 @@
 			id="locationTypeLabelFooter" value="0" readonly>
 	</div>
 	<div class="ui-block-e">
-		<label for="locationAera">Boundary</label> <span
-			id="locationAera"></span>
+		<label for="locationAera">Area (Square Meter)</label> 
+		<input
+			type="text" placeholder="Aera" name="locationAera"
+			id="locationAera" value="0" readonly>
 	</div>
 </div>
 

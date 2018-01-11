@@ -378,6 +378,11 @@ public class LocationDAO extends BaseHibernateDAO implements
 				ent.setDescription(rs.getString("description"));
 				ent.setBoundary(rs.getString("boundary"));
 				ent.setChildrenENT(getLocationENTTree(ent));
+				if(rs.getString("location_name").equalsIgnoreCase("Summerstrand")){
+					ps.close();
+					conn.close();
+					return getLocationENTTree(ent);
+				}
 				// if (rs.getInt("location_type_id") > 3)
 				// break;
 				res.add(ent);
