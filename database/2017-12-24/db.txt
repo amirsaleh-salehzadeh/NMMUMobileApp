@@ -1,5 +1,0 @@
-CREATE TABLE `nmmumobile`.`location_entrance` ( `entrance_id` BIGINT(255) NULL AUTO_INCREMENT , `parent_id` BIGINT(255) NOT NULL , `gps` VARCHAR(255) NOT NULL , `description` VARCHAR(255) NOT NULL , PRIMARY KEY (`entrance_id`), INDEX `parent_id` (`parent_id`)) ENGINE = InnoDB;
-ALTER TABLE `location_entrance` ADD FOREIGN KEY (`parent_id`) REFERENCES `nmmumobile`.`location`(`location_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-CREATE TABLE `nmmumobile`.`location_level` ( `location_level_Id` BIGINT NOT NULL AUTO_INCREMENT , `description` VARCHAR(255) NOT NULL , `parent_location_id` BIGINT NOT NULL , `plan_id` BIGINT NOT NULL , PRIMARY KEY (`location_level_Id`), INDEX (`parent_location_id`)) ENGINE = InnoDB;
-ALTER TABLE `location_level` ADD FOREIGN KEY (`parent_location_id`) REFERENCES `nmmumobile`.`location`(`location_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-ALTER TABLE `location_entrance` ADD `intersection_entrance` TINYINT NULL AFTER `description`;

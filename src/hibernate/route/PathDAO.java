@@ -189,6 +189,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 						ldao.getEntranceIntersectionENT(
 								rs.getLong("destination_location_id"), conn),
 						conn);
+				System.out.println(rs.getLong("path_id"));
 				PathENT ent = new PathENT(depl, desl, rs.getDouble("distance"),
 						rs.getString("pathtypeString"), rs.getLong("path_id"),
 						rs.getString("path_route"), rs.getDouble("width"),

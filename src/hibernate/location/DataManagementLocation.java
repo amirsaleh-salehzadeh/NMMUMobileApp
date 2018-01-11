@@ -328,7 +328,9 @@ public class DataManagementLocation extends BaseHibernateDAO {
 		// updateAllDistances();
 
 		// updateAllDescriptions();
-		daomng.removeUnwantedIntersections();
+//		daomng.removeUnwantedIntersections();
+		daomng.findNotConnectedBuildings();
+		System.out.println("done");
 	}
 
 	private void removeUnwantedIntersections() {
@@ -396,6 +398,49 @@ public class DataManagementLocation extends BaseHibernateDAO {
 				e1.printStackTrace();
 			}
 		}
+	}
+
+	
+	private void findNotConnectedBuildings() {
+		LocationDAO dao = new LocationDAO();
+		ArrayList<LocationENT> ents = dao.getAllLocationsForUser("NMMU", null,
+				null);
+		PathDAO pdao = new PathDAO();
+		Connection conn = null;
+		try {
+			conn = getConnection();
+		} catch (AMSException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			conn.setAutoCommit(false);
+			for (int i = 0; i < ents.size(); i++) {
+				LocationENT l = ents.get(i);
+				for (int j = 0; j < l.getEntrances().size(); j++) {
+					if (l.getEntrances().get(j).isEntranceIntersection()) {
+						ArrayList<PathENT> pz = pdao.getAllPathsForOnePoint(l
+								.getEntrances().get(j).getEntranceId(), 1);
+						if (pz.size() == 0) {
+							System.out.println(l.getLocationName() + " "
+									+ l.getEntrances().get(j).getEntranceId()
+									+ " ");
+						}
+					}
+				}
+			}
+			conn.commit();
+			conn.close();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+				conn.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} 
 	}
 
 	private static void updateAllDistances() {
