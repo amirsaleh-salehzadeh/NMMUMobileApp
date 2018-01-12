@@ -18,9 +18,9 @@ var removeLocationFn = function() {
 			ShowLoadingScreen(loadingContent);
 		},
 		success : function(data) {
-//			if (data.errorMSG != null) {
-//				alert(data.errorMSG);
-//			}
+			// if (data.errorMSG != null) {
+			// alert(data.errorMSG);
+			// }
 			var id = $("#locationId").val();
 			for ( var i = 0; i < polygons.length; i++) {
 				if (polygons[i].id == id) {
@@ -174,7 +174,7 @@ function getAllMarkers(parentId, refreshMarkers) {
 				complete : function() {
 					HideLoadingScreen();
 					$("input[name='radio-choice']").checkboxradio('enable');
-//					$(".locationFields").val("");
+					// $(".locationFields").val("");
 					hideLocationInfo();
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
@@ -263,17 +263,24 @@ function createMarkersOnMap(k, l) {
 }
 
 function getMarkerInfo(location) {
+	var c = 0;
 	do {
-//		if (location.parent.locationId > 0) {
-//			str += "<li onclick='getIntoALocation(\""
-//					+ location.parent.locationID + "\")'>&nbsp;> "
-//					+ location.parent.locationName + " "
-//					+ location.parent.locationType.locationType + "</li>" + str;
-//		} else
+		// if (location.parent.locationId > 0) {
+		// str += "<li onclick='getIntoALocation(\""
+		// + location.parent.locationID + "\")'>&nbsp;> "
+		// + location.parent.locationName + " "
+		// + location.parent.locationType.locationType + "</li>" + str;
+		// } else
+		if (c > 0)
 			str = "<li onclick='getAllMarkers(\"" + $("#userLocationIds").val()
 					+ "\", true)'>" + location.parent.locationName + " - </li>"
 					+ str;
+		else
+			str = "<li onclick='getAllMarkers(\"" + location.locationID
+					+ "\", true)'>" + location.parent.locationName + " - </li>"
+					+ str;
 		location = location.parent;
+		c++;
 	} while (location.parent != null);
 	$("#infoListView").html(str).trigger("create").listview("refresh");
 }
@@ -469,7 +476,7 @@ function addEntrance(l) {
 		draggable : true,
 		zIndex : 1777,
 		map : map,
-		title : l.description + l.parentId
+		title : l.description + l.entranceId
 	});
 	google.maps.event.addListener(entrance, "mouseover", function() {
 		this.setIcon(this.hovericon);

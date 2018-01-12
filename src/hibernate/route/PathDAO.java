@@ -162,9 +162,9 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		}
 		try {
 			LocationDAO ldao = new LocationDAO();
-			// String paString = ldao.getLocationENT(new LocationENT(parentId),
-			// null).getParentId()
-			// + "," + parentId;
+//			String paString = ldao.getLocationENT(new LocationENT(parentId),
+//					null).getParentId()
+//					+ "," + parentId;
 			String query = "Select p.*, pt.*, GROUP_CONCAT(ppt.path_type_id) as pathtypeString from path p "
 					// +
 					// "inner join location_entrance edep on edep.entrance_id = p.departure_location_id "
@@ -172,11 +172,13 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 					+ " left join location lf on lf.location_id = edes.parent_id "
 					+ " left join path_path_type ppt on ppt.path_id = p.path_id"
 					+ " left join path_type pt on pt.path_type_id = ppt.path_type_id"
-					+ " where lf.client_name = '" + username +
-					// + "' and lf.parent_id in ("
-					// + paString
-					// + ") " +
-					"' group by p.path_id";
+					+ " where lf.client_name = '"
+					+ username
+					+ "' " 
+//					"and lf.location_id in ("
+//					+ paString
+//					+ ") "
+					+ " group by p.path_id";
 
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
@@ -189,7 +191,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 						ldao.getEntranceIntersectionENT(
 								rs.getLong("destination_location_id"), conn),
 						conn);
-				System.out.println(rs.getLong("path_id"));
+//				System.out.println(rs.getLong("path_id"));
 				PathENT ent = new PathENT(depl, desl, rs.getDouble("distance"),
 						rs.getString("pathtypeString"), rs.getLong("path_id"),
 						rs.getString("path_route"), rs.getDouble("width"),
@@ -416,36 +418,36 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 				} catch (AMSException e) {
 					e.printStackTrace();
 				}
-//			ent = getAPath(ent, conn);
-//			LocationDAO dao = new LocationDAO();
-//			long depId = ent.getDeparture().getEntrances().get(0)
-//					.getEntranceId();
-//			long desId = ent.getDestination().getEntrances().get(0)
-//					.getEntranceId();
-//			ArrayList<PathENT> pz = getAllPathsForOnePoint(depId, 1);
-//			if (pz.size() == 0) {
-//				try {
-//					dao.deleteEntrance(new EntranceIntersectionENT(depId), conn);
-//				} catch (AMSException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			if (pz.size() == 1) {
-//				deletePath(pz.get(0), conn);
-//				dao.deleteEntrance(new EntranceIntersectionENT(depId), conn);
-//			}
-//			pz = getAllPathsForOnePoint(desId, 1);
-//			if (pz.size() == 0) {
-//				try {
-//					dao.deleteEntrance(new EntranceIntersectionENT(desId), conn);
-//				} catch (AMSException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			if (pz.size() == 1) {
-//				deletePath(pz.get(0), conn);
-//				dao.deleteEntrance(new EntranceIntersectionENT(desId), conn);
-//			}
+			// ent = getAPath(ent, conn);
+			// LocationDAO dao = new LocationDAO();
+			// long depId = ent.getDeparture().getEntrances().get(0)
+			// .getEntranceId();
+			// long desId = ent.getDestination().getEntrances().get(0)
+			// .getEntranceId();
+			// ArrayList<PathENT> pz = getAllPathsForOnePoint(depId, 1);
+			// if (pz.size() == 0) {
+			// try {
+			// dao.deleteEntrance(new EntranceIntersectionENT(depId), conn);
+			// } catch (AMSException e) {
+			// e.printStackTrace();
+			// }
+			// }
+			// if (pz.size() == 1) {
+			// deletePath(pz.get(0), conn);
+			// dao.deleteEntrance(new EntranceIntersectionENT(depId), conn);
+			// }
+			// pz = getAllPathsForOnePoint(desId, 1);
+			// if (pz.size() == 0) {
+			// try {
+			// dao.deleteEntrance(new EntranceIntersectionENT(desId), conn);
+			// } catch (AMSException e) {
+			// e.printStackTrace();
+			// }
+			// }
+			// if (pz.size() == 1) {
+			// deletePath(pz.get(0), conn);
+			// dao.deleteEntrance(new EntranceIntersectionENT(desId), conn);
+			// }
 			String query = "";
 			query = "delete from path_path_type where path_id = "
 					+ ent.getPathId();

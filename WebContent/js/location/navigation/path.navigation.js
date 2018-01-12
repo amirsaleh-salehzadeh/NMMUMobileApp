@@ -3,6 +3,7 @@ var pathPolylineConstant, pathPolylineTrack, polylineConstantLength;
 var walkingTimer, speed, speedTimer, heading, walkingWatchID, speedWatchID, altitude, isLocationAvailable;
 var distanceToNextPosition, distanceToDestination, angleToNextDestination;
 var paths = [];
+var locationPolygons = [];
 var ajaxCallSearch;
 
 function toast(msg) {
@@ -214,23 +215,33 @@ function drawConstantPolyline() {
 	// createNavigationPoints(getCookie("TripPathGPSCookie")).split("_");
 	var nextDestGPS = getCookie("TripPathGPSCookie").split("_");
 	polylineConstantLength = 0;
+	var bounds = new google.maps.LatLngBounds();
+	var pathCoorPolygon = [];
 	if (nextDestGPS.length > 1)
 		for ( var i = 0; i < nextDestGPS.length; i++) {
-			// var markerT = new google.maps.Marker({
-			// position: getGoogleMapPosition(nextDestGPS[i]),
-			// map: map,
-			// icon: {
-			// path : google.maps.SymbolPath.CIRCLE,
-			// scale : 2
-			// }
-			// });
 			if (i < nextDestGPS.length - 1)
 				polylineConstantLength += getDistance(nextDestGPS[i],
 						nextDestGPS[i + 1]);
 			tmpPathCoor.push(getGoogleMapPosition(nextDestGPS[i]));
+			bounds.extend(getGoogleMapPosition(nextDestGPS[i]));
+			pathCoorPolygon.push([
+			          			parseFloat(nextDestGPS[i].split(',')[1]),
+			          			parseFloat(nextDestGPS[i].split(',')[0]) ]);
 		}
 	else
 		return;
+	map.fitBounds(bounds);
+	bounds.getCenter();
+	var polygon = new google.maps.Polygon({
+		paths : measurePolygonForAPath(pathCoorPolygon, 3),
+		strokeColor : "#081B2C",
+		strokeWeight : 1,
+		fillColor : "#081B2C",
+		fillOpacity : .66,
+		customInfo : l.width + ";" + l.pathType,
+		zIndex : 2,
+		map : map
+	});
 	var lineSymbol = {
 		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
 		scale : 4,
@@ -246,9 +257,10 @@ function drawConstantPolyline() {
 				icon : lineSymbol,
 				offset : '100%'
 			} ],
-			strokeColor : '#081B2C',
+			strokeColor : 'white',
 			strokeOpacity : 1,
-			strokeWeight : 6
+			strokeWeight : 6,
+			zIndex : 3
 		});
 	else
 		pathPolylineConstant.setPath(tmpPathCoor);

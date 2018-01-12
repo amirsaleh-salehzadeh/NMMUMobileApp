@@ -263,7 +263,7 @@
 				<button id="start" onclick="searchResultPopupOpen('FROM');"
 					data-role="none">
 					<!-- 					WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
-					Get <br />Directions
+					Directions
 				</button>
 			</div>
 		</div>
@@ -395,6 +395,9 @@
 	</div>
 	<div id="googleMapMarkerLabel" class="labelStyleClass"></div>
 </body>
+<script src="https://openlayers.org/en/v4.5.0/build/ol.js"></script>
+<script
+	src="https://cdn.rawgit.com/bjornharrtell/jsts/gh-pages/1.4.0/jsts.min.js"></script>
 <script type="text/javascript"
 	src="js/location/navigation/path.navigation.locations.polygon.js"></script>
 <script type="text/javascript"

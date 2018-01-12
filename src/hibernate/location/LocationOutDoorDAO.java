@@ -93,9 +93,4 @@ public class LocationOutDoorDAO extends BaseHibernateDAO implements
 		return res;
 	}
 
-	public static void main(String[] args) {
-		LocationOutDoorDAO d = new LocationOutDoorDAO();
-		LocationENT e = d.getLocationENTChildren(new LocationENT(360), "NMMU");
-		System.out.println(e.getChildrenENT().size());
-	}
 }

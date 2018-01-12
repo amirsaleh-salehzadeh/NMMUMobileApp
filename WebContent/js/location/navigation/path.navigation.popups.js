@@ -65,20 +65,20 @@ function searchResultPopupOpen(headerText) {
 								+ $("#destinationName").html() + "</span>");
 		$("#searchField").attr("placeholder", "Search for a place");
 		$("#searchPopupHeaderIcon").attr("src", "images/icons/departure.png");
-		$("#destinationDefVal").css("cssText",
-				"background-color: #22b800 !important").trigger("create");
-		$("#popupSearchResult").css("cssText",
-				"border-color: #22b800 !important").trigger("create");
+//		$("#destinationDefVal").css("cssText",
+//				"background-color: #22b800 !important").trigger("create");
+//		$("#popupSearchResult").css("cssText",
+//				"border-color: #22b800 !important").trigger("create");
 	} else {
 		$("#destinationButtonGroup").css("display", "block").trigger("create");
 		$("#departureButtonGroup").css("display", "none").trigger("create");
 		$("#destinationDefVal").html(headerText);
 		$("#searchField").attr("placeholder", "Search for a place");
 		$("#searchPopupHeaderIcon").attr("src", "images/icons/destination.png");
-		$("#destinationDefVal").css("cssText",
-				"background-color: #0091FF !important").trigger("create");
-		$("#popupSearchResult").css("cssText",
-				"border-color: #0091FF !important").trigger("create");
+//		$("#destinationDefVal").css("cssText",
+//				"background-color: #0091FF !important").trigger("create");
+//		$("#popupSearchResult").css("cssText",
+//				"border-color: #0091FF !important").trigger("create");
 	}
 	if (markerDepart != null)
 		markerDepart.setMap(null);

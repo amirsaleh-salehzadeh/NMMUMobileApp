@@ -147,7 +147,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 			String query = "update path set distance = " + path.getDistance()
 					+ " where path_id = " + path.getPathId();
 			PreparedStatement ps = conn.prepareStatement(query);
-			ps.execute();
+			ps.executeUpdate();
 			ps.close();
 			conn.close();
 		} catch (SQLException e) {
@@ -325,11 +325,16 @@ public class DataManagementLocation extends BaseHibernateDAO {
 		// DataManagementLocation daomng = new DataManagementLocation();
 
 		// UPDATE ALL DISTANCES
-		// updateAllDistances();
+		 updateAllDistances();
 
 		// updateAllDescriptions();
 //		daomng.removeUnwantedIntersections();
-		daomng.findNotConnectedBuildings();
+//		daomng.findNotConnectedBuildings();
+//		PathDAO pdao = new PathDAO();
+//		ArrayList<PathENT> pz = pdao.getAllPathsForOnePoint(1525, 1);
+//		for (int i = 0; i < pz.size(); i++) {
+//			System.out.println(pz.get(i).getPathId());
+//		}
 		System.out.println("done");
 	}
 
@@ -361,7 +366,6 @@ public class DataManagementLocation extends BaseHibernateDAO {
 								dao.deleteEntrance(l.getEntrances().get(j),
 										conn);
 							} catch (AMSException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
@@ -422,7 +426,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 						ArrayList<PathENT> pz = pdao.getAllPathsForOnePoint(l
 								.getEntrances().get(j).getEntranceId(), 1);
 						if (pz.size() == 0) {
-							System.out.println(l.getLocationName() + " "
+							System.out.println(l.getLocationName() + " " + l.getLocationID() + " "
 									+ l.getEntrances().get(j).getEntranceId()
 									+ " ");
 						}
@@ -453,7 +457,7 @@ public class DataManagementLocation extends BaseHibernateDAO {
 			System.out.println("2---->" + System.currentTimeMillis());
 			for (int i = 0; i < paths.size(); i++) {
 				PathENT p = paths.get(i);
-				double dis = pdao.calculateDistance(paths.get(i).getDeparture()
+				double dis = PathDAO.calculateDistance(paths.get(i).getDeparture()
 						.getEntrances().get(0).getGps(), paths.get(i)
 						.getDestination().getEntrances().get(0).getGps(), paths
 						.get(i).getPathRoute());

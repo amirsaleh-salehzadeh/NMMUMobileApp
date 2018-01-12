@@ -16,7 +16,7 @@ function getAllLocations() {
 					"class" : "parentCollapsibleLV",
 					"data-icon" : false
 				});
-				var title = $("<h3/>", {
+				$("<h3/>", {
 					text : l.locationName + " Campus"
 				}).appendTo(col);
 				var list_items = '';
@@ -44,7 +44,6 @@ function getAllLocations() {
 				var list = $("<ul/>", {
 					"data-role" : "listview",
 					"id" : "listview" + l.locationID,
-					// "data-inset" : true,
 					"data-input" : "#searchField",
 					"data-filter" : true,
 					"data-icon" : false
@@ -83,9 +82,6 @@ function selectDestination(destination, content) {
 			map : map,
 			icon : 'images/icons/map-markers/marker-green.png'
 		});
-		bounds.extend(markerDest.getPosition());
-		bounds.extend(markerDepart.getPosition());
-		map.fitBounds(bounds);
 		getThePath();
 	} else {
 		$("#destinationName").html(content);
@@ -107,7 +103,6 @@ function selectDestination(destination, content) {
 			selectDestination(destination);
 		});
 		map.panTo(markerDest.getPosition());
-		map.setZoom(18);
 		showBottomPanel();
 	}
 }

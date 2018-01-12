@@ -171,6 +171,7 @@ div#searchFieldDiv {
 	min-height: 3.3em !important;
 	text-shadow: none !important;
 	padding: 3px;
+	color: #f5b325;
 }
 
 #searchPopupHeaderIcon {
@@ -182,8 +183,8 @@ div#searchFieldDiv {
 
 #destinationDefVal {
 	width: 100%;
-	background-color: #0091FF;
-	color: rgb(8, 27, 44) !important;
+/* 	background-color: #0091FF; */
+	color: #f5b325 !important;
 	text-align: left;
 	text-shadow: none !important;
 	padding-left: 7px;
@@ -201,7 +202,7 @@ div#searchFieldDiv {
 #destinationDefVal span {
 	width: 100%;
 	text-align: center;
-	color: #0091FF !important;
+	color: #f5b325 !important;
 	font-size: 12pt;
 	font-weight: normal;
 	text-shadow: none !important;

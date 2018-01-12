@@ -9,12 +9,10 @@ function getAllPaths(refreshPaths) {
 	$("input[name='radio-choice']").each(function() {
 		$(this).checkboxradio('disable');
 	});
-	console.log(pathMarkers.length);
 	setMapOnAllMarkers(null);
 	setMapOnAllPathMarkers(map);
 	if (!refreshPaths && paths.length > 0) {
 		setMapOnAllPolylines(map);
-		// $("input[name='radio-choice']").checkboxradio('enable');
 		$("input[name='radio-choice']").each(function() {
 			$(this).checkboxradio('enable');
 		});
@@ -41,14 +39,11 @@ function getAllPaths(refreshPaths) {
 				},
 				complete : function() {
 					HideLoadingScreen();
-					// $("input[name='radio-choice']").checkboxradio('enable');
 					setMapOnAllPolylines(map);
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 					popErrorMessage("An error occured while fetching the paths from the server. "
 							+ thrownError);
-					// alert("getAllPaths");
-					// $("input[name='radio-choice']").checkboxradio('enable');
 				}
 			});
 	$("input[name='radio-choice']").each(function() {
