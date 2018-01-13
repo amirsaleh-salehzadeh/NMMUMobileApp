@@ -327,7 +327,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 					+ " left join location_type lt on lt. location_type_id = l.location_type"
 					+ " where l.location_id = "
 					+ parent.getLocationID()
-					+ " and l.location_type != 5 order by l.location_id asc";
+					+ " and l.location_type != 5 order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -361,7 +361,7 @@ public class LocationDAO extends BaseHibernateDAO implements
 			query = "select l.*, lt.location_type ltname from location l"
 					+ " left join location_type lt on lt. location_type_id = l.location_type"
 					+ " where l.location_type != 5 and l.parent_id = "
-					+ ent.getLocationID() + " order by l.location_id asc";
+					+ ent.getLocationID() + " order by l.location_name asc";
 			PreparedStatement ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			boolean end = false;

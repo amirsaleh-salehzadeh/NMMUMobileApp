@@ -155,15 +155,15 @@ function getGoogleMapPosition(gps) {
 	return res;
 }
 
-function animateCircle(line) {
-	var count = 0;
-	window.setInterval(function() {
-		count = (count + 1) % 200;
-		var icons = line.get('icons');
-		icons[0].offset = (count / 2) + '%';
-		line.set('icons', icons);
-	}, 50);
-}
+//function animateCircle(line) {
+//	var count = 0;
+//	window.setInterval(function() {
+//		count = (count + 1) % 200;
+//		var icons = line.get('icons');
+//		icons[0].offset = (count / 2) + '%';
+//		line.set('icons', icons);
+//	}, 50);
+//}
 
 function initMap() {
 	var myLatLng = {
@@ -219,5 +219,4 @@ function initMap() {
 	// $("#map_canvas").resize(function() {
 	// google.maps.event.trigger(map, 'resize');
 	// });
-	console.log('Google Maps API version: ' + google.maps.version);
 }

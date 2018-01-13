@@ -162,9 +162,9 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 		}
 		try {
 			LocationDAO ldao = new LocationDAO();
-//			String paString = ldao.getLocationENT(new LocationENT(parentId),
-//					null).getParentId()
-//					+ "," + parentId;
+			// String paString = ldao.getLocationENT(new LocationENT(parentId),
+			// null).getParentId()
+			// + "," + parentId;
 			String query = "Select p.*, pt.*, GROUP_CONCAT(ppt.path_type_id) as pathtypeString from path p "
 					// +
 					// "inner join location_entrance edep on edep.entrance_id = p.departure_location_id "
@@ -172,12 +172,10 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 					+ " left join location lf on lf.location_id = edes.parent_id "
 					+ " left join path_path_type ppt on ppt.path_id = p.path_id"
 					+ " left join path_type pt on pt.path_type_id = ppt.path_type_id"
-					+ " where lf.client_name = '"
-					+ username
-					+ "' " 
-//					"and lf.location_id in ("
-//					+ paString
-//					+ ") "
+					+ " where lf.client_name = '" + username + "' "
+					// "and lf.location_id in ("
+					// + paString
+					// + ") "
 					+ " group by p.path_id";
 
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -191,7 +189,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 						ldao.getEntranceIntersectionENT(
 								rs.getLong("destination_location_id"), conn),
 						conn);
-//				System.out.println(rs.getLong("path_id"));
+				// System.out.println(rs.getLong("path_id"));
 				PathENT ent = new PathENT(depl, desl, rs.getDouble("distance"),
 						rs.getString("pathtypeString"), rs.getLong("path_id"),
 						rs.getString("path_route"), rs.getDouble("width"),
@@ -724,6 +722,7 @@ public class PathDAO extends BaseHibernateDAO implements PathDAOInterface {
 			res = "8";
 			break;
 		default:
+			res = type + "";
 			break;
 		}
 		return res;

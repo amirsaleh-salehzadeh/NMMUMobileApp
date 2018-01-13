@@ -189,18 +189,10 @@ div#searchFieldDiv span {
 	right: 9px;
 	width: 32px !important;
 	height: 32px !important;
-	background-image: url("../../../images/icons/clearInput.png");
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
 	cursor: pointer;
-	z-index: 12;
-}
-
-div#searchFieldDiv span {
 	background-image: url("../../../images/icons/clearInput.png") !important;
-}
-
-div#searchFieldDiv span {
 	top: .2em !important;
 	z-index: 101 !important;
 }
@@ -226,7 +218,6 @@ div#searchFieldDiv {
 	font-size: 13pt;
 	font-weight: 200;
 	width: 100% !important;
-	font-size: 13pt;
 	margin: 0 !important;
 	/* 	box-shadow: 0 0 2em #f5b325; */
 }

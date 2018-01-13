@@ -44,44 +44,58 @@ function getTripInfo() {
 	else
 		distanceToDestination = polylineConstantLength;
 	$("#distanceLeftInf").html(getDistanceLeft(distanceToDestination));
-//	$("#arrivalTimeInf").html(getTimeLeft(distanceToDestination));
+	for ( var int = 0; int < locationPolylines.length; int++) {
+		if ($("#departureId").val() != locationPolylines[int].id
+				|| $("#destinationId").val() != locationPolylines[int].id) {
+			locationPolylines[int].setMap(map);
+		} else
+			locationPolylines[int].setMap(null);
+	}
+	for ( var int = 0; int < locationPolygons.length; int++) {
+		if ($("#departureId").val() != locationPolygons[int].id
+				|| $("#destinationId").val() != locationPolygons[int].id) {
+			locationPolygons[int].setMap(null);
+		} else
+			locationPolygons[int].setMap(map);
+	}
+	// $("#arrivalTimeInf").html(getTimeLeft(distanceToDestination));
 }
 
-//(function() {
-//	var lastTime = 0;
-//	var vendors = [ 'ms', 'moz', 'webkit', 'o' ];
-//	for ( var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-//		window.requestAnimationFrame = window[vendors[x]
-//				+ 'RequestAnimationFrame'];
-//		window.cancelAnimationFrame = window[vendors[x]
-//				+ 'CancelAnimationFrame']
-//				|| window[vendors[x] + 'CancelRequestAnimationFrame'];
-//	}
+// (function() {
+// var lastTime = 0;
+// var vendors = [ 'ms', 'moz', 'webkit', 'o' ];
+// for ( var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+// window.requestAnimationFrame = window[vendors[x]
+// + 'RequestAnimationFrame'];
+// window.cancelAnimationFrame = window[vendors[x]
+// + 'CancelAnimationFrame']
+// || window[vendors[x] + 'CancelRequestAnimationFrame'];
+// }
 //
-//	if (!window.requestAnimationFrame)
-//		window.requestAnimationFrame = function(callback, element) {
-//			var currTime = new Date().getTime();
-//			var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-//			var id = window.setTimeout(function() {
-//				callback(currTime + timeToCall);
-//			}, timeToCall);
-//			lastTime = currTime + timeToCall;
-//			return id;
-//		};
+// if (!window.requestAnimationFrame)
+// window.requestAnimationFrame = function(callback, element) {
+// var currTime = new Date().getTime();
+// var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+// var id = window.setTimeout(function() {
+// callback(currTime + timeToCall);
+// }, timeToCall);
+// lastTime = currTime + timeToCall;
+// return id;
+// };
 //
-//	if (!window.cancelAnimationFrame)
-//		window.cancelAnimationFrame = function(id) {
-//			clearTimeout(id);
-//		};
-//}());
+// if (!window.cancelAnimationFrame)
+// window.cancelAnimationFrame = function(id) {
+// clearTimeout(id);
+// };
+// }());
 
 var ctx;
 // function drawCanvasDirection(){
 function displayImage(angle) {
 	ctx = document.getElementById('directionCanvas').getContext('2d');
 	var canvas = document.getElementById('directionCanvas');
-	canvas.width= $("#directionShow").width();
-	canvas.height=$("#directionShow").height();
+	canvas.width = $("#directionShow").width();
+	canvas.height = $("#directionShow").height();
 	ctx.clearRect(0, 0, document.getElementById('directionCanvas').width,
 			document.getElementById('directionCanvas').height);
 	var startPointX = 0, startPointY = 0, endPointX = 0, endPointY = 0, quadPointX = 0, quadPointY = 0;
@@ -97,7 +111,7 @@ function displayImage(angle) {
 		startPointX = width / 2;
 		startPointY = height;
 		endPointX = width;
-		endPointY = 10 +((angle - 45) * 1.1);
+		endPointY = 10 + ((angle - 45) * 1.1);
 		quadPointX = width / 2;
 		quadPointY = height / 2;
 	} else if (90 <= angle && angle < 135) {
@@ -113,21 +127,21 @@ function displayImage(angle) {
 		endPointX = width - ((angle - 135) * 1.1);
 		endPointY = height;
 		quadPointX = width / 2;
-		quadPointY = (height / 2) -99;
+		quadPointY = (height / 2) - 99;
 	} else if (180 < angle && angle < 225) {
-		startPointX = (width / 4 )* 3;
+		startPointX = (width / 4) * 3;
 		startPointY = height;
 		endPointX = width / 2 - ((angle - 180));
 		endPointY = height;
 		quadPointX = width / 2;
-		quadPointY = (height / 2) -99;
+		quadPointY = (height / 2) - 99;
 	} else if (225 <= angle && angle < 270) {
-		startPointX = (3 * (width / 4)) - ((angle - 225) * 0.55) +10;
+		startPointX = (3 * (width / 4)) - ((angle - 225) * 0.55) + 10;
 		startPointY = height;
 		endPointX = 10;
 		endPointY = height - ((angle - 225));
-		quadPointX = (width / 2);//+((angle - 225) * 0.55)+10 ;
-		quadPointY = ((height / 2) -99) + ((angle - 225) * 1.1);
+		quadPointX = (width / 2);// +((angle - 225) * 0.55)+10 ;
+		quadPointY = ((height / 2) - 99) + ((angle - 225) * 1.1);
 	} else if (270 <= angle && angle < 315) {
 		startPointX = width / 2;
 		startPointY = height;

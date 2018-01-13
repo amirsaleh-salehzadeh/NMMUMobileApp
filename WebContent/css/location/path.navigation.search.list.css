@@ -121,20 +121,11 @@ div#destinationNameDiv span,div#searchFieldDiv span {
 	background-repeat: no-repeat;
 	background-size: 32px 32px;
 	cursor: pointer;
-	z-index: 12;
-}
-
-div#searchFieldDiv span {
-	background-image: url("../../images/icons/clearInput.png") !important;
-}
-
-div#searchFieldDiv span {
 	top: .2em !important;
 	z-index: 101 !important;
 }
 
 div#searchFieldDiv {
-	top: 3.5em !important;
 	z-index: 101 !important;
 	position: absolute !important;
 	width: 100%;
@@ -164,55 +155,14 @@ div#searchFieldDiv {
 	text-shadow: none !important;
 }
 
-#searchPopupHeader {
-	width: 100%;
-	background-color: rgb(8, 27, 44);
-	text-align: left;
-	min-height: 3.3em !important;
-	text-shadow: none !important;
-	padding: 3px;
-	color: #f5b325;
-}
-
-#searchPopupHeaderIcon {
-	width: 48px;
-	height: 48px;
-	border: 1 solid;
-	border-color: #f5b325;
-}
-
-#destinationDefVal {
-	width: 100%;
-/* 	background-color: #0091FF; */
-	color: #f5b325 !important;
-	text-align: left;
-	text-shadow: none !important;
-	padding-left: 7px;
-	font-size: 18pt;
-	font-weight: bolder;
-	position: absolute;
-	padding-top: 9px;
-	height: 1.5em;
-}
-
 #destinationNameHeader {
 	font-size: 12pt;
-}
-
-#destinationDefVal span {
-	width: 100%;
-	text-align: center;
-	color: #f5b325 !important;
-	font-size: 12pt;
-	font-weight: normal;
-	text-shadow: none !important;
-	line-height: 1.7 !important;
 }
 
 #resultsListViewDiv {
 	position: fixed;
 	bottom: 0px !important;
-	top: 106px !important;
+	top: 52px !important;
 	left: 7px !important;
 	right: 0 !important;
 	overflow: auto !important;

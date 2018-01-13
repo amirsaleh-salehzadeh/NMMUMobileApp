@@ -13,7 +13,7 @@ body {
 
 	<li class="userMenu"
 		data-filtertext="form checkboxradio widget radio input radio buttons controlgroups">
-		<a id="btnHeading" href="t_newsfeed.do?reqCode=newsFeedList"
+		<a id="btnHeading" href="../"
 		data-ajax="false">Home</a>
 	</li>
 	<%		String uname = request.getRemoteUser();

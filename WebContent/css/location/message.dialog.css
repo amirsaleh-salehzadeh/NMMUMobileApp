@@ -11,6 +11,58 @@ ERROR*/
 	z-index: 110;
 }
 
+.popupGridItem {
+	height: 166 px;
+	margin: 13px;
+	margin-top: 33px;
+	padding: 11px;
+	border: 2px solid rgba(248, 182, 36, 1);
+	border-radius: 11px !important;
+	text-shadow: none;
+	color: rgba(248, 182, 36, 1) !important;
+	text-align: center;
+	font-size: 14pt;
+	font-weight: bolder;
+}
+
+.popupGridItem a {
+	height: 166 px;
+	margin-bottom: 7px;
+	/* 	padding: 44px; */
+	cursor: pointer;
+	padding-left: 77px;
+	padding-top: 44px;
+	padding-bottom: 44px;
+	margin: 0px auto !important;
+	background-color: rgba(8, 27, 44, 1) !important;
+	color: rgba(248, 182, 36, 1) !important;
+	border-color: transparent !important;
+	border-radius: 7px !important;
+	text-shadow: none !important;
+	z-index: 100;
+	border: 1px solid;
+	margin: 0px auto !important;
+}
+
+.popupGridItem img {
+	width: 42px;
+	height: 42px;
+	/* 	background-color: rgb(248, 182, 36) !important; */
+	border: 4px double !important;
+	border-color: rgb(248, 182, 36) !important;
+	border-radius: 33% !important;
+	padding: 11px 11px !important;
+	box-shadow: none !important;
+	position: absolute !important;
+	float: left !important;
+	left: 4;
+	top: 13;
+}
+
+#closePopupSelectDeparture {
+	background-color: red !important;
+}
+
 /* MESSAGE BOXES 
 ARRIVAL*/
 #popupArrivalMessage {
@@ -23,8 +75,8 @@ ARRIVAL*/
 
 /* MESSAGE BOXES 
 SEARCH RESULT*/
-#popupSearchResult {
-	background-color: rgba(8, 27, 44, .88) !important;
+#popupSearchResult,#popupSelectDeparture {
+	background-color: rgba(8, 27, 44, 1) !important;
 	min-width: 100% !important;
 	min-height: 100% !important;
 	margin: 0 auto !important;
@@ -32,7 +84,7 @@ SEARCH RESULT*/
 	top: 3 !important;
 	left: 0 !important;
 	bottom: 3 !important;
-	border-color: #0091FF !important;
+	border-color: rgb(248, 182, 36) !important;
 	border: 3px solid;
 	border-radius: 0px 0px 11px 11px;
 	overflow: hidden !important;
@@ -115,7 +167,7 @@ HEADER*/
 	cursor: pointer;
 	margin: 0px auto !important;
 	background-color: rgba(8, 27, 44, 1) !important;
-/* 	background-color: transparent */
+	/* 	background-color: transparent */
 	border: 1px solid;
 	color: rgba(248, 182, 36, 1) !important;
 	border-color: transparent !important;
@@ -139,18 +191,6 @@ HEADER*/
 	top: 1;
 }
 
-#popupSearchResultCloseBTNDual {
-	bottom: 1;
-	right: 1;
-	left: 1;
-	width: auto !important;
-	font-size: 10pt;
-	border: 2px solid !important;
-	border-color: red !important;
-	padding: 0.56em 1em !important;
-	border-radius: 7px !important;
-}
-
 #popupSearchResultCloseBTN,#popupErrorMessageCloseBTN,#popupArrivalMessageCloseBTN
 	{
 	bottom: 2;
@@ -162,15 +202,6 @@ HEADER*/
 	border-color: red !important;
 	padding: 0.56em 1em !important;
 	border-radius: 7px !important;
-}
-
-.popupSearchResultCloseBTNContainer {
-	position: fixed !important;
-	top: 103px !important;
-	left: 0 !important;
-	right: 0 !important;
-	margin: 3 3%;
-	z-index: 3;
 }
 
 #closeErrorPopupMessage {
@@ -198,6 +229,6 @@ HEADER*/
 	background-color: #0091ff !important;
 }
 
-#popupErrorMessageCloseBTN, #popupArrivalMessageCloseBTN {
+#popupErrorMessageCloseBTN,#popupArrivalMessageCloseBTN {
 	bottom: 0 !important;
 }

@@ -56,20 +56,8 @@
 		// 												arrivalMessagePopupOpen();
 		// 		displayImage(266);
 		// 		var myTimer = setInterval(test, 60);
-		// 		test();
-		searchResultPopupOpen('FIND A PLACE');
-		if (getCookie("TripPathGPSCookie") != "")
-			getThePath();
-		else
-			showViewItems();
 	});
 	var sdf = 0;
-	function test() {
-		sdf = sdf + 1;
-		if (sdf >= 360)
-			sdf = 0;
-		displayImage(sdf);
-	}
 	function browserCheck() {
 		var ua = navigator.userAgent;
 		var platform = null;
@@ -138,16 +126,14 @@
 
 
 	<div id="pageContents"
-		style="max-width: 100%; max-height: 100%; overflow: hidden;"
-		data-role="page" class="scrollable">
+		style="width: 100%; height: 100%; overflow: hidden;" data-role="page"
+		class="scrollable">
 
 
 		<!-- 		MAP -->
 
 
-		<div id="mapView" class="ui-block-solo">
-			<div id="map_canvas"></div>
-		</div>
+		<div id="map_canvas" class="ui-block-solo"></div>
 
 
 		<!-- 		HIDDEN INPUTS -->
@@ -192,10 +178,11 @@
 
 
 		<div id="searchBarDivTop">
-			<div class="ui-block-solo" id="destinationNameDiv">
+			<div class="ui-block-solo" id="destinationNameDiv"
+				style="display: none;">
 				<a data-role="button" href="#" data-rel="popup" href="#"
-					id="destinationName" onclick="searchResultPopupOpen('To');">Find
-					a Place</a> <span onclick="clearSearchBTN()"></span>
+					id="destinationName" onclick="searchResultPopupOpen();">Find a
+					Place</a> <span onclick="clearSearchBTN()"></span>
 			</div>
 
 		</div>
@@ -203,12 +190,14 @@
 
 		<!-- 		ZOOM SETTINGS -->
 
-
+<!-- 		<div id="menuBTNLeftSideDiv" style="width: 100%;" -->
+<!-- 			class="ui-block-solo"> -->
+			<input type="button" class="zoomBTN" id="menuLeftSideBTN"
+				onclick="showHideLeftSideMenu()"> <input type="button"
+				class="zoomBTN" id="searchLeftSideBTN"
+				onclick="searchResultPopupOpen();" data-theming="none">
+<!-- 		</div> -->
 		<div id="zoomSettings">
-			<div id="menuBTNLeftSideDiv" class="ui-block-solo">
-				<input type="button" class="zoomBTN" id="menuLeftSideBTN"
-					onclick="showHideLeftSideMenu()">
-			</div>
 			<div id="menuItems">
 				<div id="visitorCounter">
 					<a href="http://www.reliablecounter.com" target="_blank"> <img
@@ -240,7 +229,7 @@
 				<div class="ui-block-solo">
 					<!-- 			<button id="mylocation" class="navbtn" onclick="">My&nbsp;location</button> -->
 					<input type="button" class="zoomBTN" id="mylocation"
-						onclick="findMyLocation(); showHideLeftSideMenu();">
+						onclick="setOnMyLocation(); showHideLeftSideMenu();">
 				</div>
 			</div>
 		</div>
@@ -260,7 +249,7 @@
 				</div>
 				<div id="locationInf"></div>
 				<!-- 				WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
-				<button id="start" onclick="searchResultPopupOpen('FROM');"
+				<button id="start" onclick="selectDeparturePopupOpen();"
 					data-role="none">
 					<!-- 					WHILE CHANGING THIS TITLE CHANGE selectDestination() AS WELL -->
 					Directions
@@ -300,12 +289,13 @@
 					<img alt="" src="images/icons/normalSpeed.png"
 						style="width: 32px; height: 32px;">
 				</div>
-				<div class="ui-block-c" onclick="setPathType(6);" id="wheelChairType">
+				<div class="ui-block-c" onclick="setPathType(6);"
+					id="wheelChairType">
 					<img alt="" src="images/icons/wheelchair.png"
 						style="width: 32px; height: 32px;">
 				</div>
-<!-- 				<div -->
-<!-- 					style="position: absolute; min-height: 100%; min-width: 100%; background-color: rgba(0, 0, 0, 0.5)"></div> -->
+				<!-- 				<div -->
+				<!-- 					style="position: absolute; min-height: 100%; min-width: 100%; background-color: rgba(0, 0, 0, 0.5)"></div> -->
 			</div>
 		</div>
 
@@ -315,33 +305,11 @@
 
 		<div data-role="popup" id="popupSearchResult" class="ui-content"
 			data-position-to="window">
-			<div class="ui-grid-a" id="searchPopupHeader">
-				<img src="images/icons/destination.png" alt=""
-					id="searchPopupHeaderIcon"><span id="destinationDefVal"></span>
-			</div>
 			<div class="ui-block-solo">
-				<div
-					class="ui-grid-a ui-block-solo popupSearchResultCloseBTNContainer"
-					style="display: none;" id="departureButtonGroup">
-					<div class="ui-block-a">
-						<a data-role="button" href="#" id="popupSearchResultCloseBTNDual"
-							onclick="closePopup();showBottomPanel();"
-							class="closePopupMessage"><img
-							src="images/icons/clearInput.png" alt=""
-							class="closeMessageButtonIcon" />Close</a>
-					</div>
-					<div class="ui-block-b">
-						<a data-role="button" href="#"
-							id="popupSearchResultCurrentLocationBTN"
-							onclick="getDirectionFromCurrentLocation();"
-							class="closePopupMessage"><img src="images/icons/target.png"
-							alt="" class="closeMessageButtonIcon" />My Location</a>
-					</div>
-				</div>
 				<div class="ui-block-solo popupSearchResultCloseBTNContainer"
 					id="destinationButtonGroup">
 					<a data-role="button" href="#" id="popupSearchResultCloseBTN"
-						onclick="closePopup();" class="closePopupMessage"><img
+						onclick="removeTrip();closePopup();" class="closePopupMessage"><img
 						src="images/icons/clearInput.png" alt=""
 						class="closeMessageButtonIcon" />Close</a>
 				</div>
@@ -358,6 +326,37 @@
 				</div>
 			</div>
 		</div>
+
+
+
+		<!-- 		SELECT DEPARTURE POPUP -->
+
+
+
+		<div data-role="popup" id="popupSelectDeparture" class="ui-content"
+			data-position-to="window">
+			<div class="ui-block-solo popupGridItem">SELECT STARTING POINT
+			</div>
+			<div class="ui-block-solo popupGridItem">
+				<a data-role="button" href="#"
+					onclick="searchResultPopupOpenForDeparture();"><img
+					src="images/icons/target.png" alt="" />From a buiding</a>
+
+			</div>
+			<div class="ui-block-solo popupGridItem">
+				<a data-role="button" href="#"
+					onclick="getDirectionFromCurrentLocation();"><img
+					src="images/icons/target.png" alt="" />My Current Location</a>
+
+			</div>
+			<div class="ui-block-solo popupGridItem"
+				>
+				<a data-role="button" href="#"
+					onclick="closePopup();"><img
+					src="images/icons/clearInput.png" alt="" id="closePopupSelectDeparture"/>Cancel</a>
+			</div>
+		</div>
+
 
 
 		<!-- 	ERROR POPUP -->
