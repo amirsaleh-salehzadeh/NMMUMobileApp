@@ -103,19 +103,6 @@ function selectDestination(destination, content) {
 			map : map,
 			icon : 'images/icons/map-markers/marker-green.png'
 		});
-		// for ( var int = 0; int < locationPolylines.length; int++) {
-		// if ($("#departureId").val() != locationPolylines[int].id
-		// || $("#destinationId").val() != locationPolylines[int].id) {
-		// locationPolylines[int].setMap(map);
-		// } else
-		// locationPolylines[int].setMap(null);
-		// }
-		// for ( var int = 0; int < locationPolygons.length; int++) {
-		// if ($("#departureId").val() != locationPolygons[int].id) {
-		// locationPolygons[int].setMap(null);
-		// } else
-		// locationPolygons[int].setMap(map);
-		// }
 		getThePath();
 	} else {
 		$("#destinationName").html(content);
