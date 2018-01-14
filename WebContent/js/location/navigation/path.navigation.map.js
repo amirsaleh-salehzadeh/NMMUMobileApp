@@ -349,6 +349,7 @@ function initiMap() {
 		searchResultPopupOpen();
 	} else
 		getThePath();
+	getAllLocations();
 }
 
 function zoomInMap() {

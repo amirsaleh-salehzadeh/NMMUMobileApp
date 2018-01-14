@@ -1,6 +1,13 @@
 function drawPolygons(location) {
 	var arrayBoundary = location.boundary.split(";")[0].split("_");
 	var CoordinatesArray = new Array();
+	var pos = {
+		lat : parseFloat(location.gps.split(",")[0]),
+		lng : parseFloat(location.gps.split(",")[1])
+	};
+	var marker = new google.maps.Marker({
+		position : pos
+	});
 	for ( var i = 0; i < arrayBoundary.length; i++) {
 		var LatAndLng = arrayBoundary[i].split(",");
 		var LatLng = new google.maps.LatLng(LatAndLng[0], LatAndLng[1]);
@@ -29,14 +36,25 @@ function drawPolygons(location) {
 	});
 	polygon.id = location.locationID;
 	polygonBoundary.id = location.locationID;
-	if (location.locationType.locationTypeId == 2){
+	if (location.locationType.locationTypeId == 10) {
+		var image = {
+			    url: 'images/icons/map-markers/parking.png',
+			    // This marker is 20 pixels wide by 32 pixels high.
+			    size: new google.maps.Size(32, 32),
+			    origin: new google.maps.Point(0, 0),
+			    anchor: new google.maps.Point(17, 34),
+			    scaledSize: new google.maps.Size(25, 25)
+			  };
+		marker.setMap(map);
+		marker.setIcon(image);
+	} else if (location.locationType.locationTypeId == 2) {
 		polygon.setOptions({
 			fillOpacity : .22,
 			zIndex : 1,
 			fillColor : FillColour
 		});
 		polygonBoundary.setOptions({
-			fillOpacity : .11,
+			fillOpacity : .1,
 			zIndex : 1
 		});
 	}

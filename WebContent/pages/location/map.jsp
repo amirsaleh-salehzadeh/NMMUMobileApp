@@ -190,13 +190,13 @@
 
 		<!-- 		ZOOM SETTINGS -->
 
-<!-- 		<div id="menuBTNLeftSideDiv" style="width: 100%;" -->
-<!-- 			class="ui-block-solo"> -->
-			<input type="button" class="zoomBTN" id="menuLeftSideBTN"
-				onclick="showHideLeftSideMenu()"> <input type="button"
-				class="zoomBTN" id="searchLeftSideBTN"
-				onclick="searchResultPopupOpen();" data-theming="none">
-<!-- 		</div> -->
+		<!-- 		<div id="menuBTNLeftSideDiv" style="width: 100%;" -->
+		<!-- 			class="ui-block-solo"> -->
+		<input type="button" class="zoomBTN" id="menuLeftSideBTN"
+			onclick="showHideLeftSideMenu()"> <input type="button"
+			class="zoomBTN" id="searchLeftSideBTN"
+			onclick="searchResultPopupOpen();" data-theming="none">
+		<!-- 		</div> -->
 		<div id="zoomSettings">
 			<div id="menuItems">
 				<div id="visitorCounter">
@@ -349,11 +349,10 @@
 					src="images/icons/target.png" alt="" />My Current Location</a>
 
 			</div>
-			<div class="ui-block-solo popupGridItem"
-				>
-				<a data-role="button" href="#"
-					onclick="closePopup();"><img
-					src="images/icons/clearInput.png" alt="" id="closePopupSelectDeparture"/>Cancel</a>
+			<div class="ui-block-solo popupGridItem">
+				<a data-role="button" href="#" onclick="closePopup();"><img
+					src="images/icons/clearInput.png" alt=""
+					id="closePopupSelectDeparture" />Cancel</a>
 			</div>
 		</div>
 

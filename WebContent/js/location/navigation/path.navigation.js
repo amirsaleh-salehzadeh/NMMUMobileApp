@@ -98,12 +98,14 @@ function getThePath() {
 				},
 				success : function(data) {
 					var pathIds = "";
+					var pathWidths = "";
 					var pathGPSs = "";
 					var pathLocations = "";
 					dataLength = data.length;
 					$.each(data, function(k, l) {
 						if (k == 0) {
 							pathIds = l.depL.id + "," + l.desL.id;
+							pathWidths = l.width;
 							if (l.pathRoute != null && l.pathRoute.length > 0) {
 								pathGPSs += l.depL.g.replace(" ", "") + "_"
 										+ l.pathRoute + "_"
@@ -120,7 +122,7 @@ function getThePath() {
 							} else {
 								pathGPSs += "_" + l.desL.g.replace(" ", "");
 							}
-
+							pathWidths += "_" + l.width;
 							pathLocations += "_" + l.desL.n;
 							$("#destinationDef").html(l.desL.n);
 						}
@@ -129,6 +131,8 @@ function getThePath() {
 					$("#destinationId").val(
 							pathIds.split(",")[pathIds.split(",").length - 1]);
 					setCookie('TripPathIdsCookie', pathIds, 1);
+					alert(pathWidths);
+					setCookie('TripPathWidthsCookie', pathWidths, 1);
 					setCookie('TripPathGPSCookie', pathGPSs, 1);
 					setCookie('TripPathLocationsCookie', pathLocations, 1);
 					if (dataLength == 0) {
@@ -229,16 +233,17 @@ function drawConstantPolyline() {
 	bounds.getCenter();
 	pathPolygonConstant = new google.maps.Polygon({
 		paths : measurePolygonForAPath(pathCoorPolygon, 5),
-		fillColor : "#ffffff",
+		fillColor : "#081B2C",
 		fillOpacity : 1,
 		zIndex : 4,
+		strokeOpacity : 0,
 		map : map
 	});
 	var lineSymbol = {
 		path : google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-		scale : 4,
+		scale : 5,
 		strokeColor : '#F7AF23',
-		zIndex : 8,
+		zIndex : 9,
 		strokeOpacity : 1
 	};
 	if (pathPolylineConstant != undefined)
@@ -252,9 +257,9 @@ function drawConstantPolyline() {
 				offset : '100%',
 				repeat : '222px'
 			} ],
-			strokeColor : 'white',
-			strokeOpacity : 1,
-			strokeWeight : 2,
+			strokeColor : '#081B2C',
+			strokeOpacity : 0.3,
+			strokeWeight : 1,
 			zIndex : 8
 		});
 	else
@@ -570,7 +575,6 @@ var successGetCurrentPosition = function(position) {
 
 $(document).ready(function() {
 	$('#destinationName').val("");
-	getAllLocations();
 	showHideLeftSideMenu();
 	document.onkeydown = KeyPress;
 	findMyLocation();
