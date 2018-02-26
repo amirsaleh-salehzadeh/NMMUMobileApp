@@ -119,7 +119,8 @@ function selectDestination(destination, content) {
 		markerDest = new google.maps.Marker({
 			position : destPoint,
 			map : map,
-			icon : 'images/icons/map-markers/marker-orange.png'
+			icon : 'images/icons/map-markers/marker-orange.png',
+			zIndex : 12
 		});
 		markerDest.addListener('click', function() {
 			selectDestination(destination);
